@@ -56,12 +56,18 @@ namespace SGI.GestionTramite.Controls
                 if (Pdf != null && Pdf.Length > 0)
                 {
                     Response.Clear();
-                    Response.Buffer = true;//false;
                     Response.ContentType = "application/octet-stream";
-                    Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
-                    Response.AddHeader("Content-Length", Pdf.Length.ToString());
-                    Response.BinaryWrite(Pdf);
+                    Response.Headers.Add("Content-Length", $"{Pdf.Length}");
+                    Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", FileName));
+                    Response.OutputStream.Write(Pdf, 0, Pdf.Length);
                     Response.Flush();
+                    //Response.Clear();
+                    //Response.Buffer = true;//false;
+                    //Response.ContentType = "application/octet-stream";
+                    //Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
+                    //Response.AddHeader("Content-Length", Pdf.Length.ToString());
+                    //Response.BinaryWrite(Pdf);
+                    //Response.Flush();
                 }
                 else
                 {
