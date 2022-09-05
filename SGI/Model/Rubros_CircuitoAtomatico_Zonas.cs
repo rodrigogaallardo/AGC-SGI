@@ -1,0 +1,19 @@
+
+
+namespace SGI.Model
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Rubros_CircuitoAtomatico_Zonas
+    {
+        public int id_rubcircauto { get; set; }
+        public int id_rubro { get; set; }
+        public string codZonaHab { get; set; }
+        public System.Guid CreateUser { get; set; }
+        public System.DateTime CreateDate { get; set; }
+    
+        public virtual Zonas_Habilitaciones Zonas_Habilitaciones { get; set; }
+        public virtual Rubros Rubros { get; set; }
+    }
+}

@@ -1,0 +1,42 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Reporte.Master.cs" 
+        Inherits="SGI.Reportes.ReporteHtml" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<meta http-equiv="Content-Type" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style=" margin: 0px;padding: 0px;font-family: 'Segoe UI', Verdana, Helvetica, Sans-Serif;">
+    
+    <form id="form1" runat="server">
+    <div style="width: 1000px">
+
+        
+        <%--    
+            <header>
+            <asp:Image ID="img_header" runat="server" ImageUrl="http://sgi.agcontrol.gob.ar/Mailer/img/header.png" style="width: 1000px; height: 148px;" />
+        </header>--%>
+
+        <div style="padding: 20px 20px 20px 50px; min-height: 500px;">
+
+            <h2>
+                <asp:Label ID="lblTitulo" runat="server" CssClass="color:#333;"></asp:Label>
+            </h2>
+
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        
+        </div>
+
+        <%--sade no acepta el link a las imagenes--%>
+<%--        <footer >
+            <asp:Image ID="img_footer" runat="server" ImageUrl="http://sgi.agcontrol.gob.ar/Mailer/img/footer.png" style="width: 1000px; height: 95px;" />
+        </footer>--%>
+    </div>
+    </form>
+</body>
+</html>

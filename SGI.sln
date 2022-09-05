@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGI", "SGI\SGI.csproj", "{F0C868AC-8AC8-495E-B52B-908822DAE73E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AD17B897-305D-4349-A02B-B9FDE73688E9}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingEF", "TestingEF\TestingEF.csproj", "{FD6D8327-8699-4711-AE6A-715F7C13DAC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0C868AC-8AC8-495E-B52B-908822DAE73E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0C868AC-8AC8-495E-B52B-908822DAE73E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0C868AC-8AC8-495E-B52B-908822DAE73E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0C868AC-8AC8-495E-B52B-908822DAE73E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD6D8327-8699-4711-AE6A-715F7C13DAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD6D8327-8699-4711-AE6A-715F7C13DAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD6D8327-8699-4711-AE6A-715F7C13DAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD6D8327-8699-4711-AE6A-715F7C13DAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1859FC72-DDC9-4BBE-BBD8-B957A91D1DA1}
+	EndGlobalSection
+EndGlobal

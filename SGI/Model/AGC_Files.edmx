@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AGC_FilesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Certificados">
+          <Key>
+            <PropertyRef Name="id_certificado" />
+          </Key>
+          <Property Name="id_certificado" Type="int" Nullable="false" />
+          <Property Name="TipoTramite" Type="int" Nullable="false" />
+          <Property Name="NroTramite" Type="int" Nullable="false" />
+          <Property Name="Certificado" Type="varbinary(max)" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="item" Type="int" />
+        </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="id_file" />
+          </Key>
+          <Property Name="rowid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="id_file" Type="int" Nullable="false" />
+          <Property Name="content_file" Type="varbinary(max)" Nullable="false" />
+          <Property Name="datos_documento_oficial" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateUser" Type="nvarchar" MaxLength="50" />
+          <Property Name="FileName" Type="varchar" MaxLength="1000" />
+          <Property Name="Md5" Type="binary" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="Mapas">
+          <Key>
+            <PropertyRef Name="id_mapa" />
+          </Key>
+          <Property Name="id_mapa" Type="int" Nullable="false" />
+          <Property Name="id_ubicacion" Type="int" Nullable="false" />
+          <Property Name="plano_mapa" Type="image" />
+          <Property Name="fechaPlano_mapa" Type="smalldatetime" />
+          <Property Name="croquis_mapa" Type="image" />
+          <Property Name="FechaCroquis_mapa" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="NivelesDeAgrupamiento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Rel_TipoTramite_Roles">
+          <Key>
+            <PropertyRef Name="TipoTramite" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="TipoTramite" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoTramiteCertificados">
+          <Key>
+            <PropertyRef Name="TipoTramite" />
+          </Key>
+          <Property Name="TipoTramite" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+          <Property Name="id_agrupamiento" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Certificados_TipoTramiteCertificados">
+          <End Role="TipoTramiteCertificados" Type="Self.TipoTramiteCertificados" Multiplicity="1" />
+          <End Role="Certificados" Type="Self.Certificados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTramiteCertificados">
+              <PropertyRef Name="TipoTramite" />
+            </Principal>
+            <Dependent Role="Certificados">
+              <PropertyRef Name="TipoTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rel_TipoTramite_Roles_TipoTramiteCertificados">
+          <End Role="TipoTramiteCertificados" Type="Self.TipoTramiteCertificados" Multiplicity="1" />
+          <End Role="Rel_TipoTramite_Roles" Type="Self.Rel_TipoTramite_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTramiteCertificados">
+              <PropertyRef Name="TipoTramite" />
+            </Principal>
+            <Dependent Role="Rel_TipoTramite_Roles">
+              <PropertyRef Name="TipoTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TipoTramiteCertificados_NivelesDeAgrupamiento">
+          <End Role="NivelesDeAgrupamiento" Type="Self.NivelesDeAgrupamiento" Multiplicity="1" />
+          <End Role="TipoTramiteCertificados" Type="Self.TipoTramiteCertificados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NivelesDeAgrupamiento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TipoTramiteCertificados">
+              <PropertyRef Name="id_agrupamiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AGC_FilesModelStoreContainer">
+          <EntitySet Name="Certificados" EntityType="Self.Certificados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mapas" EntityType="Self.Mapas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NivelesDeAgrupamiento" EntityType="Self.NivelesDeAgrupamiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rel_TipoTramite_Roles" EntityType="Self.Rel_TipoTramite_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoTramiteCertificados" EntityType="Self.TipoTramiteCertificados" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Certificados_TipoTramiteCertificados" Association="Self.FK_Certificados_TipoTramiteCertificados">
+            <End Role="TipoTramiteCertificados" EntitySet="TipoTramiteCertificados" />
+            <End Role="Certificados" EntitySet="Certificados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rel_TipoTramite_Roles_TipoTramiteCertificados" Association="Self.FK_Rel_TipoTramite_Roles_TipoTramiteCertificados">
+            <End Role="TipoTramiteCertificados" EntitySet="TipoTramiteCertificados" />
+            <End Role="Rel_TipoTramite_Roles" EntitySet="Rel_TipoTramite_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TipoTramiteCertificados_NivelesDeAgrupamiento" Association="Self.FK_TipoTramiteCertificados_NivelesDeAgrupamiento">
+            <End Role="NivelesDeAgrupamiento" EntitySet="NivelesDeAgrupamiento" />
+            <End Role="TipoTramiteCertificados" EntitySet="TipoTramiteCertificados" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AGC_FilesModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AGC_FilesEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Mapas" EntityType="AGC_FilesModel.Mapas" />
+          <EntitySet Name="Rel_TipoTramite_Roles" EntityType="AGC_FilesModel.Rel_TipoTramite_Roles" />
+          <EntitySet Name="TipoTramiteCertificados" EntityType="AGC_FilesModel.TipoTramiteCertificados" />
+          <AssociationSet Name="FK_Rel_TipoTramite_Roles_TipoTramiteCertificados" Association="AGC_FilesModel.FK_Rel_TipoTramite_Roles_TipoTramiteCertificados">
+            <End Role="TipoTramiteCertificados" EntitySet="TipoTramiteCertificados" />
+            <End Role="Rel_TipoTramite_Roles" EntitySet="Rel_TipoTramite_Roles" />
+          </AssociationSet>
+          <EntitySet Name="Certificados" EntityType="AGC_FilesModel.Certificados" />
+          <AssociationSet Name="FK_Certificados_TipoTramiteCertificados" Association="AGC_FilesModel.FK_Certificados_TipoTramiteCertificados">
+            <End Role="TipoTramiteCertificados" EntitySet="TipoTramiteCertificados" />
+            <End Role="Certificados" EntitySet="Certificados" />
+          </AssociationSet>
+          <EntitySet Name="Files" EntityType="AGC_FilesModel.Files" />
+          <EntitySet Name="NivelesDeAgrupamiento" EntityType="AGC_FilesModel.NivelesDeAgrupamiento" />
+          <AssociationSet Name="FK_TipoTramiteCertificados_NivelesDeAgrupamiento" Association="AGC_FilesModel.FK_TipoTramiteCertificados_NivelesDeAgrupamiento">
+            <End Role="NivelesDeAgrupamiento" EntitySet="NivelesDeAgrupamiento" />
+            <End Role="TipoTramiteCertificados" EntitySet="TipoTramiteCertificados" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Mapas">
+          <Key>
+            <PropertyRef Name="id_mapa" />
+          </Key>
+          <Property Name="id_mapa" Type="Int32" Nullable="false" />
+          <Property Name="id_ubicacion" Type="Int32" Nullable="false" />
+          <Property Name="plano_mapa" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="fechaPlano_mapa" Type="DateTime" Precision="0" />
+          <Property Name="croquis_mapa" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FechaCroquis_mapa" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Rel_TipoTramite_Roles">
+          <Key>
+            <PropertyRef Name="TipoTramite" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="TipoTramite" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="TipoTramiteCertificados" Relationship="AGC_FilesModel.FK_Rel_TipoTramite_Roles_TipoTramiteCertificados" FromRole="Rel_TipoTramite_Roles" ToRole="TipoTramiteCertificados" />
+        </EntityType>
+        <EntityType Name="TipoTramiteCertificados">
+          <Key>
+            <PropertyRef Name="TipoTramite" />
+          </Key>
+          <Property Name="TipoTramite" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Rel_TipoTramite_Roles" Relationship="AGC_FilesModel.FK_Rel_TipoTramite_Roles_TipoTramiteCertificados" FromRole="TipoTramiteCertificados" ToRole="Rel_TipoTramite_Roles" />
+          <Property Type="Int32" Name="id_agrupamiento" Nullable="false" />
+          <NavigationProperty Name="Certificados" Relationship="AGC_FilesModel.FK_Certificados_TipoTramiteCertificados" FromRole="TipoTramiteCertificados" ToRole="Certificados" />
+          <NavigationProperty Name="NivelesDeAgrupamiento" Relationship="AGC_FilesModel.FK_TipoTramiteCertificados_NivelesDeAgrupamiento" FromRole="TipoTramiteCertificados" ToRole="NivelesDeAgrupamiento" />
+        </EntityType>
+        <Association Name="FK_Rel_TipoTramite_Roles_TipoTramiteCertificados">
+          <End Role="TipoTramiteCertificados" Type="AGC_FilesModel.TipoTramiteCertificados" Multiplicity="1" />
+          <End Role="Rel_TipoTramite_Roles" Type="AGC_FilesModel.Rel_TipoTramite_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTramiteCertificados">
+              <PropertyRef Name="TipoTramite" />
+            </Principal>
+            <Dependent Role="Rel_TipoTramite_Roles">
+              <PropertyRef Name="TipoTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Certificados">
+          <Key>
+            <PropertyRef Name="id_certificado" />
+          </Key>
+          <Property Type="Int32" Name="id_certificado" Nullable="false" />
+          <Property Type="Int32" Name="TipoTramite" Nullable="false" />
+          <Property Type="Int32" Name="NroTramite" Nullable="false" />
+          <Property Type="Binary" Name="Certificado" MaxLength="Max" FixedLength="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreateUser" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="item" />
+          <NavigationProperty Name="TipoTramiteCertificados" Relationship="AGC_FilesModel.FK_Certificados_TipoTramiteCertificados" FromRole="Certificados" ToRole="TipoTramiteCertificados" />
+        </EntityType>
+        <Association Name="FK_Certificados_TipoTramiteCertificados">
+          <End Type="AGC_FilesModel.TipoTramiteCertificados" Role="TipoTramiteCertificados" Multiplicity="1" />
+          <End Type="AGC_FilesModel.Certificados" Role="Certificados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTramiteCertificados">
+              <PropertyRef Name="TipoTramite" />
+            </Principal>
+            <Dependent Role="Certificados">
+              <PropertyRef Name="TipoTramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="id_file" />
+          </Key>
+          <Property Type="Guid" Name="rowid" Nullable="false" />
+          <Property Type="Int32" Name="id_file" Nullable="false" />
+          <Property Type="Binary" Name="content_file" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Type="String" Name="datos_documento_oficial" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreateUser" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="UpdateDate" Precision="3" />
+          <Property Type="String" Name="UpdateUser" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Md5" Type="Binary" MaxLength="32" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="NivelesDeAgrupamiento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TipoTramiteCertificados" Relationship="AGC_FilesModel.FK_TipoTramiteCertificados_NivelesDeAgrupamiento" FromRole="NivelesDeAgrupamiento" ToRole="TipoTramiteCertificados" />
+        </EntityType>
+        <Association Name="FK_TipoTramiteCertificados_NivelesDeAgrupamiento">
+          <End Type="AGC_FilesModel.NivelesDeAgrupamiento" Role="NivelesDeAgrupamiento" Multiplicity="1" />
+          <End Type="AGC_FilesModel.TipoTramiteCertificados" Role="TipoTramiteCertificados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NivelesDeAgrupamiento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TipoTramiteCertificados">
+              <PropertyRef Name="id_agrupamiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AGC_FilesModelStoreContainer" CdmEntityContainer="AGC_FilesEntities">
+          <EntitySetMapping Name="Mapas">
+            <EntityTypeMapping TypeName="AGC_FilesModel.Mapas">
+              <MappingFragment StoreEntitySet="Mapas">
+                <ScalarProperty Name="id_mapa" ColumnName="id_mapa" />
+                <ScalarProperty Name="id_ubicacion" ColumnName="id_ubicacion" />
+                <ScalarProperty Name="plano_mapa" ColumnName="plano_mapa" />
+                <ScalarProperty Name="fechaPlano_mapa" ColumnName="fechaPlano_mapa" />
+                <ScalarProperty Name="croquis_mapa" ColumnName="croquis_mapa" />
+                <ScalarProperty Name="FechaCroquis_mapa" ColumnName="FechaCroquis_mapa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rel_TipoTramite_Roles">
+            <EntityTypeMapping TypeName="AGC_FilesModel.Rel_TipoTramite_Roles">
+              <MappingFragment StoreEntitySet="Rel_TipoTramite_Roles">
+                <ScalarProperty Name="TipoTramite" ColumnName="TipoTramite" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoTramiteCertificados">
+            <EntityTypeMapping TypeName="AGC_FilesModel.TipoTramiteCertificados">
+              <MappingFragment StoreEntitySet="TipoTramiteCertificados">
+                <ScalarProperty Name="id_agrupamiento" ColumnName="id_agrupamiento" />
+                <ScalarProperty Name="TipoTramite" ColumnName="TipoTramite" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Certificados">
+            <EntityTypeMapping TypeName="AGC_FilesModel.Certificados">
+              <MappingFragment StoreEntitySet="Certificados">
+                <ScalarProperty Name="item" ColumnName="item" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Certificado" ColumnName="Certificado" />
+                <ScalarProperty Name="NroTramite" ColumnName="NroTramite" />
+                <ScalarProperty Name="TipoTramite" ColumnName="TipoTramite" />
+                <ScalarProperty Name="id_certificado" ColumnName="id_certificado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="AGC_FilesModel.Files">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="Md5" ColumnName="Md5" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="datos_documento_oficial" ColumnName="datos_documento_oficial" />
+                <ScalarProperty Name="content_file" ColumnName="content_file" />
+                <ScalarProperty Name="id_file" ColumnName="id_file" />
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NivelesDeAgrupamiento">
+            <EntityTypeMapping TypeName="AGC_FilesModel.NivelesDeAgrupamiento">
+              <MappingFragment StoreEntitySet="NivelesDeAgrupamiento">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

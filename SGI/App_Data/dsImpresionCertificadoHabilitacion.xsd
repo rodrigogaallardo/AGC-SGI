@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsImpresionCertificadoHabilitacion" targetNamespace="http://tempuri.org/dsImpresionCertificadoHabilitacion.xsd" xmlns:mstns="http://tempuri.org/dsImpresionCertificadoHabilitacion.xsd" xmlns="http://tempuri.org/dsImpresionCertificadoHabilitacion.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="ExcludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsImpresionCertificadoHabilitacion" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsImpresionCertificadoHabilitacion" msprop:Generator_UserDSName="dsImpresionCertificadoHabilitacion">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Encomienda" msprop:Generator_TableClassName="EncomiendaDataTable" msprop:Generator_TableVarName="tableEncomienda" msprop:Generator_RowChangedName="EncomiendaRowChanged" msprop:Generator_TablePropName="Encomienda" msprop:Generator_RowDeletingName="EncomiendaRowDeleting" msprop:Generator_RowChangingName="EncomiendaRowChanging" msprop:Generator_RowEvHandlerName="EncomiendaRowChangeEventHandler" msprop:Generator_RowDeletedName="EncomiendaRowDeleted" msprop:Generator_RowClassName="EncomiendaRow" msprop:Generator_UserTableName="Encomienda" msprop:Generator_RowEvArgName="EncomiendaRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_encomienda" msprop:Generator_ColumnVarNameInTable="columnid_encomienda" msprop:Generator_ColumnPropNameInRow="id_encomienda" msprop:Generator_ColumnPropNameInTable="id_encomiendaColumn" msprop:Generator_UserColumnName="id_encomienda" type="xs:int" minOccurs="0" />
+              <xs:element name="id_solicitud" msprop:Generator_ColumnVarNameInTable="columnid_solicitud" msprop:Generator_ColumnPropNameInRow="id_solicitud" msprop:Generator_ColumnPropNameInTable="id_solicitudColumn" msprop:Generator_UserColumnName="id_solicitud" type="xs:int" minOccurs="0" />
+              <xs:element name="PlantasHabilitar" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="PlantasHabilitar" msprop:Generator_ColumnVarNameInTable="columnPlantasHabilitar" msprop:Generator_ColumnPropNameInTable="PlantasHabilitarColumn" msprop:Generator_UserColumnName="PlantasHabilitar" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Ubicaciones" msprop:Generator_TableClassName="UbicacionesDataTable" msprop:Generator_TableVarName="tableUbicaciones" msprop:Generator_RowChangedName="UbicacionesRowChanged" msprop:Generator_TablePropName="Ubicaciones" msprop:Generator_RowDeletingName="UbicacionesRowDeleting" msprop:Generator_RowChangingName="UbicacionesRowChanging" msprop:Generator_RowEvHandlerName="UbicacionesRowChangeEventHandler" msprop:Generator_RowDeletedName="UbicacionesRowDeleted" msprop:Generator_RowClassName="UbicacionesRow" msprop:Generator_UserTableName="Ubicaciones" msprop:Generator_RowEvArgName="UbicacionesRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_solicitudubicacion" msprop:Generator_ColumnVarNameInTable="columnid_solicitudubicacion" msprop:Generator_ColumnPropNameInRow="id_solicitudubicacion" msprop:Generator_ColumnPropNameInTable="id_solicitudubicacionColumn" msprop:Generator_UserColumnName="id_solicitudubicacion" type="xs:int" />
+              <xs:element name="id_solicitud" msprop:Generator_ColumnVarNameInTable="columnid_solicitud" msprop:Generator_ColumnPropNameInRow="id_solicitud" msprop:Generator_ColumnPropNameInTable="id_solicitudColumn" msprop:Generator_UserColumnName="id_solicitud" type="xs:int" minOccurs="0" />
+              <xs:element name="Seccion" msprop:Generator_ColumnVarNameInTable="columnSeccion" msprop:Generator_ColumnPropNameInRow="Seccion" msprop:Generator_ColumnPropNameInTable="SeccionColumn" msprop:Generator_UserColumnName="Seccion" type="xs:int" minOccurs="0" />
+              <xs:element name="Manzana" msprop:Generator_ColumnVarNameInTable="columnManzana" msprop:Generator_ColumnPropNameInRow="Manzana" msprop:Generator_ColumnPropNameInTable="ManzanaColumn" msprop:Generator_UserColumnName="Manzana" type="xs:string" minOccurs="0" />
+              <xs:element name="Parcela" msprop:Generator_ColumnVarNameInTable="columnParcela" msprop:Generator_ColumnPropNameInRow="Parcela" msprop:Generator_ColumnPropNameInTable="ParcelaColumn" msprop:Generator_UserColumnName="Parcela" type="xs:string" minOccurs="0" />
+              <xs:element name="NroPartidaMatriz" msprop:Generator_ColumnVarNameInTable="columnNroPartidaMatriz" msprop:Generator_ColumnPropNameInRow="NroPartidaMatriz" msprop:Generator_ColumnPropNameInTable="NroPartidaMatrizColumn" msprop:Generator_UserColumnName="NroPartidaMatriz" type="xs:int" minOccurs="0" />
+              <xs:element name="local_subtipoubicacion" msprop:Generator_ColumnVarNameInTable="columnlocal_subtipoubicacion" msprop:Generator_ColumnPropNameInRow="local_subtipoubicacion" msprop:Generator_ColumnPropNameInTable="local_subtipoubicacionColumn" msprop:Generator_UserColumnName="local_subtipoubicacion" type="xs:string" minOccurs="0" />
+              <xs:element name="ZonaParcela" msprop:Generator_ColumnVarNameInTable="columnZonaParcela" msprop:Generator_ColumnPropNameInRow="ZonaParcela" msprop:Generator_ColumnPropNameInTable="ZonaParcelaColumn" msprop:Generator_UserColumnName="ZonaParcela" type="xs:string" minOccurs="0" />
+              <xs:element name="Direcciones" msprop:Generator_ColumnVarNameInTable="columnDirecciones" msprop:Generator_ColumnPropNameInRow="Direcciones" msprop:Generator_ColumnPropNameInTable="DireccionesColumn" msprop:Generator_UserColumnName="Direcciones" type="xs:string" minOccurs="0" />
+              <xs:element name="DeptoLocal" msprop:Generator_ColumnVarNameInTable="columnDeptoLocal" msprop:Generator_ColumnPropNameInRow="DeptoLocal" msprop:Generator_ColumnPropNameInTable="DeptoLocalColumn" msprop:Generator_UserColumnName="DeptoLocal" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Rubros" msprop:Generator_TableClassName="RubrosDataTable" msprop:Generator_TableVarName="tableRubros" msprop:Generator_RowChangedName="RubrosRowChanged" msprop:Generator_TablePropName="Rubros" msprop:Generator_RowDeletingName="RubrosRowDeleting" msprop:Generator_RowChangingName="RubrosRowChanging" msprop:Generator_RowEvHandlerName="RubrosRowChangeEventHandler" msprop:Generator_RowDeletedName="RubrosRowDeleted" msprop:Generator_RowClassName="RubrosRow" msprop:Generator_UserTableName="Rubros" msprop:Generator_RowEvArgName="RubrosRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_encomiendarubro" msprop:Generator_ColumnVarNameInTable="columnid_encomiendarubro" msprop:Generator_ColumnPropNameInRow="id_encomiendarubro" msprop:Generator_ColumnPropNameInTable="id_encomiendarubroColumn" msprop:Generator_UserColumnName="id_encomiendarubro" type="xs:int" minOccurs="0" />
+              <xs:element name="id_encomienda" msprop:Generator_ColumnVarNameInTable="columnid_encomienda" msprop:Generator_ColumnPropNameInRow="id_encomienda" msprop:Generator_ColumnPropNameInTable="id_encomiendaColumn" msprop:Generator_UserColumnName="id_encomienda" type="xs:int" minOccurs="0" />
+              <xs:element name="cod_rubro" msprop:Generator_ColumnVarNameInTable="columncod_rubro" msprop:Generator_ColumnPropNameInRow="cod_rubro" msprop:Generator_ColumnPropNameInTable="cod_rubroColumn" msprop:Generator_UserColumnName="cod_rubro" type="xs:string" minOccurs="0" />
+              <xs:element name="desc_rubro" msprop:Generator_ColumnVarNameInTable="columndesc_rubro" msprop:Generator_ColumnPropNameInRow="desc_rubro" msprop:Generator_ColumnPropNameInTable="desc_rubroColumn" msprop:Generator_UserColumnName="desc_rubro" type="xs:string" minOccurs="0" />
+              <xs:element name="EsAnterior" msprop:Generator_ColumnVarNameInTable="columnEsAnterior" msprop:Generator_ColumnPropNameInRow="EsAnterior" msprop:Generator_ColumnPropNameInTable="EsAnteriorColumn" msprop:Generator_UserColumnName="EsAnterior" type="xs:boolean" minOccurs="0" />
+              <xs:element name="TipoActividad" msprop:Generator_ColumnVarNameInTable="columnTipoActividad" msprop:Generator_ColumnPropNameInRow="TipoActividad" msprop:Generator_ColumnPropNameInTable="TipoActividadColumn" msprop:Generator_UserColumnName="TipoActividad" type="xs:string" minOccurs="0" />
+              <xs:element name="DocRequerida" msprop:Generator_ColumnVarNameInTable="columnDocRequerida" msprop:Generator_ColumnPropNameInRow="DocRequerida" msprop:Generator_ColumnPropNameInTable="DocRequeridaColumn" msprop:Generator_UserColumnName="DocRequerida" type="xs:string" minOccurs="0" />
+              <xs:element name="SuperficieHabilitar" msprop:Generator_ColumnVarNameInTable="columnSuperficieHabilitar" msprop:Generator_ColumnPropNameInRow="SuperficieHabilitar" msprop:Generator_ColumnPropNameInTable="SuperficieHabilitarColumn" msprop:Generator_UserColumnName="SuperficieHabilitar" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DatosLocal" msprop:Generator_TableClassName="DatosLocalDataTable" msprop:Generator_TableVarName="tableDatosLocal" msprop:Generator_RowChangedName="DatosLocalRowChanged" msprop:Generator_TablePropName="DatosLocal" msprop:Generator_RowDeletingName="DatosLocalRowDeleting" msprop:Generator_RowChangingName="DatosLocalRowChanging" msprop:Generator_RowEvHandlerName="DatosLocalRowChangeEventHandler" msprop:Generator_RowDeletedName="DatosLocalRowDeleted" msprop:Generator_RowClassName="DatosLocalRow" msprop:Generator_UserTableName="DatosLocal" msprop:Generator_RowEvArgName="DatosLocalRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_encomiendadatoslocal" msprop:Generator_ColumnVarNameInTable="columnid_encomiendadatoslocal" msprop:Generator_ColumnPropNameInRow="id_encomiendadatoslocal" msprop:Generator_ColumnPropNameInTable="id_encomiendadatoslocalColumn" msprop:Generator_UserColumnName="id_encomiendadatoslocal" type="xs:int" minOccurs="0" />
+              <xs:element name="id_encomienda" msprop:Generator_ColumnVarNameInTable="columnid_encomienda" msprop:Generator_ColumnPropNameInRow="id_encomienda" msprop:Generator_ColumnPropNameInTable="id_encomiendaColumn" msprop:Generator_UserColumnName="id_encomienda" type="xs:int" minOccurs="0" />
+              <xs:element name="superficie_cubierta_dl" msprop:Generator_ColumnVarNameInTable="columnsuperficie_cubierta_dl" msprop:Generator_ColumnPropNameInRow="superficie_cubierta_dl" msprop:Generator_ColumnPropNameInTable="superficie_cubierta_dlColumn" msprop:Generator_UserColumnName="superficie_cubierta_dl" type="xs:decimal" minOccurs="0" />
+              <xs:element name="superficie_descubierta_dl" msprop:Generator_ColumnVarNameInTable="columnsuperficie_descubierta_dl" msprop:Generator_ColumnPropNameInRow="superficie_descubierta_dl" msprop:Generator_ColumnPropNameInTable="superficie_descubierta_dlColumn" msprop:Generator_UserColumnName="superficie_descubierta_dl" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cantidad_operarios_dl" msprop:Generator_ColumnVarNameInTable="columncantidad_operarios_dl" msprop:Generator_ColumnPropNameInRow="cantidad_operarios_dl" msprop:Generator_ColumnPropNameInTable="cantidad_operarios_dlColumn" msprop:Generator_UserColumnName="cantidad_operarios_dl" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PropiedadHorizontal" msprop:Generator_TableClassName="PropiedadHorizontalDataTable" msprop:Generator_TableVarName="tablePropiedadHorizontal" msprop:Generator_RowChangedName="PropiedadHorizontalRowChanged" msprop:Generator_TablePropName="PropiedadHorizontal" msprop:Generator_RowDeletingName="PropiedadHorizontalRowDeleting" msprop:Generator_RowChangingName="PropiedadHorizontalRowChanging" msprop:Generator_RowEvHandlerName="PropiedadHorizontalRowChangeEventHandler" msprop:Generator_RowDeletedName="PropiedadHorizontalRowDeleted" msprop:Generator_RowClassName="PropiedadHorizontalRow" msprop:Generator_UserTableName="PropiedadHorizontal" msprop:Generator_RowEvArgName="PropiedadHorizontalRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_solicitudubicacion" msprop:Generator_ColumnVarNameInTable="columnid_solicitudubicacion" msprop:Generator_ColumnPropNameInRow="id_solicitudubicacion" msprop:Generator_ColumnPropNameInTable="id_solicitudubicacionColumn" msprop:Generator_UserColumnName="id_solicitudubicacion" type="xs:int" minOccurs="0" />
+              <xs:element name="NroPartidaHorizontal" msprop:Generator_ColumnVarNameInTable="columnNroPartidaHorizontal" msprop:Generator_ColumnPropNameInRow="NroPartidaHorizontal" msprop:Generator_ColumnPropNameInTable="NroPartidaHorizontalColumn" msprop:Generator_UserColumnName="NroPartidaHorizontal" type="xs:int" minOccurs="0" />
+              <xs:element name="Piso" msprop:Generator_ColumnVarNameInTable="columnPiso" msprop:Generator_ColumnPropNameInRow="Piso" msprop:Generator_ColumnPropNameInTable="PisoColumn" msprop:Generator_UserColumnName="Piso" type="xs:string" minOccurs="0" />
+              <xs:element name="Depto" msprop:Generator_ColumnVarNameInTable="columnDepto" msprop:Generator_ColumnPropNameInRow="Depto" msprop:Generator_ColumnPropNameInTable="DeptoColumn" msprop:Generator_UserColumnName="Depto" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Titulares" msprop:Generator_TableClassName="TitularesDataTable" msprop:Generator_TableVarName="tableTitulares" msprop:Generator_RowChangedName="TitularesRowChanged" msprop:Generator_TablePropName="Titulares" msprop:Generator_RowDeletingName="TitularesRowDeleting" msprop:Generator_RowChangingName="TitularesRowChanging" msprop:Generator_RowEvHandlerName="TitularesRowChangeEventHandler" msprop:Generator_RowDeletedName="TitularesRowDeleted" msprop:Generator_RowClassName="TitularesRow" msprop:Generator_UserTableName="Titulares" msprop:Generator_RowEvArgName="TitularesRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_persona" msprop:Generator_ColumnVarNameInTable="columnid_persona" msprop:Generator_ColumnPropNameInRow="id_persona" msprop:Generator_ColumnPropNameInTable="id_personaColumn" msprop:Generator_UserColumnName="id_persona" type="xs:int" minOccurs="0" />
+              <xs:element name="id_solicitud" msprop:Generator_ColumnVarNameInTable="columnid_solicitud" msprop:Generator_ColumnPropNameInRow="id_solicitud" msprop:Generator_ColumnPropNameInTable="id_solicitudColumn" msprop:Generator_UserColumnName="id_solicitud" type="xs:int" minOccurs="0" />
+              <xs:element name="TipoPersona" msprop:Generator_ColumnVarNameInTable="columnTipoPersona" msprop:Generator_ColumnPropNameInRow="TipoPersona" msprop:Generator_ColumnPropNameInTable="TipoPersonaColumn" msprop:Generator_UserColumnName="TipoPersona" type="xs:string" minOccurs="0" />
+              <xs:element name="RazonSocial" msprop:Generator_ColumnVarNameInTable="columnRazonSocial" msprop:Generator_ColumnPropNameInRow="RazonSocial" msprop:Generator_ColumnPropNameInTable="RazonSocialColumn" msprop:Generator_UserColumnName="RazonSocial" type="xs:string" minOccurs="0" />
+              <xs:element name="Apellido" msprop:Generator_ColumnVarNameInTable="columnApellido" msprop:Generator_ColumnPropNameInRow="Apellido" msprop:Generator_ColumnPropNameInTable="ApellidoColumn" msprop:Generator_UserColumnName="Apellido" type="xs:string" minOccurs="0" />
+              <xs:element name="Nombres" msprop:Generator_ColumnVarNameInTable="columnNombres" msprop:Generator_ColumnPropNameInRow="Nombres" msprop:Generator_ColumnPropNameInTable="NombresColumn" msprop:Generator_UserColumnName="Nombres" type="xs:string" minOccurs="0" />
+              <xs:element name="MuestraEnPlancheta" msprop:Generator_ColumnVarNameInTable="columnMuestraEnPlancheta" msprop:Generator_ColumnPropNameInRow="MuestraEnPlancheta" msprop:Generator_ColumnPropNameInTable="MuestraEnPlanchetaColumn" msprop:Generator_UserColumnName="MuestraEnPlancheta" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Solicitud" msprop:Generator_TableClassName="SolicitudDataTable" msprop:Generator_TableVarName="tableSolicitud" msprop:Generator_TablePropName="Solicitud" msprop:Generator_RowDeletingName="SolicitudRowDeleting" msprop:Generator_RowChangingName="SolicitudRowChanging" msprop:Generator_RowEvHandlerName="SolicitudRowChangeEventHandler" msprop:Generator_RowDeletedName="SolicitudRowDeleted" msprop:Generator_UserTableName="Solicitud" msprop:Generator_RowChangedName="SolicitudRowChanged" msprop:Generator_RowEvArgName="SolicitudRowChangeEvent" msprop:Generator_RowClassName="SolicitudRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_solicitud" msprop:Generator_ColumnVarNameInTable="columnid_solicitud" msprop:Generator_ColumnPropNameInRow="id_solicitud" msprop:Generator_ColumnPropNameInTable="id_solicitudColumn" msprop:Generator_UserColumnName="id_solicitud" type="xs:int" minOccurs="0" />
+              <xs:element name="nro_expediente" msprop:Generator_ColumnVarNameInTable="columnnro_expediente" msprop:Generator_ColumnPropNameInRow="nro_expediente" msprop:Generator_ColumnPropNameInTable="nro_expedienteColumn" msprop:Generator_UserColumnName="nro_expediente" type="xs:string" minOccurs="0" />
+              <xs:element name="nro_certtificado" msprop:Generator_ColumnVarNameInTable="columnnro_certtificado" msprop:Generator_ColumnPropNameInRow="nro_certtificado" msprop:Generator_ColumnPropNameInTable="nro_certtificadoColumn" msprop:Generator_UserColumnName="nro_certtificado" type="xs:int" minOccurs="0" />
+              <xs:element name="ImpresionDePrueba" msprop:Generator_ColumnVarNameInTable="columnImpresionDePrueba" msprop:Generator_ColumnPropNameInRow="ImpresionDePrueba" msprop:Generator_ColumnPropNameInTable="ImpresionDePruebaColumn" msprop:Generator_UserColumnName="ImpresionDePrueba" type="xs:boolean" minOccurs="0" />
+              <xs:element name="Fecha" msprop:Generator_ColumnVarNameInTable="columnFecha" msprop:Generator_ColumnPropNameInRow="Fecha" msprop:Generator_ColumnPropNameInTable="FechaColumn" msprop:Generator_UserColumnName="Fecha" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="EncomiendaKey1">
+      <xs:selector xpath=".//mstns:Encomienda" />
+      <xs:field xpath="mstns:id_encomienda" />
+    </xs:unique>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Ubicaciones" />
+      <xs:field xpath="mstns:id_solicitudubicacion" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="Encomienda_Rubros" msdata:parent="Encomienda" msdata:child="Rubros" msdata:parentkey="id_encomienda" msdata:childkey="id_encomienda" msprop:Generator_UserChildTable="Rubros" msprop:Generator_ChildPropName="GetRubrosRows" msprop:Generator_UserRelationName="Encomienda_Rubros" msprop:Generator_ParentPropName="EncomiendaRow" msprop:Generator_RelationVarName="relationEncomienda_Rubros" msprop:Generator_UserParentTable="Encomienda" />
+      <msdata:Relationship name="Encomienda_DatosLocal" msdata:parent="Encomienda" msdata:child="DatosLocal" msdata:parentkey="id_encomienda" msdata:childkey="id_encomienda" msprop:Generator_UserChildTable="DatosLocal" msprop:Generator_ChildPropName="GetDatosLocalRows" msprop:Generator_UserRelationName="Encomienda_DatosLocal" msprop:Generator_RelationVarName="relationEncomienda_DatosLocal" msprop:Generator_UserParentTable="Encomienda" msprop:Generator_ParentPropName="EncomiendaRow" />
+      <msdata:Relationship name="Ubicaciones_PropiedadHorizontal" msdata:parent="Ubicaciones" msdata:child="PropiedadHorizontal" msdata:parentkey="id_solicitudubicacion" msdata:childkey="id_solicitudubicacion" msprop:Generator_UserChildTable="PropiedadHorizontal" msprop:Generator_ChildPropName="GetPropiedadHorizontalRows" msprop:Generator_UserRelationName="Ubicaciones_PropiedadHorizontal" msprop:Generator_ParentPropName="UbicacionesRow" msprop:Generator_RelationVarName="relationUbicaciones_PropiedadHorizontal" msprop:Generator_UserParentTable="Ubicaciones" />
+      <msdata:Relationship name="Titulares_datos_plancheta" msdata:parent="Solicitud" msdata:child="Titulares" msdata:parentkey="id_solicitud" msdata:childkey="id_solicitud" msprop:Generator_UserChildTable="Titulares" msprop:Generator_ChildPropName="GetTitularesRows" msprop:Generator_UserRelationName="Titulares_datos_plancheta" msprop:Generator_RelationVarName="relationTitulares_datos_plancheta" msprop:Generator_UserParentTable="Solicitud" msprop:Generator_ParentPropName="SolicitudRow" />
+      <msdata:Relationship name="Solicitud_Encomienda" msdata:parent="Solicitud" msdata:child="Encomienda" msdata:parentkey="id_solicitud" msdata:childkey="id_solicitud" msprop:Generator_UserChildTable="Encomienda" msprop:Generator_ChildPropName="GetEncomiendaRows" msprop:Generator_UserRelationName="Solicitud_Encomienda" msprop:Generator_RelationVarName="relationSolicitud_Encomienda" msprop:Generator_UserParentTable="Solicitud" msprop:Generator_ParentPropName="SolicitudRow" />
+      <msdata:Relationship name="Solicitud_Ubicaciones" msdata:parent="Solicitud" msdata:child="Ubicaciones" msdata:parentkey="id_solicitud" msdata:childkey="id_solicitud" msprop:Generator_UserChildTable="Ubicaciones" msprop:Generator_ChildPropName="GetUbicacionesRows" msprop:Generator_UserRelationName="Solicitud_Ubicaciones" msprop:Generator_RelationVarName="relationSolicitud_Ubicaciones" msprop:Generator_UserParentTable="Solicitud" msprop:Generator_ParentPropName="SolicitudRow" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

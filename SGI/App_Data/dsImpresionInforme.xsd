@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsImpresionInforme" targetNamespace="http://tempuri.org/dsImpresionInforme.xsd" xmlns:mstns="http://tempuri.org/dsImpresionInforme.xsd" xmlns="http://tempuri.org/dsImpresionInforme.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsImpresionInforme" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsImpresionInforme" msprop:Generator_UserDSName="dsImpresionInforme">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="datos_informe" msprop:Generator_TableClassName="datos_informeDataTable" msprop:Generator_TableVarName="tabledatos_informe" msprop:Generator_TablePropName="datos_informe" msprop:Generator_RowDeletingName="datos_informeRowDeleting" msprop:Generator_RowChangingName="datos_informeRowChanging" msprop:Generator_RowEvHandlerName="datos_informeRowChangeEventHandler" msprop:Generator_RowDeletedName="datos_informeRowDeleted" msprop:Generator_UserTableName="datos_informe" msprop:Generator_RowChangedName="datos_informeRowChanged" msprop:Generator_RowEvArgName="datos_informeRowChangeEvent" msprop:Generator_RowClassName="datos_informeRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="observaciones" msprop:Generator_ColumnVarNameInTable="columnobservaciones" msprop:Generator_ColumnPropNameInRow="observaciones" msprop:Generator_ColumnPropNameInTable="observacionesColumn" msprop:Generator_UserColumnName="observaciones" type="xs:string" minOccurs="0" />
+              <xs:element name="impresionDePrueba" msprop:Generator_ColumnVarNameInTable="columnimpresionDePrueba" msprop:Generator_ColumnPropNameInRow="impresionDePrueba" msprop:Generator_ColumnPropNameInTable="impresionDePruebaColumn" msprop:Generator_UserColumnName="impresionDePrueba" type="xs:boolean" minOccurs="0" />
+              <xs:element name="observaciones2" msprop:Generator_ColumnVarNameInTable="columnobservaciones2" msprop:Generator_ColumnPropNameInRow="observaciones2" msprop:Generator_ColumnPropNameInTable="observaciones2Column" msprop:Generator_UserColumnName="observaciones2" type="xs:string" minOccurs="0" />
+              <xs:element name="id_cpadron" msprop:Generator_ColumnVarNameInTable="columnid_cpadron" msprop:Generator_ColumnPropNameInRow="id_cpadron" msprop:Generator_ColumnPropNameInTable="id_cpadronColumn" msprop:Generator_UserColumnName="id_cpadron" type="xs:int" minOccurs="0" />
+              <xs:element name="CodigoSeguridad" msprop:Generator_ColumnVarNameInTable="columnCodigoSeguridad" msprop:Generator_ColumnPropNameInRow="CodigoSeguridad" msprop:Generator_ColumnPropNameInTable="CodigoSeguridadColumn" msprop:Generator_UserColumnName="CodigoSeguridad" type="xs:string" minOccurs="0" />
+              <xs:element name="mostarNroSolicitud" msprop:Generator_ColumnVarNameInTable="columnmostarNroSolicitud" msprop:Generator_ColumnPropNameInRow="mostarNroSolicitud" msprop:Generator_ColumnPropNameInTable="mostarNroSolicitudColumn" msprop:Generator_UserColumnName="mostarNroSolicitud" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

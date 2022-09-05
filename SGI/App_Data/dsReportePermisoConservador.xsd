@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsReportePermisoConservador" targetNamespace="http://tempuri.org/dsReportePermisoConservador.xsd" xmlns:mstns="http://tempuri.org/dsReportePermisoConservador.xsd" xmlns="http://tempuri.org/dsReportePermisoConservador.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsReportePermisoConservador" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsReportePermisoConservador" msprop:Generator_UserDSName="dsReportePermisoConservador">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="AS_Empresas" msprop:Generator_TableClassName="AS_EmpresasDataTable" msprop:Generator_TableVarName="tableAS_Empresas" msprop:Generator_RowChangedName="AS_EmpresasRowChanged" msprop:Generator_TablePropName="AS_Empresas" msprop:Generator_RowDeletingName="AS_EmpresasRowDeleting" msprop:Generator_RowChangingName="AS_EmpresasRowChanging" msprop:Generator_RowEvHandlerName="AS_EmpresasRowChangeEventHandler" msprop:Generator_RowDeletedName="AS_EmpresasRowDeleted" msprop:Generator_RowClassName="AS_EmpresasRow" msprop:Generator_UserTableName="AS_Empresas" msprop:Generator_RowEvArgName="AS_EmpresasRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id_empasc" msprop:Generator_ColumnVarNameInTable="columnid_empasc" msprop:Generator_ColumnPropNameInRow="id_empasc" msprop:Generator_ColumnPropNameInTable="id_empascColumn" msprop:Generator_UserColumnName="id_empasc" type="xs:int" />
+              <xs:element name="NroRegistro_empasc" msprop:Generator_ColumnVarNameInTable="columnNroRegistro_empasc" msprop:Generator_ColumnPropNameInRow="NroRegistro_empasc" msprop:Generator_ColumnPropNameInTable="NroRegistro_empascColumn" msprop:Generator_UserColumnName="NroRegistro_empasc" type="xs:int" />
+              <xs:element name="RazonSocial_empasc" msprop:Generator_ColumnVarNameInTable="columnRazonSocial_empasc" msprop:Generator_ColumnPropNameInRow="RazonSocial_empasc" msprop:Generator_ColumnPropNameInTable="RazonSocial_empascColumn" msprop:Generator_UserColumnName="RazonSocial_empasc">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CalleCom_empasc" msprop:Generator_ColumnVarNameInTable="columnCalleCom_empasc" msprop:Generator_ColumnPropNameInRow="CalleCom_empasc" msprop:Generator_ColumnPropNameInTable="CalleCom_empascColumn" msprop:Generator_UserColumnName="CalleCom_empasc">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NroPuertaCom_empasc" msprop:Generator_ColumnVarNameInTable="columnNroPuertaCom_empasc" msprop:Generator_ColumnPropNameInRow="NroPuertaCom_empasc" msprop:Generator_ColumnPropNameInTable="NroPuertaCom_empascColumn" msprop:Generator_UserColumnName="NroPuertaCom_empasc" type="xs:int" />
+              <xs:element name="PuertasAdicCom_empasc" msprop:Generator_ColumnVarNameInTable="columnPuertasAdicCom_empasc" msprop:Generator_ColumnPropNameInRow="PuertasAdicCom_empasc" msprop:Generator_ColumnPropNameInTable="PuertasAdicCom_empascColumn" msprop:Generator_UserColumnName="PuertasAdicCom_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PisoCom_empasc" msprop:Generator_ColumnVarNameInTable="columnPisoCom_empasc" msprop:Generator_ColumnPropNameInRow="PisoCom_empasc" msprop:Generator_ColumnPropNameInTable="PisoCom_empascColumn" msprop:Generator_UserColumnName="PisoCom_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DeptoCom_empasc" msprop:Generator_ColumnVarNameInTable="columnDeptoCom_empasc" msprop:Generator_ColumnPropNameInRow="DeptoCom_empasc" msprop:Generator_ColumnPropNameInTable="DeptoCom_empascColumn" msprop:Generator_UserColumnName="DeptoCom_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OficinaCom_empasc" msprop:Generator_ColumnVarNameInTable="columnOficinaCom_empasc" msprop:Generator_ColumnPropNameInRow="OficinaCom_empasc" msprop:Generator_ColumnPropNameInTable="OficinaCom_empascColumn" msprop:Generator_UserColumnName="OficinaCom_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="id_localidadCom" msprop:Generator_ColumnVarNameInTable="columnid_localidadCom" msprop:Generator_ColumnPropNameInRow="id_localidadCom" msprop:Generator_ColumnPropNameInTable="id_localidadComColumn" msprop:Generator_UserColumnName="id_localidadCom" type="xs:int" />
+              <xs:element name="desc_localidadCom" msprop:Generator_ColumnVarNameInTable="columndesc_localidadCom" msprop:Generator_ColumnPropNameInRow="desc_localidadCom" msprop:Generator_ColumnPropNameInTable="desc_localidadComColumn" msprop:Generator_UserColumnName="desc_localidadCom" type="xs:string" minOccurs="0" />
+              <xs:element name="id_provinciaCom" msprop:Generator_ColumnVarNameInTable="columnid_provinciaCom" msprop:Generator_ColumnPropNameInRow="id_provinciaCom" msprop:Generator_ColumnPropNameInTable="id_provinciaComColumn" msprop:Generator_UserColumnName="id_provinciaCom" type="xs:int" />
+              <xs:element name="desc_provinciaCom" msprop:Generator_ColumnVarNameInTable="columndesc_provinciaCom" msprop:Generator_ColumnPropNameInRow="desc_provinciaCom" msprop:Generator_ColumnPropNameInTable="desc_provinciaComColumn" msprop:Generator_UserColumnName="desc_provinciaCom" type="xs:string" minOccurs="0" />
+              <xs:element name="CalleLeg_empasc" msprop:Generator_ColumnVarNameInTable="columnCalleLeg_empasc" msprop:Generator_ColumnPropNameInRow="CalleLeg_empasc" msprop:Generator_ColumnPropNameInTable="CalleLeg_empascColumn" msprop:Generator_UserColumnName="CalleLeg_empasc">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NroPuertaLeg_empasc" msprop:Generator_ColumnVarNameInTable="columnNroPuertaLeg_empasc" msprop:Generator_ColumnPropNameInRow="NroPuertaLeg_empasc" msprop:Generator_ColumnPropNameInTable="NroPuertaLeg_empascColumn" msprop:Generator_UserColumnName="NroPuertaLeg_empasc" type="xs:int" />
+              <xs:element name="PuertasAdicLeg_empasc" msprop:Generator_ColumnVarNameInTable="columnPuertasAdicLeg_empasc" msprop:Generator_ColumnPropNameInRow="PuertasAdicLeg_empasc" msprop:Generator_ColumnPropNameInTable="PuertasAdicLeg_empascColumn" msprop:Generator_UserColumnName="PuertasAdicLeg_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PisoLeg_empasc" msprop:Generator_ColumnVarNameInTable="columnPisoLeg_empasc" msprop:Generator_ColumnPropNameInRow="PisoLeg_empasc" msprop:Generator_ColumnPropNameInTable="PisoLeg_empascColumn" msprop:Generator_UserColumnName="PisoLeg_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DeptoLeg_empasc" msprop:Generator_ColumnVarNameInTable="columnDeptoLeg_empasc" msprop:Generator_ColumnPropNameInRow="DeptoLeg_empasc" msprop:Generator_ColumnPropNameInTable="DeptoLeg_empascColumn" msprop:Generator_UserColumnName="DeptoLeg_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OficinaLeg_empasc" msprop:Generator_ColumnVarNameInTable="columnOficinaLeg_empasc" msprop:Generator_ColumnPropNameInRow="OficinaLeg_empasc" msprop:Generator_ColumnPropNameInTable="OficinaLeg_empascColumn" msprop:Generator_UserColumnName="OficinaLeg_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="id_localidadLeg" msprop:Generator_ColumnVarNameInTable="columnid_localidadLeg" msprop:Generator_ColumnPropNameInRow="id_localidadLeg" msprop:Generator_ColumnPropNameInTable="id_localidadLegColumn" msprop:Generator_UserColumnName="id_localidadLeg" type="xs:int" />
+              <xs:element name="desc_localidadLeg" msprop:Generator_ColumnVarNameInTable="columndesc_localidadLeg" msprop:Generator_ColumnPropNameInRow="desc_localidadLeg" msprop:Generator_ColumnPropNameInTable="desc_localidadLegColumn" msprop:Generator_UserColumnName="desc_localidadLeg" type="xs:string" minOccurs="0" />
+              <xs:element name="id_ProvinciaLeg" msprop:Generator_ColumnVarNameInTable="columnid_ProvinciaLeg" msprop:Generator_ColumnPropNameInRow="id_ProvinciaLeg" msprop:Generator_ColumnPropNameInTable="id_ProvinciaLegColumn" msprop:Generator_UserColumnName="id_ProvinciaLeg" type="xs:int" />
+              <xs:element name="desc_provinciaLeg" msprop:Generator_ColumnVarNameInTable="columndesc_provinciaLeg" msprop:Generator_ColumnPropNameInRow="desc_provinciaLeg" msprop:Generator_ColumnPropNameInTable="desc_provinciaLegColumn" msprop:Generator_UserColumnName="desc_provinciaLeg" type="xs:string" minOccurs="0" />
+              <xs:element name="email_empasc" msprop:Generator_ColumnVarNameInTable="columnemail_empasc" msprop:Generator_ColumnPropNameInRow="email_empasc" msprop:Generator_ColumnPropNameInTable="email_empascColumn" msprop:Generator_UserColumnName="email_empasc" type="xs:string" minOccurs="0" />
+              <xs:element name="TelefonoEmergencia_empasc" msprop:Generator_ColumnVarNameInTable="columnTelefonoEmergencia_empasc" msprop:Generator_ColumnPropNameInRow="TelefonoEmergencia_empasc" msprop:Generator_ColumnPropNameInTable="TelefonoEmergencia_empascColumn" msprop:Generator_UserColumnName="TelefonoEmergencia_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TelefonoContacto_empasc" msprop:Generator_ColumnVarNameInTable="columnTelefonoContacto_empasc" msprop:Generator_ColumnPropNameInRow="TelefonoContacto_empasc" msprop:Generator_ColumnPropNameInTable="TelefonoContacto_empascColumn" msprop:Generator_UserColumnName="TelefonoContacto_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Expediente_empasc" msprop:Generator_ColumnVarNameInTable="columnExpediente_empasc" msprop:Generator_ColumnPropNameInRow="Expediente_empasc" msprop:Generator_ColumnPropNameInTable="Expediente_empascColumn" msprop:Generator_UserColumnName="Expediente_empasc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FechaVigenciaDesde" msdata:Caption="FechaConcedido_empasc" msprop:Generator_ColumnVarNameInTable="columnFechaVigenciaDesde" msprop:Generator_ColumnPropNameInRow="FechaVigenciaDesde" msprop:Generator_ColumnPropNameInTable="FechaVigenciaDesdeColumn" msprop:Generator_UserColumnName="FechaVigenciaDesde" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FechaVigenciaHasta" msprop:Generator_ColumnVarNameInTable="columnFechaVigenciaHasta" msprop:Generator_ColumnPropNameInRow="FechaVigenciaHasta" msprop:Generator_ColumnPropNameInTable="FechaVigenciaHastaColumn" msprop:Generator_UserColumnName="FechaVigenciaHasta" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Cuit_empasc" msprop:Generator_ColumnVarNameInTable="columnCuit_empasc" msprop:Generator_ColumnPropNameInRow="Cuit_empasc" msprop:Generator_ColumnPropNameInTable="Cuit_empascColumn" msprop:Generator_UserColumnName="Cuit_empasc">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="13" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:AS_Empresas" />
+      <xs:field xpath="mstns:id_empasc" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

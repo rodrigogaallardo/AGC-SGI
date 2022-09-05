@@ -1,0 +1,230 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="SGI.SiteMaster" %>
+
+<%@ Register Src="~/Controls/ucMenu.ascx" TagPrefix="uc" TagName="ucMenu" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+
+    <title id="SiteTitle" runat="server"></title>
+
+
+    <webopt:BundleReference ID="BundleReference1" runat="server" Path="~/Content/css" />
+
+    <asp:PlaceHolder ID="PlaceHolder1" runat="server">
+
+        <%: Scripts.Render("~/bundles/jquery") %>
+        <%: Scripts.Render("~/bundles/jqueryui") %>
+        <%: Scripts.Render("~/bundles/modernizr") %>
+        
+            
+    </asp:PlaceHolder>
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+
+
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+
+</head>
+<body>
+    <form id="Form1" runat="server">
+
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=272931&clcid=0x409 --%>
+                <%--Framework Scripts--%>
+
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="jquery.ui.combined" />
+                <%--<asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+            <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+            <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+            <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+            <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+            <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+            <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+            <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />--%>
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+        <header>
+            <div class="content-wrapper">
+
+                <div class="float-right">
+                    <section id="login">
+                        <asp:LoginView ID="LoginView1" runat="server" ViewStateMode="Disabled">
+                            <AnonymousTemplate>
+                                <div id="user-nav" class="navbar navbar-inverse">
+
+                                    <ul class="nav btn-group">
+
+                                        <li class="btn btn-inverse">
+                                            <asp:LinkButton ID="btnLogin" runat="server" PostBackUrl="~/Account/Login">
+                                        <i class="icon icon-user"></i> <span class="text">Iniciar sesión</span></a>
+                                            </asp:LinkButton>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </AnonymousTemplate>
+                            <LoggedInTemplate>
+
+                                <div id="user-nav" class="navbar navbar-inverse">
+
+                                    <ul class="nav btn-group">
+                                        <li class="btn btn-inverse dropdown" id="menu-user">
+
+                                            <a title="" href="#" data-toggle="dropdown" data-target="#menu-user" class="dropdown-toggle">
+                                                <i class="icon icon-user"></i>
+                                                <span class="text"><%: Membership.GetUser().UserName %></span>
+                                                <b class="caret" style="margin-left: 5px;"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <asp:LinkButton ID="btnChangePassword" runat="server" title="" PostBackUrl="~/Account/Manage">Modificar contrase&ntilde;a</asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton ID="btnEdituser" runat="server" title="" PostBackUrl="~/Account/EditUser">Actualizar datos de usuario</asp:LinkButton></li>
+                                                <li>
+                                                    <asp:LinkButton ID="LinkButton1" runat="server" title="" PostBackUrl="~/Account/PerfilesAsignados" CssClass="sOutbox">Perfiles asignados</asp:LinkButton></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="btn btn-inverse">
+                                            <asp:LinkButton ID="btnLogOff" runat="server" title="" OnClick="LogOff_Click">
+                                    <i class="icon icon-share-alt"></i> 
+                                    <span class="text">Cerrar sesi&oacute;n</span>
+                                            </asp:LinkButton></li>
+                                    </ul>
+
+                                </div>
+
+                            </LoggedInTemplate>
+                        </asp:LoginView>
+                    </section>
+
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+
+
+            <div id="header">
+                <div>
+                    <a href="<%: ResolveUrl("~/") %>">
+                        <img src='<%: ResolveUrl("~/Content/img/Logo-Header2.png")%>' />
+                    </a>
+                </div>
+            </div>
+
+            <div id="search" style="display: none">
+                <input type="text" placeholder="Buscar menú..." style="width: 200px; color: white" />
+                <button type="submit" class="tip-right"><i class="icon-search icon-white"></i></button>
+            </div>
+
+
+            <div id="sidebar">
+                <uc:ucMenu runat="server" ID="mnu" />
+                <!-- <a href="#" class="visible-phone"><i class="icon icon-pencil"></i>Interface elements</a>
+            <ul>
+                <li>
+                    <asp:Repeater ID="repeater_menu" runat="server">
+                        <ItemTemplate>
+                            <li><a href='<%# ResolveUrl(Eval("pagina_menu").ToString()) %>'>
+                                    <i class='<%# Eval("IconCssClass_menu") %>'></i>
+                                    <span><%# Eval("descripcion_menu") %></span>
+                                </a>
+                            </li>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </li>
+            </ul>
+            -->
+            </div>
+
+
+            <div id="content">
+                <div id="content-header">
+
+                    <%--no debe mostrar los botones de buscar tramite y bandeja de entrada cuendo no esta logueado--%>
+                    <div class="btn-group">
+                        <asp:HyperLink ID="lnkBuscarTramite" runat="server" Visible="false"
+                            class="btn btn-large tip-bottom" title="Buscar Trámite"
+                            NavigateUrl="~/GestionTramite/BuscarTramite.aspx">
+                        <i class="icon-search"></i>
+                        </asp:HyperLink>
+                        <asp:HyperLink ID="lnkBandejaEntrada" runat="server" Visible="false"
+                            class="btn btn-large tip-left" title="Bandeja de Entradas"
+                            NavigateUrl="~/GestionTramite/BandejaEntrada.aspx">
+                        <i class="icon-th-list"></i>
+                        </asp:HyperLink>
+
+                    </div>
+
+                </div>
+                <div id="breadcrumb">
+                    <a href="<%: ResolveUrl("~/") %>" title="Home" class="tip-bottom">
+                        <i class="imoon imoon-home"></i>Home
+                    </a>
+                    <%: SGI.Functions.GetParentBreadcrumb() %>
+                    <a href="#" class="current"><%: Page.Title %></a>
+                </div>
+                <div class="container-fluid">
+
+                    <asp:ContentPlaceHolder runat="server" ID="MainContent" />
+
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div id="footerAGC" class="pull-left" style="margin-left: 170px; margin-top: 20px; font-family: 'Segoe UI', Verdana, Helvetica, Sans-Serif;">
+                    <h4 style="font-weight: 500; font-size: 20px; color: #fff;">Copyright &copy; <%: DateTime.Now.Year %>, Agencia Gubernamental de Control - C.A.B.A.  </h4>
+                    
+                    <div style="font-size: x-small" class="text-muted">
+                        <asp:UpdatePanel runat="server">
+                            <ContentTemplate>
+                                <asp:Label ID="lblVersion" Text="text" runat="server" style="color: #fff;" />
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+                <div class="pull-right" style="color: white; padding-right: 20px; margin-top: 20px">
+                    <p>
+                        <img src='<%: ResolveUrl("~/Content/img/Logo-BsAs-Footer.png" )%>' />
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </form>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // Hacer que el tamaño de la pagina sea el 100% de alto como minimo
+
+            var alto = $(document).height() - $("#header").height() - $("#footer").height() - 64;
+
+            if (alto > $("#body").height()) {
+                $("#body").css("min-height", alto);
+            }
+
+            if (alto - 40 > $("#content").height()) {
+                $("#content").css("min-height", alto - 10);
+            }
+
+        });
+
+    </script>
+</body>
+</html>
+
+

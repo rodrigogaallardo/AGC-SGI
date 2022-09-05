@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SGI.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="id_param" />
+          </Key>
+          <Property Name="id_param" Type="int" Nullable="false" />
+          <Property Name="cod_param" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="nom_param" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="valorchar_param" Type="nvarchar" MaxLength="1000" />
+          <Property Name="valornum_param" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="UpdateUser" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="wsEE_Caratulas">
+          <Key>
+            <PropertyRef Name="id_caratula" />
+          </Key>
+          <Property Name="id_caratula" Type="int" Nullable="false" />
+          <Property Name="id_paquete" Type="int" Nullable="false" />
+          <Property Name="tipo_persona_caratula" Type="int" Nullable="false" />
+          <Property Name="apellido_caratula" Type="nvarchar" MaxLength="100" />
+          <Property Name="nombre_caratula" Type="nvarchar" MaxLength="100" />
+          <Property Name="razon_social_caratula" Type="nvarchar" MaxLength="150" />
+          <Property Name="tipo_doc_caratula" Type="nvarchar" MaxLength="10" />
+          <Property Name="nro_doc_caratula" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="cuit_cuil_caratula" Type="nvarchar" MaxLength="11" />
+          <Property Name="domicilio_caratula" Type="nvarchar" MaxLength="240" />
+          <Property Name="piso_caratula" Type="nvarchar" MaxLength="10" />
+          <Property Name="departamento_caratula" Type="nvarchar" MaxLength="10" />
+          <Property Name="codigo_postal_caratula" Type="nvarchar" MaxLength="10" />
+          <Property Name="email_caratula" Type="nvarchar" MaxLength="100" />
+          <Property Name="telefono_caratula" Type="nvarchar" MaxLength="70" />
+          <Property Name="sistema_caratula" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion_caratula" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="motivo_caratula" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="motivo_externo_caratula" Type="nvarchar" MaxLength="200" />
+          <Property Name="trata_caratula" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="username_SADE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="generado_SADE" Type="bit" Nullable="false" />
+          <Property Name="resultado_SADE" Type="nvarchar" MaxLength="200" />
+          <Property Name="cantidad_intentos" Type="int" Nullable="false" />
+          <Property Name="tipo_actuacion_exp" Type="nvarchar" MaxLength="2" />
+          <Property Name="anio_actuacion_exp" Type="int" />
+          <Property Name="nro_actuacion_exp" Type="int" />
+          <Property Name="reparticion_actuacion_exp" Type="nvarchar" MaxLength="15" />
+          <Property Name="reparticion_usuario_exp" Type="nvarchar" MaxLength="15" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateUser" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="wsEE_TareasDocumentos">
+          <Key>
+            <PropertyRef Name="id_tarea_documento" />
+          </Key>
+          <Property Name="id_tarea_documento" Type="int" Nullable="false" />
+          <Property Name="id_paquete" Type="int" Nullable="false" />
+          <Property Name="Documento" Type="varbinary(max)" Nullable="false" />
+          <Property Name="id_metaDatos" Type="int" />
+          <Property Name="motivo_firma" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="sistema_firma" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="username_SADE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="username_SADE_emisor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_firmantes" Type="int" />
+          <Property Name="tarea_subida_SADE" Type="bit" Nullable="false" />
+          <Property Name="resultado_tarea_SADE" Type="nvarchar" MaxLength="300" />
+          <Property Name="cantidad_intentos" Type="int" Nullable="false" />
+          <Property Name="id_proceso" Type="nvarchar" MaxLength="100" />
+          <Property Name="username_SADE_apoderado" Type="nvarchar" MaxLength="100" />
+          <Property Name="firmado_en_SADE" Type="bit" Nullable="false" />
+          <Property Name="numeroGEDO" Type="nvarchar" MaxLength="100" />
+          <Property Name="cantidad_intentos_recuperar_numero" Type="int" />
+          <Property Name="resultado_recuperar_numero" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateUser" Type="uniqueidentifier" />
+          <Property Name="username_SADE_receptor" Type="nvarchar" MaxLength="50" />
+          <Property Name="acronimoTipoDocumento" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SGIModelStoreContainer">
+          <EntitySet Name="Parametros" EntityType="Self.Parametros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wsEE_Caratulas" EntityType="Self.wsEE_Caratulas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wsEE_TareasDocumentos" EntityType="Self.wsEE_TareasDocumentos" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SGI.Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EE_Entities" p1:LazyLoadingEnabled="true" >
+          <EntitySet Name="Parametros" EntityType="SGI.Model.Parametros" />
+          <EntitySet Name="wsEE_Caratulas" EntityType="SGI.Model.wsEE_Caratulas" />
+          <EntitySet Name="wsEE_TareasDocumentos" EntityType="SGI.Model.wsEE_TareasDocumentos" />
+        </EntityContainer>
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="id_param" />
+          </Key>
+          <Property Type="Int32" Name="id_param" Nullable="false" />
+          <Property Type="String" Name="cod_param" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="nom_param" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="valorchar_param" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="valornum_param" Precision="18" Scale="4" />
+          <Property Type="String" Name="UpdateUser" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="UpdateDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="wsEE_Caratulas">
+          <Key>
+            <PropertyRef Name="id_caratula" />
+          </Key>
+          <Property Name="id_caratula" Type="Int32" Nullable="false" />
+          <Property Name="id_paquete" Type="Int32" Nullable="false" />
+          <Property Name="tipo_persona_caratula" Type="Int32" Nullable="false" />
+          <Property Name="apellido_caratula" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="nombre_caratula" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="razon_social_caratula" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_doc_caratula" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="nro_doc_caratula" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="cuit_cuil_caratula" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="domicilio_caratula" Type="String" MaxLength="240" FixedLength="false" Unicode="true" />
+          <Property Name="piso_caratula" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="departamento_caratula" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="codigo_postal_caratula" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="email_caratula" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="telefono_caratula" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="sistema_caratula" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion_caratula" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="motivo_caratula" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="motivo_externo_caratula" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="trata_caratula" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="username_SADE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="generado_SADE" Type="Boolean" Nullable="false" />
+          <Property Name="resultado_SADE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad_intentos" Type="Int32" Nullable="false" />
+          <Property Name="tipo_actuacion_exp" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="anio_actuacion_exp" Type="Int32" />
+          <Property Name="nro_actuacion_exp" Type="Int32" />
+          <Property Name="reparticion_actuacion_exp" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="reparticion_usuario_exp" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUser" Type="Guid" />
+        </EntityType>
+        <EntityType Name="wsEE_TareasDocumentos">
+          <Key>
+            <PropertyRef Name="id_tarea_documento" />
+          </Key>
+          <Property Name="id_tarea_documento" Type="Int32" Nullable="false" />
+          <Property Name="id_paquete" Type="Int32" Nullable="false" />
+          <Property Name="Documento" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="id_metaDatos" Type="Int32" />
+          <Property Name="motivo_firma" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="sistema_firma" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username_SADE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username_SADE_emisor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_firmantes" Type="Int32" />
+          <Property Name="tarea_subida_SADE" Type="Boolean" Nullable="false" />
+          <Property Name="resultado_tarea_SADE" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad_intentos" Type="Int32" Nullable="false" />
+          <Property Name="id_proceso" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="username_SADE_apoderado" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="firmado_en_SADE" Type="Boolean" Nullable="false" />
+          <Property Name="numeroGEDO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad_intentos_recuperar_numero" Type="Int32" />
+          <Property Name="resultado_recuperar_numero" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUser" Type="Guid" />
+          <Property Name="username_SADE_receptor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="acronimoTipoDocumento" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SGIModelStoreContainer" CdmEntityContainer="EE_Entities" >
+          <EntitySetMapping Name="Parametros">
+            <EntityTypeMapping TypeName="SGI.Model.Parametros">
+              <MappingFragment StoreEntitySet="Parametros">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="valornum_param" ColumnName="valornum_param" />
+                <ScalarProperty Name="valorchar_param" ColumnName="valorchar_param" />
+                <ScalarProperty Name="nom_param" ColumnName="nom_param" />
+                <ScalarProperty Name="cod_param" ColumnName="cod_param" />
+                <ScalarProperty Name="id_param" ColumnName="id_param" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wsEE_Caratulas">
+            <EntityTypeMapping TypeName="SGI.Model.wsEE_Caratulas">
+              <MappingFragment StoreEntitySet="wsEE_Caratulas">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="reparticion_usuario_exp" ColumnName="reparticion_usuario_exp" />
+                <ScalarProperty Name="reparticion_actuacion_exp" ColumnName="reparticion_actuacion_exp" />
+                <ScalarProperty Name="nro_actuacion_exp" ColumnName="nro_actuacion_exp" />
+                <ScalarProperty Name="anio_actuacion_exp" ColumnName="anio_actuacion_exp" />
+                <ScalarProperty Name="tipo_actuacion_exp" ColumnName="tipo_actuacion_exp" />
+                <ScalarProperty Name="cantidad_intentos" ColumnName="cantidad_intentos" />
+                <ScalarProperty Name="resultado_SADE" ColumnName="resultado_SADE" />
+                <ScalarProperty Name="generado_SADE" ColumnName="generado_SADE" />
+                <ScalarProperty Name="username_SADE" ColumnName="username_SADE" />
+                <ScalarProperty Name="trata_caratula" ColumnName="trata_caratula" />
+                <ScalarProperty Name="motivo_externo_caratula" ColumnName="motivo_externo_caratula" />
+                <ScalarProperty Name="motivo_caratula" ColumnName="motivo_caratula" />
+                <ScalarProperty Name="descripcion_caratula" ColumnName="descripcion_caratula" />
+                <ScalarProperty Name="sistema_caratula" ColumnName="sistema_caratula" />
+                <ScalarProperty Name="telefono_caratula" ColumnName="telefono_caratula" />
+                <ScalarProperty Name="email_caratula" ColumnName="email_caratula" />
+                <ScalarProperty Name="codigo_postal_caratula" ColumnName="codigo_postal_caratula" />
+                <ScalarProperty Name="departamento_caratula" ColumnName="departamento_caratula" />
+                <ScalarProperty Name="piso_caratula" ColumnName="piso_caratula" />
+                <ScalarProperty Name="domicilio_caratula" ColumnName="domicilio_caratula" />
+                <ScalarProperty Name="cuit_cuil_caratula" ColumnName="cuit_cuil_caratula" />
+                <ScalarProperty Name="nro_doc_caratula" ColumnName="nro_doc_caratula" />
+                <ScalarProperty Name="tipo_doc_caratula" ColumnName="tipo_doc_caratula" />
+                <ScalarProperty Name="razon_social_caratula" ColumnName="razon_social_caratula" />
+                <ScalarProperty Name="nombre_caratula" ColumnName="nombre_caratula" />
+                <ScalarProperty Name="apellido_caratula" ColumnName="apellido_caratula" />
+                <ScalarProperty Name="tipo_persona_caratula" ColumnName="tipo_persona_caratula" />
+                <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
+                <ScalarProperty Name="id_caratula" ColumnName="id_caratula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wsEE_TareasDocumentos">
+            <EntityTypeMapping TypeName="SGI.Model.wsEE_TareasDocumentos">
+              <MappingFragment StoreEntitySet="wsEE_TareasDocumentos">
+                <ScalarProperty Name="acronimoTipoDocumento" ColumnName="acronimoTipoDocumento" />
+                <ScalarProperty Name="username_SADE_receptor" ColumnName="username_SADE_receptor" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="resultado_recuperar_numero" ColumnName="resultado_recuperar_numero" />
+                <ScalarProperty Name="cantidad_intentos_recuperar_numero" ColumnName="cantidad_intentos_recuperar_numero" />
+                <ScalarProperty Name="numeroGEDO" ColumnName="numeroGEDO" />
+                <ScalarProperty Name="firmado_en_SADE" ColumnName="firmado_en_SADE" />
+                <ScalarProperty Name="username_SADE_apoderado" ColumnName="username_SADE_apoderado" />
+                <ScalarProperty Name="id_proceso" ColumnName="id_proceso" />
+                <ScalarProperty Name="cantidad_intentos" ColumnName="cantidad_intentos" />
+                <ScalarProperty Name="resultado_tarea_SADE" ColumnName="resultado_tarea_SADE" />
+                <ScalarProperty Name="tarea_subida_SADE" ColumnName="tarea_subida_SADE" />
+                <ScalarProperty Name="id_firmantes" ColumnName="id_firmantes" />
+                <ScalarProperty Name="username_SADE_emisor" ColumnName="username_SADE_emisor" />
+                <ScalarProperty Name="username_SADE" ColumnName="username_SADE" />
+                <ScalarProperty Name="sistema_firma" ColumnName="sistema_firma" />
+                <ScalarProperty Name="motivo_firma" ColumnName="motivo_firma" />
+                <ScalarProperty Name="id_metaDatos" ColumnName="id_metaDatos" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
+                <ScalarProperty Name="id_tarea_documento" ColumnName="id_tarea_documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

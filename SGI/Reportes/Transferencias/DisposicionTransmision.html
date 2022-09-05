@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <webopt:BundleReference ID="BundleReference1" runat="server" Path="~/Content/css" />
+    <style type="text/css">
+        .celda_center {
+            text-align: center;
+        }
+
+        .celda_left {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        .table th, .table td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 0px solid #dddddd;
+        }
+    </style>
+
+    <table class="table table-condensed" style="width: 100%">
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <h4>DIRECCI&Oacute;N GENERAL DE HABILITACIONES Y PERMISOS</h4>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">
+                C. EXPEDIENTE N&#186: @lblNroExpediente
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8">
+                SOLICITUD N&#186: @lblNroSolicitud
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8" style="text-align: right">
+                Buenos Aires, @lblDia
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">VISTO lo solicitado en el expediente de referencia, y;</td>
+        </tr>
+    </table>
+
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">
+                <div>
+                    CONSIDERANDO:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">
+                @lblConsiderando
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    Por ello y en uso de las facultades que le son propias;
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <div>
+                    EL DIRECTOR GENERAL DE HABILITACIONES Y PERMISOS
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    DISPONE:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    Art. 1&#186.-  @lblArticulo
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <div style="background: #efefef">
+        <table class="table table-condensed">
+            <tr>
+                <td style="width: 10%">
+                    En favor del Ciudadano Responsable:
+                </td>
+                <td colspan="7">
+                    <table>
+                        @lblTirulares
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="2">
+                Secci&oacute;n: @lblSeccion
+            </td>
+            <td colspan="2">
+                Manzana: @lblManzana
+            </td>
+            <td colspan="2">
+                Parcela: @lblParcela
+            </td>
+            <td colspan="2">
+                Partida Matriz: @lblPartidaMatriz
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8">
+                Domicilio/s:  <b>@lblDomicilio</b>
+            </td>
+        </tr>
+    </table>
+
+    @lblPH
+
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">
+                Plantas a habilitar: @lblPlantashabilitar
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-condensed">
+
+        <tr>
+            <td colspan="6">
+                Mixtura / Area especial: @lblZonaDeclarada
+            </td>
+            <td colspan="2">
+                Cantidad de Operarios: @lblCantOperarios
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <td colspan="6">
+                    Superficie total a habilitar: @lblSuperficieTotal
+                </td>
+                <td colspan="2">
+                    Calificador: @lblCalificar
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <td>Código</td>
+                <td>Descripción</td>
+                <td>Tipo</td>
+                <td>Superficie</td>
+            </tr>
+            @lblRubros
+        </table>
+    </div>
+    <br />
+    <br />
+
+    <div>
+        @lblSubRubros
+    </div>
+    <br />
+
+    <div>
+        @lblDepositos
+    </div>
+    <br />
+
+    @lblObservacion
+
+    <br />
+    @lblArtiFin
+    <br />
+    <br />
+    <br />
+
+</body>
+</html>

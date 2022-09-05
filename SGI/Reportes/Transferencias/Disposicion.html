@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+</head>
+<body>
+    <webopt:BundleReference ID="BundleReference1" runat="server" Path="~/Content/css" />
+    <style type="text/css">
+        
+        .celda_center
+        {
+            text-align:center;
+        }
+
+        .celda_left
+        {
+            text-align:left;
+            padding-left:10px;
+        }
+
+        body {
+            background-color: white;
+        }
+        .table th, .table td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 0px solid #dddddd;
+        }
+
+    </style>
+
+    <table class="table table-condensed" style="width: 100%">
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <h4>DIRECCI&Oacute;N GENERAL DE HABILITACIONES Y PERMISOS</h4>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">C. EXPEDIENTE N&#186: @lblNroExpediente
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8">SOLICITUD N&#186: @lblNroSolicitud
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8" style="text-align: right">Buenos Aires, @lblDia
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">VISTO lo solicitado en el expediente de referencia, y;</td>
+        </tr>
+    </table>
+
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">
+                <div>
+                    CONSIDERANDO:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">Que del visado administrativo efectuado por el funcionario interviniente respecto a la documentaci&oacute;n
+                agregada al referido Expediente, surge que se cumple con las prescripciones establecidas en el Cap&iacute;tulo 2.2. del
+                C&oacute;digo de Habilitaciones y Verificaciones, Ordenanza N&#186 44.947 (B.M. 19.045) y Decreto N&#186 93/GCBA/2006; que en virtud 
+                de ello, corresponde dictar el pertinente acto administrativo que otorgue la transferencia de habilitaci&oacute;n
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    Por ello y en uso de las facultades que le son propias;
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <div>
+                    EL DIRECTOR GENERAL DE HABILITACIONES Y PERMISOS
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    DISPONE:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    Art. 1&#186.- Ot&oacute;rguese transferencia de habilitaci&oacute;n de acuerdo a lo siguiente:
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <div style="background: #efefef">
+        <table class="table table-condensed">
+            <tr>
+                <td style="width: 10%">Titular/es:
+                </td>
+                <td colspan="7">
+                    <table>
+                        @lblTirulares
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="2">Secci&oacute;n: @lblSeccion
+            </td>
+            <td colspan="2">Manzana: @lblManzana
+            </td>
+            <td colspan="2">Parcela: @lblParcela
+            </td>
+            <td colspan="2">Partida Matriz: @lblPartidaMatriz
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="8">Domicilio/s:  <b>@lblDomicilio</b>
+            </td>
+        </tr>
+    </table>
+    
+    @lblPH
+
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">Plantas a habilitar: @lblPlantashabilitar
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-condensed">
+
+        <tr>
+            <td colspan="6">Distrito de zonificaci&oacute;n: @lblZonaDeclarada
+            </td>
+            <td colspan="2">Cantidad de Operarios: @lblCantOperarios
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <td colspan="6">Superficie total a habilitar: @lblSuperficieTotal
+                </td>
+                <td colspan="2">Calificador: @lblCalificar
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <td>Código</td>
+                <td>Descripción</td>
+                <td>Tipo</td>
+                <td>Superficie</td>
+            </tr>
+            @lblRubros
+        </table>
+    </div>
+    <br />
+
+    <div>
+        @lblSubRubros
+    </div>
+    <br />
+
+    <div>
+        @lblDepositos
+    </div>
+    <br />
+
+    @lblObservacion
+
+    <br />
+    <table class="table table-condensed">
+        <tr>
+            <td style="text-align: justify">Art. 2&#186.- Reg&iacute;strese, notif&iacute;quese. Pase a la Subgerencia Operativa Despacho de la Direcci&oacute;n General de Habilitaciones y Permisos, 
+            rem&iacute;tase a la Gerencia Operativa Mesa de Ayuda y Atenci&oacute;n al P&uacute;blico. Cumplido, dese intervenci&oacute;n a la Direcci&oacute;n General de Fiscalizaci&oacute;n 
+            y Control a los fines que realice la inspecci&oacute;n correspondiente. Cumplido, arch&iacute;vese.-  
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+
+</body>
+</html>
