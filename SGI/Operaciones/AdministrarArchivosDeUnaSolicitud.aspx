@@ -39,7 +39,6 @@
     <hr/>
 
     <div id="box_resultado" style="display:none;">
-        <p class="lead mtop20">Archivos de la solicitud</p>
         <div class="widget-box">
             <asp:UpdatePanel ID="updResultados" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
