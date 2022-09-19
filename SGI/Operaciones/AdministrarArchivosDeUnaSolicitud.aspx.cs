@@ -38,7 +38,7 @@ namespace SGI.Operaciones
                                                                             select archivos;
                 btnAgregarArchivo.Enabled = true;
                 totalRowCount = archivosDeLaSolicitud.Count();
-                archivosDeLaSolicitud = archivosDeLaSolicitud.OrderBy(o => o.id_docadjunto).Skip(startRowIndex).Take(maximumRows);
+                archivosDeLaSolicitud = archivosDeLaSolicitud.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows);
                 pnlCantidadRegistros.Visible = true;
                 if (totalRowCount > 1)
                 {
