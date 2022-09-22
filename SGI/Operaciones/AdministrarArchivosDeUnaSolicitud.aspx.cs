@@ -19,12 +19,11 @@ namespace SGI.Operaciones
             if (usu == null)
                 FormsAuthentication.RedirectToLoginPage();
             btnAgregarArchivo.Enabled = false;
-            int last_id = 0;
-            last_id = Convert.ToInt32((String)Session["LastID"]);
-            Session["LastID"] = string.Empty;
-            if (!last_id.Equals(null) && last_id != 0)
+            String last_id = String.Empty;
+            if (Session["LastID"] != null)
             {
-                txtBuscarSolicitud.Text = last_id.ToString();
+                txtBuscarSolicitud.Text = Session["LastID"].ToString();
+                Session["LastID"] = null;
                 btnBuscarSolicitud_Click(sender, e);
             }
         }
