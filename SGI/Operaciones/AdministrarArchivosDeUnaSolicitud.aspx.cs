@@ -1,4 +1,5 @@
-﻿using SGI.Model;
+﻿using RestSharp;
+using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,10 +19,17 @@ namespace SGI.Operaciones
             if (usu == null)
                 FormsAuthentication.RedirectToLoginPage();
             btnAgregarArchivo.Enabled = false;
+            int last_id = 0;
+            last_id = Convert.ToInt32((String)Session["LastID"]);
+            Session["LastID"] = string.Empty;
+            if (!last_id.Equals(null) && last_id != 0)
+            {
+                txtBuscarSolicitud.Text = last_id.ToString();
+                btnBuscarSolicitud_Click(sender, e);
+            }
         }
         protected void btnBuscarSolicitud_Click(object sender, EventArgs e)
         {
-            //this.CargarSolicitudConArchivos();
             gridViewArchivos.DataBind();
             updResultados.Update();
             EjecutarScript(updResultados, "showResultado();");
@@ -98,12 +106,12 @@ namespace SGI.Operaciones
                 }
             }
             gridViewArchivos.EditIndex = -1;
-            //this.CargarSolicitudConArchivos();
+            btnBuscarSolicitud_Click(sender, e);
         }
         protected void btnAgregarArchivo_Click(object sender, EventArgs e)
         {
+            Session["LastID"] = txtBuscarSolicitud.Text;
             Response.Redirect("~/Operaciones/AgregarArchivo.aspx?id=" + txtBuscarSolicitud.Text);
-            //this.CargarSolicitudConArchivos();
         }
 
         protected void gridViewArchivos_RowDataBound(object sender, GridViewRowEventArgs e)
