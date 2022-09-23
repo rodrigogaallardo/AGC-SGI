@@ -369,7 +369,8 @@
         public DbSet<Ubicaciones> Ubicaciones { get; set; }
         public DbSet<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
-    
+        public DbSet<SGI_Rel_Usuarios_Perfiles> SGI_Rel_Usuarios_Perfiles { get; set; }
+        
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
             var id_tareaParameter = id_tarea.HasValue ?
@@ -772,8 +773,8 @@
                 new ObjectParameter("id_tramitetarea", typeof(int));
     
             var observacionesParameter = observaciones != null ?
-                new ObjectParameter("Observaciones", observaciones) :
-                new ObjectParameter("Observaciones", typeof(string));
+                new ObjectParameter("observaciones", observaciones) :
+                new ObjectParameter("observaciones", typeof(string));
     
             var observacion_planchetaParameter = observacion_plancheta != null ?
                 new ObjectParameter("observacion_plancheta", observacion_plancheta) :

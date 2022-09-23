@@ -826,6 +826,7 @@
     <Content Include="Mailer\MailRechazoSolicitudEspar.aspx" />
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
+    <Content Include="Operaciones\TareasForm.aspx" />
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Carga_Tramite.aspx" />
@@ -3101,6 +3102,7 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CreateExcelFile.cs" />
+    <Compile Include="Model\DDLGrouped.cs" />
     <Compile Include="Model\Disposiciones_Texto.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -3668,6 +3670,7 @@
     <Compile Include="Model\SGI_Profiles.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SGI_Rel_Usuarios_Perfiles.cs" />
     <Compile Include="Model\SGI_SADE_Procesos.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -4393,6 +4396,13 @@
     </Compile>
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\TareasForm.aspx.cs">
+      <DependentUpon>TareasForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\TareasForm.aspx.designer.cs">
+      <DependentUpon>TareasForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx.cs">
       <DependentUpon>AdministrarTareasDeUnaSolicitud.aspx</DependentUpon>
