@@ -81,15 +81,24 @@ namespace SGI.Operaciones
                 int id_tdocrec = Convert.ToInt32(dropDownListEditTipoDeDocumentoRequerido.SelectedItem.Value);
                 string tdocrec_detalle = txtTdocRecDetalle.Text;
                 int id_tipodocsis = Convert.ToInt32(dropDownListEditTipoDeDocumentoSistema.SelectedItem.Value);
-                //Llama al Procedure DGHP_Solicitudes.dbo.SSIT_DocumentosAdjuntos_Add
+                //Llama al Procedure DGHP_Solicitudes.dbo.SSIT_DocumentosAdjuntos_Add o DGHP_Solicitudes.dbo.Transf_DocumentosAdjuntos_Agregar
                 using (var ctx = new DGHP_Entities())
                 {
                     using (var tran = ctx.Database.BeginTransaction())
                     {
                         try
                         {
+                            int.TryParse(txtSolicitud.Text, out int idSolicitud);
+                            int tipotramite = (from solic in ctx.SSIT_Solicitudes
+                                               where solic.id_solicitud == idSolicitud
+                                               select solic.id_tipotramite).Union(from trans in ctx.Transf_Solicitudes
+                                                                                  where trans.id_solicitud == idSolicitud
+                                                                                  select trans.id_tipotramite).FirstOrDefault();
                             ObjectParameter id = new ObjectParameter("id_docadjunto", typeof(int));
-                            ctx.SSIT_DocumentosAdjuntos_Add(Convert.ToInt32(txtSolicitud.Text), id_tdocrec, tdocrec_detalle, id_tipodocsis, false, id_file, fileName, createUser, id);
+                            if (tipotramite == (int)Constants.TipoDeTramite.Transferencia)
+                                ctx.Transf_DocumentosAdjuntos_Agregar(idSolicitud, id_tdocrec, tdocrec_detalle, id_tipodocsis, false, id_file, fileName, createUser, 0, id);
+                            else
+                                ctx.SSIT_DocumentosAdjuntos_Add(idSolicitud, id_tdocrec, tdocrec_detalle, id_tipodocsis, false, id_file, fileName, createUser, id);
                             id_doc_adj = Convert.ToInt32(id.Value);
                             tran.Commit();
                         }

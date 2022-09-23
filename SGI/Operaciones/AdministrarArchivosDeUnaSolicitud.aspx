@@ -51,7 +51,7 @@
                                 (<span class="badge"><asp:Label ID="lblCantRegistros" runat="server" ></asp:Label></span>)
                             </div>
                         </asp:Panel>
-                        <asp:GridView id="gridViewArchivos" 
+                        <asp:GridView id="gridViewArchivosSolic" 
                             runat="server"
                             Width="100%" 
                             GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
@@ -60,9 +60,9 @@
                             AllowPaging="true" 
                             AllowSorting="true" 
                             PageSize="10" 
-                            OnPageIndexChanging="gridViewArchivos_PageIndexChanging"
-                            OnDataBound="gridViewArchivos_DataBound" 
-                            OnRowDataBound="gridViewArchivos_RowDataBound">
+                            OnPageIndexChanging="gridViewArchivosSolic_PageIndexChanging"
+                            OnDataBound="gridViewArchivosSolic_DataBound" 
+                            OnRowDataBound="gridViewArchivosSolic_RowDataBound">
                             <Columns>
                                 <asp:TemplateField Visible="false">
                                     <ItemTemplate>
@@ -151,11 +151,11 @@
                                 <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
                                     <ItemTemplate>
                                         <asp:LinkButton HeaderText="Eliminar"
-                                                ID="lnkEliminarDocAdj" runat="server" 
+                                                ID="lnkEliminarDocSolic" runat="server" 
                                                 CommandArgument='<%# Eval("id_docadjunto") %>' 
                                                 CommandName ='<%# Eval("id_file") %>' 
                                                 OnClientClick="javascript:return tda_confirm_del();"
-                                                OnCommand="lnkEliminarDocAdj_Command" 
+                                                OnCommand="lnkEliminarDocSolic_Command" 
                                                 Width="70px">
                                             <i class="icon icon-trash"></i> 
                                             <span class="text">Eliminar</span></a>
@@ -172,7 +172,7 @@
                             </EmptyDataTemplate>
 
                             <PagerTemplate>
-                                <asp:Panel ID="pnlpager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
+                                <asp:Panel ID="pnlpagerSolic" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
                                     <div style="display:inline-table">
                                         <asp:UpdateProgress ID="updPrgssPager" AssociatedUpdatePanelID="updResultados" runat="server"
                                             DisplayAfter="0">
@@ -181,27 +181,169 @@
                                             </ProgressTemplate>
                                         </asp:UpdateProgress>
                                     </div>
-                                    <asp:LinkButton ID="cmdAnterior" runat="server" Text="<<" OnClick="cmdAnterior_Click" CssClass="btn" />
-                                    <asp:LinkButton ID="cmdPage1" runat="server" Text="1" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage2" runat="server" Text="2" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage3" runat="server" Text="3" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage4" runat="server" Text="4" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage5" runat="server" Text="5" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage6" runat="server" Text="6" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage7" runat="server" Text="7" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage8" runat="server" Text="8" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage9" runat="server" Text="9" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage10" runat="server" Text="10" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage11" runat="server" Text="11" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage12" runat="server" Text="12" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage13" runat="server" Text="13" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage14" runat="server" Text="14" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage15" runat="server" Text="15" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage16" runat="server" Text="16" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage17" runat="server" Text="17" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage18" runat="server" Text="18" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdPage19" runat="server" Text="19" OnClick="cmdPage" CssClass="btn" Style="max-width: 10px" />
-                                    <asp:LinkButton ID="cmdSiguiente" runat="server" Text=">>" OnClick="cmdSiguiente_Click" CssClass="btn" />
+                                    <asp:LinkButton ID="cmdAnteriorSolic" runat="server" Text="<<" OnClick="cmdAnteriorSolic_Click" CssClass="btn" />
+                                    <asp:LinkButton ID="cmdPageSolic1" runat="server" Text="1" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic2" runat="server" Text="2" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic3" runat="server" Text="3" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic4" runat="server" Text="4" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic5" runat="server" Text="5" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic6" runat="server" Text="6" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic7" runat="server" Text="7" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic8" runat="server" Text="8" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic9" runat="server" Text="9" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic10" runat="server" Text="10" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic11" runat="server" Text="11" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic12" runat="server" Text="12" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic13" runat="server" Text="13" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic14" runat="server" Text="14" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic15" runat="server" Text="15" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic16" runat="server" Text="16" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic17" runat="server" Text="17" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic18" runat="server" Text="18" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageSolic19" runat="server" Text="19" OnClick="cmdPageSolic" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdSiguienteSolic" runat="server" Text=">>" OnClick="cmdSiguienteSolic_Click" CssClass="btn" />
+                                </asp:Panel>
+                            </PagerTemplate>
+                        </asp:GridView>
+                        <asp:GridView id="gridViewArchivosTransf" 
+                            runat="server"
+                            Width="100%" 
+                            GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
+                            AutoGenerateColumns="false"
+                            SelectMethod="CargarTransferenciasConArchivos" 
+                            AllowPaging="true" 
+                            AllowSorting="true" 
+                            PageSize="10" 
+                            OnPageIndexChanging="gridViewArchivosTransf_PageIndexChanging"
+                            OnDataBound="gridViewArchivosTransf_DataBound" 
+                            OnRowDataBound="gridViewArchivosTransf_RowDataBound">
+                            <Columns>
+                                <asp:TemplateField Visible="false">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_docadjunto") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField Visible="false">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelIdSolicitud" runat="server" Text='<%# Bind("id_solicitud") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Tipo Doc. Requerido" HeaderStyle-Wrap="True">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelIdTdocReq" runat="server"><%# Eval("TiposDeDocumentosRequeridos.nombre_tdocreq") %></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Detalle">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelTdocReqDetalle" runat="server" Text='<%# Bind("tdocreq_detalle") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Tipo Doc. Sistema">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelIdTipDocSis" runat="server"><%# Eval("TiposDeDocumentosSistema.nombre_tipodocsis") %></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="N° de Archivo">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelIdFile" runat="server" Text='<%# Bind("id_file") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Generado Por Sistema" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <asp:CheckBox ID="labelGeneradoXSistena" runat="server" Enabled=False Checked='<%# Eval("generadoxsistema") %>'></asp:CheckBox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Fecha de Creacion">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelCreateDate" runat="server" Text='<%# Bind("CreateDate") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Usuario de Creacion">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelUsuarioCreador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Fecha de Modificacion">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelUpdateDate" runat="server" Text='<%# Bind("UpdateDate") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Usuario de Modificacion">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelUsuarioModificador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Nombre de Archivo">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelNombreArchivo" runat="server" Text='<%# Bind("nombre_archivo") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <asp:LinkButton HeaderText="Eliminar"
+                                                ID="lnkEliminarDocTrans" runat="server" 
+                                                CommandArgument='<%# Eval("id_docadjunto") %>' 
+                                                CommandName ='<%# Eval("id_file") %>'
+                                                OnClientClick="javascript:return tda_confirm_del();"
+                                                OnCommand="lnkEliminarDocTrans_Command" 
+                                                Width="70px">
+                                            <i class="icon icon-trash"></i> 
+                                            <span class="text">Eliminar</span></a>
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+
+                            <EmptyDataTemplate>
+                                <div>
+                                    <img src="<%: ResolveUrl("~/Content/img/app/NoRecords.png") %>" />
+                                    <span class="mleft20">No se encontraron registros.</span>
+                                </div>
+                            </EmptyDataTemplate>
+
+                            <PagerTemplate>
+                                <asp:Panel ID="pnlpagerTransf" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
+                                    <div style="display:inline-table">
+                                        <asp:UpdateProgress ID="updPrgssPager" AssociatedUpdatePanelID="updResultados" runat="server"
+                                            DisplayAfter="0">
+                                            <ProgressTemplate>
+                                                <img src="../Content/img/app/Loading24x24.gif" alt="" />
+                                            </ProgressTemplate>
+                                        </asp:UpdateProgress>
+                                    </div>
+                                    <asp:LinkButton ID="cmdAnteriorTransf" runat="server" Text="<<" OnClick="cmdAnteriorTransf_Click" CssClass="btn" />
+                                    <asp:LinkButton ID="cmdPageTransf1" runat="server" Text="1" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf2" runat="server" Text="2" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf3" runat="server" Text="3" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf4" runat="server" Text="4" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf5" runat="server" Text="5" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf6" runat="server" Text="6" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf7" runat="server" Text="7" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf8" runat="server" Text="8" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf9" runat="server" Text="9" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf10" runat="server" Text="10" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf11" runat="server" Text="11" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf12" runat="server" Text="12" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf13" runat="server" Text="13" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf14" runat="server" Text="14" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf15" runat="server" Text="15" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf16" runat="server" Text="16" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf17" runat="server" Text="17" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf18" runat="server" Text="18" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdPageTransf19" runat="server" Text="19" OnClick="cmdPageTransf" CssClass="btn" Style="max-width: 10px" />
+                                    <asp:LinkButton ID="cmdSiguienteTransf" runat="server" Text=">>" OnClick="cmdSiguienteTransf_Click" CssClass="btn" />
                                 </asp:Panel>
                             </PagerTemplate>
                         </asp:GridView>

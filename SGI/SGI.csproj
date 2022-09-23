@@ -3358,7 +3358,7 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Files.cs">
-      <DependentUpon>AGC_Files.tt</DependentUpon>
+      <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\FormulariosControlados.cs" />
     <Compile Include="Model\GrupoConsejos.cs">

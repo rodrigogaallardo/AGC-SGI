@@ -60,13 +60,22 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.Label lblCantRegistros;
 
         /// <summary>
-        /// gridViewArchivos control.
+        /// gridViewArchivosSolic control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewArchivos;
+        protected global::System.Web.UI.WebControls.GridView gridViewArchivosSolic;
+
+        /// <summary>
+        /// gridViewArchivosTransf control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewArchivosTransf;
 
         /// <summary>
         /// btnAgregarArchivo control.
