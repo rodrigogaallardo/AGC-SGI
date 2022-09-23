@@ -827,6 +827,7 @@
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
+    <Content Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Carga_Tramite.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Fin_Tramite.aspx" />
@@ -4400,6 +4401,20 @@
     </Compile>
     <Compile Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx.designer.cs">
       <DependentUpon>AdministrarTareasDeUnaSolicitud.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\BusinessLayer\Constants\ErrorConstants.cs" />
+    <Compile Include="Operaciones\BusinessLayer\Enums\SSIT_Solicitudes_Notificaciones_motivos_Enum.cs" />
+    <Compile Include="Operaciones\BusinessLayer\Enums\TipoEstadoSolicitudEnum.cs" />
+    <Compile Include="Operaciones\BusinessLayer\TramitesBLL.cs" />
+    <Compile Include="Operaciones\DataLayer\DataLayerBase.cs" />
+    <Compile Include="Operaciones\DataLayer\Models\SSIT_Solicitudes_Model.cs" />
+    <Compile Include="Operaciones\DataLayer\SSIT_Solicitudes_DL.cs" />
+    <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.cs">
+      <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.designer.cs">
+      <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reportes\BajaSolicitud.cs">
       <AutoGen>True</AutoGen>
