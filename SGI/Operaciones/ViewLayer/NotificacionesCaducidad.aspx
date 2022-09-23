@@ -32,58 +32,26 @@
         <h1><%: Title %>.</h1>
     </hgroup>
 
-    <asp:Panel ID="pnlBotonDefault" runat="server" DefaultButton="btnNotificarCaducidad">
-        <div class="accordion-group widget-box" style="margin-top: 0px; margin-bottom: 5px">
-            <div class="widget-title">
-                <span class="icon"><i class="icon-list-alt"></i></span>
-                <h5>Notificaciones de Caducidad</h5>
-            </div>
-            <div class="widget-content">
-                <asp:UpdatePanel ID="updPnlFiltroCaducar" runat="server" UpdateMode="Conditional">
-                    <ContentTemplate>
-                        <div class="form-horizontal">
-                            <fieldset>
-                                <div class="row-fluid">
-                                    <div class="span6">
-                                        <div class="control-group" style="vertical-align:top;">
-                                            <asp:Label ID="lblNroSolicitud" runat="server" Text="Solicitud:" class="control-label" AssociatedControlID="txtNroSolicitud" style="vertical-align:bottom"></asp:Label>
-                                            <asp:TextBox ID="txtNroSolicitud" runat="server" Width="80px" style="vertical-align:bottom"></asp:TextBox>
-                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1"
-                                                ControlToValidate="txtNroSolicitud" runat="server"
-                                                ErrorMessage="Solo se admiten números."
-                                                ValidationExpression="\d+" style="vertical-align:bottom">
-                                            </asp:RegularExpressionValidator>
-                                        </div>
-                                    </div>
-                                </div>
-                             </fieldset>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </div>
+    <div class="control-group">
+        <label class="control-label" for="txtNroSolicitud">Solicitud</label>
+        <div class="controls">
+            <asp:TextBox id="txtNroSolicitud" Width="80px" runat="server" CssClass="controls"/>
         </div>
-        <br/>
-        <asp:UpdatePanel ID="updPnlNotificarCaducidad" runat="server" UpdateMode="Conditional">
-            <ContentTemplate>
-                <asp:HiddenField ID="hid_puede_modificar" runat="server" Value="false" />
-                <div class="pull-right">
-                    <div class="control-group inline-block">
-                        <asp:UpdateProgress ID="updPrgss_NotificarCaducidad" AssociatedUpdatePanelID="updPnlNotificarCaducidad"
-                            runat="server" DisplayAfter="0">
-                            <ProgressTemplate>
-                                <img src="../Content/img/app/Loading24x24.gif" style="margin-left: 10px" alt="" />
-                            </ProgressTemplate>
-                        </asp:UpdateProgress>
-                    </div>
-                    <asp:Button ID="btnNotificarCaducidad" runat="server" CssClass="btn  btn-inverse" ValidationGroup="caducar" OnClick="btnNotificarCaducidad_OnClick" Text="Notificar Caducidad">
-                    </asp:Button>
-                    <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
-                    <i class="icon-refresh"></i>
-                    <span class="text">Limpiar</span>
-                    </asp:LinkButton>
-                </div>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-    </asp:Panel>
+        <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+            ControlToValidate="txtNroSolicitud" runat="server"
+            ErrorMessage="Solo se admiten números."
+            ValidationExpression="\d+">
+        </asp:RegularExpressionValidator>
+    </div>
+
+    <div class="pull-right">
+        <asp:Button ID="btnNotificarCaducidad" runat="server" CssClass="btn btn-inverse" ValidationGroup="caducar" OnClick="btnNotificarCaducidad_OnClick" Text="Notificar Caducidad"></asp:Button>
+        <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
+            <i class="icon-refresh"></i>
+            <span class="text">Limpiar</span>
+        </asp:LinkButton>
+    </div>
+
         <%--modal de Errores--%>
     <div id="frmError" class="modal fade">
         <div class="modal-dialog">

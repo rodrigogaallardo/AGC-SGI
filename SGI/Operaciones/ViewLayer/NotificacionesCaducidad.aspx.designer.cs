@@ -13,33 +13,6 @@ namespace SGI {
     public partial class NotificacionesCaducidad {
         
         /// <summary>
-        /// pnlBotonDefault control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlBotonDefault;
-        
-        /// <summary>
-        /// updPnlFiltroCaducar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updPnlFiltroCaducar;
-        
-        /// <summary>
-        /// lblNroSolicitud control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNroSolicitud;
-        
-        /// <summary>
         /// txtNroSolicitud control.
         /// </summary>
         /// <remarks>
@@ -49,40 +22,13 @@ namespace SGI {
         protected global::System.Web.UI.WebControls.TextBox txtNroSolicitud;
         
         /// <summary>
-        /// RegularExpressionValidator1 control.
+        /// RegularExpressionValidator2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
-        
-        /// <summary>
-        /// updPnlNotificarCaducidad control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updPnlNotificarCaducidad;
-        
-        /// <summary>
-        /// hid_puede_modificar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_puede_modificar;
-        
-        /// <summary>
-        /// updPrgss_NotificarCaducidad control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdateProgress updPrgss_NotificarCaducidad;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
         
         /// <summary>
         /// btnNotificarCaducidad control.
@@ -111,15 +57,6 @@ namespace SGI {
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updResultados;
         
-        /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-
         /// <summary>
         /// lblError control.
         /// </summary>
