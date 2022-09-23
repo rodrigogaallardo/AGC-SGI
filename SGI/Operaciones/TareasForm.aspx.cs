@@ -229,11 +229,22 @@ namespace SGI.Operaciones
             //                        orderby (usu.UserName)
             //                        select usu).ToList();
 
-            List<aspnet_Users> q = (from usu in db.aspnet_Users 
-                                    join profile in db.SGI_Profiles on usu.UserId equals profile.userid
-                                    where usu.ApplicationId == Constants.ApplicationId
-                                    orderby (usu.UserName)
-                                    select usu).ToList();
+            // foreach (var perfiles in usuario.SGI_PerfilesUsuarios)
+            //    listadoIdTareas.AddRange(perfiles.ENG_Rel_Perfiles_Tareas.Select(perfilTarea => perfilTarea.id_tarea).ToList());
+
+            List<aspnet_Users> q = (from usu in db.aspnet_Users
+                                        join profile in db.SGI_Profiles on usu.UserId equals profile.userid
+                                        where usu.ApplicationId == Constants.ApplicationId
+                                        && usu.SGI_PerfilesUsuarios.Where(x => x.ENG_Rel_Perfiles_Tareas.Count() > 0).Count() > 0
+                                        && usu.aspnet_Membership.IsApproved
+                                        orderby (usu.UserName)
+                                        select usu).ToList();
+
+            //List<aspnet_Users> q = (from usu in db.aspnet_Users 
+            //                        join profile in db.SGI_Profiles on usu.UserId equals profile.userid
+            //                        where usu.ApplicationId == Constants.ApplicationId
+            //                        orderby (usu.UserName)
+            //                        select usu).ToList();
 
             //List<aspnet_Users> aspnet_UsersList1 = (from usu in db.aspnet_Users
             //                                        where usu.ApplicationId == Constants.ApplicationId
@@ -402,9 +413,10 @@ namespace SGI.Operaciones
                 else
                 {
                     tramiteTarea.id_tramitetarea = idTramiteTarea;
-                    tramiteTarea.id_proxima_tarea = int.Parse(ddlSFproxima_tarea.Value);
                     if (chkproxima_tarea.Checked)
                         tramiteTarea.id_proxima_tarea = null;
+                    else    
+                        tramiteTarea.id_proxima_tarea = int.Parse(ddlSFproxima_tarea.Value);
                 }
                 tramiteTarea.FechaInicio_tramitetarea = DateTime.Parse(hdFechaInicio_tramitetarea.Value);
                 tramiteTarea.FechaCierre_tramitetarea = DateTime.Parse(hdFechaCierre_tramitetarea.Value);
