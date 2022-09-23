@@ -44,9 +44,9 @@
         </asp:RegularExpressionValidator>
     </div>
 
-    <div class="pull-right">
-        <asp:Button ID="btnNotificarCaducidad" runat="server" CssClass="btn btn-inverse" ValidationGroup="caducar" OnClick="btnNotificarCaducidad_OnClick" Text="Notificar Caducidad"></asp:Button>
-        <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
+    <div class="control-group pull-right">
+        <asp:Button ID="btnNotificarCaducidad" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificarCaducidad_OnClick" Text="Notificar Caducidad"></asp:Button>
+        <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
             <i class="icon-refresh"></i>
             <span class="text">Limpiar</span>
         </asp:LinkButton>

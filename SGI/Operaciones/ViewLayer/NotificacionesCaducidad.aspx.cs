@@ -16,12 +16,12 @@ namespace SGI
         #region CargaInicial
         protected void Page_Load(object sender, EventArgs e)
         {
-            ScriptManager sm = ScriptManager.GetCurrent(this);
+            //ScriptManager sm = ScriptManager.GetCurrent(this);
 
-            if ( sm.IsInAsyncPostBack )
-            {
-                ScriptManager.RegisterStartupScript(updPnlFiltroCaducar, updPnlFiltroCaducar.GetType(),"inicializar_controles", "inicializar_controles();", true);
-            }
+            //if ( sm.IsInAsyncPostBack )
+            //{
+            //    ScriptManager.RegisterStartupScript(updPnlFiltroCaducar, updPnlFiltroCaducar.GetType(),"inicializar_controles", "inicializar_controles();", true);
+            //}
 
             if ( ! IsPostBack )
             {
