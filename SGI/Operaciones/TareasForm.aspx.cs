@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web.Security;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using static Syncfusion.XlsIO.Parser.Biff_Records.Charts.ChartAlrunsRecord;
 
@@ -23,6 +25,11 @@ namespace SGI.Operaciones
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            #region RedirectToLoginPage
+            MembershipUser usu = Membership.GetUser();
+            if (usu == null)
+                FormsAuthentication.RedirectToLoginPage();
+            #endregion
 
 
             string idTramiteTareaStr = (Request.QueryString["idTramiteTarea"] == null) ? "" : Request.QueryString["idTramiteTarea"].ToString();
@@ -239,62 +246,6 @@ namespace SGI.Operaciones
                                         && usu.aspnet_Membership.IsApproved
                                         orderby (usu.UserName)
                                         select usu).ToList();
-
-            //List<aspnet_Users> q = (from usu in db.aspnet_Users 
-            //                        join profile in db.SGI_Profiles on usu.UserId equals profile.userid
-            //                        where usu.ApplicationId == Constants.ApplicationId
-            //                        orderby (usu.UserName)
-            //                        select usu).ToList();
-
-            //List<aspnet_Users> aspnet_UsersList1 = (from usu in db.aspnet_Users
-            //                                        where usu.ApplicationId == Constants.ApplicationId
-            //                                        select usu).ToList();
-
-
-            //List<int> listadoIdPerfiles = new List<int>();
-
-            //foreach (aspnet_Users _aspnet_Users in aspnet_UsersList1)
-            //{
-            //    foreach (var perfiles in _aspnet_Users.SGI_PerfilesUsuarios)
-            //        listadoIdPerfiles.AddRange(perfiles.ENG_Rel_Perfiles_Tareas.Select(perfilTarea => perfilTarea.id_perfil).ToList());
-
-            //}
-
-
-            //listadoIdPerfiles = listadoIdPerfiles.DistinctBy(x => x).ToList();
-
-
-
-
-
-
-
-            //List<ENG_Rel_Perfiles_Tareas> eng_Rel_Perfiles_Tareas = (from rpt in db.ENG_Rel_Perfiles_Tareas
-            //                                                         where listadoIdPerfiles.Contains(rpt.id_tarea)
-            //                                                         select rpt).ToList();
-
-
-            //List<aspnet_Users> aspnet_UsersList2 = (from usu in aspnet_UsersList1
-            //                                        join profile in db.SGI_Profiles on usu.UserId equals profile.userid
-            //                                       // where eng_Rel_Perfiles_Tareas.Contains(profile.id)
-            //                                        select usu).ToList();
-
-
-            ////List<aspnet_Users> q = (from usu in db.aspnet_Users
-            ////                        join per in  db.SGI_Rel_Usuarios_Perfiles  on usu.UserId equals per.userid
-            ////                        join tar in db.ENG_Rel_Perfiles_Tareas on per.id_perfil equals tar.id_perfil
-            ////                        where usu.ApplicationId == Constants.ApplicationId
-            ////                        orderby (usu.UserName)
-            ////                        select usu).ToList();
-
-
-
-            ////      q = q
-            ////.GroupBy(p => new { p.UserName })
-            ////.Select(g => g.First())
-            ////.ToList();
-
-
             return q;
         }
 
@@ -397,6 +348,9 @@ namespace SGI.Operaciones
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+          
+
+
             SGI_Tramites_Tareas tramiteTarea = new SGI_Tramites_Tareas();
             SGI_Tramites_Tareas_HAB sgi_Tramites_Tareas_HAB = new SGI_Tramites_Tareas_HAB();
             SGI_Tramites_Tareas_TRANSF sgi_Tramites_Tareas_TRANSF = new SGI_Tramites_Tareas_TRANSF();
@@ -404,6 +358,7 @@ namespace SGI.Operaciones
             using (DGHP_Entities entities = new DGHP_Entities())
             {
                 int idTramiteTarea = int.Parse(hdidTramiteTarea.Value);
+
 
                 if (idTramiteTarea == 0)
                 {

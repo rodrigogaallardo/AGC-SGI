@@ -14,7 +14,13 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <hgroup class="title">
         <h1><%= Title %>.</h1>
-    </hgroup>
+    </hgroup> 
+    <script type="text/javascript">
+    
+        function ConfirmaEliminar(obj) {
+            return confirm('¿Confirma que desea Eliminar est tramite-tarea ' + obj + '?');
+        }
+    </script>
 
     <div class="control-group">
         <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de solicitud</label>
@@ -44,7 +50,7 @@
 
                <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:Button ID="btnRemove" runat="server" Text="Eliminar"  ToolTip='<%# Eval("id_tramitetarea") %>' OnClick="btnRemove_Click"></asp:Button>
+                        <asp:Button ID="btnRemove" runat="server" Text="Eliminar"  ToolTip='<%# Eval("id_tramitetarea") %>' OnClick="btnRemove_Click" OnClientClick='<%# string.Format("return ConfirmaEliminar({0});", Eval("id_tramitetarea")) %>'></asp:Button>
                     </ItemTemplate>
                 </asp:TemplateField>
 
