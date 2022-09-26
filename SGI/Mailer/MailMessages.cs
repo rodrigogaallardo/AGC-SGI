@@ -1970,9 +1970,11 @@ namespace SGI.Mailer
 
                 string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.avisoCaducidad) + " - " + GetDireccion(db, idSolicitud);
 
-                var idEmails = EnviarEmails(TipoEmail.WebSGIBaja, 1, asunto, htmlMail_Caducidad(), emails);
+                List<string> emailsNoDuplicados = emails.Distinct().ToList();
 
-                foreach(int idEmail in idEmails)
+                var idEmails = EnviarEmails(TipoEmail.WebSGIBaja, 1, asunto, htmlMail_Caducidad(), emailsNoDuplicados);
+
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db);
                 }

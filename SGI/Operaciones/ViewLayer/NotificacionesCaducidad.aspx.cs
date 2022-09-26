@@ -74,7 +74,7 @@ namespace SGI
                 {
                     lblError.Text = errorMessage;
                     lblError.ForeColor = Color.Green;
-                    this.EjecutarScript(updResultados, "showfrmError();");
+                    this.EjecutarScript(updResultados, "showfrmSuccess();");
                 }
             }
             catch (Exception ex)

@@ -52,7 +52,7 @@
         </asp:LinkButton>
     </div>
 
-        <%--modal de Errores--%>
+    <%--modal de Errores--%>
     <div id="frmError" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -84,6 +84,36 @@
         </div>
     </div>
 
+    <%--modal de Success--%>
+    <div id="frmSuccess" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Éxito.</h4>
+                </div>
+                <div class="modal-body">
+                    <table style="border-collapse: separate; border-spacing: 5px">
+                        <tr>
+                            <td style="text-align: center; vertical-align: text-top">
+                                <label class="imoon imoon-ok-sign fs64" style="color: #f00"></label>
+                            </td>
+                            <td>
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" class="form-group">
+                                    <ContentTemplate>
+                                        <asp:Label ID="Label2" runat="server" Style="color: Black"></asp:Label>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function LimpiarFormulario()
@@ -94,6 +124,12 @@
         function showfrmError()
         {
             $("#frmError").modal("show");
+            return false;
+        }
+
+        function showFrmSuccess()
+        {
+            $("#frmSuccess").modal("show");
             return false;
         }
     </script>
