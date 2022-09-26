@@ -826,7 +826,9 @@
     <Content Include="Mailer\MailRechazoSolicitudEspar.aspx" />
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
+    <Content Include="Operaciones\AdministrarArchivosDeUnaSolicitud.aspx" />
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
+    <Content Include="Operaciones\AgregarArchivo.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Carga_Tramite.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Fin_Tramite.aspx" />
@@ -4394,12 +4396,26 @@
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\AdministrarArchivosDeUnaSolicitud.aspx.cs">
+      <DependentUpon>AdministrarArchivosDeUnaSolicitud.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\AdministrarArchivosDeUnaSolicitud.aspx.designer.cs">
+      <DependentUpon>AdministrarArchivosDeUnaSolicitud.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx.cs">
       <DependentUpon>AdministrarTareasDeUnaSolicitud.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx.designer.cs">
       <DependentUpon>AdministrarTareasDeUnaSolicitud.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\AgregarArchivo.aspx.cs">
+      <DependentUpon>AgregarArchivo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\AgregarArchivo.aspx.designer.cs">
+      <DependentUpon>AgregarArchivo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reportes\BajaSolicitud.cs">
       <AutoGen>True</AutoGen>

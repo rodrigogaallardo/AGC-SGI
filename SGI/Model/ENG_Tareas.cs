@@ -46,12 +46,5 @@ namespace SGI.Model
         public virtual ICollection<SGI_Tareas_Pases_Sectores> SGI_Tareas_Pases_Sectores1 { get; set; }
         public virtual ENG_Tipos_Tareas ENG_Tipos_Tareas { get; set; }
         public virtual ENG_Circuitos ENG_Circuitos { get; set; }
-
-        public string DescripcionTareaCircuito { 
-            get
-            {
-                return $"{this.nombre_tarea} @ {this.ENG_Circuitos.nombre_circuito} @ {this.ENG_Circuitos.nombre_grupo}";
-            } 
-        }
     }
 }
