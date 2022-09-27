@@ -62,9 +62,9 @@ namespace SGI
         {
             try
             {
-                TramitesBLL.NotificarCaducaTramite(nroSolicitud,out string errorMessage);
+                bool pudo = TramitesBLL.NotificarCaducaTramite(nroSolicitud,out string errorMessage);
 
-                if(errorMessage != string.Empty)
+                if( ! pudo)
                 {
                     lblError.Text = errorMessage;
                     lblError.ForeColor = Color.Red;
@@ -72,8 +72,8 @@ namespace SGI
                 }
                 else
                 {
-                    lblError.Text = errorMessage;
-                    lblError.ForeColor = Color.Green;
+                    lblSuccess.Text = errorMessage;
+                    lblSuccess.ForeColor = Color.Black;
                     this.EjecutarScript(updResultados, "showfrmSuccess();");
                 }
             }

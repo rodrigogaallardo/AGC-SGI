@@ -96,12 +96,12 @@
                     <table style="border-collapse: separate; border-spacing: 5px">
                         <tr>
                             <td style="text-align: center; vertical-align: text-top">
-                                <label class="imoon imoon-ok-sign fs64" style="color: #f00"></label>
+                                <label class="imoon imoon-ok-sign fs64" style="color: #67eb34"></label>
                             </td>
                             <td>
-                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" class="form-group">
+                                <asp:UpdatePanel ID="updResultados2" runat="server" class="form-group">
                                     <ContentTemplate>
-                                        <asp:Label ID="Label2" runat="server" Style="color: Black"></asp:Label>
+                                        <asp:Label ID="lblSuccess" runat="server" Style="color: Black"></asp:Label>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </td>
@@ -127,7 +127,7 @@
             return false;
         }
 
-        function showFrmSuccess()
+        function showfrmSuccess()
         {
             $("#frmSuccess").modal("show");
             return false;

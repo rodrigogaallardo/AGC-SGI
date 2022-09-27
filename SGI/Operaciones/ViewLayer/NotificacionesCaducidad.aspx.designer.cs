@@ -67,21 +67,21 @@ namespace SGI {
         protected global::System.Web.UI.WebControls.Label lblError;
         
         /// <summary>
-        /// UpdatePanel2 control.
+        /// updResultados2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
+        protected global::System.Web.UI.UpdatePanel updResultados2;
         
         /// <summary>
-        /// Label2 control.
+        /// lblSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label lblSuccess;
     }
 }

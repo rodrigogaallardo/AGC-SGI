@@ -84,8 +84,9 @@ namespace SGI.BusinessLogicLayer
 
                     if (solicitudesCaducasNotificadas.Count == 0)
                     {
-                            Mailer.MailMessages.SendMail_Caducidad_v2(solicitud.id_solicitud);
-                            notifico = true;
+                        List<string> emailsNotificados = Mailer.MailMessages.SendMail_Caducidad_v2(solicitud.id_solicitud);
+                        errorMessage = "La solicitud fue enviada con éxito a los siguientes emails: " + String.Join(", ", emailsNotificados);
+                        notifico = true;
                     }
                     else
                     {
