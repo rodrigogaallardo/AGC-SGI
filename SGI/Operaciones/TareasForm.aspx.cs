@@ -387,33 +387,32 @@ namespace SGI.Operaciones
                 tramiteTarea.id_tarea = int.Parse(ddlSFtarea.Value);
                 tramiteTarea.id_resultado = int.Parse(ddlResultado.SelectedValue);
 
-                entities.SGI_Tramites_Tareas.AddOrUpdate(tramiteTarea);
-                #region SGI_Tramites_Tareas_HAB
-                if (hdHAB_TRANSF.Value == "H")
-                {
-                    int idSolicitud = int.Parse(hdidSolicitud.Value);
-                    sgi_Tramites_Tareas_HAB.id_tramitetarea = tramiteTarea.id_tramitetarea;
-                    sgi_Tramites_Tareas_HAB.id_rel_tt_HAB = entities.SGI_Tramites_Tareas_HAB.Max(x => x.id_rel_tt_HAB) + 1;
-                    sgi_Tramites_Tareas_HAB.id_solicitud = idSolicitud;
-                    entities.SGI_Tramites_Tareas_HAB.Add(sgi_Tramites_Tareas_HAB);
-                }
-                if (hdHAB_TRANSF.Value == "T")
-                {
-                    int idSolicitud = int.Parse(hdidSolicitud.Value);
-                    sgi_Tramites_Tareas_TRANSF.id_tramitetarea = tramiteTarea.id_tramitetarea;
-                    sgi_Tramites_Tareas_TRANSF.id_rel_tt_TRANSF = entities.SGI_Tramites_Tareas_TRANSF.Max(x => x.id_rel_tt_TRANSF) + 1;
-                    sgi_Tramites_Tareas_TRANSF.id_solicitud = idSolicitud;
-                    entities.SGI_Tramites_Tareas_TRANSF.Add(sgi_Tramites_Tareas_TRANSF);
-                }
-                #endregion
+                //entities.SGI_Tramites_Tareas.AddOrUpdate(tramiteTarea);
+                //#region SGI_Tramites_Tareas_HAB
+                //if (hdHAB_TRANSF.Value == "H")
+                //{
+                //    int idSolicitud = int.Parse(hdidSolicitud.Value);
+                //    sgi_Tramites_Tareas_HAB.id_tramitetarea = tramiteTarea.id_tramitetarea;
+                //    sgi_Tramites_Tareas_HAB.id_rel_tt_HAB = entities.SGI_Tramites_Tareas_HAB.Max(x => x.id_rel_tt_HAB) + 1;
+                //    sgi_Tramites_Tareas_HAB.id_solicitud = idSolicitud;
+                //    entities.SGI_Tramites_Tareas_HAB.Add(sgi_Tramites_Tareas_HAB);
+                //}
+                //if (hdHAB_TRANSF.Value == "T")
+                //{
+                //    int idSolicitud = int.Parse(hdidSolicitud.Value);
+                //    sgi_Tramites_Tareas_TRANSF.id_tramitetarea = tramiteTarea.id_tramitetarea;
+                //    sgi_Tramites_Tareas_TRANSF.id_rel_tt_TRANSF = entities.SGI_Tramites_Tareas_TRANSF.Max(x => x.id_rel_tt_TRANSF) + 1;
+                //    sgi_Tramites_Tareas_TRANSF.id_solicitud = idSolicitud;
+                //    entities.SGI_Tramites_Tareas_TRANSF.Add(sgi_Tramites_Tareas_TRANSF);
+                //}
+                //#endregion
+                //entities.SaveChanges();
 
 
 
 
 
 
-                entities.SaveChanges();
-                Response.Redirect("~/Operaciones/AdministrarTareasDeUnaSolicitud.aspx?idSolicitud=" + hdidSolicitud.Value);
             }
 
             #region Transaccion
@@ -422,14 +421,32 @@ namespace SGI.Operaciones
             {
                 try
                 {
-
+                    
                     context.SGI_Tramites_Tareas.AddOrUpdate(tramiteTarea);
-                    context.SGI_Tramites_Tareas_HAB.Add(sgi_Tramites_Tareas_HAB);
+                    #region SGI_Tramites_Tareas_HAB
+                    if (hdHAB_TRANSF.Value == "H")
+                    {
+                        int idSolicitud = int.Parse(hdidSolicitud.Value);
+                        sgi_Tramites_Tareas_HAB.id_tramitetarea = tramiteTarea.id_tramitetarea;
+                        sgi_Tramites_Tareas_HAB.id_rel_tt_HAB = context.SGI_Tramites_Tareas_HAB.Max(x => x.id_rel_tt_HAB) + 1;
+                        sgi_Tramites_Tareas_HAB.id_solicitud = idSolicitud;
+                        context.SGI_Tramites_Tareas_HAB.Add(sgi_Tramites_Tareas_HAB);
+                    }
+                    if (hdHAB_TRANSF.Value == "T")
+                    {
+                        int idSolicitud = int.Parse(hdidSolicitud.Value);
+                        sgi_Tramites_Tareas_TRANSF.id_tramitetarea = tramiteTarea.id_tramitetarea;
+                        sgi_Tramites_Tareas_TRANSF.id_rel_tt_TRANSF = context.SGI_Tramites_Tareas_TRANSF.Max(x => x.id_rel_tt_TRANSF) + 1;
+                        sgi_Tramites_Tareas_TRANSF.id_solicitud = idSolicitud;
+                        context.SGI_Tramites_Tareas_TRANSF.Add(sgi_Tramites_Tareas_TRANSF);
+                    }
+                    #endregion
 
 
                     // Guardamos todos los cambios
                     context.SaveChanges();
                     dbContextTransaction.Commit();
+
                 }
                 catch (Exception ex)
                 {
@@ -438,6 +455,7 @@ namespace SGI.Operaciones
                 }
             }
             #endregion
+            Response.Redirect("~/Operaciones/AdministrarTareasDeUnaSolicitud.aspx?idSolicitud=" + hdidSolicitud.Value);
 
         }
         protected void btnReturn_Click(object sender, EventArgs e)
