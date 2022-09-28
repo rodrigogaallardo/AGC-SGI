@@ -474,6 +474,7 @@ namespace SGI.Operaciones
                     }
                     catch (Exception ex)
                     {
+                        //ASOSA MENSAJE DE ERROR
                         ScriptManager sm = ScriptManager.GetCurrent(this);
                         string cadena = "No pudo borrarse el Tramite Tarea por restricciones con otras tablas";
                         string script = string.Format("alert('{0}');", cadena);

@@ -348,7 +348,7 @@ namespace SGI.Operaciones
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-          
+
 
 
             SGI_Tramites_Tareas tramiteTarea = new SGI_Tramites_Tareas();
@@ -357,46 +357,46 @@ namespace SGI.Operaciones
             DGHP_Entities context = new DGHP_Entities();
             //using (DGHP_Entities entities = new DGHP_Entities())
             //{
-                int idTramiteTarea = int.Parse(hdidTramiteTarea.Value);
+            int idTramiteTarea = int.Parse(hdidTramiteTarea.Value);
 
 
-                if (idTramiteTarea == 0)
-                {
-                    tramiteTarea.id_tramitetarea = context.SGI_Tramites_Tareas.Max(x => x.id_tramitetarea) + 1;
+            if (idTramiteTarea == 0)
+            {
+                tramiteTarea.id_tramitetarea = context.SGI_Tramites_Tareas.Max(x => x.id_tramitetarea) + 1;
+                tramiteTarea.id_proxima_tarea = null;
+            }
+            else
+            {
+                tramiteTarea.id_tramitetarea = idTramiteTarea;
+                if (chkproxima_tarea.Checked)
                     tramiteTarea.id_proxima_tarea = null;
-                }
                 else
-                {
-                    tramiteTarea.id_tramitetarea = idTramiteTarea;
-                    if (chkproxima_tarea.Checked)
-                        tramiteTarea.id_proxima_tarea = null;
-                    else    
-                        tramiteTarea.id_proxima_tarea = int.Parse(ddlSFproxima_tarea.Value);
-                }
-                tramiteTarea.FechaInicio_tramitetarea = DateTime.Parse(hdFechaInicio_tramitetarea.Value);
-                tramiteTarea.FechaCierre_tramitetarea = DateTime.Parse(hdFechaCierre_tramitetarea.Value);
-                if(chkFechaCierre_tramitetarea.Checked)
-                    tramiteTarea.FechaCierre_tramitetarea = null;
-                tramiteTarea.FechaAsignacion_tramtietarea = DateTime.Parse(hdFechaAsignacion_tramtietarea.Value);
+                    tramiteTarea.id_proxima_tarea = int.Parse(ddlSFproxima_tarea.Value);
+            }
+            tramiteTarea.FechaInicio_tramitetarea = DateTime.Parse(hdFechaInicio_tramitetarea.Value);
+            tramiteTarea.FechaCierre_tramitetarea = DateTime.Parse(hdFechaCierre_tramitetarea.Value);
+            if (chkFechaCierre_tramitetarea.Checked)
+                tramiteTarea.FechaCierre_tramitetarea = null;
+            tramiteTarea.FechaAsignacion_tramtietarea = DateTime.Parse(hdFechaAsignacion_tramtietarea.Value);
 
-                tramiteTarea.UsuarioAsignado_tramitetarea = Guid.Parse(ddlUsuarioAsignado_tramitetarea.SelectedValue);
-                tramiteTarea.CreateUser = Guid.Parse(ddlCreateUser.SelectedValue);
+            tramiteTarea.UsuarioAsignado_tramitetarea = Guid.Parse(ddlUsuarioAsignado_tramitetarea.SelectedValue);
+            tramiteTarea.CreateUser = Guid.Parse(ddlCreateUser.SelectedValue);
 
 
 
-                tramiteTarea.id_tarea = int.Parse(ddlSFtarea.Value);
-                tramiteTarea.id_resultado = int.Parse(ddlResultado.SelectedValue);
+            tramiteTarea.id_tarea = int.Parse(ddlSFtarea.Value);
+            tramiteTarea.id_resultado = int.Parse(ddlResultado.SelectedValue);
 
-  
+
             //}
 
             #region Transaccion
-           
+
             using (var dbContextTransaction = context.Database.BeginTransaction())
             {
                 try
                 {
-                    
+
                     context.SGI_Tramites_Tareas.AddOrUpdate(tramiteTarea);
                     #region SGI_Tramites_Tareas_HAB
                     if (hdHAB_TRANSF.Value == "H")
@@ -417,8 +417,6 @@ namespace SGI.Operaciones
                     }
                     #endregion
 
-
-                  
                     context.SaveChanges();
                     dbContextTransaction.Commit();
 
@@ -433,6 +431,7 @@ namespace SGI.Operaciones
             Response.Redirect("~/Operaciones/AdministrarTareasDeUnaSolicitud.aspx?idSolicitud=" + hdidSolicitud.Value);
 
         }
+
         protected void btnReturn_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/Operaciones/AdministrarTareasDeUnaSolicitud.aspx?idSolicitud=" + hdidSolicitud.Value);
