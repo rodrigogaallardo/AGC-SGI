@@ -31,6 +31,24 @@ namespace SGI {
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
         
         /// <summary>
+        /// txtFechaNotificacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFechaNotificacion;
+        
+        /// <summary>
+        /// rev_txtFechaNotificacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaNotificacion;
+        
+        /// <summary>
         /// btnNotificarCaducidad control.
         /// </summary>
         /// <remarks>

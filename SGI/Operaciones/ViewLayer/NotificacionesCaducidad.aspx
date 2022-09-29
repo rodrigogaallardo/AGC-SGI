@@ -43,6 +43,24 @@
             ValidationExpression="\d+">
         </asp:RegularExpressionValidator>
     </div>
+    <div class="control-group" >
+        <label for="txtFechaNotificacion" class="control-label">Fecha Notificación:</label>
+            <div class="controls">
+                <asp:TextBox ID="txtFechaNotificacion" runat="server" MaxLength="10" Width="80px"></asp:TextBox>
+                <div class="req">
+                    <asp:RegularExpressionValidator
+                        ID="rev_txtFechaNotificacion" runat="server" 
+                        ValidationGroup="buscar"
+                        ControlToValidate="txtFechaNotificacion" CssClass="field-validation-error" 
+                        ErrorMessage="Fecha invalida. Ingrese fecha con formato dd/mm/aaaa."
+                        ValidationExpression="(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.](19[0-9][0-9]|20[0-9][0-9]|[0-9][0-9]))|^[0-9]{5}\d*[0-9 ]$"
+                        Display="Dynamic">
+                    </asp:RegularExpressionValidator>  
+                </div>
+
+            </div>
+
+            </div>
 
     <div class="control-group pull-right">
         <asp:Button ID="btnNotificarCaducidad" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificarCaducidad_OnClick" Text="Notificar Caducidad"></asp:Button>
@@ -116,6 +134,48 @@
     </div>
 
     <script>
+
+        $(document).ready(function () {
+            inicializar_controles();
+        });
+
+        function inicializar_fecha()
+        {
+
+        var fechaDesde = $('#<%=txtFechaNotificacion.ClientID%>');
+        var es_readonly = $(fechaDesde).attr("readonly");
+        if (!($(fechaDesde).is('[disabled]') || $(fechaDesde).is('[readonly]'))) {
+           $(fechaDesde).datepicker(
+                {
+                    maxDate: "0",
+                    closeText: 'Cerrar',
+                    prevText: '&#x3c;Ant',
+                    nextText: 'Sig&#x3e;',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                    weekHeader: 'Sm',
+                    dateFormat: 'dd/mm/yy',
+                    firstDay: 0,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: ''
+
+                }
+                );
+        }
+    }
+
+        function inicializar_controles()
+        {
+            inicializar_fecha();
+        }
+
         function LimpiarFormulario()
         {
             document.getElementById("MainContent_txtNroSolicitud").value = "";
@@ -132,5 +192,7 @@
             $("#frmSuccess").modal("show");
             return false;
         }
+
+
     </script>
 </asp:Content>

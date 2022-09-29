@@ -499,7 +499,7 @@ namespace SGI.Mailer
             }
         }
 
-        private static void CrearNotificacion(int id_solicitud, int idmail, int idMotivoNotificacion, DGHP_Entities db)
+        private static void CrearNotificacion(int id_solicitud, int idmail, int idMotivoNotificacion, DGHP_Entities db,DateTime? fechaNotificacion = null)
         {
             if (id_solicitud > Constants.EsSolicitud)
             {
@@ -509,7 +509,8 @@ namespace SGI.Mailer
                     id_solicitud = id_solicitud,
                     id_email = idmail,
                     Id_NotificacionMotivo = idMotivoNotificacion,
-                    createDate = DateTime.Now
+                    createDate = DateTime.Now,
+                    fechaNotificacionSSIT = fechaNotificacion != null ? fechaNotificacion : DateTime.Now
                 };
                 db.SSIT_Solicitudes_Notificaciones.Add(notif);
             }
@@ -520,7 +521,8 @@ namespace SGI.Mailer
                     id_solicitud = id_solicitud,
                     id_email = idmail,
                     Id_NotificacionMotivo = idMotivoNotificacion,
-                    createDate = DateTime.Now
+                    createDate = DateTime.Now,
+                    fechaNotificacionSSIT = fechaNotificacion != null ? fechaNotificacion : DateTime.Now
                 };
                 db.Transf_Solicitudes_Notificaciones.Add(notif);
             }
@@ -1953,7 +1955,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static List<string> SendMail_Caducidad_v2(int idSolicitud)
+        public static List<string> SendMail_Caducidad_v2(int idSolicitud,DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             List<string> emailsNoDuplicados = new List<string>();
@@ -1979,7 +1981,7 @@ namespace SGI.Mailer
 
                 foreach (int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db,fechaNotificacion);
                 }
 
                 db.SaveChanges();

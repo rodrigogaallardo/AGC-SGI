@@ -44,26 +44,29 @@ namespace SGI
 
         protected void btnNotificarCaducidad_OnClick(object sender, EventArgs e)
         {
-                bool pudo = int.TryParse(txtNroSolicitud.Text, out int id_solicitud);
+            bool pudo = int.TryParse(txtNroSolicitud.Text, out int id_solicitud);
 
-                if (pudo)
-                { 
-                    CaducarTramite(id_solicitud);
-                }
-                else
-                {
-                    lblError.Text = "El campo solo acepta valores numéricos.";
-                    lblError.ForeColor = Color.Red;
-                    this.EjecutarScript(updResultados, "showfrmError();");
-                }
+            if (string.IsNullOrEmpty(txtFechaNotificacion.Text.Trim()))
+                throw new Exception("No se ha ingresado 'Fecha Notificación'");
+
+            if (pudo)
+            { 
+                CaducarTramite(id_solicitud, Convert.ToDateTime(txtFechaNotificacion.Text.Trim()));
+            }
+            else
+            {
+                lblError.Text = "El campo solo acepta valores numéricos.";
+                lblError.ForeColor = Color.Red;
+                this.EjecutarScript(updResultados, "showfrmError();");
+            }
         }
 
-        private void CaducarTramite(int nroSolicitud)
+        private void CaducarTramite(int nroSolicitud,DateTime fechaNotificacion)
         {
             try
             {
-                bool pudo = TramitesBLL.NotificarCaducaTramite(nroSolicitud,out string errorMessage);
-
+                bool pudo = TramitesBLL.NotificarCaducaTramite(nroSolicitud,fechaNotificacion,out string errorMessage);
+                
                 if( ! pudo)
                 {
                     lblError.Text = errorMessage;

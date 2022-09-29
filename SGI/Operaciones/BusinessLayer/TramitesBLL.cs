@@ -49,7 +49,7 @@ namespace SGI.BusinessLogicLayer
         }
         #endregion
 
-        public static bool NotificarCaducaTramite(int id_solicitud,out string errorMessage)
+        public static bool NotificarCaducaTramite(int id_solicitud,DateTime fechaNotificacion,out string errorMessage)
         {
             bool notifico = false;
             errorMessage = string.Empty;
@@ -84,7 +84,7 @@ namespace SGI.BusinessLogicLayer
 
                     if (solicitudesCaducasNotificadas.Count == 0)
                     {
-                        List<string> emailsNotificados = Mailer.MailMessages.SendMail_Caducidad_v2(solicitud.id_solicitud);
+                        List<string> emailsNotificados = Mailer.MailMessages.SendMail_Caducidad_v2(solicitud.id_solicitud,fechaNotificacion);
                         errorMessage = "La solicitud fue enviada con éxito a los siguientes emails: " + String.Join(", ", emailsNotificados);
                         notifico = true;
                     }
