@@ -114,7 +114,7 @@ namespace SGI.GestionTramite.Controls
                              join tdocreq in db.Tipo_Documentacion_Req on encrub.id_tipodocreq equals tdocreq.Id
                              join tact in db.TipoActividad on encrub.id_tipoactividad equals tact.Id
                              where encrub.id_encomienda == encomienda.id_encomienda
-                             orderby encrub.SuperficieHabilitar descending
+                             orderby encrub.SuperficieHabilitar descending, encrub.cod_rubro
                              select new RubrosClass
                              {
                                  id_Encomienda = encrub.id_encomienda,
@@ -131,7 +131,7 @@ namespace SGI.GestionTramite.Controls
                                       join tact in db.TipoActividad on encrub.IdTipoActividad equals tact.Id
                                       join gc in db.ENG_Grupos_Circuitos on r.IdGrupoCircuito equals gc.id_grupo_circuito
                                       where encrub.id_encomienda == encomienda.id_encomienda
-                                      orderby encrub.SuperficieHabilitar descending
+                                      orderby encrub.SuperficieHabilitar descending, encrub.CodigoRubro
                                       select new RubrosClass
                                       {
                                           id_Encomienda = encrub.id_encomienda,
@@ -143,7 +143,26 @@ namespace SGI.GestionTramite.Controls
                                           Nomenclatura = gc.cod_grupo_circuito,
                                           SuperficieHabilitar = encrub.SuperficieHabilitar
 
-                                      });
+                                      }).Union(from ents in db.Encomienda_Transf_Solicitudes
+                                               join ts in db.Transf_Solicitudes on ents.id_solicitud equals ts.id_solicitud
+                                               join cprub in db.CPadron_RubrosCN on ts.id_cpadron equals cprub.id_cpadron
+                                               join r in db.RubrosCN on cprub.id_rubro equals r.IdRubro
+                                               join tact in db.TipoActividad on cprub.id_tipoactividad equals tact.Id
+                                               join gc in db.ENG_Grupos_Circuitos on r.IdGrupoCircuito equals gc.id_grupo_circuito
+                                               where ents.id_encomienda == encomienda.id_encomienda
+                                               orderby cprub.SuperficieHabilitar descending, cprub.cod_rubro
+                                               select new RubrosClass
+                                               {
+                                                   id_Encomienda = ents.id_encomienda,
+                                                   id_EncomiendaRubro = cprub.id_cpadron,
+                                                   cod_rubro = cprub.cod_rubro,
+                                                   desc_rubro = cprub.desc_rubro,
+                                                   nom_tipoactividad = tact.Nombre,
+                                                   EsAnterior = false,
+                                                   Nomenclatura = gc.cod_grupo_circuito,
+                                                   SuperficieHabilitar = cprub.SuperficieHabilitar
+
+                                               });
 
                     return q.ToList();
                 }
