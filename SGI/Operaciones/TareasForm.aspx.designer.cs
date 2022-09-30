@@ -7,225 +7,200 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGI.ABM {
-    
-    
-    public partial class AbmClanae {
-        
+namespace SGI.Operaciones
+{
+
+
+    public partial class TareasForm
+    {
+
         /// <summary>
-        /// pnlBotonDefault control.
+        /// lblFecInicio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlBotonDefault;
-        
+        protected global::System.Web.UI.WebControls.Label lblFecInicio;
+
         /// <summary>
-        /// updpnlBuscar control.
+        /// lblFecCierre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updpnlBuscar;
-        
+        protected global::System.Web.UI.WebControls.Label lblFecCierre;
+
         /// <summary>
-        /// btnCargarDatos control.
+        /// chkFechaCierre_tramitetarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCargarDatos;
-        
+        protected global::System.Web.UI.WebControls.CheckBox chkFechaCierre_tramitetarea;
+
         /// <summary>
-        /// Panel1 control.
+        /// lblFecAsignacion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
-        
+        protected global::System.Web.UI.WebControls.Label lblFecAsignacion;
+
         /// <summary>
-        /// txtCodigo control.
+        /// calFechaInicio_tramitetarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCodigo;
-        
+        protected global::System.Web.UI.WebControls.Calendar calFechaInicio_tramitetarea;
+
         /// <summary>
-        /// UpdatePanel1 control.
+        /// calFechaCierre_tramitetarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+        protected global::System.Web.UI.WebControls.Calendar calFechaCierre_tramitetarea;
+
         /// <summary>
-        /// UpdateProgress2 control.
+        /// calFechaAsignacion_tramtietarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdateProgress UpdateProgress2;
-        
+        protected global::System.Web.UI.WebControls.Calendar calFechaAsignacion_tramtietarea;
+
         /// <summary>
-        /// btnBuscar control.
+        /// chkproxima_tarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnBuscar;
-        
+        protected global::System.Web.UI.WebControls.CheckBox chkproxima_tarea;
+
         /// <summary>
-        /// btnNuevo control.
+        /// ddlUsuarioAsignado_tramitetarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnNuevo;
-        
+        protected global::System.Web.UI.WebControls.DropDownList ddlUsuarioAsignado_tramitetarea;
+
         /// <summary>
-        /// updResultados control.
+        /// ddlSFproxima_tarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updResultados;
-        
+        protected global::Syncfusion.JavaScript.Web.DropDownList ddlSFproxima_tarea;
+
         /// <summary>
-        /// pnlCantidadRegistros control.
+        /// ddlCreateUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlCantidadRegistros;
-        
+        protected global::System.Web.UI.WebControls.DropDownList ddlCreateUser;
+
         /// <summary>
-        /// lblCantidadRegistros control.
+        /// ddlSFtarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCantidadRegistros;
-        
+        protected global::Syncfusion.JavaScript.Web.DropDownList ddlSFtarea;
+
         /// <summary>
-        /// grdResultados control.
+        /// ddlResultado control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdResultados;
-        
+        protected global::System.Web.UI.WebControls.DropDownList ddlResultado;
+
         /// <summary>
-        /// updDatos control.
+        /// hdidTramiteTarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updDatos;
-        
+        protected global::System.Web.UI.WebControls.HiddenField hdidTramiteTarea;
+
         /// <summary>
-        /// hid_id_req control.
+        /// hdFechaInicio_tramitetarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_id_req;
-        
+        protected global::System.Web.UI.WebControls.HiddenField hdFechaInicio_tramitetarea;
+
         /// <summary>
-        /// pnlDatos control.
+        /// hdFechaCierre_tramitetarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlDatos;
-        
+        protected global::System.Web.UI.WebControls.HiddenField hdFechaCierre_tramitetarea;
+
         /// <summary>
-        /// txtCodigoReq control.
+        /// hdFechaAsignacion_tramtietarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCodigoReq;
-        
+        protected global::System.Web.UI.WebControls.HiddenField hdFechaAsignacion_tramtietarea;
+
         /// <summary>
-        /// txtDescripcionReq control.
+        /// hdidSolicitud control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescripcionReq;
-        
+        protected global::System.Web.UI.WebControls.HiddenField hdidSolicitud;
+
         /// <summary>
-        /// updBotonesGuardar control.
+        /// hdHAB_TRANSF control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updBotonesGuardar;
-        
+        protected global::System.Web.UI.WebControls.HiddenField hdHAB_TRANSF;
+
         /// <summary>
-        /// btnGuardar control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnGuardar;
-        
+        protected global::System.Web.UI.WebControls.Button btnSave;
+
         /// <summary>
-        /// btnCancelar control.
+        /// btnReturn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnCancelar;
-        
-        /// <summary>
-        /// UpdateProgress1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
-        
-        /// <summary>
-        /// updmpeInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updmpeInfo;
-        
-        /// <summary>
-        /// lblError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Button btnReturn;
     }
 }

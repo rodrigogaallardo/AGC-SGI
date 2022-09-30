@@ -43,7 +43,7 @@ namespace SGI.GestionTramite.Controls
                             join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
                             join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
                             join ac in db.SSIT_Solicitudes_Notificaciones on mail.id_email equals ac.id_email into pleft_ac
-                            from ac in pleft_ac.DefaultIfEmpty()
+                            from ac in pleft_ac // .DefaultIfEmpty()
                             where ac.id_solicitud == id_solicitud
 
                             orderby mail.id_email ascending
