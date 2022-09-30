@@ -134,6 +134,7 @@ namespace SGI.Seguridad
                 Bloqueado = true;
             if (ddlBloqueado.SelectedItem.Text == "No")
                 Bloqueado = false;
+            //ASOSA COPIAR
 
             DGHP_Entities db = new DGHP_Entities();
             var q = (from mem in db.aspnet_Membership
