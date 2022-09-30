@@ -772,8 +772,8 @@
                 new ObjectParameter("id_tramitetarea", typeof(int));
     
             var observacionesParameter = observaciones != null ?
-                new ObjectParameter("Observaciones", observaciones) :
-                new ObjectParameter("Observaciones", typeof(string));
+                new ObjectParameter("observaciones", observaciones) :
+                new ObjectParameter("observaciones", typeof(string));
     
             var observacion_planchetaParameter = observacion_plancheta != null ?
                 new ObjectParameter("observacion_plancheta", observacion_plancheta) :
