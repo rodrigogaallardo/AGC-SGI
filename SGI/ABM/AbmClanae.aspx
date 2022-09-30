@@ -247,6 +247,7 @@
                 </div>
         </div>
     </div>
+
         <!-- /.modal -->
     <%--modal de Errores--%>
     <div id="frmError" class="modal fade">
