@@ -830,6 +830,7 @@
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
     <Content Include="Operaciones\AgregarArchivo.aspx" />
     <Content Include="Operaciones\TareasForm.aspx" />
+    <Content Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Carga_Tramite.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Fin_Tramite.aspx" />
@@ -4420,12 +4421,26 @@
     <Compile Include="Operaciones\AgregarArchivo.aspx.designer.cs">
       <DependentUpon>AgregarArchivo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\BusinessLayer\Constants\ErrorConstants.cs" />
+    <Compile Include="Operaciones\BusinessLayer\Enums\SSIT_Solicitudes_Notificaciones_motivos_Enum.cs" />
+    <Compile Include="Operaciones\BusinessLayer\Enums\TipoEstadoSolicitudEnum.cs" />
+    <Compile Include="Operaciones\BusinessLayer\TramitesBLL.cs" />
+    <Compile Include="Operaciones\DataLayer\DataLayerBase.cs" />
+    <Compile Include="Operaciones\DataLayer\Models\SSIT_Solicitudes_Model.cs" />
+    <Compile Include="Operaciones\DataLayer\SSIT_Solicitudes_DL.cs" />
     <Compile Include="Operaciones\TareasForm.aspx.cs">
       <DependentUpon>TareasForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Operaciones\TareasForm.aspx.designer.cs">
       <DependentUpon>TareasForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.cs">
+      <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.designer.cs">
+      <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reportes\BajaSolicitud.cs">
       <AutoGen>True</AutoGen>
