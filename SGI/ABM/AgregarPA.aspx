@@ -545,12 +545,16 @@
         $('#<%=val_upload_fileupload_pdf.ClientID%>').hide();
         var format = $('#<%=hid_formato_archivo.ClientID%>').val();
         if (format == 'pdf') {
-            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Acrobat Reader(*.pdf)");
+            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Acrobat Reader (*.pdf)");
             if (!(/\.(pdf|pdf)$/i).test(arch_nombre))
                 $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
         } else if (format == 'jpg') {
             $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Imagen (*.jpg)");
             if (!(/\.(jpg|jpg)$/i).test(arch_nombre))
+                $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
+        } else if (format == 'jpgpdf') {
+            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Imagen (*.jpg) o tipo Acrobat Reader (*.pdf)");
+            if (!(/\.(jpg|jpg)$/i).test(arch_nombre) && !(/\.(pdf|pdf)$/i).test(arch_nombre))
                 $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
         } else {
             $('#<%=val_upload_fileupload_pdf.ClientID%>').text("El formato de archivo no esta soportado");
