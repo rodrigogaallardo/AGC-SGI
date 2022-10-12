@@ -826,6 +826,14 @@
     <Content Include="Mailer\MailRechazoSolicitudEspar.aspx" />
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
+    <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
+    <Content Include="Operaciones\CatalogoDistritos_SubzonasIndex.aspx" />
+    <Content Include="Operaciones\CatalogoDistritos_SubzonasForm.aspx" />
+    <Content Include="Operaciones\CatalogoDistritos_ZonasIndex.aspx" />
+    <Content Include="Operaciones\CatalogoDistritos_ZonasForm.aspx" />
+    <Content Include="Operaciones\GruposDistritosForm.aspx" />
+    <Content Include="Operaciones\CatalogoDistritosIndex.aspx" />
+    <Content Include="Operaciones\GruposDistritosIndex.aspx" />
     <Content Include="Operaciones\TareasForm.aspx" />
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
@@ -4396,6 +4404,62 @@
     </Compile>
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritosForm.aspx.cs">
+      <DependentUpon>CatalogoDistritosForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritosForm.aspx.designer.cs">
+      <DependentUpon>CatalogoDistritosForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_SubzonasIndex.aspx.cs">
+      <DependentUpon>CatalogoDistritos_SubzonasIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_SubzonasIndex.aspx.designer.cs">
+      <DependentUpon>CatalogoDistritos_SubzonasIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_SubzonasForm.aspx.cs">
+      <DependentUpon>CatalogoDistritos_SubzonasForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_SubzonasForm.aspx.designer.cs">
+      <DependentUpon>CatalogoDistritos_SubzonasForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_ZonasIndex.aspx.cs">
+      <DependentUpon>CatalogoDistritos_ZonasIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_ZonasIndex.aspx.designer.cs">
+      <DependentUpon>CatalogoDistritos_ZonasIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_ZonasForm.aspx.cs">
+      <DependentUpon>CatalogoDistritos_ZonasForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritos_ZonasForm.aspx.designer.cs">
+      <DependentUpon>CatalogoDistritos_ZonasForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\GruposDistritosForm.aspx.cs">
+      <DependentUpon>GruposDistritosForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\GruposDistritosForm.aspx.designer.cs">
+      <DependentUpon>GruposDistritosForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritosIndex.aspx.cs">
+      <DependentUpon>CatalogoDistritosIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\CatalogoDistritosIndex.aspx.designer.cs">
+      <DependentUpon>CatalogoDistritosIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\GruposDistritosIndex.aspx.cs">
+      <DependentUpon>GruposDistritosIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\GruposDistritosIndex.aspx.designer.cs">
+      <DependentUpon>GruposDistritosIndex.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\TareasForm.aspx.cs">
       <DependentUpon>TareasForm.aspx</DependentUpon>

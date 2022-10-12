@@ -77,8 +77,8 @@ namespace SGI.Operaciones
                 //siendo 0 para no generado y 1 para generado.con exito
                 //Los campos que permitie editar para las tareas con procesos existosos son
 
-                gridViewTareas.DataSource = tareasDeLaSolicitud;
-                gridViewTareas.DataBind();
+                gridView.DataSource = tareasDeLaSolicitud;
+                gridView.DataBind();
             }
         }
 
@@ -484,22 +484,22 @@ namespace SGI.Operaciones
                     }
                 }
 
-                gridViewTareas.EditIndex = -1;
+                gridView.EditIndex = -1;
                 this.CargarSolicitudConTareas();
             }
         }
-            protected void btnEdit_Click(object sender, EventArgs e)
+        protected void btnEdit_Click(object sender, EventArgs e)
             {
                 int idTramiteTarea = int.Parse(((Button)sender).ToolTip);
                 Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=" + idTramiteTarea + "&idSolicitud=" + hdidSolicitud.Value);
 
             }
 
-            protected void gridViewTareas_RowDataBound(object sender, GridViewRowEventArgs e)
+            protected void gridView_RowDataBound(object sender, GridViewRowEventArgs e)
             {
                 try
                 {
-                    GridView grid = (GridView)gridViewTareas;
+                    GridView grid = (GridView)gridView;
 
 
 
