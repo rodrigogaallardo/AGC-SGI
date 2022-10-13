@@ -42,9 +42,9 @@ namespace SGI.Operaciones
         {
 
             DGHP_Entities entities = new DGHP_Entities();
-
+            int IdGrupoDistrito = int.Parse(ddlGrupoDistricto.SelectedValue);
             List<Ubicaciones_CatalogoDistritos> Ubicaciones_CatalogoDistritosList = (from t in entities.Ubicaciones_CatalogoDistritos
-                                                                                     where  t.IdGrupoDistrito== int.Parse(ddlGrupoDistricto.SelectedValue)
+                                                                                     where  t.IdGrupoDistrito== IdGrupoDistrito
                                                                                      select t).ToList();
             gridView.DataSource = Ubicaciones_CatalogoDistritosList;
             gridView.DataBind();
