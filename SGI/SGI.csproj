@@ -834,7 +834,6 @@
     <Content Include="Operaciones\GruposDistritosForm.aspx" />
     <Content Include="Operaciones\CatalogoDistritosIndex.aspx" />
     <Content Include="Operaciones\GruposDistritosIndex.aspx" />
-    <Content Include="Operaciones\TareasForm.aspx" />
     <Content Include="Operaciones\AdministrarArchivosDeUnaSolicitud.aspx" />
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
     <Content Include="Operaciones\AgregarArchivo.aspx" />
@@ -4464,10 +4463,6 @@
     </Compile>
     <Compile Include="Operaciones\GruposDistritosIndex.aspx.designer.cs">
       <DependentUpon>GruposDistritosIndex.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Operaciones\TareasForm.aspx.cs">
-      <DependentUpon>TareasForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Operaciones\AdministrarArchivosDeUnaSolicitud.aspx.cs">
       <DependentUpon>AdministrarArchivosDeUnaSolicitud.aspx</DependentUpon>
