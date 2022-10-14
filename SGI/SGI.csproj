@@ -827,6 +827,7 @@
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
     <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
+    <Content Include="Operaciones\DistritosIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritos_SubzonasIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritos_SubzonasForm.aspx" />
     <Content Include="Operaciones\CatalogoDistritos_ZonasIndex.aspx" />
@@ -4411,6 +4412,13 @@
     </Compile>
     <Compile Include="Operaciones\CatalogoDistritosForm.aspx.designer.cs">
       <DependentUpon>CatalogoDistritosForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\DistritosIndex.aspx.cs">
+      <DependentUpon>DistritosIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\DistritosIndex.aspx.designer.cs">
+      <DependentUpon>DistritosIndex.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\CatalogoDistritos_SubzonasIndex.aspx.cs">
       <DependentUpon>CatalogoDistritos_SubzonasIndex.aspx</DependentUpon>
