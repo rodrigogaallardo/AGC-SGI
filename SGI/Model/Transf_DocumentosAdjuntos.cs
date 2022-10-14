@@ -24,5 +24,6 @@ namespace SGI.Model
         public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
         public virtual TiposDeDocumentosRequeridos TiposDeDocumentosRequeridos { get; set; }
         public virtual Transf_Solicitudes Transf_Solicitudes { get; set; }
+        public virtual aspnet_Users aspnet_Users { get; set; }
     }
 }

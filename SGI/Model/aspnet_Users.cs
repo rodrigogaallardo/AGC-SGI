@@ -76,6 +76,7 @@ namespace SGI.Model
             this.SSIT_Solicitudes_RubrosCN = new HashSet<SSIT_Solicitudes_RubrosCN>();
             this.SSIT_DocumentosAdjuntos = new HashSet<SSIT_DocumentosAdjuntos>();
             this.SSIT_DocumentosAdjuntos1 = new HashSet<SSIT_DocumentosAdjuntos>();
+            this.Transf_DocumentosAdjuntos = new HashSet<Transf_DocumentosAdjuntos>();
         }
     
         public System.Guid ApplicationId { get; set; }
@@ -157,5 +158,6 @@ namespace SGI.Model
         public virtual ICollection<SSIT_Solicitudes_RubrosCN> SSIT_Solicitudes_RubrosCN { get; set; }
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos1 { get; set; }
+        public virtual ICollection<Transf_DocumentosAdjuntos> Transf_DocumentosAdjuntos { get; set; }
     }
 }
