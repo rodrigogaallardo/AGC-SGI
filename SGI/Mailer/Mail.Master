@@ -1,49 +1,27 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Mail.master.cs" Inherits="SGI.Mailer.Mail" %>
 
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
-
-
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body style=" margin: 0px;padding: 0px;font-family: 'Segoe UI', Verdana, Helvetica, Sans-Serif;">
-    
     <form id="form1" runat="server">
     <div style="width: 1000px">
-
-        <header>
-            
-
-            <img src="http://www.dghpsh.agcontrol.gob.ar/SSIT/Mailer/img/header.png"
-                style="width: 1000px; height: 148px;" />
-            
-            
-        </header>
-
+        <header><img src="http://www.dghpsh.agcontrol.gob.ar/SSIT/Mailer/img/header.png" style="width: 1000px; height: 148px;" /></header>
         <div style="padding: 20px 20px 20px 40px; min-height: 500px;">
-
-            <h2>
-                <asp:Label ID="lblTitulo" runat="server" CssClass="color:#333;"></asp:Label>
-            </h2>
-
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-        
+            <h2><asp:Label ID="lblTitulo" runat="server" CssClass="color:#333;"></asp:Label></h2>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
         </div>
-
-        
-    <footer >
-        <div  style="width: 1000px; height: 95px; background-color:#333 !important ">
+    <footer>
+        <div style="width: 1000px; height: 95px; background-color:#333 !important ">
             <div id="footerAGC" style="margin-left:40px; margin-top:10px;float:left">
                 <h4 style="font-weight: 500; font-size:20px;  color:#fff;" >Copyright &copy; <%: DateTime.Now.Year %>, Agencia Gubernamental de Control - C.A.B.A.  </h4>
             </div>
             <div style="color:white; padding-right:20px; margin-top: 10px;float:right">
-                <p><img src="http://www.dghpsh.agcontrol.gob.ar/SSIT/Mailer/img/footer.png" /> </p>
+                <p><img src="http://www.dghpsh.agcontrol.gob.ar/SSIT/Mailer/img/footer.png" /></p>
             </div>
         </div>
     </footer>

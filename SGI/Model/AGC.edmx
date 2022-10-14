@@ -10469,6 +10469,18 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transf_DocumentosAdjuntos_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="Transf_DocumentosAdjuntos" Type="Self.Transf_DocumentosAdjuntos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Transf_DocumentosAdjuntos">
+              <PropertyRef Name="UpdateUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Transf_DocumentosAdjuntos_TiposDeDocumentosRequeridos">
           <End Role="TiposDeDocumentosRequeridos" Type="Self.TiposDeDocumentosRequeridos" Multiplicity="1" />
           <End Role="Transf_DocumentosAdjuntos" Type="Self.Transf_DocumentosAdjuntos" Multiplicity="*" />
@@ -19291,6 +19303,10 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <AssociationSet Name="FK_Transf_DatosLocal_Transf_Solicitudes" Association="Self.FK_Transf_DatosLocal_Transf_Solicitudes">
             <End Role="Transf_Solicitudes" EntitySet="Transf_Solicitudes" />
             <End Role="Transf_DatosLocal" EntitySet="Transf_DatosLocal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transf_DocumentosAdjuntos_aspnet_Users" Association="Self.FK_Transf_DocumentosAdjuntos_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Transf_DocumentosAdjuntos" EntitySet="Transf_DocumentosAdjuntos" />
           </AssociationSet>
           <AssociationSet Name="FK_Transf_DocumentosAdjuntos_TiposDeDocumentosRequeridos" Association="Self.FK_Transf_DocumentosAdjuntos_TiposDeDocumentosRequeridos">
             <End Role="TiposDeDocumentosRequeridos" EntitySet="TiposDeDocumentosRequeridos" />
@@ -28159,6 +28175,10 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="d_cpadron" Mode="In" Type="Int32" />
             <Parameter Name="id_rubro" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_Transf_DocumentosAdjuntos_aspnet_Users" Association="DGHP_Model.FK_Transf_DocumentosAdjuntos_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="Transf_DocumentosAdjuntos" EntitySet="Transf_DocumentosAdjuntos" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -29465,6 +29485,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SSIT_Solicitudes_RubrosCN" Relationship="DGHP_Model.FK_SSIT_Solicitudes_RubrosCN_aspnet_Users_CreateUser" FromRole="aspnet_Users" ToRole="SSIT_Solicitudes_RubrosCN" />
           <NavigationProperty Name="SSIT_DocumentosAdjuntos" Relationship="DGHP_Model.FK_SSIT_DocumentosAdjuntos_aspnet_Users" FromRole="aspnet_Users" ToRole="SSIT_DocumentosAdjuntos" />
           <NavigationProperty Name="SSIT_DocumentosAdjuntos1" Relationship="DGHP_Model.FK_SSIT_DocumentosAdjuntos_SSIT_DocumentosAdjuntos" FromRole="aspnet_Users" ToRole="SSIT_DocumentosAdjuntos" />
+          <NavigationProperty Name="Transf_DocumentosAdjuntos" Relationship="DGHP_Model.FK_Transf_DocumentosAdjuntos_aspnet_Users" FromRole="aspnet_Users" ToRole="Transf_DocumentosAdjuntos" />
           </EntityType>
         <Association Name="FK__aspnet_Us__Appli__05F8DC4F">
           <End Type="DGHP_Model.aspnet_Applications" Multiplicity="1" Role="aspnet_Applications" />
@@ -31083,6 +31104,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="id_agrupamiento" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TiposDeDocumentosRequeridos" Relationship="DGHP_Model.FK_Transf_DocumentosAdjuntos_TiposDeDocumentosRequeridos" FromRole="Transf_DocumentosAdjuntos" ToRole="TiposDeDocumentosRequeridos" />
           <NavigationProperty Name="Transf_Solicitudes" Relationship="DGHP_Model.FK_Transf_DocumentosAdjuntos_Transf_Solicitudes" FromRole="Transf_DocumentosAdjuntos" ToRole="Transf_Solicitudes" />
+          <NavigationProperty Name="aspnet_Users" Relationship="DGHP_Model.FK_Transf_DocumentosAdjuntos_aspnet_Users" FromRole="Transf_DocumentosAdjuntos" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="Transf_Firmantes_PersonasFisicas">
           <Key>
@@ -42836,6 +42858,18 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Principal>
             <Dependent Role="SSIT_DocumentosAdjuntos">
               <PropertyRef Name="id_tipodocsis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transf_DocumentosAdjuntos_aspnet_Users">
+          <End Type="DGHP_Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="DGHP_Model.Transf_DocumentosAdjuntos" Role="Transf_DocumentosAdjuntos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Transf_DocumentosAdjuntos">
+              <PropertyRef Name="UpdateUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

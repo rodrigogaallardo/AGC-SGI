@@ -499,7 +499,7 @@ namespace SGI.Mailer
             }
         }
 
-        private static void CrearNotificacion(int id_solicitud, int idmail, int idMotivoNotificacion, DGHP_Entities db)
+        private static void CrearNotificacion(int id_solicitud, int idmail, int idMotivoNotificacion, DGHP_Entities db,DateTime? fechaNotificacion = null)
         {
             if (id_solicitud > Constants.EsSolicitud)
             {
@@ -509,7 +509,8 @@ namespace SGI.Mailer
                     id_solicitud = id_solicitud,
                     id_email = idmail,
                     Id_NotificacionMotivo = idMotivoNotificacion,
-                    createDate = DateTime.Now
+                    createDate = DateTime.Now,
+                    fechaNotificacionSSIT = fechaNotificacion != null ? fechaNotificacion : DateTime.Now
                 };
                 db.SSIT_Solicitudes_Notificaciones.Add(notif);
             }
@@ -520,7 +521,8 @@ namespace SGI.Mailer
                     id_solicitud = id_solicitud,
                     id_email = idmail,
                     Id_NotificacionMotivo = idMotivoNotificacion,
-                    createDate = DateTime.Now
+                    createDate = DateTime.Now,
+                    fechaNotificacionSSIT = fechaNotificacion != null ? fechaNotificacion : DateTime.Now
                 };
                 db.Transf_Solicitudes_Notificaciones.Add(notif);
             }
@@ -1953,9 +1955,11 @@ namespace SGI.Mailer
             }
         }
 
-        public static void SendMail_Caducidad_v2(int idSolicitud)
+        public static List<string> SendMail_Caducidad_v2(int idSolicitud,DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
+            List<string> emailsNoDuplicados = new List<string>();
+
             try
             {
                 var user = GetUsuario(db, idSolicitud);
@@ -1969,12 +1973,15 @@ namespace SGI.Mailer
                 emails.AddRange(GetEmailProfesionales(db, idSolicitud));
 
                 string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.avisoCaducidad) + " - " + GetDireccion(db, idSolicitud);
+                emailsNoDuplicados = emailsNoDuplicados.ConvertAll(d => d.ToLower());
+                emailsNoDuplicados = emails.Distinct().ToList();
+                emailsNoDuplicados.Remove("");
 
-                var idEmails = EnviarEmails(TipoEmail.WebSGIBaja, 1, asunto, htmlMail_Caducidad(), emails);
+                var idEmails = EnviarEmails(TipoEmail.WebSGIBaja, 1, asunto, htmlMail_Caducidad(), emailsNoDuplicados);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db,fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -1988,6 +1995,8 @@ namespace SGI.Mailer
                 if (db != null)
                     db.Dispose();
             }
+
+            return emailsNoDuplicados;
         }
         public static void SendMail_LevantamientoRechazo(int idSolicitud)
         {
