@@ -36,7 +36,9 @@ namespace SGI.GestionTramite.Controls
             using (var db = new DGHP_Entities())
             {
                 var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
-                         && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
+                          && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).Union(
+                          db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
+                          && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
 
                 if (enc != null)
                 {
@@ -153,7 +155,14 @@ namespace SGI.GestionTramite.Controls
                         pnlSolicitudOrigen.Visible = true;
                         lblSoliictitudOrigen.Text = solOrigen.id_solicitud_origen.ToString();
 
-                        lblUbicacion.Text = GetDireccionPermiso(solOrigen.id_solicitud_origen.Value);
+                        if (solOrigen.id_solicitud_origen != null)
+                        {
+                            lblUbicacion.Text = GetDireccionPermiso(solOrigen.id_solicitud_origen.Value);
+                        }
+                        else 
+                        {
+                            lblUbicacion.Text = GetDireccionPermiso(solOrigen.id_transf_origen.Value);
+                        }
                     }
                 }
 
