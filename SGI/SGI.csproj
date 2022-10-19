@@ -826,6 +826,7 @@
     <Content Include="Mailer\MailRechazoSolicitudEspar.aspx" />
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
+    <Content Include="Operaciones\SolicitudesIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
     <Content Include="Operaciones\DistritosIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritos_SubzonasIndex.aspx" />
@@ -838,6 +839,7 @@
     <Content Include="Operaciones\AdministrarArchivosDeUnaSolicitud.aspx" />
     <Content Include="Operaciones\AdministrarTareasDeUnaSolicitud.aspx" />
     <Content Include="Operaciones\AgregarArchivo.aspx" />
+    <Content Include="Operaciones\SolicitudesForm.aspx" />
     <Content Include="Operaciones\TareasForm.aspx" />
     <Content Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
@@ -4409,6 +4411,13 @@
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\SolicitudesIndex.aspx.cs">
+      <DependentUpon>SolicitudesIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\SolicitudesIndex.aspx.designer.cs">
+      <DependentUpon>SolicitudesIndex.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Operaciones\CatalogoDistritosForm.aspx.cs">
       <DependentUpon>CatalogoDistritosForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -4500,6 +4509,13 @@
     <Compile Include="Operaciones\DataLayer\DataLayerBase.cs" />
     <Compile Include="Operaciones\DataLayer\Models\SSIT_Solicitudes_Model.cs" />
     <Compile Include="Operaciones\DataLayer\SSIT_Solicitudes_DL.cs" />
+    <Compile Include="Operaciones\SolicitudesForm.aspx.cs">
+      <DependentUpon>SolicitudesForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\SolicitudesForm.aspx.designer.cs">
+      <DependentUpon>SolicitudesForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Operaciones\TareasForm.aspx.cs">
       <DependentUpon>TareasForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
