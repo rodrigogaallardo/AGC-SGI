@@ -185,7 +185,7 @@
                                 <input id="fileupload" type="file" name="files[]" multiple accept="acrobat/pdf">
                             </span>
 
-                            <div class="req">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="req">
                                 <asp:Label ID="val_upload_fileupload_pdf" runat="server"
                                     Text="Solo se permiten archivos de tipo Acrobat Reader(*.pdf)"
                                     CssClass="field-validation-error"
@@ -233,8 +233,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Error</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;on>
+                odal-title">Error</h4>
             </div>
             <div class="modal-body">
                 <table style="border-collapse: separate; border-spacing: 5px">
@@ -486,12 +486,16 @@
         $('#<%=val_upload_fileupload_pdf.ClientID%>').hide();
         var format = $('#<%=hid_formato_archivo.ClientID%>').val();
         if (format == 'pdf') {
-            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Acrobat Reader(*.pdf)");
+            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Acrobat Reader (*.pdf)");
             if (!(/\.(pdf|pdf)$/i).test(arch_nombre))
                 $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
         } else if (format == 'jpg') {
             $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Imagen (*.jpg)");
             if (!(/\.(jpg|jpg)$/i).test(arch_nombre))
+                $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
+        } else if (format == 'jpgpdf') {
+            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Acrobat Reader (*.pdf) o Imagen (*.jpg)");
+            if (!(/\.(jpg|jpg)$/i).test(arch_nombre) && !(/\.(pdf|pdf)$/i).test(arch_nombre))
                 $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
         } else {
             $('#<%=val_upload_fileupload_pdf.ClientID%>').text("El formato de archivo no esta soportado");
