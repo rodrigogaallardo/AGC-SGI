@@ -35,7 +35,9 @@ namespace SGI.Operaciones
             string IdSubZonaStr = (Request.QueryString["IdSubZona"] == null) ? "" : Request.QueryString["IdSubZona"].ToString();
             if (String.IsNullOrEmpty(IdSubZonaStr))
             {
-                IdSubZonaStr = "0";
+                // IdSubZonaStr = "0";
+                Response.Redirect("~/Operaciones/CatalogoDistritos_SubzonasIndex.aspx?IdGrupoDistrito=" + ddlGrupoDistricto.SelectedValue + "&IdDistrito=" + ddlCatalogoDistritos.SelectedValue + "&IdZona=" + ddlCatalogoDistritos_Zonas.SelectedValue);
+
             }
             int IdSubZona = int.Parse(IdSubZonaStr);
             hdIdSubZona.Value = IdSubZonaStr;
@@ -85,6 +87,16 @@ namespace SGI.Operaciones
                     ddlCatalogoDistritos_Zonas.Enabled = false;
 
                 }
+                else
+                {
+                    string IdGrupoDistritoRequest = (Request.QueryString["IdGrupoDistrito"] == null) ? "" : Request.QueryString["IdGrupoDistrito"].ToString();
+                    if (IdGrupoDistritoRequest != "")
+                    {
+                        ddlGrupoDistricto.SelectedValue = IdGrupoDistritoRequest;
+                        ddlGrupoDistricto_SelectedIndexChanged(null, null);
+                    }
+
+                }
 
             }
         }
@@ -131,8 +143,8 @@ namespace SGI.Operaciones
 
         protected void ddlGrupoDistricto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlCatalogoDistritos.DataSource = null;
-            ddlCatalogoDistritos.DataBind();
+            //ddlCatalogoDistritos.DataSource = null;
+            //ddlCatalogoDistritos.DataBind();
 
 
 
@@ -145,14 +157,18 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos.DataTextField = "Codigo";
             ddlCatalogoDistritos.DataValueField = "IdDistrito";
             ddlCatalogoDistritos.DataBind();
-            ddlCatalogoDistritos.SelectedIndex = 0;
+
+            string IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
+            if (IdDistritoRequest != "")
+                ddlCatalogoDistritos.SelectedValue = IdDistritoRequest;
+
             ddlCatalogoDistritos_SelectedIndexChanged(null, null);
         }
 
         protected void ddlCatalogoDistritos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlCatalogoDistritos_Zonas.DataSource = null;
-            ddlCatalogoDistritos_Zonas.DataBind();
+            //ddlCatalogoDistritos_Zonas.DataSource = null;
+            //ddlCatalogoDistritos_Zonas.DataBind();
           
 
 
@@ -165,7 +181,16 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos_Zonas.DataTextField = "CodigoZona";
             ddlCatalogoDistritos_Zonas.DataValueField = "IdZona";
             ddlCatalogoDistritos_Zonas.DataBind();
-            ddlCatalogoDistritos_Zonas.SelectedIndex = 0;
+
+
+            string IdZonaRequest = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
+
+            if (IdZonaRequest != "")
+                ddlCatalogoDistritos_Zonas.SelectedValue = IdZonaRequest;
+            else
+                ddlCatalogoDistritos_Zonas.SelectedIndex = -1;
+
+
             ddlCatalogoDistritos_Zonas_SelectedIndexChanged(null, null);
         }
 
@@ -187,14 +212,15 @@ namespace SGI.Operaciones
             int IdZona = int.Parse(ddlCatalogoDistritos_Zonas.SelectedValue);
             int IdSubZona = int.Parse(hdIdSubZona.Value);
 
-            if (IdSubZona == 0)
+            if (IdSubZona > 0)
             {
-                ubicaciones_CatalogoDistritos_Subzonas.IdSubZona = context.Ubicaciones_CatalogoDistritos_Subzonas.Max(x => x.IdSubZona) + 1;
+                ubicaciones_CatalogoDistritos_Subzonas.IdSubZona = IdSubZona;
 
             }
             else
             {
-                ubicaciones_CatalogoDistritos_Subzonas.IdSubZona = IdSubZona;
+
+                ubicaciones_CatalogoDistritos_Subzonas.IdSubZona = context.Ubicaciones_CatalogoDistritos_Subzonas.Max(x => x.IdSubZona) + 1;
 
             }
             ubicaciones_CatalogoDistritos_Subzonas.IdZona = IdZona;

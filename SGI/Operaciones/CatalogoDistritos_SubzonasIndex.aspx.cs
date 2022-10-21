@@ -37,8 +37,10 @@ namespace SGI.Operaciones
                     ddlGrupoDistricto.SelectedValue = IdGrupoDistritoRequest;
                 else
                     ddlGrupoDistricto.SelectedIndex = 0;
+
+                hdIdGrupoDistrito.Value = ddlGrupoDistricto.SelectedValue;
                 ddlGrupoDistricto_SelectedIndexChanged(null, null);
-                btnBuscar_Click(null,null);
+                
             }
         }
 
@@ -82,16 +84,15 @@ namespace SGI.Operaciones
         protected void btnEdit_Click(object sender, EventArgs e)
         {
             int IdSubZona = int.Parse(((Button)sender).ToolTip);
-            Response.Redirect("~/Operaciones/CatalogoDistritos_SubZonasForm.aspx?IdSubZona=" + IdSubZona);
+            Response.Redirect("~/Operaciones/CatalogoDistritos_SubZonasForm.aspx?IdGrupoDistrito=" + hdIdGrupoDistrito.Value + "&IdDistrito=" + hdIdDistrito.Value + "&IdZona=" + hdIdZona.Value + "&IdSubZona=" + IdSubZona);
 
         }
 
 
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
-
-
-            Response.Redirect("~/Operaciones/CatalogoDistritos_SubZonasForm.aspx?IdSubZona=0");
+            Response.Redirect("~/Operaciones/CatalogoDistritos_SubZonasForm.aspx?IdGrupoDistrito=" + hdIdGrupoDistrito.Value + "&IdDistrito=" + hdIdDistrito.Value + "&IdZona=" + hdIdZona.Value + "&IdSubZona=0" );
+           
         }
 
 
@@ -111,8 +112,8 @@ namespace SGI.Operaciones
 
         protected void ddlGrupoDistricto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlCatalogoDistritos.DataSource = null;
-            ddlCatalogoDistritos.DataBind();
+            //ddlCatalogoDistritos.DataSource = null;
+            //ddlCatalogoDistritos.DataBind();
             gridView.DataSource = null;
             gridView.DataBind();
 
@@ -134,14 +135,15 @@ namespace SGI.Operaciones
             else
                 ddlCatalogoDistritos.SelectedIndex = 0;
 
-          
+            hdIdGrupoDistrito.Value = ddlGrupoDistricto.SelectedValue;
+
             ddlCatalogoDistritos_SelectedIndexChanged(null, null);
         }
 
         protected void ddlCatalogoDistritos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlCatalogoDistritos_Zonas.DataSource = null;
-            ddlCatalogoDistritos_Zonas.DataBind();
+            //ddlCatalogoDistritos_Zonas.DataSource = null;
+            //ddlCatalogoDistritos_Zonas.DataBind();
             gridView.DataSource = null;
             gridView.DataBind();
 
@@ -151,6 +153,13 @@ namespace SGI.Operaciones
             List<Ubicaciones_CatalogoDistritos_Zonas> ubicaciones_CatalogoDistritos_ZonasList = (from t in entities.Ubicaciones_CatalogoDistritos_Zonas
                                                                                                  where t.IdDistrito == IdDistrito
                                                                                                  select t).ToList();
+            if (ubicaciones_CatalogoDistritos_ZonasList.Count() < 1)
+            {
+                ddlCatalogoDistritos_Zonas.DataSource = null;
+               ddlCatalogoDistritos_Zonas.DataBind();
+                ddlCatalogoDistritos_Zonas.Items.Clear();
+                return;
+            }
             ddlCatalogoDistritos_Zonas.DataSource = ubicaciones_CatalogoDistritos_ZonasList;
             ddlCatalogoDistritos_Zonas.DataTextField = "CodigoZona";
             ddlCatalogoDistritos_Zonas.DataValueField = "IdZona";
@@ -163,14 +172,19 @@ namespace SGI.Operaciones
             else
                 ddlCatalogoDistritos_Zonas.SelectedIndex = 0;
 
-            
+            hdIdDistrito.Value = ddlCatalogoDistritos.SelectedValue;
+
             ddlCatalogoDistritos_Zonas_SelectedIndexChanged(null, null);
         }
         protected void ddlCatalogoDistritos_Zonas_SelectedIndexChanged(object sender, EventArgs e)
         {
             gridView.DataSource = null;
             gridView.DataBind();
+
+
+
             hdIdZona.Value = ddlCatalogoDistritos_Zonas.SelectedValue;
+            btnBuscar_Click(null, null);
         }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -186,6 +200,9 @@ namespace SGI.Operaciones
             gridView.DataBind();
         }
 
-
+        protected void btnReturn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Operaciones/DistritosIndex.aspx");
+        }
     }
 }

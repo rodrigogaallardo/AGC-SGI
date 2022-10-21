@@ -60,7 +60,7 @@
  
 
     <asp:HiddenField ID="hdidSolicitud" runat="server" />
-    <asp:HiddenField ID="hdSSIT_TRANSF" runat="server" />
+    <asp:HiddenField ID="hdtipo" runat="server" />
     <div class="control-group">
         <asp:Button ID="btnSave" runat="server" Text="Guardar" OnClick="btnSave_Click" OnClientClick="return ConfirmaTransaccion();" CssClass="btn btn-primary" />
         <asp:Button ID="btnReturn" runat="server" Text="Volver" OnClick="btnReturn_Click" CssClass="btn btn-primary" />

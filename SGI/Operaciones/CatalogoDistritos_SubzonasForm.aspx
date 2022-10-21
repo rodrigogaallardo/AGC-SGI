@@ -1,5 +1,5 @@
 ﻿<%@ Page
-    Title="Administrar tareas de una solicitud"
+    Title="Administrar SubZonas"
     MasterPageFile="~/Site.Master"
     Language="C#"
     AutoEventWireup="true"
@@ -27,19 +27,12 @@
         }
 
     </script>
-    <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de solicitud</label>
-
-    </div>
-
-   
-
-    <hr />
-    <p class="lead mtop20">Catalogo Distritos SubZonas</p>
+    
+    <p class="lead mtop20">SubZonas</p>
 
    <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-label" Text="Grupo-Districto" runat="server"></asp:Label>
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
+            <asp:Label class="control-label" Text="Grupo Distrito" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
             <asp:DropDownList ID="ddlGrupoDistricto" runat="server" AutoPostBack="true"  OnSelectedIndexChanged="ddlGrupoDistricto_SelectedIndexChanged"
@@ -50,8 +43,8 @@
     </div>
 
     <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-lddlGrupoDistrictoabel" Text="Catalogo-Districto" runat="server"></asp:Label>
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
+            <asp:Label class="control-lddlGrupoDistrictoabel" Text="Distrito" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
             <asp:DropDownList ID="ddlCatalogoDistritos" runat="server" AutoPostBack="true"   OnSelectedIndexChanged="ddlCatalogoDistritos_SelectedIndexChanged"
@@ -63,12 +56,12 @@
 
 
      <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-lddlGrupoDistrictoabel" Text="Catalogo Distritos_Zonas" runat="server"></asp:Label>
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
+            <asp:Label class="control-lddlGrupoDistrictoabel" Text="Zonas" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
             <asp:DropDownList ID="ddlCatalogoDistritos_Zonas" runat="server" AutoPostBack="true"   OnSelectedIndexChanged="ddlCatalogoDistritos_Zonas_SelectedIndexChanged"
-                DataTextField="Descripcion" DataValueField="IdDistrito">
+                DataTextField="CodigoZona" DataValueField="IdZona">
             </asp:DropDownList>
 
         </div>
@@ -76,8 +69,8 @@
 
 
    <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
-           <asp:Label class="control-label" Text="Codigo Sub Zona" runat="server"></asp:Label>
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
+           <asp:Label class="control-label" Text="SubZona" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
         <asp:TextBox  ID="txtCodigoSubZona" CssClass="input-xlarge" Width="150px" runat="server"> </asp:TextBox>

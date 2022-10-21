@@ -119,5 +119,10 @@ namespace SGI.Operaciones
 
             Response.Redirect("~/Operaciones/GruposDistritosForm.aspx?IdGrupoDistrito=0");
         }
+
+        protected void btnReturn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Operaciones/DistritosIndex.aspx");
+        }
     }
 }

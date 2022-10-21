@@ -1,6 +1,6 @@
 ﻿<%@ Page
-    Title="Administrar tareas de una solicitud"
-    MasterPageFile="~/Site.Master"
+   Title="Administrar Catalogo Distritos"
+     MasterPageFile="~/Site.Master"
     Language="C#"
     AutoEventWireup="true"
     CodeBehind="CatalogoDistritosForm.aspx.cs"
@@ -27,20 +27,13 @@
         }
 
     </script>
-    <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de solicitud</label>
-
-    </div>
-
-
-
-    <hr />
+   
     <p class="lead mtop20">Grupos Distritos</p>
 
 
     <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-label" Text="Grupo-Districto" runat="server"></asp:Label>
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
+            <asp:Label class="control-label" Text="Grupo Distrito" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
             <asp:DropDownList ID="ddlGrupoDistricto" runat="server" AutoPostBack="false" 
@@ -52,7 +45,7 @@
 
 
     <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Text="Codigo" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
@@ -62,7 +55,7 @@
 
 
     <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Text="Descripcion" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
@@ -73,7 +66,7 @@
 
 
     <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 80px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Text="Orden" runat="server"></asp:Label>
         </div>
         <div style="width: 50px; display: inline-block; margin-top: 5px;">

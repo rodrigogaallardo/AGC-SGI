@@ -42,15 +42,6 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.GridView gridViewSSIT_Solicitudes;
 
         /// <summary>
-        /// gridViewTransf_Solicitudes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewTransf_Solicitudes;
-
-        /// <summary>
         /// lblMsj control.
         /// </summary>
         /// <remarks>

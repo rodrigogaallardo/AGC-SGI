@@ -35,13 +35,14 @@ namespace SGI.Operaciones
             string IdZonaStr = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
             if (String.IsNullOrEmpty(IdZonaStr))
             {
-                IdZonaStr = "0";
+                //IdZonaStr = "0";
+                Response.Redirect("~/Operaciones/CatalogoDistritos_ZonasIndex.aspx?IdGrupoDistrito=" + ddlGrupoDistricto.SelectedValue + "&IdDistrito=" + ddlCatalogoDistritos.SelectedValue);
+
             }
             int IdZona = int.Parse(IdZonaStr);
             hdIdZona.Value = IdZonaStr;
 
-            Ubicaciones_CatalogoDistritos_Zonas ubicaciones_CatalogoDistritos_Zonas = new Ubicaciones_CatalogoDistritos_Zonas();
-            ubicaciones_CatalogoDistritos_Zonas = BuscarUbicaciones_CatalogoDistritos_Zonas(IdZona);
+
             if (!IsPostBack)
             {
                 ddlGrupoDistricto.DataSource = GetUbicaciones_GruposDistritosList();
@@ -53,15 +54,17 @@ namespace SGI.Operaciones
 
                 if (IdZona > 0)
                 {
+                    Ubicaciones_CatalogoDistritos_Zonas ubicaciones_CatalogoDistritos_Zonas = new Ubicaciones_CatalogoDistritos_Zonas();
+                    ubicaciones_CatalogoDistritos_Zonas = BuscarUbicaciones_CatalogoDistritos_Zonas(IdZona);
                     txtCodigoZona.Text = ubicaciones_CatalogoDistritos_Zonas.CodigoZona;
 
 
                     Ubicaciones_CatalogoDistritos ubicaciones_CatalogoDistritos;
                     using (DGHP_Entities entities = new DGHP_Entities())
                     {
-                         ubicaciones_CatalogoDistritos = (from x in entities.Ubicaciones_CatalogoDistritos
-                                                                                       where x.IdDistrito == ubicaciones_CatalogoDistritos_Zonas.IdDistrito
-                                                          select x).FirstOrDefault();
+                        ubicaciones_CatalogoDistritos = (from x in entities.Ubicaciones_CatalogoDistritos
+                                                         where x.IdDistrito == ubicaciones_CatalogoDistritos_Zonas.IdDistrito
+                                                         select x).FirstOrDefault();
                     }
 
                     ddlGrupoDistricto.SelectedValue = ubicaciones_CatalogoDistritos.IdGrupoDistrito.ToString();
@@ -70,6 +73,16 @@ namespace SGI.Operaciones
 
                     ddlCatalogoDistritos.SelectedValue = ubicaciones_CatalogoDistritos_Zonas.IdDistrito.ToString();
                     ddlCatalogoDistritos.Enabled = false;
+                }
+                else
+                {
+                    string IdGrupoDistritoRequest = (Request.QueryString["IdGrupoDistrito"] == null) ? "" : Request.QueryString["IdGrupoDistrito"].ToString();
+                    if (IdGrupoDistritoRequest != "")
+                    {
+                        ddlGrupoDistricto.SelectedValue = IdGrupoDistritoRequest;
+                        ddlGrupoDistricto_SelectedIndexChanged(null, null);
+                    }
+
                 }
 
             }
@@ -117,9 +130,9 @@ namespace SGI.Operaciones
 
         protected void ddlGrupoDistricto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ddlCatalogoDistritos.DataSource = null;
-            ddlCatalogoDistritos.DataBind();
-
+            //ddlCatalogoDistritos.DataSource = null;
+            //ddlCatalogoDistritos.SelectedIndex = -1;
+            //ddlCatalogoDistritos.DataBind();
 
 
             DGHP_Entities entities = new DGHP_Entities();
@@ -131,7 +144,11 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos.DataTextField = "Codigo";
             ddlCatalogoDistritos.DataValueField = "IdDistrito";
             ddlCatalogoDistritos.DataBind();
-            ddlCatalogoDistritos.SelectedIndex = 0;
+
+            string IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
+            if (IdDistritoRequest != "")
+                ddlCatalogoDistritos.SelectedValue = IdDistritoRequest;
+
             ddlCatalogoDistritos_SelectedIndexChanged(null, null);
         }
 

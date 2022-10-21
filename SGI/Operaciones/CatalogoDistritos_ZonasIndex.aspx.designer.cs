@@ -60,6 +60,15 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.Button btnNuevo;
 
         /// <summary>
+        /// btnReturn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReturn;
+
+        /// <summary>
         /// hdIdDistrito control.
         /// </summary>
         /// <remarks>
@@ -67,5 +76,14 @@ namespace SGI.Operaciones
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdIdDistrito;
+
+        /// <summary>
+        /// hdIdGrupoDistrito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdIdGrupoDistrito;
     }
 }

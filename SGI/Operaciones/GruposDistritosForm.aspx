@@ -1,5 +1,5 @@
 ﻿<%@ Page
-    Title="Administrar tareas de una solicitud"
+   Title="Administrar Grupo Distritos"
     MasterPageFile="~/Site.Master"
     Language="C#"
     AutoEventWireup="true"
@@ -27,18 +27,11 @@
         }
 
     </script>
-    <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de solicitud</label>
-
-    </div>
-
    
-
-    <hr />
     <p class="lead mtop20">Grupos Distritos</p>
 
    <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 70px; display: inline-block; margin-top: 5px;">
            <asp:Label class="control-label" Text="Codigo" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
@@ -48,7 +41,7 @@
 
 
     <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 70px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Text="Nombre" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
@@ -57,7 +50,7 @@
     </div>
    
       <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 70px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Text="Definicion" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">
@@ -66,7 +59,7 @@
     </div>
     
      <div class="control-group">
-        <div style="width: 150px; display: inline-block; margin-top: 5px;">
+        <div style="width: 70px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Text="Referencia" runat="server"></asp:Label>
         </div>
         <div style="width: 500px; display: inline-block; margin-top: 5px;">

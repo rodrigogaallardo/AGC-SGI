@@ -1,6 +1,8 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using SGI.Model;
+using Syncfusion.XlsIO;
 using System;
 using System.Activities.Statements;
 using System.Collections.Generic;
@@ -14,7 +16,9 @@ namespace SGI.Operaciones
 {
     public partial class SolicitudesIndex : System.Web.UI.Page
     {
-        List<TipoEstadoSolicitud> TipoEstadoSolicitudList;
+        static List<TipoEstadoSolicitud> TipoEstadoSolicitudList;
+        static List<CPadron_Estados> CPadron_EstadosList;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -32,76 +36,152 @@ namespace SGI.Operaciones
                                            orderby (t.Descripcion)
                                            select t).ToList();
 
+                CPadron_EstadosList = (from t in entities.CPadron_Estados
+                                       orderby (t.nom_estado_usuario)
+                                       select t).ToList();
+
+
                 CargarSolicitud();
             }
         }
 
         public void CargarSolicitud()
         {
-            gridViewTransf_Solicitudes.DataSource = null;
-            gridViewTransf_Solicitudes.DataBind();
+          
             lblMsj.Text = "";
             int idSolicitud;
-            hdSSIT_TRANSF.Value = "";
+
             bool couldParse = int.TryParse(txtBuscarSolicitud.Text, out idSolicitud);
 
             if (couldParse)
             {
                 DGHP_Entities entities = new DGHP_Entities();
 
+                #region MyRegion
+                // List<SolicitudesDto>
+                List<SolicitudesDto> SolicitudesDtoAuxList = (from s in entities.SSIT_Solicitudes
+                                             join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
+                                             join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
+                                             join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
+                                             join tes in entities.TipoEstadoSolicitud on s.id_tipoexpediente equals tes.Id
+                                             join u in entities.aspnet_Users on s.CreateUser equals u.UserId
+                                             where s.id_solicitud == idSolicitud
+                                             select new SolicitudesDto
+                                             {
+                                                 tipo = "S",
+                                                 id_solicitud = s.id_solicitud,
+
+                                                 id_tipotramite = s.id_tipotramite,
+                                                 descripcion_tipotramite = tt.descripcion_tipotramite,
+
+                                                 id_tipoexpediente = s.id_tipoexpediente,
+                                                 descripcion_tipoexpediente = te.descripcion_tipoexpediente,
+
+                                                 id_subtipoexpediente = s.id_subtipoexpediente,
+                                                 descripcion_subtipoexpediente = ts.descripcion_subtipoexpediente,
+
+                                                 id_estado = s.id_estado,
+                                                 estado = tes.Descripcion,
+
+                                                 CreateDate = s.CreateDate,
+
+                                                 CreateUser = u.UserName,
+
+                                                 CodigoSeguridad = s.CodigoSeguridad,
+
+                                                 FechaLibrado = s.FechaLibrado
+                                             })
+                                   .Union(from s in entities.Transf_Solicitudes
+                                          join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
+                                          join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
+                                          join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
+                                          join tes in entities.TipoEstadoSolicitud on s.id_tipoexpediente equals tes.Id
+                                          join u in entities.aspnet_Users on s.CreateUser equals u.UserId
+                                          where s.id_solicitud == idSolicitud
+                                          select new SolicitudesDto
+                                          {
+                                              tipo = "T",
+                                              id_solicitud = s.id_solicitud,
+
+                                              id_tipotramite = s.id_tipotramite,
+                                              descripcion_tipotramite = tt.descripcion_tipotramite,
+
+                                              id_tipoexpediente = s.id_tipoexpediente,
+                                              descripcion_tipoexpediente = te.descripcion_tipoexpediente,
+
+                                              id_subtipoexpediente = s.id_subtipoexpediente,
+                                              descripcion_subtipoexpediente = ts.descripcion_subtipoexpediente,
+
+                                              id_estado = s.id_estado,
+                                              estado = tes.Descripcion,
+
+                                              CreateDate = s.CreateDate,
+
+                                              CreateUser = u.UserName,
+
+                                              CodigoSeguridad = s.CodigoSeguridad,
+
+                                              FechaLibrado = s.CreateDate
+
+                                          })
+                                   .Union(from s in entities.CPadron_Solicitudes
+                                          join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
+                                          join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
+                                          join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
+                                          join tes in entities.TipoEstadoSolicitud on s.id_tipoexpediente equals tes.Id
+                                          join u in entities.aspnet_Users on s.CreateUser equals u.UserId
+                                          where s.id_cpadron == idSolicitud
+                                          select new SolicitudesDto
+                                          {
+                                              tipo = "P",
+                                              id_solicitud = s.id_cpadron,
+
+                                              id_tipotramite = s.id_tipotramite,
+                                              descripcion_tipotramite = tt.descripcion_tipotramite,
+
+                                              id_tipoexpediente = s.id_tipoexpediente,
+                                              descripcion_tipoexpediente = te.descripcion_tipoexpediente,
+
+                                              id_subtipoexpediente = s.id_subtipoexpediente,
+                                              descripcion_subtipoexpediente = ts.descripcion_subtipoexpediente,
+
+                                              id_estado = s.id_estado,
+                                              estado = tes.Descripcion,
+
+                                              CreateDate = s.CreateDate,
+
+                                              CreateUser = u.UserName,
+
+                                              CodigoSeguridad = s.CodigoSeguridad,
+
+                                              FechaLibrado = s.CreateDate
+
+                                          })
+                                   .ToList();
 
 
-                List<SSIT_Solicitudes> SSIT_SolicitudesList = (from s in entities.SSIT_Solicitudes
-                                                               where s.id_solicitud == idSolicitud
-                                                               select s).ToList();
-                if (SSIT_SolicitudesList.Count > 0)
-                {
+                gridViewSSIT_Solicitudes.Visible = true;
+                gridViewSSIT_Solicitudes.DataSource = SolicitudesDtoAuxList;
+                gridViewSSIT_Solicitudes.DataBind();
+                hdidSolicitud.Value = idSolicitud.ToString();
 
-                    gridViewSSIT_Solicitudes.Visible = true;
-                    gridViewTransf_Solicitudes.Visible = false;
-                    gridViewSSIT_Solicitudes.DataSource = SSIT_SolicitudesList;
-                    gridViewSSIT_Solicitudes.DataBind();
-                    hdidSolicitud.Value = idSolicitud.ToString();
-                    hdSSIT_TRANSF.Value = "S";
-                    return;
 
-                }
+              
+                #endregion
 
-                List<Transf_Solicitudes> Transf_SolicitudesList = (from s in entities.Transf_Solicitudes
-                                                                   where s.id_solicitud == idSolicitud
-                                                                   select s).ToList();
-
-                if (Transf_SolicitudesList.Count > 0)
-                {
-
-                    gridViewSSIT_Solicitudes.Visible = false;
-                    gridViewTransf_Solicitudes.Visible = true;
-                    gridViewTransf_Solicitudes.DataSource = Transf_SolicitudesList;
-                    gridViewTransf_Solicitudes.DataBind();
-                    hdidSolicitud.Value = idSolicitud.ToString();
-                    hdSSIT_TRANSF.Value = "T";
-                    return;
-
-                }
-
+               if(SolicitudesDtoAuxList.Count()==0)
+                { 
                 lblMsj.Text = "No hay datos pra esta Solicitud";
+                }
+               else
+                {
+                    lblMsj.Text = "";
+                }
 
             }
         }
 
-        public IEnumerable<aspnet_Users> CargarTodosLosUsuarios()
-        {
-            using (DGHP_Entities entities = new DGHP_Entities())
-            {
-                return entities.aspnet_Users.ToList();
-            }
-        }
 
-        public IEnumerable<ENG_Tareas> CargarTodasLasTareas()
-        {
-            DGHP_Entities entities = new DGHP_Entities();
-            return entities.ENG_Tareas.OrderBy(tarea => tarea.ENG_Circuitos.nombre_circuito).ToList();
-        }
 
 
 
@@ -112,56 +192,10 @@ namespace SGI.Operaciones
             this.CargarSolicitud();
         }
 
-        //protected void btnRemove_Click(object sender, EventArgs e)
-        //{
-        //    int idTramiteTarea = int.Parse(((Button)sender).ToolTip);
-        //    using (DGHP_Entities entities = new DGHP_Entities())
-        //    {
-        //        SGI_Tramites_Tareas tramiteTarea = entities.SGI_Tramites_Tareas.Where(tarea => tarea.id_tramitetarea == idTramiteTarea).FirstOrDefault();
-
-        //        if (tramiteTarea != null)
-        //        {
-
-        //            #region SGI_Tramites_Tareas_HAB
-        //            List<SGI_Tramites_Tareas_HAB> SGI_Tramites_Tareas_HABList =
-        //              entities.SGI_Tramites_Tareas_HAB.Where(tth => tth.id_tramitetarea == idTramiteTarea).ToList();
-
-        //            entities.SGI_Tramites_Tareas_HAB.RemoveRange(SGI_Tramites_Tareas_HABList);
-        //            #endregion
-
-        //            #region SGI_Tramites_Tareas_TRANSF
-        //            List<SGI_Tramites_Tareas_TRANSF> SGI_Tramites_Tareas_TRANSFList =
-        //           entities.SGI_Tramites_Tareas_TRANSF.Where(tet => tet.id_tramitetarea == idTramiteTarea).ToList();
-
-        //            entities.SGI_Tramites_Tareas_TRANSF.RemoveRange(SGI_Tramites_Tareas_TRANSFList);
-        //            #endregion
-
-
-        //            try
-        //            {
-        //                entities.SGI_Tramites_Tareas.Remove(tramiteTarea);
-        //                entities.SaveChanges();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                //ASOSA MENSAJE DE ERROR
-        //                ScriptManager sm = ScriptManager.GetCurrent(this);
-        //                string cadena = "No pudo borrarse el Tramite Tarea por restricciones con otras tablas";
-        //                string script = string.Format("alert('{0}');", cadena);
-        //                ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
-
-
-        //            }
-        //        }
-
-
-        //        this.CargarSolicitudConTareas();
-        //    }
-        //}
         protected void btnEdit_Click(object sender, EventArgs e)
         {
-            int idTramiteTarea = int.Parse(((Button)sender).ToolTip);
-            Response.Redirect("~/Operaciones/SolicitudesForm.aspx?idSolicitud=" + hdidSolicitud.Value + "&SSIT_TRANSF=" + hdSSIT_TRANSF.Value);
+            string tipo = ((Button)sender).ToolTip;
+            Response.Redirect("~/Operaciones/SolicitudesForm.aspx?idSolicitud=" + hdidSolicitud.Value + "&tipo=" + tipo);
         }
 
         protected void gridView_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -175,20 +209,27 @@ namespace SGI.Operaciones
 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    DGHP_Entities entities = new DGHP_Entities();
+                    //DGHP_Entities entities = new DGHP_Entities();
                     Label lblTipoEstado = (Label)e.Row.FindControl("lblTipoEstado");
-                    Label labelidSolicitud = (Label)e.Row.FindControl("labelidSolicitud");
-                    int id = int.Parse(lblTipoEstado.Text);
-                    TipoEstadoSolicitud TipoEstadoSolicitud = (from t in entities.TipoEstadoSolicitud
-                                                               where t.Id == id
-                                                               select t).FirstOrDefault();
+                    Label labelid_estado = (Label)e.Row.FindControl("labelid_estado");
+                    Label labelTipoTramite = (Label)e.Row.FindControl("labelTipoTramite");
 
+                    int id = int.Parse(labelid_estado.Text);
 
-
-                    lblTipoEstado.Text = TipoEstadoSolicitud.Descripcion;
-
-
-
+                    if (lblTipoEstado.Text == "P")
+                    {
+                        CPadron_Estados cPadron_Estados = (from t in CPadron_EstadosList
+                                                           where t.id_estado == id
+                                                           select t).FirstOrDefault();
+                        labelTipoTramite.Text = cPadron_Estados.nom_estado_usuario;
+                    }
+                    else
+                    {
+                        TipoEstadoSolicitud tipoEstadoSolicitud = (from t in TipoEstadoSolicitudList
+                                                                   where t.Id == id
+                                                                   select t).FirstOrDefault();
+                        labelTipoTramite.Text = tipoEstadoSolicitud.Descripcion;
+                    }
 
 
 

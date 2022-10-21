@@ -1,5 +1,5 @@
 ﻿<%@ Page 
-    Title="Administrar tareas de una solicitud"
+    Title="Administrar Grupo Distritos"
     MasterPageFile="~/Site.Master"
     Language="C#" 
     AutoEventWireup="true" 
@@ -12,6 +12,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+
+
     <hgroup class="title">
         <h1><%= Title %>.</h1>
     </hgroup> 
@@ -24,7 +26,7 @@
 
    
 
-        <hr />
+      
         <p class="lead mtop20">Grupo Distrito</p>
 
         <asp:GridView id="gridView" 
@@ -44,11 +46,11 @@
                     </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="Id" Visible="true">
+              <%--  <asp:TemplateField HeaderText="Id" Visible="true">
                     <ItemTemplate>
                         <asp:Label ID="labelIdGrupoDistrito" runat="server" Text='<%# Bind("IdGrupoDistrito") %>'></asp:Label>
                     </ItemTemplate>
-                </asp:TemplateField>
+                </asp:TemplateField>--%>
 
                 <asp:TemplateField HeaderText="Codigo">
                     <ItemTemplate>
@@ -76,7 +78,9 @@
       <hr />
      
       <div class="control-group">
-        <asp:Button id="btnNuevo" Enabled="true" runat="server" Text="Nueva Grupo-Distrito" OnClick="btnNuevo_Click" CssClass="btn btn-primary"/>
+        <asp:Button id="btnNuevo" Enabled="true" runat="server" Text="Nuevo Grupo Distrito" OnClick="btnNuevo_Click" CssClass="btn btn-primary"/>
+        <asp:Button ID="btnReturn" runat="server" Text="Volver al Indice" OnClick="btnReturn_Click" CssClass="btn btn-primary" />
+
     </div>
 
 

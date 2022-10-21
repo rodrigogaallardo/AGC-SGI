@@ -44,7 +44,7 @@
             <Columns>
                   <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:Button ID="btnEdit" runat="server" Text="Editar"  ToolTip ='<%# Eval("id_solicitud") %>' OnClick="btnEdit_Click"></asp:Button>
+                        <asp:Button ID="btnEdit" runat="server" Text="Editar"  ToolTip ='<%# Eval("tipo") %>' OnClick="btnEdit_Click"></asp:Button>
                     </ItemTemplate>
                 </asp:TemplateField>
 
@@ -54,81 +54,67 @@
                     </ItemTemplate>
                 </asp:TemplateField>--%>
 
+                 <asp:TemplateField HeaderText="Tipo">
+                    <ItemTemplate>
+                        <asp:Label  ID="lblTipoEstado" runat="server" Text='<%# Bind("tipo") %>'> ></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="idSolicitud" Visible="true">
+
+                <asp:TemplateField HeaderText="idTarea" Visible="true">
                     <ItemTemplate>
                         <asp:Label ID="labelidSolicitud" runat="server" Text='<%# Bind("id_solicitud") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="Tarea">
+                 <asp:TemplateField HeaderText="Tipo Tramite">
                     <ItemTemplate>
-                        <asp:Label ID="labelCreateDate" runat="server"><%# Eval("CreateDate") %></asp:Label>
+                         <asp:Label ID="labelTipoTramite" runat="server"></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="Circuito">
+                 <asp:TemplateField HeaderText="Tipo Expediente">
+                    <ItemTemplate><%# Eval("descripcion_tipoexpediente") %></ItemTemplate>
+                </asp:TemplateField>
+
+                 <asp:TemplateField HeaderText="Sub Tipo Expediente">
+                    <ItemTemplate><%# Eval("descripcion_subtipoexpediente") %></ItemTemplate>
+                </asp:TemplateField>
+
+                  <asp:TemplateField HeaderText="Estado">
+                    <ItemTemplate><%# Eval("estado") %></ItemTemplate>
+                </asp:TemplateField>
+
+
+                <asp:TemplateField HeaderText="Fec.Creacion">
+                    <ItemTemplate>
+                        <asp:Label  runat="server"><%# Eval("CreateDate") %></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="Usuario">
+                    <ItemTemplate>
+                        <asp:Label  runat="server"><%# Eval("CreateUser") %></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="C.Seguridad">
                     <ItemTemplate><%# Eval("CodigoSeguridad") %></ItemTemplate>
                 </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="Usuario Asignado">
-                    <ItemTemplate>
-                        <asp:Label ID="labelUsuarioAsignado" runat="server" Text='<%# Bind("idTAD") %>'></asp:Label>
-                    </ItemTemplate>
-                 
+                  <asp:TemplateField HeaderText="Fec.Librado">
+                    <ItemTemplate><%# Eval("FechaLibrado") %></ItemTemplate>
                 </asp:TemplateField>
+
+                 <asp:TemplateField  Visible="false">
+                    <ItemTemplate>
+                         <asp:Label ID="labelid_estado" Text='<%# Bind("id_estado") %>' Visible="false" runat="server"></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+              
             </Columns>
         </asp:GridView>
 
-        <asp:GridView id="gridViewTransf_Solicitudes" 
-            runat="server"
-            Width="100%" 
-            OnRowDataBound="gridView_RowDataBound"
-            AutoGenerateColumns="false" Visible="false">
-             <Columns>
-                  <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button ID="btnEdit" runat="server" Text="Editar"  ToolTip ='<%# Eval("id_solicitud") %>' OnClick="btnEdit_Click"></asp:Button>
-                    </ItemTemplate>
-                </asp:TemplateField>
-
-             <%--  <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button ID="btnRemove" runat="server" Text="Eliminar"  ToolTip='<%# Eval("id_solicitud") %>' OnClick="btnRemove_Click" OnClientClick='<%# string.Format("return ConfirmaEliminar({0});", Eval("id_solicitud")) %>'></asp:Button>
-                    </ItemTemplate>
-                </asp:TemplateField>--%>
-
-
-                <asp:TemplateField HeaderText="idSolicitud" Visible="true">
-                    <ItemTemplate>
-                        <asp:Label ID="labelidSolicitud" runat="server" Text='<%# Bind("id_solicitud") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-
-                 <asp:TemplateField HeaderText="Tipo Estado" Visible="true">
-                    <ItemTemplate>
-                        <asp:Label ID="lblTipoEstado" runat="server" Text='<%# Bind("id_estado") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="Create Date">
-                    <ItemTemplate>
-                        <asp:Label ID="labelCreateDate" runat="server"><%# Eval("CreateDate") %></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="Codigo Seguridad">
-                    <ItemTemplate><%# Eval("CodigoSeguridad") %></ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="idTAD">
-                    <ItemTemplate>
-                        <asp:Label ID="labelUsuarioAsignado" runat="server" Text='<%# Bind("idTAD") %>'></asp:Label>
-                    </ItemTemplate>
-                 
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
+     
       <hr />
     <asp:Label ID="lblMsj" runat="server"  Style="color: Black"></asp:Label>
 

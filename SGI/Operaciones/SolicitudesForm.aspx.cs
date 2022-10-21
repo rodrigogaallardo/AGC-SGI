@@ -43,18 +43,20 @@ namespace SGI.Operaciones
             int idSolicitud = int.Parse(idSolicitudStr);
             hdidSolicitud.Value = idSolicitudStr;
 
-            string SSIT_TRANSF = (Request.QueryString["SSIT_TRANSF"] == null) ? "" : Request.QueryString["SSIT_TRANSF"].ToString();
-            hdSSIT_TRANSF.Value = SSIT_TRANSF;
+            string tipo = (Request.QueryString["tipo"] == null) ? "" : Request.QueryString["tipo"].ToString();
+            hdtipo.Value = tipo;
 
 
             if (!IsPostBack)
             {
-                ddlTipoEstado.DataSource = CargarTipoEstadoSolicitud();
-                ddlTipoEstado.DataTextField = "Descripcion";
-                ddlTipoEstado.DataValueField = "Id";
-                ddlTipoEstado.DataBind();
-                if (SSIT_TRANSF == "S")
+               
+                if (tipo == "S")
                 {
+                    ddlTipoEstado.DataSource = CargarTipoEstadoSolicitud();
+                    ddlTipoEstado.DataTextField = "Descripcion";
+                    ddlTipoEstado.DataValueField = "Id";
+                    ddlTipoEstado.DataBind();
+
                     SSIT_Solicitudes sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
                     calFechaLibrado.Visible = true;
                     chkFecLibrado.Visible = true;
@@ -74,10 +76,28 @@ namespace SGI.Operaciones
 
 
                 }
-                else
+                else if (tipo == "T")
                 {
+                    ddlTipoEstado.DataSource = CargarTipoEstadoSolicitud();
+                    ddlTipoEstado.DataTextField = "Descripcion";
+                    ddlTipoEstado.DataValueField = "Id";
+                    ddlTipoEstado.DataBind();
+
                     Transf_Solicitudes transf_Solicitudes = CargarTransf_SolicitudesByIdSolicitud(idSolicitud);
                     ddlTipoEstado.SelectedValue = transf_Solicitudes.id_estado.ToString();
+                    calFechaLibrado.Visible = false;
+                    chkFecLibrado.Visible = false;
+                    lblFecLibrado.Visible = false;
+                }
+                else
+                {
+                    ddlTipoEstado.DataSource = CargarCPadron_Estados();
+                    ddlTipoEstado.DataTextField = "nom_estado_usuario";
+                    ddlTipoEstado.DataValueField = "id_estado";
+                    ddlTipoEstado.DataBind();
+
+                    CPadron_Solicitudes cPadron_Solicitudes = CargarCPadron_SolicitudesByIdSolicitud(idSolicitud);
+                    ddlTipoEstado.SelectedValue = cPadron_Solicitudes.id_estado.ToString();
                     calFechaLibrado.Visible = false;
                     chkFecLibrado.Visible = false;
                     lblFecLibrado.Visible = false;
@@ -105,13 +125,24 @@ namespace SGI.Operaciones
 
         public List<TipoEstadoSolicitud> CargarTipoEstadoSolicitud()
         {
-
+          
 
             DGHP_Entities db = new DGHP_Entities();
 
             List<TipoEstadoSolicitud> q = (from usu in db.TipoEstadoSolicitud
-                                           orderby (usu.Descripcion)
-                                           select usu).ToList();
+                     orderby (usu.Descripcion)
+                     select usu).ToList();
+            
+            return q;
+        }
+        public List<CPadron_Estados> CargarCPadron_Estados()
+        {
+            DGHP_Entities db = new DGHP_Entities();
+
+            List<CPadron_Estados> q = (from usu in db.CPadron_Estados
+                     orderby (usu.nom_estado_usuario)
+                     select usu).ToList();
+           
             return q;
         }
         public SSIT_Solicitudes CargarSSIT_SolicitudesByIdSolicitud(int IdSolicitud)
@@ -136,6 +167,17 @@ namespace SGI.Operaciones
                                     select s).FirstOrDefault();
             return q;
         }
+        public CPadron_Solicitudes CargarCPadron_SolicitudesByIdSolicitud(int IdSolicitud)
+        {
+
+
+            DGHP_Entities db = new DGHP_Entities();
+
+            CPadron_Solicitudes q = (from s in db.CPadron_Solicitudes
+                                     where s.id_cpadron == IdSolicitud
+                                     select s).FirstOrDefault();
+            return q;
+        }
         #endregion
 
         #region Events
@@ -143,12 +185,13 @@ namespace SGI.Operaciones
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            string SSIT_TRANSF = hdSSIT_TRANSF.Value;
+            string tipo = hdtipo.Value;
             int idSolicitud = int.Parse(hdidSolicitud.Value);
             SSIT_Solicitudes sSIT_Solicitudes = new SSIT_Solicitudes();
             Transf_Solicitudes transf_Solicitudes = new Transf_Solicitudes();
+            CPadron_Solicitudes cPadron_Solicitudes = new CPadron_Solicitudes();
             DGHP_Entities context = new DGHP_Entities();
-            if (SSIT_TRANSF == "S")
+            if (tipo == "S")
             {
                 sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
                 sSIT_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
@@ -185,7 +228,7 @@ namespace SGI.Operaciones
 
             }
 
-            else
+            else if (tipo == "T")
             {
                 transf_Solicitudes = CargarTransf_SolicitudesByIdSolicitud(idSolicitud);
                 transf_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
@@ -205,7 +248,26 @@ namespace SGI.Operaciones
                     }
                 }
             }
+            else
+            {
+                cPadron_Solicitudes = CargarCPadron_SolicitudesByIdSolicitud(idSolicitud);
+                cPadron_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        context.CPadron_Solicitudes.AddOrUpdate(cPadron_Solicitudes);
+                        context.SaveChanges();
+                        dbContextTransaction.Commit();
 
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        throw ex;
+                    }
+                }
+            }
 
             Response.Redirect("~/Operaciones/SolicitudesIndex.aspx?idSolicitud=" + hdidSolicitud.Value);
 
@@ -213,7 +275,7 @@ namespace SGI.Operaciones
 
         protected void btnReturn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Operaciones/AdministrarTareasDeUnaSolicitud.aspx?idSolicitud=" + hdidSolicitud.Value);
+            Response.Redirect("~/Operaciones/SolicitudesIndex.aspx?idSolicitud=" + hdidSolicitud.Value);
         }
 
         #endregion

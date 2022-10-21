@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Presentation;
+﻿    using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
 using SGI.Model;
@@ -40,6 +40,13 @@ namespace SGI.Operaciones
             int IdDistrito = int.Parse(IdDistritoStr);
             hdIdDistrito.Value = IdDistritoStr;
 
+
+
+           
+
+
+
+
             Ubicaciones_CatalogoDistritos ubicaciones_CatalogoDistritos = new Ubicaciones_CatalogoDistritos();
             ubicaciones_CatalogoDistritos = BuscarUbicaciones_CatalogoDistritos(IdDistrito);
             if (!IsPostBack)
@@ -58,7 +65,12 @@ namespace SGI.Operaciones
                     ddlGrupoDistricto.SelectedValue = ubicaciones_CatalogoDistritos.IdGrupoDistrito.ToString();
                     ddlGrupoDistricto.Enabled = false;
                 }
-
+                else
+                {
+                    string IdGrupoDistritoRequest = (Request.QueryString["IdGrupoDistrito"] == null) ? "" : Request.QueryString["IdGrupoDistrito"].ToString();
+                    if (IdGrupoDistritoRequest != "")
+                        ddlGrupoDistricto.SelectedValue = IdGrupoDistritoRequest;
+                }
 
             }
         }
@@ -103,7 +115,17 @@ namespace SGI.Operaciones
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-
+            #region Valido  Codigo y orden
+            if (txtCodigo.Text == string.Empty || txtOrden.Text == string.Empty || !(int.TryParse(txtOrden.Text, out _)))
+            {
+                //ASOSA MENSAJE DE ERROR
+                ScriptManager sm = ScriptManager.GetCurrent(this);
+                string cadena = "El Codigo y El Orden son Obligatorios (Orden debe ser Numerico)";
+                string script = string.Format("alert('{0}');", cadena);
+                ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+                return;
+            }
+            #endregion
 
 
             Ubicaciones_CatalogoDistritos ubicaciones_CatalogoDistritos = new Ubicaciones_CatalogoDistritos();

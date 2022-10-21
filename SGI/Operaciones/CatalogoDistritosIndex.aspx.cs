@@ -33,6 +33,8 @@ namespace SGI.Operaciones
                     ddlGrupoDistricto.SelectedValue = IdGrupoDistritoRequest;
                 else
                     ddlGrupoDistricto.SelectedIndex = 0;
+
+                hdIdGrupoDistrito.Value = ddlGrupoDistricto.SelectedValue;
                 ddlGrupoDistricto_SelectedIndexChanged(null, null);
                // btnBuscar_Click(null, null);
             }
@@ -126,7 +128,7 @@ namespace SGI.Operaciones
         protected void btnEdit_Click(object sender, EventArgs e)
         {
             int IdDistrito = int.Parse(((Button)sender).ToolTip);
-            Response.Redirect("~/Operaciones/CatalogoDistritosForm.aspx?IdDistrito=" + IdDistrito);
+            Response.Redirect("~/Operaciones/CatalogoDistritosForm.aspx?IdGrupoDistrito="+ hdIdGrupoDistrito.Value + "&IdDistrito=" + IdDistrito);
 
         }
 
@@ -135,7 +137,7 @@ namespace SGI.Operaciones
         {
 
 
-            Response.Redirect("~/Operaciones/CatalogoDistritosForm.aspx?IdDistrito=0");
+            Response.Redirect("~/Operaciones/CatalogoDistritosForm.aspx?IdGrupoDistrito="+ hdIdGrupoDistrito.Value + "&IdDistrito=0");
         }
 
         protected void ddlGrupoDistricto_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,8 +147,14 @@ namespace SGI.Operaciones
             List<Ubicaciones_CatalogoDistritos> Ubicaciones_CatalogoDistritosList = (from t in entities.Ubicaciones_CatalogoDistritos
                                                                                      where t.IdGrupoDistrito == IdGrupoDistrito
                                                                                      select t).ToList();
+            hdIdGrupoDistrito.Value = ddlGrupoDistricto.SelectedValue;
+
             gridView.DataSource = Ubicaciones_CatalogoDistritosList;
             gridView.DataBind();
+        }
+        protected void btnReturn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Operaciones/DistritosIndex.aspx");
         }
     }
 }

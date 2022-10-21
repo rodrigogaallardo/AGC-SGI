@@ -4411,6 +4411,7 @@
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\SolicitudesDto.cs" />
     <Compile Include="Operaciones\SolicitudesIndex.aspx.cs">
       <DependentUpon>SolicitudesIndex.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
