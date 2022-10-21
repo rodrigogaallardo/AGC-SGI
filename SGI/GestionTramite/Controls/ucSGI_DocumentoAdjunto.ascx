@@ -185,7 +185,7 @@
                                 <input id="fileupload" type="file" name="files[]" multiple accept="acrobat/pdf">
                             </span>
 
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="req">
+                            <div class="req">
                                 <asp:Label ID="val_upload_fileupload_pdf" runat="server"
                                     Text="Solo se permiten archivos de tipo Acrobat Reader(*.pdf)"
                                     CssClass="field-validation-error"
@@ -233,8 +233,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;on>
-                odal-title">Error</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Error</h4>
             </div>
             <div class="modal-body">
                 <table style="border-collapse: separate; border-spacing: 5px">
