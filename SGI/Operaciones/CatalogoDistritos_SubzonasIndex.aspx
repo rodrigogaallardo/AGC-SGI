@@ -110,7 +110,7 @@
     <hr />
 
     <div class="control-group">
-        <asp:Button ID="btnNuevo" Enabled="true" runat="server" Text="Nueva Subzonas" OnClick="btnNuevo_Click" CssClass="btn btn-primary" />
+        <asp:Button ID="btnNuevo" Enabled="false" runat="server" Text="Nueva Subzonas" OnClick="btnNuevo_Click" CssClass="btn btn-primary" />
         <asp:Button ID="btnReturn" runat="server" Text="Volver al Indice" OnClick="btnReturn_Click" CssClass="btn btn-primary" />
     </div>
      <asp:HiddenField ID="hdIdZona" runat="server" />

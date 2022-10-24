@@ -14,6 +14,7 @@ namespace SGI.Operaciones
 {
     public partial class CatalogoDistritos_SubzonasIndex : System.Web.UI.Page
     {
+        public static string IdDistritoRequest;
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -25,6 +26,7 @@ namespace SGI.Operaciones
             {
 
                 string IdGrupoDistritoRequest = (Request.QueryString["IdGrupoDistrito"] == null) ? "" : Request.QueryString["IdGrupoDistrito"].ToString();
+                IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
 
 
 
@@ -128,10 +130,12 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos.DataValueField = "IdDistrito";
             ddlCatalogoDistritos.DataBind();
 
-            string IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
 
             if (IdDistritoRequest != "")
+            {
                 ddlCatalogoDistritos.SelectedValue = IdDistritoRequest;
+                IdDistritoRequest = string.Empty;
+            }
             else
                 ddlCatalogoDistritos.SelectedIndex = 0;
 
@@ -158,6 +162,9 @@ namespace SGI.Operaciones
                 ddlCatalogoDistritos_Zonas.DataSource = null;
                ddlCatalogoDistritos_Zonas.DataBind();
                 ddlCatalogoDistritos_Zonas.Items.Clear();
+                
+                    btnNuevo.Enabled = false;
+               
                 return;
             }
             ddlCatalogoDistritos_Zonas.DataSource = ubicaciones_CatalogoDistritos_ZonasList;
@@ -198,6 +205,11 @@ namespace SGI.Operaciones
                                                                                                        select t).ToList();
             gridView.DataSource = ubicaciones_CatalogoDistritos_SubzonasList;
             gridView.DataBind();
+            if (ddlCatalogoDistritos.SelectedIndex > -1 & ddlCatalogoDistritos_Zonas.SelectedIndex > -1)
+                btnNuevo.Enabled = true;
+            else
+                btnNuevo.Enabled = false;
+
         }
 
         protected void btnReturn_Click(object sender, EventArgs e)
