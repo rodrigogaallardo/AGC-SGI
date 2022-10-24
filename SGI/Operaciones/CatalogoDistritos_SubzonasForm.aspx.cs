@@ -23,6 +23,9 @@ namespace SGI.Operaciones
 {
     public partial class CatalogoDistritos_SubzonasForm : System.Web.UI.Page
     {
+
+        public static string IdDistritoRequest;
+        public static string IdZonaRequest;
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -46,7 +49,8 @@ namespace SGI.Operaciones
             ubicaciones_CatalogoDistritos_Subzonas = BuscarUbicaciones_CatalogoDistritos_SubZonas(IdSubZona);
             if (!IsPostBack)
             {
-              
+                IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
+                IdZonaRequest = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
 
                 ddlGrupoDistricto.DataSource = GetUbicaciones_GruposDistritosList();
                 ddlGrupoDistricto.DataTextField = "Nombre";
@@ -158,9 +162,11 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos.DataValueField = "IdDistrito";
             ddlCatalogoDistritos.DataBind();
 
-            string IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
-            if (IdDistritoRequest != "")
+            if (!string.IsNullOrEmpty(IdDistritoRequest))
+            {
                 ddlCatalogoDistritos.SelectedValue = IdDistritoRequest;
+                IdDistritoRequest = string.Empty;
+            }
 
             ddlCatalogoDistritos_SelectedIndexChanged(null, null);
         }
@@ -170,8 +176,6 @@ namespace SGI.Operaciones
             //ddlCatalogoDistritos_Zonas.DataSource = null;
             //ddlCatalogoDistritos_Zonas.DataBind();
           
-
-
             DGHP_Entities entities = new DGHP_Entities();
             int IdDistrito = int.Parse(ddlCatalogoDistritos.SelectedValue);
             List<Ubicaciones_CatalogoDistritos_Zonas> ubicaciones_CatalogoDistritos_ZonasList = (from t in entities.Ubicaciones_CatalogoDistritos_Zonas
@@ -183,13 +187,15 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos_Zonas.DataBind();
 
 
-            string IdZonaRequest = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
 
-            if (IdZonaRequest != "")
+
+            if (!string.IsNullOrEmpty(IdZonaRequest))
+            {
                 ddlCatalogoDistritos_Zonas.SelectedValue = IdZonaRequest;
+                IdZonaRequest = string.Empty;
+            }
             else
                 ddlCatalogoDistritos_Zonas.SelectedIndex = -1;
-
 
             ddlCatalogoDistritos_Zonas_SelectedIndexChanged(null, null);
         }
@@ -209,6 +215,17 @@ namespace SGI.Operaciones
             DGHP_Entities context = new DGHP_Entities();
             //using (DGHP_Entities entities = new DGHP_Entities())
             //{
+            if (ddlCatalogoDistritos_Zonas.SelectedValue == "" || txtCodigoSubZona.Text==String.Empty)
+            {
+                //ASOSA MENSAJE DE ERROR
+                ScriptManager sm = ScriptManager.GetCurrent(this);
+                string cadena = "Todos los campos son Obligatorios";
+                string script = string.Format("alert('{0}');", cadena);
+                ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+                return;
+            }
+
+
             int IdZona = int.Parse(ddlCatalogoDistritos_Zonas.SelectedValue);
             int IdSubZona = int.Parse(hdIdSubZona.Value);
 

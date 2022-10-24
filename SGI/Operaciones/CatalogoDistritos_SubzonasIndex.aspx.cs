@@ -15,6 +15,7 @@ namespace SGI.Operaciones
     public partial class CatalogoDistritos_SubzonasIndex : System.Web.UI.Page
     {
         public static string IdDistritoRequest;
+        public static string IdZonaRequest;
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -26,7 +27,8 @@ namespace SGI.Operaciones
             {
 
                 string IdGrupoDistritoRequest = (Request.QueryString["IdGrupoDistrito"] == null) ? "" : Request.QueryString["IdGrupoDistrito"].ToString();
-                IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
+                IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString(); IdZonaRequest = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
+                IdZonaRequest = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
 
 
 
@@ -171,13 +173,17 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos_Zonas.DataTextField = "CodigoZona";
             ddlCatalogoDistritos_Zonas.DataValueField = "IdZona";
             ddlCatalogoDistritos_Zonas.DataBind();
-
-            string IdZonaRequest = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
-
-            if (IdZonaRequest != "")
+           
+            if (!string.IsNullOrEmpty(IdZonaRequest))
+            {
                 ddlCatalogoDistritos_Zonas.SelectedValue = IdZonaRequest;
+                IdZonaRequest = string.Empty;
+            }
             else
                 ddlCatalogoDistritos_Zonas.SelectedIndex = 0;
+
+
+
 
             hdIdDistrito.Value = ddlCatalogoDistritos.SelectedValue;
 

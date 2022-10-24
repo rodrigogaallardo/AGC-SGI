@@ -23,6 +23,7 @@ namespace SGI.Operaciones
 {
     public partial class CatalogoDistritos_ZonasForm : System.Web.UI.Page
     {
+        public static string IdDistritoRequest;
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -31,6 +32,7 @@ namespace SGI.Operaciones
                 FormsAuthentication.RedirectToLoginPage();
             #endregion
 
+          
 
             string IdZonaStr = (Request.QueryString["IdZona"] == null) ? "" : Request.QueryString["IdZona"].ToString();
             if (String.IsNullOrEmpty(IdZonaStr))
@@ -45,6 +47,8 @@ namespace SGI.Operaciones
 
             if (!IsPostBack)
             {
+                IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
+
                 ddlGrupoDistricto.DataSource = GetUbicaciones_GruposDistritosList();
                 ddlGrupoDistricto.DataTextField = "Nombre";
                 ddlGrupoDistricto.DataValueField = "IdGrupoDistrito";
@@ -145,9 +149,11 @@ namespace SGI.Operaciones
             ddlCatalogoDistritos.DataValueField = "IdDistrito";
             ddlCatalogoDistritos.DataBind();
 
-            string IdDistritoRequest = (Request.QueryString["IdDistrito"] == null) ? "" : Request.QueryString["IdDistrito"].ToString();
-            if (IdDistritoRequest != "")
+            if (!string.IsNullOrEmpty(IdDistritoRequest))
+            {
                 ddlCatalogoDistritos.SelectedValue = IdDistritoRequest;
+                IdDistritoRequest = string.Empty;
+            }
 
             ddlCatalogoDistritos_SelectedIndexChanged(null, null);
         }
