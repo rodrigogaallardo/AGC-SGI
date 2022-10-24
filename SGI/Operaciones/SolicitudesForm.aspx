@@ -37,7 +37,7 @@
 
     <div class="control-group">
         <div style="width: 100px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-label" ID="lblFecCierre" Text="Estado" runat="server"></asp:Label>
+            <asp:Label class="control-label"  Text="Estado" runat="server"></asp:Label>
         </div>
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
             <asp:DropDownList ID="ddlTipoEstado" runat="server" AutoPostBack="false"

@@ -61,7 +61,7 @@
                 </asp:TemplateField>
 
 
-                <asp:TemplateField HeaderText="idTarea" Visible="true">
+                <asp:TemplateField HeaderText="idTramite" Visible="true">
                     <ItemTemplate>
                         <asp:Label ID="labelidSolicitud" runat="server" Text='<%# Bind("id_solicitud") %>'></asp:Label>
                     </ItemTemplate>
@@ -69,7 +69,7 @@
 
                  <asp:TemplateField HeaderText="Tipo Tramite">
                     <ItemTemplate>
-                         <asp:Label ID="labelTipoTramite" runat="server"></asp:Label>
+                        <ItemTemplate><%# Eval("descripcion_tipotramite") %></ItemTemplate>
                     </ItemTemplate>
                 </asp:TemplateField>
 

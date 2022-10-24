@@ -128,7 +128,7 @@ namespace SGI.Operaciones
                                           join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
                                           join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
                                           join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
-                                          join tes in entities.TipoEstadoSolicitud on s.id_estado equals tes.Id
+                                          join tes in entities.CPadron_Estados on s.id_estado equals tes.id_estado
                                           join u in entities.aspnet_Users on s.CreateUser equals u.UserId
                                           where s.id_cpadron == idSolicitud
                                           select new SolicitudesDto
@@ -146,7 +146,7 @@ namespace SGI.Operaciones
                                               descripcion_subtipoexpediente = ts.descripcion_subtipoexpediente,
 
                                               id_estado = s.id_estado,
-                                              estado = tes.Descripcion,
+                                              estado = tes.nom_estado_usuario,
 
                                               CreateDate = s.CreateDate,
 
@@ -200,47 +200,47 @@ namespace SGI.Operaciones
 
         protected void gridView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            try
-            {
-                GridView grid = (GridView)sender;
+            //try
+            //{
+            //    GridView grid = (GridView)sender;
 
 
 
 
-                if (e.Row.RowType == DataControlRowType.DataRow)
-                {
-                    //DGHP_Entities entities = new DGHP_Entities();
-                    Label lblTipoEstado = (Label)e.Row.FindControl("lblTipoEstado");
-                    Label labelid_estado = (Label)e.Row.FindControl("labelid_estado");
-                    Label labelTipoTramite = (Label)e.Row.FindControl("labelTipoTramite");
+            //    if (e.Row.RowType == DataControlRowType.DataRow)
+            //    {
+            //        //DGHP_Entities entities = new DGHP_Entities();
+            //        Label lblTipoEstado = (Label)e.Row.FindControl("lblTipoEstado");
+            //        Label labelid_estado = (Label)e.Row.FindControl("labelid_estado");
+            //        Label labelTipoTramite = (Label)e.Row.FindControl("labelTipoTramite");
 
-                    int id = int.Parse(labelid_estado.Text);
+            //        int id = int.Parse(labelid_estado.Text);
 
-                    if (lblTipoEstado.Text == "P")
-                    {
-                        CPadron_Estados cPadron_Estados = (from t in CPadron_EstadosList
-                                                           where t.id_estado == id
-                                                           select t).FirstOrDefault();
-                        labelTipoTramite.Text = cPadron_Estados.nom_estado_usuario;
-                    }
-                    else
-                    {
-                        TipoEstadoSolicitud tipoEstadoSolicitud = (from t in TipoEstadoSolicitudList
-                                                                   where t.Id == id
-                                                                   select t).FirstOrDefault();
-                        labelTipoTramite.Text = tipoEstadoSolicitud.Descripcion;
-                    }
+            //        if (lblTipoEstado.Text == "P")
+            //        {
+            //            CPadron_Estados cPadron_Estados = (from t in CPadron_EstadosList
+            //                                               where t.id_estado == id
+            //                                               select t).FirstOrDefault();
+            //            labelTipoTramite.Text = cPadron_Estados.nom_estado_usuario;
+            //        }
+            //        else
+            //        {
+            //            TipoEstadoSolicitud tipoEstadoSolicitud = (from t in TipoEstadoSolicitudList
+            //                                                       where t.Id == id
+            //                                                       select t).FirstOrDefault();
+            //            labelTipoTramite.Text = tipoEstadoSolicitud.Descripcion;
+            //        }
 
 
 
-                }
+            //    }
 
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
 
-                string aa = ex.Message;
-            }
+            //    string aa = ex.Message;
+            //}
         }
 
 

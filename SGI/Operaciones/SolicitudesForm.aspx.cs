@@ -206,9 +206,9 @@ namespace SGI.Operaciones
                 }
                 else
                 {
-                    if (sSIT_Solicitudes.FechaLibrado != null)
+                    if (calFechaLibrado.SelectedDate != null)
                     {
-                        sSIT_Solicitudes.FechaLibrado = (DateTime)sSIT_Solicitudes.FechaLibrado;
+                        sSIT_Solicitudes.FechaLibrado = calFechaLibrado.SelectedDate;
                     }
                 }
 
