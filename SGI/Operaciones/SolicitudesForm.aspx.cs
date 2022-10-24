@@ -42,6 +42,7 @@ namespace SGI.Operaciones
             }
             int idSolicitud = int.Parse(idSolicitudStr);
             hdidSolicitud.Value = idSolicitudStr;
+            txtSolicitudId.Text= idSolicitudStr;
 
             string tipo = (Request.QueryString["tipo"] == null) ? "" : Request.QueryString["tipo"].ToString();
             hdtipo.Value = tipo;
@@ -58,7 +59,8 @@ namespace SGI.Operaciones
                     ddlTipoEstado.DataBind();
 
                     SSIT_Solicitudes sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
-                    calFechaLibrado.Visible = true;
+                    txtdescripcion_tipotramite.Text = sSIT_Solicitudes.TipoTramite.descripcion_tipotramite;
+
                     chkFecLibrado.Visible = true;
                     lblFecLibrado.Visible = true;
                     ddlTipoEstado.SelectedValue = sSIT_Solicitudes.id_estado.ToString();
@@ -84,6 +86,7 @@ namespace SGI.Operaciones
                     ddlTipoEstado.DataBind();
 
                     Transf_Solicitudes transf_Solicitudes = CargarTransf_SolicitudesByIdSolicitud(idSolicitud);
+                    txtdescripcion_tipotramite.Text = transf_Solicitudes.TipoTramite.descripcion_tipotramite;
                     ddlTipoEstado.SelectedValue = transf_Solicitudes.id_estado.ToString();
                     calFechaLibrado.Visible = false;
                     chkFecLibrado.Visible = false;
@@ -97,6 +100,7 @@ namespace SGI.Operaciones
                     ddlTipoEstado.DataBind();
 
                     CPadron_Solicitudes cPadron_Solicitudes = CargarCPadron_SolicitudesByIdSolicitud(idSolicitud);
+                    txtdescripcion_tipotramite.Text = cPadron_Solicitudes.TipoTramite.descripcion_tipotramite;
                     ddlTipoEstado.SelectedValue = cPadron_Solicitudes.id_estado.ToString();
                     calFechaLibrado.Visible = false;
                     chkFecLibrado.Visible = false;

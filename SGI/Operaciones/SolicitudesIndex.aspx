@@ -1,5 +1,5 @@
 ﻿<%@ Page 
-    Title="Administrar tareas de una solicitud"
+    Title="Actualizacion de Estado V2"
     MasterPageFile="~/Site.Master"
     Language="C#" 
     AutoEventWireup="true" 
@@ -23,7 +23,7 @@
     </script>
 
     <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de solicitud</label>
+        <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de Tramite</label>
         <div class="controls">
             <asp:TextBox id="txtBuscarSolicitud" runat="server" CssClass="controls"/>
         </div>
@@ -34,7 +34,7 @@
     </div>
 
         <hr />
-        <p class="lead mtop20">Tareas de la solicitud</p>
+        <p class="lead mtop20">Listado de tramite</p>
 
         <asp:GridView id="gridViewSSIT_Solicitudes" 
             runat="server"
@@ -54,7 +54,7 @@
                     </ItemTemplate>
                 </asp:TemplateField>--%>
 
-                 <asp:TemplateField HeaderText="Tipo">
+                 <asp:TemplateField HeaderText="Tipo" Visible="false">
                     <ItemTemplate>
                         <asp:Label  ID="lblTipoEstado" runat="server" Text='<%# Bind("tipo") %>'> ></asp:Label>
                     </ItemTemplate>

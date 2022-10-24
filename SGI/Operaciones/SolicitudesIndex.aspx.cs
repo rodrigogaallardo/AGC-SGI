@@ -63,7 +63,7 @@ namespace SGI.Operaciones
                                              join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
                                              join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
                                              join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
-                                             join tes in entities.TipoEstadoSolicitud on s.id_tipoexpediente equals tes.Id
+                                             join tes in entities.TipoEstadoSolicitud on s.id_estado equals tes.Id
                                              join u in entities.aspnet_Users on s.CreateUser equals u.UserId
                                              where s.id_solicitud == idSolicitud
                                              select new SolicitudesDto
@@ -95,7 +95,7 @@ namespace SGI.Operaciones
                                           join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
                                           join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
                                           join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
-                                          join tes in entities.TipoEstadoSolicitud on s.id_tipoexpediente equals tes.Id
+                                          join tes in entities.TipoEstadoSolicitud on s.id_estado equals tes.Id
                                           join u in entities.aspnet_Users on s.CreateUser equals u.UserId
                                           where s.id_solicitud == idSolicitud
                                           select new SolicitudesDto
@@ -128,7 +128,7 @@ namespace SGI.Operaciones
                                           join tt in entities.TipoTramite on s.id_tipotramite equals tt.id_tipotramite
                                           join te in entities.TipoExpediente on s.id_tipoexpediente equals te.id_tipoexpediente
                                           join ts in entities.SubtipoExpediente on s.id_subtipoexpediente equals ts.id_subtipoexpediente
-                                          join tes in entities.TipoEstadoSolicitud on s.id_tipoexpediente equals tes.Id
+                                          join tes in entities.TipoEstadoSolicitud on s.id_estado equals tes.Id
                                           join u in entities.aspnet_Users on s.CreateUser equals u.UserId
                                           where s.id_cpadron == idSolicitud
                                           select new SolicitudesDto
