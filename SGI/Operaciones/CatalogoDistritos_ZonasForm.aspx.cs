@@ -173,8 +173,19 @@ namespace SGI.Operaciones
             Ubicaciones_CatalogoDistritos_Zonas ubicaciones_CatalogoDistritos_Zonas = new Ubicaciones_CatalogoDistritos_Zonas();
 
             DGHP_Entities context = new DGHP_Entities();
-            //using (DGHP_Entities entities = new DGHP_Entities())
-            //{
+
+
+            if (ddlCatalogoDistritos.SelectedValue == "" || txtCodigoZona.Text == String.Empty)
+            {
+                //ASOSA MENSAJE DE ERROR
+                ScriptManager sm = ScriptManager.GetCurrent(this);
+                string cadena = "Todos los campos son Obligatorios";
+                string script = string.Format("alert('{0}');", cadena);
+                ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+                return;
+            }
+
+
             int IdZona = int.Parse(hdIdZona.Value);
             int IdDistrito = int.Parse(ddlCatalogoDistritos.SelectedValue);
 
