@@ -11,26 +11,17 @@ namespace SGI.Operaciones
 {
 
 
-    public partial class AdministrarTareasDeUnaSolicitud
+    public partial class CatalogoDistritosIndex
     {
 
         /// <summary>
-        /// txtBuscarSolicitud control.
+        /// ddlGrupoDistricto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBuscarSolicitud;
-
-        /// <summary>
-        /// btnBuscarSolicitud control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscarSolicitud;
+        protected global::System.Web.UI.WebControls.DropDownList ddlGrupoDistricto;
 
         /// <summary>
         /// gridView control.
@@ -42,24 +33,6 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.GridView gridView;
 
         /// <summary>
-        /// hdidSolicitud control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdidSolicitud;
-
-        /// <summary>
-        /// hdHAB_TRANSF control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdHAB_TRANSF;
-
-        /// <summary>
         /// btnNuevo control.
         /// </summary>
         /// <remarks>
@@ -67,5 +40,23 @@ namespace SGI.Operaciones
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnNuevo;
+
+        /// <summary>
+        /// btnReturn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReturn;
+
+        /// <summary>
+        /// hdIdGrupoDistrito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdIdGrupoDistrito;
     }
 }

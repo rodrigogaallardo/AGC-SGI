@@ -60,8 +60,7 @@ namespace SGI.Operaciones
                 ddlUsuarioAsignado_tramitetarea.DataTextField = "UserName";
                 ddlUsuarioAsignado_tramitetarea.DataValueField = "UserId";
                 ddlUsuarioAsignado_tramitetarea.DataBind();
-
-
+               // ddlUsuarioAsignado_tramitetarea_SelectedIndexChanged(null, null);
 
                 // ddlSFproxima_tarea.DataSource = CargarTodasLasTareas();
                 ddlSFproxima_tarea.DataTextField = "nombre_Tarea";
@@ -105,6 +104,7 @@ namespace SGI.Operaciones
                     try
                     {
                         ddlUsuarioAsignado_tramitetarea.SelectedValue = sGI_Tramites_Tareas.UsuarioAsignado_tramitetarea.ToString();
+                        ddlUsuarioAsignado_tramitetarea_SelectedIndexChanged(null,null);
                         ddlCreateUser.SelectedValue = sGI_Tramites_Tareas.CreateUser.ToString();
                         // ddlSFtarea.SelectedIndex = sGI_Tramites_Tareas.id_tarea.ToString();
 
@@ -293,23 +293,7 @@ namespace SGI.Operaciones
 
 
 
-            //List<int> id_perfilList = (from Rel_Usuarios_Perfiles in entities.SGI_Rel_Usuarios_Perfiles
-            //                           where Rel_Usuarios_Perfiles.userid.ToString() == UsuarioAsignado_tramitetarea
-            //                           select Rel_Usuarios_Perfiles.id_perfil).ToList();
-
-
-
-            //int id_perfil = 89;//TODO ASOSA PREGUNTAR entities.SGI_Rel_Usuarios_Perfiles NO EXISTE
-
-            //List<int> id_tareaList = (from Perfiles_Tareas in entities.ENG_Rel_Perfiles_Tareas
-            //                          where Perfiles_Tareas.id_perfil == 89 //id_perfil
-            //                          select Perfiles_Tareas.id_tarea).ToList();
-
-
-
-            //List<ENG_Tareas> ENG_TareasList = entities.ENG_Tareas.Where(x => listadoIdTareas.Contains(x.id_tarea)).OrderBy(x => x.nombre_tarea).ToList();
-
-            #region MyRegion
+                        #region MyRegion
             DGHP_Entities db = new DGHP_Entities();
             List<DDLGrouped> DDLGroupedList = new List<DDLGrouped>();
             DDLGroupedList = (from mem in db.ENG_Tareas
@@ -324,12 +308,7 @@ namespace SGI.Operaciones
                               }).ToList();
             #endregion
 
-            //DDLGroupedList = ENG_TareasList.Select(x => new DDLGrouped
-            //{
-            //    DataValueField = x.id_tarea,
-            //    DataTextField = x.nombre_tarea,
-            //    DataGroupByField = x.id_circuito.ToString()
-            //}).ToList();
+           
 
 
             ddlSFproxima_tarea.DataSource = DDLGroupedList;
@@ -371,7 +350,19 @@ namespace SGI.Operaciones
                 if (chkproxima_tarea.Checked)
                     tramiteTarea.id_proxima_tarea = null;
                 else
+                {
+                    if(ddlSFproxima_tarea.Value==null)
+                    { 
+                    ScriptManager sm = ScriptManager.GetCurrent(this);
+                    string cadena = "Debe seleccionar una Proxima Tarea o Checkear 'No Establecer'";
+                    string script = string.Format("alert('{0}');", cadena);
+                    ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+                        return;
+                    }
+
                     tramiteTarea.id_proxima_tarea = int.Parse(ddlSFproxima_tarea.Value);
+                }
+                    
             }
             tramiteTarea.FechaInicio_tramitetarea = DateTime.Parse(hdFechaInicio_tramitetarea.Value);
             tramiteTarea.FechaCierre_tramitetarea = DateTime.Parse(hdFechaCierre_tramitetarea.Value);

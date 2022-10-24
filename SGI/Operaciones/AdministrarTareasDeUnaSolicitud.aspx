@@ -36,10 +36,10 @@
         <hr />
         <p class="lead mtop20">Tareas de la solicitud</p>
 
-        <asp:GridView id="gridViewTareas" 
+        <asp:GridView id="gridView" 
             runat="server"
             Width="100%" 
-            OnRowDataBound="gridViewTareas_RowDataBound"
+            OnRowDataBound="gridView_RowDataBound"
             AutoGenerateColumns="false">
             <Columns>
                   <asp:TemplateField>
