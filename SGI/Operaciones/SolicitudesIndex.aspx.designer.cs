@@ -11,7 +11,7 @@ namespace SGI.Operaciones
 {
 
 
-    public partial class AdministrarTareasDeUnaSolicitud
+    public partial class SolicitudesIndex
     {
 
         /// <summary>
@@ -33,13 +33,22 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.Button btnBuscarSolicitud;
 
         /// <summary>
-        /// gridView control.
+        /// gridViewSSIT_Solicitudes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridView;
+        protected global::System.Web.UI.WebControls.GridView gridViewSSIT_Solicitudes;
+
+        /// <summary>
+        /// lblMsj control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMsj;
 
         /// <summary>
         /// hdidSolicitud control.
@@ -51,21 +60,12 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.HiddenField hdidSolicitud;
 
         /// <summary>
-        /// hdHAB_TRANSF control.
+        /// hdSSIT_TRANSF control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdHAB_TRANSF;
-
-        /// <summary>
-        /// btnNuevo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevo;
+        protected global::System.Web.UI.WebControls.HiddenField hdSSIT_TRANSF;
     }
 }
