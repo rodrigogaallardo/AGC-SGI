@@ -26,40 +26,25 @@
         }
 
     </script>
-    <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por numero de solicitud</label>
-
-    </div>
+  
 
     <%--    <ej:Grid ID="Grid1" runat="server">
     </ej:Grid>--%>
 
 
 
-    <hr />
-    <p class="lead mtop20">Tareas Tramites</p>
-
-
-
-
-
-
-
-
-
-
 
     <div class="control-group">
         <div style="width: 550px; display: inline-block; margin-top: 5px;">
-            <fieldset style="margin: 8px; border: 1px solid red; padding: 8px; border-radius: 4px;">
-                <legend style="padding: 2px; width: 100px">Tarea</legend>
+            <fieldset style="margin: 8px; border: 1px solid grey; padding: 8px; border-radius: 4px;">
+                <legend style="padding: 2px; width: 120px;margin-bottom:0px">Tarea Actual</legend>
 
                 <div class="control-group" style="margin-top: 0px;">
                     <div style="width: 250px; display: inline-block; margin-top: 0px;">
-                        <asp:Label class="control-label" ID="Label1" Text="Circuito Tarea Actual" runat="server"></asp:Label>
+                        <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" ID="Label1" Text="Circuito Tarea Actual" runat="server"></asp:Label>
                     </div>
                     <div style="width: 250px; display: inline-block; margin-top: 0px;">
-                        <asp:Label class="control-label" ID="Label2" Text="ID Tarea Actual" runat="server"></asp:Label>
+                        <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" ID="Label2" Text="ID Tarea Actual" runat="server"></asp:Label>
                     </div>
 
                 </div>
@@ -84,8 +69,9 @@
         <div style="width: 550px; display: inline-block; margin-top: 5px;">
             <div class="control-group">
                 <div style="width: 250px; display: inline-block; margin-top: 5px;">
-                    <asp:Label class="control-label" Text="Usuario" runat="server"></asp:Label>
-                  <asp:CheckBox ID="chkUsuario" Text="No Establecer" AutoPostBack="false" runat="server" />
+                    <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" Text="Usuario" runat="server"></asp:Label>
+                  <asp:CheckBox ID="chkUsuario" Text="No Establecer" 
+                       AutoPostBack="true" runat="server"  OnCheckedChanged="chkUsuario_CheckedChanged"/>
                 </div>
             </div>
             <div class="control-group">
@@ -108,7 +94,7 @@
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
             <div class="control-group">
                 <div style="width: 250px; display: inline-block; margin-top: 5px;">
-                    <asp:Label class="control-label" Text="Resultado" runat="server"></asp:Label>
+                    <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" Text="Resultado" runat="server"></asp:Label>
                 </div>
             </div>
             <div class="control-group">
@@ -121,32 +107,25 @@
         </div>
 
         <div style="width: 550px; display: inline-block; margin-top: 5px;">
-            <fieldset style="margin: 8px; border: 1px solid red; padding: 8px; border-radius: 4px;">
-                <legend style="padding: 2px; width: 150px">Proxima Tarea</legend>
+            
 
                 <div class="control-group" style="margin-top: 0px;">
+                    
                     <div style="width: 250px; display: inline-block; margin-top: 0px;">
-                        <asp:Label class="control-label" ID="Label3" Text="Circuito Proxima Tarea" runat="server"></asp:Label>
-                    </div>
-                    <div style="width: 250px; display: inline-block; margin-top: 0px;">
-                        <asp:Label class="control-label" ID="Label4" Text="ID ProximaTarea" runat="server"></asp:Label>
-                        <asp:CheckBox ID="chkproxima_tarea" Text="No Establecer" AutoPostBack="false" runat="server" />
+                        <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" ID="Label4" Text="ID ProximaTarea" runat="server"></asp:Label>
+                        <asp:CheckBox ID="chkproxima_tarea" Text="No Establecer" AutoPostBack="true" runat="server" OnCheckedChanged="chkproxima_tarea_CheckedChanged" />
                     </div>
 
                 </div>
                 <div class="control-group" style="margin-top: 0px;">
-                    <div style="width: 250px; display: inline-block; margin-top: 0px;">
-                        <asp:DropDownList ID="ddlCircuitoProximo" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCircuitoProximo_SelectedIndexChanged"
-                            DataTextField="nombre_resultado" DataValueField="id_resultado" Enabled="false">
-                        </asp:DropDownList>
-                    </div>
+                    
                     <div style="width: 250px; display: inline-block; margin-top: 0px;">
                           <asp:DropDownList ID="ddlproxima_tarea" runat="server" AutoPostBack="false" 
                             DataTextField="nombre_Tarea" DataValueField="id_Tarea">
                         </asp:DropDownList>
                        </div>
                 </div>
-            </fieldset>
+         
         </div>
 
 
@@ -162,14 +141,14 @@
 
     <div class="control-group">
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-label" ID="lblFecInicio" Text="Fec.Inicio" runat="server"></asp:Label>
+            <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" ID="lblFecInicio" Text="Fec.Inicio" runat="server"></asp:Label>
         </div>
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-label" ID="lblFecCierre" Text="Fec.Cierre" runat="server"></asp:Label>
-            <asp:CheckBox ID="chkFechaCierre_tramitetarea" Text="No Establecer" AutoPostBack="false" runat="server" />
+            <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" ID="lblFecCierre" Text="Fec.Cierre" runat="server"></asp:Label>
+            <asp:CheckBox ID="chkFechaCierre_tramitetarea" Text="No Establecer" AutoPostBack="true" OnCheckedChanged="chkFechaCierre_tramitetarea_CheckedChanged" runat="server" />
         </div>
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
-            <asp:Label class="control-label" ID="lblFecAsignacion" Text="Fec.Asignacion" runat="server"></asp:Label>
+            <asp:Label class="control-label" style="font-family:sans-serif;font-size:14px;" ID="lblFecAsignacion" Text="Fec.Asignacion" runat="server"></asp:Label>
         </div>
     </div>
     <div class="control-group">
@@ -180,7 +159,7 @@
             <asp:Calendar ID="calFechaCierre_tramitetarea" OnSelectionChanged="calFechaCierre_tramitetarea_SelectionChanged" runat="server"></asp:Calendar>
         </div>
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
-            <asp:Calendar ID="calFechaAsignacion_tramtietarea" OnSelectionChanged="calFechaAsignacion_tramtietarea_SelectionChanged" runat="server"></asp:Calendar>
+            <asp:Calendar ID="calFechaAsignacion_tramtietarea"  OnSelectionChanged="calFechaAsignacion_tramtietarea_SelectionChanged" runat="server"></asp:Calendar>
         </div>
     </div>
 

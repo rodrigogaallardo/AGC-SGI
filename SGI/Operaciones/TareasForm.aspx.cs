@@ -119,30 +119,6 @@ namespace SGI.Operaciones
 
 
 
-                    ddlCircuitoProximo.DataSource = ENG_CircuitosList;
-                    ddlCircuitoProximo.DataTextField = "nombre_circuito";
-                    ddlCircuitoProximo.DataValueField = "id_circuito";
-                    ddlCircuitoProximo.DataBind();
-                    ENG_Tareas eNG_TareasProx;
-                    if (sGI_Tramites_Tareas.id_proxima_tarea != null)
-                    {
-
-
-                        eNG_TareasProx = (from t in entities.ENG_Tareas
-                                          where t.id_tarea == sGI_Tramites_Tareas.id_proxima_tarea
-                                          select t).FirstOrDefault();
-
-                        ENG_Circuitos ENG_CircuitosProx = (from c in entities.ENG_Circuitos
-                                                           where c.id_circuito == eNG_TareasProx.id_circuito
-                                                           select c).FirstOrDefault();
-                        ddlCircuitoProximo.SelectedValue = ENG_CircuitosProx.id_circuito.ToString();
-                    }
-                    else
-                    {
-                        ddlCircuitoProximo.SelectedIndex = 0;
-                    }
-                    ddlCircuitoProximo_SelectedIndexChanged(null, null);
-
                     if (sGI_Tramites_Tareas.id_proxima_tarea != null)
                     {
                         ddlproxima_tarea.SelectedValue = sGI_Tramites_Tareas.id_proxima_tarea.ToString();
@@ -156,11 +132,14 @@ namespace SGI.Operaciones
                         chkUsuario.Checked = true;
                     else
                         chkUsuario.Checked = false;
+                    chkUsuario_CheckedChanged(null, null);
 
                     if (sGI_Tramites_Tareas.id_proxima_tarea == null)
                         chkproxima_tarea.Checked = true;
                     else
                         chkproxima_tarea.Checked = false;
+                    chkproxima_tarea_CheckedChanged(null, null);
+
 
                     List<ENG_Tareas> ENG_TareasList = new List<ENG_Tareas>();
                     ENG_TareasList.Add(eNG_Tareas);
@@ -185,7 +164,7 @@ namespace SGI.Operaciones
                         calFechaInicio_tramitetarea.SelectedDate = (DateTime)sGI_Tramites_Tareas.FechaInicio_tramitetarea;
                         calFechaInicio_tramitetarea.VisibleDate = (DateTime)sGI_Tramites_Tareas.FechaInicio_tramitetarea;
                     }
-                   
+
                     if (sGI_Tramites_Tareas.FechaCierre_tramitetarea != null)
                     {
                         calFechaCierre_tramitetarea.SelectedDate = (DateTime)sGI_Tramites_Tareas.FechaCierre_tramitetarea;
@@ -197,6 +176,7 @@ namespace SGI.Operaciones
                         calFechaCierre_tramitetarea.VisibleDate = DateTime.Today;
                         chkFechaCierre_tramitetarea.Checked = true;
                     }
+                    chkFechaCierre_tramitetarea_CheckedChanged(null, null);
                     hdCreateUser.Value = sGI_Tramites_Tareas.CreateUser.ToString();
 
                 }
@@ -214,8 +194,9 @@ namespace SGI.Operaciones
                     //ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
 
 
-                    ddlCircuitoProximo.Enabled = false;
+
                     ddlproxima_tarea.Enabled = false;
+                    chkproxima_tarea.Checked = true;
                     chkproxima_tarea.Enabled = false;
 
 
@@ -236,7 +217,7 @@ namespace SGI.Operaciones
 
             }
 
-         }
+        }
 
         #region Methods
         public int DropDownListIndex(List<Syncfusion.JavaScript.Web.DropDownListItem> dropdownList, string search)
@@ -504,15 +485,7 @@ namespace SGI.Operaciones
 
         }
 
-        protected void ddlCircuitoProximo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //int id_circuito = int.Parse(ddlCircuitoProximo.SelectedValue);
-            //List<ENG_Tareas> eNG_TareasList = CargarTodasLasTareasByid_circuito(id_circuito);
-            //ddlproxima_tarea.DataSource = eNG_TareasList;
-            //ddlproxima_tarea.DataTextField = "nombre_Tarea";
-            //ddlproxima_tarea.DataValueField = "id_Tarea";
-            //ddlproxima_tarea.DataBind();
-        }
+
 
         protected void ddltarea_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -568,5 +541,19 @@ namespace SGI.Operaciones
 
         }
 
+        protected void chkproxima_tarea_CheckedChanged(object sender, EventArgs e)
+        {
+            ddlproxima_tarea.Enabled = !chkproxima_tarea.Checked;
+        }
+
+        protected void chkUsuario_CheckedChanged(object sender, EventArgs e)
+        {
+         ddlUsuarioAsignado_tramitetarea.Enabled = !chkUsuario.Checked;
+        }
+
+        protected void chkFechaCierre_tramitetarea_CheckedChanged(object sender, EventArgs e)
+        {
+         calFechaCierre_tramitetarea.Enabled = !chkFechaCierre_tramitetarea.Checked;
+        }
     }
 }
