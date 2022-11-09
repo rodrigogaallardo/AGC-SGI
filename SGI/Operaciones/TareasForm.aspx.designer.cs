@@ -105,6 +105,15 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.DropDownList ddlproxima_tarea;
 
         /// <summary>
+        /// lblFecAsignacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFecAsignacion;
+
+        /// <summary>
         /// lblFecInicio control.
         /// </summary>
         /// <remarks>
@@ -132,13 +141,13 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.CheckBox chkFechaCierre_tramitetarea;
 
         /// <summary>
-        /// lblFecAsignacion control.
+        /// calFechaAsignacion_tramtietarea control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFecAsignacion;
+        protected global::System.Web.UI.WebControls.Calendar calFechaAsignacion_tramtietarea;
 
         /// <summary>
         /// calFechaInicio_tramitetarea control.
@@ -157,15 +166,6 @@ namespace SGI.Operaciones
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar calFechaCierre_tramitetarea;
-
-        /// <summary>
-        /// calFechaAsignacion_tramtietarea control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar calFechaAsignacion_tramtietarea;
 
         /// <summary>
         /// hdidTramiteTarea control.

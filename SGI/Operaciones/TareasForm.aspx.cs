@@ -157,19 +157,19 @@ namespace SGI.Operaciones
 
                     if (sGI_Tramites_Tareas.FechaAsignacion_tramtietarea != null)
                     {
-                        calFechaAsignacion_tramtietarea.VisibleDate = (DateTime)sGI_Tramites_Tareas.FechaAsignacion_tramtietarea;
-                        calFechaAsignacion_tramtietarea.SelectedDate = (DateTime)sGI_Tramites_Tareas.FechaAsignacion_tramtietarea;
+                        calFechaAsignacion_tramtietarea.VisibleDate = DateTime.Parse(((DateTime)sGI_Tramites_Tareas.FechaAsignacion_tramtietarea).ToString("dd-MM-yyyy"));
+                        calFechaAsignacion_tramtietarea.SelectedDate = DateTime.Parse(((DateTime)sGI_Tramites_Tareas.FechaAsignacion_tramtietarea).ToString("dd-MM-yyyy"));
                     }
                     if (sGI_Tramites_Tareas.FechaInicio_tramitetarea != null)
                     {
-                        calFechaInicio_tramitetarea.SelectedDate = (DateTime)sGI_Tramites_Tareas.FechaInicio_tramitetarea;
-                        calFechaInicio_tramitetarea.VisibleDate = (DateTime)sGI_Tramites_Tareas.FechaInicio_tramitetarea;
+                        calFechaInicio_tramitetarea.SelectedDate = DateTime.Parse(((DateTime)sGI_Tramites_Tareas.FechaInicio_tramitetarea).ToString("dd-MM-yyyy"));
+                        calFechaInicio_tramitetarea.VisibleDate = DateTime.Parse(((DateTime)sGI_Tramites_Tareas.FechaInicio_tramitetarea).ToString("dd-MM-yyyy"));
                     }
 
                     if (sGI_Tramites_Tareas.FechaCierre_tramitetarea != null)
                     {
-                        calFechaCierre_tramitetarea.SelectedDate = (DateTime)sGI_Tramites_Tareas.FechaCierre_tramitetarea;
-                        calFechaCierre_tramitetarea.VisibleDate = (DateTime)sGI_Tramites_Tareas.FechaCierre_tramitetarea;
+                        calFechaCierre_tramitetarea.SelectedDate = DateTime.Parse(((DateTime)sGI_Tramites_Tareas.FechaCierre_tramitetarea).ToString("dd-MM-yyyy"));
+                        calFechaCierre_tramitetarea.VisibleDate = DateTime.Parse(((DateTime)sGI_Tramites_Tareas.FechaCierre_tramitetarea).ToString("dd-MM-yyyy"));
                     }
                     else
                     {
@@ -187,7 +187,16 @@ namespace SGI.Operaciones
                     ddlCircuitoActual.DataTextField = "nombre_circuito";
                     ddlCircuitoActual.DataValueField = "id_circuito";
                     ddlCircuitoActual.DataBind();
-                    ddlCircuitoActual.SelectedIndex = 0;
+                    string id_circuito = (Request.QueryString["id_circuito"] == null) ? "" : Request.QueryString["id_circuito"].ToString();
+                    if (String.IsNullOrEmpty(id_circuito))
+                    {
+                        ddlCircuitoActual.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        ddlCircuitoActual.SelectedValue = id_circuito;
+                    }
+                   
                     ddlCircuitoActual_SelectedIndexChanged(null, null);
 
                     ddltarea.SelectedIndex = 0;
@@ -301,19 +310,19 @@ namespace SGI.Operaciones
         #region Events
         protected void calFechaInicio_tramitetarea_SelectionChanged(object sender, EventArgs e)
         {
-            lblFecInicio.Text = "Fec.Inicio " + calFechaInicio_tramitetarea.SelectedDate.ToShortDateString();
+          //  lblFecInicio.Text = "Fec.Inicio " + calFechaInicio_tramitetarea.SelectedDate.ToShortDateString();
             hdFechaInicio_tramitetarea.Value = calFechaInicio_tramitetarea.SelectedDate.ToShortDateString();
         }
 
         protected void calFechaCierre_tramitetarea_SelectionChanged(object sender, EventArgs e)
         {
-            lblFecCierre.Text = "Fec.Cierre " + calFechaCierre_tramitetarea.SelectedDate.ToShortDateString();
+           // lblFecCierre.Text = "Fec.Cierre " + calFechaCierre_tramitetarea.SelectedDate.ToShortDateString();
             hdFechaCierre_tramitetarea.Value = calFechaCierre_tramitetarea.SelectedDate.ToShortDateString();
         }
 
         protected void calFechaAsignacion_tramtietarea_SelectionChanged(object sender, EventArgs e)
         {
-            lblFecAsignacion.Text = "Fec.Asignacion " + calFechaAsignacion_tramtietarea.SelectedDate.ToShortDateString();
+        //    lblFecAsignacion.Text = "Fec.Asignacion " + calFechaAsignacion_tramtietarea.SelectedDate.ToShortDateString();
             hdFechaAsignacion_tramtietarea.Value = calFechaAsignacion_tramtietarea.SelectedDate.ToShortDateString();
         }
 
@@ -539,6 +548,7 @@ namespace SGI.Operaciones
             ddlproxima_tarea.DataSource = TareaListAux;
             ddlproxima_tarea.DataTextField = "nombre_tarea";
             ddlproxima_tarea.DataValueField = "id_tarea";
+            ddlproxima_tarea.SelectedValue = TareaListAux.FirstOrDefault().id_tarea.ToString();
             ddlproxima_tarea.DataBind();
             //setea el valor leido desde la tarea ya almacenada
             if (id_proxima_tarea > 0)
