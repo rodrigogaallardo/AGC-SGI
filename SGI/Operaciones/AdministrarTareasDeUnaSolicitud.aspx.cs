@@ -28,7 +28,7 @@ namespace SGI.Operaciones
                 CargarSolicitudConTareas();
             }
         }
-
+        public static List<SGI_Tramites_Tareas> tareasDeLaSolicitud;
         public void CargarSolicitudConTareas()
         {
             int idSolicitud;
@@ -38,7 +38,7 @@ namespace SGI.Operaciones
             {
                 DGHP_Entities entities = new DGHP_Entities();
 
-                List<SGI_Tramites_Tareas> tareasDeLaSolicitud = (from tareas in entities.SGI_Tramites_Tareas
+                 tareasDeLaSolicitud = (from tareas in entities.SGI_Tramites_Tareas
                                                                  join ttHab in entities.SGI_Tramites_Tareas_HAB
                                                                  on tareas.id_tramitetarea equals ttHab.id_tramitetarea
                                                                  where ttHab.id_solicitud == idSolicitud
@@ -489,69 +489,69 @@ namespace SGI.Operaciones
             }
         }
         protected void btnEdit_Click(object sender, EventArgs e)
-            {
-                int idTramiteTarea = int.Parse(((Button)sender).ToolTip);
-                Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=" + idTramiteTarea + "&idSolicitud=" + hdidSolicitud.Value);
+        {
+            int idTramiteTarea = int.Parse(((Button)sender).ToolTip);
+            Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=" + idTramiteTarea + "&idSolicitud=" + hdidSolicitud.Value);
 
-            }
+        }
 
-            protected void gridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void gridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            try
             {
-                try
+                GridView grid = (GridView)gridView;
+
+
+
+
+                if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    GridView grid = (GridView)gridView;
-
-
-
-
-                    if (e.Row.RowType == DataControlRowType.DataRow)
+                    int id_tramitetarea = -1;
+                    if (int.TryParse(DataBinder.Eval(e.Row.DataItem, "id_tramitetarea").ToString(), out id_tramitetarea))
                     {
-                        int id_tramitetarea = -1;
-                        if (int.TryParse(DataBinder.Eval(e.Row.DataItem, "id_tramitetarea").ToString(), out id_tramitetarea))
+                        DGHP_Entities entities = new DGHP_Entities();
+                        //List<SGI_SADE_Procesos> SGI_SADE_ProcesosList = (from SADE_Procesos in entities.SGI_SADE_Procesos
+                        //                                                 where SADE_Procesos.id_tramitetarea == id_tramitetarea
+
+                        //                                                 select SADE_Procesos).ToList();
+                        SGI_SADE_Procesos sGI_SADE_Procesos = (from SADE_Procesos in entities.SGI_SADE_Procesos
+                                                               where SADE_Procesos.id_tramitetarea == id_tramitetarea
+                                                               && SADE_Procesos.realizado_en_SADE == true
+                                                               select SADE_Procesos).FirstOrDefault();
+                        if (sGI_SADE_Procesos != null)
                         {
-                            DGHP_Entities entities = new DGHP_Entities();
-                            //List<SGI_SADE_Procesos> SGI_SADE_ProcesosList = (from SADE_Procesos in entities.SGI_SADE_Procesos
-                            //                                                 where SADE_Procesos.id_tramitetarea == id_tramitetarea
-
-                            //                                                 select SADE_Procesos).ToList();
-                            SGI_SADE_Procesos sGI_SADE_Procesos = (from SADE_Procesos in entities.SGI_SADE_Procesos
-                                                                   where SADE_Procesos.id_tramitetarea == id_tramitetarea
-                                                                   && SADE_Procesos.realizado_en_SADE == true
-                                                                   select SADE_Procesos).FirstOrDefault();
-                            if (sGI_SADE_Procesos != null)
-                            {
-                                Button btnEdit = (Button)e.Row.FindControl("btnEdit");
-                                Button btnRemove = (Button)e.Row.FindControl("btnRemove");
-                                btnRemove.Enabled = false;
-                            }
-
-
+                            Button btnEdit = (Button)e.Row.FindControl("btnEdit");
+                            Button btnRemove = (Button)e.Row.FindControl("btnRemove");
+                            btnRemove.Enabled = false;
                         }
-
-
-
-                       ;
-
-
-
 
 
                     }
 
-                }
-                catch (Exception ex)
-                {
 
-                    string aa = ex.Message;
+
+                   ;
+
+
+
+
+
                 }
+
             }
-
-            protected void btnNuevo_Click(object sender, EventArgs e)
+            catch (Exception ex)
             {
-                int idSolicitud = int.Parse(hdidSolicitud.Value);
-                string hAB_tRANSF = hdHAB_TRANSF.Value;
 
-                Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=0" + "&idSolicitud=" + idSolicitud + "&hAB_tRANSF=" + hAB_tRANSF);
+                string aa = ex.Message;
             }
         }
+
+        protected void btnNuevo_Click(object sender, EventArgs e)
+        {
+            int idSolicitud = int.Parse(hdidSolicitud.Value);
+            string hAB_tRANSF = hdHAB_TRANSF.Value;
+            var id_circuito = tareasDeLaSolicitud.LastOrDefault().ENG_Tareas.ENG_Circuitos.id_circuito;
+            Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=0" + "&idSolicitud=" + idSolicitud + "&hAB_tRANSF=" + hAB_tRANSF + "&id_circuito=" + id_circuito);
+        }
     }
+}
