@@ -17,6 +17,7 @@ using System.Linq;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static SGI.Model.Engine;
 using static Syncfusion.XlsIO.Parser.Biff_Records.Charts.ChartAlrunsRecord;
 
 namespace SGI.Operaciones
@@ -152,7 +153,7 @@ namespace SGI.Operaciones
                     ddltarea_SelectedIndexChanged(null, null);
 
                     ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
-
+                    ddlResultado_SelectedIndexChanged(null, null);
 
                     if (sGI_Tramites_Tareas.FechaAsignacion_tramtietarea != null)
                     {
@@ -521,7 +522,7 @@ namespace SGI.Operaciones
             else
             {
                 SGI_Tramites_Tareas sGI_Tramites_Tareas = new SGI_Tramites_Tareas();
-                sGI_Tramites_Tareas = BuscarTramiteTarea(int.Parse(hdidTramiteTarea.Value));
+                sGI_Tramites_Tareas = BuscarTramiteTarea(id_tramitetarea);
                 if (sGI_Tramites_Tareas.id_proxima_tarea != null)
                     id_proxima_tarea = (int)sGI_Tramites_Tareas.id_proxima_tarea;
                 else
@@ -531,13 +532,26 @@ namespace SGI.Operaciones
         }
         private void CargarProximasTareas(int id_resultado, int id_tarea, int id_tramitetarea, int id_proxima_tarea)
         {
-            ddlproxima_tarea.DataSource = Engine.GetTareasSiguientes(id_resultado, id_tarea, id_tramitetarea);
+
+            List<Tarea> TareaListAux = Engine.GetTareasSiguientes(id_resultado, id_tarea, id_tramitetarea);
+            if (TareaListAux.Count() < 1)
+                return;
+            ddlproxima_tarea.DataSource = TareaListAux;
             ddlproxima_tarea.DataTextField = "nombre_tarea";
             ddlproxima_tarea.DataValueField = "id_tarea";
             ddlproxima_tarea.DataBind();
             //setea el valor leido desde la tarea ya almacenada
             if (id_proxima_tarea > 0)
-                ddlproxima_tarea.SelectedValue = id_proxima_tarea.ToString();
+            {
+
+                Tarea TareaAux = (from t in TareaListAux
+                                  where t.id_tarea == id_proxima_tarea
+                                  select t).FirstOrDefault();
+                if (TareaAux == null)
+                    ddlproxima_tarea.SelectedIndex = 0;
+                else
+                    ddlproxima_tarea.SelectedValue = id_proxima_tarea.ToString();
+            }
 
         }
 
@@ -548,12 +562,12 @@ namespace SGI.Operaciones
 
         protected void chkUsuario_CheckedChanged(object sender, EventArgs e)
         {
-         ddlUsuarioAsignado_tramitetarea.Enabled = !chkUsuario.Checked;
+            ddlUsuarioAsignado_tramitetarea.Enabled = !chkUsuario.Checked;
         }
 
         protected void chkFechaCierre_tramitetarea_CheckedChanged(object sender, EventArgs e)
         {
-         calFechaCierre_tramitetarea.Enabled = !chkFechaCierre_tramitetarea.Checked;
+            calFechaCierre_tramitetarea.Enabled = !chkFechaCierre_tramitetarea.Checked;
         }
     }
 }
