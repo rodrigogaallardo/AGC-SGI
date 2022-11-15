@@ -250,7 +250,7 @@ namespace SGI.GestionTramite
         private int buscarTarea(int idSolicitud, int grupoTramite)
         {
             int idTramiteTarea = 0;
-            if (grupoTramite == (int)Constants.TipoDeTramite.Habilitacion)
+            if (grupoTramite == (int)Constants.GruposDeTramite.HAB)
             {                
                 var Ultima_tarea = (from tt_hab in db.SGI_Tramites_Tareas_HAB
                                     join tt in db.SGI_Tramites_Tareas on tt_hab.id_tramitetarea equals tt.id_tramitetarea
@@ -262,7 +262,7 @@ namespace SGI.GestionTramite
                                     }).FirstOrDefault();
                 idTramiteTarea = Ultima_tarea.idTramiteTarea;
             }
-            else if (grupoTramite == (int)Constants.TipoDeTramite.Transferencia)
+            else if (grupoTramite == (int)Constants.GruposDeTramite.TR)
             {
                 var Ultima_tarea = (from tt_t in db.SGI_Tramites_Tareas_TRANSF
                                     join tt in db.SGI_Tramites_Tareas on tt_t.id_tramitetarea equals tt.id_tramitetarea
