@@ -116,8 +116,9 @@ namespace SGI.GestionTramite.Consulta_SSIT
             }
             catch(Exception ex)
             {
-                Server.Transfer(string.Format("~/Errores/error3020.aspx?m={0}", ex.Message));
-                //Server.Transfer("~/Errores/error3020.aspx");
+                LogError.Write(ex, "Procedimiento CargarDatosTramite en VisorTramite_SSIT.aspx");
+                LogError.Write(ex.InnerException, "INNER EXCEPTION en Procedimiento CargarDatosTramite en VisorTramite_SSIT.aspx");
+                Server.Transfer(string.Format("~/Errores/error3020.aspx?m={0}", ex.Message + Environment.NewLine + ex.InnerException.Message));
             }
             FinalizarEntity();
             
