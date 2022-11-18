@@ -33,15 +33,6 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.DropDownList dropDownListEditTipoDeDocumentoRequerido;
 
         /// <summary>
-        /// SqlDataSourceTDocReq control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceTDocReq;
-
-        /// <summary>
         /// txtTdocRecDetalle control.
         /// </summary>
         /// <remarks>
@@ -69,15 +60,6 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSourceTipoDocSis;
 
         /// <summary>
-        /// updBotonesGuardar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updBotonesGuardar;
-
-        /// <summary>
         /// FileUpload1 control.
         /// </summary>
         /// <remarks>
@@ -85,6 +67,15 @@ namespace SGI.Operaciones
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
+
+        /// <summary>
+        /// updBotonesGuardar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updBotonesGuardar;
 
         /// <summary>
         /// btnGuardar control.
@@ -112,5 +103,14 @@ namespace SGI.Operaciones
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress1;
+
+        /// <summary>
+        /// hdRequiereDetalle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdRequiereDetalle;
     }
 }

@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static SGI.Constants;
 
 namespace SGI.Operaciones
 {
@@ -32,15 +33,79 @@ namespace SGI.Operaciones
             {
                 Response.Redirect("~/Operaciones/AdministrarArchivosDeUnaSolicitud.aspx");
             }
+            if (!IsPostBack)
+            {
+                DGHP_Entities db = new DGHP_Entities();
+
+                List<SGI.Model.TiposDeDocumentosRequeridos> TiposDeDocumentosRequeridosList = (from usu in db.TiposDeDocumentosRequeridos
+                                               orderby (usu.nombre_tdocreq)
+                                               select usu).ToList();
+                foreach (SGI.Model.TiposDeDocumentosRequeridos tiposDeDocumentosRequeridos in TiposDeDocumentosRequeridosList)
+                {
+                    tiposDeDocumentosRequeridos.nombre_tdocreq = tiposDeDocumentosRequeridos.nombre_tdocreq + " (" + tiposDeDocumentosRequeridos.formato_archivo + ")";
+                }
+                dropDownListEditTipoDeDocumentoRequerido.DataSource = TiposDeDocumentosRequeridosList;
+                dropDownListEditTipoDeDocumentoRequerido.DataTextField = "nombre_tdocreq";
+                dropDownListEditTipoDeDocumentoRequerido.DataValueField = "id_tdocreq";
+                dropDownListEditTipoDeDocumentoRequerido.DataBind();
+                dropDownListEditTipoDeDocumentoRequerido.SelectedIndex = 0;
+                dropDownListEditTipoDeDocumentoRequerido_SelectedIndexChanged(null, null);
+
+
+                //FileUpload1.Enabled = false;
+            }
         }
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             int id_doc_adj = 0;
             if (FileUpload1.HasFile)
             {
+                #region Valido Extension
+                if (dropDownListEditTipoDeDocumentoRequerido.SelectedIndex < 0)
+                {               
+                    EnviarAlert("Debe Seleccionar un Tipo de Documento Requerido");
+                    return;
+                }
+
+               
+                int id_tdocreq =int.Parse( dropDownListEditTipoDeDocumentoRequerido.SelectedValue);
+                SGI.Model.TiposDeDocumentosRequeridos tiposDeDocumentosRequeridos;
+                using (var ctx = new DGHP_Entities())
+                {
+                     tiposDeDocumentosRequeridos = (from t in ctx.TiposDeDocumentosRequeridos
+                                                                     where t.id_tdocreq == id_tdocreq
+                                                                               select t).FirstOrDefault();
+                }
+
+                string _fileName = Server.HtmlEncode(FileUpload1.FileName);
+                string extension = System.IO.Path.GetExtension(_fileName);
+                string formato_archivo = tiposDeDocumentosRequeridos.formato_archivo;
+              
+                if ((extension != "." + formato_archivo) )
+                {
+                    EnviarAlert("El Tipo de documento Requerido debe ser " + "." + formato_archivo);
+                    return;
+                }
+
+                #endregion
+
                 Byte[] filebytes = new byte[FileUpload1.PostedFile.ContentLength -1];
                 filebytes = FileUpload1.FileBytes;
-                Guid createUser = Functions.GetUserId();
+                #region Validar Size y RequiereDetalle
+                if (filebytes.Length > tiposDeDocumentosRequeridos.tamanio_maximo_mb * 1024 * 1024)
+                {
+                    EnviarAlert("El Tipo de documento Requerido debe pesar como maximo " + tiposDeDocumentosRequeridos.tamanio_maximo_mb + "MB");
+                    return;
+                }
+
+                if (tiposDeDocumentosRequeridos.RequiereDetalle && string.IsNullOrEmpty(txtTdocRecDetalle.Text))
+                {
+                    EnviarAlert("Para este Tipo de documento Requerido debe ingresar un detalle");
+                    return;
+                }
+                    #endregion
+
+                    Guid createUser = Functions.GetUserId();
                 String fileName = FileUpload1.FileName;
                 int id_file;
                 //Llama al Procedure AGC_Files.dbo.Files_Agregar
@@ -110,11 +175,47 @@ namespace SGI.Operaciones
                     }
                 }
             }
-            Response.Redirect("~/Operaciones/AdministrarArchivosDeUnaSolicitud.aspx");
+            else
+                EnviarAlert("No cargo ningun Archivo");
+
+            // Response.Redirect("~/Operaciones/AdministrarArchivosDeUnaSolicitud.aspx");
+         
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Response.Redirect("~/Operaciones/AdministrarArchivosDeUnaSolicitud.aspx");
+        }
+        public void EnviarAlert(string Mensaje)
+        {
+            ScriptManager sm = ScriptManager.GetCurrent(this);
+            string script = string.Format("alert('{0}');", Mensaje);
+            ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+        }
+
+        protected void dropDownListEditTipoDeDocumentoRequerido_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if (dropDownListEditTipoDeDocumentoRequerido.SelectedValue!="0") 
+            //    FileUpload1.Enabled = true; 
+            //else
+            //    FileUpload1.Enabled = false;
+            FileUpload1.Enabled = true;
+
+            int id_tdocreq = int.Parse(dropDownListEditTipoDeDocumentoRequerido.SelectedValue);
+            SGI.Model.TiposDeDocumentosRequeridos tiposDeDocumentosRequeridos;
+            using (var ctx = new DGHP_Entities())
+            {
+                tiposDeDocumentosRequeridos = (from t in ctx.TiposDeDocumentosRequeridos
+                                               where t.id_tdocreq == id_tdocreq
+                                               select t).FirstOrDefault();
+            }
+
+            string _fileName = Server.HtmlEncode(FileUpload1.FileName);
+            string extension = System.IO.Path.GetExtension(_fileName);
+            string formato_archivo = tiposDeDocumentosRequeridos.formato_archivo;
+            hdRequiereDetalle.Value = tiposDeDocumentosRequeridos.RequiereDetalle.ToString();
+
+
+            FileUpload1.Attributes.Add("accept", "." + formato_archivo);
         }
     }
 }
