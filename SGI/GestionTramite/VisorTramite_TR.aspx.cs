@@ -85,7 +85,9 @@ namespace SGI.GestionTramite
             }
             catch (Exception ex)
             {
-                Server.Transfer(string.Format("~/Errores/error3020.aspx?m={0}", ex.Message));
+                LogError.Write(ex, "Procedimiento CargarDatosTramite en VisorTramite_TR.aspx");
+                LogError.Write(ex.InnerException, "INNER EXCEPTION en Procedimiento CargarDatosTramite en VisorTramite_TR.aspx");
+                Server.Transfer(string.Format("~/Errores/error3020.aspx?m={0}", ex.Message + Environment.NewLine + ex.InnerException.Message));
             }
         }
 
