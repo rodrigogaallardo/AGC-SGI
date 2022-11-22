@@ -36,7 +36,10 @@ namespace SGI.GestionTramite.Controls
         private void IniciarEntity()
         {
             if (this.db == null)
+            {
                 this.db = new DGHP_Entities();
+                this.db.Database.CommandTimeout = 120;
+            }
         }
 
         private void FinalizarEntity()

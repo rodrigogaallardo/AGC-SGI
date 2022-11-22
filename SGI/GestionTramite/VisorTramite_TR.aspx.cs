@@ -43,7 +43,7 @@ namespace SGI.GestionTramite
                 this.id_solicitud = Convert.ToInt32(Page.RouteData.Values["id"].ToString());
 
                 DGHP_Entities db = new DGHP_Entities();
-
+                db.Database.CommandTimeout = 120;
                 var transf = db.Transf_Solicitudes.FirstOrDefault(x => x.id_solicitud == this.id_solicitud);
                 if(transf == null)
                     Server.Transfer("~/Errores/Error3051.aspx");

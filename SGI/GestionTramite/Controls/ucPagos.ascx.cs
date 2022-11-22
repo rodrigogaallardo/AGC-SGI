@@ -194,6 +194,7 @@ namespace SGI.GestionTramite.Controls
             //string WSPagos_Password = Functions.GetParametroChar("SSIT.WebService.Pagos.Password");
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 120;
 
             int id_grupotramite;
             Engine.getIdGrupoTrabajo(id_solicitud, out id_grupotramite);
@@ -261,6 +262,7 @@ namespace SGI.GestionTramite.Controls
             List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 120;
 
             int id_grupotramite;
             Engine.getIdGrupoTrabajo(id_solicitud, out id_grupotramite);
@@ -335,7 +337,7 @@ namespace SGI.GestionTramite.Controls
             List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
             List<int> lstEncomiendasRelacionadas = new List<int>();
             DGHP_Entities db = new DGHP_Entities();
-
+            db.Database.CommandTimeout = 120;
             int id_grupotramite;
             Engine.getIdGrupoTrabajo(id_solicitud, out id_grupotramite);
 
