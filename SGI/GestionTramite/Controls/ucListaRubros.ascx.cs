@@ -13,6 +13,7 @@ namespace SGI.GestionTramite.Controls
         {
             using (var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 120;
                 var estadosSolPres = db.TipoEstadoSolicitud.Where(e =>
                         e.Id == (int)Constants.Solicitud_Estados.Pendiente_de_Ingreso ||
                         e.Id == (int)Constants.Solicitud_Estados.En_trámite)
@@ -43,6 +44,7 @@ namespace SGI.GestionTramite.Controls
 
             using (var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 120;
                 if (ultimaPresentacion != null)
                 {
 
@@ -76,13 +78,14 @@ namespace SGI.GestionTramite.Controls
 
             using(var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 120;
                 if (ultimaPresentacion != null)
                 {
                     IOrderedQueryable<int> idEncsApro = null;
 
                     idEncsApro = db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == solicitud.id_solicitud
                                                 && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).Select(x => x.id_encomienda).OrderByDescending(x => x);
-                
+
                     if (idEncsApro != null)
                     {
                         var idEncomiendaPresentada = db.Encomienda_HistorialEstados.Where(h => idEncsApro.Contains(h.id_encomienda) && h.fecha_modificacion <= ultimaPresentacion).Select(h => h.id_encomienda).OrderByDescending(h => h).FirstOrDefault();
@@ -108,6 +111,7 @@ namespace SGI.GestionTramite.Controls
         {
             using (var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 120;
                 if (encomienda != null)
                 {
                     var q = (from encrub in db.Encomienda_Rubros
@@ -198,6 +202,7 @@ namespace SGI.GestionTramite.Controls
         {
             using (var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 120;
                 if (encomienda != null)
                 {
                     var qANT = (from encrub in db.Encomienda_Rubros_AT_Anterior
@@ -250,6 +255,7 @@ namespace SGI.GestionTramite.Controls
                 RubrosClass row = (RubrosClass)e.Row.DataItem;
                 //Busco los subrubros
                 DGHP_Entities db = new DGHP_Entities();
+                db.Database.CommandTimeout = 120;
                 var q = (from erc in db.Encomienda_RubrosCN
                          join ers in db.Encomienda_RubrosCN_Subrubros on erc.id_encomiendarubro equals ers.Id_EncRubro
                          join rsr in db.RubrosCN_Subrubros on ers.Id_rubrosubrubro equals rsr.Id_rubroCNsubrubro
@@ -281,6 +287,7 @@ namespace SGI.GestionTramite.Controls
                 RubrosClass row = (RubrosClass)e.Row.DataItem;
                 //Busco los Depósitos
                 DGHP_Entities db = new DGHP_Entities();
+                db.Database.CommandTimeout = 120;
                 var q = (from ercd in db.Encomienda_RubrosCN_Deposito
                          join erc in db.Encomienda_RubrosCN on new { ercd.id_encomienda, ercd.IdRubro } equals new { erc.id_encomienda, erc.IdRubro }
                          join rsr in db.RubrosDepositosCN on ercd.IdDeposito equals rsr.IdDeposito
