@@ -129,6 +129,18 @@ namespace SGI.Operaciones
             {
                 LinkButton lnkEliminar = (LinkButton)e.Row.FindControl("lnkEliminarDocSolic");
                 lnkEliminar.Visible = true;
+               
+
+                Label labelIdFile = (Label)e.Row.FindControl("labelIdFile");
+                int IdFile = int.Parse(labelIdFile.Text);
+                using (var ctx = new DGHP_Entities())
+                {
+                    SGI_SADE_Procesos sGI_SADE_Procesos = (from archivos in ctx.SGI_SADE_Procesos
+                                                           where archivos.id_file == IdFile
+                                                           select archivos).FirstOrDefault();
+                    if(sGI_SADE_Procesos!=null)
+                        lnkEliminar.Visible = false;
+                }
             }
         }
 
@@ -138,6 +150,17 @@ namespace SGI.Operaciones
             {
                 LinkButton lnkEliminar = (LinkButton)e.Row.FindControl("lnkEliminarDocTrans");
                 lnkEliminar.Visible = true;
+
+                Label labelIdFile = (Label)e.Row.FindControl("labelIdFile");
+                int IdFile = int.Parse(labelIdFile.Text);
+                using (var ctx = new DGHP_Entities())
+                {
+                    SGI_SADE_Procesos sGI_SADE_Procesos = (from archivos in ctx.SGI_SADE_Procesos
+                                                           where archivos.id_file == IdFile
+                                                           select archivos).FirstOrDefault();
+                    if (sGI_SADE_Procesos != null)
+                        lnkEliminar.Visible = false;
+                }
             }
         }
 

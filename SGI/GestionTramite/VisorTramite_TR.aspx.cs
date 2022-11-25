@@ -43,7 +43,7 @@ namespace SGI.GestionTramite
                 this.id_solicitud = Convert.ToInt32(Page.RouteData.Values["id"].ToString());
 
                 DGHP_Entities db = new DGHP_Entities();
-
+                db.Database.CommandTimeout = 120;
                 var transf = db.Transf_Solicitudes.FirstOrDefault(x => x.id_solicitud == this.id_solicitud);
                 if(transf == null)
                     Server.Transfer("~/Errores/Error3051.aspx");
@@ -85,7 +85,10 @@ namespace SGI.GestionTramite
             }
             catch (Exception ex)
             {
-                Server.Transfer(string.Format("~/Errores/error3020.aspx?m={0}", ex.Message));
+                LogError.Write(ex, "Procedimiento CargarDatosTramite en VisorTramite_TR.aspx");
+                Server.Transfer(string.Format("~/Errores/error3020.aspx?m={0}", ex.Message + Environment.NewLine + ex.Source + Environment.NewLine + ex.TargetSite +
+                    Environment.NewLine + Environment.NewLine +
+                    ex.InnerException.Message + Environment.NewLine + ex.InnerException.Source + Environment.NewLine + ex.InnerException.TargetSite));
             }
         }
 
