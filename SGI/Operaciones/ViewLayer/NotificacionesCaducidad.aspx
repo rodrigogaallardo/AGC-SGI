@@ -43,6 +43,24 @@
             ValidationExpression="\d+">
         </asp:RegularExpressionValidator>
     </div>
+
+
+
+
+      <div class="control-group">
+        <label class="control-label" for="txtNroSolicitud">Motivo de Notificación</label>
+        <div class="controls">
+            <asp:DropDownList ID="ddlNotificaciones_motivos" runat="server" AutoPostBack="false" 
+                DataTextField="NotificacionMotivo" DataValueField="IdNotificacionMotivo">
+            </asp:DropDownList>
+        </div>
+    
+    </div>
+
+
+
+
+
     <div class="control-group" >
         <label for="txtFechaNotificacion" class="control-label">Fecha Notificación:</label>
             <div class="controls">
@@ -63,7 +81,7 @@
             </div>
 
     <div class="control-group pull-right">
-        <asp:Button ID="btnNotificarCaducidad" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificarCaducidad_OnClick" Text="Notificar Caducidad"></asp:Button>
+        <asp:Button ID="btnNotificar" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificar_OnClick" Text="Notificar"></asp:Button>
         <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
             <i class="icon-refresh"></i>
             <span class="text">Limpiar</span>

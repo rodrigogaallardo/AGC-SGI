@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGI {
-    
-    
-    public partial class NotificacionesCaducidad {
-        
+namespace SGI
+{
+
+
+    public partial class NotificacionesCaducidad
+    {
+
         /// <summary>
         /// txtNroSolicitud control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNroSolicitud;
-        
+
         /// <summary>
         /// RegularExpressionValidator2 control.
         /// </summary>
@@ -29,7 +31,16 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
-        
+
+        /// <summary>
+        /// ddlNotificaciones_motivos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlNotificaciones_motivos;
+
         /// <summary>
         /// txtFechaNotificacion control.
         /// </summary>
@@ -38,7 +49,7 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFechaNotificacion;
-        
+
         /// <summary>
         /// rev_txtFechaNotificacion control.
         /// </summary>
@@ -47,16 +58,16 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaNotificacion;
-        
+
         /// <summary>
-        /// btnNotificarCaducidad control.
+        /// btnNotificar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNotificarCaducidad;
-        
+        protected global::System.Web.UI.WebControls.Button btnNotificar;
+
         /// <summary>
         /// btnLimpiar control.
         /// </summary>
@@ -65,7 +76,7 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
-        
+
         /// <summary>
         /// updResultados control.
         /// </summary>
@@ -74,7 +85,7 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updResultados;
-        
+
         /// <summary>
         /// lblError control.
         /// </summary>
@@ -83,7 +94,7 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
-        
+
         /// <summary>
         /// updResultados2 control.
         /// </summary>
@@ -92,7 +103,7 @@ namespace SGI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updResultados2;
-        
+
         /// <summary>
         /// lblSuccess control.
         /// </summary>
