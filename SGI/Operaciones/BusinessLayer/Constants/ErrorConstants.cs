@@ -15,7 +15,7 @@ namespace SGI.BusinessLogicLayer.Constants
         public static string ERROR_SOLICITUD_NO_RECHAZADO = "La solicitud no Rechazo.";
         public static string ERROR_SOLICITUD_NO_APROBADO = "La solicitud no se Aprobo.";
         public static string ERROR_SOLICITUD_NO_BAJA = "La solicitud no se Bajo.";
-  
 
+        public const int EsSolicitud = 200000;
     }
 }

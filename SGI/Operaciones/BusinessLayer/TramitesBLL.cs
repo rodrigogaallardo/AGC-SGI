@@ -8,6 +8,7 @@ using SGI.BusinessLogicLayer.Constants;
 using SGI.DataLayer;
 using SGI.DataLayer.Models;
 using System.ServiceModel.Security;
+using SGI.StaticClassNameSpace;
 
 namespace SGI.BusinessLogicLayer
 {
@@ -154,21 +155,28 @@ namespace SGI.BusinessLogicLayer
                         {
                           
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Observado:
-                                 Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(solicitud.id_solicitud);
+                                 Mailer.MailMessages.SendMail_ObservacionSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Rechazado:
-                                 Mailer.MailMessages.SendMail_RechazoSolicitud_v2(solicitud.id_solicitud);
+                                 Mailer.MailMessages.SendMail_RechazoSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Aprobado:
-                                Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(solicitud.id_solicitud);
+                                Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
                                 break;
                              case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.AvisoDeCaducidad:
                                 emailsNotificados = Mailer.MailMessages.SendMail_Caducidad_v2(solicitud.id_solicitud, fechaNotificacion);
                                break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.BajaDeSolicitud:
-                                Mailer.MailMessages.SendMail_BajaSolicitud_v2(solicitud.id_solicitud);
+                                if (solicitud.id_solicitud > ErrorConstants.EsSolicitud)
+                                    Mailer.MailMessages.SendMail_BajaSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
+                                else
+                                    Mailer.MailMessages.SendMail_BajaSolicitud_Transf_v2(solicitud.id_solicitud, fechaNotificacion);
+                                break;
+                            case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.LevantamientoDeRechazo:
+                                Mailer.MailMessages.SendMail_LevantamientoRechazo(solicitud.id_solicitud, fechaNotificacion);
                                 break;
                             default:
+                                Mailer.MailMessages.SendMail_Generic(solicitud.id_solicitud, IdNotificacionMotivo, fechaNotificacion);
                                 break;
                         }
 

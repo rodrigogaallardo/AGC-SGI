@@ -641,7 +641,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static void SendMail_AprobadoSolicitud_v2(int idSolicitud)
+        public static void SendMail_AprobadoSolicitud_v2(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             try
@@ -663,7 +663,7 @@ namespace SGI.Mailer
 
                 foreach(int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Aprobado, db);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Aprobado, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -1600,7 +1600,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static void SendMail_ObservacionSolicitud_v2(int idSolicitud)
+        public static void SendMail_ObservacionSolicitud_v2(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             try
@@ -1622,7 +1622,7 @@ namespace SGI.Mailer
 
                 foreach(int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Observado, db);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Observado, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -1717,7 +1717,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static void SendMail_RechazoSolicitud_v2(int idSolicitud)
+        public static void SendMail_RechazoSolicitud_v2(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             try
@@ -1744,7 +1744,7 @@ namespace SGI.Mailer
 
                 foreach(int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Rechazado, db);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Rechazado, db, fechaNotificacion);
                 }
                 db.SaveChanges();
             }
@@ -1838,7 +1838,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static void SendMail_BajaSolicitud_v2(int idSolicitud)
+        public static void SendMail_BajaSolicitud_v2(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             try
@@ -1860,7 +1860,7 @@ namespace SGI.Mailer
 
                 foreach (int idMail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idMail, (int)MotivosNotificaciones.BajaDeSolicitud, db);
+                    CrearNotificacion(idSolicitud, idMail, (int)MotivosNotificaciones.BajaDeSolicitud, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -1955,7 +1955,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static List<string> SendMail_Caducidad_v2(int idSolicitud,DateTime? fechaNotificacion = null)
+        public static List<string> SendMail_Caducidad_v2(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             List<string> emailsNoDuplicados = new List<string>();
@@ -1998,7 +1998,7 @@ namespace SGI.Mailer
 
             return emailsNoDuplicados;
         }
-        public static void SendMail_LevantamientoRechazo(int idSolicitud)
+        public static void SendMail_LevantamientoRechazo(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             try
@@ -2022,7 +2022,7 @@ namespace SGI.Mailer
 
                 foreach (int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.LevantamientoDeRechazo, db);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.LevantamientoDeRechazo, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -2153,7 +2153,7 @@ namespace SGI.Mailer
             }
         }
 
-        public static void SendMail_BajaSolicitud_Transf_v2(int idSolicitud)
+        public static void SendMail_BajaSolicitud_Transf_v2(int idSolicitud, DateTime? fechaNotificacion = null)
         {
             DGHP_Entities db = new DGHP_Entities();
             try
@@ -2175,7 +2175,7 @@ namespace SGI.Mailer
 
                 foreach (int idMail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idMail, (int)MotivosNotificaciones.BajaDeSolicitud, db);
+                    CrearNotificacion(idSolicitud, idMail, (int)MotivosNotificaciones.BajaDeSolicitud, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -2423,6 +2423,44 @@ namespace SGI.Mailer
                 foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Aprobado, db);
+                }
+
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (db != null)
+                    db.Dispose();
+            }
+        }
+
+        public static void SendMail_Generic(int idSolicitud, int idTipoMotivoMail, DateTime? fechaNotificacion = null)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            try
+            {
+                var user = GetUsuario(db, idSolicitud);
+                var emails = new List<string>
+                {
+                    user.Email
+                };
+
+                emails.AddRange(GetEmailPersonaFisica(db, idSolicitud));
+                emails.AddRange(GetEmailPersonaJuridica(db, idSolicitud));
+                emails.AddRange(GetEmailProfesionales(db, idSolicitud));
+
+                string asunto = idSolicitud.ToString() + " - Actualización de estado de trámite";
+                string html = $"Sr. contribuyente le informamos que su trámite {idSolicitud} ha sido actualizado. El mismo puede consultarse ingresando al sistema";
+
+                var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, html, emails);
+
+                foreach (int idEmail in idEmails)
+                {
+                    CrearNotificacion(idSolicitud, idEmail, idTipoMotivoMail, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
