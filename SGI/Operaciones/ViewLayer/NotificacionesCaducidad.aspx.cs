@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SGI.BusinessLogicLayer;
 using System.Drawing;
+using SGI.Model;
 
 namespace SGI
 {
@@ -26,6 +27,11 @@ namespace SGI
             if ( ! IsPostBack )
             {
                 LimpiarCampos();
+                List<SSIT_Solicitudes_Notificaciones_motivos> Notificaciones_motivosList = TramitesBLL.TraerNotificaciones_motivos( out string errorMessage);
+                ddlNotificaciones_motivos.DataSource = Notificaciones_motivosList;
+                ddlNotificaciones_motivos.DataTextField = "NotificacionMotivo";
+                ddlNotificaciones_motivos.DataValueField = "IdNotificacionMotivo";
+                ddlNotificaciones_motivos.DataBind();
             }
         }
         #endregion
@@ -42,16 +48,30 @@ namespace SGI
             LimpiarCampos();
         }
 
-        protected void btnNotificarCaducidad_OnClick(object sender, EventArgs e)
+        protected void btnNotificar_OnClick(object sender, EventArgs e)
         {
             bool pudo = int.TryParse(txtNroSolicitud.Text, out int id_solicitud);
 
             if (string.IsNullOrEmpty(txtFechaNotificacion.Text.Trim()))
-                throw new Exception("No se ha ingresado 'Fecha Notificación'");
+            {
+                lblError.Text = "No se ha ingresado 'Fecha Notificación.";
+                lblError.ForeColor = Color.Red;
+                this.EjecutarScript(updResultados, "showfrmError();");
+                return;
+            }
+               
+
+            if (ddlNotificaciones_motivos.SelectedIndex < 0)
+            {
+                lblError.Text = "No se ha ingresado 'Motivo de Notificación.";
+                lblError.ForeColor = Color.Red;
+                this.EjecutarScript(updResultados, "showfrmError();");
+                return;
+            }
 
             if (pudo)
             { 
-                CaducarTramite(id_solicitud, Convert.ToDateTime(txtFechaNotificacion.Text.Trim()));
+                Notificar(id_solicitud, int.Parse(ddlNotificaciones_motivos.SelectedValue), Convert.ToDateTime(txtFechaNotificacion.Text.Trim()));
             }
             else
             {
@@ -61,11 +81,11 @@ namespace SGI
             }
         }
 
-        private void CaducarTramite(int nroSolicitud,DateTime fechaNotificacion)
+        private void Notificar(int nroSolicitud,int IdNotificacionMotivo,DateTime fechaNotificacion)
         {
             try
             {
-                bool pudo = TramitesBLL.NotificarCaducaTramite(nroSolicitud,fechaNotificacion,out string errorMessage);
+                bool pudo = TramitesBLL.NotificarTramite(nroSolicitud, IdNotificacionMotivo,fechaNotificacion, out string errorMessage);
                 
                 if( ! pudo)
                 {
