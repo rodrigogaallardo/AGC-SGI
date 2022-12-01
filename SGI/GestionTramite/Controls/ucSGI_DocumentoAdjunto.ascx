@@ -493,10 +493,6 @@
             $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Imagen (*.jpg)");
             if (!(/\.(jpg|jpg)$/i).test(arch_nombre))
                 $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
-        } else if (format == 'jpgpdf') {
-            $('#<%=val_upload_fileupload_pdf.ClientID%>').text("Solo se permiten archivos de tipo Acrobat Reader (*.pdf) o Imagen (*.jpg)");
-            if (!(/\.(jpg|jpg)$/i).test(arch_nombre) && !(/\.(pdf|pdf)$/i).test(arch_nombre))
-                $('#<%=val_upload_fileupload_pdf.ClientID%>').show();
         } else {
             $('#<%=val_upload_fileupload_pdf.ClientID%>').text("El formato de archivo no esta soportado");
             $('#<%=val_upload_fileupload_pdf.ClientID%>').show();

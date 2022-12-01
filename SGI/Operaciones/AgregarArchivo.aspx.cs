@@ -166,6 +166,7 @@ namespace SGI.Operaciones
                                 ctx.SSIT_DocumentosAdjuntos_Add(idSolicitud, id_tdocrec, tdocrec_detalle, id_tipodocsis, false, id_file, fileName, createUser, id);
                             id_doc_adj = Convert.ToInt32(id.Value);
                             tran.Commit();
+                            Response.Redirect("~/Operaciones/AdministrarArchivosDeUnaSolicitud.aspx");
                         }
                         catch (Exception ex)
                         {
