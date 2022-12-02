@@ -1,4 +1,4 @@
-﻿<%@  Title="Notificaciones de Caducidad" Language="C#" MasterPageFile="~/Site.Master"
+﻿<%@  Title="Notificaciones de una Solicitud" Language="C#" MasterPageFile="~/Site.Master"
     AutoEventWireup="true" CodeBehind="NotificacionesCaducidad.aspx.cs" Inherits="SGI.NotificacionesCaducidad" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
@@ -44,13 +44,10 @@
         </asp:RegularExpressionValidator>
     </div>
 
-
-
-
       <div class="control-group">
         <label class="control-label" for="txtNroSolicitud">Motivo de Notificación</label>
         <div class="controls">
-            <asp:DropDownList ID="ddlNotificaciones_motivos" runat="server" AutoPostBack="false" 
+            <asp:DropDownList ID="ddlNotificaciones_motivos" runat="server" AutoPostBack="false" CssClass="controls"
                 DataTextField="NotificacionMotivo" DataValueField="IdNotificacionMotivo">
             </asp:DropDownList>
         </div>
@@ -81,7 +78,7 @@
             </div>
 
     <div class="control-group pull-right">
-        <asp:Button ID="btnNotificar" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificar_OnClick" Text="Notificar"></asp:Button>
+        <asp:Button ID="btnNotificar" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificar_OnClick" Text="Notificar Solicitud"></asp:Button>
         <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
             <i class="icon-refresh"></i>
             <span class="text">Limpiar</span>
