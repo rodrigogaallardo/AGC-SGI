@@ -68,14 +68,6 @@ namespace SGI.Operaciones
 
                 if (sGI_Tramites_Tareas != null)
                 {
-
-                    //aspnet_Users _aspnet_Users = new aspnet_Users();
-                    //List<aspnet_Users> aspnet_UsersList = CargarTodosLosUsuarios();
-                    //_aspnet_Users = (from aspnet_Users in aspnet_UsersList
-                    //                 where aspnet_Users.UserId == sGI_Tramites_Tareas.UsuarioAsignado_tramitetarea
-                    //                 select aspnet_Users).FirstOrDefault();
-
-
                     //ASOSA No siempre CreateUser este en la lista
                     try
                     {
@@ -87,18 +79,11 @@ namespace SGI.Operaciones
                         //ddlSFtarea.SelectedIndex = DropDownListIndex(ddlSFtarea.Items.ToList(), sGI_Tramites_Tareas.id_tarea.ToString());
                         //if (sGI_Tramites_Tareas.id_proxima_tarea != null)
                         //    ddlSFproxima_tarea.SelectedIndex = DropDownListIndex(ddlSFproxima_tarea.Items.ToList(), sGI_Tramites_Tareas.id_proxima_tarea.ToString());
-
-
-
-
                     }
                     catch (Exception ex)
                     { }
 
-
-
                 }
-
 
                 if (idTramiteTarea > 0)
                 {
@@ -110,15 +95,12 @@ namespace SGI.Operaciones
                                                    where c.id_circuito == eNG_Tareas.id_circuito
                                                    select c).FirstOrDefault();
 
-
                     ddlCircuitoActual.DataSource = ENG_CircuitosList;
                     ddlCircuitoActual.DataTextField = "nombre_circuito";
                     ddlCircuitoActual.DataValueField = "id_circuito";
                     ddlCircuitoActual.DataBind();
                     ddlCircuitoActual.SelectedValue = ENG_Circuitos.id_circuito.ToString();
                     ddlCircuitoActual.Enabled = false;
-
-
 
                     if (sGI_Tramites_Tareas.id_proxima_tarea != null)
                     {
@@ -196,20 +178,16 @@ namespace SGI.Operaciones
                     {
                         ddlCircuitoActual.SelectedValue = id_circuito;
                     }
-                   
+
                     ddlCircuitoActual_SelectedIndexChanged(null, null);
 
                     ddltarea.SelectedIndex = 0;
                     ddltarea_SelectedIndexChanged(null, null);
                     //ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
 
-
-
                     ddlproxima_tarea.Enabled = false;
                     chkproxima_tarea.Checked = true;
                     chkproxima_tarea.Enabled = false;
-
-
 
                     calFechaAsignacion_tramtietarea.VisibleDate = DateTime.Today;
                     calFechaAsignacion_tramtietarea.SelectedDate = DateTime.Today;
@@ -264,8 +242,6 @@ namespace SGI.Operaciones
 
         public List<aspnet_Users> CargarTodosLosUsuarios()
         {
-
-
             DGHP_Entities db = new DGHP_Entities();
             //List<aspnet_Users> qq = (from mem in db.aspnet_Membership
             //                        join usu in db.aspnet_Users on mem.UserId equals usu.UserId
@@ -295,8 +271,6 @@ namespace SGI.Operaciones
                                    where mem.id_circuito == id_circuito
                                    orderby (mem.nombre_tarea)
                                    select mem).ToList();
-
-
             return qq;
         }
         public List<ENG_Circuitos> CargarTodasLosCircuitos()
@@ -310,27 +284,22 @@ namespace SGI.Operaciones
         #region Events
         protected void calFechaInicio_tramitetarea_SelectionChanged(object sender, EventArgs e)
         {
-          //  lblFecInicio.Text = "Fec.Inicio " + calFechaInicio_tramitetarea.SelectedDate.ToShortDateString();
             hdFechaInicio_tramitetarea.Value = calFechaInicio_tramitetarea.SelectedDate.ToShortDateString();
         }
 
         protected void calFechaCierre_tramitetarea_SelectionChanged(object sender, EventArgs e)
         {
-           // lblFecCierre.Text = "Fec.Cierre " + calFechaCierre_tramitetarea.SelectedDate.ToShortDateString();
             hdFechaCierre_tramitetarea.Value = calFechaCierre_tramitetarea.SelectedDate.ToShortDateString();
         }
 
         protected void calFechaAsignacion_tramtietarea_SelectionChanged(object sender, EventArgs e)
         {
-        //    lblFecAsignacion.Text = "Fec.Asignacion " + calFechaAsignacion_tramtietarea.SelectedDate.ToShortDateString();
             hdFechaAsignacion_tramtietarea.Value = calFechaAsignacion_tramtietarea.SelectedDate.ToShortDateString();
         }
 
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-
-
 
             SGI_Tramites_Tareas tramiteTarea = new SGI_Tramites_Tareas();
             SGI_Tramites_Tareas_HAB sgi_Tramites_Tareas_HAB = new SGI_Tramites_Tareas_HAB();
@@ -339,7 +308,6 @@ namespace SGI.Operaciones
             //using (DGHP_Entities entities = new DGHP_Entities())
             //{
             int idTramiteTarea = int.Parse(hdidTramiteTarea.Value);
-
 
             if (idTramiteTarea == 0)
             {
@@ -383,12 +351,8 @@ namespace SGI.Operaciones
                 tramiteTarea.UsuarioAsignado_tramitetarea = null;
             }
 
-
-
             tramiteTarea.id_tarea = int.Parse(ddltarea.SelectedValue);
             tramiteTarea.id_resultado = int.Parse(ddlResultado.SelectedValue);
-
-
             //}
 
             #region Transaccion
@@ -397,7 +361,6 @@ namespace SGI.Operaciones
             {
                 try
                 {
-
                     context.SGI_Tramites_Tareas.AddOrUpdate(tramiteTarea);
                     #region SGI_Tramites_Tareas_HAB
                     if (hdHAB_TRANSF.Value == "H")
@@ -417,10 +380,8 @@ namespace SGI.Operaciones
                         context.SGI_Tramites_Tareas_TRANSF.Add(sgi_Tramites_Tareas_TRANSF);
                     }
                     #endregion
-
                     context.SaveChanges();
                     dbContextTransaction.Commit();
-
                 }
                 catch (Exception ex)
                 {
@@ -430,7 +391,6 @@ namespace SGI.Operaciones
             }
             #endregion
             Response.Redirect("~/Operaciones/AdministrarTareasDeUnaSolicitud.aspx?idSolicitud=" + hdidSolicitud.Value);
-
         }
 
         protected void btnReturn_Click(object sender, EventArgs e)
@@ -449,7 +409,6 @@ namespace SGI.Operaciones
                               where t.id_circuito == id_circuito
                               select t).ToList();
 
-
             ddltarea.DataSource = eNG_TareasList;
             ddltarea.DataTextField = "nombre_tarea";
             ddltarea.DataValueField = "id_tarea";
@@ -461,16 +420,10 @@ namespace SGI.Operaciones
             string UsuarioAsignado_tramitetarea = ddlUsuarioAsignado_tramitetarea.SelectedValue.ToString();
             DGHP_Entities entities = new DGHP_Entities();
 
-
-
-
-
             var usuario = entities.aspnet_Users.FirstOrDefault(x => x.UserId.ToString() == UsuarioAsignado_tramitetarea);
             List<int> listadoIdTareas = new List<int>();
             foreach (var perfiles in usuario.SGI_PerfilesUsuarios)
                 listadoIdTareas.AddRange(perfiles.ENG_Rel_Perfiles_Tareas.Select(perfilTarea => perfilTarea.id_tarea).ToList());
-
-
 
             #region MyRegion
             DGHP_Entities db = new DGHP_Entities();
@@ -486,13 +439,6 @@ namespace SGI.Operaciones
                                   DataGroupByField = usu.nombre_grupo.ToString()
                               }).ToList();
             #endregion
-
-
-
-
-
-
-
         }
 
 
@@ -505,7 +451,6 @@ namespace SGI.Operaciones
                 //List<ENG_Resultados> ENG_ResultadosList = (from Resultados in context.ENG_Resultados
                 //                                           select Resultados).ToList();
                 Engine.Tarea tarea = Engine.Tarea.Get(int.Parse(ddltarea.SelectedValue), 0);
-
 
                 ddlResultado.DataSource = tarea.Resultados;
                 ddlResultado.DataTextField = "nombre_resultado";
@@ -524,7 +469,6 @@ namespace SGI.Operaciones
             int id_tramitetarea = int.Parse(hdidTramiteTarea.Value);
             int id_tarea = int.Parse(ddltarea.SelectedValue);
 
-
             int id_proxima_tarea;
             if (int.Parse(hdidTramiteTarea.Value) == 0)
                 id_proxima_tarea = 0;
@@ -541,26 +485,27 @@ namespace SGI.Operaciones
         }
         private void CargarProximasTareas(int id_resultado, int id_tarea, int id_tramitetarea, int id_proxima_tarea)
         {
-
             List<Tarea> TareaListAux = Engine.GetTareasSiguientes(id_resultado, id_tarea, id_tramitetarea);
             if (TareaListAux.Count() < 1)
                 return;
             ddlproxima_tarea.DataSource = TareaListAux;
             ddlproxima_tarea.DataTextField = "nombre_tarea";
             ddlproxima_tarea.DataValueField = "id_tarea";
-            ddlproxima_tarea.SelectedValue = TareaListAux.FirstOrDefault().id_tarea.ToString();
             ddlproxima_tarea.DataBind();
             //setea el valor leido desde la tarea ya almacenada
             if (id_proxima_tarea > 0)
             {
-
                 Tarea TareaAux = (from t in TareaListAux
                                   where t.id_tarea == id_proxima_tarea
                                   select t).FirstOrDefault();
                 if (TareaAux == null)
+                {
                     ddlproxima_tarea.SelectedIndex = 0;
+                }
                 else
+                {
                     ddlproxima_tarea.SelectedValue = id_proxima_tarea.ToString();
+                }
             }
 
         }
