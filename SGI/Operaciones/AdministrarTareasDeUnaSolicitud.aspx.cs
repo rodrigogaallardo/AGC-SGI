@@ -5,6 +5,7 @@ using System;
 using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Security;
 using System.Web.UI;
@@ -37,14 +38,19 @@ namespace SGI.Operaciones
             if (couldParse)
             {
                 DGHP_Entities entities = new DGHP_Entities();
-
-                 tareasDeLaSolicitud = (from tareas in entities.SGI_Tramites_Tareas
-                                                                 join ttHab in entities.SGI_Tramites_Tareas_HAB
-                                                                 on tareas.id_tramitetarea equals ttHab.id_tramitetarea
-                                                                 where ttHab.id_solicitud == idSolicitud
-                                                                 select tareas).ToList();
-
-                if (tareasDeLaSolicitud.Count < 1)
+                var solic = 0;
+                solic = (from sol in entities.Transf_Solicitudes where sol.id_solicitud == idSolicitud select sol.id_solicitud).FirstOrDefault();
+                if (solic == 0)
+                {
+                    solic = (from sol in entities.SSIT_Solicitudes where sol.id_solicitud == idSolicitud select sol.id_solicitud).FirstOrDefault();
+                    tareasDeLaSolicitud = (from tareas in entities.SGI_Tramites_Tareas
+                                           join ttHab in entities.SGI_Tramites_Tareas_HAB
+                                           on tareas.id_tramitetarea equals ttHab.id_tramitetarea
+                                           where ttHab.id_solicitud == idSolicitud
+                                           select tareas).ToList();
+                    hdHAB_TRANSF.Value = "H";
+                }
+                else
                 {
                     tareasDeLaSolicitud = (from tareas in entities.SGI_Tramites_Tareas
                                            join tTransf in entities.SGI_Tramites_Tareas_TRANSF
@@ -53,15 +59,18 @@ namespace SGI.Operaciones
                                            select tareas).ToList();
                     hdHAB_TRANSF.Value = "T";
                 }
-                else
-                {
-                    hdHAB_TRANSF.Value = "H";
-                }
 
                 if (tareasDeLaSolicitud.Count < 1)
                 {
-                    hdHAB_TRANSF.Value = "";
-                    btnNuevo.Enabled = false;//SI NO HAY REG TRANSF NI HAB ESCONTO BOTON NUEVO
+                    if (solic == 0)
+                    {
+                        hdHAB_TRANSF.Value = "";
+                        btnNuevo.Enabled = false;//SI NO HAY REG TRANSF NI HAB ESCONTO BOTON NUEVO
+                    }
+                    else
+                    {
+                        btnNuevo.Enabled = true;
+                    }
                 }
                 else
                 {
@@ -550,7 +559,11 @@ namespace SGI.Operaciones
         {
             int idSolicitud = int.Parse(hdidSolicitud.Value);
             string hAB_tRANSF = hdHAB_TRANSF.Value;
-            var id_circuito = tareasDeLaSolicitud.LastOrDefault().ENG_Tareas.ENG_Circuitos.id_circuito;
+            var id_circuito = 0;
+            if (tareasDeLaSolicitud.Count() >= 1)
+            {
+                id_circuito = tareasDeLaSolicitud.LastOrDefault().ENG_Tareas.ENG_Circuitos.id_circuito;
+            }
             Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=0" + "&idSolicitud=" + idSolicitud + "&hAB_tRANSF=" + hAB_tRANSF + "&id_circuito=" + id_circuito);
         }
     }

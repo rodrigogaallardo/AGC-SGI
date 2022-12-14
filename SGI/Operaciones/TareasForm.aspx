@@ -70,8 +70,7 @@
             <div class="control-group">
                 <div style="width: 250px; display: inline-block; margin-top: 5px;">
                     <asp:Label class="control-label" Style="font-family: sans-serif; font-size: 14px;" Text="Usuario" runat="server"></asp:Label>
-                    <asp:CheckBox ID="chkUsuario" Text="No Establecer"
-                        AutoPostBack="true" runat="server" OnCheckedChanged="chkUsuario_CheckedChanged" />
+                    <asp:CheckBox ID="chkUsuario" Text="No Establecer" AutoPostBack="true" runat="server" OnCheckedChanged="chkUsuario_CheckedChanged" />
                 </div>
             </div>
             <div class="control-group">
@@ -95,6 +94,7 @@
             <div class="control-group">
                 <div style="width: 250px; display: inline-block; margin-top: 5px;">
                     <asp:Label class="control-label" Style="font-family: sans-serif; font-size: 14px;" Text="Resultado" runat="server"></asp:Label>
+                    <asp:CheckBox ID="ChkResultado" Text="No Establecer" AutoPostBack="true" runat="server" OnCheckedChanged="chkResultado_CheckedChanged" />
                 </div>
             </div>
             <div class="control-group">
@@ -142,13 +142,14 @@
     <div class="control-group">
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Style="font-family: sans-serif; font-size: 14px;" ID="lblFecAsignacion" Text="Fec.Asignacion" runat="server"></asp:Label>
+            <asp:CheckBox ID="chk_FechaAsignacion_tramitetarea" Text="No Establecer" AutoPostBack="true" runat="server" OnCheckedChanged="chk_FechaAsignacion_tramitetarea_CheckedChanged" />
         </div>
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Style="font-family: sans-serif; font-size: 14px;" ID="lblFecInicio" Text="Fec.Inicio" runat="server"></asp:Label>
         </div>
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
             <asp:Label class="control-label" Style="font-family: sans-serif; font-size: 14px;" ID="lblFecCierre" Text="Fec.Cierre" runat="server"></asp:Label>
-            <asp:CheckBox ID="chkFechaCierre_tramitetarea" Text="No Establecer" AutoPostBack="true" OnCheckedChanged="chkFechaCierre_tramitetarea_CheckedChanged" runat="server" />
+            <asp:CheckBox ID="chkFechaCierre_tramitetarea" Text="No Establecer" AutoPostBack="true" runat="server" OnCheckedChanged="chkFechaCierre_tramitetarea_CheckedChanged" />
         </div>
     </div>
     <div class="control-group">

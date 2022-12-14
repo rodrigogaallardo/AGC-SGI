@@ -69,6 +69,15 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.DropDownList ddlUsuarioAsignado_tramitetarea;
 
         /// <summary>
+        /// ChkResultado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ChkResultado;
+
+        /// <summary>
         /// ddlResultado control.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace SGI.Operaciones
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFecAsignacion;
+
+        /// <summary>
+        /// chk_FechaAsignacion_tramitetarea control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chk_FechaAsignacion_tramitetarea;
 
         /// <summary>
         /// lblFecInicio control.
