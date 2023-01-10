@@ -23,9 +23,9 @@ namespace SGI.Operaciones
             #endregion
             if (!IsPostBack)
             {
-                calFechaDesde.SelectedDate = DateTime.Today;
+                calFechaDesde.SelectedDate = DateTime.Today;///1 enero
                 calFechaDesde.VisibleDate = DateTime.Today;
-                calFechaHasta.SelectedDate = DateTime.Today.AddMonths(1);
+                calFechaHasta.SelectedDate = DateTime.Today.AddMonths(1);  //31 dic
                 calFechaHasta.VisibleDate = DateTime.Today.AddMonths(1);
                 CargarFeriados();
             }
@@ -109,16 +109,13 @@ namespace SGI.Operaciones
         {
             try
             {
-                GridView grid = (GridView)gridView;
-
-
-
-
+ 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                   
+                    string Fecha = e.Row.Cells[2].Text;
 
-
+                    Button btnRemove = (Button)e.Row.Cells[0].Controls[1];
+                    btnRemove.OnClientClick = "return confirm('¿Confirma que desea Eliminar el Feriado del  " + Fecha + " ?');";
 
 
                 }
