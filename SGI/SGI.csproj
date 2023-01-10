@@ -708,6 +708,8 @@
     <Content Include="Errores\error3030.aspx" />
     <Content Include="Errores\Error3040.aspx" />
     <Content Include="Errores\Error3051.aspx" />
+    <Content Include="Operaciones\FeriadosIndex.aspx" />
+    <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
     <Content Include="GestionTramite\BajaSolicitud.aspx" />
     <Content Include="GestionTramite\BuscarTramite.aspx" />
@@ -2130,6 +2132,20 @@
     </Compile>
     <Compile Include="Errores\error3030.aspx.designer.cs">
       <DependentUpon>error3030.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
+      <DependentUpon>FeriadosIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosIndex.aspx.designer.cs">
+      <DependentUpon>FeriadosIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosForm.aspx.cs">
+      <DependentUpon>FeriadosForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosForm.aspx.designer.cs">
+      <DependentUpon>FeriadosForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Files\Download.ashx.cs">
       <DependentUpon>Download.ashx</DependentUpon>
@@ -3662,6 +3678,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dsImpresionProfesionalesRelacionados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Feriados.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SGI_FiltrosBusqueda.cs">
       <DependentUpon>AGC.tt</DependentUpon>
