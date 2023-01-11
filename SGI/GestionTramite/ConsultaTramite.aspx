@@ -814,7 +814,26 @@
                                                     <asp:TextBox ID="txtSuperficieHasta" runat="server" MaxLength="10" Width="80px"></asp:TextBox>
                                                 </div>
                                             </div>
+
                                         </div>
+
+                                         <div class="row">
+                                            <div class="span5">
+                                                <asp:Label ID="Label7" runat="server" AssociatedControlID="txtSuperficieDesde"
+                                                    Text="Plano de Incendio:" class="control-label"></asp:Label>
+                                                <div class="controls">
+                                                    <asp:DropDownList ID="ddlPlanoIncendio"  AutoPostBack="true" OnSelectedIndexChanged="ddlPlanoIncendio_SelectedIndexChanged" runat="server" Width="200px">
+                                                         
+                                                    </asp:DropDownList>
+
+                                                </div>
+                                            </div>
+                                            <div class="span5">
+                                                
+                                            </div>
+
+                                        </div>
+
                                     </fieldset>
                                 </div>
                             </ContentTemplate>
@@ -1366,6 +1385,17 @@
                                 <asp:BoundField DataField="TipoCAA" HeaderText="Tipo CAA" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="TareaActual" HeaderText="Tarea Actual" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="Superficie" HeaderText="Superficie" />
+                               <asp:BoundField DataField="TienePlanoIncendio" HeaderText="Tiene Plano de Incendio" ItemStyle-CssClass="align-center" />
+                            
+                                <asp:TemplateField HeaderText="TienePlanoIncendio" ItemStyle-CssClass="align-center">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkTienePlanoIncendio" runat="server"  data-visible="false" data-placement="right" >
+                                            <i class="icon-share"></i>
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+
                                 <asp:TemplateField HeaderText="Rubros" ItemStyle-CssClass="align-center">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkRubros" runat="server" OnClientClick="return popOver(this);" data-toggle="popover" data-visible="false" data-placement="right" title="Lista de Rubros">
@@ -1583,6 +1613,7 @@
             return false;
         }
     </script>
+   
 </asp:Content>
 
 

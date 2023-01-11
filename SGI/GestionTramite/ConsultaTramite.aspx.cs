@@ -158,6 +158,7 @@ namespace SGI.GestionTramite
                 List<int> id = new List<int>();
                 // id.Add(0);
                 IniciarEntity();
+                CargarCombo_PlanoIncendioe();
                 CargarCombo_TipoTramite();
                 CargarCombo_TipoExpediente(id);
                 CargarCombo_subtipoTramite(0);
@@ -192,7 +193,31 @@ namespace SGI.GestionTramite
             }
 
         }
+        private void CargarCombo_PlanoIncendioe()
+        {
 
+            ListItem listItem = new ListItem();
+            listItem.Text = "Todos";
+            listItem.Value = "T";
+            ddlPlanoIncendio.Items.Add(listItem);
+
+            listItem = new ListItem();
+            listItem.Text = "Con Plano de Incendio ";
+            listItem.Value = "C";
+            ddlPlanoIncendio.Items.Add(listItem);
+
+            listItem = new ListItem();
+            listItem.Text = "Sin Plano de Incendio ";
+            listItem.Value = "S";
+            ddlPlanoIncendio.Items.Add(listItem);
+
+
+            if (Session["ddlPlanoIncendio_Value"] != null)
+            {
+                ddlPlanoIncendio.SelectedValue = Convert.ToString(Session["ddlPlanoIncendio_Value"]);
+            }
+
+        }
         private void CargarCombo_TipoTramite()
         {
             List<string> lstOcultarTipoTramite = new List<string>();
@@ -1636,8 +1661,14 @@ namespace SGI.GestionTramite
                              FechaInicioAT = sol.FechaInicioAT,
                              FechaAprobadoAT =  sol.FechaAprobadoAT
                          });
-
-
+                if (Session["ddlPlanoIncendio_Value"] != null)
+                {
+                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "C")
+                        q = q.Where(x => x.TienePlanoIncendio == true);
+                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "S")
+                        q = q.Where(x => x.TienePlanoIncendio == false);
+                }
+                
                 tramites = q.ToList();
 
                 foreach (var r in tramites)
@@ -1698,8 +1729,31 @@ namespace SGI.GestionTramite
                         {
                             r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
                         }
-                   
-                   
+                    #region ASOSA
+
+
+
+
+                    int existe = (from s in db.SSIT_DocumentosAdjuntos
+                                  where s.id_solicitud == r.id_solicitud
+                                  select s).Count();
+                    if(existe <1)
+                    {
+                         existe = (from t in db.Transf_DocumentosAdjuntos
+                                      where t.id_solicitud == r.id_solicitud
+                                      select t).Count();
+                    }
+                    if (existe < 1)
+                    {
+                        r.TienePlanoIncendio = false;
+                    }
+                   else
+                    {
+                        r.TienePlanoIncendio = true;
+                    }
+                  
+                    #endregion
+
                 }
 
                 return tramites;
@@ -2049,8 +2103,13 @@ namespace SGI.GestionTramite
 
             this.EjecutarScript(updExportaExcel, "hidefrmExportarExcel();");
         }
+
         #endregion
 
-
+        protected void ddlPlanoIncendio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+            Session["ddlPlanoIncendio_Value"] = ddlPlanoIncendio.SelectedValue.ToString();
+        }
     }
 }
