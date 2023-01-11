@@ -570,6 +570,34 @@ namespace SGI.GestionTramite
             grdTramites.PageIndex = grdTramites.PageIndex + 1;
         }
 
+
+        protected void grdTramites_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            try
+            {
+
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    string tienePlano = e.Row.Cells[40].Text;
+
+                    //LinkButton lnkTienePlanoIncendio = (LinkButton)e.Row.Cells[11].Controls[3];
+                    //if (tienePlano == "False")
+                    //    lnkTienePlanoIncendio.Visible = false;
+
+                    CheckBox chkTienePlanoIncendio = (CheckBox)e.Row.Cells[11].Controls[1];
+                    if (tienePlano == "False")
+                        chkTienePlanoIncendio.Checked = false;
+                    else
+                        chkTienePlanoIncendio.Checked = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                string aa = ex.Message;
+            }
+        }
         protected void grdTramites_DataBound(object sender, EventArgs e)
         {
             GridView grid = (GridView)grdTramites;
@@ -1050,7 +1078,7 @@ namespace SGI.GestionTramite
             CargarCombo_TipoExpediente(idTipoTramite);
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
-            
+
             ddlTipoExpediente.SelectedIndex = filtros.id_tipo_expediente != "" ? int.Parse(filtros.id_tipo_expediente) : 0;
             IniciarEntity();
             int idTipoExp = int.Parse(ddlTipoExpediente.SelectedValue);
@@ -1058,7 +1086,7 @@ namespace SGI.GestionTramite
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
 
-            ddlSubTipoTramite.SelectedIndex = filtros.id_sub_tipo_tramite != "" ? int.Parse(filtros.id_sub_tipo_tramite) : 0; 
+            ddlSubTipoTramite.SelectedIndex = filtros.id_sub_tipo_tramite != "" ? int.Parse(filtros.id_sub_tipo_tramite) : 0;
             IniciarEntity();
             int idSubTipo = int.Parse(ddlSubTipoTramite.SelectedValue);
             CargarCombo_tareas(idTipoTramite, idTipoExp, idSubTipo);
@@ -1066,7 +1094,7 @@ namespace SGI.GestionTramite
             updPnlFiltroBuscar_tramite.Update();
 
 
-            ddlTarea.SelectedIndex = filtros.id_tipo_tarea != "" ? int.Parse(filtros.id_tipo_tarea) : 0; 
+            ddlTarea.SelectedIndex = filtros.id_tipo_tarea != "" ? int.Parse(filtros.id_tipo_tarea) : 0;
             hid_estados_selected.Value = filtros.id_estado;
             hid_tipotramite_selected.Value = filtros.id_tipo_tramite;
             hid_grupocircuito_selected.Value = filtros.codGrupoCircuito;
@@ -1086,8 +1114,8 @@ namespace SGI.GestionTramite
             if (!String.IsNullOrWhiteSpace(filtros.id_zona))
                 ddlZona.SelectedValue = filtros.id_zona;
 
-            ddlBarrio.SelectedIndex = filtros.id_barrio != "" ? int.Parse(filtros.id_barrio) : 0; 
-            ddlComuna.SelectedIndex = filtros.id_comuna != "" ? int.Parse(filtros.id_comuna) : 0; 
+            ddlBarrio.SelectedIndex = filtros.id_barrio != "" ? int.Parse(filtros.id_barrio) : 0;
+            ddlComuna.SelectedIndex = filtros.id_comuna != "" ? int.Parse(filtros.id_comuna) : 0;
 
             //Carga rubros
             if (!string.IsNullOrEmpty(filtros.rubros))
@@ -1419,7 +1447,7 @@ namespace SGI.GestionTramite
         }
 
         private List<clsItemConsultaTramite> FiltrarTramitesSP(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
-        {            
+        {
             if (!String.IsNullOrWhiteSpace(codigoGuid))
             {
                 int idAux = 0;
@@ -1542,12 +1570,12 @@ namespace SGI.GestionTramite
                 List<int> tipoTramite = new List<int>();
                 if (this.tiposTramite.Trim().Length > 0)
                     tipoTramite = this.tiposTramite.Split(new char[] { ',' }).ToList()
-                                                .Where(x=> int.Parse(x) > 0)
+                                                .Where(x => int.Parse(x) > 0)
                                                 .Select(s => int.Parse(s)).ToList();
 
                 if (tipoTramite.Contains((int)Constants.TipoDeTramite.Habilitacion) && !tipoTramite.Contains((int)Constants.TipoDeTramite.RectificatoriaHabilitacion))
                     tipoTramite.Add((int)Constants.TipoDeTramite.RectificatoriaHabilitacion);
-                
+
                 ids_tipo_tramites = string.Join(",", tipoTramite.ToArray());
 
                 List<int> grupoCircuito = new List<int>();
@@ -1570,7 +1598,7 @@ namespace SGI.GestionTramite
                 this.rubros = "";
                 if (listRubros.Count() > 0)
                     this.rubros = string.Join(",", listRubros.Select(x => x.cod_rubro).Distinct());
-                
+
                 var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));
 
                 List<SGI_ConsultaTramites> resultados = db.ConsultaTramites(
@@ -1659,7 +1687,7 @@ namespace SGI.GestionTramite
                              Usuario = sol.Usuario,
                              NombreyApellido = sol.NombreyApellido,
                              FechaInicioAT = sol.FechaInicioAT,
-                             FechaAprobadoAT =  sol.FechaAprobadoAT
+                             FechaAprobadoAT = sol.FechaAprobadoAT
                          });
                 if (Session["ddlPlanoIncendio_Value"] != null)
                 {
@@ -1668,7 +1696,7 @@ namespace SGI.GestionTramite
                     if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "S")
                         q = q.Where(x => x.TienePlanoIncendio == false);
                 }
-                
+
                 tramites = q.ToList();
 
                 foreach (var r in tramites)
@@ -1691,7 +1719,7 @@ namespace SGI.GestionTramite
                             LocalSubTipoUbicacion = x.Key.LocalSubTipoUbicacion,
 
                             Calles = lstConsTram.Where(u => u.Seccion == x.Key.Seccion && u.Manzana == x.Key.Manzana && u.Parcela == x.Key.Parcela)
-                            .GroupBy(a => new { a.nombre_calle, a.NroPuerta})
+                            .GroupBy(a => new { a.nombre_calle, a.NroPuerta })
                             .Select(u => new clsItemConsultaPuerta
                             {
                                 calle = u.Key.nombre_calle,
@@ -1702,17 +1730,17 @@ namespace SGI.GestionTramite
 
 
                     r.Rubros = lstConsTram
-                        .GroupBy(a => new { a.id_rubro, a.cod_rubro, a.nom_rubro, a.id_subrubro, a.nom_subrubro})
+                        .GroupBy(a => new { a.id_rubro, a.cod_rubro, a.nom_rubro, a.id_subrubro, a.nom_subrubro })
                         .Select(p => new clsItemddlRubro
-                    {
-                        id_rubro = p.Key.id_rubro ?? 0,
-                        cod_rubro = p.Key.cod_rubro,
-                        nom_rubro = p.Key.nom_rubro,
-                        id_subrubro = p.Key.id_subrubro != null ? p.Key.id_subrubro.ToString() : "",
-                        nom_subrubro = p.Key.nom_subrubro
-                    }).ToList();
+                        {
+                            id_rubro = p.Key.id_rubro ?? 0,
+                            cod_rubro = p.Key.cod_rubro,
+                            nom_rubro = p.Key.nom_rubro,
+                            id_subrubro = p.Key.id_subrubro != null ? p.Key.id_subrubro.ToString() : "",
+                            nom_subrubro = p.Key.nom_subrubro
+                        }).ToList();
 
-                    r.Titulares = lstConsTram.GroupBy(a => new { a.Titulares})
+                    r.Titulares = lstConsTram.GroupBy(a => new { a.Titulares })
                         .Select(x => new clsItemConsulta { value = GetCadenaLimpia(x.Key.Titulares) }).ToList();
 
                     r.Cuits = lstConsTram.GroupBy(a => new { a.Cuits })
@@ -1720,15 +1748,15 @@ namespace SGI.GestionTramite
 
                     var sol = db.SSIT_Solicitudes.Where(s => s.id_solicitud == r.id_solicitud).FirstOrDefault();
 
-                      if (sol == null)
-                        {
-                            var trf = db.Transf_Solicitudes.Where(t => t.id_solicitud == r.id_solicitud).FirstOrDefault();
-                            r.id_solicitud_ref = trf != null ? trf.idSolicitudRef : null;
-                        }
-                        else
-                        {
-                            r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
-                        }
+                    if (sol == null)
+                    {
+                        var trf = db.Transf_Solicitudes.Where(t => t.id_solicitud == r.id_solicitud).FirstOrDefault();
+                        r.id_solicitud_ref = trf != null ? trf.idSolicitudRef : null;
+                    }
+                    else
+                    {
+                        r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
+                    }
                     #region ASOSA
 
 
@@ -1737,21 +1765,21 @@ namespace SGI.GestionTramite
                     int existe = (from s in db.SSIT_DocumentosAdjuntos
                                   where s.id_solicitud == r.id_solicitud
                                   select s).Count();
-                    if(existe <1)
+                    if (existe < 1)
                     {
-                         existe = (from t in db.Transf_DocumentosAdjuntos
-                                      where t.id_solicitud == r.id_solicitud
-                                      select t).Count();
+                        existe = (from t in db.Transf_DocumentosAdjuntos
+                                  where t.id_solicitud == r.id_solicitud
+                                  select t).Count();
                     }
                     if (existe < 1)
                     {
                         r.TienePlanoIncendio = false;
                     }
-                   else
+                    else
                     {
                         r.TienePlanoIncendio = true;
                     }
-                  
+
                     #endregion
 
                 }
@@ -1766,7 +1794,7 @@ namespace SGI.GestionTramite
 
             var aux = str.Split(';');
 
-            foreach(var a in aux)
+            foreach (var a in aux)
             {
                 if (a.Trim().Length > 0 && a.Trim() != ",")
                     s += a + " ";
@@ -2108,8 +2136,10 @@ namespace SGI.GestionTramite
 
         protected void ddlPlanoIncendio_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
             Session["ddlPlanoIncendio_Value"] = ddlPlanoIncendio.SelectedValue.ToString();
         }
+
+
     }
 }
