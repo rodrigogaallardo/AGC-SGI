@@ -585,6 +585,7 @@ namespace SGI.Model
         public string NombreyApellido { get; set; }
         public DateTime? FechaInicioAT { get; set; }
         public DateTime? FechaAprobadoAT { get; set; }
+        public bool TienePlanoIncendio { get; set; }
 
     }
 
