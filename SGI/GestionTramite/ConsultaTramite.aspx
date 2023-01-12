@@ -1328,7 +1328,7 @@
                             DataKeyNames="id_solicitud"
                             SelectMethod="GetTramites" ItemType="SGI.Model.clsItemConsultaTramite"
                             AllowPaging="true" AllowSorting="true" PageSize="30" OnPageIndexChanging="grdTramites_PageIndexChanging"
-                            OnDataBound="grdTramites_DataBound" OnRowDataBound="grdTramites_RowDataBound">
+                            OnDataBound="grdTramites_DataBound" >
                             <SortedAscendingHeaderStyle CssClass="GridAscendingHeaderStyle" />
                             <SortedDescendingHeaderStyle CssClass="GridDescendingHeaderStyle" />
                             <Columns>
@@ -1386,7 +1386,7 @@
 
                                 <asp:TemplateField HeaderText="Tiene Plano Incendio" ItemStyle-CssClass="align-center">
                                     <ItemTemplate>
-                                           <asp:CheckBox  runat="server" Enabled="false"  ToolTip='<%# Eval("TienePlanoIncendio") %>' />
+                                           <asp:CheckBox  runat="server" Enabled="false" Checked='<%# Eval("TienePlanoIncendio") %>'  ToolTip='<%# Eval("TienePlanoIncendio") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
 

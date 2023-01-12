@@ -572,29 +572,7 @@ namespace SGI.GestionTramite
         }
 
 
-        protected void grdTramites_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            try
-            {
-
-                if (e.Row.RowType == DataControlRowType.DataRow)
-                {
-                   // string tienePlano = e.Row.Cells[40].Text;
-
-                    CheckBox chkTienePlanoIncendio = (CheckBox)e.Row.Cells[11].Controls[1];
-                    if (chkTienePlanoIncendio.ToolTip == "False")
-                        chkTienePlanoIncendio.Checked = false;
-                    else
-                        chkTienePlanoIncendio.Checked = true;
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                string aa = ex.Message;
-            }
-        }
+      
         protected void grdTramites_DataBound(object sender, EventArgs e)
         {
             GridView grid = (GridView)grdTramites;
