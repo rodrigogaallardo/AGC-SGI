@@ -1386,11 +1386,7 @@
 
                                 <asp:TemplateField HeaderText="Tiene Plano Incendio" ItemStyle-CssClass="align-center">
                                     <ItemTemplate>
-                                     
-                                       <%-- <asp:LinkButton  ToolTip= '<%  Eval("TienePlanoIncendio")%>' runat="server" data-visible="false" data-placement="right">
-                                            <i class="icon-share"></i>
-                                        </asp:LinkButton>--%>
-                                           <asp:CheckBox  runat="server" Enabled="false"  />
+                                           <asp:CheckBox  runat="server" Enabled="false"  ToolTip='<%# Eval("TienePlanoIncendio") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -1437,7 +1433,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Cuit" ItemStyle-CssClass="align-center">
                                     <ItemTemplate>
-                                        <asp:Repeater ID="repeater_certificados" runat="server" DataSource='<%# Item.Cuits%>'>
+                                        <asp:Repeater ID="repeater_certificados2" runat="server" DataSource='<%# Item.Cuits%>'>
                                             <ItemTemplate>
                                                 <%# Eval("value").ToString() %>;
                                             </ItemTemplate>
@@ -1460,8 +1456,7 @@
                                 <asp:BoundField DataField="NombreyApellido" HeaderText="Nombre y Apellido" ItemStyle-Width="50px" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="FechaInicioAT" HeaderText="Fecha Inicio AT" DataFormatString="{0:d}" ItemStyle-Width="50px" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="FechaAprobadoAT" HeaderText="Fecha Aprobado AT" DataFormatString="{0:d}" ItemStyle-Width="50px" ItemStyle-CssClass="align-center" />
-                                <asp:BoundField DataField="TienePlanoIncendio" Visible="true" ItemStyle-Width="0"  />
-
+                                
 
                             </Columns>
                             <EmptyDataTemplate>

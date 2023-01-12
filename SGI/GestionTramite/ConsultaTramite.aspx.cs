@@ -15,6 +15,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
+using Syncfusion.Compression.Zip;
 
 namespace SGI.GestionTramite
 {
@@ -578,14 +579,10 @@ namespace SGI.GestionTramite
 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    string tienePlano = e.Row.Cells[40].Text;
-
-                    //LinkButton lnkTienePlanoIncendio = (LinkButton)e.Row.Cells[11].Controls[3];
-                    //if (tienePlano == "False")
-                    //    lnkTienePlanoIncendio.Visible = false;
+                   // string tienePlano = e.Row.Cells[40].Text;
 
                     CheckBox chkTienePlanoIncendio = (CheckBox)e.Row.Cells[11].Controls[1];
-                    if (tienePlano == "False")
+                    if (chkTienePlanoIncendio.ToolTip == "False")
                         chkTienePlanoIncendio.Checked = false;
                     else
                         chkTienePlanoIncendio.Checked = true;
@@ -1689,13 +1686,7 @@ namespace SGI.GestionTramite
                              FechaInicioAT = sol.FechaInicioAT,
                              FechaAprobadoAT = sol.FechaAprobadoAT
                          });
-                if (Session["ddlPlanoIncendio_Value"] != null)
-                {
-                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "C")
-                        q = q.Where(x => x.TienePlanoIncendio == true);
-                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "S")
-                        q = q.Where(x => x.TienePlanoIncendio == false);
-                }
+               
 
                 tramites = q.ToList();
 
@@ -1757,18 +1748,18 @@ namespace SGI.GestionTramite
                     {
                         r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
                     }
+
+
                     #region ASOSA
-
-
-
-
                     int existe = (from s in db.SSIT_DocumentosAdjuntos
                                   where s.id_solicitud == r.id_solicitud
+                                  && s.id_tdocreq == 66
                                   select s).Count();
                     if (existe < 1)
                     {
                         existe = (from t in db.Transf_DocumentosAdjuntos
                                   where t.id_solicitud == r.id_solicitud
+                                  && t.id_tdocreq == 66
                                   select t).Count();
                     }
                     if (existe < 1)
@@ -1783,7 +1774,24 @@ namespace SGI.GestionTramite
                     #endregion
 
                 }
-
+                #region ASOSA
+                if (Session["ddlPlanoIncendio_Value"] != null)
+                {
+                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "C")
+                    {
+                        tramites = ( from t in tramites
+                              where t.TienePlanoIncendio == true
+                            select t).ToList();
+                    }
+                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "S")
+                    {
+                        tramites = (from t in tramites
+                                    where t.TienePlanoIncendio == false
+                                    select t).ToList();
+                    }
+                   
+                }
+                #endregion
                 return tramites;
             }
         }
