@@ -68,7 +68,7 @@ namespace SGI.GestionTramite.Controls
         {
             using (var db = new DGHP_Entities())
             {
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
                 IEnumerable<int> idEncomiendasPresentadas = null;
 
                 if (ultimaPresentacion != null)
@@ -85,7 +85,7 @@ namespace SGI.GestionTramite.Controls
 
                 using (var dbFiles = new AGC_FilesEntities())
                 {
-                    dbFiles.Database.CommandTimeout = 120;
+                    dbFiles.Database.CommandTimeout = 300;
                     List<TipoTramiteCertificados> lstTipoTramiteCertificados = dbFiles.TipoTramiteCertificados.ToList();
 
                     // Obtiene la descripcion de los certificados
@@ -298,7 +298,7 @@ namespace SGI.GestionTramite.Controls
             {
                 using (var db = new DGHP_Entities())
                 {
-                    db.Database.CommandTimeout = 120;
+                    db.Database.CommandTimeout = 300;
                     var SgiSadeProceso = (from ssp in db.SGI_SADE_Procesos
                                join tth in db.SGI_Tramites_Tareas_HAB on ssp.id_tramitetarea equals tth.id_tramitetarea
                                where tth.id_solicitud == id_solicitud && ssp.id_file == id_file
@@ -326,7 +326,7 @@ namespace SGI.GestionTramite.Controls
             using (var db = new DGHP_Entities())
             {
                 IQueryable<int> idEncomiendasPresentadas = null;
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
                 if (ultimaPresentacion != null)
                 {
 
@@ -525,7 +525,7 @@ namespace SGI.GestionTramite.Controls
 
             using (var db = new DGHP_Entities())
             {
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
                 var estadosSolPres = db.TipoEstadoSolicitud.Where(e =>
                     e.Id == (int)Constants.Solicitud_Estados.Pendiente_de_Ingreso ||
                     e.Id == (int)Constants.Solicitud_Estados.En_trámite)

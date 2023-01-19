@@ -696,7 +696,7 @@ namespace SGI
             IQueryable<clsItemConsultaSSIT> qCP = null;
             IQueryable<clsItemConsultaSSIT> qTR = null;*/
 
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
 
             Guid userid = Functions.GetUserId();
 

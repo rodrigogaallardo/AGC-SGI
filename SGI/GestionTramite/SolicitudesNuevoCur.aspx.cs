@@ -251,7 +251,7 @@ namespace SGI.GestionTramite
             {
                 IQueryable<clsItemConsultaTramiteNuevoCur> qSOL = null;
 
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
 
                 Guid userid = Functions.GetUserId();
 
@@ -338,7 +338,7 @@ namespace SGI.GestionTramite
             {
                 IQueryable<clsItemConsultaTramiteNuevoCur> qSOL = null;
 
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
 
                 Guid userid = Functions.GetUserId();
 

@@ -35,7 +35,7 @@ namespace SGI.GestionTramite.Controls
 
             using (var db = new DGHP_Entities())
             {
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
                 var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
                           && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).Union(
                           db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
@@ -57,7 +57,7 @@ namespace SGI.GestionTramite.Controls
             int.TryParse(ConfigurationManager.AppSettings["NroSolicitudReferencia"], out nroSolReferencia);
 
             DGHP_Entities db = new DGHP_Entities();
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
             if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
             {
                 lnkNroExpEdit.Visible = false;
@@ -403,7 +403,7 @@ namespace SGI.GestionTramite.Controls
             DGHP_Entities db = new DGHP_Entities();
             try
             {
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
                 int id_cpadron = 0;
                 string edit_nroexpediente = txtNroExpediente.Text.Trim();
                 int.TryParse(lblSolicitud.Text.Trim(), out id_cpadron);
@@ -447,7 +447,7 @@ namespace SGI.GestionTramite.Controls
         {
             DGHP_Entities db = new DGHP_Entities();
             List<String> lsta = new List<string>();
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
             try
             {
                 lsta = (from encZona in db.Encomienda_Ubicaciones_Mixturas
@@ -475,7 +475,7 @@ namespace SGI.GestionTramite.Controls
         {
             DGHP_Entities db = new DGHP_Entities();
             List<String> lsta = new List<string>();
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
             try
             {
                 lsta = (from encDis in db.Encomienda_Ubicaciones_Distritos
@@ -501,7 +501,7 @@ namespace SGI.GestionTramite.Controls
         private string CargarPlantasHabilitar(int id_encomienda)
         {
             DGHP_Entities db = new DGHP_Entities();
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
             string plantasHab = "";
             try
             {
