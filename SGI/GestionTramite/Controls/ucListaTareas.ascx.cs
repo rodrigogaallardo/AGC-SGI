@@ -83,7 +83,7 @@ namespace SGI.GestionTramite.Controls
             if (this.id_solicitud > 0)
             {
                 DGHP_Entities db = new DGHP_Entities();
-                db.Database.CommandTimeout = 120;
+                db.Database.CommandTimeout = 300;
                 if (this.id_grupotramite == (int)Constants.GruposDeTramite.HAB)
                 {
                     lstTareas = (from tt in db.SGI_Tramites_Tareas

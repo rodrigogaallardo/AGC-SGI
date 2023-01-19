@@ -38,7 +38,7 @@ namespace SGI.GestionTramite.Controls
             if (this.db == null)
             {
                 this.db = new DGHP_Entities();
-                this.db.Database.CommandTimeout = 120;
+                this.db.Database.CommandTimeout = 300;
             }
         }
 
