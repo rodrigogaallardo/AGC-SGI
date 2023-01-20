@@ -137,11 +137,14 @@ namespace SGI.BusinessLogicLayer
                         default:
                             break;
                     }
-                   
+     
                     var solicitudesNotificadas = (from st in db.SSIT_Solicitudes
                                                          join SSN in db.SSIT_Solicitudes_Notificaciones on st.id_solicitud equals SSN.id_solicitud
-                                                         where st.id_solicitud == id_solicitud
+                                                         where st.id_solicitud == id_solicitud 
                                                          && SSN.Id_NotificacionMotivo == IdNotificacionMotivo
+                                                         && SSN.createDate.Year == DateTime.Now.Year
+                                                         && SSN.createDate.Month == DateTime.Now.Month
+                                                         && SSN.createDate.Day == DateTime.Now.Day
                                                          select new SSIT_Solicitudes_Model
                                                          {
                                                              id_solicitud = id_solicitud,
