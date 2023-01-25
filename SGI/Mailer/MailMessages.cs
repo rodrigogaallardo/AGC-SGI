@@ -2604,7 +2604,9 @@ namespace SGI.Mailer
 
         private static IEnumerable<string> GetEmailPersonaFisica(DGHP_Entities db, int idSolicitud)
         {
-            var pj =
+            if (idSolicitud > Constants.EsSolicitud)
+            {
+                var pj =
                 (
                     from sstpf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
                     join ssfpf in db.SSIT_Solicitudes_Firmantes_PersonasFisicas on sstpf.id_solicitud equals  ssfpf.id_solicitud
@@ -2616,14 +2618,35 @@ namespace SGI.Mailer
                     }
                 );
 
-            var result = pj.Select(p => p.titular).ToList();
-            result.AddRange(pj.Select(p => p.firmante).ToList());
-            return result;
+                var result = pj.Select(p => p.titular).ToList();
+                result.AddRange(pj.Select(p => p.firmante).ToList());
+                return result;
+            }
+            else
+            {
+                var pj =
+                (
+                    from ttpf in db.Transf_Titulares_PersonasFisicas
+                    join tfpf in db.Transf_Firmantes_PersonasFisicas on ttpf.id_solicitud equals tfpf.id_solicitud
+                    where ttpf.id_solicitud == idSolicitud
+                    select new
+                    {
+                        titular = ttpf.Email,
+                        firmante = tfpf.Email
+                    }
+                );
+
+                var result = pj.Select(p => p.titular).ToList();
+                result.AddRange(pj.Select(p => p.firmante).ToList());
+                return result;
+            }                
         }
 
         private static IEnumerable<string> GetEmailPersonaJuridica(DGHP_Entities db, int idSolicitud)
         {
-            var pj =
+            if (idSolicitud > Constants.EsSolicitud)
+            {
+                var pj =
                 (
                     from sstpj in db.SSIT_Solicitudes_Titulares_PersonasJuridicas
                     join ssfpj in db.SSIT_Solicitudes_Firmantes_PersonasJuridicas on sstpj.id_solicitud equals ssfpj.id_solicitud
@@ -2635,14 +2658,35 @@ namespace SGI.Mailer
                     }
                 );
 
-            var result = pj.Select(p => p.titular).ToList();
-            result.AddRange(pj.Select(p => p.firmante).ToList());
-            return result;
+                var result = pj.Select(p => p.titular).ToList();
+                result.AddRange(pj.Select(p => p.firmante).ToList());
+                return result;
+            }
+            else
+            {
+                var pj =
+                (
+                    from ttpj in db.Transf_Titulares_PersonasJuridicas
+                    join tfpj in db.Transf_Firmantes_PersonasJuridicas on ttpj.id_solicitud equals tfpj.id_solicitud
+                    where ttpj.id_solicitud == idSolicitud
+                    select new
+                    {
+                        titular = ttpj.Email,
+                        firmante = tfpj.Email
+                    }
+                );
+
+                var result = pj.Select(p => p.titular).ToList();
+                result.AddRange(pj.Select(p => p.firmante).ToList());
+                return result;
+            }
         }
 
         private static IEnumerable<string> GetEmailProfesionales(DGHP_Entities db, int idSolicitud)
         {
-            var p =
+            if (idSolicitud > Constants.EsSolicitud)
+            {
+                var p =
                 (
                     from prof in db.Profesional
                     join enc in db.Encomienda on prof.Id equals enc.id_profesional
@@ -2654,8 +2698,26 @@ namespace SGI.Mailer
                     }
                 );
 
-            var result = p.Select(x => x.Email).ToList();
-            return result;
+                var result = p.Select(x => x.Email).ToList();
+                return result;
+            }
+            else
+            {
+                var p =
+                (
+                    from prof in db.Profesional
+                    join enc in db.Encomienda on prof.Id equals enc.id_profesional
+                    join ess in db.Encomienda_Transf_Solicitudes on enc.id_encomienda equals ess.id_encomienda
+                    where ess.id_solicitud == idSolicitud
+                    select new
+                    {
+                        prof.Email
+                    }
+                );
+
+                var result = p.Select(x => x.Email).ToList();
+                return result;
+            }
         }
 
         private static void ValidarTramiteTarea(DGHP_Entities db, int idSolicitud, Constants.ENG_Tareas tarea)
