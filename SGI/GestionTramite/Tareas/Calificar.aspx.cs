@@ -149,8 +149,21 @@ namespace SGI.GestionTramite.Tareas
 
                 if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int) Constants.ENG_Grupos_Circuitos.SCPESCU)
                 {
+
+                    #region ASOSA Si el tramite requiere plano de incendio
+                    var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
+                    var condicionIncendioOk = true;
+                    if (datosLocal != null)
+                    {
+                        var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
+                        condicionIncendioOk = !enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
+                    }
+                    #endregion
+
+
                     if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple 
-                        || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro))
+                        || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro)
+                        || !condicionIncendioOk)
                     {
                         pnl_Librar_Uso.Visible = true;
 

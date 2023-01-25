@@ -5,6 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="80fcccf7b4f240d59d1f6312a04dd9df" Name="Diagrama1" ZoomLevel="88">
+        <EntityTypeShape EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" Width="1.5" PointX="1.5" PointY="1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
