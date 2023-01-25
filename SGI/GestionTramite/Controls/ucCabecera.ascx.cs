@@ -4,6 +4,7 @@ using SGI.Model;
 using System.Transactions;
 using System.Configuration;
 using System.Collections.Generic;
+using Org.BouncyCastle.Crypto.Modes;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -268,8 +269,12 @@ namespace SGI.GestionTramite.Controls
                                       sol.TiposdeTransmision.nom_tipotransmision
                                   }).FirstOrDefault();
 
-                    var enc = db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
-                                            && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
+                    var enc = (from en in db.Encomienda
+                               join et in db.Encomienda_Transf_Solicitudes on en.id_encomienda equals et.id_encomienda
+                               where en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                               && et.id_solicitud == id_solicitud
+                               orderby en.id_encomienda descending
+                               select en).FirstOrDefault();
 
                     if (enc != null)
                     {
