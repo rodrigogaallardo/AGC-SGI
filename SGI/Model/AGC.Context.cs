@@ -371,6 +371,7 @@
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
         public DbSet<SGI_Rel_Usuarios_Perfiles> SGI_Rel_Usuarios_Perfiles { get; set; }
         public DbSet<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
+    
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
             var id_tareaParameter = id_tarea.HasValue ?
@@ -3908,7 +3909,7 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_AVH_Actualizar", id_verificacion_AVHParameter, id_tramitetareaParameter, observacionesParameter, userIdParameter);
         }
-        
+    
         public virtual int SGI_Tarea_Verificacion_IFCI_Actualizar(Nullable<int> id_verificacion_IFCI, Nullable<int> id_tramitetarea, string observaciones, Nullable<System.Guid> userId)
         {
             var id_verificacion_IFCIParameter = id_verificacion_IFCI.HasValue ?
@@ -6457,7 +6458,7 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_AVH_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
         }
-       
+    
         public virtual int SGI_Tarea_Verificacion_IFCI_GenerarProcesos(Nullable<int> id_tramitetarea, Nullable<int> id_proxima_tarea, Nullable<System.Guid> userid)
         {
             var id_tramitetareaParameter = id_tramitetarea.HasValue ?
