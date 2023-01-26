@@ -147,30 +147,40 @@ namespace SGI.GestionTramite.Tareas
 
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
 
-                if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int) Constants.ENG_Grupos_Circuitos.SCPESCU)
+                #region ASOSA Si el tramite requiere plano de incendio
+                var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
+                var condicionIncendioOk = true;
+                if (datosLocal != null)
                 {
+                    var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
+                    condicionIncendioOk = !enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
+                }
 
-                    #region ASOSA Si el tramite requiere plano de incendio
-                    var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
-                    var condicionIncendioOk = true;
-                    if (datosLocal != null)
+
+                if (!condicionIncendioOk)
+                {
+                    pnl_Librar_Uso.Visible = true;
+
+                    if (LiberadoAlUsoRubro)
+                        chbLibrarUso.Checked = true;
+                }
+                else
+                {
+                    if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int)Constants.ENG_Grupos_Circuitos.SCPESCU)
                     {
-                        var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
-                        condicionIncendioOk = !enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
-                    }
-                    #endregion
+                        if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple
+                            || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro))
+                        {
+                            pnl_Librar_Uso.Visible = true;
 
-
-                    if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple 
-                        || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro)
-                        || !condicionIncendioOk)
-                    {
-                        pnl_Librar_Uso.Visible = true;
-
-                        if (LiberadoAlUsoRubro)
-                            chbLibrarUso.Checked = true;
+                            if (LiberadoAlUsoRubro)
+                                chbLibrarUso.Checked = true;
+                        }
                     }
                 }
+                #endregion
+
+               
             }
 
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Calificar_1 ||
