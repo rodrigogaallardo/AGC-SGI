@@ -3035,6 +3035,18 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="SGI_Tarea_Verificacion_IFCI">
+          <Key>
+            <PropertyRef Name="id_verificacion_IFCI" />
+          </Key>
+          <Property Name="id_verificacion_IFCI" Type="int" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="int" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="2000" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="LastUpdateUser" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="SGI_Tarea_Visado">
           <Key>
             <PropertyRef Name="id_visado" />
@@ -9155,6 +9167,18 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
               <PropertyRef Name="id_tramitetarea" />
             </Principal>
             <Dependent Role="SGI_Tarea_Verificacion_AVH">
+              <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas">
+          <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Role="SGI_Tarea_Verificacion_IFCI" Type="Self.SGI_Tarea_Verificacion_IFCI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Verificacion_IFCI">
               <PropertyRef Name="id_tramitetarea" />
             </Dependent>
           </ReferentialConstraint>
@@ -17176,6 +17200,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SGI_Tarea_Revision_Tecnica_Legal" EntityType="Self.SGI_Tarea_Revision_Tecnica_Legal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Validar_Zonificacion" EntityType="Self.SGI_Tarea_Validar_Zonificacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Verificacion_AVH" EntityType="Self.SGI_Tarea_Verificacion_AVH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Tarea_Verificacion_IFCI" EntityType="Self.SGI_Tarea_Verificacion_IFCI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Visado" EntityType="Self.SGI_Tarea_Visado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tareas_Pases_Sectores" EntityType="Self.SGI_Tareas_Pases_Sectores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tramites_Tareas" EntityType="Self.SGI_Tramites_Tareas" Schema="dbo" store:Type="Tables" />
@@ -18886,6 +18911,10 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <AssociationSet Name="FK_SGI_Tarea_Verificacion_AVH_SGI_Tramites_Tareas" Association="Self.FK_SGI_Tarea_Verificacion_AVH_SGI_Tramites_Tareas">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Verificacion_AVH" EntitySet="SGI_Tarea_Verificacion_AVH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" Association="Self.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Verificacion_IFCI" EntitySet="SGI_Tarea_Verificacion_IFCI" />
           </AssociationSet>
           <AssociationSet Name="FK_SGI_Tarea_Visado_SGI_Tramites_Tareas" Association="Self.FK_SGI_Tarea_Visado_SGI_Tramites_Tareas">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
@@ -28211,6 +28240,11 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="SGI_Feriados" EntitySet="SGI_Feriados" />
           </AssociationSet>
+          <EntitySet Name="SGI_Tarea_Verificacion_IFCI" EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" />
+          <AssociationSet Name="FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" Association="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Verificacion_IFCI" EntitySet="SGI_Tarea_Verificacion_IFCI" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -31742,6 +31776,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SGI_Tramites_Tareas_Dispo_Considerando" Relationship="DGHP_Model.FK_SGI_Tramites_Tareas_Dispo_Considerando_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tramites_Tareas_Dispo_Considerando" />
           <NavigationProperty Name="SGI_Tarea_Gestion_Documental" Relationship="DGHP_Model.FK_SGI_Tarea_Gestion_Documental_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Gestion_Documental" />
           <NavigationProperty Name="SGI_Tarea_Enviar_Procuracion" Relationship="DGHP_Model.FK_SGI_Tarea_Enviar_Procuracion_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Enviar_Procuracion" />
+          <NavigationProperty Name="SGI_Tarea_Verificacion_IFCI" Relationship="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Verificacion_IFCI" />
         </EntityType>
         <Association Name="FK_SGI_Tramites_Tareas_aspnet_Users">
           <End Type="DGHP_Model.aspnet_Users" Multiplicity="0..1" Role="aspnet_Users" />
@@ -42906,29 +42941,6 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SGI_Feriados">
-          <Key>
-            <PropertyRef Name="IdFeriado" />
-          </Key>
-          <Property Name="IdFeriado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreateUser" Type="Guid" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Users" Relationship="DGHP_Model.FK_SGI_Feriados_aspnet_Users" FromRole="SGI_Feriados" ToRole="aspnet_Users" />
-        </EntityType>
-        <Association Name="FK_SGI_Feriados_aspnet_Users">
-          <End Type="DGHP_Model.aspnet_Users" Role="aspnet_Users" Multiplicity="1" />
-          <End Type="DGHP_Model.SGI_Feriados" Role="SGI_Feriados" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="SGI_Feriados">
-              <PropertyRef Name="CreateUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -50669,17 +50681,6 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="EncomiendaRubroCN_EliminarRubro" FunctionName="DGHP_Model.Store.EncomiendaRubroCN_EliminarRubro" />
-          <EntitySetMapping Name="SGI_Feriados">
-            <EntityTypeMapping TypeName="DGHP_Model.SGI_Feriados">
-              <MappingFragment StoreEntitySet="SGI_Feriados">
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdFeriado" ColumnName="IdFeriado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           
           </EntityContainerMapping>
       </Mapping>

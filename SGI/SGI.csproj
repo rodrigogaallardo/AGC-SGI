@@ -813,6 +813,7 @@
     <Content Include="GestionTramite\Tareas\Transferencias\GenerarBoleta.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Revision_Pagos.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Verificacion_AVH.aspx" />
+    <Content Include="GestionTramite\Tareas\Verificacion_IFCI.aspx" />
     <Content Include="GestionTramite\Tareas\Visado.aspx" />
     <Content Include="GestionTramite\VisorTramite_CP.aspx" />
     <Content Include="GestionTramite\VisorTramite_TR.aspx" />
@@ -2850,6 +2851,13 @@
     <Compile Include="GestionTramite\Tareas\Transferencias\Verificacion_AVH.aspx.designer.cs">
       <DependentUpon>Verificacion_AVH.aspx</DependentUpon>
     </Compile>
+    <Compile Include="GestionTramite\Tareas\Verificacion_IFCI.aspx.cs">
+      <DependentUpon>Verificacion_IFCI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Tareas\Verificacion_IFCI.aspx.designer.cs">
+      <DependentUpon>Verificacion_IFCI.aspx</DependentUpon>
+    </Compile>
     <Compile Include="GestionTramite\Tareas\Visado.aspx.cs">
       <DependentUpon>Visado.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3837,6 +3845,9 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SGI_Tarea_Verificacion_AVH.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Tarea_Verificacion_IFCI.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SGI_Tarea_Visado.cs">
