@@ -369,6 +369,7 @@
         public DbSet<Ubicaciones> Ubicaciones { get; set; }
         public DbSet<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
+        public DbSet<SGI_Rel_Usuarios_Perfiles> SGI_Rel_Usuarios_Perfiles { get; set; }
         public DbSet<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)

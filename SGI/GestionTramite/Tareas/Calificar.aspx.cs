@@ -180,7 +180,7 @@ namespace SGI.GestionTramite.Tareas
                 }
                 #endregion
 
-               
+
             }
 
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Calificar_1 ||
