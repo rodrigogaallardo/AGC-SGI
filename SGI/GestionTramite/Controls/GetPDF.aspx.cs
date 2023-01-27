@@ -58,10 +58,12 @@ namespace SGI.GestionTramite.Controls
                 {
                     Response.Clear();
                     Response.Buffer = true;//false;
-                    Response.ContentType = "application/octet-stream";
+                    //Response.ContentType = "application/octet-stream";
+                    Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
                     Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
                     Response.AddHeader("Content-Length", Pdf.Length.ToString());
                     Response.AddHeader("Connection", "keep-alive");
+                    Response.AddHeader("Transfer-Encoding", "identity");
 
                     Response.BinaryWrite(Pdf);
                     Response.Flush();

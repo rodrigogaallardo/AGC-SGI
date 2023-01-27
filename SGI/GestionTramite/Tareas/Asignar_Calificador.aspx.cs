@@ -399,7 +399,8 @@ namespace SGI.GestionTramite.Tareas
                     {
                         Tran.Dispose();
                         LogError.Write(ex, "Error en transaccion. Asignar_Calificador-ucResultadoTarea_FinalizarTareaClick");
-                        throw ex.InnerException;
+                        if (ex.InnerException != null)
+                            throw ex.InnerException;
                     }
                 }
 
