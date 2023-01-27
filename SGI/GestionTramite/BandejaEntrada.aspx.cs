@@ -172,7 +172,11 @@ namespace SGI
                 }
                 catch (Exception ex)
                 {
-                    string msg = string.Format("mostratMensaje('{0}')", ex.InnerException.Message);
+                    string msg;
+                    if (ex.InnerException != null)
+                        msg = string.Format("mostratMensaje('{0}')", ex.InnerException.Message);
+                    else
+                        msg = string.Format("mostratMensaje('{0}')", ex.Message);
                     ScriptManager.RegisterClientScriptBlock(updBandejaAsignacion, updBandejaAsignacion.GetType(), "", msg, true);
                     grdBandeja.DataBind();
                 }
