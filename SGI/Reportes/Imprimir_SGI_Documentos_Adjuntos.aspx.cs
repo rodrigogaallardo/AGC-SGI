@@ -75,7 +75,7 @@ namespace SGI.Reportes
                 Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
                 Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
                 Response.AddHeader("Content-Length", file.Length.ToString());
-                Response.AddHeader("Transfer-Encoding", "identity");
+                //Response.AddHeader("Transfer-Encoding", "identity");
                 Response.BinaryWrite(file);
                 Response.Flush();
             }

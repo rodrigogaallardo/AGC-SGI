@@ -63,7 +63,7 @@ namespace SGI.GestionTramite.Controls
                     Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
                     Response.AddHeader("Content-Length", Pdf.Length.ToString());
                     Response.AddHeader("Connection", "keep-alive");
-                    Response.AddHeader("Transfer-Encoding", "identity");
+                    //Response.AddHeader("Transfer-Encoding", "identity");
 
                     Response.BinaryWrite(Pdf);
                     Response.Flush();
