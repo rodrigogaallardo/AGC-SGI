@@ -42,7 +42,7 @@ namespace SGI
                         context.Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
                         context.Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
                         context.Response.AddHeader("Content-Length", Pdf.Length.ToString());
-                        context.Response.AddHeader("Transfer-Encoding", "identity");
+                        //context.Response.AddHeader("Transfer-Encoding", "identity");
                         context.Response.BinaryWrite(Pdf);
                         context.Response.Flush();
 
