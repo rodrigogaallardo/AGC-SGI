@@ -63,9 +63,11 @@ namespace SGI.GestionTramite.CPadron.Reportes
 
                     Response.Clear();
                     Response.Buffer = true;
-                    Response.ContentType = "application/octet-stream";
+                    //Response.ContentType = "application/octet-stream";
+                    Response.ContentType = Functions.GetMimeTypeByFileName(arch);
                     Response.AddHeader("Content-Disposition", "attachment;filename=" + arch);
                     Response.AddHeader("Content-Length", msDocumento.Length.ToString());
+                    //Response.AddHeader("Transfer-Encoding", "identity");
                     Response.BinaryWrite(msDocumento.ToArray());
                 }
                 else

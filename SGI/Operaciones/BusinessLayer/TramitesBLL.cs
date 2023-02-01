@@ -9,6 +9,7 @@ using SGI.DataLayer;
 using SGI.DataLayer.Models;
 using System.ServiceModel.Security;
 using SGI.StaticClassNameSpace;
+using ExcelLibrary.BinaryFileFormat;
 
 namespace SGI.BusinessLogicLayer
 {
@@ -69,7 +70,13 @@ namespace SGI.BusinessLogicLayer
                                          id_solicitud = id_solicitud,
                                          id_estado = st.id_estado
                                      }
-                                     ).FirstOrDefault();
+                                     ).Union(from tr in db.Transf_Solicitudes
+                                             where tr.id_solicitud == id_solicitud
+                                             select new SSIT_Solicitudes_Model
+                                             {
+                                                 id_solicitud = id_solicitud,
+                                                 id_estado = tr.id_estado
+                                             }).FirstOrDefault();
 
                     if (solicitud == null) { notifico = false; throw new Exception(ErrorConstants.ERROR_SOLICITUD_NO_EXISTE); }
 
@@ -137,16 +144,30 @@ namespace SGI.BusinessLogicLayer
                         default:
                             break;
                     }
-                   
+     
                     var solicitudesNotificadas = (from st in db.SSIT_Solicitudes
-                                                         join SSN in db.SSIT_Solicitudes_Notificaciones on st.id_solicitud equals SSN.id_solicitud
-                                                         where st.id_solicitud == id_solicitud
-                                                         && SSN.Id_NotificacionMotivo == IdNotificacionMotivo
-                                                         select new SSIT_Solicitudes_Model
-                                                         {
-                                                             id_solicitud = id_solicitud,
-                                                             id_estado = st.id_estado
-                                                         }).ToList<SSIT_Solicitudes_Model>();
+                                                 join SSN in db.SSIT_Solicitudes_Notificaciones on st.id_solicitud equals SSN.id_solicitud
+                                                 where st.id_solicitud == id_solicitud 
+                                                 && SSN.Id_NotificacionMotivo == IdNotificacionMotivo
+                                                 && SSN.createDate.Year == DateTime.Now.Year
+                                                 && SSN.createDate.Month == DateTime.Now.Month
+                                                 && SSN.createDate.Day == DateTime.Now.Day
+                                                 select new SSIT_Solicitudes_Model
+                                                 {
+                                                     id_solicitud = id_solicitud,
+                                                     id_estado = st.id_estado
+                                                 }).Union(from tr in db.Transf_Solicitudes
+                                                          join trn in db.Transf_Solicitudes_Notificaciones on tr.id_solicitud equals trn.id_solicitud
+                                                          where tr.id_solicitud == id_solicitud
+                                                          && trn.Id_NotificacionMotivo == IdNotificacionMotivo
+                                                          && trn.createDate.Year == DateTime.Now.Year
+                                                          && trn.createDate.Month == DateTime.Now.Month
+                                                          && trn.createDate.Day == DateTime.Now.Day
+                                                          select new SSIT_Solicitudes_Model
+                                                          {
+                                                              id_solicitud = id_solicitud,
+                                                              id_estado = tr.id_estado
+                                                          }).ToList<SSIT_Solicitudes_Model>();
 
                     if (solicitudesNotificadas.Count == 0)
                     {
@@ -155,10 +176,10 @@ namespace SGI.BusinessLogicLayer
                         {
                           
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Observado:
-                                 Mailer.MailMessages.SendMail_ObservacionSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
+                                Mailer.MailMessages.SendMail_ObservacionSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Rechazado:
-                                 Mailer.MailMessages.SendMail_RechazoSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
+                                Mailer.MailMessages.SendMail_RechazoSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Aprobado:
                                 Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(solicitud.id_solicitud, fechaNotificacion);

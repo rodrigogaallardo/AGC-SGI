@@ -33,6 +33,7 @@ namespace SGI.GestionTramite
             if (!IsPostBack)
             {
                 db = new DGHP_Entities();
+                db.Database.CommandTimeout = 300;
                 //LimpiarControles();
                 CargarTipoTramite();
             }
@@ -66,6 +67,7 @@ namespace SGI.GestionTramite
         }
         private void CargarTipoTramite()
         {
+            db.Database.CommandTimeout = 300;
             var lst_tramite = (from tip in db.TipoTramite
                                where tip.id_tipotramite < 11
                                select tip);
@@ -112,6 +114,7 @@ namespace SGI.GestionTramite
         private void CargarTipoExpediente(int id_tipotramite, int lista)
         {
             db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var lst_expediente = (from exp in db.TipoExpediente
                                   join rel in db.ENG_Rel_Circuitos_TiposDeTramite on exp.id_tipoexpediente equals rel.id_tipoexpediente
@@ -148,6 +151,7 @@ namespace SGI.GestionTramite
         private void CargarSubtipoExpediente(int id_tipoexpediente, int lista)
         {
             db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var lst_subtipoExpediente = (from sub in db.SubtipoExpediente
                                          join rel in db.ENG_Rel_Circuitos_TiposDeTramite on sub.id_subtipoexpediente equals rel.id_subtipoexpediente
@@ -183,6 +187,7 @@ namespace SGI.GestionTramite
         private void CargarCircuitos(int id_subtipoexpediente, int lista)
         {
             db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             int id_tipotramite = 0;
             int id_tipoexpediente = 0;
 
@@ -322,6 +327,8 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
             EE_Entities ee = new EE_Entities();
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
+            ee.Database.CommandTimeout = 300;
 
             IQueryable<clsItemSolicitudes> q = null;
 
@@ -528,6 +535,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var Asignacion = (from tra in db.SGI_Tramites_Tareas
 
@@ -742,6 +750,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja1
                      select new 
@@ -786,6 +795,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja2
                      select new 
@@ -841,6 +851,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja3
                      select new 
@@ -917,6 +928,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja6
                      select new 
@@ -987,6 +999,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja7
                      select new
@@ -1042,6 +1055,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja7_2
                      select new
@@ -1096,6 +1110,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja8
                      select new
@@ -1157,6 +1172,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja8_2
                      select new
@@ -1228,6 +1244,7 @@ namespace SGI.GestionTramite
             totalRowCount = 0;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var q = (from e in db.Estadisticas_Hoja9
                      select new
@@ -1299,7 +1316,10 @@ namespace SGI.GestionTramite
         private void IniciarEntity()
         {
             if (this.db == null)
+            {
                 this.db = new DGHP_Entities();
+                db.Database.CommandTimeout = 300;
+            }
         }
 
         private void FinalizarEntity()

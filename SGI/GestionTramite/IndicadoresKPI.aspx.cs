@@ -2088,7 +2088,7 @@ namespace SGI.GestionTramite
         private List<int> filtrar()
         {
             IniciarEntity();
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
 
             DateTime? fechaInicioDesde = null;
             DateTime? fechaInicioHasta = null;
@@ -2170,7 +2170,7 @@ namespace SGI.GestionTramite
             IQueryable<cls_ultima_tarea> lst_soli = null;
             IQueryable<cls_ultima_tarea> lst_revi_grt2 = null;
 
-            db.Database.CommandTimeout = 120;
+            db.Database.CommandTimeout = 300;
 
             #region habilitaciones
             if (id_tipoTramite == (int)Constants.TipoDeTramite.Habilitacion)
