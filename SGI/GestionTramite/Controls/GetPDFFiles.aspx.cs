@@ -59,7 +59,7 @@ namespace SGI.GestionTramite.Controls
                     //Response.ContentType = "application/octet-stream";
                     Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
                     Response.Headers.Add("Content-Length", $"{Pdf.Length}");
-                    Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", FileName));
+                    Response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", FileName));
                     //Response.AddHeader("Transfer-Encoding", "identity");
                     Response.OutputStream.Write(Pdf, 0, Pdf.Length);
                     Response.Flush();

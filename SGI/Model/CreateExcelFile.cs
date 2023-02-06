@@ -206,7 +206,7 @@ namespace SGI.Model
                 //  manually added System.Web to this project's References.
 
                 Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
-                Response.AddHeader("content-disposition", "attachment; filename=" + filename);
+                Response.AddHeader("content-disposition", "attachment; filename=\"" + filename + "\"");
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 Response.AppendHeader("content-length", stream.Length.ToString());
                 byte[] data1 = new byte[stream.Length];
