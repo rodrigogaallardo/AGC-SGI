@@ -56,7 +56,7 @@ namespace SGI.Reportes
             Response.Clear();
             Response.Buffer = true;//false;
             Response.ContentType = "application/pdf";
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + arch);
+            Response.AddHeader("Content-Disposition", "attachment;filename=\"" + arch + "\"");
 
             Response.BinaryWrite(pdfSolicitud);
         }
