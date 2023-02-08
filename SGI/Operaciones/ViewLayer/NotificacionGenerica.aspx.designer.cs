@@ -11,53 +11,53 @@ namespace SGI
 {
 
 
-    public partial class NotificacionesCaducidad
+    public partial class NotificacionGenerica
     {
 
         /// <summary>
-        /// Control txtNroSolicitud.
+        /// Control txtAsunto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNroSolicitud;
+        protected global::System.Web.UI.WebControls.TextBox txtAsunto;
 
         /// <summary>
-        /// Control RegularExpressionValidator2.
+        /// Control hdNroSolicitud.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
+        protected global::System.Web.UI.WebControls.HiddenField hdNroSolicitud;
 
         /// <summary>
-        /// Control ddlNotificaciones_motivos.
+        /// Control hdIdNotificacionMotivo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlNotificaciones_motivos;
+        protected global::System.Web.UI.WebControls.HiddenField hdIdNotificacionMotivo;
 
         /// <summary>
-        /// Control txtFechaNotificacion.
+        /// Control hdFechaNotificacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaNotificacion;
+        protected global::System.Web.UI.WebControls.HiddenField hdFechaNotificacion;
 
         /// <summary>
-        /// Control rev_txtFechaNotificacion.
+        /// Control txtMensaje.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaNotificacion;
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea txtMensaje;
 
         /// <summary>
         /// Control btnNotificar.
@@ -76,6 +76,15 @@ namespace SGI
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
+
+        /// <summary>
+        /// Control btnReturn.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReturn;
 
         /// <summary>
         /// Control updResultados.

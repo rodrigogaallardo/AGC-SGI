@@ -24,6 +24,7 @@ namespace SGI.Mailer
             string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcome.aspx");
             surl = BasePage.IPtoDomain(surl);
 
+
             WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
             WebResponse response = request.GetResponse();
 
@@ -499,7 +500,7 @@ namespace SGI.Mailer
             }
         }
 
-        private static void CrearNotificacion(int id_solicitud, int idmail, int idMotivoNotificacion, DGHP_Entities db,DateTime? fechaNotificacion = null)
+        private static void CrearNotificacion(int id_solicitud, int idmail, int idMotivoNotificacion, DGHP_Entities db, DateTime? fechaNotificacion = null)
         {
             if (id_solicitud > Constants.EsSolicitud)
             {
@@ -661,7 +662,7 @@ namespace SGI.Mailer
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGIAvisoCarátula, 1, asunto, htmlMail_AprobadoSolicitud(), emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Aprobado, db, fechaNotificacion);
                 }
@@ -909,7 +910,7 @@ namespace SGI.Mailer
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGIAprobacionDG, 1, asunto, htmlMail_CorreccionSolicitud(user.UserId, idSolicitud), emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Observado, db);
                 }
@@ -917,7 +918,7 @@ namespace SGI.Mailer
                 db.SaveChanges();
             }
             catch (Exception ex)
-            {   
+            {
                 throw ex;
             }
             finally
@@ -1165,7 +1166,7 @@ namespace SGI.Mailer
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGICorrecciónSolicitud, 10, asunto, htmlMail_CorreccionSolicitud(user.UserId, idSolicitud), emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Observado, db);
                 }
@@ -1253,7 +1254,7 @@ namespace SGI.Mailer
 
                 string direccion = GetDireccionTransf(db, idSolicitud);
                 string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.BajaDeSolicitud) + " - " + direccion;
-                
+
                 var idEmails = EnviarEmails(TipoEmail.WebSGIRechazo, 1, asunto, htmlMail_BajaSolicitud(), emails);
 
                 foreach (int idMail in idEmails)
@@ -1620,7 +1621,7 @@ namespace SGI.Mailer
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGICorrecciónSolicitud, 1, asunto, htmlMail_ObservacionSolicitud(), emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Observado, db, fechaNotificacion);
                 }
@@ -1742,7 +1743,7 @@ namespace SGI.Mailer
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGIRechazo, 1, asunto, html, emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.Rechazado, db, fechaNotificacion);
                 }
@@ -1855,7 +1856,7 @@ namespace SGI.Mailer
 
                 string direccion = GetDireccion(db, idSolicitud);
                 string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.BajaDeSolicitud) + " - " + direccion;
-                
+
                 var idEmails = EnviarEmails(TipoEmail.WebSGIBaja, 1, asunto, htmlMail_BajaSolicitud(), emails);
 
                 foreach (int idMail in idEmails)
@@ -1981,7 +1982,7 @@ namespace SGI.Mailer
 
                 foreach (int idEmail in idEmails)
                 {
-                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db,fechaNotificacion);
+                    CrearNotificacion(idSolicitud, idEmail, (int)MotivosNotificaciones.avisoCaducidad, db, fechaNotificacion);
                 }
 
                 db.SaveChanges();
@@ -2037,6 +2038,8 @@ namespace SGI.Mailer
                     db.Dispose();
             }
         }
+
+
         public static void SendMail_CambioEstadoEnTramite(int id_solicitud)
         {
 
@@ -2382,7 +2385,7 @@ namespace SGI.Mailer
                 string token = wsm.GetToken(userName, passWord);
 
                 var idmail = wsm.SendMail(correo, token);
-                
+
                 #region notificacion
                 int idTipoNotificacion = (int)MotivosNotificaciones.Aprobado;
                 CrearNotificacion(id_solicitud, idmail, idTipoNotificacion, db);
@@ -2473,6 +2476,40 @@ namespace SGI.Mailer
             {
                 if (db != null)
                     db.Dispose();
+            }
+        }
+
+        public static void SendMail_Otros(int idNotificacionMotivo, int nroSolicitud, DateTime fechaNotificacion, string txtAsunto, string txtMensaje)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            try
+            {
+                var user = GetUsuario(db, nroSolicitud);
+                var emails = new List<string>
+                {
+                    user.Email
+                };
+
+                emails.AddRange(GetEmailPersonaFisica(db, nroSolicitud));
+                emails.AddRange(GetEmailPersonaJuridica(db, nroSolicitud));
+                emails.AddRange(GetEmailProfesionales(db, nroSolicitud));
+
+                string asunto = "Sol - " + nroSolicitud.ToString()+ " - " + txtAsunto.ToString();
+                string html = txtMensaje;
+
+                var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, html, emails);
+
+                foreach(int idEmail in idEmails)
+                {
+                    CrearNotificacion(nroSolicitud, idEmail, idNotificacionMotivo, db, fechaNotificacion);
+                }
+
+                db.SaveChanges();
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -2609,7 +2646,7 @@ namespace SGI.Mailer
                 var pj =
                 (
                     from sstpf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
-                    join ssfpf in db.SSIT_Solicitudes_Firmantes_PersonasFisicas on sstpf.id_solicitud equals  ssfpf.id_solicitud
+                    join ssfpf in db.SSIT_Solicitudes_Firmantes_PersonasFisicas on sstpf.id_solicitud equals ssfpf.id_solicitud
                     where sstpf.id_solicitud == idSolicitud
                     select new
                     {
@@ -2639,7 +2676,7 @@ namespace SGI.Mailer
                 var result = pj.Select(p => p.titular).ToList();
                 result.AddRange(pj.Select(p => p.firmante).ToList());
                 return result;
-            }                
+            } 
         }
 
         private static IEnumerable<string> GetEmailPersonaJuridica(DGHP_Entities db, int idSolicitud)

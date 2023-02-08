@@ -8,6 +8,7 @@ using SGI.BusinessLogicLayer.Constants;
 using SGI.DataLayer;
 using SGI.DataLayer.Models;
 using System.ServiceModel.Security;
+using ExcelLibrary.BinaryFileFormat;
 using SGI.StaticClassNameSpace;
 using ExcelLibrary.BinaryFileFormat;
 
@@ -52,7 +53,7 @@ namespace SGI.BusinessLogicLayer
         }
         #endregion
 
-        public static bool NotificarTramite(int id_solicitud, int IdNotificacionMotivo, DateTime fechaNotificacion, out string errorMessage)
+        public static bool NotificarTramite(int id_solicitud, int IdNotificacionMotivo, DateTime fechaNotificacion, out string errorMessage, string asunto, string mensaje)
         {
             bool notifico = false;
             errorMessage = string.Empty;
@@ -141,6 +142,9 @@ namespace SGI.BusinessLogicLayer
                         case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.AsignadoAlCalificador:
                             //NO SE VALIDA
                             break;
+                        case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
+                            //NO SE VALIDA
+                            break;
                         default:
                             break;
                     }
@@ -196,6 +200,9 @@ namespace SGI.BusinessLogicLayer
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.LevantamientoDeRechazo:
                                 Mailer.MailMessages.SendMail_LevantamientoRechazo(solicitud.id_solicitud, fechaNotificacion);
                                 break;
+                            case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
+                                Mailer.MailMessages.SendMail_Otros(IdNotificacionMotivo,id_solicitud, fechaNotificacion, asunto, mensaje);
+                                break;
                             default:
                                 Mailer.MailMessages.SendMail_Generic(solicitud.id_solicitud, IdNotificacionMotivo, fechaNotificacion);
                                 break;
@@ -239,8 +246,7 @@ namespace SGI.BusinessLogicLayer
                     if (Notificaciones_motivosList.Count == 0)
                     {
                         errorMessage = "Error al cargar la lista de Motivos de Notificaciones";
-                    }
- 
+                    }    
                 }
             }
             catch (Exception ex)
