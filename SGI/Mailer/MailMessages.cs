@@ -2662,21 +2662,21 @@ namespace SGI.Mailer
             else
             {
                 var pj =
-              (
-                  from ttpf in db.Transf_Titulares_PersonasFisicas
-                  join tfpf in db.Transf_Firmantes_PersonasFisicas on ttpf.id_solicitud equals tfpf.id_solicitud
-                  where ttpf.id_solicitud == idSolicitud
-                  select new
-                  {
-                      titular = ttpf.Email,
-                      firmante = tfpf.Email
-                  }
-              );
+                (
+                    from ttpf in db.Transf_Titulares_PersonasFisicas
+                    join tfpf in db.Transf_Firmantes_PersonasFisicas on ttpf.id_solicitud equals tfpf.id_solicitud
+                    where ttpf.id_solicitud == idSolicitud
+                    select new
+                    {
+                        titular = ttpf.Email,
+                        firmante = tfpf.Email
+                    }
+                );
 
                 var result = pj.Select(p => p.titular).ToList();
                 result.AddRange(pj.Select(p => p.firmante).ToList());
                 return result;
-            }
+            } 
         }
 
         private static IEnumerable<string> GetEmailPersonaJuridica(DGHP_Entities db, int idSolicitud)
@@ -2702,16 +2702,16 @@ namespace SGI.Mailer
             else
             {
                 var pj =
-                        (
-                            from ttpj in db.Transf_Titulares_PersonasJuridicas
-                            join tfpj in db.Transf_Firmantes_PersonasJuridicas on ttpj.id_solicitud equals tfpj.id_solicitud
-                            where ttpj.id_solicitud == idSolicitud
-                            select new
-                            {
-                                titular = ttpj.Email,
-                                firmante = tfpj.Email
-                            }
-                        );
+                (
+                    from ttpj in db.Transf_Titulares_PersonasJuridicas
+                    join tfpj in db.Transf_Firmantes_PersonasJuridicas on ttpj.id_solicitud equals tfpj.id_solicitud
+                    where ttpj.id_solicitud == idSolicitud
+                    select new
+                    {
+                        titular = ttpj.Email,
+                        firmante = tfpj.Email
+                    }
+                );
 
                 var result = pj.Select(p => p.titular).ToList();
                 result.AddRange(pj.Select(p => p.firmante).ToList());
@@ -2741,16 +2741,16 @@ namespace SGI.Mailer
             else
             {
                 var p =
-                    (
-                        from prof in db.Profesional
-                        join enc in db.Encomienda on prof.Id equals enc.id_profesional
-                        join ess in db.Encomienda_Transf_Solicitudes on enc.id_encomienda equals ess.id_encomienda
-                        where ess.id_solicitud == idSolicitud
-                        select new
-                        {
-                            prof.Email
-                        }
-                    );
+                (
+                    from prof in db.Profesional
+                    join enc in db.Encomienda on prof.Id equals enc.id_profesional
+                    join ess in db.Encomienda_Transf_Solicitudes on enc.id_encomienda equals ess.id_encomienda
+                    where ess.id_solicitud == idSolicitud
+                    select new
+                    {
+                        prof.Email
+                    }
+                );
 
                 var result = p.Select(x => x.Email).ToList();
                 return result;

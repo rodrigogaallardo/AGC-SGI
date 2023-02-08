@@ -74,8 +74,10 @@ namespace SGI.GestionTramite.Controls
             arch = "plano_habilitacion_"+obj.id_file+"." + ext;
             Response.Clear();
             Response.Buffer = true;
-            Response.ContentType = "application/octet-stream";
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + arch);
+            //Response.ContentType = "application/octet-stream";
+            Response.ContentType = Functions.GetMimeTypeByFileName(arch);
+            Response.AddHeader("Content-Disposition", "attachment;filename=\"" + arch + "\"");
+            //Response.AddHeader("Transfer-Encoding", "identity");
             Response.BinaryWrite(f.content_file);
             Response.Flush();
 

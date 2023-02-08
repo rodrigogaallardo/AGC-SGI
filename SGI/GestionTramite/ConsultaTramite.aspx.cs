@@ -1508,7 +1508,7 @@ namespace SGI.GestionTramite
 
             using (DGHP_Entities db = new DGHP_Entities())
             {
-                db.Database.CommandTimeout = 60;
+                db.Database.CommandTimeout = 300;
                 var tramites = new List<clsItemConsultaTramite>();
                 string ids_tipo_tramites = null;
                 string ids_grupo_circuitos = null;

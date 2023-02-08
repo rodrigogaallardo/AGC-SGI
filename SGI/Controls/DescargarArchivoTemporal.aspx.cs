@@ -49,7 +49,7 @@ namespace SGI.Controls
                 {
 
                     Response.Clear();
-                    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", filename));
+                    Response.AddHeader("content-disposition", string.Format("attachment; filename=\"{0}\"", filename));
 
                     if (filename.EndsWith(".xls"))
                         Response.ContentType = "application/vnd.ms-excel";

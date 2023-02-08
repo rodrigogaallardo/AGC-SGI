@@ -83,7 +83,7 @@ namespace SGI.Reportes
                 Response.Clear();
                 Response.Buffer = true;//false;
                 Response.ContentType = "application/pdf";
-                Response.AddHeader("Content-Disposition", "attachment;filename=" + nombArch);
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"" + nombArch + "\"");
                 Response.AddHeader("Content-Length", documento.Length.ToString());
                 Response.BinaryWrite(documento);
                 Response.Flush();

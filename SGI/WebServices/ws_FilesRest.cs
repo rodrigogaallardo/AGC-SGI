@@ -94,8 +94,9 @@ namespace SGI.WebServices
                 if (response.StatusCode != HttpStatusCode.OK)
                     throw new Exception("No se ha podido descargar el file en el servicio ");
    
-                    archivo = response.RawBytes;
-                    fileExtension = response.Headers.First(p => p.Name.Equals("Content-Disposition")).Value.ToString().Replace("attachment; filename=", "");
+                archivo = response.RawBytes;
+                //fileExtension = response.Headers.First(p => p.Name.Equals("Content-Disposition")).Value.ToString().Replace("attachment; filename=", "");
+                fileExtension = response.Headers.First(p => p.Name.Equals("Filename")).Value.ToString();
 
             }
             return archivo;
