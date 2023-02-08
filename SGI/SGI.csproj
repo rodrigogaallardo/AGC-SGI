@@ -50,8 +50,8 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="AspNet.ScriptManager.jQuery, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AspNet.ScriptManager.jQuery.2.2.1\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
+    <Reference Include="AspNet.ScriptManager.jQuery, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.3.6.0\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
     </Reference>
     <Reference Include="AspNet.ScriptManager.jQuery.UI.Combined, Version=1.11.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AspNet.ScriptManager.jQuery.UI.Combined.1.11.4\lib\net45\AspNet.ScriptManager.jQuery.UI.Combined.dll</HintPath>
@@ -841,6 +841,7 @@
     <Content Include="Operaciones\AgregarArchivo.aspx" />
     <Content Include="Operaciones\SolicitudesForm.aspx" />
     <Content Include="Operaciones\TareasForm.aspx" />
+    <Content Include="Operaciones\ViewLayer\NotificacionGenerica.aspx" />
     <Content Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Carga_Tramite.aspx" />
@@ -1444,8 +1445,11 @@
     <Content Include="Scripts\i18n\vi.js" />
     <Content Include="Scripts\i18n\zh-CN.js" />
     <Content Include="Scripts\i18n\zh-TW.js" />
-    <Content Include="Scripts\jquery-2.2.1.js" />
-    <Content Include="Scripts\jquery-2.2.1.min.js" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
     <Content Include="Scripts\jquery-fileupload\app.js" />
     <Content Include="Scripts\jquery-fileupload\cors\jquery.postmessage-transport.js" />
     <Content Include="Scripts\jquery-fileupload\cors\jquery.xdr-transport.js" />
@@ -1467,6 +1471,7 @@
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery.ui.timepicker.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\quill-textarea.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\Unicorn\bootstrap-colorpicker.js" />
@@ -4524,6 +4529,13 @@
     <Compile Include="Operaciones\TareasForm.aspx.designer.cs">
       <DependentUpon>TareasForm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\ViewLayer\NotificacionGenerica.aspx.cs">
+      <DependentUpon>NotificacionGenerica.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ViewLayer\NotificacionGenerica.aspx.designer.cs">
+      <DependentUpon>NotificacionGenerica.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.cs">
       <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -5363,7 +5375,8 @@
   <ItemGroup>
     <Content Include="Scripts\jquery-fileupload\Upload.ashx" />
     <Content Include="Tramite\Web.config" />
-    <Content Include="Scripts\jquery-2.2.1.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -5372,6 +5385,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
@@ -5482,6 +5496,9 @@
       <LastGenOutput>ObservacionesSADE.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\quill.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

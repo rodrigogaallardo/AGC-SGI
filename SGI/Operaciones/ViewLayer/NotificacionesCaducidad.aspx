@@ -194,6 +194,7 @@
         function LimpiarFormulario()
         {
             document.getElementById("MainContent_txtNroSolicitud").value = "";
+            document.getElementById("MainContent_txtFechaNotificacion").value = "";
         }
 
         function showfrmError()

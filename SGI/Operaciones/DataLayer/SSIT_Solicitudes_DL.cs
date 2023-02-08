@@ -19,7 +19,13 @@ namespace SGI.DataLayer
                              {
                                  id_solicitud = id_solicitud,
                                  id_estado = st.id_estado
-                             }).FirstOrDefault();
+                             }).Union(from tr in db.Transf_Solicitudes
+                                      where tr.id_solicitud == id_solicitud
+                                      select new SSIT_Solicitudes_Model
+                                      {
+                                          id_solicitud = id_solicitud,
+                                          id_estado = tr.id_estado
+                                      }).FirstOrDefault();
             FinalizarEntity();
             return solicitud;
         }
@@ -38,7 +44,18 @@ namespace SGI.DataLayer
                                                  {
                                                      id_solicitud = id_solicitud,
                                                      id_estado = st.id_estado
-                                                 }).ToList<SSIT_Solicitudes_Model>();
+                                                 }).Union(from tra in db.Transf_Solicitudes
+                                                          join ted in db.TipoEstadoSolicitud on tra.id_estado equals ted.Id
+                                                          join tn in db.Transf_Solicitudes_Notificaciones on tra.id_solicitud equals tn.id_solicitud
+                                                          from tn2 in db.Transf_Solicitudes_Notificaciones
+                                                          join tnm in db.SSIT_Solicitudes_Notificaciones_motivos on tn2.Id_NotificacionMotivo equals tnm.IdNotificacionMotivo
+                                                          where (tnm.IdNotificacionMotivo == (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.AvisoDeCaducidad)
+                                                          && (tra.id_solicitud == id_solicitud)
+                                                          select new SSIT_Solicitudes_Model
+                                                          {
+                                                              id_solicitud = id_solicitud,
+                                                              id_estado = tra.id_estado
+                                                          }).ToList<SSIT_Solicitudes_Model>();
 
             return solicitudesCaducasNotificadas;
 

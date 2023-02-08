@@ -8,6 +8,7 @@ using SGI.BusinessLogicLayer.Constants;
 using SGI.DataLayer;
 using SGI.DataLayer.Models;
 using System.ServiceModel.Security;
+using ExcelLibrary.BinaryFileFormat;
 using SGI.StaticClassNameSpace;
 
 namespace SGI.BusinessLogicLayer
@@ -51,7 +52,7 @@ namespace SGI.BusinessLogicLayer
         }
         #endregion
 
-        public static bool NotificarTramite(int id_solicitud, int IdNotificacionMotivo, DateTime fechaNotificacion, out string errorMessage)
+        public static bool NotificarTramite(int id_solicitud, int IdNotificacionMotivo, DateTime fechaNotificacion, out string errorMessage, string asunto, string mensaje)
         {
             bool notifico = false;
             errorMessage = string.Empty;
@@ -69,7 +70,13 @@ namespace SGI.BusinessLogicLayer
                                          id_solicitud = id_solicitud,
                                          id_estado = st.id_estado
                                      }
-                                     ).FirstOrDefault();
+                                     ).Union(from tr in db.Transf_Solicitudes
+                                             where tr.id_solicitud == id_solicitud
+                                             select new SSIT_Solicitudes_Model
+                                             {
+                                                 id_solicitud = id_solicitud,
+                                                 id_estado = tr.id_estado
+                                             }).FirstOrDefault();
 
                     if (solicitud == null) { notifico = false; throw new Exception(ErrorConstants.ERROR_SOLICITUD_NO_EXISTE); }
 
@@ -134,6 +141,9 @@ namespace SGI.BusinessLogicLayer
                         case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.AsignadoAlCalificador:
                             //NO SE VALIDA
                             break;
+                        case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
+                            //NO SE VALIDA
+                            break;
                         default:
                             break;
                     }
@@ -149,7 +159,18 @@ namespace SGI.BusinessLogicLayer
                                                          {
                                                              id_solicitud = id_solicitud,
                                                              id_estado = st.id_estado
-                                                         }).ToList<SSIT_Solicitudes_Model>();
+                                                         }).Union(from tr in db.Transf_Solicitudes
+                                                                  join trn in db.Transf_Solicitudes_Notificaciones on tr.id_solicitud equals trn.id_solicitud
+                                                                  where tr.id_solicitud == id_solicitud
+                                                                  && trn.Id_NotificacionMotivo == IdNotificacionMotivo
+                                                                  && trn.createDate.Year == DateTime.Now.Year
+                                                                  && trn.createDate.Month == DateTime.Now.Month
+                                                                  && trn.createDate.Day == DateTime.Now.Day
+                                                                  select new SSIT_Solicitudes_Model
+                                                                  {
+                                                                      id_solicitud = id_solicitud,
+                                                                      id_estado = tr.id_estado
+                                                                  }).ToList<SSIT_Solicitudes_Model>();
 
                     if (solicitudesNotificadas.Count == 0)
                     {
@@ -177,6 +198,9 @@ namespace SGI.BusinessLogicLayer
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.LevantamientoDeRechazo:
                                 Mailer.MailMessages.SendMail_LevantamientoRechazo(solicitud.id_solicitud, fechaNotificacion);
+                                break;
+                            case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
+                                Mailer.MailMessages.SendMail_Otros(IdNotificacionMotivo,id_solicitud, fechaNotificacion, asunto, mensaje);
                                 break;
                             default:
                                 Mailer.MailMessages.SendMail_Generic(solicitud.id_solicitud, IdNotificacionMotivo, fechaNotificacion);
@@ -221,8 +245,7 @@ namespace SGI.BusinessLogicLayer
                     if (Notificaciones_motivosList.Count == 0)
                     {
                         errorMessage = "Error al cargar la lista de Motivos de Notificaciones";
-                    }
- 
+                    }    
                 }
             }
             catch (Exception ex)
