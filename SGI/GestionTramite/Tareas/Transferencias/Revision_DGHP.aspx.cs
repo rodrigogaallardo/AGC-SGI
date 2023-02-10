@@ -331,6 +331,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            this.db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
@@ -346,6 +347,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
         {
             if (this.dbFiles == null)
                 this.dbFiles = new AGC_FilesEntities();
+            this.dbFiles.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntityFiles()
