@@ -36,65 +36,72 @@ namespace SGI.GestionTramite.Tareas.Transferencias
 
         private void CargarDatosTramite(int id_tramitetarea)
         {
-
-            Guid userid = Functions.GetUserId();
-
-            IniciarEntity();
-
-            SGI_Tramites_Tareas tramite_tarea = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
-
-            if (tramite_tarea == null)
+            try
             {
-                throw new Exception(string.Format("No se encontro en la tabla SGI_tramites_tareas un registro coincidente con el id = {0}", id_tramitetarea));
+                Guid userid = Functions.GetUserId();
+
+                IniciarEntity();
+
+                SGI_Tramites_Tareas tramite_tarea = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
+
+                if (tramite_tarea == null)
+                {
+                    throw new Exception(string.Format("No se encontro en la tabla SGI_tramites_tareas un registro coincidente con el id = {0}", id_tramitetarea));
+                }
+
+                int nroTrReferencia = 0;
+                int.TryParse(Parametros.GetParam_ValorChar("NroTransmisionReferencia"), out nroTrReferencia);
+                //Se debe establecer siempre el estado de controles antes del load de los controles
+                //----
+                bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == id_tramitetarea) > 0;
+                bool IsEditable = Engine.CheckEditTarea(id_tramitetarea, userid);
+                ucResultadoTarea.Enabled = IsEditable;
+                ucObservacionesTarea.Enabled = IsEditable && !hayProcesosGenerados;
+                ucObservacionPlancheta.Enabled = IsEditable && !hayProcesosGenerados;
+
+                int id_grupotramite = (int)Constants.GruposDeTramite.TR;
+                SGI_Tramites_Tareas_TRANSF ttTR = db.SGI_Tramites_Tareas_TRANSF.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
+                this.id_solicitud = ttTR.id_solicitud;
+                this.TramiteTarea = id_tramitetarea;
+                this.id_paquete = (from p in db.SGI_SADE_Procesos
+                                   join tt in db.SGI_Tramites_Tareas on p.id_tramitetarea equals tt.id_tramitetarea
+                                   join tt_hab in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals tt_hab.id_tramitetarea
+                                   where tt_hab.id_solicitud == this.id_solicitud
+                                   select p.id_paquete).FirstOrDefault();
+
+                SGI_Tarea_Revision_DGHP rev_dghp = Buscar_Tarea(id_tramitetarea);
+
+                ucListaObservacionesAnteriores.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
+                ucListaObservacionesAnterioresv1.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
+                ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
+                ucTitulares.LoadData(this.id_solicitud);
+                ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+                ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
+                ucListaResultadoTareasAnteriores.LoadData(id_grupotramite, this.id_solicitud, id_tramitetarea);
+
+                ucPreviewDocumentos.Visible = true;
+                ucPreviewDocumentos.LoadData(this.id_solicitud, (int)Constants.TipoDeTramite.Transferencia);
+
+                ucObservacionesTarea.Text = (rev_dghp != null) ? rev_dghp.Observaciones : "";
+                ucObservacionPlancheta.Text = (rev_dghp != null) ? rev_dghp.observacion_plancheta
+                    : ObservacionAnteriores.Buscar_ObservacionPlancheta((int)Constants.GruposDeTramite.TR, id_solicitud, id_tramitetarea);
+
+                ucProcesosSADE.id_grupo_tramite = (int)Constants.GruposDeTramite.TR;
+                ucProcesosSADE.cargarDatosProcesos(tramite_tarea.id_tramitetarea, IsEditable);
+                ucResultadoTarea.btnFinalizar_Enabled = !ucProcesosSADE.hayProcesosPendientesSADE(id_tramitetarea);
+
+                if (this.id_solicitud > nroTrReferencia)
+                    ucListaObservacionesAnteriores.Visible = false;
+                else
+                    ucListaObservacionesAnterioresv1.Visible = false;
+
+                FinalizarEntity();
             }
-
-            int nroTrReferencia = 0;
-            int.TryParse(Parametros.GetParam_ValorChar("NroTransmisionReferencia"), out nroTrReferencia);
-            //Se debe establecer siempre el estado de controles antes del load de los controles
-            //----
-            bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == id_tramitetarea) > 0;
-            bool IsEditable = Engine.CheckEditTarea(id_tramitetarea, userid);
-            ucResultadoTarea.Enabled = IsEditable;
-            ucObservacionesTarea.Enabled = IsEditable && !hayProcesosGenerados;
-            ucObservacionPlancheta.Enabled = IsEditable && !hayProcesosGenerados;
-
-            int id_grupotramite = (int)Constants.GruposDeTramite.TR;
-            SGI_Tramites_Tareas_TRANSF ttTR = db.SGI_Tramites_Tareas_TRANSF.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
-            this.id_solicitud = ttTR.id_solicitud;
-            this.TramiteTarea = id_tramitetarea;
-            this.id_paquete = (from p in db.SGI_SADE_Procesos
-                               join tt in db.SGI_Tramites_Tareas on p.id_tramitetarea equals tt.id_tramitetarea
-                               join tt_hab in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals tt_hab.id_tramitetarea
-                               where tt_hab.id_solicitud == this.id_solicitud
-                               select p.id_paquete).FirstOrDefault();
-
-            SGI_Tarea_Revision_DGHP rev_dghp = Buscar_Tarea(id_tramitetarea);
-
-            ucListaObservacionesAnteriores.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
-            ucListaObservacionesAnterioresv1.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
-            ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
-            ucTitulares.LoadData(this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
-            ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
-            ucListaResultadoTareasAnteriores.LoadData(id_grupotramite, this.id_solicitud, id_tramitetarea);
-
-            ucPreviewDocumentos.Visible = true;
-            ucPreviewDocumentos.LoadData(this.id_solicitud, (int)Constants.TipoDeTramite.Transferencia);
-
-            ucObservacionesTarea.Text = (rev_dghp != null) ? rev_dghp.Observaciones : "";
-            ucObservacionPlancheta.Text = (rev_dghp != null) ? rev_dghp.observacion_plancheta 
-                : ObservacionAnteriores.Buscar_ObservacionPlancheta((int)Constants.GruposDeTramite.TR, id_solicitud, id_tramitetarea);
-
-            ucProcesosSADE.id_grupo_tramite = (int)Constants.GruposDeTramite.TR;
-            ucProcesosSADE.cargarDatosProcesos(tramite_tarea.id_tramitetarea, IsEditable);
-            ucResultadoTarea.btnFinalizar_Enabled = !ucProcesosSADE.hayProcesosPendientesSADE(id_tramitetarea);
-
-            if (this.id_solicitud > nroTrReferencia)
-                ucListaObservacionesAnteriores.Visible = false;
-            else
-                ucListaObservacionesAnterioresv1.Visible = false;
-
-            FinalizarEntity();
+            catch (Exception ex)
+            {
+                FinalizarEntity();
+                LogError.Write(ex, "Error en carga de datos. Revision_DGHP.CargarDatosTramite");
+            }
         }
 
         private int _tramiteTarea = 0;
