@@ -213,6 +213,35 @@ namespace SGI.GestionTramite.Controls
 
         }
 
+        public string LoadObservacionesInternasCalificar(int id_tramite_tarea, int id_solicitud)
+        {
+            this.db = new DGHP_Entities();
+
+            try
+            {
+                List<int> listaTramiteTareas = ListarTramites(id_solicitud);
+
+                if (listaTramiteTareas.Any())
+                {
+                    return CargarObservacionInternaCalificar(id_tramite_tarea, listaTramiteTareas);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (this.db != null)
+                    this.db.Dispose();
+            }
+
+        }
+
         private List<int> ListarTramites(int id_solicitud) 
         {
             var listaTramitesTareasTRANSF = (from ttt in db.SGI_Tramites_Tareas_TRANSF
@@ -258,23 +287,48 @@ namespace SGI.GestionTramite.Controls
 
         }
 
+        private string CargarObservacionInternaCalificar(int id_tramite_tarea, List<int> listaTramiteTareas)
+        {
+            string observacionesInternas = "";
+
+            var listaObservacionesInternas =
+                (
+                    from calif in db.SGI_Tarea_Calificar
+                    where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
+                    orderby calif.id_calificar descending
+                    select new
+                    {
+                        Observaciones = calif.Observaciones_Internas
+                    }
+
+                ).ToList();
+
+
+            foreach (var item in listaObservacionesInternas)
+            {
+                observacionesInternas += item.Observaciones + "\n";
+            }
+
+            return observacionesInternas;
+        }
+
         public string CargarObservacionInternaAnterior(int id_tramite_tarea, List<int> listaTramiteTareas)
         {
             string observacionesInternas = "";
-            var listaObservacionesInternas = (from calif in db.SGI_Tarea_Calificar
-                     where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-                     orderby calif.id_calificar ascending
-                     select new 
-                     {
-                         calif.Observaciones_Internas                         
-                     }).ToList();
+            var listaObservacionesInternas = (from calif in db.SGI_Tarea_Revision_Gerente
+                                              where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
+                                              orderby calif.id_revision_gerente ascending
+                                              select new
+                                              {
+                                                  Observaciones = calif.Observaciones
+                                              }).ToList();
 
 
             if (!listaObservacionesInternas.Any()) return observacionesInternas;
 
             foreach (var item in listaObservacionesInternas)
             {
-                observacionesInternas += item.Observaciones_Internas + "\n"; 
+                observacionesInternas += item.Observaciones + "\n"; 
             }
 
             return observacionesInternas;
