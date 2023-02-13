@@ -261,30 +261,20 @@ namespace SGI.GestionTramite.Controls
         public string CargarObservacionInternaAnterior(int id_tramite_tarea, List<int> listaTramiteTareas)
         {
             string observacionesInternas = "";
-            //var listaObservacionesInternas = (from calif in db.SGI_Tarea_Calificar
-            //         where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-            //         orderby calif.id_calificar ascending
-            //         select new 
-            //         {
-            //             calif.Observaciones_Internas                         
-            //         }).ToList();
-
-
-            var listaObservacionesInternas = (from calif in db.SGI_Tarea_Revision_Gerente
-                                              where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-                                              orderby calif.id_revision_gerente ascending
-                                              select new
-                                              {
-                                                  calif.Observaciones
-                                              }).ToList();
+            var listaObservacionesInternas = (from calif in db.SGI_Tarea_Calificar
+                     where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
+                     orderby calif.id_calificar ascending
+                     select new 
+                     {
+                         calif.Observaciones_Internas                         
+                     }).ToList();
 
 
             if (!listaObservacionesInternas.Any()) return observacionesInternas;
 
             foreach (var item in listaObservacionesInternas)
             {
-                //observacionesInternas += item.Observaciones_Internas + "\n"; 
-                observacionesInternas += item.Observaciones + "\n";
+                observacionesInternas += item.Observaciones_Internas + "\n"; 
             }
 
             return observacionesInternas;
