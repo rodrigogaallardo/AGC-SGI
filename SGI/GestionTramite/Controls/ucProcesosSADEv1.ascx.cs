@@ -716,6 +716,7 @@ namespace SGI.GestionTramite.Controls
             }
             catch (Exception ex)
             {
+                LogError.Write(ex, "Error en btnProcesarItemExpediente_Click");
                 lblError.Text = Functions.GetErrorMessage(ex);
                 ScriptManager.RegisterStartupScript(updPnlItemGrillaProcesos, updPnlItemGrillaProcesos.GetType(), "script", "showfrmErrorProcesosSADE();", true);
             }
@@ -3294,7 +3295,10 @@ namespace SGI.GestionTramite.Controls
             }
             catch (Exception ex)
             {
-                throw new Exception("Error en la función validarProcesosRealizadosEnSADE() : " + ex.Message);
+                if (ex.InnerException != null)
+                    throw new Exception("Error en la función validarProcesosRealizadosEnSADE() : " + ex.InnerException.Message);
+                else
+                    throw new Exception("Error en la función validarProcesosRealizadosEnSADE() : " + ex.Message);
             }
 
             return procesado_en_SADE;
