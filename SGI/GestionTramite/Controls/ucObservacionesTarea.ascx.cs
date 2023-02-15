@@ -303,6 +303,7 @@ namespace SGI.GestionTramite.Controls
 
                 ).ToList();
 
+            if (!listaObservacionesInternas.Any()) return observacionesInternas;
 
             foreach (var item in listaObservacionesInternas)
             {
