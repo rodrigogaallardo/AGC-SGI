@@ -97,6 +97,7 @@ namespace SGI.GestionTramite.Controls
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
@@ -115,6 +116,7 @@ namespace SGI.GestionTramite.Controls
         {
             if (this.dbFiles != null)
                 this.dbFiles.Dispose();
+            dbFiles.Database.CommandTimeout = 300;
         }
 
         #endregion
@@ -151,6 +153,7 @@ public class ObservacionAnterioresv1
     public static List<ObservacionAnterioresv1> GetTareaObservacion(int id_grupotramite, int id_solicitud, int id_tramitetarea, int[] tareas)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
         List<ObservacionAnterioresv1> list_observ = null;
 
         try
@@ -187,6 +190,7 @@ public class ObservacionAnterioresv1
         ObservacionAnterioresv1 tareaObserv = null;
 
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
         var ta = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
         string tipo_tarea = ta.cod_tarea.ToString();
         tipo_tarea = tipo_tarea.Substring(tipo_tarea.Length - 2);

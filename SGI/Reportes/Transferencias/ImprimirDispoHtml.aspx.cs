@@ -24,6 +24,7 @@ namespace SGI.Reportes.Transferencias
                 }
                 catch (Exception ex)
                 {
+                    LogError.Write(ex, "ImprimirDispoHTML - Page_Load");
                     FinalizarEntity();
                 }
 
@@ -70,10 +71,10 @@ namespace SGI.Reportes.Transferencias
             }
             //mostrar archivo
             Response.Clear();
-            Response.Buffer = true;//false;
-            Response.ContentType = "text/html";
-            Response.AddHeader("Content-Disposition", "filename=Disposicion.html");
-            //Response.AddHeader("Content-Length", msPdfDisposicion.Length.ToString());
+            Response.Buffer = true;
+            Response.ContentType = "text/HTML";
+            Response.AddHeader("Content-Disposition", "inline;filename=\"Disposicion.html\"");
+            Response.AddHeader("Content-Length", Encoding.UTF8.GetBytes(html_dispo).Length.ToString());
             Response.BinaryWrite(Encoding.UTF8.GetBytes(html_dispo));
             Response.Flush();        
         }
