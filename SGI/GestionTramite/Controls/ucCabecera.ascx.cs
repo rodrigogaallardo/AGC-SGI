@@ -379,6 +379,7 @@ namespace SGI.GestionTramite.Controls
         {
             using (var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 300;
                 var parameter = new System.Data.Entity.Core.Objects.ObjectParameter("result", "varchar(1000)");
                 db.GetMixDistritoZonaySubZonaBySolicitud(id_solicitud, parameter);
                 return parameter.Value.ToString();
@@ -389,6 +390,7 @@ namespace SGI.GestionTramite.Controls
         {
             using (var db = new DGHP_Entities())
             {
+                db.Database.CommandTimeout = 300;
                 var parameter = new System.Data.Entity.Core.Objects.ObjectParameter("result", "varchar(1000)");
                 db.GetMixDistritoZonaySubZonaByTR(id_solicitud, parameter);
                 return parameter.Value.ToString();

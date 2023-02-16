@@ -94,6 +94,7 @@ namespace SGI.GestionTramite.Controls
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
@@ -106,6 +107,7 @@ namespace SGI.GestionTramite.Controls
         {
             if (this.dbFiles == null)
                 this.dbFiles = new AGC_FilesEntities();
+            dbFiles.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntityFiles()
@@ -132,6 +134,7 @@ public class TramiteTareaAnteriores
     public static List<TramiteTareaAnteriores> BuscarUltimoTramiteTareaRevisionDGHyP(int id_grupotramite, int id_solicitud, int id_tramitetarea, int[] tareas)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
 
         List<TramiteTareaAnteriores> list_tramite_tarea;
 
@@ -208,6 +211,7 @@ public class TramiteTareaAnteriores
     public static List<TramiteTareaAnteriores> BuscarUltimoTramiteTareaPorTarea(int id_grupotramite, int id_solicitud, int id_tramitetarea, int[] tareas)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
 
         List<TramiteTareaAnteriores> list_tramite_tarea;
 
@@ -284,6 +288,7 @@ public class TramiteTareaAnteriores
     public static List<TramiteTareaAnteriores> BuscarTodosTareaTramitesAnteriores(int id_grupotramite, int id_solicitud, int id_tramitetarea, int[] tareas)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
 
         List<TramiteTareaAnteriores> list_tramite_tarea;
         //Para tramites de encomienda
@@ -1111,6 +1116,7 @@ public class TramiteTareaAnteriores
     public static int[] Dependencias_Tarea_ObservacionesV1(int id_tarea)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
         var tarea = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
         string tipo_tarea = tarea.cod_tarea.ToString();
         tipo_tarea = tipo_tarea.Substring(tipo_tarea.Length - 2);
@@ -1804,6 +1810,7 @@ public class ObservacionAnteriores
     public static List<ObservacionAnteriores> GetTareaObservacion(int id_grupotramite, int id_solicitud, int id_tramitetarea, int[] tareas)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
         List<ObservacionAnteriores> list_observ = null;
 
         try
@@ -1841,6 +1848,7 @@ public class ObservacionAnteriores
         ObservacionAnteriores tareaObserv = null;
 
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
         var ta = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
         string tipo_tarea = ta.cod_tarea.ToString();
         tipo_tarea = tipo_tarea.Substring(tipo_tarea.Length - 2);
@@ -2908,6 +2916,7 @@ public class ObservacionAnteriores
     public static string Buscar_ObservacionPlancheta(int id_grupotramite, int id_solicitud, int id_tramitetarea)
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
 
         string observ = null;
 
@@ -2953,6 +2962,7 @@ public class ObservacionAnteriores
     public static int[] ObtenerTareasConPlancheta()
     {
         DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
 
         var tareas = (
             from et in db.ENG_Tareas

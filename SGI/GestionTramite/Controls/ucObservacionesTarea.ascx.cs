@@ -187,6 +187,7 @@ namespace SGI.GestionTramite.Controls
         public string LoadObservacionesInternas(int id_tramite_tarea, int id_solicitud)
         {
             this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             try
             {
@@ -339,6 +340,7 @@ namespace SGI.GestionTramite.Controls
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
@@ -352,6 +354,7 @@ namespace SGI.GestionTramite.Controls
         public string LoadObservacionesPlancheta(int id_tramite_tarea, int id_solicitud)
         {
             this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             try
             {
