@@ -72,7 +72,7 @@ namespace SGI.Reportes.Transferencias
             //mostrar archivo
             Response.Clear();
             Response.Buffer = true;
-            Response.ContentType = "text/HTML";
+            Response.ContentType = "text/HTML; charset=UTF8";
             Response.AddHeader("Content-Disposition", "inline;filename=\"Disposicion.html\"");
             Response.AddHeader("Content-Length", Encoding.UTF8.GetBytes(html_dispo).Length.ToString());
             Response.AddHeader("Connection", "keep-alive");
