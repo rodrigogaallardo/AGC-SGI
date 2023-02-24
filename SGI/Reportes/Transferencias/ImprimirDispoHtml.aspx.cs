@@ -76,6 +76,7 @@ namespace SGI.Reportes.Transferencias
             Response.AddHeader("Content-Disposition", "inline;filename=\"Disposicion.html\"");
             Response.AddHeader("Content-Length", Encoding.UTF8.GetBytes(html_dispo).Length.ToString());
             Response.AddHeader("Connection", "keep-alive");
+            Response.AddHeader("Accept-Encoding", "identity");
             Response.BinaryWrite(Encoding.UTF8.GetBytes(html_dispo));
             Response.Flush();        
         }
