@@ -89,6 +89,7 @@ namespace SGI.Reportes.Transferencias
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
