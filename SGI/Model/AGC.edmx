@@ -285,7 +285,7 @@
           <Property Name="LastUpdateDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.CPadron_Planos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CPadron_Planos">
           <Key>
             <PropertyRef Name="id_cpadron_plano" />
@@ -1313,7 +1313,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' does 
           <Property Name="cfg_html" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.Envio_Mail_Send_Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Envio_Mail_Send_Estado">
           <Key>
             <PropertyRef Name="Estado_Proceso" />
@@ -1354,7 +1354,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estad
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.Estadisticas_Hoja2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Estadisticas_Hoja2">
           <Key>
             <PropertyRef Name="id" />
@@ -2070,7 +2070,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' d
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.RubrosCN_Historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RubrosCN_Historial">
           <Key>
             <PropertyRef Name="IdRubrosCN_historial" />
@@ -3270,7 +3270,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Encomienda' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.SSIT_Solicitudes_Encomienda' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SSIT_Solicitudes_Encomienda">
           <Key>
             <PropertyRef Name="id_sol_enc" />
@@ -4842,7 +4842,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Enco
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsPagos_Parametros' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="wsPagos_Parametros">
           <Key>
             <PropertyRef Name="id_param" />
@@ -4853,7 +4853,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' d
           <Property Name="valor_param" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsPagos_Procesados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="wsPagos_Procesados">
           <Key>
             <PropertyRef Name="id_pago_BU" />
@@ -4898,7 +4898,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' d
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_Estados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CAA_Estados">
           <Key>
             <PropertyRef Name="id_estado" />
@@ -4916,7 +4916,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' does not
           <Property Name="visible_Aprob_prof" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_Solicitudes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CAA_Solicitudes">
           <Key>
             <PropertyRef Name="id_solicitud" />
@@ -4956,7 +4956,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' does
           <Property Name="id_encomienda_agc" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_TiposDeCertificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CAA_TiposDeCertificados">
           <Key>
             <PropertyRef Name="id_tipocertificado" />
@@ -4977,7 +4977,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificad
           <Property Name="NombreArchivoCertificado" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Files' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.Files' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Files">
           <Key>
             <PropertyRef Name="rowid" />
@@ -4998,7 +4998,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Files' does not have 
           <Property Name="Md5" Type="binary" MaxLength="32" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.PartidaHorizontal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PartidaHorizontal">
           <Key>
             <PropertyRef Name="id_partidahorizontal" />
@@ -5021,7 +5021,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' do
           <Property Name="baja_logica" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.sysjobs_historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="sysjobs_historial">
           <Key>
             <PropertyRef Name="name" />
@@ -5034,7 +5034,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' do
           <Property Name="run_status_desc" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.sysjobs_vista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="sysjobs_vista">
           <Key>
             <PropertyRef Name="name" />
@@ -5052,7 +5052,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' does n
           <Property Name="intervalo_minutos" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.vis_Certificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vis_Certificados">
           <Key>
             <PropertyRef Name="id_certificado" />
@@ -5070,7 +5070,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' doe
           <Property Name="item" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocumentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsEE_TareasDocumentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="wsEE_TareasDocumentos">
           <Key>
             <PropertyRef Name="id_tarea_documento" />
@@ -15461,6 +15461,17 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
         </Function>
         <Function Name="SGI_Tarea_Verificacion_AVH_GenerarProcesos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
+          <Parameter Name="id_proxima_tarea" Type="int" Mode="In" />
+          <Parameter Name="userid" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="SGI_Tarea_Verificacion_IFCI_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_verificacion_IFCI" Type="int" Mode="In" />
+          <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
+          <Parameter Name="Observaciones" Type="nvarchar" Mode="In" />
+          <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="SGI_Tarea_Verificacion_IFCI_GenerarProcesos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
           <Parameter Name="id_proxima_tarea" Type="int" Mode="In" />
           <Parameter Name="userid" Type="uniqueidentifier" Mode="In" />
@@ -28236,15 +28247,26 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="Transf_DocumentosAdjuntos" EntitySet="Transf_DocumentosAdjuntos" />
           </AssociationSet>
           <EntitySet Name="SGI_Feriados" EntityType="DGHP_Model.SGI_Feriados" />
+          <EntitySet Name="SGI_Tarea_Verificacion_IFCI" EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" />
           <AssociationSet Name="FK_SGI_Feriados_aspnet_Users" Association="DGHP_Model.FK_SGI_Feriados_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="SGI_Feriados" EntitySet="SGI_Feriados" />
           </AssociationSet>
-          <EntitySet Name="SGI_Tarea_Verificacion_IFCI" EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" />
           <AssociationSet Name="FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" Association="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Verificacion_IFCI" EntitySet="SGI_Tarea_Verificacion_IFCI" />
           </AssociationSet>
+          <FunctionImport Name="SGI_Tarea_Verificacion_IFCI_Actualizar">
+            <Parameter Name="id_verificacion_IFCI" Mode="In" Type="Int32" />
+            <Parameter Name="id_tramitetarea" Mode="In" Type="Int32" />
+            <Parameter Name="Observaciones" Mode="In" Type="String" />
+            <Parameter Name="userId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="SGI_Tarea_Verificacion_IFCI_GenerarProcesos">
+            <Parameter Name="id_tramitetarea" Mode="In" Type="Int32" />
+            <Parameter Name="id_proxima_tarea" Mode="In" Type="Int32" />
+            <Parameter Name="userid" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -42941,6 +42963,54 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SGI_Feriados">
+          <Key>
+            <PropertyRef Name="IdFeriado" />
+          </Key>
+          <Property Name="IdFeriado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="aspnet_Users" Relationship="DGHP_Model.FK_SGI_Feriados_aspnet_Users" FromRole="SGI_Feriados" ToRole="aspnet_Users" />
+        </EntityType>
+        <EntityType Name="SGI_Tarea_Verificacion_IFCI">
+          <Key>
+            <PropertyRef Name="id_verificacion_IFCI" />
+          </Key>
+          <Property Name="id_verificacion_IFCI" Type="Int32" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="Int32" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdateUser" Type="Guid" />
+          <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Verificacion_IFCI" ToRole="SGI_Tramites_Tareas" />
+        </EntityType>
+        <Association Name="FK_SGI_Feriados_aspnet_Users">
+          <End Type="DGHP_Model.aspnet_Users" Role="aspnet_Users" Multiplicity="1" />
+          <End Type="DGHP_Model.SGI_Feriados" Role="SGI_Feriados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="SGI_Feriados">
+              <PropertyRef Name="CreateUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas">
+          <End Type="DGHP_Model.SGI_Tramites_Tareas" Role="SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Type="DGHP_Model.SGI_Tarea_Verificacion_IFCI" Role="SGI_Tarea_Verificacion_IFCI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Verificacion_IFCI">
+              <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -50681,6 +50751,32 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="EncomiendaRubroCN_EliminarRubro" FunctionName="DGHP_Model.Store.EncomiendaRubroCN_EliminarRubro" />
+          <EntitySetMapping Name="SGI_Feriados">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Feriados">
+              <MappingFragment StoreEntitySet="SGI_Feriados">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdFeriado" ColumnName="IdFeriado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SGI_Tarea_Verificacion_IFCI">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Verificacion_IFCI">
+              <MappingFragment StoreEntitySet="SGI_Tarea_Verificacion_IFCI">
+                <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="id_tramitetarea" ColumnName="id_tramitetarea" />
+                <ScalarProperty Name="id_verificacion_IFCI" ColumnName="id_verificacion_IFCI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_IFCI_Actualizar" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_IFCI_Actualizar" />
+          <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_IFCI_GenerarProcesos" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_IFCI_GenerarProcesos" />
           
           </EntityContainerMapping>
       </Mapping>

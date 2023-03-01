@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="80fcccf7b4f240d59d1f6312a04dd9df" Name="Diagrama1" ZoomLevel="88">
         <EntityTypeShape EntityType="DGHP_Model.SGI_Feriados" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
