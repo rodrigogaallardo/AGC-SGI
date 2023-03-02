@@ -77,6 +77,7 @@ namespace SGI.Model
             this.SSIT_DocumentosAdjuntos = new HashSet<SSIT_DocumentosAdjuntos>();
             this.SSIT_DocumentosAdjuntos1 = new HashSet<SSIT_DocumentosAdjuntos>();
             this.Transf_DocumentosAdjuntos = new HashSet<Transf_DocumentosAdjuntos>();
+            this.SGI_Feriados = new HashSet<SGI_Feriados>();
         }
     
         public System.Guid ApplicationId { get; set; }
@@ -159,5 +160,6 @@ namespace SGI.Model
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos1 { get; set; }
         public virtual ICollection<Transf_DocumentosAdjuntos> Transf_DocumentosAdjuntos { get; set; }
+        public virtual ICollection<SGI_Feriados> SGI_Feriados { get; set; }
     }
 }

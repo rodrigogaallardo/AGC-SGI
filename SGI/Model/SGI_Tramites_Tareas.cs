@@ -59,6 +59,7 @@ namespace SGI.Model
             this.SGI_Tramites_Tareas_Dispo_Considerando = new HashSet<SGI_Tramites_Tareas_Dispo_Considerando>();
             this.SGI_Tarea_Gestion_Documental = new HashSet<SGI_Tarea_Gestion_Documental>();
             this.SGI_Tarea_Enviar_Procuracion = new HashSet<SGI_Tarea_Enviar_Procuracion>();
+            this.SGI_Tarea_Verificacion_IFCI = new HashSet<SGI_Tarea_Verificacion_IFCI>();
         }
     
         public int id_tramitetarea { get; set; }
@@ -125,5 +126,6 @@ namespace SGI.Model
         public virtual ICollection<SGI_Tramites_Tareas_Dispo_Considerando> SGI_Tramites_Tareas_Dispo_Considerando { get; set; }
         public virtual ICollection<SGI_Tarea_Gestion_Documental> SGI_Tarea_Gestion_Documental { get; set; }
         public virtual ICollection<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
+        public virtual ICollection<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
     }
 }

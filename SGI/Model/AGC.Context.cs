@@ -369,8 +369,9 @@
         public DbSet<Ubicaciones> Ubicaciones { get; set; }
         public DbSet<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
-        public DbSet<SGI_Rel_Usuarios_Perfiles> SGI_Rel_Usuarios_Perfiles { get; set; }
-
+        public DbSet<SGI_Feriados> SGI_Feriados { get; set; }
+        public DbSet<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
+    
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
             var id_tareaParameter = id_tarea.HasValue ?
@@ -20212,6 +20213,44 @@
                 new ObjectParameter("id_rubro", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EncomiendaRubroCN_EliminarRubro", id_encomiendaParameter, d_cpadronParameter, id_rubroParameter);
+        }
+    
+        public virtual int SGI_Tarea_Verificacion_IFCI_Actualizar(Nullable<int> id_verificacion_IFCI, Nullable<int> id_tramitetarea, string observaciones, Nullable<System.Guid> userId)
+        {
+            var id_verificacion_IFCIParameter = id_verificacion_IFCI.HasValue ?
+                new ObjectParameter("id_verificacion_IFCI", id_verificacion_IFCI) :
+                new ObjectParameter("id_verificacion_IFCI", typeof(int));
+    
+            var id_tramitetareaParameter = id_tramitetarea.HasValue ?
+                new ObjectParameter("id_tramitetarea", id_tramitetarea) :
+                new ObjectParameter("id_tramitetarea", typeof(int));
+    
+            var observacionesParameter = observaciones != null ?
+                new ObjectParameter("Observaciones", observaciones) :
+                new ObjectParameter("Observaciones", typeof(string));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_IFCI_Actualizar", id_verificacion_IFCIParameter, id_tramitetareaParameter, observacionesParameter, userIdParameter);
+        }
+    
+        public virtual int SGI_Tarea_Verificacion_IFCI_GenerarProcesos(Nullable<int> id_tramitetarea, Nullable<int> id_proxima_tarea, Nullable<System.Guid> userid)
+        {
+            var id_tramitetareaParameter = id_tramitetarea.HasValue ?
+                new ObjectParameter("id_tramitetarea", id_tramitetarea) :
+                new ObjectParameter("id_tramitetarea", typeof(int));
+    
+            var id_proxima_tareaParameter = id_proxima_tarea.HasValue ?
+                new ObjectParameter("id_proxima_tarea", id_proxima_tarea) :
+                new ObjectParameter("id_proxima_tarea", typeof(int));
+    
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_IFCI_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
         }
     }
 }

@@ -708,6 +708,8 @@
     <Content Include="Errores\error3030.aspx" />
     <Content Include="Errores\Error3040.aspx" />
     <Content Include="Errores\Error3051.aspx" />
+    <Content Include="Operaciones\FeriadosIndex.aspx" />
+    <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
     <Content Include="GestionTramite\BajaSolicitud.aspx" />
     <Content Include="GestionTramite\BuscarTramite.aspx" />
@@ -811,6 +813,7 @@
     <Content Include="GestionTramite\Tareas\Transferencias\GenerarBoleta.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Revision_Pagos.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Verificacion_AVH.aspx" />
+    <Content Include="GestionTramite\Tareas\Verificacion_IFCI.aspx" />
     <Content Include="GestionTramite\Tareas\Visado.aspx" />
     <Content Include="GestionTramite\VisorTramite_CP.aspx" />
     <Content Include="GestionTramite\VisorTramite_TR.aspx" />
@@ -2131,6 +2134,26 @@
     <Compile Include="Errores\error3030.aspx.designer.cs">
       <DependentUpon>error3030.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\SGI_Feriados.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Tarea_Verificacion_IFCI.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
+      <DependentUpon>FeriadosIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosIndex.aspx.designer.cs">
+      <DependentUpon>FeriadosIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosForm.aspx.cs">
+      <DependentUpon>FeriadosForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosForm.aspx.designer.cs">
+      <DependentUpon>FeriadosForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Files\Download.ashx.cs">
       <DependentUpon>Download.ashx</DependentUpon>
     </Compile>
@@ -2833,6 +2856,13 @@
     </Compile>
     <Compile Include="GestionTramite\Tareas\Transferencias\Verificacion_AVH.aspx.designer.cs">
       <DependentUpon>Verificacion_AVH.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionTramite\Tareas\Verificacion_IFCI.aspx.cs">
+      <DependentUpon>Verificacion_IFCI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Tareas\Verificacion_IFCI.aspx.designer.cs">
+      <DependentUpon>Verificacion_IFCI.aspx</DependentUpon>
     </Compile>
     <Compile Include="GestionTramite\Tareas\Visado.aspx.cs">
       <DependentUpon>Visado.aspx</DependentUpon>
