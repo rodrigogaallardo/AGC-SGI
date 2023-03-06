@@ -2502,7 +2502,7 @@ namespace SGI
                     {
                         esAmbas = 1;
                     }
-                    if (esAmbas == 1)
+                    if (esAmbas == 1) 
                         qCP = (from res in qCP
                                join solubic in db.CPadron_Ubicaciones on res.id_solicitud equals solubic.id_cpadron
                                join solpuer in db.CPadron_Ubicaciones_Puertas on solubic.id_cpadronubicacion equals solpuer.id_cpadronubicacion
