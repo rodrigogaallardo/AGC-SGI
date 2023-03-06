@@ -2500,7 +2500,7 @@ namespace SGI
                     }
                     if (this.nro_calle_ambas)
                     {
-                        esAmbas = 1;
+                        esAmbas =1;
                     }
                     if (esAmbas == 1) 
                         qCP = (from res in qCP
