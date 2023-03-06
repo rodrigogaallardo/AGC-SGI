@@ -1986,6 +1986,8 @@ namespace SGI
             //busqueda por Domicilio
             if (this.id_calle > 0)
             {
+                int esImpar = 0;
+                int esAmbas = 0;
                 if (nro_calle > 0)
                 {
                     qSOL = (from res in qSOL
@@ -1997,8 +1999,6 @@ namespace SGI
                 }
                 else if (nro_calle_desde > 0 || nro_calle_hasta > 0)
                 {
-                    int esImpar = 0;
-                    int esAmbas = 0;
                     if (this.nro_calle_impar)
                     {
                         esImpar = 1;
@@ -2063,6 +2063,33 @@ namespace SGI
                                     select res);
                     }
 
+                }
+                else if(nro_calle_desde == 0 && nro_calle_hasta == 0)
+                {
+                    if (this.nro_calle_impar)
+                    {
+                        esImpar = 1;
+                    }
+                    if (this.nro_calle_ambas)
+                    {
+                        esAmbas = 1;
+                    }
+                    if (esAmbas == 1)
+                        qSOL = (from res in qSOL
+                                join solubic in db.SSIT_Solicitudes_Ubicaciones on res.id_solicitud equals solubic.id_solicitud
+                                join solpuer in db.SSIT_Solicitudes_Ubicaciones_Puertas on solubic.id_solicitudubicacion equals solpuer.id_solicitudubicacion
+                                join c in db.Calles on solpuer.codigo_calle equals c.Codigo_calle
+                                where c.id_calle == this.id_calle
+                                select res);
+                    else
+                        qSOL = (from res in qSOL
+                                join solubic in db.SSIT_Solicitudes_Ubicaciones on res.id_solicitud equals solubic.id_solicitud
+                                join solpuer in db.SSIT_Solicitudes_Ubicaciones_Puertas on solubic.id_solicitudubicacion equals solpuer.id_solicitudubicacion
+                                join c in db.Calles on solpuer.codigo_calle equals c.Codigo_calle
+                                where c.id_calle == this.id_calle && (solpuer.NroPuerta % 2 == esImpar)
+                                select res);
+
+                
                 }
             }
             if (!string.IsNullOrEmpty(this.uf))
@@ -2387,6 +2414,8 @@ namespace SGI
             //busqueda por Domicilio
             if (this.id_calle > 0)
             {
+                int esImpar = 0;
+                int esAmbas = 0;
                 if (nro_calle > 0)
                 {
                     qCP = (from res in qCP
@@ -2398,8 +2427,6 @@ namespace SGI
                 }
                 else if (nro_calle_desde > 0 || nro_calle_hasta > 0)
                 {
-                    int esImpar = 0;
-                    int esAmbas = 0;
                     if (this.nro_calle_impar)
                     {
                         esImpar = 1;
@@ -2464,6 +2491,31 @@ namespace SGI
                                    select res);
                     }
 
+                }
+                else if(nro_calle_desde == 0 && nro_calle_hasta == 0)
+                {
+                    if (this.nro_calle_impar)
+                    {
+                        esImpar = 1;
+                    }
+                    if (this.nro_calle_ambas)
+                    {
+                        esAmbas =1;
+                    }
+                    if (esAmbas == 1)
+                        qCP = (from res in qCP
+                               join solubic in db.CPadron_Ubicaciones on res.id_solicitud equals solubic.id_cpadron
+                               join solpuer in db.CPadron_Ubicaciones_Puertas on solubic.id_cpadronubicacion equals solpuer.id_cpadronubicacion
+                               join c in db.Calles on solpuer.codigo_calle equals c.Codigo_calle
+                               where c.id_calle == this.id_calle
+                               select res);
+                    else
+                        qCP = (from res in qCP
+                               join solubic in db.CPadron_Ubicaciones on res.id_solicitud equals solubic.id_cpadron
+                               join solpuer in db.CPadron_Ubicaciones_Puertas on solubic.id_cpadronubicacion equals solpuer.id_cpadronubicacion
+                               join c in db.Calles on solpuer.codigo_calle equals c.Codigo_calle
+                               where c.id_calle == this.id_calle && (solpuer.NroPuerta % 2 == esImpar)
+                               select res);
                 }
             }
 
@@ -2766,6 +2818,8 @@ namespace SGI
             //busqueda por Domicilio
             if (this.id_calle > 0)
             {
+                int esImpar = 0;
+                int esAmbas = 0;
                 if (nro_calle > 0)
                 {
                     qTR = (from res in qTR
@@ -2783,8 +2837,6 @@ namespace SGI
                 }
                 else if (nro_calle_desde > 0 || nro_calle_hasta > 0)
                 {
-                    int esImpar = 0;
-                    int esAmbas = 0;
                     if (this.nro_calle_impar)
                     {
                         esImpar = 1;
@@ -2888,6 +2940,43 @@ namespace SGI
                                                      select res);
                     }
 
+                }
+                else if (nro_calle_desde == 0 && nro_calle_hasta == 0)
+                {
+                    if (this.nro_calle_impar)
+                    {
+                        esImpar = 1;
+                    }
+                    if (this.nro_calle_ambas)
+                    {
+                        esAmbas = 1;
+                    }
+                    if (esAmbas == 1)
+                        qTR = (from res in qTR
+                               join sol in db.Transf_Solicitudes on res.id_solicitud equals sol.id_solicitud
+                               join encubic in db.CPadron_Ubicaciones on sol.id_cpadron equals encubic.id_cpadron
+                               join encpuer in db.CPadron_Ubicaciones_Puertas on encubic.id_cpadronubicacion equals encpuer.id_cpadronubicacion
+                               join c in db.Calles on encpuer.codigo_calle equals c.Codigo_calle
+                               where c.id_calle == this.id_calle 
+                               select res).Union(from res in qTR
+                                                 join encubic in db.Transf_Ubicaciones on res.id_solicitud equals encubic.id_solicitud
+                                                 join encpuer in db.Transf_Ubicaciones_Puertas on encubic.id_transfubicacion equals encpuer.id_transfubicacion
+                                                 join c in db.Calles on encpuer.codigo_calle equals c.Codigo_calle
+                                                 where c.id_calle == this.id_calle
+                                                 select res);
+                    else
+                        qTR = (from res in qTR
+                               join sol in db.Transf_Solicitudes on res.id_solicitud equals sol.id_solicitud
+                               join encubic in db.CPadron_Ubicaciones on sol.id_cpadron equals encubic.id_cpadron
+                               join encpuer in db.CPadron_Ubicaciones_Puertas on encubic.id_cpadronubicacion equals encpuer.id_cpadronubicacion
+                               join c in db.Calles on encpuer.codigo_calle equals c.Codigo_calle
+                               where c.id_calle == this.id_calle && (encpuer.NroPuerta % 2 == esImpar)
+                               select res).Union(from res in qTR
+                                                 join encubic in db.Transf_Ubicaciones on res.id_solicitud equals encubic.id_solicitud
+                                                 join encpuer in db.Transf_Ubicaciones_Puertas on encubic.id_transfubicacion equals encpuer.id_transfubicacion
+                                                 join c in db.Calles on encpuer.codigo_calle equals c.Codigo_calle
+                                                 where c.id_calle == this.id_calle && (encpuer.NroPuerta % 2 == esImpar)
+                                                 select res);
                 }
             }
 
