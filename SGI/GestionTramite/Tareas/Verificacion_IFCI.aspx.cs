@@ -233,7 +233,7 @@ namespace SGI.GestionTramite.Tareas
                 (
                     from adj in db.SGI_Tarea_Documentos_Adjuntos
                     where adj.id_tramitetarea == this.TramiteTarea
-                    && adj.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Informe_AVH
+                    && adj.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Informe_IFCI
                     select new
                     {
                         adj
