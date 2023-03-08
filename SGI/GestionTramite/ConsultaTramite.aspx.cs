@@ -531,10 +531,10 @@ namespace SGI.GestionTramite
 
             if (totalRowCount > 1)
             {
-                lblCantRegistros.Text = string.Format("{0} Trámites", totalRowCount);
+                lblCantRegistros.Text = string.Format("{0} Trámites", lstResult.Count);//totalRowCount
             }
             else if (totalRowCount == 1)
-                lblCantRegistros.Text = string.Format("{0} Trámite", totalRowCount);
+                lblCantRegistros.Text = string.Format("{0} Trámite", lstResult.Count);//totalRowCount
             else
             {
                 pnlCantRegistros.Visible = false;
@@ -1752,8 +1752,9 @@ namespace SGI.GestionTramite
                     #endregion
 
                 }
+
                 #region ASOSA
-                if (Session["ddlPlanoIncendio_Value"] != null)
+                    if (Session["ddlPlanoIncendio_Value"] != null)
                 {
                     if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "C")
                     {
