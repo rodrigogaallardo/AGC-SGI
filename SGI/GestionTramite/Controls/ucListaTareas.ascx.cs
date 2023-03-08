@@ -98,7 +98,7 @@ namespace SGI.GestionTramite.Controls
                                  into pleftjoin
                                  from prof in pleftjoin.DefaultIfEmpty()
                                  where tt_hab.id_solicitud == this.id_solicitud
-                                 orderby tt.FechaInicio_tramitetarea
+                                 orderby tt.id_tramitetarea
                                  select new clsRowitemTarea
                                  {
                                      id_tramitetarea = tt.id_tramitetarea,
@@ -130,7 +130,7 @@ namespace SGI.GestionTramite.Controls
                                  from prof in pleftjoin.DefaultIfEmpty()
 
                                  where tt_cp.id_cpadron == this.id_solicitud
-                                 orderby tt.FechaInicio_tramitetarea
+                                 orderby tt.id_tramitetarea
                                  select new clsRowitemTarea
                                  {
                                      id_tramitetarea = tt.id_tramitetarea,
