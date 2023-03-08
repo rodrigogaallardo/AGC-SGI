@@ -46,7 +46,7 @@
             <asp:Calendar ID="calFecha" runat="server"></asp:Calendar>
         </div>
         <div style="width: 500px; display: inline-block; vertical-align:top; margin-top: 5px;" >
-            <asp:TextBox ID="txtDescripcion" TextMode="MultiLine" Rows="3" MaxLength="100"   runat="server" style=" vertical-align:top;"></asp:TextBox>
+            <asp:TextBox ID="txtDescripcion" TextMode="MultiLine" onkeypress="return this.value.length<100"  Rows="3" MaxLength="100"    runat="server" style=" vertical-align:top;"></asp:TextBox>
         </div>
         
     </div>
