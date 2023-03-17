@@ -907,7 +907,8 @@ namespace SGI
             Caduco = 41,
             Datos_Confirmados = 39,
             RevCaducidad = 42,
-            BajaAdm = 43
+            BajaAdm = 43,
+            RevRechazo = 45
         }
 
 
