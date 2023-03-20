@@ -98,7 +98,6 @@ namespace SGI
                     rbtnUbiPartidaHoriz = rbtnUbiPartidaHoriz.Checked,
 
                     nro_partida_matriz = txtUbiNroPartida.Text,
-                    //id_calle = ddlCalles.SelectedValue.ToString(),
                     id_calle = (String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey.ToString(),
                     nro_calle = txtUbiNroPuerta.Text,
                     uf = txtUF.Text,
@@ -125,7 +124,6 @@ namespace SGI
                     if (
                         //rbtnUbiPartidaMatriz.Checked ||
                         //rbtnUbiPartidaHoriz.Checked ||
-                        //  ddlCalles.SelectedValue.ToString() != "" ||
                         ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey.ToString()) != "" ||
                         nro_calle != 0 ||
                         uf != "" ||
@@ -548,7 +546,7 @@ namespace SGI
             txtFechaCierreHasta.Text = "";
 
             txtUbiNroPartida.Text = "";
-          //  ddlCalles.ClearSelection();
+         
             AutocompleteCalles.ClearSelection();    
             txtUbiNroPuerta.Text = "";
             txtUF.Text = "";
@@ -593,13 +591,6 @@ namespace SGI
                                  calle.id_calle,
                                  calle.NombreOficial_calle
                              }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-
-            //ddlCalles.DataSource = lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault()); ;
-            //ddlCalles.DataTextField = "NombreOficial_calle";
-            //ddlCalles.DataValueField = "id_calle";
-            //ddlCalles.DataBind();
-
-            //ddlCalles.Items.Insert(0, "");
 
             List<CallesCombo> CallesComboList = new List<CallesCombo>();
             foreach (var item in lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault()))
