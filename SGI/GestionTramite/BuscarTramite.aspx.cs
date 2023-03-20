@@ -98,7 +98,8 @@ namespace SGI
                     rbtnUbiPartidaHoriz = rbtnUbiPartidaHoriz.Checked,
 
                     nro_partida_matriz = txtUbiNroPartida.Text,
-                    id_calle = ddlCalles.SelectedValue.ToString(),
+                    //id_calle = ddlCalles.SelectedValue.ToString(),
+                    id_calle = (String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey.ToString(),
                     nro_calle = txtUbiNroPuerta.Text,
                     uf = txtUF.Text,
                     torre = txtTorre.Text,
@@ -124,7 +125,8 @@ namespace SGI
                     if (
                         //rbtnUbiPartidaMatriz.Checked ||
                         //rbtnUbiPartidaHoriz.Checked ||
-                        ddlCalles.SelectedValue.ToString() != "" ||
+                        //  ddlCalles.SelectedValue.ToString() != "" ||
+                        ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey.ToString()) != "" ||
                         nro_calle != 0 ||
                         uf != "" ||
                         torre != "" ||
@@ -546,7 +548,8 @@ namespace SGI
             txtFechaCierreHasta.Text = "";
 
             txtUbiNroPartida.Text = "";
-            ddlCalles.ClearSelection();
+          //  ddlCalles.ClearSelection();
+            AutocompleteCalles.ClearSelection();    
             txtUbiNroPuerta.Text = "";
             txtUF.Text = "";
             txtTorre.Text = "";
@@ -591,12 +594,24 @@ namespace SGI
                                  calle.NombreOficial_calle
                              }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
 
-            ddlCalles.DataSource = lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault()); ;
-            ddlCalles.DataTextField = "NombreOficial_calle";
-            ddlCalles.DataValueField = "id_calle";
-            ddlCalles.DataBind();
+            //ddlCalles.DataSource = lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault()); ;
+            //ddlCalles.DataTextField = "NombreOficial_calle";
+            //ddlCalles.DataValueField = "id_calle";
+            //ddlCalles.DataBind();
 
-            ddlCalles.Items.Insert(0, "");
+            //ddlCalles.Items.Insert(0, "");
+
+            List<CallesCombo> CallesComboList = new List<CallesCombo>();
+            foreach (var item in lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault()))
+            {
+                CallesCombo component = new CallesCombo();
+                component.id_calle = item.id_calle;
+                component.NombreOficial_calle = item.NombreOficial_calle;
+                CallesComboList.Add(component);
+            }
+
+            AutocompleteCalles.DataSource = CallesComboList;
+
         }
 
         protected void btnBuscar_OnClick(object sender, EventArgs e)
@@ -1005,13 +1020,13 @@ namespace SGI
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ddlCalles.SelectedValue == "")
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
             idAux = 0;
-            int.TryParse(ddlCalles.SelectedValue, out idAux);
+            int.TryParse( AutocompleteCalles.SelectValueByKey, out idAux);
             this.id_calle = idAux;
 
             idAux = 0;
@@ -1122,7 +1137,7 @@ namespace SGI
                 fechaCierreDesde = txtFechaCierreDesde.Text,
                 fechaCierreHasta = txtFechaCierreHasta.Text,
                 nro_partida_matriz = txtUbiNroPartida.Text,
-                id_calle = ddlCalles.SelectedValue.ToString(),
+                id_calle = AutocompleteCalles.SelectValueByKey.ToString(),
                 nro_calle = txtUbiNroPuerta.Text,
                 uf = txtUF.Text,
                 torre = txtTorre.Text,
@@ -1218,11 +1233,11 @@ namespace SGI
             if (String.IsNullOrWhiteSpace(filtros.id_calle))
             {
 
-                ddlCalles.SelectedValue = "Todos";
+                AutocompleteCalles.SelectValueByKey = "Todos";
             }
             else
             {
-                ddlCalles.SelectedValue = filtros.id_calle.ToString();
+                AutocompleteCalles.SelectValueByKey = filtros.id_calle.ToString();
             }
             txtUbiNroPartida.Text = filtros.nro_partida_matriz;
             txtUbiNroPuerta.Text = filtros.nro_calle;
@@ -1701,13 +1716,13 @@ namespace SGI
 
                 }
 
-                if (string.IsNullOrWhiteSpace(ddlCalles.SelectedValue))
+                if (string.IsNullOrWhiteSpace(AutocompleteCalles.SelectValueByKey))
                 {
                     this.id_calle = 0;
                 }
                 else
                 {
-                    this.id_calle = Convert.ToInt32(ddlCalles.SelectedValue);
+                    this.id_calle = Convert.ToInt32(AutocompleteCalles.SelectValueByKey);
                 }
                 if (string.IsNullOrWhiteSpace(txtUbiNroPuerta.Text))
                 {
@@ -3294,5 +3309,12 @@ namespace SGI
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
         }
+    }
+    public class CallesCombo
+    {
+
+        public int id_calle { get; set; }
+        public string NombreOficial_calle { get; set; }
+
     }
 }
