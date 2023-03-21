@@ -284,7 +284,7 @@
                                             </td>
                                             <td>
                                                 <asp:DropDownList ID="ddlTipoDeUbicacion" runat="server" OnSelectedIndexChanged="ddlTipoDeUbicacion_SelectedIndexChanged"
-                                                    AutoPostBack="true" Width="350px" CssClass="form-control">
+                                                   AutoPostBack="true" Width="350px" CssClass="form-control">
                                                 </asp:DropDownList>
                                                 <div>
                                                     <asp:RequiredFieldValidator ID="ReqddlTipoDeUbicacion" runat="server" ControlToValidate="ddlTipoDeUbicacion" CssClass="field-validation-error"

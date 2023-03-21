@@ -105,25 +105,7 @@ namespace SGI.Controls
 
         private void CargarCalles()
         {
-            //Functions.CargarAutocompleteCalles(AutocompleteCalles);
-
-            //DGHP_Entities db = new DGHP_Entities();
-            
-            //var lstCalles = (from calle in db.Calles
-            //         select new
-            //         {
-            //             calle.Codigo_calle,
-            //             calle.NombreOficial_calle
-            //         }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-            
-            //ddlCalles.DataSource = lstCalles;
-            //ddlCalles.DataTextField = "NombreOficial_calle";
-            //ddlCalles.DataValueField = "Codigo_calle";
-            //ddlCalles.DataBind();
-
-            //ddlCalles.Items.Insert(0,"");
-            
-            //db.Dispose();
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         protected void btnBuscar1_Click(object sender, EventArgs e)
