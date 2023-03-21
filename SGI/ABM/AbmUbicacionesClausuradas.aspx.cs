@@ -453,12 +453,7 @@ namespace SGI.ABM
                                  calle.NombreOficial_calle
                              }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
 
-            ddlCalles.DataSource = lstCalles;
-            ddlCalles.DataTextField = "NombreOficial_calle";
-            ddlCalles.DataValueField = "Codigo_calle";
-            ddlCalles.DataBind();
-
-            ddlCalles.Items.Insert(0, "");
+            AutocompleteCalles.DataSource = lstCalles;
         }
 
         private void CargarCombo_subTipoUbicacion(int id_tipoubicacion)
@@ -517,10 +512,10 @@ namespace SGI.ABM
             //if (Session["Tipo"] != null)
             //{ Session.Remove("Tipo"); }
 
-            ddlCalles.ClearSelection();
 
             txtUbiNroPartida.Text = "";
-            ddlCalles.ClearSelection();
+
+            AutocompleteCalles.ClearSelection();      
             txtUbiNroPuerta.Text = "";
 
             txtUbiSeccion.Text = "";
@@ -583,13 +578,13 @@ namespace SGI.ABM
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ddlCalles.SelectedValue == "")
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
             idAux = 0;
-            int.TryParse(ddlCalles.SelectedValue, out idAux);
+            int.TryParse(AutocompleteCalles.SelectValueByKey, out idAux);
             this.id_calle = idAux;
 
             idAux = 0;

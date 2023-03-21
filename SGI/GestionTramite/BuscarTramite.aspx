@@ -764,7 +764,6 @@
                                                     <div class="clearfix">
                                                         <div class="pull-left">
                                                             <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="id_calle" Width="500px" runat="server"/>
-
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."

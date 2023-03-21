@@ -35,10 +35,7 @@
             inicializar_fechas();
             $("#<%: txtUbiNroPuerta.ClientID%>").autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
         }
-        function inicializar_autocomplete() {
-            $("#<%: ddlCalles.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlCalles.ClientID %>").select2({ minimumInputLength: 3 });
-        }
+      
         function inicializar_fechas() {
             var FechaAlta = $('#<%=txtFechaAlta.ClientID%>');
             var es_readonly = $(FechaAlta).attr("readonly");
@@ -235,16 +232,16 @@
                                 <div class="form-horizontal">
                                     <fieldset>
                                         <div class="control-group">
-                                            <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="ddlCalles"
+                                            <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
                                                 CssClass="control-label">Búsqueda de Calle:</asp:Label>
                                             <div class="controls">
                                                 <div class="clearfix">
                                                     <div class="pull-left">
-                                                        <asp:DropDownList ID="ddlCalles" runat="server" Width="500px"></asp:DropDownList>
+                                                     <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="id_calle" Width="500px" runat="server"/>
                                                         <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                                         <%--<asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                                            Display="Dynamic" ControlToValidate="ddlCalles" ValidationGroup="Buscar2"
+                                                            Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                             CssClass="field-validation-error"></asp:RequiredFieldValidator>--%>
                                                     </div>
                                                 </div>
