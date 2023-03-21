@@ -1054,6 +1054,7 @@ namespace SGI
                              }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
 
             AutocompleteCalles.DataSource = lstCalles;
+            db.Dispose();
         }
         public static int isResultadoDispo(int id_solicitud)
         {

@@ -89,8 +89,8 @@
                                             <td>Calle:
                                             </td>
                                             <td class="pleft5">
-                                                <asp:DropDownList ID="ddlCalles_NP" runat="server" Width="500px"></asp:DropDownList>
-                                            </td>
+                                            <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"/>
+                                       </td>
                                         </tr>
                                         <tr>
                                             <td></td>

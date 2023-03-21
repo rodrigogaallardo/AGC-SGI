@@ -13,6 +13,7 @@ using System.Data;
 using System.Data.Entity.Core.Objects;
 using SGI.Webservices.Pagos;
 
+
 namespace SGI.Controls
 {
     public partial class SolicitudNuevaPuerta : System.Web.UI.UserControl
@@ -66,7 +67,7 @@ namespace SGI.Controls
 
                 HiddenField hid_id_ubicacion = (HiddenField)e.Row.FindControl("hid_id_ubicacion");
                 DataList lstPuertas = (DataList)e.Row.FindControl("lstPuertas");
-                DropDownList ddlCalles_NP = (DropDownList)e.Row.FindControl("ddlCalles_NP");
+                Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles = (Syncfusion.JavaScript.Web.Autocomplete)e.Row.FindControl("AutocompleteCalles");
 
                 int id_ubicacion = int.Parse(hid_id_ubicacion.Value);
 
@@ -90,20 +91,8 @@ namespace SGI.Controls
                 lstPuertas.DataSource = ubicacion.GetPuertas();
                 lstPuertas.DataBind();
 
-
-                var lstCalles = (from calle in db.Calles
-                                 select new
-                                 {
-                                     calle.Codigo_calle,
-                                     calle.NombreOficial_calle
-                                 }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-
-                ddlCalles_NP.DataSource = lstCalles;
-                ddlCalles_NP.DataTextField = "NombreOficial_calle";
-                ddlCalles_NP.DataValueField = "Codigo_calle";
-                ddlCalles_NP.DataBind();
-
-                ddlCalles_NP.Items.Insert(0, "");
+                Functions.CargarAutocompleteCalles(AutocompleteCalles);
+               
 
                 
                 db.Dispose();
