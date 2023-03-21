@@ -445,15 +445,7 @@ namespace SGI.ABM
         }
         private void CargarCalles()
         {
-            DGHP_Entities db = new DGHP_Entities();
-            var lstCalles = (from calle in db.Calles
-                             select new
-                             {
-                                 calle.Codigo_calle,
-                                 calle.NombreOficial_calle
-                             }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-
-            AutocompleteCalles.DataSource = lstCalles;
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         private void CargarCombo_subTipoUbicacion(int id_tipoubicacion)

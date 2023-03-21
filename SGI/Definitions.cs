@@ -1043,6 +1043,18 @@ namespace SGI
     }
     public class Functions
     {
+        public static void CargarAutocompleteCalles(Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            var lstCalles = (from calle in db.Calles
+                             select new
+                             {
+                                 calle.Codigo_calle,
+                                 calle.NombreOficial_calle
+                             }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
+
+            AutocompleteCalles.DataSource = lstCalles;
+        }
         public static int isResultadoDispo(int id_solicitud)
         {
             int ret = 0;
