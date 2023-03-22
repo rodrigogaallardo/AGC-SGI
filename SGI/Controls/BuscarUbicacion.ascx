@@ -127,7 +127,7 @@
                                     <td>Calle:
                                     </td>
                                     <td>
-                                                     <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="id_calle" Width="500px" runat="server"/>
+                                                     <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"/>
                                     </td>
                                 </tr>
                                 <tr>

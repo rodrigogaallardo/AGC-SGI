@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGI.ABM.Ubicaciones {
-    
-    
-    public partial class SubdividirUbicacion {
-        
+namespace SGI.ABM.Ubicaciones
+{
+
+
+    public partial class SubdividirUbicacion
+    {
+
         /// <summary>
         /// updDatos control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updDatos;
-        
+
         /// <summary>
         /// hid_id_ubi_padre control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_ubi_padre;
-        
+
         /// <summary>
         /// hid_ids_ubi_sub control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_ids_ubi_sub;
-        
+
         /// <summary>
         /// btnCargarDatos control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCargarDatos;
-        
+
         /// <summary>
         /// pnlDatos control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlDatos;
-        
+
         /// <summary>
         /// updGridParcelaASubdiv control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updGridParcelaASubdiv;
-        
+
         /// <summary>
         /// pnlParcelaASubdiv control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlParcelaASubdiv;
-        
+
         /// <summary>
         /// grdParcelaASubdiv control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdParcelaASubdiv;
-        
+
         /// <summary>
         /// btnAgregarParASub control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAgregarParASub;
-        
+
         /// <summary>
         /// updGridParcelasSubdiv control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updGridParcelasSubdiv;
-        
+
         /// <summary>
         /// pnlParcelasSubdiv control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlParcelasSubdiv;
-        
+
         /// <summary>
         /// grdParcelasSubdiv control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdParcelasSubdiv;
-        
+
         /// <summary>
         /// btnAgregarParsSub control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAgregarParsSub;
-        
+
         /// <summary>
         /// updBotonesGuardar control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updBotonesGuardar;
-        
+
         /// <summary>
         /// btnGuardar control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardar;
-        
+
         /// <summary>
         /// btnCancelar control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelar;
-        
+
         /// <summary>
         /// UpdateProgress1 control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress1;
-        
+
         /// <summary>
         /// updfrmerror control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updfrmerror;
-        
+
         /// <summary>
         /// frmerrortitle control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label frmerrortitle;
-        
+
         /// <summary>
         /// updmpeInfo control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updmpeInfo;
-        
+
         /// <summary>
         /// lblError control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
-        
+
         /// <summary>
         /// updAgregarUbicacion control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updAgregarUbicacion;
-        
+
         /// <summary>
         /// UpdateProgress4 control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress4;
-        
+
         /// <summary>
         /// pnlBotonDefault control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlBotonDefault;
-        
+
         /// <summary>
         /// Label1 control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-        
+
         /// <summary>
         /// updPnlFiltroBuscar_ubi_partida control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlFiltroBuscar_ubi_partida;
-        
+
         /// <summary>
         /// lblUbiPartidaMatriz control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiPartidaMatriz;
-        
+
         /// <summary>
         /// rbtnUbiPartidaMatriz control.
         /// </summary>
@@ -263,7 +265,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbtnUbiPartidaMatriz;
-        
+
         /// <summary>
         /// rbtnUbiPartidaHoriz control.
         /// </summary>
@@ -272,7 +274,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbtnUbiPartidaHoriz;
-        
+
         /// <summary>
         /// lblUbiNroPartida control.
         /// </summary>
@@ -281,7 +283,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiNroPartida;
-        
+
         /// <summary>
         /// txtUbiNroPartida control.
         /// </summary>
@@ -290,7 +292,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUbiNroPartida;
-        
+
         /// <summary>
         /// updPnlFiltroBuscar_ubi_dom control.
         /// </summary>
@@ -299,7 +301,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlFiltroBuscar_ubi_dom;
-        
+
         /// <summary>
         /// btnCargarDatosDom control.
         /// </summary>
@@ -308,7 +310,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCargarDatosDom;
-        
+
         /// <summary>
         /// lblUbiCalle control.
         /// </summary>
@@ -317,7 +319,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiCalle;
-        
+
         /// <summary>
         /// ddlUbiCalle control.
         /// </summary>
@@ -326,7 +328,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUbiCalle;
-        
+
         /// <summary>
         /// lblUbiNroPuerta control.
         /// </summary>
@@ -335,7 +337,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiNroPuerta;
-        
+
         /// <summary>
         /// txtUbiNroPuerta control.
         /// </summary>
@@ -344,7 +346,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUbiNroPuerta;
-        
+
         /// <summary>
         /// updPnlFiltroBuscar_ubi_smp control.
         /// </summary>
@@ -353,7 +355,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlFiltroBuscar_ubi_smp;
-        
+
         /// <summary>
         /// lblUbiSeccion control.
         /// </summary>
@@ -362,7 +364,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiSeccion;
-        
+
         /// <summary>
         /// txtUbiSeccion control.
         /// </summary>
@@ -371,7 +373,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUbiSeccion;
-        
+
         /// <summary>
         /// lblUbiManzana control.
         /// </summary>
@@ -380,7 +382,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiManzana;
-        
+
         /// <summary>
         /// txtUbiManzana control.
         /// </summary>
@@ -389,7 +391,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUbiManzana;
-        
+
         /// <summary>
         /// lblUbiParcela control.
         /// </summary>
@@ -398,7 +400,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiParcela;
-        
+
         /// <summary>
         /// txtUbiParcela control.
         /// </summary>
@@ -407,7 +409,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUbiParcela;
-        
+
         /// <summary>
         /// updPnlFiltroBuscar_ubi_especial control.
         /// </summary>
@@ -416,7 +418,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlFiltroBuscar_ubi_especial;
-        
+
         /// <summary>
         /// ddlUbiTipoUbicacion control.
         /// </summary>
@@ -425,7 +427,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUbiTipoUbicacion;
-        
+
         /// <summary>
         /// ddlUbiSubTipoUbicacion control.
         /// </summary>
@@ -434,7 +436,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUbiSubTipoUbicacion;
-        
+
         /// <summary>
         /// divDadaDBaja control.
         /// </summary>
@@ -443,7 +445,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDadaDBaja;
-        
+
         /// <summary>
         /// lblUbiFiltro control.
         /// </summary>
@@ -452,7 +454,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUbiFiltro;
-        
+
         /// <summary>
         /// ddlBaja control.
         /// </summary>
@@ -461,7 +463,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBaja;
-        
+
         /// <summary>
         /// divPhDadaDBaja control.
         /// </summary>
@@ -470,7 +472,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPhDadaDBaja;
-        
+
         /// <summary>
         /// Label2 control.
         /// </summary>
@@ -479,7 +481,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label2;
-        
+
         /// <summary>
         /// ddlPHDadaDBaja control.
         /// </summary>
@@ -488,7 +490,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPHDadaDBaja;
-        
+
         /// <summary>
         /// btn_BuscarPartida control.
         /// </summary>
@@ -497,7 +499,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel btn_BuscarPartida;
-        
+
         /// <summary>
         /// UpdateProgress2 control.
         /// </summary>
@@ -506,7 +508,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress2;
-        
+
         /// <summary>
         /// btnBuscar control.
         /// </summary>
@@ -515,7 +517,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnBuscar;
-        
+
         /// <summary>
         /// btnLimpiar control.
         /// </summary>
@@ -524,7 +526,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
-        
+
         /// <summary>
         /// updPnlResultadoBuscar control.
         /// </summary>
@@ -533,7 +535,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlResultadoBuscar;
-        
+
         /// <summary>
         /// pnlResultadoBuscar control.
         /// </summary>
@@ -542,7 +544,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlResultadoBuscar;
-        
+
         /// <summary>
         /// pnlCantidadRegistros control.
         /// </summary>
@@ -551,7 +553,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlCantidadRegistros;
-        
+
         /// <summary>
         /// lblCantidadRegistros control.
         /// </summary>
@@ -560,7 +562,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCantidadRegistros;
-        
+
         /// <summary>
         /// grdResultados control.
         /// </summary>
@@ -569,7 +571,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdResultados;
-        
+
         /// <summary>
         /// updCargarUbicacion control.
         /// </summary>
@@ -578,7 +580,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updCargarUbicacion;
-        
+
         /// <summary>
         /// UpdateProgress3 control.
         /// </summary>
@@ -587,7 +589,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress3;
-        
+
         /// <summary>
         /// hid_id_ubicacion control.
         /// </summary>
@@ -596,7 +598,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_ubicacion;
-        
+
         /// <summary>
         /// hid_id_tipo_ubicacion control.
         /// </summary>
@@ -605,7 +607,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_tipo_ubicacion;
-        
+
         /// <summary>
         /// hid_tipo_reqSMP control.
         /// </summary>
@@ -614,7 +616,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_tipo_reqSMP;
-        
+
         /// <summary>
         /// btnCargarDatosSub control.
         /// </summary>
@@ -623,7 +625,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCargarDatosSub;
-        
+
         /// <summary>
         /// pnlDatosSub control.
         /// </summary>
@@ -632,7 +634,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlDatosSub;
-        
+
         /// <summary>
         /// txtSeccion control.
         /// </summary>
@@ -641,7 +643,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSeccion;
-        
+
         /// <summary>
         /// txtManzana control.
         /// </summary>
@@ -650,7 +652,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtManzana;
-        
+
         /// <summary>
         /// txtParcela control.
         /// </summary>
@@ -659,7 +661,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtParcela;
-        
+
         /// <summary>
         /// txtNroPartida control.
         /// </summary>
@@ -668,7 +670,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNroPartida;
-        
+
         /// <summary>
         /// ddlUbiTipoUbicacionABM control.
         /// </summary>
@@ -677,7 +679,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUbiTipoUbicacionABM;
-        
+
         /// <summary>
         /// ddlUbiSubTipoUbicacionABM control.
         /// </summary>
@@ -686,7 +688,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUbiSubTipoUbicacionABM;
-        
+
         /// <summary>
         /// ddlComisaria control.
         /// </summary>
@@ -695,7 +697,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlComisaria;
-        
+
         /// <summary>
         /// ddlBarrio control.
         /// </summary>
@@ -704,7 +706,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBarrio;
-        
+
         /// <summary>
         /// ddlComuna control.
         /// </summary>
@@ -713,7 +715,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlComuna;
-        
+
         /// <summary>
         /// chbEntidadGubernamental control.
         /// </summary>
@@ -722,7 +724,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chbEntidadGubernamental;
-        
+
         /// <summary>
         /// chbEdificioProtegido control.
         /// </summary>
@@ -731,7 +733,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chbEdificioProtegido;
-        
+
         /// <summary>
         /// updCalleSub control.
         /// </summary>
@@ -740,7 +742,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updCalleSub;
-        
+
         /// <summary>
         /// grdCalleSub control.
         /// </summary>
@@ -749,7 +751,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdCalleSub;
-        
+
         /// <summary>
         /// btnAgregarCalleSub control.
         /// </summary>
@@ -758,7 +760,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAgregarCalleSub;
-        
+
         /// <summary>
         /// lblMixtura control.
         /// </summary>
@@ -767,7 +769,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMixtura;
-        
+
         /// <summary>
         /// ddlMixtura control.
         /// </summary>
@@ -776,7 +778,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlMixtura;
-        
+
         /// <summary>
         /// updMixturas control.
         /// </summary>
@@ -785,7 +787,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updMixturas;
-        
+
         /// <summary>
         /// grdMixturas control.
         /// </summary>
@@ -794,7 +796,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdMixturas;
-        
+
         /// <summary>
         /// btnAgregarMixtura control.
         /// </summary>
@@ -803,7 +805,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAgregarMixtura;
-        
+
         /// <summary>
         /// ddlGrupoDistritos control.
         /// </summary>
@@ -812,7 +814,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGrupoDistritos;
-        
+
         /// <summary>
         /// ddlDistritos control.
         /// </summary>
@@ -821,7 +823,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDistritos;
-        
+
         /// <summary>
         /// ddlDistritosZonas control.
         /// </summary>
@@ -830,7 +832,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDistritosZonas;
-        
+
         /// <summary>
         /// ddlDistritosSubZonas control.
         /// </summary>
@@ -839,7 +841,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDistritosSubZonas;
-        
+
         /// <summary>
         /// updDistritos control.
         /// </summary>
@@ -848,7 +850,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updDistritos;
-        
+
         /// <summary>
         /// grdDistritos control.
         /// </summary>
@@ -857,7 +859,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdDistritos;
-        
+
         /// <summary>
         /// btnAgregarDistrito control.
         /// </summary>
@@ -866,7 +868,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAgregarDistrito;
-        
+
         /// <summary>
         /// updBotonesGuardarSub control.
         /// </summary>
@@ -875,7 +877,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updBotonesGuardarSub;
-        
+
         /// <summary>
         /// btnGuardarSub control.
         /// </summary>
@@ -884,7 +886,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardarSub;
-        
+
         /// <summary>
         /// btnCancelarSub control.
         /// </summary>
@@ -893,7 +895,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelarSub;
-        
+
         /// <summary>
         /// UpdateProgress5 control.
         /// </summary>
@@ -902,7 +904,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress5;
-        
+
         /// <summary>
         /// updAgregarCalleSub control.
         /// </summary>
@@ -911,7 +913,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updAgregarCalleSub;
-        
+
         /// <summary>
         /// pnlagregarcallesub control.
         /// </summary>
@@ -920,7 +922,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlagregarcallesub;
-        
+
         /// <summary>
         /// ddlCalleSub control.
         /// </summary>
@@ -929,7 +931,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCalleSub;
-        
+
         /// <summary>
         /// txtNroPuertaSub control.
         /// </summary>
@@ -938,7 +940,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNroPuertaSub;
-        
+
         /// <summary>
         /// updBotonesGuardarCalleSub control.
         /// </summary>
@@ -947,7 +949,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updBotonesGuardarCalleSub;
-        
+
         /// <summary>
         /// UpdateProgress6 control.
         /// </summary>
@@ -956,7 +958,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress6;
-        
+
         /// <summary>
         /// btnGuardarCalleSub control.
         /// </summary>
@@ -965,7 +967,7 @@ namespace SGI.ABM.Ubicaciones {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardarCalleSub;
-        
+
         /// <summary>
         /// btnCancelCalleSub control.
         /// </summary>

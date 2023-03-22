@@ -426,7 +426,7 @@ namespace SGI.GestionTramite
             txtFechaLibradoUsoHasta.Text = "";
             txtSuperficieDesde.Text = "";
             txtSuperficieHasta.Text = "";
-            ddlCalles.ClearSelection();
+            AutocompleteCalles.ClearSelection();
             txtUbiNroPuertaDesde.Text = "";
             txtUbiNroPuertaHasta.Text = "";
             ddlVereda.SelectedIndex = 0;
@@ -460,19 +460,7 @@ namespace SGI.GestionTramite
 
         private void CargarCalles()
         {
-            var lstCalles = (from calle in db.Calles
-                             select new
-                             {
-                                 calle.Codigo_calle,
-                                 calle.NombreOficial_calle
-                             }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-
-            ddlCalles.DataSource = lstCalles;
-            ddlCalles.DataTextField = "NombreOficial_calle";
-            ddlCalles.DataValueField = "Codigo_calle";
-            ddlCalles.DataBind();
-
-            ddlCalles.Items.Insert(0, "");
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         protected void btnBuscar_OnClick(object sender, EventArgs e)
@@ -858,11 +846,15 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text))
-                && ddlCalles.SelectedValue == "")
+           if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
+               && ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey) == ""))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
+
+            idAux = 0;
+            int.TryParse(AutocompleteCalles.SelectValueByKey, out idAux);
+            this.id_calle = idAux;
 
             idAux = 0;
             if (int.TryParse(ddlZona.SelectedValue, out idAux) && idAux > 0)
@@ -876,9 +868,7 @@ namespace SGI.GestionTramite
             if (int.TryParse(ddlComuna.SelectedValue, out idAux) && idAux > 0)
                 this.id_comuna = idAux;
 
-            idAux = 0;
-            if (int.TryParse(ddlCalles.SelectedValue, out idAux) && idAux > 0)
-                this.id_calle = idAux;
+          
 
             idAux = 0;
             if (int.TryParse(txtUbiNroPuertaDesde.Text.Trim(), out idAux))
@@ -1047,9 +1037,9 @@ namespace SGI.GestionTramite
             hid_grupocircuito_selected.Value = filtros.codGrupoCircuito;
 
             if (String.IsNullOrWhiteSpace(filtros.id_calle))
-                ddlCalles.SelectedValue = "Todos";
+                AutocompleteCalles.Value = "Todos";
             else
-                ddlCalles.SelectedValue = filtros.id_calle;
+                AutocompleteCalles.Value = filtros.id_calle;
 
             txtUbiNroPuertaDesde.Text = filtros.nro_calle_desde;
             txtUbiNroPuertaHasta.Text = filtros.nro_calle_hasta;
@@ -1470,7 +1460,7 @@ namespace SGI.GestionTramite
                 if (int.TryParse(ddlComuna.SelectedValue, out idAux) && idAux > 0)
                     this.id_comuna = idAux;
 
-                if (int.TryParse(ddlCalles.SelectedValue, out idAux) && idAux > 0)
+                if (int.TryParse(AutocompleteCalles.Value, out idAux) && idAux > 0)
                     this.id_calle = idAux;
 
                 if (string.IsNullOrWhiteSpace(txtUbiNroPuertaDesde.Text))
