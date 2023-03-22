@@ -1128,7 +1128,7 @@ namespace SGI
                 fechaCierreDesde = txtFechaCierreDesde.Text,
                 fechaCierreHasta = txtFechaCierreHasta.Text,
                 nro_partida_matriz = txtUbiNroPartida.Text,
-                id_calle = AutocompleteCalles.SelectValueByKey.ToString(),
+                id_calle = String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey) ? "" : AutocompleteCalles.SelectValueByKey,
                 nro_calle = txtUbiNroPuerta.Text,
                 uf = txtUF.Text,
                 torre = txtTorre.Text,
@@ -1224,11 +1224,11 @@ namespace SGI
             if (String.IsNullOrWhiteSpace(filtros.id_calle))
             {
 
-                AutocompleteCalles.SelectValueByKey = "Todos";
+                AutocompleteCalles.Value = "Todos";
             }
             else
             {
-                AutocompleteCalles.SelectValueByKey = filtros.id_calle.ToString();
+                AutocompleteCalles.Value = filtros.id_calle.ToString();
             }
             txtUbiNroPartida.Text = filtros.nro_partida_matriz;
             txtUbiNroPuerta.Text = filtros.nro_calle;

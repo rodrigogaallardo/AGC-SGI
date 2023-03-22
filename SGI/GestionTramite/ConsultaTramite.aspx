@@ -407,13 +407,6 @@
     }
 
 
-    function inicializar_autocomplete() {
-        $("#<%: ddlCalles.ClientID %>").select2({
-            minimumInputLength: 3
-        });
-    }
-
-
     function bt_btnUpDown_collapse_click(obj) {
         var href_collapse = $(obj).attr("href");
 
