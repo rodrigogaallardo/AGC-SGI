@@ -321,13 +321,13 @@ namespace SGI.ABM.Ubicaciones
         protected global::System.Web.UI.WebControls.Label lblUbiCalle;
 
         /// <summary>
-        /// ddlUbiCalle control.
+        /// AutocompleteCalles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlUbiCalle;
+        protected global::Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles;
 
         /// <summary>
         /// lblUbiNroPuerta control.
@@ -924,13 +924,13 @@ namespace SGI.ABM.Ubicaciones
         protected global::System.Web.UI.WebControls.Panel pnlagregarcallesub;
 
         /// <summary>
-        /// ddlCalleSub control.
+        /// AutocompleteCallesSub control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCalleSub;
+        protected global::Syncfusion.JavaScript.Web.Autocomplete AutocompleteCallesSub;
 
         /// <summary>
         /// txtNroPuertaSub control.

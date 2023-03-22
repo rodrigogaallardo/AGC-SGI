@@ -173,7 +173,7 @@ namespace SGI.ABM.Ubicaciones
         private void LimpiarAgregarParASub()
         {
             txtUbiNroPartida.Text = "";
-            ddlUbiCalle.ClearSelection();
+            AutocompleteCalles.ClearSelection();
             txtUbiNroPuerta.Text = "";
             txtUbiSeccion.Text = "";
             txtUbiManzana.Text = "";
@@ -522,44 +522,12 @@ namespace SGI.ABM.Ubicaciones
 
         private void CargarComboCalles()
         {
-            using (DGHP_Entities db = new DGHP_Entities())
-            {
-                var lstCalles = (from cal in db.Calles
-                                 select new ItemCalle
-                                 {
-                                     NombreOficial_calle = cal.NombreOficial_calle,
-                                     Codigo_calle = cal.Codigo_calle
-                                     //AlturaMin = cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle,
-                                     //AlturaMax = cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle
-                                 }).Distinct().OrderBy(x => x.NombreOficial_calle);
-
-                ddlUbiCalle.DataTextField = "NombreOficial_calle";
-                ddlUbiCalle.DataValueField = "Codigo_calle";
-                ddlUbiCalle.DataSource = lstCalles.ToList();
-                ddlUbiCalle.DataBind();
-                ddlUbiCalle.Items.Insert(0, "");
-            }
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         private void CargarComboCallesSub()
         {
-            using (DGHP_Entities db = new DGHP_Entities())
-            {
-                var lstCalles = (from cal in db.Calles
-                                 select new ItemCalle
-                                 {
-                                     NombreOficial_calle = cal.NombreOficial_calle,
-                                     Codigo_calle = cal.Codigo_calle
-                                     //AlturaMin = cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle,
-                                     //AlturaMax = cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle
-                                 }).Distinct().OrderBy(x => x.NombreOficial_calle);
-
-                ddlCalleSub.DataTextField = "NombreOficial_calle";
-                ddlCalleSub.DataValueField = "Codigo_calle";
-                ddlCalleSub.DataSource = lstCalles.ToList();
-                ddlCalleSub.DataBind();
-                ddlCalleSub.Items.Insert(0, "");
-            }
+            Functions.CargarAutocompleteCalles(AutocompleteCallesSub);
         }
 
         #endregion
@@ -1381,12 +1349,13 @@ namespace SGI.ABM.Ubicaciones
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && string.IsNullOrEmpty(ddlUbiCalle.SelectedItem.Text))
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && 
+                string.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
-            this.cod_calle = ddlUbiCalle.SelectedValue;
+            this.cod_calle = AutocompleteCalles.SelectValueByKey;
 
             int.TryParse(txtUbiNroPuerta.Text.Trim(), out idAux);
             this.nro_puerta = idAux;
@@ -1995,7 +1964,7 @@ namespace SGI.ABM.Ubicaciones
                 int nroPuertaUbi = 0;
                 int codCalle = 0;
                 int.TryParse(txtNroPuertaSub.Text.Trim(), out nroPuertaUbi);
-                int.TryParse(ddlCalleSub.SelectedValue, out codCalle);
+                int.TryParse(AutocompleteCallesSub.SelectValueByKey, out codCalle);
                 string txtCalle = GetNombreCalle(codCalle, nroPuertaUbi);
                 if (txtCalle != "" && !ubicacionRepetida(txtCalle, nroPuertaUbi))
                 {

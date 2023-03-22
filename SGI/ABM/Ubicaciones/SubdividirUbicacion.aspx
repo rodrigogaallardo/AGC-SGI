@@ -64,7 +64,7 @@
                                                 </div>
                                                 <br />
                                                 <asp:GridView ID="grdParcelaASubdiv" runat="server" AutoGenerateColumns="false" Visible="true"
-                                                    GridLines="None" CssClass="table table-bordered" SelectMethod="GetResultado" AllowPaging="true" >
+                                                    GridLines="None" CssClass="table table-bordered" SelectMethod="GetResultado" AllowPaging="true">
                                                     <Columns>
                                                         <asp:BoundField DataField="partida" HeaderText="Partida Matriz" ItemStyle-Width="80px" HeaderStyle-ForeColor="#0088cc" ItemStyle-CssClass="text-center" />
                                                         <asp:BoundField DataField="seccion" HeaderText="Seccion" ItemStyle-CssClass="text-center" HeaderStyle-ForeColor="#0088cc" ItemStyle-Width="20px" />
@@ -322,18 +322,18 @@
                                                                 <div class="form-horizontal">
                                                                     <fieldset>
                                                                         <div class="control-group">
-                                                                            <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="ddlUbiCalle"
+                                                                            <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
                                                                                 CssClass="control-label">Búsqueda de Calle:</asp:Label>
                                                                             <div class="controls">
-                                                                                <asp:DropDownList ID="ddlUbiCalle" runat="server" Width="500px"></asp:DropDownList>
-                                                                            </div>
+                                                                               <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"/>
+                                                                           </div>
                                                                         </div>
                                                                         <div class="control-group">
                                                                             <asp:Label ID="lblUbiNroPuerta" runat="server" AssociatedControlID="txtUbiNroPuerta"
                                                                                 CssClass="control-label">Nro. Puerta:</asp:Label>
                                                                             <div class="controls">
                                                                                 <asp:TextBox ID="txtUbiNroPuerta" runat="server" MaxLength="10" Width="50px"
-                                                                                    CssClass="input-xlarge">
+                                                                                     CssClass="input-xlarge">
                                                                                 </asp:TextBox>
                                                                             </div>
                                                                         </div>
@@ -919,8 +919,7 @@
                                 <div class="control-group">
                                     <label class="control-label">Calle:</label>
                                     <div class="controls">
-                                        <asp:DropDownList ID="ddlCalleSub" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList>
-
+                                       <ej:Autocomplete ID="AutocompleteCallesSub" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"/>
                                         <div id="Req_txtCalleSub" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
                                             Debe ingresar el nombre de la calle.
                                         </div>
@@ -1038,9 +1037,6 @@
         }
 
         function init_Js_updpnlBuscar() {
-            $("#<%: ddlUbiCalle.ClientID %>").select2({
-                allowClear: true
-            });
             $("#Val_CallePuerta").hide();
             $("#Val_TipoSubtipo").hide();
             $("#ValFields").hide();
@@ -1051,11 +1047,7 @@
         function init_Js_updUbiAgregarUbicacion() {
             $("#<%: txtUbiNroPuerta.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '99999' });
 
-            $("#<%: ddlUbiCalle.ClientID %>").select2({
-                allowClear: true,
-                placeholder: "Seleccione una calle",
-                minimumInputLength: 2
-            });
+           
 
             $("#<%: txtUbiNroPuerta.ClientID %>").on("keyup", function () {
                 $("#Req_txtNroPuertaParametro").hide();
@@ -1067,11 +1059,7 @@
         function init_Js_updAgregarCalleSub() {
             $("#<%: txtNroPuertaSub.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '99999' });
 
-            $("#<%: ddlCalleSub.ClientID %>").select2({
-                allowClear: true,
-                placeholder: "Seleccione una calle",
-                minimumInputLength: 2
-            });
+           
 
             $("#<%: txtNroPuertaSub.ClientID %>").on("keyup", function () {
                 $("#Req_txtNroPuertaParametro").hide();
@@ -1154,7 +1142,7 @@
             //ddlUbiTipoUbicacion
             if ($("#buscar_ubi_por_dom").css("display") != "none") {
 
-                var calle = $('#<%: ddlUbiCalle.ClientID %>').val();
+                var calle = $('#<%: AutocompleteCalles.ClientID %>').val();
                 var nropuerta = $('#<%: txtUbiNroPuerta.ClientID %>').val();
                 if (calle.length == 0 && nropuerta.length > 0) {
                     $("#Val_CallePuerta").css("display", "inline-block");
@@ -1172,15 +1160,15 @@
             }
 
             if ($("#MainContent_txtUbiNroPartida").val().length == 0 &&
-                 $("#MainContent_ddlUbiCalle").val().length == 0 &&
-                 $("#MainContent_txtUbiNroPuerta").val() == 0 &&
-                 $("#MainContent_txtUbiSeccion").val() == 0 &&
-                 $("#MainContent_txtUbiManzana").val() == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_ddlUbiTipoUbicacion").val() == 0
-                ) {
+                $("#MainContent_AutocompleteCalles").val().length == 0 &&
+                $("#MainContent_txtUbiNroPuerta").val() == 0 &&
+                $("#MainContent_txtUbiSeccion").val() == 0 &&
+                $("#MainContent_txtUbiManzana").val() == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_ddlUbiTipoUbicacion").val() == 0
+            ) {
                 $("#ValFields").css("display", "inline-block");
                 ret = false;
             }
@@ -1220,193 +1208,191 @@
                 $("#MainContent_divPhDadaDBaja").show();
                 $("#<%: ddlBaja.ClientID %>").attr('selected', 'selected');
             }
-    }
-
-    function switchear_buscar_ubicacion(btn) {
-
-        if (btn == 1) {
-            $("#buscar_ubi_por_partida").show();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").addClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-
         }
-        else if (btn == 2) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").show();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
 
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").addClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
+        function switchear_buscar_ubicacion(btn) {
+
+            if (btn == 1) {
+                $("#buscar_ubi_por_partida").show();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").addClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+
+            }
+            else if (btn == 2) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").show();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").addClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+            }
+            else if (btn == 3) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").show();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").addClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+            }
+            else if (btn == 4) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").show();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").addClass("active");
+            }
         }
-        else if (btn == 3) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").show();
-            $("#buscar_ubi_por_especial").hide();
 
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").addClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
+        function showResultado() {
+            $("#box_resultado").show("slow");
         }
-        else if (btn == 4) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").show();
 
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").addClass("active");
+        function hideResultado() {
+            $("#box_resultado").hide("slow");
+            $("#boxActivas").hide("slow");
         }
-    }
 
-    function showResultado() {
-        $("#box_resultado").show("slow");
-    }
-
-    function hideResultado() {
-        $("#box_resultado").hide("slow");
-        $("#boxActivas").hide("slow");
-    }
-
-    function showDatos() {
-        $("#boxActivas").hide("slow");
-        $("#filtros").hide("slow");
-        $("#box_datos").show("slow");
-    }
-
-    function showActivas() {
-        $("#box_resultado").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#boxActivas").show("slow");
-        $("#filtros").show("slow");
-    }
-
-    function newBusqueda() {
-        $("#boxActivas").hide("slow");
-        $("#box_resultado").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#filtros").show("slow");
-    }
-
-    function showBusqueda() {
-        $("#boxActivas").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#filtros").show("slow");
-    }
-
-    function showfrmError() {
-        $("#frmError").modal("show");
-        return false;
-    }
-
-    function finalizarCarga() {
-        $("#Loading").hide();
-        $("#page_content").show();
-        return false;
-    }
-
-    function validarGuardar() {
-        var ret = true;
-        hideSummary();
-
-        $("#Req_txtCalle1").hide();
-        $("#Req_txtNroPuerta1").hide();
-
-
-        if (ret) {
-            ocultarBotonesGuardar();
+        function showDatos() {
+            $("#boxActivas").hide("slow");
+            $("#filtros").hide("slow");
+            $("#box_datos").show("slow");
         }
-        else {
-            $("#ValSummary").css("display", "inline-block");
 
+        function showActivas() {
+            $("#box_resultado").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#boxActivas").show("slow");
+            $("#filtros").show("slow");
         }
-        return ret;
-    }
 
-    function ocultarBotonesGuardar() {
-        $("#pnlBotonesGuardar").hide();
-        return false;
-    }
+        function newBusqueda() {
+            $("#boxActivas").hide("slow");
+            $("#box_resultado").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#filtros").show("slow");
+        }
 
-    function init_Js_updpnlBuscar() {
-        $("#<%: ddlUbiCalle.ClientID %>").select2({
-            allowClear: true
-        });
-        $("#Val_CallePuerta").hide();
-        $("#Val_TipoSubtipo").hide();
-        $("#ValFields").hide();
+        function showBusqueda() {
+            $("#boxActivas").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#filtros").show("slow");
+        }
 
-        return false;
-    }
+        function showfrmError() {
+            $("#frmError").modal("show");
+            return false;
+        }
 
-    function validarGuardarCalleSub() {
-        var ret = true;
-        var calle;
-        var Nroinicio;
-        var Nrofinal;
-        var Nropuerta;
+        function finalizarCarga() {
+            $("#Loading").hide();
+            $("#page_content").show();
+            return false;
+        }
 
-        $("#Req_txtCalleSub").hide();
-        $("#Req_txtNroPuertaSub").hide();
-        $("#Req_txtNroPuertaSubParametro").hide();
+        function validarGuardar() {
+            var ret = true;
+            hideSummary();
 
-        if ($.trim($("#<%: ddlCalleSub.ClientID %> ").val()).length == 0) {
+            $("#Req_txtCalle1").hide();
+            $("#Req_txtNroPuerta1").hide();
+
+
+            if (ret) {
+                ocultarBotonesGuardar();
+            }
+            else {
+                $("#ValSummary").css("display", "inline-block");
+
+            }
+            return ret;
+        }
+
+        function ocultarBotonesGuardar() {
+            $("#pnlBotonesGuardar").hide();
+            return false;
+        }
+
+        function init_Js_updpnlBuscar() {
+           
+            $("#Val_CallePuerta").hide();
+            $("#Val_TipoSubtipo").hide();
+            $("#ValFields").hide();
+
+            return false;
+        }
+
+        function validarGuardarCalleSub() {
+            var ret = true;
+            var calle;
+            var Nroinicio;
+            var Nrofinal;
+            var Nropuerta;
+
+            $("#Req_txtCalleSub").hide();
+            $("#Req_txtNroPuertaSub").hide();
+            $("#Req_txtNroPuertaSubParametro").hide();
+
+            if ($.trim($("#<%: AutocompleteCallesSub.ClientID %> ").val()).length == 0) {
             $("#Req_txtCalleSub").css("display", "inline-block");
             ret = false;
         }
         else {
-            calle = $("#<%= ddlCalleSub.ClientID %> :selected").text().split('[');
+            calle = $("#<%= AutocompleteCallesSub.ClientID %> :selected").text().split('[');
             Nroinicio = parseInt(calle[1].split(' - ')[0]);
             Nrofinal = parseInt(((calle[1].split(' - ')[1]).split(']')[0]));
             Nropuerta = parseInt($.trim($("#<%: txtNroPuertaSub.ClientID %>").val()));
         }
 
         if ($.trim($("#<%: txtNroPuertaSub.ClientID %>").val()).length == 0) {
-            $("#Req_txtNroPuertaSub").css("display", "inline-block");
-            ret = false;
-        }
-        if (Nropuerta >= Nrofinal || Nropuerta <= Nroinicio) {
-            $("#Req_txtNroPuertaSubParametro").css("display", "inline-block");
-            ret = false;
-        }
-        if (ret) {
-            $("#updBotonesGuardarCalleSub").hide();
-        }
-        return ret;
-    }
-
-    function validarGuardarNuevaPartidaSub() {
-        var ret = true;
-
-        $("#Val_PartidaNuevaSub").hide();
-        $("#Req_Seccion").hide();
-        $("#Req_Subtipo").hide();
-        $("#Req_DistritoSub").hide();
-        $("#Req_MixturaSub").hide();
-        $("#Req_CalleSub").hide();
-
-            if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
-                    $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
-                    $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
-                    $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
-                $("#Req_Seccion").css("display", "inline-block");
+                $("#Req_txtNroPuertaSub").css("display", "inline-block");
                 ret = false;
             }
+            if (Nropuerta >= Nrofinal || Nropuerta <= Nroinicio) {
+                $("#Req_txtNroPuertaSubParametro").css("display", "inline-block");
+                ret = false;
+            }
+            if (ret) {
+                $("#updBotonesGuardarCalleSub").hide();
+            }
+            return ret;
+        }
 
-            if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
-                && $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "0") {
+        function validarGuardarNuevaPartidaSub() {
+            var ret = true;
+
+            $("#Val_PartidaNuevaSub").hide();
+            $("#Req_Seccion").hide();
+            $("#Req_Subtipo").hide();
+            $("#Req_DistritoSub").hide();
+            $("#Req_MixturaSub").hide();
+            $("#Req_CalleSub").hide();
+
+            if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
+            $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
+                $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
+                $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
+            $("#Req_Seccion").css("display", "inline-block");
+            ret = false;
+        }
+
+        if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
+            && $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "0") {
                 $("#Req_Subtipo").css("display", "inline-block");
                 ret = false;
             }
