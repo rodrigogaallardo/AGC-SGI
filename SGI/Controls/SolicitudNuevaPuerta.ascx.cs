@@ -67,7 +67,7 @@ namespace SGI.Controls
 
                 HiddenField hid_id_ubicacion = (HiddenField)e.Row.FindControl("hid_id_ubicacion");
                 DataList lstPuertas = (DataList)e.Row.FindControl("lstPuertas");
-                Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles = (Syncfusion.JavaScript.Web.Autocomplete)e.Row.FindControl("AutocompleteCalles");
+                Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles_NP = (Syncfusion.JavaScript.Web.Autocomplete)e.Row.FindControl("AutocompleteCalles_NP");
 
                 int id_ubicacion = int.Parse(hid_id_ubicacion.Value);
 
@@ -90,15 +90,9 @@ namespace SGI.Controls
 
                 lstPuertas.DataSource = ubicacion.GetPuertas();
                 lstPuertas.DataBind();
-
-                Functions.CargarAutocompleteCalles(AutocompleteCalles);
-               
-
-                
+                    
                 db.Dispose();
-
-
-
+                Functions.CargarAutocompleteCalles(AutocompleteCalles_NP);
             }
 
         }
@@ -110,14 +104,14 @@ namespace SGI.Controls
             {
                 Guid userid = SGI.Functions.GetUserId();
                 GridViewRow row = gridubicacion.Rows[0];
-                DropDownList ddlCalles_NP = (DropDownList)row.FindControl("ddlCalles_NP");
+                Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles_NP = (Syncfusion.JavaScript.Web.Autocomplete)row.FindControl("AutocompleteCalles_NP");
                 TextBox txtNroPuerta_NP = (TextBox)row.FindControl("txtNroPuerta_NP");
                 HiddenField hid_id_ubicacion = (HiddenField)row.FindControl("hid_id_ubicacion");
 
                 int id_ubicacion = int.Parse(hid_id_ubicacion.Value);
                 int NroPuerta = int.Parse(txtNroPuerta_NP.Text);
 
-                Mailer.MailMessages.MailSolicitudNuevaPuerta(userid, id_ubicacion, ddlCalles_NP.SelectedItem.Text, NroPuerta);
+                Mailer.MailMessages.MailSolicitudNuevaPuerta(userid, id_ubicacion, AutocompleteCalles_NP.Value, NroPuerta);
                 
                 btnEnviarMail.Visible = false;
                 pnlEnviadoOK.Visible = true;

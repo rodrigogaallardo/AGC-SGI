@@ -78,10 +78,10 @@ namespace SGI.Controls
             }
             if (!IsPostBack)
             {
-                CargarCalles();
+              
                 CargarComboTipoUbicacion();
             }
-
+            CargarCalles();
         }
 
         private void Inicilizar_Control()
