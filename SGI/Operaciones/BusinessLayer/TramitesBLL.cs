@@ -175,7 +175,7 @@ namespace SGI.BusinessLogicLayer
                                                               id_estado = tr.id_estado
                                                           }).ToList<SSIT_Solicitudes_Model>();
 
-                    if (solicitudesNotificadas.Count == 0)
+                    if (solicitudesNotificadas.Count == 0 || IdNotificacionMotivo == 13)
                     {
                         List<string> emailsNotificados;
                         switch (IdNotificacionMotivo)

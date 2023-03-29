@@ -262,7 +262,8 @@ namespace SGI.GestionTramite.Controls
                             {
 
                                 SSIT_Solicitudes_Notificaciones notificacion = (from n in ftx.SSIT_Solicitudes_Notificaciones
-                                                                                where n.id_solicitud == id_solicitud
+                                                                                where n.id_solicitud == id_solicitud 
+                                                                                && n.id_email == mailIdInt
                                                                                 select n).FirstOrDefault();
 
 
@@ -296,6 +297,7 @@ namespace SGI.GestionTramite.Controls
                             {
                                 Transf_Solicitudes_Notificaciones notificacion = (from n in ftx.Transf_Solicitudes_Notificaciones
                                                                                   where n.id_solicitud == id_solicitud
+                                                                                  && n.id_email == mailIdInt
                                                                                   select n).FirstOrDefault();
 
 
@@ -303,6 +305,7 @@ namespace SGI.GestionTramite.Controls
                                                 where mail.id_email == mailIdInt
                                                 select mail).FirstOrDefault();
 
+                                ftx.Transf_Solicitudes_Notificaciones.Remove(notificacion);
                                 ftx.Emails.Remove(email);
                                 ftx.SaveChanges();
                             }
