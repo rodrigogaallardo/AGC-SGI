@@ -26,6 +26,11 @@ namespace SGI
             //{
             //    ScriptManager.RegisterStartupScript(updPnlFiltroCaducar, updPnlFiltroCaducar.GetType(),"inicializar_controles", "inicializar_controles();", true);
             //}
+            #region RedirectToLoginPage
+            MembershipUser usu = Membership.GetUser();
+            if (usu == null)
+                FormsAuthentication.RedirectToLoginPage();
+            #endregion
 
             if (!IsPostBack)
             {
@@ -34,6 +39,9 @@ namespace SGI
                 ddlNotificaciones_motivos.DataTextField = "NotificacionMotivo";
                 ddlNotificaciones_motivos.DataValueField = "IdNotificacionMotivo";
                 ddlNotificaciones_motivos.DataBind();
+                string idSolicitudStr = (Request.QueryString["idSolicitud"] == null) ? "" : Request.QueryString["idSolicitud"].ToString();
+                txtNroSolicitud.Text = idSolicitudStr;
+                btnBuscar_OnClick(sender, e);
             }
             
         }
@@ -60,14 +68,19 @@ namespace SGI
 
         private void LimpiarCampos()
         {     
-            txtNroSolicitud.Text = string.Empty;
+            txtNroSolicitud.Text = string.Empty;            
             
         }
 
         protected void btnLimpiar_OnClick(object sender, EventArgs e)
         {
+           ucNotificacionesEditar uc = new ucNotificacionesEditar();
+            int solicitud = 0;
+            ucNotificacionesEditar.LoadData(solicitud);
             LimpiarCampos();
+            
         }
+
 
         protected void btnNotificar_OnClick(object sender, EventArgs e)
         {

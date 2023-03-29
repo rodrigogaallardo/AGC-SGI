@@ -17,7 +17,7 @@
 
     <div class="accordion-body collapse in" id="collapseNoti">
         <div class="widget-content">
-            <asp:Panel ID="pnlResultadoBuscar" runat="server">
+            <asp:Panel runat="server" ID="pnlResultadoBuscar">
                 <asp:UpdatePanel ID="updPnlNotificaciones" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
                         <asp:HiddenField ID="hfMailID" runat="server" />
