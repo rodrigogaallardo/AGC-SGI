@@ -2494,12 +2494,12 @@ namespace SGI.Mailer
                 emails.AddRange(GetEmailPersonaJuridica(db, nroSolicitud));
                 emails.AddRange(GetEmailProfesionales(db, nroSolicitud));
 
-                string asunto = "Sol - " + nroSolicitud.ToString()+ " - " + txtAsunto.ToString();
+                string asunto = "Sol - " + nroSolicitud.ToString() + " - " + txtAsunto.ToString();
                 string html = txtMensaje;
 
                 var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, html, emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(nroSolicitud, idEmail, idNotificacionMotivo, db, fechaNotificacion);
                 }
@@ -2507,7 +2507,41 @@ namespace SGI.Mailer
                 db.SaveChanges();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void SendMail_Rectificada(int idNotificacionMotivo, int nroSolicitud, DateTime fechaNotificacion, string mensaje)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            try
+            {
+                var user = GetUsuario(db, nroSolicitud);
+                var emails = new List<string>
+                {
+                    user.Email
+                };
+
+                emails.AddRange(GetEmailPersonaFisica(db, nroSolicitud));
+                emails.AddRange(GetEmailPersonaJuridica(db, nroSolicitud));
+                emails.AddRange(GetEmailProfesionales(db, nroSolicitud));
+
+                string asunto = "Sol - " + nroSolicitud.ToString() + " - Rectificación de Baja";
+                string html = $"Sr. Contribuyente, la Baja de la Solicitud N° {nroSolicitud} ha sido rectificada.";
+
+                var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, html, emails);
+
+                foreach (int idEmail in idEmails)
+                {
+                    CrearNotificacion(nroSolicitud, idEmail, idNotificacionMotivo, db, fechaNotificacion);
+                }
+
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

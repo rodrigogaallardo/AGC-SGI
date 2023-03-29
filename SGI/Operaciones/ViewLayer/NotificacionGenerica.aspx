@@ -1,6 +1,8 @@
 ﻿<%@  Title="Notificaciones de una Solicitud" Language="C#" MasterPageFile="~/Site.Master"
     AutoEventWireup="true" CodeBehind="NotificacionGenerica.aspx.cs" Inherits="SGI.NotificacionGenerica" %>
 
+<%@ Register Src="~/GestionTramite/Controls/ucNotificacionesEditar.ascx" TagPrefix="uc1" TagName="ucNotificacionesEditar"%>
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript">
@@ -146,7 +148,6 @@
             </div>
         </div>
     </div>
-    
 
         <!-- Initialize Quill editor -->
     <script>

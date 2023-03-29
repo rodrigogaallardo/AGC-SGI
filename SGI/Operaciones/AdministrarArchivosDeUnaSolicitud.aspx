@@ -13,7 +13,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     
-    <%: Scripts.Render("~/bundles/autoNumeric") %>
+    <%: Scripts.Render("~/bundles/autoNumeric") %><q></q>
     <%: Scripts.Render("~/bundles/select2") %>
     <%: Styles.Render("~/bundles/select2Css") %>
     <script src="../Scripts/Select2-locales/select2_locale_es.js"></script>

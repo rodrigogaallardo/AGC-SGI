@@ -145,6 +145,8 @@ namespace SGI.BusinessLogicLayer
                         case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
                             //NO SE VALIDA
                             break;
+                        case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.RectificacionDeBaja:
+                            break;
                         default:
                             break;
                     }
@@ -202,6 +204,9 @@ namespace SGI.BusinessLogicLayer
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
                                 Mailer.MailMessages.SendMail_Otros(IdNotificacionMotivo,id_solicitud, fechaNotificacion, asunto, mensaje);
+                                break;
+                            case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.RectificacionDeBaja:
+                                Mailer.MailMessages.SendMail_Rectificada(IdNotificacionMotivo, id_solicitud, fechaNotificacion, mensaje);
                                 break;
                             default:
                                 Mailer.MailMessages.SendMail_Generic(solicitud.id_solicitud, IdNotificacionMotivo, fechaNotificacion);
