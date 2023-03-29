@@ -730,6 +730,7 @@
     <Content Include="GestionTramite\Controls\ucEncomienda.ascx" />
     <Content Include="GestionTramite\Controls\ucHistorial.ascx" />
     <Content Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx" />
+    <Content Include="GestionTramite\Controls\ucNotificacionesEditar.ascx" />
     <Content Include="GestionTramite\Controls\ucRubros.ascx" />
     <Content Include="GestionTramite\Controls\ucSGI_ListaPlanoVisado.ascx" />
     <Content Include="GestionTramite\Controls\ucTitulares.ascx" />
@@ -2290,6 +2291,13 @@
     </Compile>
     <Compile Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx.designer.cs">
       <DependentUpon>ucListaDocumentosSSIT.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.cs">
+      <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.designer.cs">
+      <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
     </Compile>
     <Compile Include="GestionTramite\Controls\ucRubros.ascx.cs">
       <DependentUpon>ucRubros.ascx</DependentUpon>

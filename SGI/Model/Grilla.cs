@@ -684,6 +684,7 @@ namespace SGI.Model
     //}
     public partial class clsItemGrillaBuscarMails
     {
+        public int id_solicitud { get; set; }
         public string Mail_ID { get; set; }
         public string Mail_Estado { get; set; }
         public string Mail_Proceso { get; set; }

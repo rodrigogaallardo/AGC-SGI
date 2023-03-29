@@ -11,7 +11,7 @@ namespace SGI.GestionTramite.Controls
 {
 
 
-    public partial class ucNotificaciones
+    public partial class ucNotificacionesEditar
     {
 
         /// <summary>
@@ -22,6 +22,15 @@ namespace SGI.GestionTramite.Controls
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_lNot_collapse;
+
+        /// <summary>
+        /// Control pnlResultadoBuscar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlResultadoBuscar;
 
         /// <summary>
         /// Control updPnlNotificaciones.
@@ -42,12 +51,12 @@ namespace SGI.GestionTramite.Controls
         protected global::System.Web.UI.WebControls.HiddenField hfMailID;
 
         /// <summary>
-        /// Control grdBuscarMails.
+        /// Control grdBuscarNotis.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdBuscarMails;
+        protected global::System.Web.UI.WebControls.GridView grdBuscarNotis;
     }
 }
