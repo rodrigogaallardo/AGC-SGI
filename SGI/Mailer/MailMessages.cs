@@ -162,9 +162,26 @@ namespace SGI.Mailer
             string emailHtml = reader.ReadToEnd();
             reader.Dispose();
             response.Dispose();
-
+            
             return emailHtml;
         }
+        public static string htmlMail_RectificacionBajaSolicitud()
+        {
+            Control ctl = new Control();
+            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRectificacionBaja.aspx");
+            surl = BasePage.IPtoDomain(surl);
+
+            WebRequest request = WebRequest.Create(surl);
+            WebResponse response = request.GetResponse();
+
+            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            string emailHtml = reader.ReadToEnd();
+            reader.Dispose();
+            response.Dispose();
+            
+            return emailHtml;
+        }
+
         public static string htmlMail_RechazoSolicitud()
         {
             Control ctl = new Control();
@@ -2529,9 +2546,9 @@ namespace SGI.Mailer
                 emails.AddRange(GetEmailProfesionales(db, nroSolicitud));
 
                 string asunto = "Sol - " + nroSolicitud.ToString() + " - Rectificación de Baja";
-                string html = $"Sr. Contribuyente, la Baja de la Solicitud N° {nroSolicitud} ha sido rectificada.";
+                //string html = $"Sr. Contribuyente, la Baja de la Solicitud N° {nroSolicitud} ha sido rectificada.";
 
-                var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, html, emails);
+                var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, htmlMail_RectificacionBajaSolicitud(), emails);
 
                 foreach (int idEmail in idEmails)
                 {
