@@ -11,7 +11,7 @@ namespace SGI.Mailer
 {
 
 
-    public partial class MailObservacionSolicitud
+    public partial class MailRectificacionBaja
     {
     }
 }

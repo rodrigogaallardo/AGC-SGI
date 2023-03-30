@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace SGI.Mailer
 {
-    public partial class MailObservacionSolicitud : System.Web.UI.Page
+    public partial class MailRectificacionBaja : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
