@@ -821,6 +821,7 @@
     <Content Include="Mailer\MailCaducidad.aspx" />
     <Content Include="Mailer\MailCambioEstado.aspx" />
     <Content Include="Mailer\MailLevantamientoRechazo.aspx" />
+    <Content Include="Mailer\MailRectificacionBaja.aspx" />
     <Content Include="Mailer\MailObservacionSolicitud.aspx" />
     <Content Include="Mailer\MailQrDisponible.aspx" />
     <Content Include="Mailer\MailRechazoSolicitud.aspx" />
@@ -2905,6 +2906,13 @@
     </Compile>
     <Compile Include="Mailer\MailLevantamientoRechazo.aspx.designer.cs">
       <DependentUpon>MailLevantamientoRechazo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mailer\MailRectificacionBaja.aspx.cs">
+      <DependentUpon>MailRectificacionBaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mailer\MailRectificacionBaja.aspx.designer.cs">
+      <DependentUpon>MailRectificacionBaja.aspx</DependentUpon>
     </Compile>
     <Compile Include="Mailer\MailObservacionSolicitud.aspx.cs">
       <DependentUpon>MailObservacionSolicitud.aspx</DependentUpon>
