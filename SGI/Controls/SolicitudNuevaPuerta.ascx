@@ -89,7 +89,7 @@
                                             <td>Calle:
                                             </td>
                                             <td class="pleft5">
-                                            <ej:Autocomplete ID="AutocompleteCalles_NP" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"/>
+                                            <ej:Autocomplete ID="AutocompleteCalles_NP" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
                                        </td>
                                         </tr>
                                         <tr>

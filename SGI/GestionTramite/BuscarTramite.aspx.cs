@@ -601,7 +601,7 @@ namespace SGI
                 CallesComboList.Add(component);
             }
 
-            AutocompleteCalles.DataSource = lstCalles;
+            AutocompleteCalles.DataSource = CallesComboList;
 
         }
 

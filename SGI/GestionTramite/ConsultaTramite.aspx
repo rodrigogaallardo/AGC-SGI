@@ -1,5 +1,5 @@
-﻿<%@  Title="Consulta del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ConsultaTramite.aspx.cs" Inherits="SGI.GestionTramite.ConsultaTramite" %>
-
+﻿<%@ Page Title="Consulta del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ConsultaTramite.aspx.cs" Inherits="SGI.GestionTramite.ConsultaTramite" %>
+<%@ Register Assembly="Syncfusion.EJ.Web" Namespace="Syncfusion.JavaScript.Web" TagPrefix="ejx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 
@@ -41,7 +41,7 @@
                 inicializar_popover();
                 inicializar_fechas();
                 camposAutonumericos();
-                inicializar_autocomplete();
+                //inicializar_autocomplete();
                 $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
@@ -741,8 +741,8 @@
                                             <div class="span5">
                                                 <asp:Label ID="lblTipoTramite" runat="server" AssociatedControlID="ddlTipoTramite"
                                                     Text="Tipo Trámite:" class="control-label"></asp:Label>
-                                                <div class="controls">
-                                                    <asp:DropDownList ID="ddlTipoTramite" runat="server" multiple="true" Width="300px"></asp:DropDownList>
+                                                <div class="controls" >
+                                                    <asp:DropDownList  ID="ddlTipoTramite" runat="server" multiple="true" Width="300px"></asp:DropDownList>
                                                     <asp:HiddenField ID="hid_tipotramite_selected" runat="server"></asp:HiddenField>
                                                 </div>
                                             </div>
@@ -885,7 +885,7 @@
                                                 <div class="controls">
                                                     <div class="clearfix">
                                                         <div class="pull-left">
-                                                     <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"/>
+                                                      <ejx:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
