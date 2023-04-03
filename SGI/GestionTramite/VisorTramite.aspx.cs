@@ -1,6 +1,9 @@
 ﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Elmah;
 using ExcelLibrary.BinaryFileFormat;
 using SGI.Model;
+using Syncfusion.JavaScript.DataVisualization.DiagramEnums;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -33,7 +36,8 @@ namespace SGI.GestionTramite
                         string circuito_origen = sol.circuito_origen;
                         bool BOLETA_0 = bool.Parse(ConfigurationManager.AppSettings["BOLETA_0_ACTIVO"]);
                         DateTime BOLETA_0_FECHA = DateTime.Parse(ConfigurationManager.AppSettings["BOLETA_0_FECHA"]);
-                        #region Busco id_grupo_circuito
+                      
+                        #region Busco cod_grupo_circuito
                         int id_tramitetarea = db.SGI_Tramites_Tareas_HAB.Where(x => x.id_solicitud == id_solicitud).Min(x => x.id_tramitetarea);
 
                         int id_tarea = (from u in db.SGI_Tramites_Tareas
@@ -61,19 +65,19 @@ namespace SGI.GestionTramite
                             if (id_tipotramite == (int)TipoDeTramite.Habilitacion)
                             {
                                 #region AGC
-                                int pagosAGCCount = ucPagos.PagosAGCCount(id_solicitud);
-                                if (pagosAGCCount > 0)
+                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAGC = ucPagos.PagosAGCList(id_solicitud);
+                                if (lstPagosAGC.Count > 0)
                                     flagAGC = true;
                                 else
                                     flagAGC = false;
                                 #endregion
 
-
+                     
                                 #region APRA
                                 if (cod_grupo_circuito == Constants.grupoCircuito.SSPA) 
                                 {
-                                    int pagosAPRACount = ucPagos.PagosAPRACount(id_solicitud);
-                                    if (pagosAPRACount>0)
+                                    List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = ucPagos.PagosAPRAList(id_solicitud);
+                                    if (lstPagosAPRA .Count> 0)
                                         flagAPRA = true;
                                     else
                                         flagAPRA = false;

@@ -399,14 +399,16 @@ namespace SGI.GestionTramite.Controls
 
         public void CargarPagosAGCVisibility( bool Visibility)
         {
-           grdPagosGeneradosBUI_AGC.Visible = Visibility;  
+          // grdPagosGeneradosBUI_AGC.Visible = Visibility;  
+            pnlAGC.Visible = Visibility;
         }
         public void CargarPagosAPRAVisibility(bool Visibility)
         {
-            grdPagosGeneradosBUI_APRA.Visible = Visibility;
+            //grdPagosGeneradosBUI_APRA.Visible = Visibility;
+            pnlAPRA.Visible = Visibility;
         }
 
-        public int PagosAGCCount(int id_solicitud)
+        public List<clsItemGrillaPagos> PagosAGCList(int id_solicitud)
         {
             List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
 
@@ -475,11 +477,11 @@ namespace SGI.GestionTramite.Controls
                 lstPagos.AddRange(PagosTransf);
             }
 
-            return lstPagos.Count;
+            return lstPagos;
 
         }
 
-        public int PagosAPRACount(int id_solicitud)
+        public List<clsItemGrillaPagos> PagosAPRAList(int id_solicitud)
         {
             List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
             List<int> lstEncomiendasRelacionadas = new List<int>();
@@ -538,7 +540,7 @@ namespace SGI.GestionTramite.Controls
                             estado = est.nom_estadopago,
                             desc_medio_pago = "Boleta única" // (p.id_medio_pago == 0 ? "Boleta única" : "Pago electrónico")
                         }).ToList();
-            return lstPagos.Count;
+            return lstPagos;
         }
     }
 
