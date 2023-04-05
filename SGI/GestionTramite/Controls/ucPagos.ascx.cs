@@ -399,12 +399,10 @@ namespace SGI.GestionTramite.Controls
 
         public void CargarPagosAGCVisibility( bool Visibility)
         {
-          // grdPagosGeneradosBUI_AGC.Visible = Visibility;  
             pnlAGC.Visible = Visibility;
         }
         public void CargarPagosAPRAVisibility(bool Visibility)
         {
-            //grdPagosGeneradosBUI_APRA.Visible = Visibility;
             pnlAPRA.Visible = Visibility;
         }
 

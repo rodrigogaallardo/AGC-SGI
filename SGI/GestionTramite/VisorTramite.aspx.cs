@@ -51,9 +51,6 @@ namespace SGI.GestionTramite
                                                  where u.id_circuito == id_circuito
                                                  select u.id_grupocircuito).FirstOrDefault();
 
-                        //string cod_grupo_circuito = (from u in db.ENG_Grupos_Circuitos
-                        //                   where u.id_grupo_circuito == id_grupocircuito
-                        //                   select u.cod_grupo_circuito).FirstOrDefault();
                         #endregion
 
                         bool flagAGC = true;
