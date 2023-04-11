@@ -114,6 +114,15 @@ namespace SGI.ABM
         protected global::Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles;
 
         /// <summary>
+        /// HidCalle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HidCalle;
+
+        /// <summary>
         /// lblUbiNroPuerta control.
         /// </summary>
         /// <remarks>
