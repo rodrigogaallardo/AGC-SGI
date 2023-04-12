@@ -266,9 +266,41 @@ namespace SGI.GestionTramite.Tareas
                         this.db.SGI_HAB_GenerarProcesos_SADE_v4(this.TramiteTarea, ucResultadoTarea.getIdProximaTarea(), userid); 
                     else
                         this.db.SGI_Tarea_Verificacion_IFCI_GenerarProcesos(this.TramiteTarea, ucResultadoTarea.getIdProximaTarea(), userid);
-                    ucResultadoTarea.btnFinalizar_Enabled = false;
-                    ucProcesosSADE.cargarDatosProcesos(this.TramiteTarea, true);
-                }else if (Functions.EsForzarTarasSade() || !ucProcesosSADE.hayProcesosPendientesSADE(this.TramiteTarea))
+                    if (db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0)
+                    {
+                        ucResultadoTarea.btnFinalizar_Enabled = false;
+                        ucProcesosSADE.cargarDatosProcesos(this.TramiteTarea, true);
+                    }
+                    else
+                    {
+                        TransactionScope Tran = new TransactionScope();
+
+                        try
+                        {
+                            Guardar_tarea(this.TramiteTarea, ucObservacionesTarea.Text, userid);
+                            db.SaveChanges();
+
+                            id_tramitetarea_nuevo = ucResultadoTarea.FinalizarTarea();
+
+                            Tran.Complete();
+                            Tran.Dispose();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (Tran != null)
+                                Tran.Dispose();
+                            LogError.Write(ex, "error en transaccion. pvh-ucResultadoTarea_FinalizarTareaClick");
+                            throw ex;
+                        }
+                        FinalizarEntity();
+
+                        Enviar_Mensaje("Se ha finalizado la tarea.", "");
+
+                        Redireccionar_VisorTramite();
+                    }
+
+                }
+                else if (Functions.EsForzarTarasSade() || !ucProcesosSADE.hayProcesosPendientesSADE(this.TramiteTarea))
                 {
                     TransactionScope Tran = new TransactionScope();
 
