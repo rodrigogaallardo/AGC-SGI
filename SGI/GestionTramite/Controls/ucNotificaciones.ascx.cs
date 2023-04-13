@@ -84,7 +84,29 @@ namespace SGI.GestionTramite.Controls
                             }
                         ).ToList();
 
-                var all = q.Union(qa);
+                var qr = (
+                            from mail in db.Emails
+                            join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
+                            join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
+                            join ac in db.SSIT_Solicitudes_AvisoRechazo on mail.id_email equals ac.id_email into pleft_ac
+                            from ac in pleft_ac.DefaultIfEmpty()
+                            where mail.asunto.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud ||
+                                mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
+
+                            orderby mail.id_email ascending
+                            select new clsItemGrillaBuscarMails()
+                            {
+                                Mail_ID = mail.id_email.ToString(),
+                                Mail_Estado = edo.descripcion,
+                                Mail_Proceso = tipo.descripcion,
+                                Mail_Asunto = mail.asunto,
+                                Mail_Email = mail.email,
+                                Mail_Fecha = (mail.fecha_envio == null) ? mail.fecha_alta : mail.fecha_envio,
+                                MailFechaNot_FechaSSIT = ac.fechaNotificacionSSIT
+                            }
+                        ).ToList();
+
+                var all = q.Union(qa).Union(qr);
                 if (all != null)
                     all = all.OrderBy(x => x.Mail_Fecha);
                 grdBuscarMails.DataSource = all;

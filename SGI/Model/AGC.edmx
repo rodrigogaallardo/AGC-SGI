@@ -284,8 +284,8 @@
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
           <Property Name="LastUpdateDate" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.CPadron_Planos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.CPadron_Planos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CPadron_Planos">
           <Key>
             <PropertyRef Name="id_cpadron_plano" />
@@ -1312,8 +1312,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.CPadron_Planos' does not have
           <Property Name="cfg_smpt_puerto" Type="int" />
           <Property Name="cfg_html" Type="nvarchar" MaxLength="2000" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.Envio_Mail_Send_Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.Envio_Mail_Send_Estado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Envio_Mail_Send_Estado">
           <Key>
             <PropertyRef Name="Estado_Proceso" />
@@ -1353,8 +1353,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.Envio_Mail_Send_Estado' does 
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.Estadisticas_Hoja2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.Estadisticas_Hoja2' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Estadisticas_Hoja2">
           <Key>
             <PropertyRef Name="id" />
@@ -2069,8 +2069,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.Estadisticas_Hoja2' does not 
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.RubrosCN_Historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.RubrosCN_Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="RubrosCN_Historial">
           <Key>
             <PropertyRef Name="IdRubrosCN_historial" />
@@ -3243,6 +3243,16 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.RubrosCN_Historial' does not 
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="fechaNotificacionSSIT" Type="datetime" />
         </EntityType>
+        <EntityType Name="SSIT_Solicitudes_AvisoRechazo">
+          <Key>
+            <PropertyRef Name="id_aviso" />
+          </Key>
+          <Property Name="id_aviso" Type="int" Nullable="false" />
+          <Property Name="id_solicitud" Type="int" Nullable="false" />
+          <Property Name="id_email" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="fechaNotificacionSSIT" Type="datetime" />
+        </EntityType>
         <EntityType Name="SSIT_Solicitudes_Baja">
           <Key>
             <PropertyRef Name="id_baja" />
@@ -3269,8 +3279,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.RubrosCN_Historial' does not 
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.SSIT_Solicitudes_Encomienda' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.SSIT_Solicitudes_Encomienda' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="SSIT_Solicitudes_Encomienda">
           <Key>
             <PropertyRef Name="id_sol_enc" />
@@ -4841,8 +4851,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.SSIT_Solicitudes_Encomienda' 
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsPagos_Parametros' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.wsPagos_Parametros' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="wsPagos_Parametros">
           <Key>
             <PropertyRef Name="id_param" />
@@ -4852,8 +4862,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsPagos_Parametros' does not 
           <Property Name="nom_param" Type="nvarchar" MaxLength="500" />
           <Property Name="valor_param" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsPagos_Procesados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.wsPagos_Procesados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="wsPagos_Procesados">
           <Key>
             <PropertyRef Name="id_pago_BU" />
@@ -4897,8 +4907,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsPagos_Procesados' does not 
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_Estados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.CAA_Estados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CAA_Estados">
           <Key>
             <PropertyRef Name="id_estado" />
@@ -4915,8 +4925,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_Estados' does not have a 
           <Property Name="orden" Type="int" Nullable="false" />
           <Property Name="visible_Aprob_prof" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_Solicitudes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.CAA_Solicitudes' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CAA_Solicitudes">
           <Key>
             <PropertyRef Name="id_solicitud" />
@@ -4955,8 +4965,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_Solicitudes' does not hav
           <Property Name="id_caa" Type="int" Nullable="false" />
           <Property Name="id_encomienda_agc" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_TiposDeCertificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.CAA_TiposDeCertificados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CAA_TiposDeCertificados">
           <Key>
             <PropertyRef Name="id_tipocertificado" />
@@ -4976,8 +4986,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.CAA_TiposDeCertificados' does
           <Property Name="AcronimoSADE" Type="nvarchar" MaxLength="20" />
           <Property Name="NombreArchivoCertificado" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.Files' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.Files' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Files">
           <Key>
             <PropertyRef Name="rowid" />
@@ -4997,8 +5007,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.Files' does not have a primar
           <Property Name="FileName" Type="varchar" MaxLength="1000" />
           <Property Name="Md5" Type="binary" MaxLength="32" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.PartidaHorizontal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.PartidaHorizontal' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="PartidaHorizontal">
           <Key>
             <PropertyRef Name="id_partidahorizontal" />
@@ -5020,8 +5030,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.PartidaHorizontal' does not h
           <Property Name="VigenciaHasta" Type="datetime" />
           <Property Name="baja_logica" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.sysjobs_historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.sysjobs_historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="sysjobs_historial">
           <Key>
             <PropertyRef Name="name" />
@@ -5033,8 +5043,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.sysjobs_historial' does not h
           <Property Name="run_status" Type="int" Nullable="false" />
           <Property Name="run_status_desc" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.sysjobs_vista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.sysjobs_vista' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="sysjobs_vista">
           <Key>
             <PropertyRef Name="name" />
@@ -5051,8 +5061,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.sysjobs_vista' does not have 
           <Property Name="freq_subday_type_desc" Type="varchar" MaxLength="4" />
           <Property Name="intervalo_minutos" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.vis_Certificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.vis_Certificados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vis_Certificados">
           <Key>
             <PropertyRef Name="id_certificado" />
@@ -5069,8 +5079,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.vis_Certificados' does not ha
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="item" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsEE_TareasDocumentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes.dbo.wsEE_TareasDocumentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="wsEE_TareasDocumentos">
           <Key>
             <PropertyRef Name="id_tarea_documento" />
@@ -7812,8 +7822,8 @@ warning 6002: The table/view 'DGHP_Solicitudes.dbo.wsEE_TareasDocumentos' does n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
         <Association Name="FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento" />-->
         <Association Name="FK_Rubros_CircuitoAtomatico_Zonas_Historial_Cambios_Rubros_Historial_Cambios">
           <End Role="Rubros_Historial_Cambios" Type="Self.Rubros_Historial_Cambios" Multiplicity="1" />
@@ -9635,6 +9645,30 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
               <PropertyRef Name="id_solicitud" />
             </Principal>
             <Dependent Role="SSIT_Solicitudes_AvisoCaducidad">
+              <PropertyRef Name="id_solicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SSIT_Solicitudes_AvisoRechazo_Emails">
+          <End Role="Emails" Type="Self.Emails" Multiplicity="1" />
+          <End Role="SSIT_Solicitudes_AvisoRechazo" Type="Self.SSIT_Solicitudes_AvisoRechazo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emails">
+              <PropertyRef Name="id_email" />
+            </Principal>
+            <Dependent Role="SSIT_Solicitudes_AvisoRechazo">
+              <PropertyRef Name="id_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes">
+          <End Role="SSIT_Solicitudes" Type="Self.SSIT_Solicitudes" Multiplicity="1" />
+          <End Role="SSIT_Solicitudes_AvisoRechazo" Type="Self.SSIT_Solicitudes_AvisoRechazo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SSIT_Solicitudes">
+              <PropertyRef Name="id_solicitud" />
+            </Principal>
+            <Dependent Role="SSIT_Solicitudes_AvisoRechazo">
               <PropertyRef Name="id_solicitud" />
             </Dependent>
           </ReferentialConstraint>
@@ -17225,6 +17259,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SSIT_Permisos_DatosAdicionales" EntityType="Self.SSIT_Permisos_DatosAdicionales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SSIT_Solicitudes" EntityType="Self.SSIT_Solicitudes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SSIT_Solicitudes_AvisoCaducidad" EntityType="Self.SSIT_Solicitudes_AvisoCaducidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SSIT_Solicitudes_AvisoRechazo" EntityType="Self.SSIT_Solicitudes_AvisoRechazo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SSIT_Solicitudes_Baja" EntityType="Self.SSIT_Solicitudes_Baja" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SSIT_Solicitudes_DatosLocal" EntityType="Self.SSIT_Solicitudes_DatosLocal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SSIT_Solicitudes_Firmantes_PersonasFisicas" EntityType="Self.SSIT_Solicitudes_Firmantes_PersonasFisicas" Schema="dbo" store:Type="Tables" />
@@ -19078,6 +19113,14 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <AssociationSet Name="FK_SSIT_Solicitudes_AvisoCaducidad_SSIT_Solicitudes" Association="Self.FK_SSIT_Solicitudes_AvisoCaducidad_SSIT_Solicitudes">
             <End Role="SSIT_Solicitudes" EntitySet="SSIT_Solicitudes" />
             <End Role="SSIT_Solicitudes_AvisoCaducidad" EntitySet="SSIT_Solicitudes_AvisoCaducidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SSIT_Solicitudes_AvisoRechazo_Emails" Association="Self.FK_SSIT_Solicitudes_AvisoRechazo_Emails">
+            <End Role="Emails" EntitySet="Emails" />
+            <End Role="SSIT_Solicitudes_AvisoRechazo" EntitySet="SSIT_Solicitudes_AvisoRechazo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes" Association="Self.FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes">
+            <End Role="SSIT_Solicitudes" EntitySet="SSIT_Solicitudes" />
+            <End Role="SSIT_Solicitudes_AvisoRechazo" EntitySet="SSIT_Solicitudes_AvisoRechazo" />
           </AssociationSet>
           <AssociationSet Name="FK_SSIT_Solicitudes_Baja_SSIT_Solicitudes" Association="Self.FK_SSIT_Solicitudes_Baja_SSIT_Solicitudes">
             <End Role="SSIT_Solicitudes" EntitySet="SSIT_Solicitudes" />
@@ -28267,6 +28310,15 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="id_proxima_tarea" Mode="In" Type="Int32" />
             <Parameter Name="userid" Mode="In" Type="Guid" />
           </FunctionImport>
+          <EntitySet Name="SSIT_Solicitudes_AvisoRechazo" EntityType="DGHP_Model.SSIT_Solicitudes_AvisoRechazo" />
+          <AssociationSet Name="FK_SSIT_Solicitudes_AvisoRechazo_Emails" Association="DGHP_Model.FK_SSIT_Solicitudes_AvisoRechazo_Emails">
+            <End Role="Emails" EntitySet="Emails" />
+            <End Role="SSIT_Solicitudes_AvisoRechazo" EntitySet="SSIT_Solicitudes_AvisoRechazo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes" Association="DGHP_Model.FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes">
+            <End Role="SSIT_Solicitudes" EntitySet="SSIT_Solicitudes" />
+            <End Role="SSIT_Solicitudes_AvisoRechazo" EntitySet="SSIT_Solicitudes_AvisoRechazo" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -32441,6 +32493,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SSIT_Solicitudes_Notificaciones" Relationship="DGHP_Model.FK_SSIT_Solicitudes_Notificaciones_Emails" FromRole="Emails" ToRole="SSIT_Solicitudes_Notificaciones" />
           <NavigationProperty Name="SSIT_Solicitudes_AvisoCaducidad" Relationship="DGHP_Model.FK_SSIT_Solicitudes_AvisoCaducidad_Emails" FromRole="Emails" ToRole="SSIT_Solicitudes_AvisoCaducidad" />
           <NavigationProperty Name="Transf_Solicitudes_AvisoCaducidad" Relationship="DGHP_Model.FK_Transf_Solicitudes_AvisoCaducidad_Emails" FromRole="Emails" ToRole="Transf_Solicitudes_AvisoCaducidad" />
+          <NavigationProperty Name="SSIT_Solicitudes_AvisoRechazo" Relationship="DGHP_Model.FK_SSIT_Solicitudes_AvisoRechazo_Emails" FromRole="Emails" ToRole="SSIT_Solicitudes_AvisoRechazo" />
         </EntityType>
         <EntityType Name="Email_Estados">
           <Key>
@@ -41105,6 +41158,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SSIT_Solicitudes_Origen" Relationship="DGHP_Model.FK_SSIT_Solicitudes_Origen_SSIT_Solicitudes" FromRole="SSIT_Solicitudes" ToRole="SSIT_Solicitudes_Origen" />
           <NavigationProperty Name="SSIT_Solicitudes_Origen1" Relationship="DGHP_Model.FK_SSIT_Solicitudes_Origen_SSIT_Solicitudes_origen" FromRole="SSIT_Solicitudes" ToRole="SSIT_Solicitudes_Origen" />
           <NavigationProperty Name="SSIT_DocumentosAdjuntos" Relationship="DGHP_Model.FK_SSIT_DocumentosAdjuntos_SSIT_Solicitudes" FromRole="SSIT_Solicitudes" ToRole="SSIT_DocumentosAdjuntos" />
+          <NavigationProperty Name="SSIT_Solicitudes_AvisoRechazo" Relationship="DGHP_Model.FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes" FromRole="SSIT_Solicitudes" ToRole="SSIT_Solicitudes_AvisoRechazo" />
         </EntityType>
         <Association Name="FK_Encomienda_SSIT_Solicitudes_SSIT_Solicitudes">
           <End Type="DGHP_Model.SSIT_Solicitudes" Role="SSIT_Solicitudes" Multiplicity="1" />
@@ -43008,6 +43062,42 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Principal>
             <Dependent Role="SGI_Tarea_Verificacion_IFCI">
               <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SSIT_Solicitudes_AvisoRechazo">
+          <Key>
+            <PropertyRef Name="id_aviso" />
+          </Key>
+          <Property Name="id_aviso" Type="Int32" Nullable="false" />
+          <Property Name="id_solicitud" Type="Int32" Nullable="false" />
+          <Property Name="id_email" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaNotificacionSSIT" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Emails" Relationship="DGHP_Model.FK_SSIT_Solicitudes_AvisoRechazo_Emails" FromRole="SSIT_Solicitudes_AvisoRechazo" ToRole="Emails" />
+          <NavigationProperty Name="SSIT_Solicitudes" Relationship="DGHP_Model.FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes" FromRole="SSIT_Solicitudes_AvisoRechazo" ToRole="SSIT_Solicitudes" />
+        </EntityType>
+        <Association Name="FK_SSIT_Solicitudes_AvisoRechazo_Emails">
+          <End Type="DGHP_Model.Emails" Role="Emails" Multiplicity="1" />
+          <End Type="DGHP_Model.SSIT_Solicitudes_AvisoRechazo" Role="SSIT_Solicitudes_AvisoRechazo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emails">
+              <PropertyRef Name="id_email" />
+            </Principal>
+            <Dependent Role="SSIT_Solicitudes_AvisoRechazo">
+              <PropertyRef Name="id_email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SSIT_Solicitudes_AvisoRechazo_SSIT_Solicitudes">
+          <End Type="DGHP_Model.SSIT_Solicitudes" Role="SSIT_Solicitudes" Multiplicity="1" />
+          <End Type="DGHP_Model.SSIT_Solicitudes_AvisoRechazo" Role="SSIT_Solicitudes_AvisoRechazo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SSIT_Solicitudes">
+              <PropertyRef Name="id_solicitud" />
+            </Principal>
+            <Dependent Role="SSIT_Solicitudes_AvisoRechazo">
+              <PropertyRef Name="id_solicitud" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -50777,6 +50867,17 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_IFCI_Actualizar" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_IFCI_Actualizar" />
           <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_IFCI_GenerarProcesos" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_IFCI_GenerarProcesos" />
+          <EntitySetMapping Name="SSIT_Solicitudes_AvisoRechazo">
+            <EntityTypeMapping TypeName="DGHP_Model.SSIT_Solicitudes_AvisoRechazo">
+              <MappingFragment StoreEntitySet="SSIT_Solicitudes_AvisoRechazo">
+                <ScalarProperty Name="fechaNotificacionSSIT" ColumnName="fechaNotificacionSSIT" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="id_email" ColumnName="id_email" />
+                <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+                <ScalarProperty Name="id_aviso" ColumnName="id_aviso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           
           </EntityContainerMapping>
       </Mapping>
