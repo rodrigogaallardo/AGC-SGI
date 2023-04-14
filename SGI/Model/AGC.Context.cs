@@ -366,6 +366,7 @@
         public DbSet<CPadron_RubrosCN> CPadron_RubrosCN { get; set; }
         public DbSet<Ubicaciones_CatalogoDistritos> Ubicaciones_CatalogoDistritos { get; set; }
         public DbSet<Ubicaciones_temp> Ubicaciones_temp { get; set; }
+        public DbSet<SGI_Rel_Usuarios_Perfiles> SGI_Rel_Usuarios_Perfiles { get; set; }
         public DbSet<Ubicaciones> Ubicaciones { get; set; }
         public DbSet<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
