@@ -342,6 +342,7 @@ namespace SGI.GestionTramite.Controls
 
                 using (var dbFiles = new AGC_FilesEntities())
                 {
+                    dbFiles.Database.CommandTimeout = 300;
 
                     var Trans = Functions.GetParametroNum("NroTransmisionReferencia");
                     if (solicitud.id_solicitud > Trans)
@@ -594,6 +595,7 @@ namespace SGI.GestionTramite.Controls
                 LinkButton lnkEliminar = (LinkButton)sender;
                 int id_doc_adj = Convert.ToInt32(lnkEliminar.CommandArgument);
                 this.db = new DGHP_Entities();
+                db.Database.CommandTimeout = 300;
 
                 if (this.id_tipodocsis == (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR)
                 {

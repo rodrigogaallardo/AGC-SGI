@@ -13,6 +13,7 @@ namespace SGI.GestionTramite.Controls.Transferencias
         public void LoadData(int id_solicitud)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             var lstTitulares = (from pf in db.Transf_Titulares_PersonasFisicas
                                 where pf.id_solicitud == id_solicitud
