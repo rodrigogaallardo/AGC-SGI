@@ -9,6 +9,8 @@ using System.Web.UI.WebControls;
 using SGI.BusinessLogicLayer;
 using System.Drawing;
 using SGI.Model;
+using SGI.GestionTramite.Controls;
+
 
 namespace SGI
 {
@@ -85,9 +87,9 @@ namespace SGI
 
         }
 
-        protected void btnReturn_Click(object sender, EventArgs e)
+        public void btnReturn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("NotificacionesCaducidad.aspx");
+            Response.Redirect("NotificacionesCaducidad.aspx?idSolicitud=" + hdNroSolicitud.Value);
         }
 
         private void Notificar(int nroSolicitud, int idNotificacionMotivo, DateTime fechaNotificacion, string asunto, string mensaje)
@@ -107,7 +109,7 @@ namespace SGI
                     lblSuccess.Text = errorMessage;
                     lblSuccess.ForeColor = Color.Black;
                     this.EjecutarScript(updResultados, "showfrmSuccess();");
-
+                    Response.Redirect("NotificacionesCaducidad.aspx?idSolicitud=" + hdNroSolicitud.Value);
                 }
             }
 

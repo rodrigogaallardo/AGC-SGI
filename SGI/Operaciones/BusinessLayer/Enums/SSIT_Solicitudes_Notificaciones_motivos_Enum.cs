@@ -14,6 +14,7 @@
         SolicitudConfirmado = 10,
         LevantamientoDeRechazo = 11,
         AsignadoAlCalificador = 12,
-        Otras = 13
+        Otras = 13,
+        RectificacionDeBaja= 14
     }
 }

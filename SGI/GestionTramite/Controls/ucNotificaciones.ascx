@@ -32,7 +32,7 @@
                     <asp:BoundField DataField="MailFechaNot_FechaSSIT" HeaderText="F. Notificación" DataFormatString="{0:d}" ItemStyle-Width="70px" />
                     <asp:TemplateField ItemStyle-Width="15px" HeaderText="Ver" ItemStyle-CssClass="text-center">
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkDetalles" runat="server" ToolTip="Ver Detalle" CssClass="link-local"  CommandArgument='<%#Eval("Mail_ID")%>' OnClick="lnkDetalles_Click">
+                            <asp:LinkButton ID="lnkDetalles" runat="server" ToolTip="Ver Detalle" CssClass="link-local" CommandArgument='<%#Eval("Mail_ID")%>' OnClick="lnkDetalles_Click">
                                 <i class="icon-eye-open" style="transform: scale(1.1);"></i>
                             </asp:LinkButton>
                             <asp:Panel ID="pnlDetalle" runat="server" class="modal fade" data-backdrop="static" Style="display: none;min-width: 90%; left: 350px; top:0px;height:100%">

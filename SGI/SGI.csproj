@@ -731,6 +731,7 @@
     <Content Include="GestionTramite\Controls\ucHistorial.ascx" />
     <Content Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx" />
     <Content Include="GestionTramite\Controls\ucListaCalle.ascx" />
+    <Content Include="GestionTramite\Controls\ucNotificacionesEditar.ascx" />
     <Content Include="GestionTramite\Controls\ucRubros.ascx" />
     <Content Include="GestionTramite\Controls\ucSGI_ListaPlanoVisado.ascx" />
     <Content Include="GestionTramite\Controls\ucTitulares.ascx" />
@@ -821,6 +822,7 @@
     <Content Include="Mailer\MailCaducidad.aspx" />
     <Content Include="Mailer\MailCambioEstado.aspx" />
     <Content Include="Mailer\MailLevantamientoRechazo.aspx" />
+    <Content Include="Mailer\MailRectificacionBaja.aspx" />
     <Content Include="Mailer\MailObservacionSolicitud.aspx" />
     <Content Include="Mailer\MailQrDisponible.aspx" />
     <Content Include="Mailer\MailRechazoSolicitud.aspx" />
@@ -2302,6 +2304,13 @@
     <Compile Include="GestionTramite\Controls\ucListaCalle.ascx.designer.cs">
       <DependentUpon>ucListaCalle.ascx</DependentUpon>
     </Compile>
+    <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.cs">
+      <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.designer.cs">
+      <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
+    </Compile>
     <Compile Include="GestionTramite\Controls\ucRubros.ascx.cs">
       <DependentUpon>ucRubros.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2908,6 +2917,13 @@
     </Compile>
     <Compile Include="Mailer\MailLevantamientoRechazo.aspx.designer.cs">
       <DependentUpon>MailLevantamientoRechazo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mailer\MailRectificacionBaja.aspx.cs">
+      <DependentUpon>MailRectificacionBaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mailer\MailRectificacionBaja.aspx.designer.cs">
+      <DependentUpon>MailRectificacionBaja.aspx</DependentUpon>
     </Compile>
     <Compile Include="Mailer\MailObservacionSolicitud.aspx.cs">
       <DependentUpon>MailObservacionSolicitud.aspx</DependentUpon>

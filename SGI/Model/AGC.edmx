@@ -5001,7 +5001,6 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
             <PropertyRef Name="nombre_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
-            <PropertyRef Name="prioridad" />
           </Key>
           <Property Name="id_tipocertificado" Type="int" Nullable="false" />
           <Property Name="codigo_tipocertificado" Type="nvarchar" MaxLength="20" Nullable="false" />
@@ -5009,9 +5008,6 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
           <Property Name="descripcion_tipocertificado" Type="nvarchar" MaxLength="100" />
           <Property Name="id_ImactoAmbiental" Type="int" Nullable="false" />
           <Property Name="puntaje_para_peligrosos" Type="int" Nullable="false" />
-          <Property Name="prioridad" Type="int" Nullable="false" />
-          <Property Name="AcronimoSADE" Type="nvarchar" MaxLength="20" />
-          <Property Name="NombreArchivoCertificado" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Files' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -17480,10 +17476,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [CAA_TiposDeCertificados].[nombre_tipocertificado] AS [nombre_tipocertificado], 
     [CAA_TiposDeCertificados].[descripcion_tipocertificado] AS [descripcion_tipocertificado], 
     [CAA_TiposDeCertificados].[id_ImactoAmbiental] AS [id_ImactoAmbiental], 
-    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos], 
-    [CAA_TiposDeCertificados].[prioridad] AS [prioridad], 
-    [CAA_TiposDeCertificados].[AcronimoSADE] AS [AcronimoSADE], 
-    [CAA_TiposDeCertificados].[NombreArchivoCertificado] AS [NombreArchivoCertificado]
+    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]
     FROM [dbo].[CAA_TiposDeCertificados] AS [CAA_TiposDeCertificados]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Files" EntityType="Self.Files" store:Type="Views" store:Schema="dbo">
@@ -41710,7 +41703,6 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <PropertyRef Name="nombre_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
-            <PropertyRef Name="prioridad" />
           </Key>
           <Property Name="id_tipocertificado" Type="Int32" Nullable="false" />
           <Property Name="codigo_tipocertificado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -41718,9 +41710,6 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="descripcion_tipocertificado" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="id_ImactoAmbiental" Type="Int32" Nullable="false" />
           <Property Name="puntaje_para_peligrosos" Type="Int32" Nullable="false" />
-          <Property Name="prioridad" Type="Int32" Nullable="false" />
-          <Property Name="AcronimoSADE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NombreArchivoCertificado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ENG_Circuitos">
           <Key>
@@ -50320,9 +50309,6 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="CAA_TiposDeCertificados">
             <EntityTypeMapping TypeName="DGHP_Model.CAA_TiposDeCertificados">
               <MappingFragment StoreEntitySet="CAA_TiposDeCertificados">
-                <ScalarProperty Name="NombreArchivoCertificado" ColumnName="NombreArchivoCertificado" />
-                <ScalarProperty Name="AcronimoSADE" ColumnName="AcronimoSADE" />
-                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
                 <ScalarProperty Name="puntaje_para_peligrosos" ColumnName="puntaje_para_peligrosos" />
                 <ScalarProperty Name="id_ImactoAmbiental" ColumnName="id_ImactoAmbiental" />
                 <ScalarProperty Name="descripcion_tipocertificado" ColumnName="descripcion_tipocertificado" />
