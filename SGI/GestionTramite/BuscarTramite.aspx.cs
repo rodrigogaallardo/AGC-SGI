@@ -551,7 +551,8 @@ namespace SGI
 
             txtUbiNroPartida.Text = "";
          
-            AutocompleteCalles.ClearSelection();    
+            AutocompleteCalles.ClearSelection();
+            Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;
             txtUbiNroPuerta.Text = "";
             txtUF.Text = "";
             txtTorre.Text = "";

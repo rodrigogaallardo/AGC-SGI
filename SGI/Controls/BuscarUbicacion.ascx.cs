@@ -97,6 +97,7 @@ namespace SGI.Controls
             optTipoPartidaMatriz.Checked = true;
             txtNroPartida.Text = "";
             AutocompleteCalles.ClearSelection();
+
             txtNroPuerta.Text = "";
             txtDescUbicacion.Text = "";
             pnlResultados.Update();

@@ -431,6 +431,7 @@ namespace SGI.GestionTramite
             txtSuperficieDesde.Text = "";
             txtSuperficieHasta.Text = "";
             AutocompleteCalles.ClearSelection();
+            Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
             txtUbiNroPuertaDesde.Text = "";
             txtUbiNroPuertaHasta.Text = "";
             ddlVereda.SelectedIndex = 0;
