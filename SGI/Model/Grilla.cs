@@ -697,6 +697,17 @@ namespace SGI.Model
         public int? Mail_Prioridad { get; set; }
         public DateTime? MailFechaNot_FechaSSIT { get; set; }
     }
+    public partial class clsItemGrillaBuscarCalles
+    {
+        public int Calle_Id { get; set; }
+        public int Calle_Cod { get; set; }
+        public string Calle_Nombre { get; set; }
+        public int Calle_AlturaIzquierdaInicio { get; set; }
+        public int Calle_AlturaIzquierdaFin { get; set; }
+        public int Calle_AlturaDerechaInicio { get; set; }
+        public int Calle_AlturaDerechaFin { get; set; }
+        public string Calle_Tipo { get; set; }
+    }
     public partial class clsItemGrillaDatosServerMail
     {
         public string Mail_Email { get; set; }
@@ -1103,4 +1114,6 @@ namespace SGI.Model
         public bool? Asistentes350 { get; set; }
         public bool? SinBanioPCD { get; set; }
     }
+
+
 }
