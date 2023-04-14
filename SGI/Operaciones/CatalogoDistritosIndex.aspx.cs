@@ -64,16 +64,6 @@ namespace SGI.Operaciones
 
         }
 
-
-
-
-
-
-
-
-
-
-
         protected void btnRemove_Click(object sender, EventArgs e)
         {
             int IdDistrito = int.Parse(((Button)sender).ToolTip);
