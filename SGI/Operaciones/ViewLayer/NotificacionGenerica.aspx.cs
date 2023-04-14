@@ -107,7 +107,6 @@ namespace SGI
                     lblSuccess.Text = errorMessage;
                     lblSuccess.ForeColor = Color.Black;
                     this.EjecutarScript(updResultados, "showfrmSuccess();");
-
                 }
             }
 

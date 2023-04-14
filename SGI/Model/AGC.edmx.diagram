@@ -5,11 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="80fcccf7b4f240d59d1f6312a04dd9df" Name="Diagrama1" ZoomLevel="88">
-        <EntityTypeShape EntityType="DGHP_Model.AVH_Ubicaciones_Puertas" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DGHP_Model.EncomiendaExt_Ubicaciones_Puertas" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DGHP_Model.DGFYCO_Ubicaciones_Puertas" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="DGHP_Model.RAL_Ubicaciones_Puertas" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="DGHP_Model.Calles_Eliminadas" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

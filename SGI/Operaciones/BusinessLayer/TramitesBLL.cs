@@ -256,34 +256,5 @@ namespace SGI.BusinessLogicLayer
             }
             return Notificaciones_motivosList;
         }
-
-        public static List<Calles> TraerCalles(out string errorMessage)
-        {
-            List<Calles> nombreCalles = new List<Calles>();
-            errorMessage = string.Empty;
-
-            IniciarEntity();
-
-            try
-            {
-                using (DGHP_Entities db = new DGHP_Entities())
-                {
-                    nombreCalles = (from c in db.Calles
-                                    select c).ToList();
-
-                    if (nombreCalles.Count == 0)
-                    {
-                        errorMessage = "Error al cargar la lista de Calles";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                throw new Exception(errorMessage);
-            }
-            return nombreCalles;
-        }
-
     }
 }
