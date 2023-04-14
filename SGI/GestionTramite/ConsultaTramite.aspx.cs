@@ -85,17 +85,22 @@ namespace SGI.GestionTramite
 
             if (sm.IsInAsyncPostBack)
             {
-
                 ScriptManager.RegisterStartupScript(updPnlFiltroBuscar_tramite, updPnlFiltroBuscar_tramite.GetType(),
-                    "inicializar_controles", "inicializar_controles();", true);
+                     "inicializar_controles", "inicializar_controles();", true);
             }
+
 
             if (!IsPostBack)
             {
+
+                if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
+                {
+                    AutocompleteCalles.SelectValueByKey = Request.Cookies["ConsultaTramite_IdCalle"].Value;
+                }
                 hid_DecimalSeparator.Value = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
                 LoadData();
             }
-
         }
 
         protected override void OnUnload(EventArgs e)
@@ -152,7 +157,6 @@ namespace SGI.GestionTramite
 
         public void LoadData()
         {
-
             try
             {
                 List<int> id = new List<int>();
@@ -846,14 +850,14 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-           if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
-               && ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey) == ""))
+            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
+                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == ""))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
             idAux = 0;
-            int.TryParse(AutocompleteCalles.SelectValueByKey, out idAux);
+            int.TryParse(Request.Cookies["ConsultaTramite_IdCalle"].Value, out idAux);
             this.id_calle = idAux;
 
             idAux = 0;
@@ -868,7 +872,7 @@ namespace SGI.GestionTramite
             if (int.TryParse(ddlComuna.SelectedValue, out idAux) && idAux > 0)
                 this.id_comuna = idAux;
 
-          
+
 
             idAux = 0;
             if (int.TryParse(txtUbiNroPuertaDesde.Text.Trim(), out idAux))
@@ -1015,7 +1019,7 @@ namespace SGI.GestionTramite
             CargarCombo_TipoExpediente(idTipoTramite);
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
-            
+
             ddlTipoExpediente.SelectedIndex = filtros.id_tipo_expediente != "" ? int.Parse(filtros.id_tipo_expediente) : 0;
             IniciarEntity();
             int idTipoExp = int.Parse(ddlTipoExpediente.SelectedValue);
@@ -1023,7 +1027,7 @@ namespace SGI.GestionTramite
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
 
-            ddlSubTipoTramite.SelectedIndex = filtros.id_sub_tipo_tramite != "" ? int.Parse(filtros.id_sub_tipo_tramite) : 0; 
+            ddlSubTipoTramite.SelectedIndex = filtros.id_sub_tipo_tramite != "" ? int.Parse(filtros.id_sub_tipo_tramite) : 0;
             IniciarEntity();
             int idSubTipo = int.Parse(ddlSubTipoTramite.SelectedValue);
             CargarCombo_tareas(idTipoTramite, idTipoExp, idSubTipo);
@@ -1031,15 +1035,15 @@ namespace SGI.GestionTramite
             updPnlFiltroBuscar_tramite.Update();
 
 
-            ddlTarea.SelectedIndex = filtros.id_tipo_tarea != "" ? int.Parse(filtros.id_tipo_tarea) : 0; 
+            ddlTarea.SelectedIndex = filtros.id_tipo_tarea != "" ? int.Parse(filtros.id_tipo_tarea) : 0;
             hid_estados_selected.Value = filtros.id_estado;
             hid_tipotramite_selected.Value = filtros.id_tipo_tramite;
             hid_grupocircuito_selected.Value = filtros.codGrupoCircuito;
 
             if (String.IsNullOrWhiteSpace(filtros.id_calle))
-                AutocompleteCalles.Value = "Todos";
+                AutocompleteCalles.SelectValueByKey = "Todos";
             else
-                AutocompleteCalles.Value = filtros.id_calle;
+                AutocompleteCalles.SelectValueByKey = filtros.id_calle;
 
             txtUbiNroPuertaDesde.Text = filtros.nro_calle_desde;
             txtUbiNroPuertaHasta.Text = filtros.nro_calle_hasta;
@@ -1051,8 +1055,8 @@ namespace SGI.GestionTramite
             if (!String.IsNullOrWhiteSpace(filtros.id_zona))
                 ddlZona.SelectedValue = filtros.id_zona;
 
-            ddlBarrio.SelectedIndex = filtros.id_barrio != "" ? int.Parse(filtros.id_barrio) : 0; 
-            ddlComuna.SelectedIndex = filtros.id_comuna != "" ? int.Parse(filtros.id_comuna) : 0; 
+            ddlBarrio.SelectedIndex = filtros.id_barrio != "" ? int.Parse(filtros.id_barrio) : 0;
+            ddlComuna.SelectedIndex = filtros.id_comuna != "" ? int.Parse(filtros.id_comuna) : 0;
 
             //Carga rubros
             if (!string.IsNullOrEmpty(filtros.rubros))
@@ -1214,6 +1218,7 @@ namespace SGI.GestionTramite
         }
 
         #region Filtro rubros
+
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             DGHP_Entities db = new DGHP_Entities();
@@ -1384,7 +1389,7 @@ namespace SGI.GestionTramite
         }
 
         private List<clsItemConsultaTramite> FiltrarTramitesSP(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
-        {            
+        {
             if (!String.IsNullOrWhiteSpace(codigoGuid))
             {
                 int idAux = 0;
@@ -1460,7 +1465,7 @@ namespace SGI.GestionTramite
                 if (int.TryParse(ddlComuna.SelectedValue, out idAux) && idAux > 0)
                     this.id_comuna = idAux;
 
-                if (int.TryParse(AutocompleteCalles.Value, out idAux) && idAux > 0)
+                if (int.TryParse(AutocompleteCalles.SelectValueByKey, out idAux) && idAux > 0)
                     this.id_calle = idAux;
 
                 if (string.IsNullOrWhiteSpace(txtUbiNroPuertaDesde.Text))
@@ -1507,12 +1512,12 @@ namespace SGI.GestionTramite
                 List<int> tipoTramite = new List<int>();
                 if (this.tiposTramite.Trim().Length > 0)
                     tipoTramite = this.tiposTramite.Split(new char[] { ',' }).ToList()
-                                                .Where(x=> int.Parse(x) > 0)
+                                                .Where(x => int.Parse(x) > 0)
                                                 .Select(s => int.Parse(s)).ToList();
 
                 if (tipoTramite.Contains((int)Constants.TipoDeTramite.Habilitacion) && !tipoTramite.Contains((int)Constants.TipoDeTramite.RectificatoriaHabilitacion))
                     tipoTramite.Add((int)Constants.TipoDeTramite.RectificatoriaHabilitacion);
-                
+
                 ids_tipo_tramites = string.Join(",", tipoTramite.ToArray());
 
                 List<int> grupoCircuito = new List<int>();
@@ -1535,7 +1540,7 @@ namespace SGI.GestionTramite
                 this.rubros = "";
                 if (listRubros.Count() > 0)
                     this.rubros = string.Join(",", listRubros.Select(x => x.cod_rubro).Distinct());
-                
+
                 var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));
 
                 List<SGI_ConsultaTramites> resultados = db.ConsultaTramites(
@@ -1624,7 +1629,7 @@ namespace SGI.GestionTramite
                              Usuario = sol.Usuario,
                              NombreyApellido = sol.NombreyApellido,
                              FechaInicioAT = sol.FechaInicioAT,
-                             FechaAprobadoAT =  sol.FechaAprobadoAT
+                             FechaAprobadoAT = sol.FechaAprobadoAT
                          });
 
 
@@ -1650,7 +1655,7 @@ namespace SGI.GestionTramite
                             LocalSubTipoUbicacion = x.Key.LocalSubTipoUbicacion,
 
                             Calles = lstConsTram.Where(u => u.Seccion == x.Key.Seccion && u.Manzana == x.Key.Manzana && u.Parcela == x.Key.Parcela)
-                            .GroupBy(a => new { a.nombre_calle, a.NroPuerta})
+                            .GroupBy(a => new { a.nombre_calle, a.NroPuerta })
                             .Select(u => new clsItemConsultaPuerta
                             {
                                 calle = u.Key.nombre_calle,
@@ -1661,17 +1666,17 @@ namespace SGI.GestionTramite
 
 
                     r.Rubros = lstConsTram
-                        .GroupBy(a => new { a.id_rubro, a.cod_rubro, a.nom_rubro, a.id_subrubro, a.nom_subrubro})
+                        .GroupBy(a => new { a.id_rubro, a.cod_rubro, a.nom_rubro, a.id_subrubro, a.nom_subrubro })
                         .Select(p => new clsItemddlRubro
-                    {
-                        id_rubro = p.Key.id_rubro ?? 0,
-                        cod_rubro = p.Key.cod_rubro,
-                        nom_rubro = p.Key.nom_rubro,
-                        id_subrubro = p.Key.id_subrubro != null ? p.Key.id_subrubro.ToString() : "",
-                        nom_subrubro = p.Key.nom_subrubro
-                    }).ToList();
+                        {
+                            id_rubro = p.Key.id_rubro ?? 0,
+                            cod_rubro = p.Key.cod_rubro,
+                            nom_rubro = p.Key.nom_rubro,
+                            id_subrubro = p.Key.id_subrubro != null ? p.Key.id_subrubro.ToString() : "",
+                            nom_subrubro = p.Key.nom_subrubro
+                        }).ToList();
 
-                    r.Titulares = lstConsTram.GroupBy(a => new { a.Titulares})
+                    r.Titulares = lstConsTram.GroupBy(a => new { a.Titulares })
                         .Select(x => new clsItemConsulta { value = GetCadenaLimpia(x.Key.Titulares) }).ToList();
 
                     r.Cuits = lstConsTram.GroupBy(a => new { a.Cuits })
@@ -1679,17 +1684,17 @@ namespace SGI.GestionTramite
 
                     var sol = db.SSIT_Solicitudes.Where(s => s.id_solicitud == r.id_solicitud).FirstOrDefault();
 
-                      if (sol == null)
-                        {
-                            var trf = db.Transf_Solicitudes.Where(t => t.id_solicitud == r.id_solicitud).FirstOrDefault();
-                            r.id_solicitud_ref = trf != null ? trf.idSolicitudRef : null;
-                        }
-                        else
-                        {
-                            r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
-                        }
-                   
-                   
+                    if (sol == null)
+                    {
+                        var trf = db.Transf_Solicitudes.Where(t => t.id_solicitud == r.id_solicitud).FirstOrDefault();
+                        r.id_solicitud_ref = trf != null ? trf.idSolicitudRef : null;
+                    }
+                    else
+                    {
+                        r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
+                    }
+
+
                 }
 
                 return tramites;
@@ -1702,7 +1707,7 @@ namespace SGI.GestionTramite
 
             var aux = str.Split(';');
 
-            foreach(var a in aux)
+            foreach (var a in aux)
             {
                 if (a.Trim().Length > 0 && a.Trim() != ",")
                     s += a + " ";
@@ -2041,6 +2046,31 @@ namespace SGI.GestionTramite
         }
         #endregion
 
+        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
+       object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        {
+            //HidCalle.Value = e.Key;
 
+            Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
+
+            //ASOSA MENSAJE DE ERROR
+            //ScriptManager sm = ScriptManager.GetCurrent(this);
+            //string script = "window.localStorage.setItem('IdCalle'," + e.Key + ");";
+            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+
+
+
+
+            // ScriptManager sm2 = ScriptManager.GetCurrent(this);
+            //string script2 = "alert(window.localStorage.getItem('IdCalle'))";
+            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript2", script2, true);
+
+            //// ScriptManager sm3 = ScriptManager.GetCurrent(this);
+            //string script3 = "document.getElementById('<%=HidCalle.ClientID %>').value = window.localStorage.getItem('IdCalle');";
+            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript3", script3, true);
+
+
+            return;
+        }
     }
 }

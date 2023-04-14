@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
@@ -72,6 +72,10 @@ namespace SGI
 
             if (!IsPostBack)
             {
+                if (Request.Cookies["BuscarTramite_IdCalle"] != null)
+                {
+                    AutocompleteCalles.SelectValueByKey = Request.Cookies["BuscarTramite_IdCalle"].Value;
+                }
                 LoadData();
                 SiteMaster pmaster = (SiteMaster)this.Page.Master;
                 ucMenu mnu = (ucMenu)pmaster.FindControl("mnu");
@@ -98,7 +102,7 @@ namespace SGI
                     rbtnUbiPartidaHoriz = rbtnUbiPartidaHoriz.Checked,
 
                     nro_partida_matriz = txtUbiNroPartida.Text,
-                    id_calle = (String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey.ToString(),
+                    id_calle = (Request.Cookies["BuscarTramite_IdCalle"] == null) ? "" : Request.Cookies["BuscarTramite_IdCalle"].Value,
                     nro_calle = txtUbiNroPuerta.Text,
                     uf = txtUF.Text,
                     torre = txtTorre.Text,
@@ -124,7 +128,7 @@ namespace SGI
                     if (
                         //rbtnUbiPartidaMatriz.Checked ||
                         //rbtnUbiPartidaHoriz.Checked ||
-                        ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey.ToString()) != "" ||
+                        ((Request.Cookies["BuscarTramite_IdCalle"] == null) ? "" : Request.Cookies["BuscarTramite_IdCalle"].Value) != "" ||
                         nro_calle != 0 ||
                         uf != "" ||
                         torre != "" ||
@@ -1011,13 +1015,13 @@ namespace SGI
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey)) ? "" : AutocompleteCalles.SelectValueByKey) == "")
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(Request.Cookies["BuscarTramite_IdCalle"].Value)) ? "" : Request.Cookies["BuscarTramite_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
             idAux = 0;
-            int.TryParse( AutocompleteCalles.SelectValueByKey, out idAux);
+            int.TryParse(Request.Cookies["BuscarTramite_IdCalle"].Value, out idAux);
             this.id_calle = idAux;
 
             idAux = 0;
@@ -1128,7 +1132,7 @@ namespace SGI
                 fechaCierreDesde = txtFechaCierreDesde.Text,
                 fechaCierreHasta = txtFechaCierreHasta.Text,
                 nro_partida_matriz = txtUbiNroPartida.Text,
-                id_calle = String.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey) ? "" : AutocompleteCalles.SelectValueByKey,
+                id_calle = String.IsNullOrEmpty(Request.Cookies["BuscarTramite_IdCalle"].Value) ? "" : Request.Cookies["BuscarTramite_IdCalle"].Value,
                 nro_calle = txtUbiNroPuerta.Text,
                 uf = txtUF.Text,
                 torre = txtTorre.Text,
@@ -1224,11 +1228,11 @@ namespace SGI
             if (String.IsNullOrWhiteSpace(filtros.id_calle))
             {
 
-                AutocompleteCalles.Value = "Todos";
+                AutocompleteCalles.SelectValueByKey = "Todos";
             }
             else
             {
-                AutocompleteCalles.Value = filtros.id_calle.ToString();
+                AutocompleteCalles.SelectValueByKey = filtros.id_calle.ToString();
             }
             txtUbiNroPartida.Text = filtros.nro_partida_matriz;
             txtUbiNroPuerta.Text = filtros.nro_calle;
@@ -1707,13 +1711,13 @@ namespace SGI
 
                 }
 
-                if (string.IsNullOrWhiteSpace(AutocompleteCalles.SelectValueByKey))
+                if (string.IsNullOrWhiteSpace(Request.Cookies["BuscarTramite_IdCalle"].Value))
                 {
                     this.id_calle = 0;
                 }
                 else
                 {
-                    this.id_calle = Convert.ToInt32(AutocompleteCalles.SelectValueByKey);
+                    this.id_calle = Convert.ToInt32(Request.Cookies["BuscarTramite_IdCalle"].Value);
                 }
                 if (string.IsNullOrWhiteSpace(txtUbiNroPuerta.Text))
                 {
@@ -3299,6 +3303,12 @@ namespace SGI
             //CargarCombo_EstadoTramite();
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
+        }
+        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
+     object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        {
+            Response.Cookies["BuscarTramite_IdCalle"].Value = e.Key;
+            return;
         }
     }
     public class CallesCombo

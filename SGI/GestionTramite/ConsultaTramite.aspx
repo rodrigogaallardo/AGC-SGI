@@ -885,9 +885,10 @@
                                                 <div class="controls">
                                                     <div class="clearfix">
                                                         <div class="pull-left">
-                                                      <ejx:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
+                                                      <ejx:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
+<%--                                                            <asp:HiddenField ID="HidCalle" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />--%>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
                                                                 Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                                 CssClass="field-validation-error"></asp:RequiredFieldValidator>
