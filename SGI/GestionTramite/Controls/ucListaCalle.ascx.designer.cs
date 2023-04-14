@@ -11,7 +11,7 @@ namespace SGI.GestionTramite.Controls
 {
 
 
-    public partial class ucNotificaciones
+    public partial class ucListaCalle
     {
 
         /// <summary>
@@ -24,30 +24,39 @@ namespace SGI.GestionTramite.Controls
         protected global::System.Web.UI.WebControls.HiddenField hid_lNot_collapse;
 
         /// <summary>
-        /// Control updPnlNotificaciones.
+        /// Control updPnlCalles.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updPnlNotificaciones;
+        protected global::System.Web.UI.UpdatePanel updPnlCalles;
 
         /// <summary>
-        /// Control hfMailID.
+        /// Control hdCodCalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfMailID;
+        protected global::System.Web.UI.WebControls.HiddenField hdCodCalle;
 
         /// <summary>
-        /// Control grdBuscarMails.
+        /// Control hdIdCalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdBuscarMails;
+        protected global::System.Web.UI.WebControls.HiddenField hdIdCalle;
+
+        /// <summary>
+        /// Control grdBuscarCalles.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdBuscarCalles;
     }
 }

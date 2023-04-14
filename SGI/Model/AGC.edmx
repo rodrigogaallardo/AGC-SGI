@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DGHP_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AVH_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_avh_puerta" />
+          </Key>
+          <Property Name="id_avh_puerta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_avh_ubicacion" Type="int" Nullable="false" />
+          <Property Name="codigo_calle" Type="int" Nullable="false" />
+          <Property Name="nombre_calle" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NroPuerta" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -98,6 +108,23 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="LastUpdateUser" Type="nvarchar" MaxLength="50" />
           <Property Name="LastUpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Calles_Eliminadas">
+          <Key>
+            <PropertyRef Name="id_calle_eliminada" />
+          </Key>
+          <Property Name="id_calle_eliminada" Type="int" Nullable="false" />
+          <Property Name="id_calle" Type="int" Nullable="false" />
+          <Property Name="Codigo_calle" Type="int" Nullable="false" />
+          <Property Name="NombreOficial_calle" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AlturaIzquierdaInicio_calle" Type="int" />
+          <Property Name="AlturaIzquierdaFin_calle" Type="int" />
+          <Property Name="AlturaDerechaInicio_calle" Type="int" />
+          <Property Name="AlturaDerechaFin_calle" Type="int" />
+          <Property Name="NombreAnterior_calle" Type="nvarchar" MaxLength="100" />
+          <Property Name="TipoCalle_calle" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Clanae">
           <Key>
@@ -284,8 +311,8 @@
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
           <Property Name="LastUpdateDate" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CPadron_Planos">
           <Key>
             <PropertyRef Name="id_cpadron_plano" />
@@ -1101,6 +1128,16 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' does 
           <Property Name="nombre_calle" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="NroPuerta" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="EncomiendaExt_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_encomiendapuerta" />
+          </Key>
+          <Property Name="id_encomiendapuerta" Type="int" Nullable="false" />
+          <Property Name="id_encomiendaubicacion" Type="int" Nullable="false" />
+          <Property Name="codigo_calle" Type="int" Nullable="false" />
+          <Property Name="nombre_calle" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NroPuerta" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ENG_Circuitos">
           <Key>
             <PropertyRef Name="id_circuito" />
@@ -1312,8 +1349,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' does 
           <Property Name="cfg_smpt_puerto" Type="int" />
           <Property Name="cfg_html" Type="nvarchar" MaxLength="2000" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Envio_Mail_Send_Estado">
           <Key>
             <PropertyRef Name="Estado_Proceso" />
@@ -1353,8 +1390,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estad
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Estadisticas_Hoja2">
           <Key>
             <PropertyRef Name="id" />
@@ -2069,8 +2106,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' d
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="RubrosCN_Historial">
           <Key>
             <PropertyRef Name="IdRubrosCN_historial" />
@@ -3247,8 +3284,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Encomienda' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Encomienda' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="SSIT_Solicitudes_Encomienda">
           <Key>
             <PropertyRef Name="id_sol_enc" />
@@ -4819,8 +4856,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Enco
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="wsPagos_Parametros">
           <Key>
             <PropertyRef Name="id_param" />
@@ -4830,8 +4867,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' d
           <Property Name="nom_param" Type="nvarchar" MaxLength="500" />
           <Property Name="valor_param" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="wsPagos_Procesados">
           <Key>
             <PropertyRef Name="id_pago_BU" />
@@ -4866,6 +4903,17 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' d
           <Property Name="CreateUser" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="DGFYCO_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_dgpuerta" />
+          </Key>
+          <Property Name="id_dgpuerta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_dgubicacion" Type="int" Nullable="false" />
+          <Property Name="codigo_calle" Type="int" Nullable="false" />
+          <Property Name="Nombre_calle" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="NroPuerta" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="RAL_Licencias">
           <Key>
             <PropertyRef Name="id_licencia_alcohol" />
@@ -4875,8 +4923,19 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' d
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RAL_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_ral_puerta" />
+          </Key>
+          <Property Name="id_ral_puerta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_ral_ubicacion" Type="int" Nullable="false" />
+          <Property Name="codigo_calle" Type="int" />
+          <Property Name="nombre_calle" Type="nvarchar" MaxLength="100" />
+          <Property Name="nro_puerta" Type="int" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CAA_Estados">
           <Key>
             <PropertyRef Name="id_estado" />
@@ -4893,8 +4952,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' does not
           <Property Name="orden" Type="int" Nullable="false" />
           <Property Name="visible_Aprob_prof" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CAA_Solicitudes">
           <Key>
             <PropertyRef Name="id_solicitud" />
@@ -4933,8 +4992,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' does
           <Property Name="id_caa" Type="int" Nullable="false" />
           <Property Name="id_encomienda_agc" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="CAA_TiposDeCertificados">
           <Key>
             <PropertyRef Name="id_tipocertificado" />
@@ -4954,8 +5013,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificad
           <Property Name="AcronimoSADE" Type="nvarchar" MaxLength="20" />
           <Property Name="NombreArchivoCertificado" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Files' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Files' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Files">
           <Key>
             <PropertyRef Name="rowid" />
@@ -4975,8 +5034,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Files' does not have 
           <Property Name="FileName" Type="varchar" MaxLength="1000" />
           <Property Name="Md5" Type="binary" MaxLength="32" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="PartidaHorizontal">
           <Key>
             <PropertyRef Name="id_partidahorizontal" />
@@ -4998,8 +5057,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' do
           <Property Name="VigenciaHasta" Type="datetime" />
           <Property Name="baja_logica" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="sysjobs_historial">
           <Key>
             <PropertyRef Name="name" />
@@ -5011,8 +5070,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' do
           <Property Name="run_status" Type="int" Nullable="false" />
           <Property Name="run_status_desc" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="sysjobs_vista">
           <Key>
             <PropertyRef Name="name" />
@@ -5029,8 +5088,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' does n
           <Property Name="freq_subday_type_desc" Type="varchar" MaxLength="4" />
           <Property Name="intervalo_minutos" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vis_Certificados">
           <Key>
             <PropertyRef Name="id_certificado" />
@@ -5047,8 +5106,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' doe
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="item" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocumentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocumentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="wsEE_TareasDocumentos">
           <Key>
             <PropertyRef Name="id_tarea_documento" />
@@ -7790,8 +7849,8 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocumentos
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <!--Errores durante la generación:
+advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
         <Association Name="FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento" />-->
         <Association Name="FK_Rubros_CircuitoAtomatico_Zonas_Historial_Cambios_Rubros_Historial_Cambios">
           <End Role="Rubros_Historial_Cambios" Type="Self.Rubros_Historial_Cambios" Multiplicity="1" />
@@ -16943,6 +17002,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         </Function>
         <Function Name="RAL_Actualizacion_Datos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="RAL" />
         <EntityContainer Name="DGHP_ModelStoreContainer">
+          <EntitySet Name="AVH_Ubicaciones_Puertas" EntityType="Self.AVH_Ubicaciones_Puertas" Schema="AVH" store:Type="Tables" />
           <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" Schema="dbo" store:Type="Tables" />
@@ -16950,6 +17010,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Barrios" EntityType="Self.Barrios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Calles" EntityType="Self.Calles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Calles_Eliminadas" EntityType="Self.Calles_Eliminadas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clanae" EntityType="Self.Clanae" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comisarias" EntityType="Self.Comisarias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comunas" EntityType="Self.Comunas" Schema="dbo" store:Type="Tables" />
@@ -17014,6 +17075,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="Encomienda_Ubicaciones_Mixturas" EntityType="Self.Encomienda_Ubicaciones_Mixturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Encomienda_Ubicaciones_PropiedadHorizontal" EntityType="Self.Encomienda_Ubicaciones_PropiedadHorizontal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Encomienda_Ubicaciones_Puertas" EntityType="Self.Encomienda_Ubicaciones_Puertas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EncomiendaExt_Ubicaciones_Puertas" EntityType="Self.EncomiendaExt_Ubicaciones_Puertas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ENG_Circuitos" EntityType="Self.ENG_Circuitos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ENG_Config_BandejaAsignacion" EntityType="Self.ENG_Config_BandejaAsignacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ENG_EquipoDeTrabajo" EntityType="Self.ENG_EquipoDeTrabajo" Schema="dbo" store:Type="Tables" />
@@ -17281,7 +17343,9 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="wsPagos_BoletaUnica_HistorialEstados2" EntityType="Self.wsPagos_BoletaUnica_HistorialEstados2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zonas_Habilitaciones" EntityType="Self.Zonas_Habilitaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zonas_Planeamiento" EntityType="Self.Zonas_Planeamiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DGFYCO_Ubicaciones_Puertas" EntityType="Self.DGFYCO_Ubicaciones_Puertas" Schema="DGFYCO" store:Type="Tables" />
           <EntitySet Name="RAL_Licencias" EntityType="Self.RAL_Licencias" Schema="RAL" store:Type="Tables" />
+          <EntitySet Name="RAL_Ubicaciones_Puertas" EntityType="Self.RAL_Ubicaciones_Puertas" Schema="RAL" store:Type="Tables" />
           <EntitySet Name="CPadron_Planos" EntityType="Self.CPadron_Planos" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [CPadron_Planos].[id_cpadron_plano] AS [id_cpadron_plano], 
@@ -28179,6 +28243,11 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="Transf_DocumentosAdjuntos" EntitySet="Transf_DocumentosAdjuntos" />
           </AssociationSet>
+          <EntitySet Name="AVH_Ubicaciones_Puertas" EntityType="DGHP_Model.AVH_Ubicaciones_Puertas" />
+          <EntitySet Name="EncomiendaExt_Ubicaciones_Puertas" EntityType="DGHP_Model.EncomiendaExt_Ubicaciones_Puertas" />
+          <EntitySet Name="DGFYCO_Ubicaciones_Puertas" EntityType="DGHP_Model.DGFYCO_Ubicaciones_Puertas" />
+          <EntitySet Name="RAL_Ubicaciones_Puertas" EntityType="DGHP_Model.RAL_Ubicaciones_Puertas" />
+          <EntitySet Name="Calles_Eliminadas" EntityType="DGHP_Model.Calles_Eliminadas" />
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -42873,6 +42942,65 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AVH_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_avh_puerta" />
+          </Key>
+          <Property Name="id_avh_puerta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_avh_ubicacion" Type="Int32" Nullable="false" />
+          <Property Name="codigo_calle" Type="Int32" Nullable="false" />
+          <Property Name="nombre_calle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NroPuerta" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EncomiendaExt_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_encomiendapuerta" />
+          </Key>
+          <Property Name="id_encomiendapuerta" Type="Int32" Nullable="false" />
+          <Property Name="id_encomiendaubicacion" Type="Int32" Nullable="false" />
+          <Property Name="codigo_calle" Type="Int32" Nullable="false" />
+          <Property Name="nombre_calle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NroPuerta" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DGFYCO_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_dgpuerta" />
+          </Key>
+          <Property Name="id_dgpuerta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_dgubicacion" Type="Int32" Nullable="false" />
+          <Property Name="codigo_calle" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_calle" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NroPuerta" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="RAL_Ubicaciones_Puertas">
+          <Key>
+            <PropertyRef Name="id_ral_puerta" />
+          </Key>
+          <Property Name="id_ral_puerta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_ral_ubicacion" Type="Int32" Nullable="false" />
+          <Property Name="codigo_calle" Type="Int32" />
+          <Property Name="nombre_calle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="nro_puerta" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Calles_Eliminadas">
+          <Key>
+            <PropertyRef Name="id_calle_eliminada" />
+          </Key>
+          <Property Name="id_calle_eliminada" Type="Int32" Nullable="false" />
+          <Property Name="id_calle" Type="Int32" Nullable="false" />
+          <Property Name="Codigo_calle" Type="Int32" Nullable="false" />
+          <Property Name="NombreOficial_calle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AlturaIzquierdaInicio_calle" Type="Int32" />
+          <Property Name="AlturaIzquierdaFin_calle" Type="Int32" />
+          <Property Name="AlturaDerechaInicio_calle" Type="Int32" />
+          <Property Name="AlturaDerechaFin_calle" Type="Int32" />
+          <Property Name="NombreAnterior_calle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TipoCalle_calle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -50613,6 +50741,70 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="EncomiendaRubroCN_EliminarRubro" FunctionName="DGHP_Model.Store.EncomiendaRubroCN_EliminarRubro" />
+          <EntitySetMapping Name="AVH_Ubicaciones_Puertas">
+            <EntityTypeMapping TypeName="DGHP_Model.AVH_Ubicaciones_Puertas">
+              <MappingFragment StoreEntitySet="AVH_Ubicaciones_Puertas">
+                <ScalarProperty Name="NroPuerta" ColumnName="NroPuerta" />
+                <ScalarProperty Name="nombre_calle" ColumnName="nombre_calle" />
+                <ScalarProperty Name="codigo_calle" ColumnName="codigo_calle" />
+                <ScalarProperty Name="id_avh_ubicacion" ColumnName="id_avh_ubicacion" />
+                <ScalarProperty Name="id_avh_puerta" ColumnName="id_avh_puerta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EncomiendaExt_Ubicaciones_Puertas">
+            <EntityTypeMapping TypeName="DGHP_Model.EncomiendaExt_Ubicaciones_Puertas">
+              <MappingFragment StoreEntitySet="EncomiendaExt_Ubicaciones_Puertas">
+                <ScalarProperty Name="NroPuerta" ColumnName="NroPuerta" />
+                <ScalarProperty Name="nombre_calle" ColumnName="nombre_calle" />
+                <ScalarProperty Name="codigo_calle" ColumnName="codigo_calle" />
+                <ScalarProperty Name="id_encomiendaubicacion" ColumnName="id_encomiendaubicacion" />
+                <ScalarProperty Name="id_encomiendapuerta" ColumnName="id_encomiendapuerta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DGFYCO_Ubicaciones_Puertas">
+            <EntityTypeMapping TypeName="DGHP_Model.DGFYCO_Ubicaciones_Puertas">
+              <MappingFragment StoreEntitySet="DGFYCO_Ubicaciones_Puertas">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="NroPuerta" ColumnName="NroPuerta" />
+                <ScalarProperty Name="Nombre_calle" ColumnName="Nombre_calle" />
+                <ScalarProperty Name="codigo_calle" ColumnName="codigo_calle" />
+                <ScalarProperty Name="id_dgubicacion" ColumnName="id_dgubicacion" />
+                <ScalarProperty Name="id_dgpuerta" ColumnName="id_dgpuerta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RAL_Ubicaciones_Puertas">
+            <EntityTypeMapping TypeName="DGHP_Model.RAL_Ubicaciones_Puertas">
+              <MappingFragment StoreEntitySet="RAL_Ubicaciones_Puertas">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="nro_puerta" ColumnName="nro_puerta" />
+                <ScalarProperty Name="nombre_calle" ColumnName="nombre_calle" />
+                <ScalarProperty Name="codigo_calle" ColumnName="codigo_calle" />
+                <ScalarProperty Name="id_ral_ubicacion" ColumnName="id_ral_ubicacion" />
+                <ScalarProperty Name="id_ral_puerta" ColumnName="id_ral_puerta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Calles_Eliminadas">
+            <EntityTypeMapping TypeName="DGHP_Model.Calles_Eliminadas">
+              <MappingFragment StoreEntitySet="Calles_Eliminadas">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="TipoCalle_calle" ColumnName="TipoCalle_calle" />
+                <ScalarProperty Name="NombreAnterior_calle" ColumnName="NombreAnterior_calle" />
+                <ScalarProperty Name="AlturaDerechaFin_calle" ColumnName="AlturaDerechaFin_calle" />
+                <ScalarProperty Name="AlturaDerechaInicio_calle" ColumnName="AlturaDerechaInicio_calle" />
+                <ScalarProperty Name="AlturaIzquierdaFin_calle" ColumnName="AlturaIzquierdaFin_calle" />
+                <ScalarProperty Name="AlturaIzquierdaInicio_calle" ColumnName="AlturaIzquierdaInicio_calle" />
+                <ScalarProperty Name="NombreOficial_calle" ColumnName="NombreOficial_calle" />
+                <ScalarProperty Name="Codigo_calle" ColumnName="Codigo_calle" />
+                <ScalarProperty Name="id_calle" ColumnName="id_calle" />
+                <ScalarProperty Name="id_calle_eliminada" ColumnName="id_calle_eliminada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           
           </EntityContainerMapping>
       </Mapping>

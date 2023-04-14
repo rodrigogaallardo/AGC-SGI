@@ -591,7 +591,7 @@ namespace SGI
                                  calle.NombreOficial_calle
                              }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
 
-            ddlCalles.DataSource = lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault()); ;
+            ddlCalles.DataSource = lstCalles.GroupBy(x => x.NombreOficial_calle).Select(x => x.FirstOrDefault());
             ddlCalles.DataTextField = "NombreOficial_calle";
             ddlCalles.DataValueField = "id_calle";
             ddlCalles.DataBind();
