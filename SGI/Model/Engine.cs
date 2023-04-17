@@ -272,7 +272,7 @@ namespace SGI.Model
                                                select es.id_encomiendaSolicitud).Count();
 
                     List<Resultado> borrar = new List<Resultado>();
-                    if (existePlanoIncendio > 0)
+                    if (existePlanoIncendio == 0)
                     {
                         foreach (Resultado item in resultados)
                         {
