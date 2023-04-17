@@ -445,6 +445,7 @@ namespace SGI.ABM
 
             txtUbiNroPartida.Text = "";
             AutocompleteCalles.ClearSelection();
+            Response.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value = string.Empty;
             txtUbiNroPuerta.Text = "";
 
             txtUbiSeccion.Text = "";
@@ -507,13 +508,14 @@ namespace SGI.ABM
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(HidCalle.Value)) ? "" : HidCalle.Value) == "")
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(Request.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value)) ? "" : Request.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
             idAux = 0;
-            int.TryParse(HidCalle.Value, out idAux);//ASOSA SYNCFUSION Hidden
+            if (Request.Cookies["AbmUbicacionesInhibidas_IdCalle"] != null)
+                int.TryParse(Request.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value, out idAux);//ASOSA SYNCFUSION Hidden
             this.id_calle = idAux; 
 
             idAux = 0;
@@ -894,7 +896,7 @@ namespace SGI.ABM
         protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
             object sender,Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e) 
         {
-            HidCalle.Value= e.Key;
+            Response.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value = e.Key;
         }
     }
 }

@@ -89,7 +89,7 @@ namespace SGI.GestionTramite
                      "inicializar_controles", "inicializar_controles();", true);
             }
 
-
+            CargarCalles();
             if (!IsPostBack)
             {
 
@@ -167,7 +167,7 @@ namespace SGI.GestionTramite
                 CargarCombo_subtipoTramite(0);
                 CargarCombo_tareas(id, 0, 0);
                 CargarCombos();
-                CargarCalles();
+              
                 CargarCombo_GrupoCircuito();
                 updPnlFiltroBuscar_tramite.Update();
                 updPnlFiltroBuscar_ubi_dom.Update();
@@ -858,7 +858,8 @@ namespace SGI.GestionTramite
             }
 
             idAux = 0;
-            int.TryParse(Request.Cookies["ConsultaTramite_IdCalle"].Value, out idAux);
+            if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
+                int.TryParse(Request.Cookies["ConsultaTramite_IdCalle"].Value, out idAux);
             this.id_calle = idAux;
 
             idAux = 0;

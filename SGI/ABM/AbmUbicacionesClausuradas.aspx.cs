@@ -578,7 +578,8 @@ namespace SGI.ABM
             }
 
             idAux = 0;
-            int.TryParse(Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value, out idAux);
+            if (Request.Cookies["AbmUbicacionesClausuradas_IdCalle"] != null)
+                int.TryParse(Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value, out idAux);
             this.id_calle = idAux;
 
             idAux = 0;
