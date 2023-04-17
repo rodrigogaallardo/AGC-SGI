@@ -260,22 +260,27 @@ namespace SGI.Model
                                                  nombre_resultado = resultado.nombre_resultado
                                              }).ToList();
 
-                int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
-                int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
-                                           join e in db.Encomienda on es.id_encomienda equals e.id_encomienda
-                                           join ep in db.Encomienda_Planos on e.id_encomienda equals ep.id_encomienda
-                                           where es.id_solicitud == id_solicitud
-                                           && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
-                                           && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                           select es.id_encomiendaSolicitud).Count();
-
-                if (existePlanoIncendio > 0)
+                if (id_tramitetarea != 0)
                 {
-                    foreach (Resultado item in resultados)
+                    int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
+                    int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
+                                               join e in db.Encomienda on es.id_encomienda equals e.id_encomienda
+                                               join ep in db.Encomienda_Planos on e.id_encomienda equals ep.id_encomienda
+                                               where es.id_solicitud == id_solicitud
+                                               && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
+                                               && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                               select es.id_encomiendaSolicitud).Count();
+
+                    List<Resultado> borrar = new List<Resultado>();
+                    if (existePlanoIncendio > 0)
                     {
-                        if (item.id_resultado == 94)
-                            resultados.Remove(item);
+                        foreach (Resultado item in resultados)
+                        {
+                            if (item.id_resultado == 94)
+                                borrar.Add(item);
+                        }
                     }
+                    resultados.RemoveAll(borrar.Contains);
                 }
 
                 objret.Resultados = resultados;
