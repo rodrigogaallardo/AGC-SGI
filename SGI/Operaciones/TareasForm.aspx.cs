@@ -336,7 +336,15 @@ namespace SGI.Operaciones
 
                     tramiteTarea.id_proxima_tarea = int.Parse(ddlproxima_tarea.SelectedValue);
                 }
-                tramiteTarea.CreateUser = Guid.Parse(hdCreateUser.Value);
+                if(!string.IsNullOrEmpty(hdCreateUser.Value))
+                {
+                    tramiteTarea.CreateUser = Guid.Parse(hdCreateUser.Value);
+                }
+                else
+                {
+                    tramiteTarea.CreateUser = null;
+                }
+               
             }
 
             tramiteTarea.FechaInicio_tramitetarea = DateTime.Parse(hdFechaInicio_tramitetarea.Value);
