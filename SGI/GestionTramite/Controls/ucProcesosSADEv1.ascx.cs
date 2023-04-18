@@ -12,6 +12,7 @@ using System.Text;
 using System.IO;
 using SGI.WebServices;
 using System.Data;
+using SGI.StaticClassNameSpace;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -2151,48 +2152,60 @@ namespace SGI.GestionTramite.Controls
                     username_SADE = Functions.GetUsernameSADE(userid);
                 }
                 serviceEE.Url = this.url_servicio_EE;
-                
-                documento = serviceEE.GetPdfDisposicionNroGedo(this.username_servicio_EE, this.pass_servicio_EE, username_SADE, procDispo.resultado_ee);
 
-                int id_tipodocsis = 0;
-
-                if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
-                    id_tipodocsis = Functions.GetTipoDocSistema("DISPOSICION_CPADRON");
-                else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
-                    id_tipodocsis = Functions.GetTipoDocSistema("DISPOSICION_TRANSFERENCIA");
-                else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.HAB)
-                    id_tipodocsis = Functions.GetTipoDocSistema("DISPOSICION_HABILITACION");
-
-
-                ObjectParameter param_id_docadjunto = new ObjectParameter("id_docadjunto", typeof(int));
-
-                using (TransactionScope Tran = new TransactionScope())
+                if (Functions.EsAmbienteDesa())
                 {
-                    try
-                    {
-                        int id_file = ws_FilesRest.subirArchivo("Disposicion.pdf", documento);
-                        if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
-                            db.CPadron_DocumentosAdjuntos_Agregar(this.id_solicitud, 0, string.Empty, id_tipodocsis, true, id_file, "Disposicion.pdf", userid, param_id_docadjunto);
-                        else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
-                            db.Transf_DocumentosAdjuntos_Agregar(this.id_solicitud, 0, string.Empty, id_tipodocsis, true, id_file, "Disposicion.pdf", userid, (int)Constants.NivelesDeAgrupamiento.General, param_id_docadjunto);
-                        else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.HAB)
-                            db.SSIT_DocumentosAdjuntos_Add(this.id_solicitud, 0, string.Empty, id_tipodocsis, true, id_file, "Disposicion.pdf", userid, param_id_docadjunto);
+                    id_devolucion_ee = 1;
+                    resultado_ee = "Disposición obtenida. Forzado por Entorno de Desarrollo";
+                    realizado_en_pasarela = true;
 
-                        id_devolucion_ee = 1;
-                        resultado_ee = "Disposición obtenida.";
-                        realizado_en_pasarela = true;
-
-                        db.SGI_SADE_Procesos_update(id_tarea_proc, realizado_en_pasarela, string.Empty, id_devolucion_ee, resultado_ee, userid);
-                        db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, true, DateTime.Now, resultado_ee, userid);
-
-                        Tran.Complete();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tran.Dispose();
-                        throw ex;
-                    }
+                    db.SGI_SADE_Procesos_update(id_tarea_proc, realizado_en_pasarela, string.Empty, id_devolucion_ee, resultado_ee, userid);
+                    db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, true, DateTime.Now, resultado_ee, userid);
                 }
+                else
+                {
+                    documento = serviceEE.GetPdfDisposicionNroGedo(this.username_servicio_EE, this.pass_servicio_EE, username_SADE, procDispo.resultado_ee);
+
+                    int id_tipodocsis = 0;
+
+                    if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
+                        id_tipodocsis = Functions.GetTipoDocSistema("DISPOSICION_CPADRON");
+                    else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
+                        id_tipodocsis = Functions.GetTipoDocSistema("DISPOSICION_TRANSFERENCIA");
+                    else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.HAB)
+                        id_tipodocsis = Functions.GetTipoDocSistema("DISPOSICION_HABILITACION");
+
+
+                    ObjectParameter param_id_docadjunto = new ObjectParameter("id_docadjunto", typeof(int));
+
+                    using (TransactionScope Tran = new TransactionScope())
+                    {
+                        try
+                        {
+                            int id_file = ws_FilesRest.subirArchivo("Disposicion.pdf", documento);
+                            if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
+                                db.CPadron_DocumentosAdjuntos_Agregar(this.id_solicitud, 0, string.Empty, id_tipodocsis, true, id_file, "Disposicion.pdf", userid, param_id_docadjunto);
+                            else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
+                                db.Transf_DocumentosAdjuntos_Agregar(this.id_solicitud, 0, string.Empty, id_tipodocsis, true, id_file, "Disposicion.pdf", userid, (int)Constants.NivelesDeAgrupamiento.General, param_id_docadjunto);
+                            else if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.HAB)
+                                db.SSIT_DocumentosAdjuntos_Add(this.id_solicitud, 0, string.Empty, id_tipodocsis, true, id_file, "Disposicion.pdf", userid, param_id_docadjunto);
+
+                            id_devolucion_ee = 1;
+                            resultado_ee = "Disposición obtenida.";
+                            realizado_en_pasarela = true;
+
+                            db.SGI_SADE_Procesos_update(id_tarea_proc, realizado_en_pasarela, string.Empty, id_devolucion_ee, resultado_ee, userid);
+                            db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, true, DateTime.Now, resultado_ee, userid);
+
+                            Tran.Complete();
+                        }
+                        catch (Exception ex)
+                        {
+                            Tran.Dispose();
+                            throw ex;
+                        }
+                    }
+                }                
 
             }
             catch (Exception ex)
@@ -2975,7 +2988,10 @@ namespace SGI.GestionTramite.Controls
                             if (row.relacion_subido)
                                 resultado_ee = row.relacion_resultado;
 
-                            db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, row.relacion_subido, row.relacion_fecha_resultado, resultado_ee, userid);
+                            if (Functions.EsAmbienteDesa())
+                                db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, true, row.relacion_fecha_resultado, resultado_ee, userid);
+                            else
+                                db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, row.relacion_subido, row.relacion_fecha_resultado, resultado_ee, userid);
                         }
                     }
                 }
@@ -3039,7 +3055,13 @@ namespace SGI.GestionTramite.Controls
                             else
                                 resultado_ee = "Disposición pendiente de firma.";
 
-                            db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, row.firmado, row.fecha_firmado, resultado_ee, userid);
+                            if (Functions.EsAmbienteDesa())
+                            {
+                                db.SGI_SADE_Procesos_update(id_tarea_proc, true, proceso.descripcion_tramite, row.id_tarea_documento, proceso.resultado_ee, userid);
+                                db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, true, row.fecha_firmado, "Disposicion Firmada. Forzado por Entorno de Desarrollo", userid);
+                            }
+                            else
+                                db.SGI_SADE_Procesos_updateDatosSADE(id_tarea_proc, row.firmado, row.fecha_firmado, resultado_ee, userid);
                         }
                     }
                 }
@@ -3281,7 +3303,8 @@ namespace SGI.GestionTramite.Controls
                                 if (proceso.id_devolucion_ee == row.id_tarea_documento)
                                 {
                                     if (!row.firmado)
-                                        procesado_en_SADE = false;
+                                        if (!Functions.EsAmbienteDesa())
+                                            procesado_en_SADE = false;
                                 }
                             }
                         }

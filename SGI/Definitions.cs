@@ -505,6 +505,7 @@ namespace SGI
             ESCU_IP_Fin_Tramite = 818,
             ESCU_IP_Visado = 819,
             ESCU_IP_Informar_Dpcimento_SADE = 820,
+            ESCU_IP_Verificacion_IFCI = 101665,
             //Escuela
             ESCU_HP_Generar_Expediente = 901,
             ESCU_HP_Asignar_Calificador = 902,
@@ -526,6 +527,7 @@ namespace SGI
             ESCU_HP_Fin_Tramite = 918,
             ESCU_HP_Visado = 919,
             ESCU_HP_Informar_Dpcimento_SADE = 920,
+            ESCU_HP_Verificacion_IFCI = 101765,
 
             ESCU_SCP_Generar_Expediente_ESCU_HSCPES = 801, //Habilitaciones Simples Con Planos Escuelas Seguras
             ESCU_SCP_Generar_Expediente_ESCU_HEHP = 901, //Habilitaciones Escuela - Habilitación Previa
@@ -905,7 +907,8 @@ namespace SGI
             Caduco = 41,
             Datos_Confirmados = 39,
             RevCaducidad = 42,
-            BajaAdm = 43
+            BajaAdm = 43,
+            RevRechazo = 45
         }
 
 
@@ -927,7 +930,8 @@ namespace SGI
             Plano_Visado = 106,
             Plano_Habilitacion = 65,
             Plano_Ampliacion = 108,
-            Plano_Redistribucion_Uso = 109
+            Plano_Redistribucion_Uso = 109,
+            Informe_IFCI = 118
         }
 
         public enum TiposDePlanos

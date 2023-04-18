@@ -12,6 +12,7 @@ namespace SGI.Model
             this.SSIT_Solicitudes_Notificaciones = new HashSet<SSIT_Solicitudes_Notificaciones>();
             this.SSIT_Solicitudes_AvisoCaducidad = new HashSet<SSIT_Solicitudes_AvisoCaducidad>();
             this.Transf_Solicitudes_AvisoCaducidad = new HashSet<Transf_Solicitudes_AvisoCaducidad>();
+            this.SSIT_Solicitudes_AvisoRechazo = new HashSet<SSIT_Solicitudes_AvisoRechazo>();
         }
     
         public int id_email { get; set; }
@@ -37,5 +38,6 @@ namespace SGI.Model
         public virtual ICollection<SSIT_Solicitudes_Notificaciones> SSIT_Solicitudes_Notificaciones { get; set; }
         public virtual ICollection<SSIT_Solicitudes_AvisoCaducidad> SSIT_Solicitudes_AvisoCaducidad { get; set; }
         public virtual ICollection<Transf_Solicitudes_AvisoCaducidad> Transf_Solicitudes_AvisoCaducidad { get; set; }
+        public virtual ICollection<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
     }
 }
