@@ -325,7 +325,7 @@
                                                                             <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
                                                                                 CssClass="control-label">Búsqueda de Calle:</asp:Label>
                                                                             <div class="controls">
-                                                                               <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"  FilterType="Contains" EnablePersistence="true"/>
+                                                                               <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"  FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
                                                                            </div>
                                                                         </div>
                                                                         <div class="control-group">
@@ -919,7 +919,7 @@
                                 <div class="control-group">
                                     <label class="control-label">Calle:</label>
                                     <div class="controls">
-                                       <ej:Autocomplete ID="AutocompleteCallesSub" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
+                                       <ej:Autocomplete ID="AutocompleteCallesSub" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCallesSub_ValueSelect"/>
                                         <div id="Req_txtCalleSub" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
                                             Debe ingresar el nombre de la calle.
                                         </div>

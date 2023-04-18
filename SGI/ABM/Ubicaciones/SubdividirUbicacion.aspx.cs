@@ -96,6 +96,8 @@ namespace SGI.ABM.Ubicaciones
             {
                 ScriptManager.RegisterStartupScript(updDatos, updDatos.GetType(), "init_Js_updDatos", "init_Js_updDatos();", true);
             }
+            CargarComboCalles();
+            CargarComboCallesSub();
             if (!IsPostBack)
             {
                 hid_id_ubi_padre.Value = "";
@@ -174,6 +176,9 @@ namespace SGI.ABM.Ubicaciones
         {
             txtUbiNroPartida.Text = "";
             AutocompleteCalles.ClearSelection();
+            Response.Cookies["SubdividirUbicacion_IdCalle"].Value = string.Empty;
+            AutocompleteCallesSub.ClearSelection();
+            Response.Cookies["SubdividirUbicacionSub_IdCalle"].Value = string.Empty;
             txtUbiNroPuerta.Text = "";
             txtUbiSeccion.Text = "";
             txtUbiManzana.Text = "";
@@ -1350,12 +1355,12 @@ namespace SGI.ABM.Ubicaciones
 
             //filtro por domicilio
             if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && 
-                string.IsNullOrEmpty(AutocompleteCalles.SelectValueByKey))
+                string.IsNullOrEmpty(Request.Cookies["SubdividirUbicacion_IdCalle"].Value))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
-            this.cod_calle = AutocompleteCalles.SelectValueByKey;
+            this.cod_calle = Request.Cookies["SubdividirUbicacion_IdCalle"].Value;
 
             int.TryParse(txtUbiNroPuerta.Text.Trim(), out idAux);
             this.nro_puerta = idAux;
@@ -1964,7 +1969,7 @@ namespace SGI.ABM.Ubicaciones
                 int nroPuertaUbi = 0;
                 int codCalle = 0;
                 int.TryParse(txtNroPuertaSub.Text.Trim(), out nroPuertaUbi);
-                int.TryParse(AutocompleteCallesSub.SelectValueByKey, out codCalle);
+                int.TryParse(Request.Cookies["SubdividirUbicacionSub_IdCalle"].Value, out codCalle);
                 string txtCalle = GetNombreCalle(codCalle, nroPuertaUbi);
                 if (txtCalle != "" && !ubicacionRepetida(txtCalle, nroPuertaUbi))
                 {
@@ -2560,6 +2565,18 @@ namespace SGI.ABM.Ubicaciones
         {
             LimpiarAgregarParASub();
             CargarComboCalles();
+        }
+        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
+   object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        {
+            Response.Cookies["SubdividirUbicacion_IdCalle"].Value = e.Key;
+            return;
+        }
+
+        protected void AutocompleteCallesSub_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        {
+            Response.Cookies["SubdividirUbicacionSub_IdCalle"].Value = e.Key;
+            return;
         }
     }
 }
