@@ -13,6 +13,8 @@
         AnexoTecnicoAnulado = 9,
         SolicitudConfirmado = 10,
         LevantamientoDeRechazo = 11,
-        AsignadoAlCalificador = 12
+        AsignadoAlCalificador = 12,
+        Otras = 13,
+        RectificacionDeBaja= 14
     }
 }

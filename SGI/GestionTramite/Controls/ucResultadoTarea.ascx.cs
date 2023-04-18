@@ -253,6 +253,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             int id_tarea = 0, id_resultado = 0, id_proxima_tarea;
             DateTime? FechaCierre_tramitetarea = null;
             SGI_Tramites_Tareas tramite_tarea = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
@@ -342,6 +343,7 @@ namespace SGI.GestionTramite.Controls
         public int FinalizarTarea()
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             int id_tramitetarea = int.Parse(hid_id_tramite_tarea.Value);
             int id_resultado = int.Parse(ddlResultado.SelectedValue);

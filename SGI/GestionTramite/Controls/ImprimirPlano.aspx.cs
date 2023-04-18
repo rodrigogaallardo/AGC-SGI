@@ -76,7 +76,7 @@ namespace SGI.GestionTramite.Controls
             Response.Buffer = true;
             //Response.ContentType = "application/octet-stream";
             Response.ContentType = Functions.GetMimeTypeByFileName(arch);
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + arch);
+            Response.AddHeader("Content-Disposition", "attachment;filename=\"" + arch + "\"");
             //Response.AddHeader("Transfer-Encoding", "identity");
             Response.BinaryWrite(f.content_file);
             Response.Flush();

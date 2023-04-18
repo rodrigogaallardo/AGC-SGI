@@ -13,8 +13,5 @@ namespace SGI.Model
         public string descripcion_tipocertificado { get; set; }
         public int id_ImactoAmbiental { get; set; }
         public int puntaje_para_peligrosos { get; set; }
-        public int prioridad { get; set; }
-        public string AcronimoSADE { get; set; }
-        public string NombreArchivoCertificado { get; set; }
     }
 }

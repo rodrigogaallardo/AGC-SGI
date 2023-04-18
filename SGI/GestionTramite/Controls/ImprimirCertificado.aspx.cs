@@ -64,7 +64,7 @@ namespace SGI.GestionTramite.Controls
             Response.Clear();
             Response.Buffer = true;
             Response.ContentType = "application/pdf";
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + arch);
+            Response.AddHeader("Content-Disposition", "attachment;filename=\"" + arch + "\"");
             Response.BinaryWrite(obj.Certificado);
             Response.Flush();
 

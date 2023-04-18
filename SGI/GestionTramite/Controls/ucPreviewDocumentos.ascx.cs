@@ -19,6 +19,7 @@ namespace SGI.GestionTramite.Controls
         public void LoadData(int id_solicitud, int tipoTramite)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             if (tipoTramite == (int)Constants.TipoDeTramite.Habilitacion)
             {

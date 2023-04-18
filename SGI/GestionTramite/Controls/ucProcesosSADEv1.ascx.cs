@@ -192,6 +192,7 @@ namespace SGI.GestionTramite.Controls
             Guid userid = Functions.GetUserId();
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
             {
@@ -263,6 +264,7 @@ namespace SGI.GestionTramite.Controls
 
             bool ret = false;
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             ret = (db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == id_tramitetarea && !x.realizado_en_pasarela) > 0);
 
@@ -277,6 +279,7 @@ namespace SGI.GestionTramite.Controls
 
             bool ret = false;
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             ret = (db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == id_tramitetarea && !x.realizado_en_SADE && x.id_proceso != (int) Constants.SGI_Procesos_EE.GEN_PAQUETE) > 0);
 
@@ -288,6 +291,7 @@ namespace SGI.GestionTramite.Controls
         private void cargarGrillaParaProcesar(int id_tramitetarea)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             // carga los datos de los procesos
             // -----------------------------------------------------------------------------------
@@ -323,6 +327,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             //obtiene los resultados SADE de todos los procesos que fueron realizados en la pasarela pero no en SADE,
             //excluyendo la generación del paquete, ya que el mismo no se realiza en SADE.
@@ -361,6 +366,7 @@ namespace SGI.GestionTramite.Controls
             try
             {
                 DGHP_Entities db = new DGHP_Entities();
+                db.Database.CommandTimeout = 300;
                 int id_caratula = 0;
                 var tp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
                 
@@ -711,6 +717,7 @@ namespace SGI.GestionTramite.Controls
             }
             catch (Exception ex)
             {
+                LogError.Write(ex, "Error en btnProcesarItemExpediente_Click");
                 lblError.Text = Functions.GetErrorMessage(ex);
                 ScriptManager.RegisterStartupScript(updPnlItemGrillaProcesos, updPnlItemGrillaProcesos.GetType(), "script", "showfrmErrorProcesosSADE();", true);
             }
@@ -721,6 +728,7 @@ namespace SGI.GestionTramite.Controls
         private void ActualizarIdFile(int id_tarea_proc, int id_file)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             using (TransactionScope Tran = new TransactionScope())
             {
                 try
@@ -740,6 +748,7 @@ namespace SGI.GestionTramite.Controls
         {
             int idProceso = (int)Constants.SGI_Procesos_EE.GEN_TAREA_A_LA_FIRMA;
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             var sgi_reg = (from stt in db.SGI_Tramites_Tareas
                           join spp in db.SGI_SADE_Procesos on stt.id_tramitetarea equals spp.id_tramitetarea
                           where spp.id_tramitetarea == id_tramitetarea && spp.id_proceso == idProceso && spp.id_paquete == id_paquete
@@ -858,6 +867,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -919,6 +929,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -1036,6 +1047,7 @@ namespace SGI.GestionTramite.Controls
         private void obtenerDatosCaratula(int id_grupo_tramite, int id_tramitetarea, ref Datos_Caratula_Persona_Fisica pf, ref Datos_Caratula_Persona_Juridica pj)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             string cod_trata = "";
             string motivo_expediente = "";
 
@@ -1286,7 +1298,9 @@ namespace SGI.GestionTramite.Controls
         private void subirDocumento(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             AGC_FilesEntities dbFiles = new AGC_FilesEntities();
+            dbFiles.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -1509,7 +1523,9 @@ namespace SGI.GestionTramite.Controls
         private void subirObservaciones(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             AGC_FilesEntities dbFiles = new AGC_FilesEntities();
+            dbFiles.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -1656,6 +1672,7 @@ namespace SGI.GestionTramite.Controls
         private void subirProvidencia(int id_tarea_proc, int id_paquete, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -1739,6 +1756,7 @@ namespace SGI.GestionTramite.Controls
         private void subirCertificado(int id_tarea_proc, int id_paquete, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -1843,6 +1861,7 @@ namespace SGI.GestionTramite.Controls
         private void relacionarExpediente(int id_tarea_proc, int id_paquete, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -1921,7 +1940,8 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
-            
+            db.Database.CommandTimeout = 300;
+
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -1961,6 +1981,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -2012,6 +2033,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -2100,6 +2122,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -2201,6 +2224,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
@@ -2315,6 +2339,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -2447,6 +2472,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -2525,6 +2551,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "Disposición No Firmada";
             int id_devolucion_ee = -1;
@@ -2589,6 +2616,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -2668,6 +2696,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -2767,6 +2796,7 @@ namespace SGI.GestionTramite.Controls
         {
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             bool NOTAD = false;
             bool NOGP = false;
             bool.TryParse(Functions.GetParametroChar("SGI.NO.TAD"), out NOTAD);
@@ -3052,7 +3082,10 @@ namespace SGI.GestionTramite.Controls
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener los datos -> GetInfoPaquete: " + ex.Message);
+                if (ex.InnerException != null)
+                    throw new Exception("Error al obtener los datos -> GetInfoPaquete: " + ex.InnerException.Message);
+                else
+                    throw new Exception("Error al obtener los datos -> GetInfoPaquete: " + ex.Message);
             }
         }
 
@@ -3061,6 +3094,7 @@ namespace SGI.GestionTramite.Controls
             bool ret = true;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             // valida que la caratula haya sido subida a SADE
             int[] arrProcesos_a_validar = new int[] { (int)Constants.SGI_Procesos_EE.GEN_CARATULA };
@@ -3093,6 +3127,7 @@ namespace SGI.GestionTramite.Controls
             bool ret = true;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             // valida que la dispo haya sido firmada en SADE
             int[] arrProcesos_a_validar = new int[] { (int)Constants.SGI_Procesos_EE.REVISION_DE_FIRMA };
@@ -3114,6 +3149,7 @@ namespace SGI.GestionTramite.Controls
             bool procesado_en_SADE = true;
 
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
 
             try
@@ -3282,7 +3318,10 @@ namespace SGI.GestionTramite.Controls
             }
             catch (Exception ex)
             {
-                throw new Exception("Error en la función validarProcesosRealizadosEnSADE() : " + ex.Message);
+                if (ex.InnerException != null)
+                    throw new Exception("Error en la función validarProcesosRealizadosEnSADE() : " + ex.InnerException.Message);
+                else
+                    throw new Exception("Error en la función validarProcesosRealizadosEnSADE() : " + ex.Message);
             }
 
             return procesado_en_SADE;
@@ -3314,6 +3353,7 @@ namespace SGI.GestionTramite.Controls
             byte[] ret = null;
             
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             string texto_providencia = "";
             string ProvidenciaHTML = "";
 
@@ -3541,7 +3581,9 @@ namespace SGI.GestionTramite.Controls
         private void subirPlano(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             AGC_FilesEntities dbFiles = new AGC_FilesEntities();
+            dbFiles.Database.CommandTimeout = 300;
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;

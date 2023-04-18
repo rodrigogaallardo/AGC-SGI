@@ -98,14 +98,14 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             {
                 ucObservacionesTarea.Text = calificar.Observaciones.Trim();
                 ucObservacionContribuyente.Text = calificar.Observaciones_contribuyente.Trim();
-                ucObservacionesInternas.Text = ucObservacionesTarea.LoadObservacionesInternas(id_tramitetarea, id_solicitud);
+                ucObservacionesInternas.Text = ucObservacionesTarea.LoadObservacionesInternasCalificar(id_tramitetarea, id_solicitud);
                 ucObservacionProvidencia.Text = calificar.Observaciones_Providencia;
             }
             else
             {
                 ucObservacionesTarea.Text = ObservacionAnteriores.Buscar_ObservacionPlancheta((int)Constants.GruposDeTramite.TR, id_solicitud, id_tramitetarea);
                 ucObservacionContribuyente.Text = "";
-                ucObservacionesInternas.Text = ucObservacionesTarea.LoadObservacionesInternas(id_tramitetarea, id_solicitud); ;
+                ucObservacionesInternas.Text = ucObservacionesTarea.LoadObservacionesInternasCalificar(id_tramitetarea, id_solicitud); ;
                 if (this.id_solicitud <= nroTrReferencia)
                     ucObservacionProvidencia.Text = "SUBGERENTE OPERATIVO TRANSFERENCIA\n\n\n" +
                                                     "Atento lo actuado y teniendo en cuenta que se ha dado cumplimiento con todos los requisitos normativos " +

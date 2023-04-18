@@ -45,6 +45,7 @@ namespace SGI.Model
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
@@ -982,6 +983,7 @@ namespace SGI.Model
         private static string Buscar_ObservacionPlancheta(int id_solicitud, int id_tramitetarea)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             string observ = "";
 
             var q = (
@@ -1041,6 +1043,7 @@ namespace SGI.Model
         public string Buscar_Considerando_Dispo_RR(int id_solicitud, int id_tramitetarea)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             string considerando = "";
 
             var q = (
@@ -1254,6 +1257,7 @@ namespace SGI.Model
         public static dsImpresionDisposicion Transmisiones_GenerarDataSetDisposicion(int id_solicitud, int id_tramitetarea, string expediente)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             dsImpresionDisposicion ds = new dsImpresionDisposicion();
             DataRow row;
 
@@ -2223,6 +2227,7 @@ namespace SGI.Model
         public static dsImpresionDisposicion Transf_GenerarDataSetDisposicion(int id_solicitud, int id_tramitetarea, string expediente)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             dsImpresionDisposicion ds = new dsImpresionDisposicion();
             DataRow row;
 
@@ -2990,6 +2995,7 @@ namespace SGI.Model
         private static string Transf_Buscar_ObservacionPlancheta(int id_solicitud, int id_tramitetarea)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             string observ = "";
 
             /*if (Functions.isAprobado(id_solicitud))
@@ -3181,6 +3187,7 @@ namespace SGI.Model
         public static string Transmision_GenerarHtml_Disposicion(int id_solicitud, int id_tramitetarea, string expediente, string str_archivo)
         {
             DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             string disposicion_html = str_archivo;
             string lblObservacion = "";
             var transmision = db.Transf_Solicitudes.Where(x => x.id_solicitud == id_solicitud).FirstOrDefault();
