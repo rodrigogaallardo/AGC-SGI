@@ -619,11 +619,11 @@ namespace SGI.ABM.Partidas
 
                     if (!String.IsNullOrEmpty(zonas))
                     {
-                        IdZonas = ddlDistritosZonas.SelectedIndex;
+                        IdZonas = Convert.ToInt32(ddlDistritosZonas.SelectedValue);
                     }
                     if (!String.IsNullOrEmpty(subZonas))
                     {
-                        IdSubZonas = ddlDistritosSubZonas.SelectedIndex;
+                        IdSubZonas = Convert.ToInt32(ddlDistritosSubZonas.SelectedValue);
                     }
 
                     if (!DistritoRepetido(grupoDistrito, distrito, zonas, subZonas))
