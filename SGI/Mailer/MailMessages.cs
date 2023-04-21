@@ -162,9 +162,26 @@ namespace SGI.Mailer
             string emailHtml = reader.ReadToEnd();
             reader.Dispose();
             response.Dispose();
-
+            
             return emailHtml;
         }
+        public static string htmlMail_RectificacionBajaSolicitud()
+        {
+            Control ctl = new Control();
+            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRectificacionBaja.aspx");
+            surl = BasePage.IPtoDomain(surl);
+
+            WebRequest request = WebRequest.Create(surl);
+            WebResponse response = request.GetResponse();
+
+            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            string emailHtml = reader.ReadToEnd();
+            reader.Dispose();
+            response.Dispose();
+            
+            return emailHtml;
+        }
+
         public static string htmlMail_RechazoSolicitud()
         {
             Control ctl = new Control();
@@ -2494,12 +2511,12 @@ namespace SGI.Mailer
                 emails.AddRange(GetEmailPersonaJuridica(db, nroSolicitud));
                 emails.AddRange(GetEmailProfesionales(db, nroSolicitud));
 
-                string asunto = "Sol - " + nroSolicitud.ToString()+ " - " + txtAsunto.ToString();
+                string asunto = "Sol - " + nroSolicitud.ToString() + " - " + txtAsunto.ToString();
                 string html = txtMensaje;
 
                 var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, html, emails);
 
-                foreach(int idEmail in idEmails)
+                foreach (int idEmail in idEmails)
                 {
                     CrearNotificacion(nroSolicitud, idEmail, idNotificacionMotivo, db, fechaNotificacion);
                 }
@@ -2507,7 +2524,41 @@ namespace SGI.Mailer
                 db.SaveChanges();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void SendMail_Rectificada(int idNotificacionMotivo, int nroSolicitud, DateTime fechaNotificacion, string mensaje)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            try
+            {
+                var user = GetUsuario(db, nroSolicitud);
+                var emails = new List<string>
+                {
+                    user.Email
+                };
+
+                emails.AddRange(GetEmailPersonaFisica(db, nroSolicitud));
+                emails.AddRange(GetEmailPersonaJuridica(db, nroSolicitud));
+                emails.AddRange(GetEmailProfesionales(db, nroSolicitud));
+
+                string asunto = "Sol - " + nroSolicitud.ToString() + " - Rectificación de Baja";
+                //string html = $"Sr. Contribuyente, la Baja de la Solicitud N° {nroSolicitud} ha sido rectificada.";
+
+                var idEmails = EnviarEmails(TipoEmail.Generico, 1, asunto, htmlMail_RectificacionBajaSolicitud(), emails);
+
+                foreach (int idEmail in idEmails)
+                {
+                    CrearNotificacion(nroSolicitud, idEmail, idNotificacionMotivo, db, fechaNotificacion);
+                }
+
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -2589,8 +2640,14 @@ namespace SGI.Mailer
                   }
                 ).FirstOrDefault();
 
-            string sql = $"select dbo.Encomienda_Solicitud_DireccionesPartidas({sol.id_cpadron})";
-            string direccion = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            string sql = string.Empty;
+            string direccion = string.Empty;
+
+            if (sol != null)
+            {
+                sql = $"select dbo.Encomienda_Solicitud_DireccionesPartidas({sol.id_cpadron})";
+                direccion = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            }
 
             return direccion;
         }

@@ -11,80 +11,134 @@ namespace SGI
 {
 
 
-    public partial class NotificacionesCaducidad
+    public partial class AgregarCalle
     {
 
         /// <summary>
-        /// Control txtNroSolicitud.
+        /// Control lblCodigoCalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNroSolicitud;
+        protected global::System.Web.UI.WebControls.Label lblCodigoCalle;
 
         /// <summary>
-        /// Control RegularExpressionValidator2.
+        /// Control codigoCalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
+        protected global::System.Web.UI.WebControls.TextBox codigoCalle;
 
         /// <summary>
-        /// Control ddlNotificaciones_motivos.
+        /// Control lblAltIzqInicio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlNotificaciones_motivos;
+        protected global::System.Web.UI.WebControls.Label lblAltIzqInicio;
 
         /// <summary>
-        /// Control txtFechaNotificacion.
+        /// Control altIzqInicio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaNotificacion;
+        protected global::System.Web.UI.WebControls.TextBox altIzqInicio;
 
         /// <summary>
-        /// Control rev_txtFechaNotificacion.
+        /// Control lblAltDerInicio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaNotificacion;
+        protected global::System.Web.UI.WebControls.Label lblAltDerInicio;
 
         /// <summary>
-        /// Control btnBuscar.
+        /// Control altDerInicio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscar;
+        protected global::System.Web.UI.WebControls.TextBox altDerInicio;
 
         /// <summary>
-        /// Control btnNotificar.
+        /// Control lblCalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNotificar;
+        protected global::System.Web.UI.WebControls.Label lblCalle;
 
         /// <summary>
-        /// Control btnLimpiar.
+        /// Control nombreCalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
+        protected global::System.Web.UI.WebControls.TextBox nombreCalle;
+
+        /// <summary>
+        /// Control lblAltIzqFin.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAltIzqFin;
+
+        /// <summary>
+        /// Control altIzqFin.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox altIzqFin;
+
+        /// <summary>
+        /// Control lblAltDerFin.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAltDerFin;
+
+        /// <summary>
+        /// Control altDerFin.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox altDerFin;
+
+        /// <summary>
+        /// Control lblTipoCalle.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTipoCalle;
+
+        /// <summary>
+        /// Control ddlTipoCalle.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoCalle;
 
         /// <summary>
         /// Control updResultados.
@@ -123,30 +177,30 @@ namespace SGI
         protected global::System.Web.UI.WebControls.Label lblSuccess;
 
         /// <summary>
-        /// Control updResultados3.
+        /// Control btnAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updResultados3;
+        protected global::System.Web.UI.WebControls.Button btnAgregar;
 
         /// <summary>
-        /// Control lblRectificada.
+        /// Control btnLimpiar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRectificada;
+        protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
 
         /// <summary>
-        /// Control ucNotificacionesEditar.
+        /// Control btnReturn.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucNotificacionesEditar ucNotificacionesEditar;
+        protected global::System.Web.UI.WebControls.Button btnReturn;
     }
 }

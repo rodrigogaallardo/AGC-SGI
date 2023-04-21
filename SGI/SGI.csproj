@@ -730,6 +730,8 @@
     <Content Include="GestionTramite\Controls\ucEncomienda.ascx" />
     <Content Include="GestionTramite\Controls\ucHistorial.ascx" />
     <Content Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx" />
+    <Content Include="GestionTramite\Controls\ucListaCalle.ascx" />
+    <Content Include="GestionTramite\Controls\ucNotificacionesEditar.ascx" />
     <Content Include="GestionTramite\Controls\ucRubros.ascx" />
     <Content Include="GestionTramite\Controls\ucSGI_ListaPlanoVisado.ascx" />
     <Content Include="GestionTramite\Controls\ucTitulares.ascx" />
@@ -820,12 +822,16 @@
     <Content Include="Mailer\MailCaducidad.aspx" />
     <Content Include="Mailer\MailCambioEstado.aspx" />
     <Content Include="Mailer\MailLevantamientoRechazo.aspx" />
+    <Content Include="Mailer\MailRectificacionBaja.aspx" />
     <Content Include="Mailer\MailObservacionSolicitud.aspx" />
     <Content Include="Mailer\MailQrDisponible.aspx" />
     <Content Include="Mailer\MailRechazoSolicitud.aspx" />
     <Content Include="Mailer\MailRechazoSolicitudEspar.aspx" />
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
+    <Content Include="Operaciones\EditarCalle.aspx" />
+    <Content Include="Operaciones\AgregarCalle.aspx" />
+    <Content Include="Operaciones\AbmCalles.aspx" />
     <Content Include="Operaciones\SolicitudesIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
     <Content Include="Operaciones\DistritosIndex.aspx" />
@@ -2291,6 +2297,20 @@
     <Compile Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx.designer.cs">
       <DependentUpon>ucListaDocumentosSSIT.ascx</DependentUpon>
     </Compile>
+    <Compile Include="GestionTramite\Controls\ucListaCalle.ascx.cs">
+      <DependentUpon>ucListaCalle.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucListaCalle.ascx.designer.cs">
+      <DependentUpon>ucListaCalle.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.cs">
+      <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.designer.cs">
+      <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
+    </Compile>
     <Compile Include="GestionTramite\Controls\ucRubros.ascx.cs">
       <DependentUpon>ucRubros.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2898,6 +2918,13 @@
     <Compile Include="Mailer\MailLevantamientoRechazo.aspx.designer.cs">
       <DependentUpon>MailLevantamientoRechazo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Mailer\MailRectificacionBaja.aspx.cs">
+      <DependentUpon>MailRectificacionBaja.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mailer\MailRectificacionBaja.aspx.designer.cs">
+      <DependentUpon>MailRectificacionBaja.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Mailer\MailObservacionSolicitud.aspx.cs">
       <DependentUpon>MailObservacionSolicitud.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3001,6 +3028,9 @@
     <Compile Include="Model\AVH_Rubros_ConsRestricciones_Result.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AVH_Ubicaciones_Puertas.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Barrios.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -3017,6 +3047,9 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Calles.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Calles_Eliminadas.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CharData.cs" />
@@ -3122,6 +3155,9 @@
     </Compile>
     <Compile Include="Model\CreateExcelFile.cs" />
     <Compile Include="Model\DDLGrouped.cs" />
+    <Compile Include="Model\DGFYCO_Ubicaciones_Puertas.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Disposiciones_Texto.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -3173,6 +3209,9 @@
     </Compile>
     <Compile Include="Model\Email_EstadosDTO.cs" />
     <Compile Include="Model\Encomienda.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EncomiendaExt_Ubicaciones_Puertas.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Encomienda_buscar_rel_Rectificatoria_Result.cs">
@@ -3499,6 +3538,9 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\RAL_Licencias.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RAL_Ubicaciones_Puertas.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Rel_Encomienda_Rectificatoria.cs">
@@ -4415,6 +4457,27 @@
     </Compile>
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\EditarCalle.aspx.cs">
+      <DependentUpon>EditarCalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\EditarCalle.aspx.designer.cs">
+      <DependentUpon>EditarCalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\AgregarCalle.aspx.cs">
+      <DependentUpon>AgregarCalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\AgregarCalle.aspx.designer.cs">
+      <DependentUpon>AgregarCalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\AbmCalles.aspx.cs">
+      <DependentUpon>AbmCalles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\AbmCalles.aspx.designer.cs">
+      <DependentUpon>AbmCalles.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\SolicitudesDto.cs" />
     <Compile Include="Operaciones\SolicitudesIndex.aspx.cs">

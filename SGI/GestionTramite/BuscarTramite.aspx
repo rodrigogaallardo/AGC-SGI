@@ -576,7 +576,6 @@
                                         <td style="vertical-align: top;">
                                             <div class="form-horizontal" style="width: 300px">
                                                 <fieldset>
-
                                                     <div class="control-group">
                                                         <asp:Label ID="lblNroEncomienda" runat="server" AssociatedControlID="txtNroEncomienda"
                                                             Text="Encomienda:" class="control-label"></asp:Label>

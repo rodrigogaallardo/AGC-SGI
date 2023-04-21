@@ -146,7 +146,6 @@
             </div>
         </div>
     </div>
-    
 
         <!-- Initialize Quill editor -->
     <script>
