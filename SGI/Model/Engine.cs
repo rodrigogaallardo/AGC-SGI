@@ -249,18 +249,41 @@ namespace SGI.Model
                 objret.nombre_circuito = ENG_Tarea.ENG_Circuitos.nombre_circuito;
 
                 // Carga los resultados posibles de una Tarea
-                objret.Resultados = (from rel_resultado_tarea in db.ENG_Rel_Resultados_Tareas
-                                     join resultado in db.ENG_Resultados on rel_resultado_tarea.id_resultado equals resultado.id_resultado
-                                     join tarea in db.ENG_Tareas on rel_resultado_tarea.id_tarea equals tarea.id_tarea
-                                     where rel_resultado_tarea.id_tarea == id_tarea
-                                     orderby resultado.nro_orden_resultado, tarea.cod_tarea
-                                     select new Resultado
-                                     {
-                                         id_resultado = resultado.id_resultado,
-                                         nombre_resultado = resultado.nombre_resultado
-                                     }).ToList();
+                List<Resultado> resultados = (from rel_resultado_tarea in db.ENG_Rel_Resultados_Tareas
+                                             join resultado in db.ENG_Resultados on rel_resultado_tarea.id_resultado equals resultado.id_resultado
+                                             join tarea in db.ENG_Tareas on rel_resultado_tarea.id_tarea equals tarea.id_tarea
+                                             where rel_resultado_tarea.id_tarea == id_tarea
+                                             orderby resultado.nro_orden_resultado, tarea.cod_tarea
+                                             select new Resultado
+                                             {
+                                                 id_resultado = resultado.id_resultado,
+                                                 nombre_resultado = resultado.nombre_resultado
+                                             }).ToList();
 
+                if (id_tramitetarea != 0)
+                {
+                    int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
+                    int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
+                                               join e in db.Encomienda on es.id_encomienda equals e.id_encomienda
+                                               join ep in db.Encomienda_Planos on e.id_encomienda equals ep.id_encomienda
+                                               where es.id_solicitud == id_solicitud
+                                               && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
+                                               && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                               select es.id_encomiendaSolicitud).Count();
 
+                    List<Resultado> borrar = new List<Resultado>();
+                    if (existePlanoIncendio == 0)
+                    {
+                        foreach (Resultado item in resultados)
+                        {
+                            if (item.id_resultado == 94)
+                                borrar.Add(item);
+                        }
+                    }
+                    resultados.RemoveAll(borrar.Contains);
+                }
+
+                objret.Resultados = resultados;
                 return objret;
 
             }

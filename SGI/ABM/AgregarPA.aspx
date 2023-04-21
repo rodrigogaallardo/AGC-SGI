@@ -515,7 +515,7 @@
 
     function tda_validar_detalle_tipo_documento() {
         var es_valido = true;
-        debugger;
+        //debugger;
         if ($("#div_detalle_otro").is(':visible') && $("#div_detalle_otro").parents(':hidden').length == 0 && $("#MainContent_txtDetalle").val().length == 0) {
             var comboText = $('#<%=ddl_tipo_doc.ClientID%> option:selected').text();
             $('#<%=val_upload_txtDetalle.ClientID%>').text("En tipo de documento '" + comboText + "', es obligatoria la aclaración.");  // asi funciona
