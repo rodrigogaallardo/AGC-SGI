@@ -114,11 +114,11 @@
                                 <div class="row-fluid">
                                     <label class="span2">Calle:</label>
                                     <div class="span7">
-                                        <asp:DropDownList ID="ddlCalles" runat="server" Width="500px"></asp:DropDownList>
-                                        <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
+                                      <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains"  EnablePersistence="true"/>
+                                       <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                         <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                            Display="Dynamic" ControlToValidate="ddlCalles" ValidationGroup="Buscar2"
+                                            Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                             CssClass="field-validation-error"></asp:RequiredFieldValidator>
 
                                     </div>
@@ -744,9 +744,7 @@
                 }
             });
 
-            $("#<%: ddlCalles.ClientID %>").select2(/*{
-                minimumInputLength: 3
-            }*/);
+           
 
 
             try {

@@ -28,7 +28,7 @@ namespace SGI
         public const int SOLICITUDES_NUEVAS_MAYORES_A = 299999;
 
         public const int EsSolicitud = 200000;
-        
+
         public const string EXTENSION_PDF = "pdf";
         public const string EXTENSION_JPG = "jpg";
         public const string SISTEMA = "SGI";
@@ -475,7 +475,7 @@ namespace SGI
             ESPAR_Dictamen_Realizar_Nuevo = 611,
             ESPAR_Dictamen_Revision_Nuevo = 612,
             ESPAR_Revision_DGHP_Nuevo = 613,
-            ESPAR_Generar_Expediente_Nuevo = 614,            
+            ESPAR_Generar_Expediente_Nuevo = 614,
             ESPAR_Revision_Firma_Disposicion_Nuevo = 615,
             ESPAR_Enviar_DGFC_Nuevo = 616,
             ESPAR_Fin_Tramite_Nuevo = 617,
@@ -718,7 +718,7 @@ namespace SGI
             Aprobado_Reconsideracion = 2219,
             Observado_Reconsideracion = 2277,
             Rechazado_Reconsideracion = 2244,
-            
+
         }
         public enum CAA_Estados
         {
@@ -1043,6 +1043,20 @@ namespace SGI
     }
     public class Functions
     {
+
+        public static void CargarAutocompleteCalles(Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            var lstCalles = (from calle in db.Calles
+                             select new
+                             {
+                                 calle.Codigo_calle,
+                                 calle.NombreOficial_calle
+                             }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
+
+            AutocompleteCalles.DataSource = lstCalles;
+            db.Dispose();
+        }
         public static int isResultadoDispo(int id_solicitud)
         {
             int ret = 0;
@@ -1218,7 +1232,7 @@ namespace SGI
             {
                 throw new Exception("Error de exportacion: Intente nuevamente.");
             }
-            
+
         }
 
         public static void ExportDataSetToExcel(DataSet ds, string destination)
@@ -1288,7 +1302,7 @@ namespace SGI
             catch (Exception)
             {
                 throw new Exception("Error de exportacion: Intente nuevamente.");
-            }            
+            }
         }
 
         public static byte[] StreamToArray(Stream input)
@@ -1920,7 +1934,7 @@ namespace SGI
             resultados.Add((int)Constants.ENG_ResultadoTarea.Requiere_Rechazo);
             resultados.Add((int)Constants.ENG_ResultadoTarea.Rechazado);
             resultados.Add((int)Constants.ENG_ResultadoTarea.Calificar_Pedir_Rectificacion);
-            
+
 
             var query_resultado =
                     (
@@ -2112,7 +2126,7 @@ namespace SGI
                     ret = Constants.TipoResolucionHAB.Aprobado;
                 else if (resultado == (int)Constants.ENG_ResultadoTarea.Requiere_Rechazo || resultado == (int)Constants.ENG_ResultadoTarea.Rechazado)
                     ret = Constants.TipoResolucionHAB.Rechazado;
-                else if (resultado == (int)Constants.ENG_ResultadoTarea.Calificar_Pedir_Rectificacion || resultado == (int)Constants.ENG_ResultadoTarea.Observacion) 
+                else if (resultado == (int)Constants.ENG_ResultadoTarea.Calificar_Pedir_Rectificacion || resultado == (int)Constants.ENG_ResultadoTarea.Observacion)
                     ret = Constants.TipoResolucionHAB.Observado;
             }
 
@@ -2405,7 +2419,7 @@ namespace SGI
                                   join et in db.ENG_Tareas on tt.id_tarea equals et.id_tarea
                                   where tt.id_tramitetarea == id_tramitetarea && (et.id_circuito == 15 || et.id_circuito == 35)
                                   select new
-                                  {  et.id_circuito }).FirstOrDefault();
+                                  { et.id_circuito }).FirstOrDefault();
 
                 if (idCircuito != null)
                     return true;
