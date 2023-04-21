@@ -78,10 +78,10 @@ namespace SGI.Controls
             }
             if (!IsPostBack)
             {
-                CargarCalles();
+              
                 CargarComboTipoUbicacion();
             }
-
+            CargarCalles();
         }
 
         private void Inicilizar_Control()
@@ -96,7 +96,8 @@ namespace SGI.Controls
             ddlTipoDeUbicacion.ClearSelection();
             optTipoPartidaMatriz.Checked = true;
             txtNroPartida.Text = "";
-            ddlCalles.ClearSelection();
+            AutocompleteCalles.ClearSelection();
+
             txtNroPuerta.Text = "";
             txtDescUbicacion.Text = "";
             pnlResultados.Update();
@@ -105,23 +106,7 @@ namespace SGI.Controls
 
         private void CargarCalles()
         {
-            DGHP_Entities db = new DGHP_Entities();
-            
-            var lstCalles = (from calle in db.Calles
-                     select new
-                     {
-                         calle.Codigo_calle,
-                         calle.NombreOficial_calle
-                     }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-            
-            ddlCalles.DataSource = lstCalles;
-            ddlCalles.DataTextField = "NombreOficial_calle";
-            ddlCalles.DataValueField = "Codigo_calle";
-            ddlCalles.DataBind();
-
-            ddlCalles.Items.Insert(0,"");
-            
-            db.Dispose();
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         protected void btnBuscar1_Click(object sender, EventArgs e)
@@ -209,7 +194,7 @@ namespace SGI.Controls
                     int maxvaluePuerta = 0;
                     int parimpar = 0;   // 0 = par - 1 impar
 
-                    int vcodigo_calle = int.Parse( ddlCalles.SelectedValue);
+                    int vcodigo_calle = int.Parse(AutocompleteCalles.SelectValueByKey);
                     var query2 = (from ubic in db.Ubicaciones
                                   join puer in db.Ubicaciones_Puertas on ubic.id_ubicacion equals puer.id_ubicacion
                                   where puer.codigo_calle.Equals(vcodigo_calle) && puer.NroPuerta_ubic.Equals(vNroPuerta)

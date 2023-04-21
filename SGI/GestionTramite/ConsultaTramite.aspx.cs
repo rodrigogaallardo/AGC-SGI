@@ -86,17 +86,22 @@ namespace SGI.GestionTramite
 
             if (sm.IsInAsyncPostBack)
             {
-
                 ScriptManager.RegisterStartupScript(updPnlFiltroBuscar_tramite, updPnlFiltroBuscar_tramite.GetType(),
-                    "inicializar_controles", "inicializar_controles();", true);
+                     "inicializar_controles", "inicializar_controles();", true);
             }
 
+            CargarCalles();
             if (!IsPostBack)
             {
+
+                if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
+                {
+                    AutocompleteCalles.SelectValueByKey = Request.Cookies["ConsultaTramite_IdCalle"].Value;
+                }
                 hid_DecimalSeparator.Value = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
                 LoadData();
             }
-
         }
 
         protected override void OnUnload(EventArgs e)
@@ -153,7 +158,6 @@ namespace SGI.GestionTramite
 
         public void LoadData()
         {
-
             try
             {
                 List<int> id = new List<int>();
@@ -165,7 +169,7 @@ namespace SGI.GestionTramite
                 CargarCombo_subtipoTramite(0);
                 CargarCombo_tareas(id, 0, 0);
                 CargarCombos();
-                CargarCalles();
+              
                 CargarCombo_GrupoCircuito();
                 updPnlFiltroBuscar_tramite.Update();
                 updPnlFiltroBuscar_ubi_dom.Update();
@@ -452,7 +456,8 @@ namespace SGI.GestionTramite
             txtFechaLibradoUsoHasta.Text = "";
             txtSuperficieDesde.Text = "";
             txtSuperficieHasta.Text = "";
-            ddlCalles.ClearSelection();
+            AutocompleteCalles.ClearSelection();
+            Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
             txtUbiNroPuertaDesde.Text = "";
             txtUbiNroPuertaHasta.Text = "";
             ddlVereda.SelectedIndex = 0;
@@ -486,19 +491,7 @@ namespace SGI.GestionTramite
 
         private void CargarCalles()
         {
-            var lstCalles = (from calle in db.Calles
-                             select new
-                             {
-                                 calle.Codigo_calle,
-                                 calle.NombreOficial_calle
-                             }).Distinct().OrderBy(x => x.NombreOficial_calle).ToList();
-
-            ddlCalles.DataSource = lstCalles;
-            ddlCalles.DataTextField = "NombreOficial_calle";
-            ddlCalles.DataValueField = "Codigo_calle";
-            ddlCalles.DataBind();
-
-            ddlCalles.Items.Insert(0, "");
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         protected void btnBuscar_OnClick(object sender, EventArgs e)
@@ -886,11 +879,16 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text))
-                && ddlCalles.SelectedValue == "")
+            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
+                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == ""))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
+
+            idAux = 0;
+            if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
+                int.TryParse(Request.Cookies["ConsultaTramite_IdCalle"].Value, out idAux);
+            this.id_calle = idAux;
 
             idAux = 0;
             if (int.TryParse(ddlZona.SelectedValue, out idAux) && idAux > 0)
@@ -904,9 +902,7 @@ namespace SGI.GestionTramite
             if (int.TryParse(ddlComuna.SelectedValue, out idAux) && idAux > 0)
                 this.id_comuna = idAux;
 
-            idAux = 0;
-            if (int.TryParse(ddlCalles.SelectedValue, out idAux) && idAux > 0)
-                this.id_calle = idAux;
+
 
             idAux = 0;
             if (int.TryParse(txtUbiNroPuertaDesde.Text.Trim(), out idAux))
@@ -1075,9 +1071,9 @@ namespace SGI.GestionTramite
             hid_grupocircuito_selected.Value = filtros.codGrupoCircuito;
 
             if (String.IsNullOrWhiteSpace(filtros.id_calle))
-                ddlCalles.SelectedValue = "Todos";
+                AutocompleteCalles.SelectValueByKey = "Todos";
             else
-                ddlCalles.SelectedValue = filtros.id_calle;
+                AutocompleteCalles.SelectValueByKey = filtros.id_calle;
 
             txtUbiNroPuertaDesde.Text = filtros.nro_calle_desde;
             txtUbiNroPuertaHasta.Text = filtros.nro_calle_hasta;
@@ -1252,6 +1248,7 @@ namespace SGI.GestionTramite
         }
 
         #region Filtro rubros
+
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             DGHP_Entities db = new DGHP_Entities();
@@ -1498,7 +1495,7 @@ namespace SGI.GestionTramite
                 if (int.TryParse(ddlComuna.SelectedValue, out idAux) && idAux > 0)
                     this.id_comuna = idAux;
 
-                if (int.TryParse(ddlCalles.SelectedValue, out idAux) && idAux > 0)
+                if (int.TryParse(AutocompleteCalles.SelectValueByKey, out idAux) && idAux > 0)
                     this.id_calle = idAux;
 
                 if (string.IsNullOrWhiteSpace(txtUbiNroPuertaDesde.Text))
@@ -1727,7 +1724,6 @@ namespace SGI.GestionTramite
                         r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
                     }
 
-
                     #region ASOSA
                     int existe = (from s in db.SSIT_DocumentosAdjuntos
                                   where s.id_solicitud == r.id_solicitud
@@ -1750,7 +1746,6 @@ namespace SGI.GestionTramite
                     }
 
                     #endregion
-
                 }
 
                 #region ASOSA
@@ -2121,12 +2116,31 @@ namespace SGI.GestionTramite
 
         #endregion
 
-        protected void ddlPlanoIncendio_SelectedIndexChanged(object sender, EventArgs e)
+        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
+       object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
+            //HidCalle.Value = e.Key;
 
-            Session["ddlPlanoIncendio_Value"] = ddlPlanoIncendio.SelectedValue.ToString();
+            Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
+
+            //ASOSA MENSAJE DE ERROR
+            //ScriptManager sm = ScriptManager.GetCurrent(this);
+            //string script = "window.localStorage.setItem('IdCalle'," + e.Key + ");";
+            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+
+
+
+
+            // ScriptManager sm2 = ScriptManager.GetCurrent(this);
+            //string script2 = "alert(window.localStorage.getItem('IdCalle'))";
+            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript2", script2, true);
+
+            //// ScriptManager sm3 = ScriptManager.GetCurrent(this);
+            //string script3 = "document.getElementById('<%=HidCalle.ClientID %>').value = window.localStorage.getItem('IdCalle');";
+            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript3", script3, true);
+
+
+            return;
         }
-
-
     }
 }

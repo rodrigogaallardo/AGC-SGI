@@ -127,7 +127,7 @@
                                     <td>Calle:
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlCalles" runat="server" Width="500px" ></asp:DropDownList>
+                                   <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -137,7 +137,7 @@
                                                                 las calles posibles.</span>
                                         <p>
                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                                Display="Dynamic" ControlToValidate="ddlCalles" ValidationGroup="Buscar2"  
+                                                Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"  
                                                 CssClass="field-validation-error"></asp:RequiredFieldValidator>
                                         </p>
                                     </td>
@@ -284,7 +284,7 @@
                                             </td>
                                             <td>
                                                 <asp:DropDownList ID="ddlTipoDeUbicacion" runat="server" OnSelectedIndexChanged="ddlTipoDeUbicacion_SelectedIndexChanged"
-                                                    AutoPostBack="true" Width="350px" CssClass="form-control">
+                                                   AutoPostBack="true" Width="350px" CssClass="form-control">
                                                 </asp:DropDownList>
                                                 <div>
                                                     <asp:RequiredFieldValidator ID="ReqddlTipoDeUbicacion" runat="server" ControlToValidate="ddlTipoDeUbicacion" CssClass="field-validation-error"
@@ -777,9 +777,7 @@
                 }
             });
 
-            $("#<%: ddlCalles.ClientID %>").select2({
-                minimumInputLength: 3
-            });
+            
 
             
             try
