@@ -2640,8 +2640,14 @@ namespace SGI.Mailer
                   }
                 ).FirstOrDefault();
 
-            string sql = $"select dbo.Encomienda_Solicitud_DireccionesPartidas({sol.id_cpadron})";
-            string direccion = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            string sql = string.Empty;
+            string direccion = string.Empty;
+
+            if (sol != null)
+            {
+                sql = $"select dbo.Encomienda_Solicitud_DireccionesPartidas({sol.id_cpadron})";
+                direccion = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            }
 
             return direccion;
         }
