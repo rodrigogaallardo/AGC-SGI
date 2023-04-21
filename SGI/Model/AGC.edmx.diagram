@@ -10,6 +10,9 @@
         <EntityTypeShape EntityType="DGHP_Model.DGFYCO_Ubicaciones_Puertas" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="DGHP_Model.RAL_Ubicaciones_Puertas" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="DGHP_Model.Calles_Eliminadas" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DGHP_Model.SGI_Feriados" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DGHP_Model.SSIT_Solicitudes_AvisoRechazo" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -87,6 +87,7 @@ namespace SGI.GestionTramite.Tareas
 
 
             if (sol.id_estado != (int)Constants.Solicitud_Estados.RevCaducidad &&
+                sol.id_estado != (int)Constants.Solicitud_Estados.RevRechazo &&
                 Functions.isAprobado(this.id_solicitud) &&
                 !db.Solicitud_planoVisado.Where(x => x.id_tramiteTarea == this.TramiteTarea).Any() &&
                (id_circuito == (int)Constants.ENG_Circuitos.ESPAR2 ||
@@ -354,6 +355,7 @@ namespace SGI.GestionTramite.Tareas
             if (!listCircuitosEscuelas.Contains(tarea.id_circuito))
             {
                 if (sol.id_estado != (int)Constants.Solicitud_Estados.RevCaducidad &&
+                    sol.id_estado != (int)Constants.Solicitud_Estados.RevRechazo &&
                 tarea.cod_tarea == Convert.ToInt32(id_circuito.ToString() + Constants.ENG_Tipos_Tareas.Revision_DGHyP) &&
                 Functions.isAprobado(this.id_solicitud) &&
                 (ucSGI_ListaPlanoVisado.getSeleccionPlanos() <= 0 ||
