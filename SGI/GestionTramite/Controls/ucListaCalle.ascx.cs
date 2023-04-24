@@ -2,6 +2,7 @@
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -117,7 +118,7 @@ namespace SGI.GestionTramite.Controls
                                 CreateUser = Functions.GetUserId().ToString()
                             };
 
-                            ftx.Calles_Eliminadas.Add(entity);
+                            ftx.Calles_Eliminadas.AddOrUpdate(entity);
                             ftx.Calles.Remove(calle);
                             ftx.SaveChanges();
                         }
