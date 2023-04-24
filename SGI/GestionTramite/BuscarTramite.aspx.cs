@@ -1134,7 +1134,7 @@ namespace SGI
                 fechaCierreDesde = txtFechaCierreDesde.Text,
                 fechaCierreHasta = txtFechaCierreHasta.Text,
                 nro_partida_matriz = txtUbiNroPartida.Text,
-                id_calle = String.IsNullOrEmpty(Request.Cookies["BuscarTramite_IdCalle"].Value) ? "" : Request.Cookies["BuscarTramite_IdCalle"].Value,
+                id_calle = (Request.Cookies["BuscarTramite_IdCalle"] == null) ? "" : Request.Cookies["BuscarTramite_IdCalle"].Value,
                 nro_calle = txtUbiNroPuerta.Text,
                 uf = txtUF.Text,
                 torre = txtTorre.Text,
@@ -1713,7 +1713,7 @@ namespace SGI
 
                 }
 
-                if (string.IsNullOrWhiteSpace(Request.Cookies["BuscarTramite_IdCalle"].Value))
+                if ((Request.Cookies["BuscarTramite_IdCalle"] == null))
                 {
                     this.id_calle = 0;
                 }
