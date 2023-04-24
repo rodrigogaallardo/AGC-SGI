@@ -1719,7 +1719,10 @@ namespace SGI
                 }
                 else
                 {
-                    this.id_calle = Convert.ToInt32(Request.Cookies["BuscarTramite_IdCalle"].Value);
+                    if (!string.IsNullOrEmpty(Request.Cookies["BuscarTramite_IdCalle"].Value))
+                        this.id_calle = Convert.ToInt32(Request.Cookies["BuscarTramite_IdCalle"].Value);
+                    else
+                        this.id_calle = 0;
                 }
                 if (string.IsNullOrWhiteSpace(txtUbiNroPuerta.Text))
                 {
