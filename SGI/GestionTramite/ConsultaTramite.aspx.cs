@@ -1789,6 +1789,12 @@ namespace SGI.GestionTramite
 
         #region "Exporta a Excel"
 
+        protected void ddlPlanoIncendio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            Session["ddlPlanoIncendio_Value"] = ddlPlanoIncendio.SelectedValue.ToString();
+        }
+
         protected void btnExportarExcel_Click(object sender, EventArgs e)
         {
 
