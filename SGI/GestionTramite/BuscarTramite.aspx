@@ -64,7 +64,7 @@
             inicializar_popover();
             inicializar_fechas();
             camposAutonumericos();
-            inicializar_autocomplete();
+           // inicializar_autocomplete();
             $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
@@ -98,7 +98,7 @@
                 inicializar_popover();
                 inicializar_fechas();
                 camposAutonumericos();
-                inicializar_autocomplete();
+               // inicializar_autocomplete();
                 $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
                 $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
                 $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
@@ -115,7 +115,7 @@
                 inicializar_popover();
                 inicializar_fechas();
                 camposAutonumericos();
-                inicializar_autocomplete();
+                //inicializar_autocomplete();
                 $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
@@ -130,7 +130,7 @@
             inicializar_popover();
             inicializar_fechas();
             camposAutonumericos();
-            inicializar_autocomplete();
+           // inicializar_autocomplete();
             $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
         $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
         $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
@@ -145,7 +145,7 @@
         inicializar_popover();
         inicializar_fechas();
         camposAutonumericos();
-        inicializar_autocomplete();
+        //inicializar_autocomplete();
         $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
@@ -332,12 +332,7 @@
         $("#box_resultado").hide("slow");
     }
 
-
-    function inicializar_autocomplete() {
-        $("#<%: ddlCalles.ClientID %>").select2({
-            minimumInputLength: 3
-        });
-    }
+ 
 
 
     function bt_btnUpDown_collapse_click(obj) {
@@ -762,16 +757,16 @@
                                         <fieldset>
 
                                             <div class="control-group">
-                                                <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="ddlCalles"
+                                                <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
                                                     CssClass="control-label">Búsqueda de Calle:</asp:Label>
                                                 <div class="controls">
                                                     <div class="clearfix">
                                                         <div class="pull-left">
-                                                            <asp:DropDownList ID="ddlCalles" runat="server" Width="500px"></asp:DropDownList>
+                                                            <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="id_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                                                Display="Dynamic" ControlToValidate="ddlCalles" ValidationGroup="Buscar2"
+                                                                Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                                 CssClass="field-validation-error"></asp:RequiredFieldValidator>
                                                         </div>
 

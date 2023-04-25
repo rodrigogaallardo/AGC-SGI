@@ -259,29 +259,33 @@ namespace SGI.Model
                                                  id_resultado = resultado.id_resultado,
                                                  nombre_resultado = resultado.nombre_resultado
                                              }).ToList();
-
+                //antes chequeo si es una habilitacion
                 if (id_tramitetarea != 0)
                 {
-                    int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
-                    int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
-                                               join e in db.Encomienda on es.id_encomienda equals e.id_encomienda
-                                               join ep in db.Encomienda_Planos on e.id_encomienda equals ep.id_encomienda
-                                               where es.id_solicitud == id_solicitud
-                                               && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
-                                               && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                               select es.id_encomiendaSolicitud).Count();
-
-                    List<Resultado> borrar = new List<Resultado>();
-                    if (existePlanoIncendio == 0)
+                    if (objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF_NUEVO)
                     {
-                        foreach (Resultado item in resultados)
+                        int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
+                        int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
+                                                   join e in db.Encomienda on es.id_encomienda equals e.id_encomienda
+                                                   join ep in db.Encomienda_Planos on e.id_encomienda equals ep.id_encomienda
+                                                   where es.id_solicitud == id_solicitud
+                                                   && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
+                                                   && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                   select es.id_encomiendaSolicitud).Count();
+
+                        List<Resultado> borrar = new List<Resultado>();
+                        if (existePlanoIncendio == 0)
                         {
-                            if (item.id_resultado == 94)
-                                borrar.Add(item);
+                            foreach (Resultado item in resultados)
+                            {
+                                if (item.id_resultado == 94)
+                                    borrar.Add(item);
+                            }
                         }
+                        resultados.RemoveAll(borrar.Contains);
                     }
-                    resultados.RemoveAll(borrar.Contains);
                 }
+                
 
                 objret.Resultados = resultados;
                 return objret;

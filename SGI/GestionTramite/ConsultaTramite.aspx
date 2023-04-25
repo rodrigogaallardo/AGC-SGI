@@ -1,5 +1,5 @@
-﻿<%@  Title="Consulta del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ConsultaTramite.aspx.cs" Inherits="SGI.GestionTramite.ConsultaTramite" %>
-
+﻿<%@ Page Title="Consulta del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ConsultaTramite.aspx.cs" Inherits="SGI.GestionTramite.ConsultaTramite" %>
+<%@ Register Assembly="Syncfusion.EJ.Web" Namespace="Syncfusion.JavaScript.Web" TagPrefix="ejx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 
@@ -34,23 +34,23 @@
             });
         }
 
-        function inicializar_controles() {
+            function inicializar_controles() {
 
-            //debugger;
-            //inicializar tootip del popOver
-            inicializar_popover();
-            inicializar_fechas();
-            camposAutonumericos();
-            inicializar_autocomplete();
-            $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
-                $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
-                $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
+                //debugger;
+                //inicializar tootip del popOver
+                inicializar_popover();
+                inicializar_fechas();
+                camposAutonumericos();
+                //inicializar_autocomplete();
+                $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
 
-                /// Inicializar select2 de busqueda
-                var tags_selecionados = "";
-                if ($("#<%: hid_estados_selected.ClientID %>").val().length > 0) {
-                    tags_selecionados = $("#<%: hid_estados_selected.ClientID %>").val().split(",");
-                }
+            /// Inicializar select2 de busqueda
+            var tags_selecionados = "";
+            if ($("#<%: hid_estados_selected.ClientID %>").val().length > 0) {
+            tags_selecionados = $("#<%: hid_estados_selected.ClientID %>").val().split(",");
+        }
 
                 $("#<%: ddlEstado.ClientID %>").select2({
                     tags: true,
@@ -407,15 +407,8 @@
         }
 
 
-        function inicializar_autocomplete() {
-            $("#<%: ddlCalles.ClientID %>").select2({
-                minimumInputLength: 3
-            });
-        }
-
-
-        function bt_btnUpDown_collapse_click(obj) {
-            var href_collapse = $(obj).attr("href");
+    function bt_btnUpDown_collapse_click(obj) {
+        var href_collapse = $(obj).attr("href");
 
             if ($(href_collapse).attr("id") != undefined) {
                 if ($(href_collapse).css("height") == "0px") {
@@ -748,8 +741,8 @@
                                             <div class="span5">
                                                 <asp:Label ID="lblTipoTramite" runat="server" AssociatedControlID="ddlTipoTramite"
                                                     Text="Tipo Trámite:" class="control-label"></asp:Label>
-                                                <div class="controls">
-                                                    <asp:DropDownList ID="ddlTipoTramite" runat="server" multiple="true" Width="300px"></asp:DropDownList>
+                                                <div class="controls" >
+                                                    <asp:DropDownList  ID="ddlTipoTramite" runat="server" multiple="true" Width="300px"></asp:DropDownList>
                                                     <asp:HiddenField ID="hid_tipotramite_selected" runat="server"></asp:HiddenField>
                                                 </div>
                                             </div>
@@ -904,16 +897,17 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="ddlCalles"
+                                                <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
                                                     CssClass="control-label">Búsqueda de Calle:</asp:Label>
                                                 <div class="controls">
                                                     <div class="clearfix">
                                                         <div class="pull-left">
-                                                            <asp:DropDownList ID="ddlCalles" runat="server" Width="500px"></asp:DropDownList>
+                                                      <ejx:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
+<%--                                                            <asp:HiddenField ID="HidCalle" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />--%>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                                                Display="Dynamic" ControlToValidate="ddlCalles" ValidationGroup="Buscar2"
+                                                                Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                                 CssClass="field-validation-error"></asp:RequiredFieldValidator>
                                                         </div>
 

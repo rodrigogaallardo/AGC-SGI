@@ -163,6 +163,14 @@ namespace SGI.GestionTramite.Tareas
 
                     if (LiberadoAlUsoRubro)
                         chbLibrarUso.Checked = true;
+                    else
+                    {
+                        var librado = (from solic in db.SSIT_Solicitudes
+                                       where solic.id_solicitud == id_solicitud
+                                       select solic.FechaLibrado).Equals(null);
+                        if (!librado)
+                            chbLibrarUso.Checked = true;
+                    }
                 }
                 else
                 {

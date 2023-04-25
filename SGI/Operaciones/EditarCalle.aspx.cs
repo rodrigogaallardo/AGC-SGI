@@ -259,7 +259,7 @@ namespace SGI
         protected void btnReturn_OnClick(object sender, EventArgs e)
         {
             var idNuevo = Convert.ToInt32(Request.QueryString["id"]);
-            Response.Redirect("ABMCalles.aspx" + idNuevo.ToString());
+            Response.Redirect("ABMCalles.aspx?id=" + idNuevo.ToString());
         }
 
         protected void CargarTipoCalles()
