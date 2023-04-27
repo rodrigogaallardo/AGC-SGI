@@ -74,12 +74,11 @@ namespace SGI.Operaciones
             if (existe > 0)
             {
                 ScriptManager sm = ScriptManager.GetCurrent(this);
-                string cadena = "Ya exixte un feriado para esta Fecha";
+                string cadena = "Ya existe un feriado para esta Fecha";
                 string script = string.Format("alert('{0}');", cadena);
                 ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
                 return;
             }
-
 
             sGI_Feriados.Descripcion = txtDescripcion.Text;
             sGI_Feriados.CreateDate = DateTime.Now;
