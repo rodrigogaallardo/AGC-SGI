@@ -147,48 +147,64 @@ namespace SGI.GestionTramite.Tareas
 
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
 
-                #region ASOSA Si el tramite requiere plano de incendio
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
                 var condicionIncendioOk = true;
                 if (datosLocal != null)
                 {
                     var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
-                    condicionIncendioOk = !enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
+                    condicionIncendioOk = enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
                 }
 
+                //if (!condicionIncendioOk)
+                //{
+                //    pnl_Librar_Uso.Visible = true;
 
-                if (!condicionIncendioOk)
+                //    if (LiberadoAlUsoRubro)
+                //        chbLibrarUso.Checked = true;
+                //    else
+                //    {
+                //        var librado = (from solic in db.SSIT_Solicitudes
+                //                       where solic.id_solicitud == id_solicitud
+                //                       select solic.FechaLibrado).Equals(null);
+                //        if (!librado)
+                //            chbLibrarUso.Checked = true;
+                //    }
+                //}
+                //else
+                //{
+                //    if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int)Constants.ENG_Grupos_Circuitos.SCPESCU)
+                //    {
+                //        if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple
+                //            || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro))
+                //        {
+                //            pnl_Librar_Uso.Visible = true;
+
+                //            if (LiberadoAlUsoRubro)
+                //                chbLibrarUso.Checked = true;
+                //        }
+                //    }
+                //}
+                bool librado;
+                if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
+                    tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
                 {
-                    pnl_Librar_Uso.Visible = true;
-
-                    if (LiberadoAlUsoRubro)
+                    if (condicionIncendioOk)
+                    {
+                        pnl_Librar_Uso.Visible = true;
+                    }
+                    librado = !(from solic in db.SSIT_Solicitudes where solic.id_solicitud == id_solicitud select solic.FechaLibrado).Equals(null);
+                    if (librado || LiberadoAlUsoRubro)
                         chbLibrarUso.Checked = true;
                     else
-                    {
-                        var librado = (from solic in db.SSIT_Solicitudes
-                                       where solic.id_solicitud == id_solicitud
-                                       select solic.FechaLibrado).Equals(null);
-                        if (!librado)
-                            chbLibrarUso.Checked = true;
-                    }
+                        chbLibrarUso.Checked = false;
                 }
                 else
                 {
-                    if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int)Constants.ENG_Grupos_Circuitos.SCPESCU)
-                    {
-                        if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple
-                            || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro))
-                        {
-                            pnl_Librar_Uso.Visible = true;
-
-                            if (LiberadoAlUsoRubro)
-                                chbLibrarUso.Checked = true;
-                        }
-                    }
-                }
-                #endregion
-
-
+                    if (LiberadoAlUsoRubro)
+                        chbLibrarUso.Checked = true;
+                    else
+                        chbLibrarUso.Checked = false;
+                } 
             }
 
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Calificar_1 ||
@@ -227,15 +243,29 @@ namespace SGI.GestionTramite.Tareas
 
         private bool isLiberadoAlUsoRubro(int id_encomienda)
         {
-            List<string> q;
-            q =
-                (
+            int cant_rubros_librar;
+            cant_rubros_librar = (
                 from encrub in db.Encomienda_Rubros
                 join rub in db.Rubros on encrub.cod_rubro equals rub.cod_rubro
                 where encrub.id_encomienda == id_encomienda && rub.Librar_Uso
                 select encrub.cod_rubro
-                ).ToList();
-            return q.Count() > 0;
+                ).Union(
+                from encrub in db.Encomienda_RubrosCN
+                join rub in db.RubrosCN on encrub.IdRubro equals rub.IdRubro
+                where encrub.id_encomienda == id_encomienda && rub.LibrarUso
+                select encrub.CodigoRubro).Count();
+            int cant_rubros;
+            cant_rubros = (
+                from encrub in db.Encomienda_Rubros
+                join rub in db.Rubros on encrub.cod_rubro equals rub.cod_rubro
+                where encrub.id_encomienda == id_encomienda
+                select encrub.cod_rubro
+                ).Union(
+                from encrub in db.Encomienda_RubrosCN
+                join rub in db.RubrosCN on encrub.IdRubro equals rub.IdRubro
+                where encrub.id_encomienda == id_encomienda
+                select encrub.CodigoRubro).Count();
+            return cant_rubros_librar == cant_rubros;
         }
 
 
