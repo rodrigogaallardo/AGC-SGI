@@ -790,7 +790,7 @@ namespace SGI.Mailer
                 emails.AddRange(GetEmailProfesionales(db, idSolicitud));
 
                 string direccion = GetDireccionTransf(db, idSolicitud);
-                string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.BajaDeSolicitud) + " - " + direccion;
+                string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.QRDisponible) + " - " + direccion;
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGIAprobacionDG, 1, asunto, htmlMail_DisponibilizarQR(), emails);
 
