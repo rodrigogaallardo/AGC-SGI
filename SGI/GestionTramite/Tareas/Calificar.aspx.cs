@@ -148,12 +148,15 @@ namespace SGI.GestionTramite.Tareas
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
-                var condicionIncendioOk = true;
+                var condicionIncendioOk = false;
+                var condicionDGIUR = false;
                 if (datosLocal != null)
                 {
                     var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
                     condicionIncendioOk = enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
                 }
+                condicionDGIUR = sol.SSIT_DocumentosAdjuntos.Where(x => x.id_tdocreq == 21).Any() ||
+                                 enc.Encomienda_DocumentosAdjuntos.Where(x => x.id_tdocreq == 21).Any();
 
                 //if (!condicionIncendioOk)
                 //{
@@ -188,7 +191,7 @@ namespace SGI.GestionTramite.Tareas
                 if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
                     tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
                 {
-                    if (condicionIncendioOk)
+                    if (condicionIncendioOk || condicionDGIUR)
                     {
                         pnl_Librar_Uso.Visible = true;
                     }
