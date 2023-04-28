@@ -29,11 +29,12 @@ namespace SGI.GestionTramite
                     ucPagos.Visible = false;
                 else
                 {
+                    #region ASOSA BOLETA 0
                     using (var db = new DGHP_Entities())
                     {
                         var sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
                         int id_tipotramite = sol.id_tipotramite;
-                        string circuito_origen = sol.circuito_origen;
+                        //string circuito_origen = sol.circuito_origen;
                         DateTime BOLETA_0_FECHADESDE = DateTime.Parse(ConfigurationManager.AppSettings["BOLETA_0_FECHADESDE"]);
 
                         #region Busco cod_grupo_circuito
@@ -58,8 +59,8 @@ namespace SGI.GestionTramite
 
                         if (DateTime.Now >= BOLETA_0_FECHADESDE)
                         {
-                            if (id_tipotramite == (int)TipoDeTramite.Habilitacion)
-                            {
+                            //if (id_tipotramite == (int)TipoDeTramite.Habilitacion)
+                            //{
                                 #region AGC
                                 List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAGC = ucPagos.PagosAGCList(id_solicitud);
                                 if (lstPagosAGC.Count > 0)
@@ -92,9 +93,10 @@ namespace SGI.GestionTramite
                                         ucPagos.CargarPagosAPRAVisibility(false);//ESCONDO APRA
                                     }
                                 }
-                            }
+                            //}
                         }
                     }
+                    #endregion
                 }
             }
         }
