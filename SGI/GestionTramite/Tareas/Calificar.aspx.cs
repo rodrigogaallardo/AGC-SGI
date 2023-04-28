@@ -200,6 +200,10 @@ namespace SGI.GestionTramite.Tareas
                         chbLibrarUso.Checked = true;
                     else
                         chbLibrarUso.Checked = false;
+                    if (chbLibrarUso.Visible && chbLibrarUso.Enabled)
+                    {
+                        chbLibrarUso.Checked = librado;
+                    }
                 }
                 else
                 {
