@@ -6,6 +6,8 @@ using SGI.GestionTramite.Controls;
 using SGI.Model;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
+using DocumentFormat.OpenXml.Wordprocessing;
+using CheckBox = System.Web.UI.WebControls.CheckBox;
 
 namespace SGI.GestionTramite.Tareas
 {
@@ -187,7 +189,7 @@ namespace SGI.GestionTramite.Tareas
                 //        }
                 //    }
                 //}
-                bool librado;
+                bool librado = false;
                 if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
                     tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
                 {
@@ -195,7 +197,11 @@ namespace SGI.GestionTramite.Tareas
                     {
                         pnl_Librar_Uso.Visible = true;
                     }
-                    librado = !(from solic in db.SSIT_Solicitudes where solic.id_solicitud == id_solicitud select solic.FechaLibrado).Equals(null);
+                    var fechalibrado = sol.FechaLibrado;
+                    if (fechalibrado != null)
+                    {
+                        librado = true;
+                    }
                     if (librado || LiberadoAlUsoRubro)
                         chbLibrarUso.Checked = true;
                     else
