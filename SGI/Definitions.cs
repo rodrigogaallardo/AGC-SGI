@@ -754,9 +754,9 @@ namespace SGI
         {
             Consulta = 0,
             Habilitacion = 1,
-            Transferencia = 2,//asosa//
-            Ampliacion_Unificacion = 3,//
-            RedistribucionDeUso = 4,//
+            Transferencia = 2,
+            Ampliacion_Unificacion = 3,
+            RedistribucionDeUso = 4,
             RectificatoriaHabilitacion = 5,
             Consulta_Padron = 6,
             Permiso = 7,
