@@ -50,7 +50,7 @@
     <%--Botones--%>
         <div class="control-group" style="float: right">
             <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" OnClick="btnBuscar_OnClick" Text="Buscar" />
-            <asp:Button ID="btnAgregar" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnAgregar_OnClick" Text="Agregar"></asp:Button>
+            <asp:Button ID="btnAgregar" runat="server" CssClass="btn btn-primary" OnClick="btnAgregar_OnClick" Text="Agregar"></asp:Button>
             <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
             <i class="icon-refresh"></i>
             <span class="text">Limpiar</span>

@@ -67,12 +67,7 @@
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>                       
-                    </Columns>
-                        <EmptyDataTemplate>
-                            <asp:Panel ID="pnlNotDataFound" runat="server" CssClass="GrayText-1 ptop10">
-                                <img src="../Content/img/app/NoRecords.png" />No se encontraron registros.
-                            </asp:Panel>
-                        </EmptyDataTemplate> 
+                    </Columns> 
                         <PagerTemplate>
                                     <asp:Panel ID="pnlpager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
 

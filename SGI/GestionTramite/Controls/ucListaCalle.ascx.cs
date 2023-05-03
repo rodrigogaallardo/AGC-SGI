@@ -38,8 +38,6 @@ namespace SGI.GestionTramite.Controls
 
             if (id_calle != 0)
             {
-
-
                 var q = (from calle in db.Calles
                          where calle.id_calle == id_calle
 
@@ -55,9 +53,32 @@ namespace SGI.GestionTramite.Controls
                              Calle_AlturaDerechaFin = (int)calle.AlturaDerechaFin_calle,
                              Calle_Tipo = calle.TipoCalle_calle
                          }
-                        ).ToList();
+                      ).ToList();
 
                 grdBuscarCalles.DataSource = q;
+                grdBuscarCalles.DataBind();
+                updPnlCalles.Visible = true;
+                updPnlCalles.Update();
+            }
+            else
+            {
+                var all = (from calle in db.Calles
+
+                           orderby calle.id_calle ascending
+                           select new clsItemGrillaBuscarCalles()
+                           {
+                               Calle_Id = id_calle,
+                               Calle_Cod = calle.Codigo_calle,
+                               Calle_Nombre = calle.NombreOficial_calle,
+                               Calle_AlturaIzquierdaInicio = (int)calle.AlturaIzquierdaInicio_calle,
+                               Calle_AlturaIzquierdaFin = (int)calle.AlturaIzquierdaFin_calle,
+                               Calle_AlturaDerechaInicio = (int)calle.AlturaDerechaInicio_calle,
+                               Calle_AlturaDerechaFin = (int)calle.AlturaDerechaFin_calle,
+                               Calle_Tipo = calle.TipoCalle_calle
+                           }
+          ).ToList();
+
+                grdBuscarCalles.DataSource = all;
                 grdBuscarCalles.DataBind();
                 updPnlCalles.Visible = true;
                 updPnlCalles.Update();
