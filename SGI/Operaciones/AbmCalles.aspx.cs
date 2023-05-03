@@ -19,7 +19,7 @@ namespace SGI
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (!IsPostBack)
+            if (!IsPostBack && Request.UrlReferrer.AbsolutePath != "/Menu/Items/6")
             {
                 LoadData();
                 string idCalleStr = (Request.QueryString["id"] == null) ? "" : Request.QueryString["id"].ToString();
