@@ -40,33 +40,14 @@ namespace SGI.GestionTramite
                 {
                     var sol = db.Transf_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
                     int id_tipotramite = sol.id_tipotramite;
-                    //string circuito_origen = sol.circuito_origen;
                     DateTime BOLETA_0_FECHADESDE = DateTime.Parse(ConfigurationManager.AppSettings["BOLETA_0_FECHADESDE"]);
 
-                    #region Busco cod_grupo_circuito
-                    int id_tramitetarea = db.SGI_Tramites_Tareas_TRANSF.Where(x => x.id_solicitud == id_solicitud).Min(x => x.id_tramitetarea);
-
-                    int id_tarea = (from u in db.SGI_Tramites_Tareas
-                                    where u.id_tramitetarea == id_tramitetarea
-                                    select u.id_tarea).FirstOrDefault();
-
-                    int id_circuito = (from u in db.ENG_Tareas
-                                       where u.id_tarea == id_tarea
-                                       select u.id_circuito).FirstOrDefault();
-
-                    int? id_grupocircuito = (from u in db.ENG_Circuitos
-                                             where u.id_circuito == id_circuito
-                                             select u.id_grupocircuito).FirstOrDefault();
-
-                    #endregion
-
+                  
                     bool flagAGC = true;
                     bool flagAPRA = true;
 
                     if (DateTime.Now >= BOLETA_0_FECHADESDE)
                     {
-                        //if (id_tipotramite == (int)TipoDeTramite.Transferencia)
-                        //{
                             #region AGC
                             List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAGC = ucPagos.PagosAGCList(id_solicitud);
                             if (lstPagosAGC.Count > 0)
@@ -99,7 +80,6 @@ namespace SGI.GestionTramite
                                     ucPagos.CargarPagosAPRAVisibility(false);//ESCONDO APRA
                                 }
                             }
-                        //}
                     }
                 }
                 #endregion
