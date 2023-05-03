@@ -23,10 +23,10 @@ namespace SGI.Operaciones
             #endregion
             if (!IsPostBack)
             {
-                calFechaDesde.SelectedDate = DateTime.Today;///1 enero
-                calFechaDesde.VisibleDate = DateTime.Today;
-                calFechaHasta.SelectedDate = DateTime.Today.AddMonths(1);  //31 dic
-                calFechaHasta.VisibleDate = DateTime.Today.AddMonths(1);
+                calFechaDesde.SelectedDate = new DateTime(DateTime.Now.Year, 1, 1);
+                calFechaDesde.VisibleDate = new DateTime(DateTime.Now.Year, 1, 1);
+                calFechaHasta.SelectedDate = new DateTime(DateTime.Now.Year, 12, 31);
+                calFechaHasta.VisibleDate = new DateTime(DateTime.Now.Year, 12, 31);
                 CargarFeriados();
             }
         }
