@@ -285,8 +285,7 @@ namespace SGI
                 Calles calle = (from c in ftx.Calles
                                 where c.id_calle == id_calle
                                 select c).FirstOrDefault();
-            if(calle != null)
-            {
+
                 codigoCalle.Text = calle.Codigo_calle.ToString();
                 nombreCalle.Text = calle.NombreOficial_calle.ToString();
                 altIzqInicio.Text = calle.AlturaIzquierdaInicio_calle.ToString();
@@ -294,8 +293,6 @@ namespace SGI
                 altDerInicio.Text = calle.AlturaDerechaInicio_calle.ToString();
                 altDerFin.Text = calle.AlturaDerechaFin_calle.ToString();
                 ddlTipoCalle.Text = calle.TipoCalle_calle.ToString();
-            }
-
         }
     }
 }
