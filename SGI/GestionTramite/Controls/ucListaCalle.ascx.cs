@@ -67,7 +67,7 @@ namespace SGI.GestionTramite.Controls
                            orderby calle.id_calle ascending
                            select new clsItemGrillaBuscarCalles()
                            {
-                               Calle_Id = id_calle,
+                               Calle_Id = calle.id_calle,
                                Calle_Cod = calle.Codigo_calle,
                                Calle_Nombre = calle.NombreOficial_calle,
                                Calle_AlturaIzquierdaInicio = (int)calle.AlturaIzquierdaInicio_calle,
