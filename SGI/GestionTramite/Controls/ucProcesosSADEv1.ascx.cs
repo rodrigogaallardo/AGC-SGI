@@ -368,32 +368,31 @@ namespace SGI.GestionTramite.Controls
                 DGHP_Entities db = new DGHP_Entities();
                 db.Database.CommandTimeout = 300;
                 int id_caratula = 0;
-                var tp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
+                var tp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc && x.id_paquete != 0);
                 
-                if ( this.id_grupo_tramite == (int) Constants.GruposDeTramite.CP ||
-                    this.id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
-                {
-                    var texp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_paquete == tp.id_paquete && x.id_proceso == (int) Constants.SGI_Procesos_EE.GEN_CARATULA);
-                    if(texp != null && texp.id_devolucion_ee.HasValue)
-                        id_caratula = texp.id_devolucion_ee.Value;
-                }
-                else
-                {
-                    // Habilitaciones SGI 2.0
-                    var texp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_paquete == tp.id_paquete && x.id_proceso == (int)Constants.SGI_Procesos_EE.GEN_CARATULA);
-                    if (texp != null && texp.id_devolucion_ee.HasValue)
-                        id_caratula = texp.id_devolucion_ee.Value;
-                    else
-                    {
-                        // Habilitaciones SGI 1.0
-                        var texp1 = db.SGI_Tarea_Generar_Expediente_Procesos.FirstOrDefault(x => x.id_paquete == tp.id_paquete);
-                        if (texp1 != null)
-                            id_caratula = texp1.id_caratula;
-                    }
-                }
                 if (tp != null)
                 {
-                    
+                    if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP ||
+                        this.id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
+                    {
+                        var texp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_paquete == tp.id_paquete && x.id_proceso == (int)Constants.SGI_Procesos_EE.GEN_CARATULA);
+                        if (texp != null && texp.id_devolucion_ee.HasValue)
+                            id_caratula = texp.id_devolucion_ee.Value;
+                    }
+                    else
+                    {
+                        // Habilitaciones SGI 2.0
+                        var texp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_paquete == tp.id_paquete && x.id_proceso == (int)Constants.SGI_Procesos_EE.GEN_CARATULA);
+                        if (texp != null && texp.id_devolucion_ee.HasValue)
+                            id_caratula = texp.id_devolucion_ee.Value;
+                        else
+                        {
+                            // Habilitaciones SGI 1.0
+                            var texp1 = db.SGI_Tarea_Generar_Expediente_Procesos.FirstOrDefault(x => x.id_paquete == tp.id_paquete);
+                            if (texp1 != null)
+                                id_caratula = texp1.id_caratula;
+                        }
+                    }
                     switch (tp.id_proceso)
                     {
                         case (int)Constants.SGI_Procesos_EE.GEN_PAQUETE:
@@ -701,7 +700,19 @@ namespace SGI.GestionTramite.Controls
                    
 
                 }
+                else
+                {
+                    ejecutarSiguienteProceso = false;
+                    CheckBox chkRealizadoEnPasarela = (CheckBox)row.FindControl("chkRealizado_en_pasarela");
+                    CheckBox chkRealizadoEnSADE = (CheckBox)row.FindControl("chkRealizado_en_SADE");
+                    Label lblResultadoSADE = (Label)row.FindControl("lblResultadoSADE");
 
+                    chkRealizadoEnPasarela.Checked = false;
+                    chkRealizadoEnSADE.Checked = false;
+                    lblResultadoSADE.CssClass = "text-error";
+                    lblResultadoSADE.Text = "El trámite no está caratulado";
+                    updPnlGrillaProcesos.Update();
+                }
                 db.Dispose();
 
 
