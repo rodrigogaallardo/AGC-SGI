@@ -708,6 +708,8 @@
     <Content Include="Errores\error3030.aspx" />
     <Content Include="Errores\Error3040.aspx" />
     <Content Include="Errores\Error3051.aspx" />
+    <Content Include="Operaciones\FeriadosIndex.aspx" />
+    <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
     <Content Include="GestionTramite\BajaSolicitud.aspx" />
     <Content Include="GestionTramite\BuscarTramite.aspx" />
@@ -730,6 +732,7 @@
     <Content Include="GestionTramite\Controls\ucEncomienda.ascx" />
     <Content Include="GestionTramite\Controls\ucHistorial.ascx" />
     <Content Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx" />
+    <Content Include="GestionTramite\Controls\ucListaCalle.ascx" />
     <Content Include="GestionTramite\Controls\ucNotificacionesEditar.ascx" />
     <Content Include="GestionTramite\Controls\ucRubros.ascx" />
     <Content Include="GestionTramite\Controls\ucSGI_ListaPlanoVisado.ascx" />
@@ -812,6 +815,7 @@
     <Content Include="GestionTramite\Tareas\Transferencias\GenerarBoleta.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Revision_Pagos.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Verificacion_AVH.aspx" />
+    <Content Include="GestionTramite\Tareas\Verificacion_IFCI.aspx" />
     <Content Include="GestionTramite\Tareas\Visado.aspx" />
     <Content Include="GestionTramite\VisorTramite_CP.aspx" />
     <Content Include="GestionTramite\VisorTramite_TR.aspx" />
@@ -828,6 +832,9 @@
     <Content Include="Mailer\MailRechazoSolicitudEspar.aspx" />
     <Content Include="Mailer\MailAsignarCalificador.aspx" />
     <Content Include="Mailer\MailSolicitudNuevaPuerta.aspx" />
+    <Content Include="Operaciones\EditarCalle.aspx" />
+    <Content Include="Operaciones\AgregarCalle.aspx" />
+    <Content Include="Operaciones\AbmCalles.aspx" />
     <Content Include="Operaciones\SolicitudesIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
     <Content Include="Operaciones\DistritosIndex.aspx" />
@@ -2138,6 +2145,29 @@
     <Compile Include="Errores\error3030.aspx.designer.cs">
       <DependentUpon>error3030.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\SGI_Feriados.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Tarea_Verificacion_IFCI.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SSIT_Solicitudes_AvisoRechazo.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
+      <DependentUpon>FeriadosIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosIndex.aspx.designer.cs">
+      <DependentUpon>FeriadosIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosForm.aspx.cs">
+      <DependentUpon>FeriadosForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\FeriadosForm.aspx.designer.cs">
+      <DependentUpon>FeriadosForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Files\Download.ashx.cs">
       <DependentUpon>Download.ashx</DependentUpon>
     </Compile>
@@ -2292,6 +2322,13 @@
     </Compile>
     <Compile Include="GestionTramite\Controls\ucListaDocumentosSSIT.ascx.designer.cs">
       <DependentUpon>ucListaDocumentosSSIT.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucListaCalle.ascx.cs">
+      <DependentUpon>ucListaCalle.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucListaCalle.ascx.designer.cs">
+      <DependentUpon>ucListaCalle.ascx</DependentUpon>
     </Compile>
     <Compile Include="GestionTramite\Controls\ucNotificacionesEditar.ascx.cs">
       <DependentUpon>ucNotificacionesEditar.ascx</DependentUpon>
@@ -2848,6 +2885,13 @@
     <Compile Include="GestionTramite\Tareas\Transferencias\Verificacion_AVH.aspx.designer.cs">
       <DependentUpon>Verificacion_AVH.aspx</DependentUpon>
     </Compile>
+    <Compile Include="GestionTramite\Tareas\Verificacion_IFCI.aspx.cs">
+      <DependentUpon>Verificacion_IFCI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Tareas\Verificacion_IFCI.aspx.designer.cs">
+      <DependentUpon>Verificacion_IFCI.aspx</DependentUpon>
+    </Compile>
     <Compile Include="GestionTramite\Tareas\Visado.aspx.cs">
       <DependentUpon>Visado.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3017,6 +3061,9 @@
     <Compile Include="Model\AVH_Rubros_ConsRestricciones_Result.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\AVH_Ubicaciones_Puertas.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Barrios.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -3033,6 +3080,9 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Calles.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Calles_Eliminadas.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CharData.cs" />
@@ -3138,6 +3188,9 @@
     </Compile>
     <Compile Include="Model\CreateExcelFile.cs" />
     <Compile Include="Model\DDLGrouped.cs" />
+    <Compile Include="Model\DGFYCO_Ubicaciones_Puertas.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Disposiciones_Texto.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -3189,6 +3242,9 @@
     </Compile>
     <Compile Include="Model\Email_EstadosDTO.cs" />
     <Compile Include="Model\Encomienda.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EncomiendaExt_Ubicaciones_Puertas.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Encomienda_buscar_rel_Rectificatoria_Result.cs">
@@ -3515,6 +3571,9 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\RAL_Licencias.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RAL_Ubicaciones_Puertas.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Rel_Encomienda_Rectificatoria.cs">
@@ -4431,6 +4490,27 @@
     </Compile>
     <Compile Include="Model\Zonas_Planeamiento.cs">
       <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\EditarCalle.aspx.cs">
+      <DependentUpon>EditarCalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\EditarCalle.aspx.designer.cs">
+      <DependentUpon>EditarCalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\AgregarCalle.aspx.cs">
+      <DependentUpon>AgregarCalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\AgregarCalle.aspx.designer.cs">
+      <DependentUpon>AgregarCalle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\AbmCalles.aspx.cs">
+      <DependentUpon>AbmCalles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\AbmCalles.aspx.designer.cs">
+      <DependentUpon>AbmCalles.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\SolicitudesDto.cs" />
     <Compile Include="Operaciones\SolicitudesIndex.aspx.cs">

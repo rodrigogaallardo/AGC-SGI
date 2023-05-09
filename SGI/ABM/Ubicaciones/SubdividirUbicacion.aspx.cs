@@ -96,6 +96,8 @@ namespace SGI.ABM.Ubicaciones
             {
                 ScriptManager.RegisterStartupScript(updDatos, updDatos.GetType(), "init_Js_updDatos", "init_Js_updDatos();", true);
             }
+            CargarComboCalles();
+            CargarComboCallesSub();
             if (!IsPostBack)
             {
                 hid_id_ubi_padre.Value = "";
@@ -173,7 +175,10 @@ namespace SGI.ABM.Ubicaciones
         private void LimpiarAgregarParASub()
         {
             txtUbiNroPartida.Text = "";
-            ddlUbiCalle.ClearSelection();
+            AutocompleteCalles.ClearSelection();
+            Response.Cookies["SubdividirUbicacion_IdCalle"].Value = string.Empty;
+            AutocompleteCallesSub.ClearSelection();
+            Response.Cookies["SubdividirUbicacionSub_IdCalle"].Value = string.Empty;
             txtUbiNroPuerta.Text = "";
             txtUbiSeccion.Text = "";
             txtUbiManzana.Text = "";
@@ -522,44 +527,12 @@ namespace SGI.ABM.Ubicaciones
 
         private void CargarComboCalles()
         {
-            using (DGHP_Entities db = new DGHP_Entities())
-            {
-                var lstCalles = (from cal in db.Calles
-                                 select new ItemCalle
-                                 {
-                                     NombreOficial_calle = cal.NombreOficial_calle,
-                                     Codigo_calle = cal.Codigo_calle
-                                     //AlturaMin = cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle,
-                                     //AlturaMax = cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle
-                                 }).Distinct().OrderBy(x => x.NombreOficial_calle);
-
-                ddlUbiCalle.DataTextField = "NombreOficial_calle";
-                ddlUbiCalle.DataValueField = "Codigo_calle";
-                ddlUbiCalle.DataSource = lstCalles.ToList();
-                ddlUbiCalle.DataBind();
-                ddlUbiCalle.Items.Insert(0, "");
-            }
+            Functions.CargarAutocompleteCalles(AutocompleteCalles);
         }
 
         private void CargarComboCallesSub()
         {
-            using (DGHP_Entities db = new DGHP_Entities())
-            {
-                var lstCalles = (from cal in db.Calles
-                                 select new ItemCalle
-                                 {
-                                     NombreOficial_calle = cal.NombreOficial_calle,
-                                     Codigo_calle = cal.Codigo_calle
-                                     //AlturaMin = cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle,
-                                     //AlturaMax = cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle
-                                 }).Distinct().OrderBy(x => x.NombreOficial_calle);
-
-                ddlCalleSub.DataTextField = "NombreOficial_calle";
-                ddlCalleSub.DataValueField = "Codigo_calle";
-                ddlCalleSub.DataSource = lstCalles.ToList();
-                ddlCalleSub.DataBind();
-                ddlCalleSub.Items.Insert(0, "");
-            }
+            Functions.CargarAutocompleteCalles(AutocompleteCallesSub);
         }
 
         #endregion
@@ -1381,12 +1354,13 @@ namespace SGI.ABM.Ubicaciones
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && string.IsNullOrEmpty(ddlUbiCalle.SelectedItem.Text))
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && 
+                string.IsNullOrEmpty(Request.Cookies["SubdividirUbicacion_IdCalle"].Value))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
-            this.cod_calle = ddlUbiCalle.SelectedValue;
+            this.cod_calle = Request.Cookies["SubdividirUbicacion_IdCalle"].Value;
 
             int.TryParse(txtUbiNroPuerta.Text.Trim(), out idAux);
             this.nro_puerta = idAux;
@@ -1995,7 +1969,7 @@ namespace SGI.ABM.Ubicaciones
                 int nroPuertaUbi = 0;
                 int codCalle = 0;
                 int.TryParse(txtNroPuertaSub.Text.Trim(), out nroPuertaUbi);
-                int.TryParse(ddlCalleSub.SelectedValue, out codCalle);
+                int.TryParse(Request.Cookies["SubdividirUbicacionSub_IdCalle"].Value, out codCalle);
                 string txtCalle = GetNombreCalle(codCalle, nroPuertaUbi);
                 if (txtCalle != "" && !ubicacionRepetida(txtCalle, nroPuertaUbi))
                 {
@@ -2591,6 +2565,18 @@ namespace SGI.ABM.Ubicaciones
         {
             LimpiarAgregarParASub();
             CargarComboCalles();
+        }
+        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
+   object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        {
+            Response.Cookies["SubdividirUbicacion_IdCalle"].Value = e.Key;
+            return;
+        }
+
+        protected void AutocompleteCallesSub_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        {
+            Response.Cookies["SubdividirUbicacionSub_IdCalle"].Value = e.Key;
+            return;
         }
     }
 }

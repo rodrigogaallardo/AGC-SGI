@@ -790,7 +790,7 @@ namespace SGI.Mailer
                 emails.AddRange(GetEmailProfesionales(db, idSolicitud));
 
                 string direccion = GetDireccionTransf(db, idSolicitud);
-                string asunto = "Sol - " + idSolicitud.ToString() + " - " + Enum.GetName(typeof(MotivosNotificaciones), MotivosNotificaciones.BajaDeSolicitud) + " - " + direccion;
+                string asunto = "Sol - " + idSolicitud.ToString() + " - QR Disponible - " + direccion;
 
                 var idEmails = EnviarEmails(TipoEmail.WebSGIAprobacionDG, 1, asunto, htmlMail_DisponibilizarQR(), emails);
 
@@ -2640,8 +2640,14 @@ namespace SGI.Mailer
                   }
                 ).FirstOrDefault();
 
-            string sql = $"select dbo.Encomienda_Solicitud_DireccionesPartidas({sol.id_cpadron})";
-            string direccion = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            string sql = string.Empty;
+            string direccion = string.Empty;
+
+            if (sol != null)
+            {
+                sql = $"select dbo.Encomienda_Solicitud_DireccionesPartidas({sol.id_cpadron})";
+                direccion = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            }
 
             return direccion;
         }
