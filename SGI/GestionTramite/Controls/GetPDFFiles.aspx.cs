@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -56,27 +57,21 @@ namespace SGI.GestionTramite.Controls
                 if (Pdf != null && Pdf.Length > 0)
                 {
                     Response.Clear();
-                    //Response.ContentType = "application/octet-stream";
+                    Response.Buffer = true;
                     Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
-                    Response.Headers.Add("Content-Length", $"{Pdf.Length}");
+                    Response.ContentEncoding = Encoding.UTF8;
                     Response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", FileName));
-                    //Response.AddHeader("Transfer-Encoding", "identity");
+                    Response.AddHeader("Content-Length", Pdf.Length.ToString());
+                    Response.AddHeader("Connection", "keep-alive");
+                    Response.AddHeader("Accept-Encoding", "identity");
                     Response.OutputStream.Write(Pdf, 0, Pdf.Length);
                     Response.Flush();
-                    //Response.Clear();
-                    //Response.Buffer = true;//false;
-                    //Response.ContentType = "application/octet-stream";
-                    //Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
-                    //Response.AddHeader("Content-Length", Pdf.Length.ToString());
-                    //Response.BinaryWrite(Pdf);
-                    //Response.Flush();
                 }
                 else
                 {
                     Response.Clear();
                     Response.Write("No es posible encontrar el archivo");
                 }
-
             }
             catch (Exception)
             {

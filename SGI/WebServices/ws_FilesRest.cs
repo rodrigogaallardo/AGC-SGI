@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using SGI.StaticClassNameSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,11 @@ namespace SGI.WebServices
                 request.AddFile("name", archivo, nombreArchivo);
 
                 response = clientrest.Execute(request);
+                LogError.Write(new Exception(">>>>>>>>>>>>>>SUBIR ARCHIVO>>>>>>>>>>>>>>"));
+                LogError.Write(new Exception("CLIENT: " + Funciones.GetDataFromClient(clientrest)));
+                LogError.Write(new Exception("REQUEST: " + Funciones.GetDataFromRequest(request)));
+                LogError.Write(new Exception("RESPONSE: " + Funciones.GetDataFromResponse(response)));
+                LogError.Write(new Exception("<<<<<<<<<<<<<<SUBIR ARCHIVO<<<<<<<<<<<<<<"));
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
 
@@ -91,6 +97,12 @@ namespace SGI.WebServices
                 request.AddHeader("Token", guid.ToString());
 
                 response = clientrest.Execute(request);
+
+                LogError.Write(new Exception(">>>>>>>>>>>>>>SUBIR ARCHIVO>>>>>>>>>>>>>>"));
+                LogError.Write(new Exception("CLIENT: " + Funciones.GetDataFromClient(clientrest)));
+                LogError.Write(new Exception("REQUEST: " + Funciones.GetDataFromRequest(request)));
+                LogError.Write(new Exception("RESPONSE: " + Funciones.GetDataFromResponse(response)));
+                LogError.Write(new Exception("<<<<<<<<<<<<<<SUBIR ARCHIVO<<<<<<<<<<<<<<"));
                 if (response.StatusCode != HttpStatusCode.OK)
                     throw new Exception("No se ha podido descargar el file en el servicio ");
    

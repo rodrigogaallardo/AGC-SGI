@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -63,12 +64,13 @@ namespace SGI.GestionTramite.CPadron.Reportes
 
                     Response.Clear();
                     Response.Buffer = true;
-                    //Response.ContentType = "application/octet-stream";
                     Response.ContentType = Functions.GetMimeTypeByFileName(arch);
+                    Response.ContentEncoding = Encoding.UTF8;
                     Response.AddHeader("Content-Disposition", "attachment;filename=\"" + arch + "\"");
-                    Response.AddHeader("Content-Length", msDocumento.Length.ToString());
-                    //Response.AddHeader("Transfer-Encoding", "identity");
-                    Response.BinaryWrite(msDocumento.ToArray());
+                    Response.AddHeader("Content-Length", arc.Length.ToString());
+                    Response.AddHeader("Connection", "keep-alive");
+                    Response.AddHeader("Accept-Encoding", "identity");
+                    Response.BinaryWrite(arc);
                 }
                 else
                     Response.Write("El documento indicado no pertence a la está visualizando.");
