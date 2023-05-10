@@ -98,11 +98,11 @@ namespace SGI.WebServices
 
                 response = clientrest.Execute(request);
 
-                LogError.Write(new Exception(">>>>>>>>>>>>>>SUBIR ARCHIVO>>>>>>>>>>>>>>"));
+                LogError.Write(new Exception(">>>>>>>>>>>>>>DESCARGAR ARCHIVO>>>>>>>>>>>>>>"));
                 LogError.Write(new Exception("CLIENT: " + Funciones.GetDataFromClient(clientrest)));
                 LogError.Write(new Exception("REQUEST: " + Funciones.GetDataFromRequest(request)));
                 LogError.Write(new Exception("RESPONSE: " + Funciones.GetDataFromResponse(response)));
-                LogError.Write(new Exception("<<<<<<<<<<<<<<SUBIR ARCHIVO<<<<<<<<<<<<<<"));
+                LogError.Write(new Exception("<<<<<<<<<<<<<<DESCARGAR ARCHIVO<<<<<<<<<<<<<<"));
                 if (response.StatusCode != HttpStatusCode.OK)
                     throw new Exception("No se ha podido descargar el file en el servicio ");
    
