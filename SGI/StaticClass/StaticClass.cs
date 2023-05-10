@@ -339,7 +339,7 @@ namespace SGI.StaticClassNameSpace
                             " || Type: " + param.Type + Environment.NewLine;
                     }
                 }
-                ret += " - Resource: " + request.Resource;
+                ret += " - Resource: " + request.Resource + Environment.NewLine;
             }
             return ret;
         }
@@ -352,20 +352,20 @@ namespace SGI.StaticClassNameSpace
                 ret += " - Response Content: " + Environment.NewLine;
                 if (response.Content != null)
                 {
-                    ret += "    + Content: " + response.Content;
+                    ret += "    + Content Length: " + response.Content.Length + Environment.NewLine;
                 }
                 if (response.ContentEncoding != null)
                 {
-                    ret += "    + Encoding: " + response.ContentEncoding;
+                    ret += "    + Encoding: " + response.ContentEncoding + Environment.NewLine;
                 }
-                ret += "    + Length: " + response.ContentLength;
+                ret += "    + Length: " + response.ContentLength + Environment.NewLine;
                 if (response.ContentType != null)
                 {
-                    ret += "    + Type: " + response.ContentType;
+                    ret += "    + Type: " + response.ContentType + Environment.NewLine;
                 }
                 if (response.Cookies != null && response.Cookies.Count() > 0)
                 {
-                    ret += " - Response Content: " + Environment.NewLine;
+                    ret += " - Response Cookies: " + Environment.NewLine;
                     foreach (RestResponseCookie cookie in response.Cookies)
                     {
                         ret += "    + Comment: " + cookie.Comment +
@@ -404,7 +404,7 @@ namespace SGI.StaticClassNameSpace
                 }
                 if (response.RawBytes != null)
                 {
-                    ret += " - (UTF-8)RawBytes: " + Encoding.UTF8.GetString(response.RawBytes) + Environment.NewLine;
+                    ret += " - (UTF-8)RawBytes Length: " + Encoding.UTF8.GetString(response.RawBytes).Length + Environment.NewLine;
                 }
                 if (response.Request != null)
                 {
@@ -433,7 +433,7 @@ namespace SGI.StaticClassNameSpace
                                 " || Type: " + param.Type + Environment.NewLine;
                         }
                     }
-                    ret += "    + Resource: " + response.Request.Resource;
+                    ret += "    + Resource: " + response.Request.Resource + Environment.NewLine;
                 }
                 if (response.Server != null)
                 {
