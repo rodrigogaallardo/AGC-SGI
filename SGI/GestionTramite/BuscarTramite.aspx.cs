@@ -388,8 +388,6 @@ namespace SGI
             ddlSubTipoTramite.DataBind();
         }
 
-
-
         private void CargarCombo_tareas()
         {
             var qTareas =
@@ -621,6 +619,7 @@ namespace SGI
 
                 guardarFiltro();
 
+             
                 //grdTramites.DataBind();
 
                 //FinalizarEntity();
@@ -657,6 +656,7 @@ namespace SGI
             }
             pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
+            Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
 
             return lstResult;
         }
