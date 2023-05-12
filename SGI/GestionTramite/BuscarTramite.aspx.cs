@@ -2109,6 +2109,52 @@ namespace SGI
 
 
                 }
+                if (!string.IsNullOrEmpty(this.dpto))
+
+                    qSOL = (from res in qSOL
+                            join solubi in db.SSIT_Solicitudes on res.id_solicitud equals solubi.id_solicitud
+                            join solEnc in db.Encomienda_SSIT_Solicitudes on solubi.id_solicitud equals solEnc.id_solicitud
+                            join encomienda in db.Encomienda on solEnc.id_encomienda equals encomienda.id_encomienda
+                            join encUbi in db.Encomienda_Ubicaciones on encomienda.id_encomienda equals encUbi.id_encomiendaubicacion
+                            where encomienda.FechaEncomienda == (from en in db.Encomienda
+                                                                 where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == solubi.id_solicitud
+                                                                 && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                                 select en.FechaEncomienda).Max()
+                            && encUbi.Depto.Contains(this.dpto)
+                            select res
+                            );
+
+                if (!string.IsNullOrEmpty(this.torre))
+
+                    qSOL = (from res in qSOL
+                            join solubi in db.SSIT_Solicitudes on res.id_solicitud equals solubi.id_solicitud
+                            join solEnc in db.Encomienda_SSIT_Solicitudes on solubi.id_solicitud equals solEnc.id_solicitud
+                            join encomienda in db.Encomienda on solEnc.id_encomienda equals encomienda.id_encomienda
+                            join encUbi in db.Encomienda_Ubicaciones on encomienda.id_encomienda equals encUbi.id_encomiendaubicacion
+                            where encomienda.FechaEncomienda == (from en in db.Encomienda
+                                                                 where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == solubi.id_solicitud
+                                                                 && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                                 select en.FechaEncomienda).Max()
+                            && encUbi.Torre.Contains(this.torre)
+                            select res
+                            );
+
+                if (!string.IsNullOrEmpty(this.local))
+
+                    qSOL = (from res in qSOL
+                            join solubi in db.SSIT_Solicitudes on res.id_solicitud equals solubi.id_solicitud
+                            join solEnc in db.Encomienda_SSIT_Solicitudes on solubi.id_solicitud equals solEnc.id_solicitud
+                            join encomienda in db.Encomienda on solEnc.id_encomienda equals encomienda.id_encomienda
+                            join encUbi in db.Encomienda_Ubicaciones on encomienda.id_encomienda equals encUbi.id_encomiendaubicacion
+                            where encomienda.FechaEncomienda == (from en in db.Encomienda
+                                                                 where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == solubi.id_solicitud
+                                                                 && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                                 select en.FechaEncomienda).Max()
+
+                            && encUbi.Local.Contains(this.local)
+                            select res
+                            );
+
             }
             if (!string.IsNullOrEmpty(this.uf))
 
@@ -2119,51 +2165,7 @@ namespace SGI
                         where ubiprop.UnidadFuncional == this.uf
                         select res);
 
-            if (!string.IsNullOrEmpty(this.dpto))
-
-                qSOL = (from res in qSOL
-                        join solubi in db.SSIT_Solicitudes on res.id_solicitud equals solubi.id_solicitud
-                        join solEnc in db.Encomienda_SSIT_Solicitudes on solubi.id_solicitud equals solEnc.id_solicitud
-                        join encomienda in db.Encomienda on solEnc.id_encomienda equals encomienda.id_encomienda
-                        join encUbi in db.Encomienda_Ubicaciones on encomienda.id_encomienda equals encUbi.id_encomiendaubicacion
-                        where encomienda.FechaEncomienda == (from en in db.Encomienda
-                                                             where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == solubi.id_solicitud
-                                                             && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                                             select en.FechaEncomienda).Max()
-                        && encUbi.Depto == this.dpto
-                        select res
-                        );
-
-            if (!string.IsNullOrEmpty(this.torre))
-
-                qSOL = (from res in qSOL
-                        join solubi in db.SSIT_Solicitudes on res.id_solicitud equals solubi.id_solicitud
-                        join solEnc in db.Encomienda_SSIT_Solicitudes on solubi.id_solicitud equals solEnc.id_solicitud
-                        join encomienda in db.Encomienda on solEnc.id_encomienda equals encomienda.id_encomienda
-                        join encUbi in db.Encomienda_Ubicaciones on encomienda.id_encomienda equals encUbi.id_encomiendaubicacion
-                        where encomienda.FechaEncomienda == (from en in db.Encomienda
-                                                             where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == solubi.id_solicitud
-                                                             && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                                             select en.FechaEncomienda).Max()
-                        && encUbi.Torre == this.torre
-                        select res
-                        );
-
-            if (!string.IsNullOrEmpty(this.local))
-
-                qSOL = (from res in qSOL
-                        join solubi in db.SSIT_Solicitudes on res.id_solicitud equals solubi.id_solicitud
-                        join solEnc in db.Encomienda_SSIT_Solicitudes on solubi.id_solicitud equals solEnc.id_solicitud
-                        join encomienda in db.Encomienda on solEnc.id_encomienda equals encomienda.id_encomienda
-                        join encUbi in db.Encomienda_Ubicaciones on encomienda.id_encomienda equals encUbi.id_encomiendaubicacion
-                        where encomienda.FechaEncomienda == (from en in db.Encomienda
-                                                            where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == solubi.id_solicitud 
-                                                            && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                                            select en.FechaEncomienda).Max()
-                        && encUbi.Local == this.local
-                        select res
-                        );
-
+           
 
             //busqueda por Sección / Manzana / Parcela
             if (this.seccion > 0)
