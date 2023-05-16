@@ -368,8 +368,13 @@ namespace SGI.GestionTramite.Controls
                 DGHP_Entities db = new DGHP_Entities();
                 db.Database.CommandTimeout = 300;
                 int id_caratula = 0;
-                var tp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc && x.id_paquete != 0);
-                
+                var aux = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
+                SGI_SADE_Procesos tp = new SGI_SADE_Procesos();
+                if (aux.id_proceso == (int)Constants.SGI_Procesos_EE.GEN_PAQUETE)
+                    tp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
+                else
+                    tp = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc && x.id_paquete != 0);
+
                 if (tp != null)
                 {
                     if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.CP ||
