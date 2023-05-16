@@ -95,15 +95,6 @@ namespace SGI.Operaciones
                     ddlCircuitoActual.SelectedValue = ENG_Circuitos.id_circuito.ToString();
                     ddlCircuitoActual.Enabled = false;
 
-                    if (sGI_Tramites_Tareas.id_proxima_tarea != null)
-                    {
-                        ddlproxima_tarea.SelectedValue = sGI_Tramites_Tareas.id_proxima_tarea.ToString();
-                    }
-                    else
-                    {
-                        ddlproxima_tarea.SelectedIndex = 0;
-                    }
-
                     if (sGI_Tramites_Tareas.UsuarioAsignado_tramitetarea == null)
                         chkUsuario.Checked = true;
                     else
@@ -131,6 +122,7 @@ namespace SGI.Operaciones
                     ddltarea.DataBind();
                     ddltarea.Enabled = false;
                     ddltarea.SelectedIndex = 0;
+                    ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
                     ddltarea_SelectedIndexChanged(null, null);
 
                     if (sGI_Tramites_Tareas.id_resultado == 0)
@@ -141,8 +133,17 @@ namespace SGI.Operaciones
                     {
                         ddlResultado.Enabled = true;
                     }
-                    ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
                     ddlResultado_SelectedIndexChanged(null, null);
+
+
+                    if (sGI_Tramites_Tareas.id_proxima_tarea != null)
+                    {
+                        ddlproxima_tarea.SelectedValue = sGI_Tramites_Tareas.id_proxima_tarea.ToString();
+                    }
+                    else
+                    {
+                        ddlproxima_tarea.SelectedIndex = 0;
+                    }
 
                     if (sGI_Tramites_Tareas.FechaAsignacion_tramtietarea != null)
                     {
@@ -504,7 +505,7 @@ namespace SGI.Operaciones
         {
             List<Tarea> TareaListAux = Engine.GetTareasSiguientes(id_resultado, id_tarea, id_tramitetarea);
             if (TareaListAux.Count() < 1)
-                return;
+                return;   
             ddlproxima_tarea.DataSource = TareaListAux;
             ddlproxima_tarea.DataTextField = "nombre_tarea";
             ddlproxima_tarea.DataValueField = "id_tarea";
