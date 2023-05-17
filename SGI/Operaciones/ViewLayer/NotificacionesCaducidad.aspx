@@ -1,6 +1,8 @@
 ﻿<%@  Title="Notificaciones de una Solicitud" Language="C#" MasterPageFile="~/Site.Master"
     AutoEventWireup="true" CodeBehind="NotificacionesCaducidad.aspx.cs" Inherits="SGI.NotificacionesCaducidad" %>
 
+<%@ Register Src="~/GestionTramite/Controls/ucNotificacionesEditar.ascx" TagPrefix="uc1" TagName="ucNotificacionesEditar"%>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript">
         function redirect(obj) {
@@ -32,58 +34,63 @@
         <h1><%: Title %>.</h1>
     </hgroup>
 
-    <div class="control-group">
-        <label class="control-label" for="txtNroSolicitud">Solicitud</label>
-        <div class="controls">
-            <asp:TextBox id="txtNroSolicitud" Width="80px" runat="server" CssClass="controls"/>
+    <%--Nro de Solicitud--%>
+    <div style="display: flex;">
+        <div class="control-group">
+            <label class="control-label" for="txtNroSolicitud">Solicitud</label>
+            <div class="controls">
+                <asp:TextBox ID="txtNroSolicitud" Width="80px" runat="server" CssClass="controls" />
+            </div>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
+                ControlToValidate="txtNroSolicitud" runat="server"
+                ErrorMessage="Solo se admiten números."
+                ValidationExpression="\d+">
+            </asp:RegularExpressionValidator>
         </div>
-        <asp:RegularExpressionValidator ID="RegularExpressionValidator2"
-            ControlToValidate="txtNroSolicitud" runat="server"
-            ErrorMessage="Solo se admiten números."
-            ValidationExpression="\d+">
-        </asp:RegularExpressionValidator>
-    </div>
 
-      <div class="control-group">
-        <label class="control-label" for="txtNroSolicitud">Motivo de Notificación</label>
-        <div class="controls">
-            <asp:DropDownList ID="ddlNotificaciones_motivos" runat="server" AutoPostBack="false" CssClass="controls"
-                DataTextField="NotificacionMotivo" DataValueField="IdNotificacionMotivo">
-            </asp:DropDownList>
+        <%--Motivo de Notificacion--%>
+        <div class="control-group" style="padding-right: 30px">
+            <label class="control-label" for="txtNroSolicitud">Motivo de Notificación</label>
+            <div class="controls">
+                <asp:DropDownList ID="ddlNotificaciones_motivos" runat="server" AutoPostBack="false" CssClass="controls"
+                    DataTextField="NotificacionMotivo" DataValueField="IdNotificacionMotivo">
+                </asp:DropDownList>
+            </div>
+
         </div>
-    
-    </div>
 
 
-
-
-
-    <div class="control-group" >
-        <label for="txtFechaNotificacion" class="control-label">Fecha Notificación:</label>
+        <%--Fecha Notificacion--%>
+        <div class="control-group" style="padding-left: 30px">
+            <label for="txtFechaNotificacion" class="control-label">Fecha Notificación</label>
             <div class="controls">
                 <asp:TextBox ID="txtFechaNotificacion" runat="server" MaxLength="10" Width="80px"></asp:TextBox>
                 <div class="req">
                     <asp:RegularExpressionValidator
-                        ID="rev_txtFechaNotificacion" runat="server" 
+                        ID="rev_txtFechaNotificacion" runat="server"
                         ValidationGroup="buscar"
-                        ControlToValidate="txtFechaNotificacion" CssClass="field-validation-error" 
+                        ControlToValidate="txtFechaNotificacion" CssClass="field-validation-error"
                         ErrorMessage="Fecha invalida. Ingrese fecha con formato dd/mm/aaaa."
                         ValidationExpression="(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.]([1-9]|0[1-9]|1[012])[- /.](19[0-9][0-9]|20[0-9][0-9]|[0-9][0-9]))|^[0-9]{5}\d*[0-9 ]$"
                         Display="Dynamic">
-                    </asp:RegularExpressionValidator>  
+                    </asp:RegularExpressionValidator>
                 </div>
-
             </div>
+        </div>
+    </div>
 
-            </div>
 
-    <div class="control-group pull-right">
-        <asp:Button ID="btnNotificar" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificar_OnClick" Text="Notificar Solicitud"></asp:Button>
-        <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
+        <%--Botones--%>
+        <div class="control-group" style="float: right">
+            <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" OnClick="btnBuscar_OnClick" Text="Buscar" />
+            <asp:Button ID="btnNotificar" runat="server" CssClass="btn btn-primary" ValidationGroup="caducar" OnClick="btnNotificar_OnClick" Text="Notificar Solicitud"></asp:Button>
+            <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn btn-primary" OnClick="btnLimpiar_OnClick" OnClientClick="LimpiarFormulario();">
             <i class="icon-refresh"></i>
             <span class="text">Limpiar</span>
-        </asp:LinkButton>
-    </div>
+            </asp:LinkButton>
+        </div>
+
+
 
     <%--modal de Errores--%>
     <div id="frmError" class="modal fade">
@@ -148,6 +155,39 @@
         </div>
     </div>
 
+    <%--modal de Rectificada--%>
+    <div id="frmRectificada" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Éxito.</h4>
+                </div>
+                <div class="modal-body">
+                    <table style="border-collapse: separate; border-spacing: 5px">
+                        <tr>
+                            <td style="text-align: center; vertical-align: text-top">
+                                <label class="imoon imoon-ok-sign fs64" style="color: #67eb34"></label>
+                            </td>
+                            <td>
+                                <asp:UpdatePanel ID="updResultados3" runat="server" class="form-group">
+                                    <ContentTemplate>
+                                        <asp:Label ID="lblRectificada" runat="server" Style="color: Black"></asp:Label>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <uc1:ucNotificacionesEditar runat="server" ID="ucNotificacionesEditar" />
+
     <script>
 
         $(document).ready(function () {
@@ -194,6 +234,7 @@
         function LimpiarFormulario()
         {
             document.getElementById("MainContent_txtNroSolicitud").value = "";
+            document.getElementById("MainContent_txtFechaNotificacion").value = "";
         }
 
         function showfrmError()
@@ -208,6 +249,17 @@
             return false;
         }
 
+        function showfrmRectificada() {
+            $("#frmRectificada").modal("show");
+            return false;
+        }
+        function tda_confirm_del() {
 
+            return confirm('¿Esta seguro que desea eliminar este Registro?');
+        }
+
+        function showResultado() {
+            $("#box_resultado").show();
+        }
     </script>
 </asp:Content>

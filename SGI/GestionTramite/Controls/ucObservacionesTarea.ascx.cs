@@ -187,6 +187,7 @@ namespace SGI.GestionTramite.Controls
         public string LoadObservacionesInternas(int id_tramite_tarea, int id_solicitud)
         {
             this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             try
             {
@@ -195,6 +196,35 @@ namespace SGI.GestionTramite.Controls
                 if (listaTramiteTareas.Any())
                 {
                     return CargarObservacionInternaAnterior(id_tramite_tarea, listaTramiteTareas);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (this.db != null)
+                    this.db.Dispose();
+            }
+
+        }
+
+        public string LoadObservacionesInternasCalificar(int id_tramite_tarea, int id_solicitud)
+        {
+            this.db = new DGHP_Entities();
+
+            try
+            {
+                List<int> listaTramiteTareas = ListarTramites(id_solicitud);
+
+                if (listaTramiteTareas.Any())
+                {
+                    return CargarObservacionInternaCalificar(id_tramite_tarea, listaTramiteTareas);
                 }
                 else
                 {
@@ -258,24 +288,41 @@ namespace SGI.GestionTramite.Controls
 
         }
 
+        private string CargarObservacionInternaCalificar(int id_tramite_tarea, List<int> listaTramiteTareas)
+        {
+            string observacionesInternas = "";
+
+            var listaObservacionesInternas =
+                (
+                    from calif in db.SGI_Tarea_Calificar
+                    where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
+                    orderby calif.id_calificar descending
+                    select new
+                    {
+                        Observaciones = calif.Observaciones_Internas
+                    }
+
+                ).ToList();
+
+            if (!listaObservacionesInternas.Any()) return observacionesInternas;
+
+            foreach (var item in listaObservacionesInternas)
+            {
+                observacionesInternas += item.Observaciones + "\n";
+            }
+
+            return observacionesInternas;
+        }
+
         public string CargarObservacionInternaAnterior(int id_tramite_tarea, List<int> listaTramiteTareas)
         {
             string observacionesInternas = "";
-            //var listaObservacionesInternas = (from calif in db.SGI_Tarea_Calificar
-            //         where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-            //         orderby calif.id_calificar ascending
-            //         select new 
-            //         {
-            //             calif.Observaciones_Internas                         
-            //         }).ToList();
-
-
             var listaObservacionesInternas = (from calif in db.SGI_Tarea_Revision_Gerente
                                               where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
                                               orderby calif.id_revision_gerente ascending
                                               select new
                                               {
-                                                  calif.Observaciones
+                                                  Observaciones = calif.Observaciones
                                               }).ToList();
 
 
@@ -283,8 +330,7 @@ namespace SGI.GestionTramite.Controls
 
             foreach (var item in listaObservacionesInternas)
             {
-                //observacionesInternas += item.Observaciones_Internas + "\n"; 
-                observacionesInternas += item.Observaciones + "\n";
+                observacionesInternas += item.Observaciones + "\n"; 
             }
 
             return observacionesInternas;
@@ -339,6 +385,7 @@ namespace SGI.GestionTramite.Controls
         {
             if (this.db == null)
                 this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
         }
 
         private void FinalizarEntity()
@@ -352,6 +399,7 @@ namespace SGI.GestionTramite.Controls
         public string LoadObservacionesPlancheta(int id_tramite_tarea, int id_solicitud)
         {
             this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
 
             try
             {

@@ -80,7 +80,7 @@ namespace SGI
                 ////rbtnUbiPartidaHoriz = rbtnUbiPartidaHoriz.Checked;
                 ////nro_partida_matriz = txtUbiNroPartida.Text;
 
-                ////id_calle = Convert.ToInt32( ddlCalles.SelectedValue.ToString() );
+                ////id_calle = Convert.ToInt32( AutocompleteCalles.SelectedValue.ToString() );
 
                 ////nro_calle = txtUbiNroPuerta.Text;
                 //uf = txtUF.Text;

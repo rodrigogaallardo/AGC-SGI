@@ -89,8 +89,8 @@
                                             <td>Calle:
                                             </td>
                                             <td class="pleft5">
-                                                <asp:DropDownList ID="ddlCalles_NP" runat="server" Width="500px"></asp:DropDownList>
-                                            </td>
+                                            <ej:Autocomplete ID="AutocompleteCalles_NP" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
+                                       </td>
                                         </tr>
                                         <tr>
                                             <td></td>
@@ -99,7 +99,7 @@
                                                                         las calles posibles.</span>
                                                 <p>
                                                     <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                                        Display="Dynamic" ControlToValidate="ddlCalles_NP" ValidationGroup="EnviarMail"
+                                                        Display="Dynamic" ControlToValidate="AutocompleteCalles_NP" ValidationGroup="EnviarMail"
                                                         CssClass="alert alert-small alert-danger mtop10"></asp:RequiredFieldValidator>
                                                 </p>
                                             </td>
@@ -188,9 +188,7 @@
 
     function init_Js_updSolicitarNuevaPuerta() {
 
-        $("[id*='ddlCalles_NP']").select2({
-            minimumInputLength: 3
-        });
+        
         $("[id*='txtNroPuerta_NP']").autoNumeric("init", { aSep: "", mDec: 0, vMax: '99999' });
 
         return false;

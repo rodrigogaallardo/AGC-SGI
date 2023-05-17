@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -69,15 +70,16 @@ namespace SGI.GestionTramite.Controls
             if (f == null)
                 throw new Exception("El plano no existe. ");
 
-            //arch = obj.nombre_archivo.Replace(' ', '_');
             string ext = obj.nombre_archivo.Substring(obj.nombre_archivo.Length-3);
-            arch = "plano_habilitacion_"+obj.id_file+"." + ext;
+            arch = "plano_habilitacion_" + obj.id_file + "." + ext;
             Response.Clear();
             Response.Buffer = true;
-            //Response.ContentType = "application/octet-stream";
             Response.ContentType = Functions.GetMimeTypeByFileName(arch);
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + arch);
-            //Response.AddHeader("Transfer-Encoding", "identity");
+            Response.ContentEncoding = Encoding.UTF8;
+            Response.AddHeader("Content-Disposition", "attachment;filename=\"" + arch + "\"");
+            Response.AddHeader("Content-Length", f.content_file.Length.ToString());
+            Response.AddHeader("Connection", "keep-alive");
+            Response.AddHeader("Accept-Encoding", "identity");
             Response.BinaryWrite(f.content_file);
             Response.Flush();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 
@@ -30,19 +31,19 @@ namespace SGI
 
                     string FilePath = Constants.Path_Temporal + FileName;
                     if (System.IO.File.Exists(FilePath))                                            
-                        Pdf = System.IO.File.ReadAllBytes(FilePath);
+                        //Pdf = System.IO.File.ReadAllBytes(FilePath);
+                        Pdf = Encoding.UTF8.GetBytes(FilePath);
                                             
                     if (Pdf != null)
                     {
-                        //string nombArch = "Documento-Adjunto-" + id_file.ToString() + FileName;
-
                         context.Response.Clear();
-                        context.Response.Buffer = true;//false;
-                        //context.Response.ContentType = "application/octet-stream";
+                        context.Response.Buffer = true;
                         context.Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
-                        context.Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
+                        context.Response.ContentEncoding = Encoding.UTF8;
+                        context.Response.AddHeader("Content-Disposition", "inline;filename=\"" + FileName + "\"");
                         context.Response.AddHeader("Content-Length", Pdf.Length.ToString());
-                        //context.Response.AddHeader("Transfer-Encoding", "identity");
+                        context.Response.AddHeader("Connection", "keep-alive");
+                        context.Response.AddHeader("Accept-Encoding", "identity");
                         context.Response.BinaryWrite(Pdf);
                         context.Response.Flush();
 

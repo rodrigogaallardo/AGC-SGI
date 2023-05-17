@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -57,14 +58,13 @@ namespace SGI.GestionTramite.Controls
                 if (Pdf != null && Pdf.Length > 0)
                 {
                     Response.Clear();
-                    Response.Buffer = true;//false;
-                    //Response.ContentType = "application/octet-stream";
+                    Response.Buffer = true;
                     Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
-                    Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
+                    Response.ContentEncoding = Encoding.UTF8;
+                    Response.AddHeader("Content-Disposition", "inline;filename=\"" + FileName + "\"");
                     Response.AddHeader("Content-Length", Pdf.Length.ToString());
                     Response.AddHeader("Connection", "keep-alive");
-                    //Response.AddHeader("Transfer-Encoding", "identity");
-
+                    Response.AddHeader("Accept-Encoding", "identity");
                     Response.BinaryWrite(Pdf);
                     Response.Flush();
                 }

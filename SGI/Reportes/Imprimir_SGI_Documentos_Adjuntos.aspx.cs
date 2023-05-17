@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -70,12 +71,13 @@ namespace SGI.Reportes
             try
             {
                 Response.Clear();
-                Response.Buffer = true;//false;
-                //Response.ContentType = "application/octet-stream";
+                Response.Buffer = true;
                 Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
-                Response.AddHeader("Content-Disposition", "inline;filename=" + FileName);
+                Response.ContentEncoding = Encoding.UTF8;
+                Response.AddHeader("Content-Disposition", "inline;filename=\"" + FileName + "\"");
                 Response.AddHeader("Content-Length", file.Length.ToString());
-                //Response.AddHeader("Transfer-Encoding", "identity");
+                Response.AddHeader("Connection", "keep-alive");
+                Response.AddHeader("Accept-Encoding", "identity");
                 Response.BinaryWrite(file);
                 Response.Flush();
             }

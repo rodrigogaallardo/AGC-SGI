@@ -21,6 +21,7 @@ namespace SGI.GestionTramite.Controls
         public void LoadData(int id_grupotramite, int id_solicitud, int id_tramitetarea)
         {
             this.db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
             SGI_Tramites_Tareas tt = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
             buscarResultadoTareasAnteriores(id_grupotramite, id_solicitud, id_tramitetarea, tt.id_tarea);
 

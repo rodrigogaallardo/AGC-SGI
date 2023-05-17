@@ -8,6 +8,7 @@ using SGI.BusinessLogicLayer.Constants;
 using SGI.DataLayer;
 using SGI.DataLayer.Models;
 using System.ServiceModel.Security;
+using ExcelLibrary.BinaryFileFormat;
 using SGI.StaticClassNameSpace;
 using ExcelLibrary.BinaryFileFormat;
 
@@ -52,7 +53,7 @@ namespace SGI.BusinessLogicLayer
         }
         #endregion
 
-        public static bool NotificarTramite(int id_solicitud, int IdNotificacionMotivo, DateTime fechaNotificacion, out string errorMessage)
+        public static bool NotificarTramite(int id_solicitud, int IdNotificacionMotivo, DateTime fechaNotificacion, out string errorMessage, string asunto, string mensaje)
         {
             bool notifico = false;
             errorMessage = string.Empty;
@@ -141,6 +142,11 @@ namespace SGI.BusinessLogicLayer
                         case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.AsignadoAlCalificador:
                             //NO SE VALIDA
                             break;
+                        case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
+                            //NO SE VALIDA
+                            break;
+                        case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.RectificacionDeBaja:
+                            break;
                         default:
                             break;
                     }
@@ -169,7 +175,7 @@ namespace SGI.BusinessLogicLayer
                                                               id_estado = tr.id_estado
                                                           }).ToList<SSIT_Solicitudes_Model>();
 
-                    if (solicitudesNotificadas.Count == 0)
+                    if (solicitudesNotificadas.Count == 0 || IdNotificacionMotivo == 13)
                     {
                         List<string> emailsNotificados;
                         switch (IdNotificacionMotivo)
@@ -195,6 +201,12 @@ namespace SGI.BusinessLogicLayer
                                 break;
                             case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.LevantamientoDeRechazo:
                                 Mailer.MailMessages.SendMail_LevantamientoRechazo(solicitud.id_solicitud, fechaNotificacion);
+                                break;
+                            case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.Otras:
+                                Mailer.MailMessages.SendMail_Otros(IdNotificacionMotivo,id_solicitud, fechaNotificacion, asunto, mensaje);
+                                break;
+                            case (int)SSIT_Solicitudes_Notificaciones_motivos_Enum.RectificacionDeBaja:
+                                Mailer.MailMessages.SendMail_Rectificada(IdNotificacionMotivo, id_solicitud, fechaNotificacion, mensaje);
                                 break;
                             default:
                                 Mailer.MailMessages.SendMail_Generic(solicitud.id_solicitud, IdNotificacionMotivo, fechaNotificacion);
@@ -239,8 +251,7 @@ namespace SGI.BusinessLogicLayer
                     if (Notificaciones_motivosList.Count == 0)
                     {
                         errorMessage = "Error al cargar la lista de Motivos de Notificaciones";
-                    }
- 
+                    }    
                 }
             }
             catch (Exception ex)
@@ -250,5 +261,34 @@ namespace SGI.BusinessLogicLayer
             }
             return Notificaciones_motivosList;
         }
+
+        public static List<Calles> TraerCalles(out string errorMessage)
+        {
+            List<Calles> nombreCalles = new List<Calles>();
+            errorMessage = string.Empty;
+
+            IniciarEntity();
+
+            try
+            {
+                using (DGHP_Entities db = new DGHP_Entities())
+                {
+                    nombreCalles = (from c in db.Calles
+                                    select c).ToList();
+
+                    if (nombreCalles.Count == 0)
+                    {
+                        errorMessage = "Error al cargar la lista de Calles";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                throw new Exception(errorMessage);
+            }
+            return nombreCalles;
+        }
+
     }
 }

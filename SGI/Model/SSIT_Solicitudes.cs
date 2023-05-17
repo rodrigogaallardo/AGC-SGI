@@ -29,6 +29,7 @@ namespace SGI.Model
             this.SSIT_Solicitudes_RubrosCN = new HashSet<SSIT_Solicitudes_RubrosCN>();
             this.SSIT_Solicitudes_Origen1 = new HashSet<SSIT_Solicitudes_Origen>();
             this.SSIT_DocumentosAdjuntos = new HashSet<SSIT_DocumentosAdjuntos>();
+            this.SSIT_Solicitudes_AvisoRechazo = new HashSet<SSIT_Solicitudes_AvisoRechazo>();
         }
     
         public int id_solicitud { get; set; }
@@ -92,5 +93,6 @@ namespace SGI.Model
         public virtual SSIT_Solicitudes_Origen SSIT_Solicitudes_Origen { get; set; }
         public virtual ICollection<SSIT_Solicitudes_Origen> SSIT_Solicitudes_Origen1 { get; set; }
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
+        public virtual ICollection<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
     }
 }

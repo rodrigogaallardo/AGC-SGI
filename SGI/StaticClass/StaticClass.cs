@@ -4,6 +4,8 @@ using System.Linq;
 using System.Data;
 using DocumentFormat.OpenXml.Packaging;
 using System.Reflection;
+using RestSharp;
+using System.Text;
 
 namespace SGI.StaticClassNameSpace
 {
@@ -238,7 +240,218 @@ namespace SGI.StaticClassNameSpace
             }
         }
 
+        public static string GetErrorMessage(Exception ex)
+        {
+            string ret = ex.Message;
+            Exception lex = ex;
+            while (lex.InnerException != null)
+            {
+                lex = lex.InnerException;
+            }
 
+            if (lex != null)
+                ret = lex.Message;
+
+            return ret;
+        }
+
+        public static string GetDataFromClient(IRestClient client)
+        {
+            string ret = Environment.NewLine;
+            if (client.Authenticator != null)
+            {
+                ret += " - Authenticator: " + client.Authenticator.ToString() + Environment.NewLine;
+            }
+            if (client.BaseUrl != null)
+            {
+                ret += " - Base URL: " + client.BaseUrl.ToString() + Environment.NewLine;
+            }
+            if (client.CachePolicy != null)
+            {
+                ret += " - Cache Policy Level: " + client.CachePolicy.Level + Environment.NewLine;
+            }
+            if (client.ClientCertificates != null && client.ClientCertificates.Count > 0)
+            {
+                ret += " - Listado de Certificates: " + Environment.NewLine;
+                foreach (System.Security.Cryptography.X509Certificates.X509Certificate certif in client.ClientCertificates)
+                {
+                    ret += "    + Subject: " + certif.Subject +
+                        " || Issuer: " + certif.Issuer +
+                        " || Handle: " + certif.Handle +
+                        " || GetCertHashString: " + certif.GetCertHashString() +
+                        " || GetEffectiveDateString: " + certif.GetEffectiveDateString() +
+                        " || GetExpirationDateString: " + certif.GetExpirationDateString() +
+                        " || GetKeyAlgorithmParametersString: " + certif.GetKeyAlgorithmParametersString() +
+                        " || GetPublicKeyString: " + certif.GetPublicKeyString() +
+                        " || GetRawCertDataString: " + certif.GetRawCertDataString() +
+                        " || GetSerialNumberString: " + certif.GetSerialNumberString() + Environment.NewLine;
+                }
+            }
+            if (client.CookieContainer != null)
+            {
+                ret += " - CookieContainer: " + client.CookieContainer + Environment.NewLine;
+            }
+            ;
+            if (client.DefaultParameters != null && client.DefaultParameters.Count() > 0)
+            {
+                ret += " - Listado de Default Parameters: " + Environment.NewLine;
+                foreach (Parameter param in client.DefaultParameters)
+                {
+                    ret += "    + Name: " + param.Name +
+                        " || Value: " + param.Value +
+                        " || ContentType: " + param.ContentType +
+                        " || Type: " + param.Type + Environment.NewLine;
+                }
+            }
+            if (client.Encoding != null)
+            {
+                ret += " - Encoding: " + client.Encoding + Environment.NewLine;
+            }
+            return ret;
+        }
+
+        public static string GetDataFromRequest(IRestRequest request)
+        {
+            string ret = Environment.NewLine;
+            if (request != null)
+            {
+                if (request.Files != null && request.Files.Count() > 0)
+                {
+                    ret += " - Listado de Files: " + Environment.NewLine;
+                    foreach (FileParameter file in request.Files)
+                    {
+                        ret += "    + Name: " + file.FileName +
+                            " || ContentLength: " + file.ContentLength +
+                            " || ContentType: " + file.ContentType +
+                            " || Name: " + file.Name +
+                            " || Writer: " + file.Writer + Environment.NewLine;
+                    }
+                }
+                ret += " - Method: " + request.Method + Environment.NewLine;
+                if (request.Parameters != null && request.Parameters.Count() > 0)
+                {
+                    ret += " - Listado de Parameters: " + Environment.NewLine;
+                    foreach (Parameter param in request.Parameters)
+                    {
+                        ret += "    + Name: " + param.Name +
+                            " || Value: " + param.Value +
+                            " || ContentType: " + param.ContentType +
+                            " || Type: " + param.Type + Environment.NewLine;
+                    }
+                }
+                ret += " - Resource: " + request.Resource + Environment.NewLine;
+            }
+            return ret;
+        }
+
+        public static string GetDataFromResponse(IRestResponse response)
+        {
+            string ret = Environment.NewLine;
+            if (response != null)
+            {
+                ret += " - Response Content: " + Environment.NewLine;
+                if (response.Content != null)
+                {
+                    ret += "    + Content Length: " + response.Content.Length + Environment.NewLine;
+                }
+                if (response.ContentEncoding != null)
+                {
+                    ret += "    + Encoding: " + response.ContentEncoding + Environment.NewLine;
+                }
+                ret += "    + Length: " + response.ContentLength + Environment.NewLine;
+                if (response.ContentType != null)
+                {
+                    ret += "    + Type: " + response.ContentType + Environment.NewLine;
+                }
+                if (response.Cookies != null && response.Cookies.Count() > 0)
+                {
+                    ret += " - Response Cookies: " + Environment.NewLine;
+                    foreach (RestResponseCookie cookie in response.Cookies)
+                    {
+                        ret += "    + Comment: " + cookie.Comment +
+                           " || CommentUri: " + cookie.CommentUri +
+                           " || Discard: " + cookie.Discard +
+                           " || Expired: " + cookie.Expired +
+                           " || Expires: " + cookie.Expires +
+                           " || HttpOnly: " + cookie.HttpOnly +
+                           " || Name: " + cookie.Name +
+                           " || Path: " + cookie.Path +
+                           " || Port: " + cookie.Port +
+                           " || Secure: " + cookie.Secure +
+                           " || TimeStamp: " + cookie.TimeStamp +
+                           " || Value: " + cookie.Value +
+                           " || Version: " + cookie.Version + Environment.NewLine;
+                    }
+                }
+                if (response.ErrorException != null)
+                {
+                    ret += " - ErrorException: " + GetErrorMessage(response.ErrorException) + Environment.NewLine;
+                }
+                if (response.ErrorMessage != null)
+                {
+                    ret += " - ErrorMessage: " + response.ErrorMessage + Environment.NewLine;
+                }
+                if (response.Headers != null && response.Headers.Count() > 0)
+                {
+                    ret += " - Listado de Headers: " + Environment.NewLine;
+                    foreach (Parameter param in response.Headers)
+                    {
+                        ret += "    + Name: " + param.Name +
+                            " || Value: " + param.Value +
+                            " || ContentType: " + param.ContentType +
+                            " || Type: " + param.Type + Environment.NewLine;
+                    }
+                }
+                if (response.RawBytes != null)
+                {
+                    ret += " - (UTF-8)RawBytes Length: " + Encoding.UTF8.GetString(response.RawBytes).Length + Environment.NewLine;
+                }
+                if (response.Request != null)
+                {
+                    ret += " - Request: " + Environment.NewLine;
+                    if (response.Request.Files != null && response.Request.Files.Count() > 0)
+                    {
+                        ret += "    + Listado de Files: " + Environment.NewLine;
+                        foreach (FileParameter file in response.Request.Files)
+                        {
+                            ret += "       * Name: " + file.FileName +
+                                " || ContentLength: " + file.ContentLength +
+                                " || ContentType: " + file.ContentType +
+                                " || Name: " + file.Name +
+                                " || Writer: " + file.Writer + Environment.NewLine;
+                        }
+                    }
+                    ret += "    + Method: " + response.Request.Method + Environment.NewLine;
+                    if (response.Request.Parameters != null && response.Request.Parameters.Count() > 0)
+                    {
+                        ret += "    + Listado de Parameters: " + Environment.NewLine;
+                        foreach (Parameter param in response.Request.Parameters)
+                        {
+                            ret += "       * Name: " + param.Name +
+                                " || Value: " + param.Value +
+                                " || ContentType: " + param.ContentType +
+                                " || Type: " + param.Type + Environment.NewLine;
+                        }
+                    }
+                    ret += "    + Resource: " + response.Request.Resource + Environment.NewLine;
+                }
+                if (response.Server != null)
+                {
+                    ret += " - Server: " + response.Server + Environment.NewLine;
+                }
+                ret += " - Status Code: " + response.StatusCode + Environment.NewLine;
+                if (response.StatusDescription != null)
+                {
+                    ret += " - Status Description: " + response.StatusDescription + Environment.NewLine;
+                }
+                ret += " - Status: " + response.ResponseStatus + Environment.NewLine;
+                if (response.ResponseUri != null)
+                {
+                    ret += " - URI: " + response.ResponseUri + Environment.NewLine;
+                }
+            }
+            return ret;
+        }
 
     }
 
