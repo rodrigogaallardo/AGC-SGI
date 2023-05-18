@@ -1446,7 +1446,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar documento en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                //serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                //serviceEE.Url = this.url_servicio_EE;
                 serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
