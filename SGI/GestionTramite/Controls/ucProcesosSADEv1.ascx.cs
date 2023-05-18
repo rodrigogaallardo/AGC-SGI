@@ -896,7 +896,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar documento en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
 
                 try
                 {
@@ -977,7 +977,7 @@ namespace SGI.GestionTramite.Controls
                 obtenerDatosCaratula(this.id_grupo_tramite, this.id_tramitetarea, ref pf, ref pj);
 
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 
                 if(username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
@@ -1446,8 +1446,8 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar documento en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                //serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                //serviceEE.Url = this.url_servicio_EE;
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
@@ -1628,7 +1628,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar documento en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
@@ -1727,7 +1727,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar la providencia en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
@@ -1832,7 +1832,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
@@ -1911,7 +1911,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
@@ -1966,7 +1966,7 @@ namespace SGI.GestionTramite.Controls
             try
             {
                 // ---------------------------------------
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 string username_SADE = Functions.GetUsernameSADE(userid);
                 if (username_SADE == null || username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
@@ -2022,7 +2022,7 @@ namespace SGI.GestionTramite.Controls
                 }
 
                 // ---------------------------------------
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
@@ -2076,7 +2076,7 @@ namespace SGI.GestionTramite.Controls
                 {
                     username_SADE = Functions.GetUsernameSADE(userid);
                 }
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
 
                 documento = serviceEE.GetPdfCaratula(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
 
@@ -2167,7 +2167,7 @@ namespace SGI.GestionTramite.Controls
                 {
                     username_SADE = Functions.GetUsernameSADE(userid);
                 }
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
 
                 if (Functions.EsAmbienteDesa())
                 {
@@ -2277,7 +2277,7 @@ namespace SGI.GestionTramite.Controls
                 {
                     Numero_gedo = "";
                 }
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
 
                 documento = serviceEE.GetDocumentoPDF_SADE(this.username_servicio_EE, this.pass_servicio_EE, Numero_gedo, null, sistema_SADE, username_SADE);
 
@@ -2364,7 +2364,7 @@ namespace SGI.GestionTramite.Controls
             try
             {
                 // ---------------------------------------
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
 
                 var proc = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
                 dynamic parametros = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(proc.parametros_SADE);
@@ -2533,7 +2533,7 @@ namespace SGI.GestionTramite.Controls
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
                 // ---------------------------------------
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 string[] usuarios_firmantes = new string[] { userName_SADE_Director };
 
                 id_devolucion_ee = serviceEE.generarTareaAlaFirma(this.username_servicio_EE, this.pass_servicio_EE, id_paquete,
@@ -2574,7 +2574,7 @@ namespace SGI.GestionTramite.Controls
             string descripcion_tramite = "";
             
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-            serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+            serviceEE.Url = this.url_servicio_EE;
             try
             {
                 ws_ExpedienteElectronico.wsResultado result = serviceEE.EjecutarPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
@@ -2640,7 +2640,7 @@ namespace SGI.GestionTramite.Controls
             string NombreSistema = Constants.ApplicationName;
             
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-            serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+            serviceEE.Url = this.url_servicio_EE;
             try
             {
 
@@ -2720,7 +2720,7 @@ namespace SGI.GestionTramite.Controls
             string NombreSistema = Constants.ApplicationName;
 
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-            serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+            serviceEE.Url = this.url_servicio_EE;
             try
             {
 
@@ -2795,7 +2795,7 @@ namespace SGI.GestionTramite.Controls
         public string obtenerNroExpediente(int id_paquete)
         {
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-            serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+            serviceEE.Url = this.url_servicio_EE;
             string NroExpediente = "";
 
             ws_ExpedienteElectronico.dsInfoPaquete dsInfo = serviceEE.Get_Info_Paquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
@@ -2821,7 +2821,7 @@ namespace SGI.GestionTramite.Controls
             try
             {
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 string username_SADE = Functions.GetUsernameSADE(userid);
                 string resultado_ee = "";
 
@@ -3183,7 +3183,7 @@ namespace SGI.GestionTramite.Controls
 
 
                     ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                    serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                    serviceEE.Url = this.url_servicio_EE;
                     string resultado_ee = "";
 
 
@@ -3656,7 +3656,7 @@ namespace SGI.GestionTramite.Controls
                 // Subir y relacionar documento en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
-                serviceEE.Url = "http://localhost:33843/ws_ExpedienteElectronico.asmx";
+                serviceEE.Url = this.url_servicio_EE;
                 if (username_SADE.Length <= 0)
                     throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
 
