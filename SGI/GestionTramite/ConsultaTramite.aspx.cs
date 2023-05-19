@@ -1914,7 +1914,8 @@ namespace SGI.GestionTramite
                                            Usuario = res.Usuario,
                                            NombreApellido = res.NombreyApellido,
                                            FechaInicioAT = res.FechaInicioAT,
-                                           FechaAprobadoAT = res.FechaAprobadoAT
+                                           FechaAprobadoAT = res.FechaAprobadoAT,
+                                           TienePlanoIncendio = res.TienePlanoIncendio
                                        }).ToList();
                     dt = Functions.ToDataTable(lstExportar);
                 }
@@ -1976,8 +1977,8 @@ namespace SGI.GestionTramite
                                            Usuario = res.Usuario,
                                            NombreApellido = res.NombreyApellido,
                                            FechaInicioAT = res.FechaInicioAT,
-                                           FechaAprobadoAT = res.FechaAprobadoAT
-
+                                           FechaAprobadoAT = res.FechaAprobadoAT,
+                                           TienePlanoIncendio = res.TienePlanoIncendio
                                        }).ToList();
                     dt = Functions.ToDataTable(lstExportar);
                 }
@@ -2043,8 +2044,8 @@ namespace SGI.GestionTramite
                                            Usuario = res.Usuario,
                                            NombreApellido = res.NombreyApellido,
                                            FechaInicioAT = res.FechaInicioAT,
-                                           FechaAprobadoAT = res.FechaAprobadoAT
-
+                                           FechaAprobadoAT = res.FechaAprobadoAT,
+                                           TienePlanoIncendio = res.TienePlanoIncendio
                                        }).ToList();
                     dt = Functions.ToDataTable(lstExportar);
                 }
