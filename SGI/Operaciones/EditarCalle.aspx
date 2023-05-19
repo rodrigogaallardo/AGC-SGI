@@ -42,7 +42,7 @@
                     <div class="control-group">
                         <asp:Label ID="lblCodigoCalle" runat="server" AssociatedControlID="codigoCalle" Text="Código" CssClass="control-label" />
                         <div class="controls">
-                            <asp:TextBox ID="codigoCalle" runat="server" Width="100px" />
+                            <asp:TextBox ID="codigoCalle" runat="server" Width="100px" Enabled="false" />
                         </div>
                     </div>
 
