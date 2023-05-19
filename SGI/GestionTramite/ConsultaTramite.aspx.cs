@@ -524,10 +524,13 @@ namespace SGI.GestionTramite
 
             if (totalRowCount > 1)
             {
-                lblCantRegistros.Text = string.Format("{0} Trámites", lstResult.Count);//totalRowCount
+                lblCantRegistros.Text = string.Format("{0} Trámites en hoja", lstResult.Count);//muestra tramites en la pagina (MAX 30)
+                lblTotalRegistros.Text = string.Format("{0} Trámites Totales", totalRowCount);//tramites totales
             }
             else if (totalRowCount == 1)
-                lblCantRegistros.Text = string.Format("{0} Trámite", lstResult.Count);//totalRowCount
+            {
+                lblCantRegistros.Text = string.Format("{0} Trámite", lstResult.Count);
+            }
             else
             {
                 pnlCantRegistros.Visible = false;
@@ -1911,7 +1914,8 @@ namespace SGI.GestionTramite
                                            Usuario = res.Usuario,
                                            NombreApellido = res.NombreyApellido,
                                            FechaInicioAT = res.FechaInicioAT,
-                                           FechaAprobadoAT = res.FechaAprobadoAT
+                                           FechaAprobadoAT = res.FechaAprobadoAT,
+                                           TienePlanoIncendio = res.TienePlanoIncendio
                                        }).ToList();
                     dt = Functions.ToDataTable(lstExportar);
                 }
@@ -1973,8 +1977,8 @@ namespace SGI.GestionTramite
                                            Usuario = res.Usuario,
                                            NombreApellido = res.NombreyApellido,
                                            FechaInicioAT = res.FechaInicioAT,
-                                           FechaAprobadoAT = res.FechaAprobadoAT
-
+                                           FechaAprobadoAT = res.FechaAprobadoAT,
+                                           TienePlanoIncendio = res.TienePlanoIncendio
                                        }).ToList();
                     dt = Functions.ToDataTable(lstExportar);
                 }
@@ -2040,8 +2044,8 @@ namespace SGI.GestionTramite
                                            Usuario = res.Usuario,
                                            NombreApellido = res.NombreyApellido,
                                            FechaInicioAT = res.FechaInicioAT,
-                                           FechaAprobadoAT = res.FechaAprobadoAT
-
+                                           FechaAprobadoAT = res.FechaAprobadoAT,
+                                           TienePlanoIncendio = res.TienePlanoIncendio
                                        }).ToList();
                     dt = Functions.ToDataTable(lstExportar);
                 }

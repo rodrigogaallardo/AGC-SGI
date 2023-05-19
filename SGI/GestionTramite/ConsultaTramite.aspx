@@ -1314,6 +1314,7 @@
                                     Cantidad de registros:
                                 </strong>
                                 <asp:Label ID="lblCantRegistros" runat="server" CssClass="badge">0</asp:Label>
+                                <asp:Label ID="lblTotalRegistros" runat="server" CssClass="badge"></asp:Label>
                             </div>
                         </asp:Panel>
 
