@@ -377,7 +377,7 @@ namespace SGI.Model
         public string url_tareaTramite { get; set; }
         public string nro_Expediente { get; set; }
         public string estado { get; set; }
-
+        public Nullable<System.DateTime> LibradoUso { get; set; }
     }
 
     public partial class clsItemIndicadores
