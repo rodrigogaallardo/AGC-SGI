@@ -618,7 +618,18 @@ namespace SGI
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
-                       continuar_sade = 0,
+                       continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select sade_proc).Any() ? (
+                                         (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          && sade_proc.id_proceso != 1
+                                          select new
+                                          {
+                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
+                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
+                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
                        cant_observaciones = sol.CPadron_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteCP/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -661,7 +672,18 @@ namespace SGI
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
-                       continuar_sade = 0,
+                       continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select sade_proc).Any() ? (
+                                         (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          && sade_proc.id_proceso != 1
+                                          select new
+                                          {
+                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
+                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
+                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
                        cant_observaciones = sol.Transf_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
