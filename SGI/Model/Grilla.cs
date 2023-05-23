@@ -330,6 +330,7 @@ namespace SGI.Model
         public string url_visorTramite { get; set; }
         public string url_tareaTramite { get; set; }
         public int cant_observaciones { get; set; }
+        public int continuar_sade { get; set; }
         public string zona_declarada { get; set; }
         public List<clsItemBandejaEntradaRubros> Rubros { get; set; }
         }

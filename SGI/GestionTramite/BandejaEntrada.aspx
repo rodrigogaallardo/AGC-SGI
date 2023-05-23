@@ -169,9 +169,10 @@
                             
                             <asp:BoundField DataField="direccion" HeaderText="Ubicación" />
 
-                            <asp:TemplateField HeaderText="Tarea" ItemStyle-Width="200px" ItemStyle-CssClass="align-center" SortExpression="nombre_tarea">
+                            <asp:TemplateField HeaderText="Tarea" ItemStyle-Width="10%" ItemStyle-CssClass="align-center" SortExpression="nombre_tarea">
                                 <ItemTemplate>
                                     <asp:HyperLink ID="lnkid_tarea" runat="server" NavigateUrl='<%# Item.url_tareaTramite%>'><%# Item.nombre_tarea %></asp:HyperLink>
+                                    <asp:HiddenField ID="hiddenIdTramiteTarea" runat="server" Value='<%# Item.id_tramitetarea %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
 
@@ -185,8 +186,9 @@
                                         Text="Tomar" OnClick="lnkTomarTarea_Click" Visible="<%# (Item.FechaAsignacion_tramtietarea == null && Item.tomar_tarea ) %>"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="dias_transcurridos" HeaderText="Días" HeaderStyle-Wrap="true" HeaderStyle-Width="50px" ItemStyle-CssClass="align-center" />
-                            <asp:BoundField DataField="cant_observaciones" HeaderText="Observaciones" HeaderStyle-Wrap="true" HeaderStyle-Width="50px" ItemStyle-CssClass="align-center" SortExpression="cant_observaciones" />
+                            <asp:BoundField DataField="dias_transcurridos" HeaderText="Días" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" />
+                            <asp:BoundField DataField="cant_observaciones" HeaderText="Observaciones" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" SortExpression="cant_observaciones" />
+                            <asp:BoundField DataField="continuar_sade" HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center"/>
                         </Columns>
                         <PagerTemplate>
                             <asp:Panel ID="pnlpager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">

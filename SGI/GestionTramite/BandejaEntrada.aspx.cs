@@ -536,7 +536,7 @@ namespace SGI
 
             // Bandeja de datos Sol
             #region "Consulta Solicitudes"
-
+            
             qENC = (from perfiles_tareas in db.ENG_Rel_Perfiles_Tareas
                     join tramite_tareas in db.SGI_Tramites_Tareas on perfiles_tareas.id_tarea equals tramite_tareas.id_tarea
                     join tramite_tareas_HAB in db.SGI_Tramites_Tareas_HAB on tramite_tareas.id_tramitetarea equals tramite_tareas_HAB.id_tramitetarea
@@ -566,6 +566,18 @@ namespace SGI
                         formulario_tarea = tarea.formulario_tarea,
                         Dias_Transcurridos = 0,
                         superficie_total = 0,
+                        continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          &&    sade_proc.id_proceso != 1
+                                          select sade_proc).Any() ? (
+                                         (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select new
+                                         {
+                                             pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
+                                             sade = sade_proc.realizado_en_SADE ? 1 : 0
+                                         }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0 ) : 1,
                         cant_observaciones = sol.SSIT_Solicitudes_Observaciones.Count(),
                         url_visorTramite = "~/GestionTramite/VisorTramite.aspx?id={0}",
                         url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -606,6 +618,7 @@ namespace SGI
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
+                       continuar_sade = 0,
                        cant_observaciones = sol.CPadron_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteCP/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -648,6 +661,7 @@ namespace SGI
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
+                       continuar_sade = 0,
                        cant_observaciones = sol.Transf_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -1063,7 +1077,9 @@ namespace SGI
                         row.direccion = (string.IsNullOrEmpty(itemDireccion.direccion) ? "" : itemDireccion.direccion);
                     row.url_visorTramite = string.Format(row.url_visorTramite, row.id_solicitud.ToString());
                     if (row.formulario_tarea != null)
+                    {
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
+                    }   
                     else
                         row.url_tareaTramite = "";
                     //row.Dias_Transcurridos = (DateTime.Now - row.FechaInicio_tarea).Days;
@@ -1506,5 +1522,60 @@ namespace SGI
             grdBandeja.DataBind();
             //updBandejaPropia.Update();
         }
+        /*
+        protected void gridViewBandejaSade_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var itemActual = e.Row.DataItem as clsItemBandejaEntrada;
+                int rowActual = e.Row.RowIndex;
+                HiddenField hidIdTramitetarea = (HiddenField)e.Row.FindControl("hiddenIdTramiteTarea");
+                BoundField dat = (BoundField)e.Row.FindControl("continuar_sade");
+                int id_tramitetarea = int.Parse(hidIdTramitetarea.Value);
+                var dataSource = grdBandeja.DataSource as List<clsItemBandejaEntrada>;
+                using (var ctx = new DGHP_Entities())
+                {
+                    
+                     var SGI_SADE_Procesos = (from sade_proc in ctx.SGI_SADE_Procesos
+                                              where sade_proc.id_tramitetarea == id_tramitetarea
+                                              &&    sade_proc.id_proceso != 1
+                                              orderby sade_proc.id_tarea_proc
+                                              select new
+                                              {
+                                                  sade_proc.realizado_en_pasarela,
+                                                  sade_proc.realizado_en_SADE,
+   
+                                              }).ToList();
+                    if(SGI_SADE_Procesos.Count() > 0)
+                    {
+                        
+                        int cant_rea_pasarela = SGI_SADE_Procesos.Sum(p => p.realizado_en_pasarela ? 1 : 0);
+                        int cant_rea_SADE = SGI_SADE_Procesos.Sum(p => p.realizado_en_SADE ? 1 : 0);
+
+                        if(cant_rea_pasarela != cant_rea_SADE)
+                        {
+                            itemActual.continuar_sade = 1;
+                            e.Row.DataItem = itemActual;
+                            //dataSource[rowActual].continuar_sade = 1;
+                        }
+                        else
+                        {
+                            itemActual.continuar_sade = 0;
+                            e.Row.DataItem = itemActual;
+                            //dataSource[rowActual].continuar_sade = 0;
+                        } 
+                    }
+
+                    
+        
+                }
+               
+
+                
+
+            }
+        }
+        */
+        
     }
 }
