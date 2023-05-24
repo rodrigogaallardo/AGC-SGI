@@ -153,6 +153,7 @@ namespace SGI.GestionTramite.Tareas
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
                 var condicionIncendioOk = false;
                 var condicionDGIUR = false;
+                var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
                 if (datosLocal != null)
                 {
                     var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
@@ -194,23 +195,23 @@ namespace SGI.GestionTramite.Tareas
                 if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
                     tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
                 {
-                    if (condicionIncendioOk || condicionDGIUR || ubicacionEspecial)
-                    {
-                        pnl_Librar_Uso.Visible = true;
-                    }
-                    var fechalibrado = sol.FechaLibrado;
-                    if (fechalibrado != null)
-                    {
-                        librado = true;
-                    }
-                    if (librado || LiberadoAlUsoRubro)
-                        chbLibrarUso.Checked = true;
-                    else
-                        chbLibrarUso.Checked = false;
-                    if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
-                    {
-                        chbLibrarUso.Checked = librado;
-                    }
+                        if (condicionIncendioOk || condicionDGIUR || ubicacionEspecial || esInmuebleCatalogo)
+                        {
+                            pnl_Librar_Uso.Visible = true;
+                        }
+                        var fechalibrado = sol.FechaLibrado;
+                        if (fechalibrado != null)
+                        {
+                            librado = true;
+                        }
+                        if (librado || LiberadoAlUsoRubro)
+                            chbLibrarUso.Checked = true;
+                        else
+                            chbLibrarUso.Checked = false;
+                        if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
+                        {
+                            chbLibrarUso.Checked = librado;
+                        }
                 }
                 else
                 {
@@ -760,6 +761,12 @@ namespace SGI.GestionTramite.Tareas
         }
 
         #endregion
+
+
+        public bool EsInmuebleCatalogado(int IdEncomienda)
+        {
+            return db.Encomienda_Ubicaciones.Any(encubic => encubic.id_encomienda == IdEncomienda && encubic.InmuebleCatalogado == true);
+        }
 
     }
 }
