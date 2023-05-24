@@ -566,7 +566,7 @@
                                                         <asp:Label ID="lblLibradoUso" runat="server" AssociatedControlID="ddlLibradoUso"
                                                             Text="Librado al Uso:" class="control-label"></asp:Label>
                                                         <div class="controls">
-                                                            <asp:DropDownList ID="ddlLibradoUso" runat="server" Width="300px"></asp:DropDownList>
+                                                            <asp:DropDownList ID="ddlLibradoUso" runat="server" Width="200px"></asp:DropDownList>
                                                         </div>
                                                     </div>
                                                 </fieldset>
