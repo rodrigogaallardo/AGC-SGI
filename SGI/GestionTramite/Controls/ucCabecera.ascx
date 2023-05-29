@@ -35,7 +35,10 @@
                         <li>Solicitud de Origen:<strong><asp:Label ID="lblSoliictitudOrigen" runat="server"></asp:Label></strong>
                         </li>
                     </asp:Panel>
-
+                    <asp:Panel ID="pnlLibradoUso" runat="server">
+                        <li>Fecha de Librado al Uso:<strong><asp:Label ID="lblLibradoUso" runat="server"></asp:Label></strong>
+                        </li>
+                    </asp:Panel>
                 </ul>
 
             </div>

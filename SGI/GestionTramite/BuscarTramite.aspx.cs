@@ -96,6 +96,7 @@ namespace SGI
                     fechaHasta = txtFechaHasta.Text,
                     fechaCierreDesde = txtFechaCierreDesde.Text,
                     fechaCierreHasta = txtFechaCierreHasta.Text,
+                    libradoUso = ddlLibradoUso.SelectedIndex.ToString(),
                     ////----------------------------------------------------------------Hasta aca filtro por Tramite
 
                     rbtnUbiPartidaMatriz = rbtnUbiPartidaMatriz.Checked,
@@ -252,6 +253,7 @@ namespace SGI
                 CargarCalles();
                 CargarCombo_tipoUbicacion();
                 CargarCombo_subTipoUbicacion(-1);
+                CargarCombo_LibradoUso();
                 updPnlFiltroBuscar_tramite.Update();
                 updPnlFiltroBuscar_ubi_partida.Update();
                 updPnlFiltroBuscar_ubi_dom.Update();
@@ -315,6 +317,24 @@ namespace SGI
 
             ddlTipoTramite.DataSource = list_tipoTramite;
             ddlTipoTramite.DataBind();
+        }
+
+        private void CargarCombo_LibradoUso()
+        {
+            ListItem listItem = new ListItem();
+            listItem.Text = "Todos";
+            listItem.Value = "0";
+            ddlLibradoUso.Items.Add(listItem);
+
+            listItem = new ListItem();
+            listItem.Text = "SI";
+            listItem.Value = "1";
+            ddlLibradoUso.Items.Add(listItem);
+
+            listItem = new ListItem();
+            listItem.Text = "NO";
+            listItem.Value = "2";
+            ddlLibradoUso.Items.Add(listItem);
         }
 
         private void CargarCombo_TipoExpediente(int idtipoTramite)
@@ -532,6 +552,8 @@ namespace SGI
 
             if (ddlSubTipoTramite.Items.Count >= 0)
                 ddlSubTipoTramite.SelectedIndex = 0;
+
+            ddlLibradoUso.SelectedIndex = 0;
 
             //if (ddlEstado.Items.Count >= 0)
             //    ddlEstado.SelectedIndex = 0;
@@ -836,7 +858,7 @@ namespace SGI
         private int id_tarea_cerrada = 0;
         private string nroExp = "";
         private string estados = string.Empty;
-
+        private int LibradoUso = 0;
 
 
         private DateTime? fechaDesde;
@@ -948,6 +970,9 @@ namespace SGI
                 || this.fechaCierreHasta.HasValue || this.nroExp != "")
                 this.hayFiltroPorTramite = true;
 
+            idAux = 0;
+            int.TryParse(ddlLibradoUso.SelectedItem.Value, out idAux);
+            this.LibradoUso = idAux;
             //this.estados = hid_estados_selected.Value;
         }
 
@@ -1151,7 +1176,8 @@ namespace SGI
                 id_tipo_ubicacion = ddlbiTipoUbicacion.SelectedIndex.ToString(),
                 id_sub_tipo_ubicacion = ddlUbiSubTipoUbicacion.SelectedIndex.ToString(),
                 rubro_desc = txtRubroCodDesc.Text,
-                tit_razon = txtTitApellido.Text
+                tit_razon = txtTitApellido.Text,
+                libradoUso = ddlLibradoUso.SelectedIndex.ToString()
             };
             string jsonString = filtros.ToJSON();
 
@@ -1200,6 +1226,7 @@ namespace SGI
             txtNroEncomienda.Text = filtros.id_encomida.ToString();
             txtFechaHasta.Text = filtros.fechaHasta;
             txtFechaCierreHasta.Text = filtros.fechaCierreHasta;
+            ddlLibradoUso.SelectedIndex = Convert.ToInt32(filtros.libradoUso);
 
             IniciarEntity();
             int idTipoTramite = Convert.ToInt32(ddlTipoTramite.SelectedValue);
@@ -1648,7 +1675,7 @@ namespace SGI
                     this.id_tarea_cerrada = Convert.ToInt32(ddlTareaCerrada.SelectedValue);
                 }
 
-
+                this.LibradoUso = Convert.ToInt32(ddlLibradoUso.SelectedValue);
                 //this.estados = hid_estados_selected.Value;
 
                 if (string.IsNullOrEmpty(txtFechaDesde.Text))
@@ -1869,6 +1896,7 @@ namespace SGI
                         nro_Expediente = sol.NroExpedienteSade,
                         estado = sol.TipoEstadoSolicitud.Descripcion,
                         id_estado = sol.id_estado,
+                        LibradoUso = sol.FechaLibrado
                     }).Distinct();
 
             // busqueda por datos del trámite
@@ -1979,7 +2007,22 @@ namespace SGI
 
             }
 
-
+            //busqueda por Librado al Uso
+            if (this.LibradoUso != 0)
+            {
+                if (this.LibradoUso == 1)
+                {
+                    qSOL = (from res in qSOL
+                            where res.LibradoUso != null
+                            select res);
+                }
+                else
+                {
+                    qSOL = (from res in qSOL
+                            where res.LibradoUso == null
+                            select res);
+                }
+            }
 
             //búsqueda por numero partida matriz
             if (this.nro_partida_matriz > 0)
@@ -2307,6 +2350,7 @@ namespace SGI
                        nro_Expediente = sol.NroExpedienteSade,
                        estado = sol.CPadron_Estados.nom_estado_interno,
                        id_estado = sol.id_estado,
+                       LibradoUso = null
                    }).Distinct();
 
             // busqueda por datos del trámite
@@ -2407,7 +2451,13 @@ namespace SGI
                        select res);
             }
 
-
+            //busqueda por Librado al Uso
+            if (this.LibradoUso == 1)
+            {
+                qCP = (from res in qCP
+                        where 1 == 0
+                        select res);
+            }
 
             //búsqueda por numero partida matriz
             if (this.nro_partida_matriz > 0)
@@ -2707,6 +2757,7 @@ namespace SGI
                        nro_Expediente = sol.NroExpedienteSade,
                        estado = sol.TipoEstadoSolicitud.Descripcion,
                        id_estado = sol.id_estado,
+                       LibradoUso = null
                    }).Distinct();
 
             // busqueda por datos del trámite
@@ -2803,6 +2854,14 @@ namespace SGI
                        where (tt.SGI_Tramites_Tareas.FechaCierre_tramitetarea >= fecha_cierre_desde && tt.SGI_Tramites_Tareas.FechaCierre_tramitetarea <= fecha_cierre_hasta)
                        select res);
 
+            }
+
+            //busqueda por Librado al Uso
+            if (this.LibradoUso == 1)
+            {
+                qTR = (from res in qTR
+                       where 1 == 0
+                       select res);
             }
 
             //búsqueda por numero partida matriz
@@ -3177,6 +3236,8 @@ namespace SGI
                         qFinal = qFinal.OrderByDescending(o => o.nombre_tarea).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("superficie_total"))
                         qFinal = qFinal.OrderByDescending(o => o.superficie_total).Skip(startRowIndex).Take(maximumRows);
+                    else if (sortByExpression.Contains("LibradoUso"))
+                        qFinal = qFinal.OrderByDescending(o => o.LibradoUso).Skip(startRowIndex).Take(maximumRows);
                     else
                         qFinal = qFinal.OrderByDescending(o => o.id_solicitud).Skip(startRowIndex).Take(maximumRows);
                 }
@@ -3194,6 +3255,8 @@ namespace SGI
                         qFinal = qFinal.OrderBy(o => o.nombre_tarea).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("superficie_total"))
                         qFinal = qFinal.OrderBy(o => o.superficie_total).Skip(startRowIndex).Take(maximumRows);
+                    else if (sortByExpression.Contains("LibradoUso"))
+                        qFinal = qFinal.OrderBy(o => o.LibradoUso).Skip(startRowIndex).Take(maximumRows);
                     else
                         qFinal = qFinal.OrderBy(o => o.id_solicitud).Skip(startRowIndex).Take(maximumRows);
                 }
