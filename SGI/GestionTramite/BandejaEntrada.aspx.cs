@@ -578,7 +578,11 @@ namespace SGI
                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0 ) : 1,
-                        sade_completo = 0,
+                        sade_completo = (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select sade_proc).All(sade_proc => sade_proc.realizado_en_pasarela &&
+                                                                             sade_proc.realizado_en_SADE) ? 1 : 0,
                         cant_observaciones = sol.SSIT_Solicitudes_Observaciones.Count(),
                         url_visorTramite = "~/GestionTramite/VisorTramite.aspx?id={0}",
                         url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -631,7 +635,11 @@ namespace SGI
                                               pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
                                               sade = sade_proc.realizado_en_SADE ? 1 : 0
                                           }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
-                       sade_completo = 0,
+                       sade_completo = (from sade_proc in db.SGI_SADE_Procesos
+                                        where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                        && sade_proc.id_proceso != 1
+                                        select sade_proc).All(sade_proc => sade_proc.realizado_en_pasarela &&
+                                                                            sade_proc.realizado_en_SADE) ? 1 : 0,
                        cant_observaciones = sol.CPadron_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteCP/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -686,7 +694,11 @@ namespace SGI
                                               pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
                                               sade = sade_proc.realizado_en_SADE ? 1 : 0
                                           }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
-                       sade_completo = 0,
+                       sade_completo = (from sade_proc in db.SGI_SADE_Procesos
+                                        where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                        && sade_proc.id_proceso != 1
+                                        select sade_proc).All(sade_proc =>  sade_proc.realizado_en_pasarela &&
+                                                                            sade_proc.realizado_en_SADE) ? 1 : 0,
                        cant_observaciones = sol.Transf_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
