@@ -33,14 +33,32 @@ namespace SGI.Model
 
             int result = diff / 7 * 5 + diff % 7;
 
+
             if (end.DayOfWeek < start.DayOfWeek)
             {
-                return result - 2;
+                result = result - 2;
             }
-            else
-            {
-                return result;
-            }
+
+            #region Feriados ASOSA
+            DGHP_Entities db = new DGHP_Entities();
+
+            StringBuilder sql = new StringBuilder();
+
+            sql.AppendLine("SELECT IdFeriado,Fecha,Descripcion,CreateUser,CreateDate ");
+            sql.AppendLine("FROM SGI_Feriados ");
+            sql.AppendLine("where Fecha >= '" + start.ToString("dd-MM-yyyy") + "'");
+            sql.AppendLine("AND Fecha <= '" + end.ToString("dd-MM-yyyy") + "'");
+
+            List<SGI_Feriados> lstSGI_Feriados = null;
+
+            lstSGI_Feriados = db.Database.SqlQuery<SGI_Feriados>(sql.ToString()).ToList();
+
+            result = result - lstSGI_Feriados.Count();
+
+
+            #endregion
+
+            return result;
         }
         public class clsProfesional
         {
