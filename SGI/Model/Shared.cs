@@ -42,20 +42,12 @@ namespace SGI.Model
             #region Feriados ASOSA
             DGHP_Entities db = new DGHP_Entities();
 
-            StringBuilder sql = new StringBuilder();
+            int feriadosCount = (from hab in db.SGI_Feriados
+                        where hab.Fecha >= start
+                        & hab.Fecha <= end
+                        select hab).Count();
 
-            sql.AppendLine("SELECT IdFeriado,Fecha,Descripcion,CreateUser,CreateDate ");
-            sql.AppendLine("FROM SGI_Feriados ");
-            sql.AppendLine("where Fecha >= '" + start.ToString("dd-MM-yyyy") + "'");
-            sql.AppendLine("AND Fecha <= '" + end.ToString("dd-MM-yyyy") + "'");
-
-            List<SGI_Feriados> lstSGI_Feriados = null;
-
-            lstSGI_Feriados = db.Database.SqlQuery<SGI_Feriados>(sql.ToString()).ToList();
-
-            result = result - lstSGI_Feriados.Count();
-
-
+            result = result - feriadosCount;
             #endregion
 
             return result;
