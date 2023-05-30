@@ -188,7 +188,12 @@
                             </asp:TemplateField>
                             <asp:BoundField DataField="dias_transcurridos" HeaderText="Días" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" />
                             <asp:BoundField DataField="cant_observaciones" HeaderText="Observaciones" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" SortExpression="cant_observaciones" />
-                            <asp:BoundField DataField="continuar_sade" HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center"/>
+                            
+                            <asp:TemplateField HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center">
+                                <ItemTemplate>
+                                    <asp:Literal ID="status_sade" runat="server" Text='<%# Convert.ToBoolean(Eval("continuar_sade")) ? "<span class=\"btn-right\"><i class=\"imoon imoon-checkmark\" style=\"color: #4eb87c;\"></i></span>" : "<span class=\"btn-right\"><i class=\"imoon imoon-blocked\" style=\"color: #690d10;\"></i></span>" %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
                         <PagerTemplate>
                             <asp:Panel ID="pnlpager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
