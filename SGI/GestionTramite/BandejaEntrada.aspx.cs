@@ -578,6 +578,7 @@ namespace SGI
                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0 ) : 1,
+                        sade_completo = 0,
                         cant_observaciones = sol.SSIT_Solicitudes_Observaciones.Count(),
                         url_visorTramite = "~/GestionTramite/VisorTramite.aspx?id={0}",
                         url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -630,6 +631,7 @@ namespace SGI
                                               pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
                                               sade = sade_proc.realizado_en_SADE ? 1 : 0
                                           }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
+                       sade_completo = 0,
                        cant_observaciones = sol.CPadron_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteCP/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -684,6 +686,7 @@ namespace SGI
                                               pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
                                               sade = sade_proc.realizado_en_SADE ? 1 : 0
                                           }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
+                       sade_completo = 0,
                        cant_observaciones = sol.Transf_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -1544,60 +1547,7 @@ namespace SGI
             grdBandeja.DataBind();
             //updBandejaPropia.Update();
         }
-        /*
-        protected void gridViewBandejaSade_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                var itemActual = e.Row.DataItem as clsItemBandejaEntrada;
-                int rowActual = e.Row.RowIndex;
-                HiddenField hidIdTramitetarea = (HiddenField)e.Row.FindControl("hiddenIdTramiteTarea");
-                BoundField dat = (BoundField)e.Row.FindControl("continuar_sade");
-                int id_tramitetarea = int.Parse(hidIdTramitetarea.Value);
-                var dataSource = grdBandeja.DataSource as List<clsItemBandejaEntrada>;
-                using (var ctx = new DGHP_Entities())
-                {
-                    
-                     var SGI_SADE_Procesos = (from sade_proc in ctx.SGI_SADE_Procesos
-                                              where sade_proc.id_tramitetarea == id_tramitetarea
-                                              &&    sade_proc.id_proceso != 1
-                                              orderby sade_proc.id_tarea_proc
-                                              select new
-                                              {
-                                                  sade_proc.realizado_en_pasarela,
-                                                  sade_proc.realizado_en_SADE,
-   
-                                              }).ToList();
-                    if(SGI_SADE_Procesos.Count() > 0)
-                    {
-                        
-                        int cant_rea_pasarela = SGI_SADE_Procesos.Sum(p => p.realizado_en_pasarela ? 1 : 0);
-                        int cant_rea_SADE = SGI_SADE_Procesos.Sum(p => p.realizado_en_SADE ? 1 : 0);
-
-                        if(cant_rea_pasarela != cant_rea_SADE)
-                        {
-                            itemActual.continuar_sade = 1;
-                            e.Row.DataItem = itemActual;
-                            //dataSource[rowActual].continuar_sade = 1;
-                        }
-                        else
-                        {
-                            itemActual.continuar_sade = 0;
-                            e.Row.DataItem = itemActual;
-                            //dataSource[rowActual].continuar_sade = 0;
-                        } 
-                    }
-
-                    
-        
-                }
-               
-
-                
-
-            }
-        }
-        */
+       
         
     }
 }

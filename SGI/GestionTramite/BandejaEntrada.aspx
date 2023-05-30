@@ -191,7 +191,7 @@
                             
                             <asp:TemplateField HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center">
                                 <ItemTemplate>
-                                    <asp:Literal ID="status_sade" runat="server" Text='<%# Convert.ToBoolean(Eval("continuar_sade")) ? "<span class=\"btn-right\"><i class=\"imoon imoon-checkmark\" style=\"color: #4eb87c;\"></i></span>" : "<span class=\"btn-right\"><i class=\"imoon imoon-blocked\" style=\"color: #690d10;\"></i></span>" %>' />
+                                    <asp:Literal ID="Literal2" runat="server" Text='<%# Convert.ToBoolean(Eval("sade_completo")) ? "<span class=\"btn-right\"><i class=\"imoon imoon-checkmark\" style=\"color: #344882;\"></i></span>" : "<span class=\"btn-right\"><i class=\"imoon imoon-close\" style=\"color: #344882;\"></i></span>" %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
