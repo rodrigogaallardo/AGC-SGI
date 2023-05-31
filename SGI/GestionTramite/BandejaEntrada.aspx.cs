@@ -75,9 +75,9 @@ namespace SGI
                 lblCantTramitesBandejaPropia.Visible = false;
 
             if (cantCompletoSade > 1)
-                lblCantSadeCompletos.Text = string.Format("{0} trámites para finalizar", cantCompletoSade);
+                lblCantSadeCompletos.Text = string.Format("{0} trámites para comenzar y/o finalizar", cantCompletoSade);
             else if (cantCompletoSade == 1)
-                lblCantSadeCompletos.Text = string.Format("{0} trámite para finalizar", cantCompletoSade);
+                lblCantSadeCompletos.Text = string.Format("{0} trámite para comenzar y/o finalizar", cantCompletoSade);
             else
                 lblCantSadeCompletos.Visible = false;
             if (cantContinuarSade > 1)
