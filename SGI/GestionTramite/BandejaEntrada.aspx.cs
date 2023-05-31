@@ -55,7 +55,7 @@ namespace SGI
             Guid userid = Functions.GetUserId();
             int cantCompletoSade = 0;
             int cantContinuarSade = 0;
-            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression, cantCompletoSade, cantContinuarSade, out totalRowCount);
+            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression,ref cantCompletoSade,ref cantContinuarSade, out totalRowCount);
 
             pnlBandejaPropiaVacia.Visible = (totalRowCount <= 0);
 
@@ -536,7 +536,7 @@ namespace SGI
             btnPropia.CssClass = "btn";
         }
         #region "Filtro"
-        private List<clsItemBandejaEntrada> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, int cantCompletoSade, int cantContinuarSade, out int totalRowCount)
+        private List<clsItemBandejaEntrada> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, ref int cantCompletoSade, ref int cantContinuarSade, out int totalRowCount)
         {
 
             List<clsItemBandejaEntrada> resultados = new List<clsItemBandejaEntrada>();
@@ -935,8 +935,8 @@ namespace SGI
             AddQueryFinal(qTR, ref qFinal);
 
             totalRowCount = qFinal.Count();
-            cantCompletoSade = qFinal.Count( x => x.continuar_sade == 1);
-            cantContinuarSade = qFinal.Count(x => x.sade_completo == 1);
+            cantCompletoSade = qFinal.Count( x => x.sade_completo == 1);
+            cantContinuarSade = qFinal.Count(x => x.continuar_sade == 1 && x.sade_completo != 1);
 
             if (sortByExpression != null)
             {
