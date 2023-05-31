@@ -102,6 +102,8 @@
                     </div>
                     <div style="display: inline-block">
                         (<span class="badge"><asp:Label ID="lblCantTramitesBandejaPropia" runat="server"></asp:Label></span>
+                        <span class="badge"><asp:Label ID="lblCantSadeContinuar" runat="server"></asp:Label></span>
+                        <span class="badge"><asp:Label ID="lblCantSadeCompletos" runat="server"></asp:Label></span>
                         <asp:LinkButton ID="btnActualizarBandejaPropia" runat="server" OnClick="btnActualizarBandejaPropia_Click" CssClass="btn btn-primary btn-mini">
                             <i class="icon-white icon-refresh"></i>
                             <span class="text">Actualizar</span>
@@ -121,7 +123,7 @@
                         GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
                         DataKeyNames="id_solicitud,url_tareaTramite,cod_grupotramite" AllowPaging="true" PageSize="30"
                         ItemType="SGI.Model.clsItemBandejaEntrada" SelectMethod="GetTramitesBandeja" AllowSorting="true"
-                        OnDataBound="grdBandeja_DataBound" >
+                        OnDataBound="grdBandeja_DataBound" OnRowDataBound="gridViewBandejaSade_RowDataBound">
                         <SortedAscendingHeaderStyle CssClass="GridAscendingHeaderStyle" />
                         <SortedDescendingHeaderStyle CssClass="GridDescendingHeaderStyle" />
 
@@ -255,6 +257,8 @@
 
                     <div style="display: inline-block;">
                         (<span class="badge"><asp:Label ID="lblCantTramitesBandejaAsignacion" runat="server"></asp:Label></span>
+                        <span class="badge"><asp:Label ID="lblCantContinuarSade" runat="server"></asp:Label></span>
+                        <span class="badge"><asp:Label ID="lblCantCompletoSade" runat="server"></asp:Label></span>
                         <asp:LinkButton ID="btnActualizarBandejaAsignacion" runat="server" OnClick="btnActualizarBandejaAsignacion_Click" CssClass="btn btn-primary btn-mini">
                             <i class="icon-white icon-refresh"></i>
                             <span class="text">Actualizar</span>
