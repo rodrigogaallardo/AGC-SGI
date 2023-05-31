@@ -150,16 +150,12 @@ namespace SGI.GestionTramite.Tareas
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
                 bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda);
                 bool tieneNormativas = TieneNormativas(enc.id_encomienda);
+                bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
-                var condicionIncendioOk = false;
                 var condicionDGIUR = false;
                 var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
-                if (datosLocal != null)
-                {
-                    var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
-                    condicionIncendioOk = enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
-                }
+
 
                 //if (!condicionIncendioOk)
                 //{
@@ -253,6 +249,23 @@ namespace SGI.GestionTramite.Tareas
                     select cal.id_tramitetarea
                 ).ToList();
             return q.Count() > 0;
+        }
+
+        private bool TienePlanoDeIncendio(int id_solicitud, int id_encomienda)
+        {
+            int tipoPlanoIncendio = 2;
+            int tipoDocReqSol = 66;
+            bool planoIncEnc = (from ep in db.Encomienda_Planos
+                                where   ep.id_encomienda == id_encomienda
+                                &&      ep.id_tipo_plano == tipoPlanoIncendio
+                                select  ep).Any();
+
+            bool planoIncSol = (from  sd in db.SSIT_DocumentosAdjuntos
+                                where sd.id_solicitud == id_solicitud
+                                &&    sd.id_tdocreq == tipoDocReqSol
+                                select sd).Any();
+
+            return (planoIncEnc || planoIncSol);
         }
 
         private bool TieneNormativas(int id_encomienda)
