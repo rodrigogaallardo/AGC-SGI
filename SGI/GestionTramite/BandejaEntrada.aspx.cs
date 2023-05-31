@@ -50,11 +50,12 @@ namespace SGI
         }
 
         public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows, 
-                out int totalRowCount, out int cantCompletoSade, out int cantContinuarSade, string sortByExpression)
+                out int totalRowCount, string sortByExpression)
         {
             Guid userid = Functions.GetUserId();
-
-            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression, out totalRowCount, out cantCompletoSade, out cantContinuarSade);
+            int cantCompletoSade = 0;
+            int cantContinuarSade = 0;
+            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression, cantCompletoSade, cantContinuarSade, out totalRowCount);
 
             pnlBandejaPropiaVacia.Visible = (totalRowCount <= 0);
 
@@ -535,7 +536,7 @@ namespace SGI
             btnPropia.CssClass = "btn";
         }
         #region "Filtro"
-        private List<clsItemBandejaEntrada> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount, out int cantCompletoSade, out int cantContinuarSade)
+        private List<clsItemBandejaEntrada> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, int cantCompletoSade, int cantContinuarSade, out int totalRowCount)
         {
 
             List<clsItemBandejaEntrada> resultados = new List<clsItemBandejaEntrada>();
@@ -765,7 +766,6 @@ namespace SGI
                                 cir.cod_circuito
                             }).ToList().Distinct();
 
-
             var qTarea = qTareaENC.Union(qTareaCP).Union(qTareaTR).ToList().Distinct();
 
             //cargar combos tipo de tramite
@@ -935,7 +935,8 @@ namespace SGI
             AddQueryFinal(qTR, ref qFinal);
 
             totalRowCount = qFinal.Count();
-
+            cantCompletoSade = qFinal.Count( x => x.continuar_sade == 1);
+            cantContinuarSade = qFinal.Count(x => x.sade_completo == 1);
 
             if (sortByExpression != null)
             {
@@ -1577,6 +1578,7 @@ namespace SGI
             //updBandejaPropia.Update();
         }
 
+        /*
         protected void gridViewBandejaSade_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -1598,5 +1600,6 @@ namespace SGI
 
             }
         }
+        */
     }
 }

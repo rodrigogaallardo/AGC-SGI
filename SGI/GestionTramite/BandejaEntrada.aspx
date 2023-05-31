@@ -123,7 +123,7 @@
                         GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
                         DataKeyNames="id_solicitud,url_tareaTramite,cod_grupotramite" AllowPaging="true" PageSize="30"
                         ItemType="SGI.Model.clsItemBandejaEntrada" SelectMethod="GetTramitesBandeja" AllowSorting="true"
-                        OnDataBound="grdBandeja_DataBound" OnRowDataBound="gridViewBandejaSade_RowDataBound">
+                        OnDataBound="grdBandeja_DataBound">
                         <SortedAscendingHeaderStyle CssClass="GridAscendingHeaderStyle" />
                         <SortedDescendingHeaderStyle CssClass="GridDescendingHeaderStyle" />
 
