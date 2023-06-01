@@ -103,7 +103,6 @@
                     <div style="display: inline-block">
                         (<span class="badge"><asp:Label ID="lblCantTramitesBandejaPropia" runat="server"></asp:Label></span>
                         <span class="badge" style="background-color: #ffb300"><asp:Label ID="lblCantSadeContinuar" style="color: #000000; " runat="server"></asp:Label></span>
-                        <span class="badge" style="background-color: #1f6900"><asp:Label ID="lblCantSadeCompletos" style="color: #ffffff; " runat="server"></asp:Label></span>
                         <asp:LinkButton ID="btnActualizarBandejaPropia" runat="server" OnClick="btnActualizarBandejaPropia_Click" CssClass="btn btn-primary btn-mini">
                             <i class="icon-white icon-refresh"></i>
                             <span class="text">Actualizar</span>
