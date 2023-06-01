@@ -33,14 +33,24 @@ namespace SGI.Model
 
             int result = diff / 7 * 5 + diff % 7;
 
+
             if (end.DayOfWeek < start.DayOfWeek)
             {
-                return result - 2;
+                result = result - 2;
             }
-            else
-            {
-                return result;
-            }
+
+            #region Feriados ASOSA
+            DGHP_Entities db = new DGHP_Entities();
+
+            int feriadosCount = (from hab in db.SGI_Feriados
+                        where hab.Fecha >= start
+                        & hab.Fecha <= end
+                        select hab).Count();
+
+            result = result - feriadosCount;
+            #endregion
+
+            return result;
         }
         public class clsProfesional
         {
