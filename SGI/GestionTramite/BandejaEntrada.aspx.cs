@@ -61,10 +61,10 @@ namespace SGI
 
             lblCantTramitesBandejaPropia.Visible = true;
             lblCantSadeContinuar.Visible = true;
-            lblCantSadeCompletos.Visible = true;
+            //lblCantSadeCompletos.Visible = true;
             lblCantTramitesBandejaPropia.Text = "";
             lblCantSadeContinuar.Text = cantContinuarSade.ToString();
-            lblCantSadeCompletos.Text = cantCompletoSade.ToString();
+            //lblCantSadeCompletos.Text = cantCompletoSade.ToString();
 
             // Cantidad de tramites en la bandeja
             if (totalRowCount > 1)
@@ -73,17 +73,18 @@ namespace SGI
                 lblCantTramitesBandejaPropia.Text = string.Format("{0} trámite en la bandeja", totalRowCount);
             else
                 lblCantTramitesBandejaPropia.Visible = false;
-
+            /*
             if (cantCompletoSade > 1)
                 lblCantSadeCompletos.Text = string.Format("{0} trámites para comenzar y/o finalizar", cantCompletoSade);
             else if (cantCompletoSade == 1)
                 lblCantSadeCompletos.Text = string.Format("{0} trámite para comenzar y/o finalizar", cantCompletoSade);
             else
                 lblCantSadeCompletos.Visible = false;
+            */
             if (cantContinuarSade > 1)
-                lblCantSadeContinuar.Text = string.Format("{0} trámites para continuar", cantContinuarSade);
+                lblCantSadeContinuar.Text = string.Format("{0} trámites para reintentar", cantContinuarSade);
             else if (cantContinuarSade == 1)
-                lblCantSadeContinuar.Text = string.Format("{0} trámite para continuar", cantContinuarSade);
+                lblCantSadeContinuar.Text = string.Format("{0} trámite para reintentar", cantContinuarSade);
             else
                 lblCantSadeContinuar.Visible = false;
 
