@@ -148,9 +148,10 @@ namespace SGI.GestionTramite.Tareas
                         && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
 
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
-                bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda);
+                bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda,"U");
                 bool tieneNormativas = TieneNormativas(enc.id_encomienda);
                 bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
+                bool esZonaAHP = isUbicacionEspecial(enc.id_encomienda, "APH");
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
                 var condicionDGIUR = false;
@@ -190,7 +191,7 @@ namespace SGI.GestionTramite.Tareas
                 if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
                     tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
                 {
-                    if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo)
+                    if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP)
                     {
                         pnl_Librar_Uso.Visible = true;
                     }
@@ -275,13 +276,13 @@ namespace SGI.GestionTramite.Tareas
                     select encoNorm.id_tiponormativa).Count() > 0;
         }
 
-        private bool isUbicacionEspecial(int id_encomienda)
+        private bool isUbicacionEspecial(int id_encomienda,string codigo)
         {
             return (from encubic in db.Encomienda_Ubicaciones
                     join encubicDist in db.Encomienda_Ubicaciones_Distritos on encubic.id_encomiendaubicacion equals encubicDist.id_encomiendaubicacion
                     join cat in db.Ubicaciones_CatalogoDistritos on encubicDist.IdDistrito equals cat.IdDistrito
                     join gd in db.Ubicaciones_GruposDistritos on cat.IdGrupoDistrito equals gd.IdGrupoDistrito
-                    where encubic.id_encomienda == id_encomienda && gd.Codigo == "U"
+                    where encubic.id_encomienda == id_encomienda && gd.Codigo == codigo
                     select gd.Codigo).Count() > 0;
         }
         private bool isLiberadoAlUsoRubro(int id_encomienda)
