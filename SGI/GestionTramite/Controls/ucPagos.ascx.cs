@@ -396,6 +396,150 @@ namespace SGI.GestionTramite.Controls
             grdPagosGeneradosBUI_APRA.DataSource = lstPagos;
             grdPagosGeneradosBUI_APRA.DataBind();
         }
+
+        public void CargarPagosAGCVisibility( bool Visibility)
+        {
+            pnlAGC.Visible = Visibility;
+        }
+        public void CargarPagosAPRAVisibility(bool Visibility)
+        {
+            pnlAPRA.Visible = Visibility;
+        }
+
+        public List<clsItemGrillaPagos> PagosAGCList(int id_solicitud)
+        {
+            List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
+
+            DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
+
+            int id_grupotramite;
+            Engine.getIdGrupoTrabajo(id_solicitud, out id_grupotramite);
+
+            if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
+            {
+                lstPagos = (from solpag in db.SSIT_Solicitudes_Pagos
+                            where solpag.id_solicitud == id_solicitud
+                            join ws_Pagos in db.wsPagos_BoletaUnica on solpag.id_pago equals ws_Pagos.id_pago
+                            join bue in db.wsPagos_BoletaUnica_Estados on ws_Pagos.EstadoPago_BU equals bue.id_estadopago
+                            select new clsItemGrillaPagos
+                            {
+                                id_sol_pago = solpag.id_sol_pago,
+                                id_solicitud = solpag.id_solicitud,
+                                id_pago = solpag.id_pago,
+                                id_medio_pago = 0,
+                                monto_pago = solpag.monto_pago,
+                                CreateDate = solpag.CreateDate,
+                                estado = bue.nom_estadopago,
+                                desc_medio_pago = "Boleta única"
+                            }).ToList();
+            }
+            else if (id_grupotramite == (int)Constants.GruposDeTramite.TR) //ampliacion
+            {
+                lstPagos = (from solpag in db.Transf_Solicitudes_Pagos
+                            where solpag.id_solicitud == id_solicitud
+                            select new clsItemGrillaPagos
+                            {
+                                id_sol_pago = solpag.id_sol_pago,
+                                id_solicitud = solpag.id_solicitud,
+                                id_pago = solpag.id_pago,
+                                id_medio_pago = 0,
+                                monto_pago = solpag.monto_pago,
+                                CreateDate = solpag.CreateDate,
+                                desc_medio_pago = "Boleta única"
+                            }).ToList();
+
+                foreach (clsItemGrillaPagos pago in lstPagos)
+                {
+                    pago.estado = GetEstadoPagoAGC(id_solicitud);
+                }
+
+                //cargar Pagos Transf_Solicitudes_Pagos
+                var PagosTransf = (from tt in db.SGI_Tramites_Tareas
+                                   join tt_tr in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals tt_tr.id_tramitetarea
+                                   join sp in db.SGI_Solicitudes_Pagos on tt.id_tramitetarea equals sp.id_tramitetarea
+                                   join ws_Pagos in db.wsPagos_BoletaUnica on sp.id_pago equals ws_Pagos.id_pago
+                                   join bue in db.wsPagos_BoletaUnica_Estados on ws_Pagos.EstadoPago_BU equals bue.id_estadopago
+                                   where tt_tr.id_solicitud == id_solicitud
+                                   select new clsItemGrillaPagos
+                                   {
+                                       id_sol_pago = sp.id_sol_pago,
+                                       id_solicitud = id_solicitud,
+                                       id_pago = sp.id_pago,
+                                       id_medio_pago = 0,
+                                       monto_pago = sp.monto_pago,
+                                       CreateDate = sp.CreateDate,
+                                       estado = bue.nom_estadopago,
+                                       desc_medio_pago = "Boleta única",
+                                   });
+                lstPagos.AddRange(PagosTransf);
+            }
+
+            return lstPagos;
+
+        }
+
+        public List<clsItemGrillaPagos> PagosAPRAList(int id_solicitud)
+        {
+            List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
+            List<int> lstEncomiendasRelacionadas = new List<int>();
+            DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
+            int id_grupotramite;
+            Engine.getIdGrupoTrabajo(id_solicitud, out id_grupotramite);
+
+            if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
+            {
+                var sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
+                if (sol != null)
+                {
+                    lstEncomiendasRelacionadas = (from rel in db.Encomienda_SSIT_Solicitudes
+                                                  join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
+                                                  where rel.id_solicitud == id_solicitud
+                                                    && enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                  select enc.id_encomienda).ToList();
+
+                }
+            }
+            else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
+            {
+                var sol = db.Transf_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
+                if (sol != null)
+                {
+                    lstEncomiendasRelacionadas = (from rel in db.Encomienda_Transf_Solicitudes
+                                                  join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
+                                                  where rel.id_solicitud == id_solicitud
+                                                    && enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                  select enc.id_encomienda).ToList();
+
+                }
+
+            }
+
+            ws_Interface_AGC servicio = new ws_Interface_AGC();
+            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+
+            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+
+            lstPagos = (from bu in db.wsPagos_BoletaUnica
+                        join pag in db.wsPagos on bu.id_pago equals pag.id_pago
+                        join est in db.wsPagos_BoletaUnica_Estados on bu.EstadoPago_BU equals est.id_estadopago
+                        where l.Contains(bu.id_pago)
+                        select new clsItemGrillaPagos
+                        {
+                            //.id_solicitud = caa.id_caa,
+                            id_pago = bu.id_pago,
+                            id_medio_pago = 0,
+                            monto_pago = bu.Monto_BU,
+                            CreateDate = pag.CreateDate,
+                            estado = est.nom_estadopago,
+                            desc_medio_pago = "Boleta única" // (p.id_medio_pago == 0 ? "Boleta única" : "Pago electrónico")
+                        }).ToList();
+            return lstPagos;
+        }
     }
 
 }
