@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGI.GestionTramite.Controls {
-    
-    
-    public partial class ucPagos {
-        
+namespace SGI.GestionTramite.Controls
+{
+
+
+    public partial class ucPagos
+    {
+
         /// <summary>
         /// updBoxPagos control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updBoxPagos;
-        
+
         /// <summary>
         /// hid_tipo_tramite control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_tipo_tramite;
-        
+
         /// <summary>
         /// hid_id_pago control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_pago;
-        
+
         /// <summary>
         /// hid_estado_pago control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_estado_pago;
-        
+
         /// <summary>
         /// pnlPagos control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlPagos;
-        
+
         /// <summary>
         /// Label2 control.
         /// </summary>
@@ -65,7 +67,16 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label2;
-        
+
+        /// <summary>
+        /// pnlAGC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAGC;
+
         /// <summary>
         /// grdPagosGeneradosBUI_AGC control.
         /// </summary>
@@ -74,7 +85,16 @@ namespace SGI.GestionTramite.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdPagosGeneradosBUI_AGC;
-        
+
+        /// <summary>
+        /// pnlAPRA control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAPRA;
+
         /// <summary>
         /// grdPagosGeneradosBUI_APRA control.
         /// </summary>

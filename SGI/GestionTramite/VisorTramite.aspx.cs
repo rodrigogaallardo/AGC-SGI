@@ -1,10 +1,17 @@
-﻿using SGI.Model;
+﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Elmah;
+using ExcelLibrary.BinaryFileFormat;
+using SGI.Model;
+using Syncfusion.JavaScript.DataVisualization.DiagramEnums;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static SGI.Constants;
 
 namespace SGI.GestionTramite
 {
@@ -18,10 +25,59 @@ namespace SGI.GestionTramite
                 ComprobarSolicitud(id_solicitud);
                 if (id_solicitud > 0)
                     CargarDatosTramite(id_solicitud);
-                if (id_solicitud < 300000) 
+                if (id_solicitud < 300000)
                     ucPagos.Visible = false;
-            }
+                else
+                {
+                    #region ASOSA BOLETA 0
+                    using (var db = new DGHP_Entities())
+                    {
+                        var sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
+                        int id_tipotramite = sol.id_tipotramite;
+                        DateTime BOLETA_0_FECHADESDE = DateTime.Parse(ConfigurationManager.AppSettings["BOLETA_0_FECHADESDE"]);
 
+                        bool flagAGC = true;
+                        bool flagAPRA = true;
+
+                        if (DateTime.Now >= BOLETA_0_FECHADESDE)
+                        {
+                                #region AGC
+                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAGC = ucPagos.PagosAGCList(id_solicitud);
+                                if (lstPagosAGC.Count > 0)
+                                    flagAGC = true;
+                                else
+                                    flagAGC = false;
+                                #endregion
+
+                                #region APRA
+                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = ucPagos.PagosAPRAList(id_solicitud);
+                                if (lstPagosAPRA.Count > 0)
+                                    flagAPRA = true;
+                                else
+                                    flagAPRA = false;
+                                #endregion
+
+
+                                if (!flagAGC & !flagAPRA)
+                                {
+                                    ucPagos.Visible = false;
+                                }
+                                else
+                                {
+                                    if (!flagAGC)
+                                    {
+                                        ucPagos.CargarPagosAGCVisibility(false);//ESCONDO AGC
+                                    }
+                                    if (!flagAPRA)
+                                    {
+                                        ucPagos.CargarPagosAPRAVisibility(false);//ESCONDO APRA
+                                    }
+                                }
+                        }
+                    }
+                    #endregion
+                }
+            }
         }
 
         private void ComprobarSolicitud(int id_solicitud)
@@ -71,7 +127,7 @@ namespace SGI.GestionTramite
                         ucListaRubros.LoadData(id_solicitud);
                     }
 
-                    
+
                     ucCabecera.LoadData(id_grupotramite, id_solicitud);
                     ucTramitesRelacionados.LoadData(id_solicitud);
                     ucListaTareas.LoadData(id_grupotramite, id_solicitud);

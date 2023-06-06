@@ -85,9 +85,9 @@ namespace SGI.GestionTramite.Controls
                                   sol.documentacionPA,
                                   sol.TipoTramite.descripcion_tipotramite,
                                   sol.TipoExpediente.descripcion_tipoexpediente,
-                                  sol.NroExpedienteSadeRelacionado
-                              }).FirstOrDefault();
-
+                                  sol.NroExpedienteSadeRelacionado,
+                                  sol.FechaLibrado
+                              }).FirstOrDefault();              
 
                 var enc = (from rel in db.Encomienda_SSIT_Solicitudes
                            join enco in db.Encomienda on rel.id_encomienda equals enco.id_encomienda
@@ -131,6 +131,14 @@ namespace SGI.GestionTramite.Controls
                     lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_dl.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_dl.Value).ToString();
                     lblEncomienda.Text = encomienda_desc;
                     lblUbicacion.Text = objResult + ". - Plantas a Habilitar: " + CargarPlantasHabilitar(enc.id_encomienda);
+                    if(objsol.FechaLibrado != null)
+                    { 
+                    lblLibradoUso.Text = "<b>" + objsol.FechaLibrado.ToString() +"</b>";
+                    }
+                    else
+                    {
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO</b></font>";
+                    }
                 }
                 else if (objsol.id_tipotramite == (int)Constants.TipoDeTramite.Permiso)
                 {
