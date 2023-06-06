@@ -193,10 +193,10 @@
                             <asp:TemplateField HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center">
                                 <ItemTemplate>
                                      <asp:Literal ID="status_sade" runat="server" Visible='<%# !Convert.ToBoolean(Eval("sade_completo")) %>' Text='<%# Convert.ToBoolean(Eval("continuar_sade")) ? 
-                                             "<span class=\"btn-right\"><i class=\"imoon imoon-checkmark\" style=\"color: #ffb300; font-size: 24px;\"></i></span>" : 
+                                             "<span class=\"btn-right\"><i class=\"imoon imoon-play3\" style=\"color: #ffb300; font-size: 24px;\"></i></span>" : 
                                              "<span class=\"btn-right\"><i class=\"imoon imoon-blocked\" style=\"color: #690d10; font-size: 24px;\"></i></span>" %>' />
                                     <asp:Literal ID="status_sade_2" runat="server" Visible='<%# Convert.ToBoolean(Eval("sade_completo")) %>' Text='<%# Convert.ToBoolean(Eval("sade_completo")) ? 
-                                             "<span class=\"btn-right\"><i class=\"imoon imoon-play3\" style=\"color: #1f6900; font-size: 24px;\"></i></span>" : 
+                                             "<span class=\"btn-right\"><i class=\"imoon imoon-checkmark\" style=\"color: #1f6900; font-size: 24px;\"></i></span>" : 
                                              "<span class=\"btn-right\"><i class=\"imoon imoon-blocked\" style=\"color: #690d10; font-size: 24px;\"></i></span>" %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
