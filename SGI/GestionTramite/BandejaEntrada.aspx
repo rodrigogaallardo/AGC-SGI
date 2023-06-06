@@ -102,6 +102,7 @@
                     </div>
                     <div style="display: inline-block">
                         (<span class="badge"><asp:Label ID="lblCantTramitesBandejaPropia" runat="server"></asp:Label></span>
+                        <span class="badge" style="background-color: #ffb300"><asp:Label ID="lblCantSadeContinuar" style="color: #000000; " runat="server"></asp:Label></span>
                         <asp:LinkButton ID="btnActualizarBandejaPropia" runat="server" OnClick="btnActualizarBandejaPropia_Click" CssClass="btn btn-primary btn-mini">
                             <i class="icon-white icon-refresh"></i>
                             <span class="text">Actualizar</span>
@@ -121,7 +122,7 @@
                         GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
                         DataKeyNames="id_solicitud,url_tareaTramite,cod_grupotramite" AllowPaging="true" PageSize="30"
                         ItemType="SGI.Model.clsItemBandejaEntrada" SelectMethod="GetTramitesBandeja" AllowSorting="true"
-                        OnDataBound="grdBandeja_DataBound" >
+                        OnDataBound="grdBandeja_DataBound">
                         <SortedAscendingHeaderStyle CssClass="GridAscendingHeaderStyle" />
                         <SortedDescendingHeaderStyle CssClass="GridDescendingHeaderStyle" />
 
@@ -169,9 +170,10 @@
                             
                             <asp:BoundField DataField="direccion" HeaderText="Ubicación" />
 
-                            <asp:TemplateField HeaderText="Tarea" ItemStyle-Width="200px" ItemStyle-CssClass="align-center" SortExpression="nombre_tarea">
+                            <asp:TemplateField HeaderText="Tarea" ItemStyle-Width="10%" ItemStyle-CssClass="align-center" SortExpression="nombre_tarea">
                                 <ItemTemplate>
                                     <asp:HyperLink ID="lnkid_tarea" runat="server" NavigateUrl='<%# Item.url_tareaTramite%>'><%# Item.nombre_tarea %></asp:HyperLink>
+                                    <asp:HiddenField ID="hiddenIdTramiteTarea" runat="server" Value='<%# Item.id_tramitetarea %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
 
@@ -185,8 +187,19 @@
                                         Text="Tomar" OnClick="lnkTomarTarea_Click" Visible="<%# (Item.FechaAsignacion_tramtietarea == null && Item.tomar_tarea ) %>"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="dias_transcurridos" HeaderText="Días" HeaderStyle-Wrap="true" HeaderStyle-Width="50px" ItemStyle-CssClass="align-center" />
-                            <asp:BoundField DataField="cant_observaciones" HeaderText="Observaciones" HeaderStyle-Wrap="true" HeaderStyle-Width="50px" ItemStyle-CssClass="align-center" SortExpression="cant_observaciones" />
+                            <asp:BoundField DataField="dias_transcurridos" HeaderText="Días" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" />
+                            <asp:BoundField DataField="cant_observaciones" HeaderText="Observaciones" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" SortExpression="cant_observaciones" />
+                            
+                            <asp:TemplateField HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center">
+                                <ItemTemplate>
+                                     <asp:Literal ID="status_sade" runat="server" Visible='<%# !Convert.ToBoolean(Eval("sade_completo")) %>' Text='<%# Convert.ToBoolean(Eval("continuar_sade")) ? 
+                                             "<span class=\"btn-right\"><i class=\"imoon imoon-checkmark\" style=\"color: #ffb300; font-size: 24px;\"></i></span>" : 
+                                             "<span class=\"btn-right\"><i class=\"imoon imoon-blocked\" style=\"color: #690d10; font-size: 24px;\"></i></span>" %>' />
+                                    <asp:Literal ID="status_sade_2" runat="server" Visible='<%# Convert.ToBoolean(Eval("sade_completo")) %>' Text='<%# Convert.ToBoolean(Eval("sade_completo")) ? 
+                                             "<span class=\"btn-right\"><i class=\"imoon imoon-play3\" style=\"color: #1f6900; font-size: 24px;\"></i></span>" : 
+                                             "<span class=\"btn-right\"><i class=\"imoon imoon-blocked\" style=\"color: #690d10; font-size: 24px;\"></i></span>" %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
                         <PagerTemplate>
                             <asp:Panel ID="pnlpager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
@@ -243,6 +256,8 @@
 
                     <div style="display: inline-block;">
                         (<span class="badge"><asp:Label ID="lblCantTramitesBandejaAsignacion" runat="server"></asp:Label></span>
+                        <span class="badge"><asp:Label ID="lblCantContinuarSade" runat="server"></asp:Label></span>
+                        <span class="badge"><asp:Label ID="lblCantCompletoSade" runat="server"></asp:Label></span>
                         <asp:LinkButton ID="btnActualizarBandejaAsignacion" runat="server" OnClick="btnActualizarBandejaAsignacion_Click" CssClass="btn btn-primary btn-mini">
                             <i class="icon-white icon-refresh"></i>
                             <span class="text">Actualizar</span>

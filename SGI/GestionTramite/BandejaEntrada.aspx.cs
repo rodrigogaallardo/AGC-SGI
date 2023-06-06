@@ -20,7 +20,6 @@ namespace SGI
 {
     public partial class BandejaEntrada : Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -33,7 +32,7 @@ namespace SGI
 
             if (!IsPostBack)
             {
-               
+
                 BandejaAsignacion.Visible = false;
                 bandejaFilterAsignacion.Visible = false;
 
@@ -50,16 +49,22 @@ namespace SGI
 
         }
 
-        public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows, out int totalRowCount, string sortByExpression)
+        public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows, 
+                out int totalRowCount, string sortByExpression)
         {
             Guid userid = Functions.GetUserId();
-
-            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression, out totalRowCount);
+            int cantCompletoSade = 0;
+            int cantContinuarSade = 0;
+            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression,ref cantCompletoSade,ref cantContinuarSade, out totalRowCount);
 
             pnlBandejaPropiaVacia.Visible = (totalRowCount <= 0);
 
             lblCantTramitesBandejaPropia.Visible = true;
+            lblCantSadeContinuar.Visible = true;
+            //lblCantSadeCompletos.Visible = true;
             lblCantTramitesBandejaPropia.Text = "";
+            lblCantSadeContinuar.Text = cantContinuarSade.ToString();
+            //lblCantSadeCompletos.Text = cantCompletoSade.ToString();
 
             // Cantidad de tramites en la bandeja
             if (totalRowCount > 1)
@@ -68,6 +73,20 @@ namespace SGI
                 lblCantTramitesBandejaPropia.Text = string.Format("{0} trámite en la bandeja", totalRowCount);
             else
                 lblCantTramitesBandejaPropia.Visible = false;
+            /*
+            if (cantCompletoSade > 1)
+                lblCantSadeCompletos.Text = string.Format("{0} trámites para comenzar y/o finalizar", cantCompletoSade);
+            else if (cantCompletoSade == 1)
+                lblCantSadeCompletos.Text = string.Format("{0} trámite para comenzar y/o finalizar", cantCompletoSade);
+            else
+                lblCantSadeCompletos.Visible = false;
+            */
+            if (cantContinuarSade > 1)
+                lblCantSadeContinuar.Text = string.Format("{0} trámites para reintentar", cantContinuarSade);
+            else if (cantContinuarSade == 1)
+                lblCantSadeContinuar.Text = string.Format("{0} trámite para reintentar", cantContinuarSade);
+            else
+                lblCantSadeContinuar.Visible = false;
 
             return lstTramites;
         }
@@ -245,7 +264,7 @@ namespace SGI
         {
             DropDownList ddlTareaAsignacion = (DropDownList)sender;
             ViewState["tareaAsignacion"] = ddlTareaAsignacion.SelectedValue;
-            
+
             grdBandejaAsignacion.PageIndex = 0;
             grdBandejaAsignacion.DataBind();
 
@@ -498,7 +517,7 @@ namespace SGI
             }
         }
         #endregion
-        
+
         protected void btnPropia_click(object sender, EventArgs e)
         {
             BandejaAsignacion.Visible = false;
@@ -518,7 +537,7 @@ namespace SGI
             btnPropia.CssClass = "btn";
         }
         #region "Filtro"
-        private List<clsItemBandejaEntrada> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
+        private List<clsItemBandejaEntrada> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, ref int cantCompletoSade, ref int cantContinuarSade, out int totalRowCount)
         {
 
             List<clsItemBandejaEntrada> resultados = new List<clsItemBandejaEntrada>();
@@ -529,7 +548,7 @@ namespace SGI
 
             DGHP_Entities db = new DGHP_Entities();
             Guid userid = Functions.GetUserId();
-            
+
             //perfiles usuario
             var u = db.aspnet_Users.Where(s => s.UserId == userid).FirstOrDefault();
             List<int> perfiles = u.SGI_PerfilesUsuarios.Select(s => s.id_perfil).ToList();
@@ -566,6 +585,23 @@ namespace SGI
                         formulario_tarea = tarea.formulario_tarea,
                         Dias_Transcurridos = 0,
                         superficie_total = 0,
+                        continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          && sade_proc.id_proceso != 1
+                                          select sade_proc).Any() ? (
+                                         (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          && sade_proc.id_proceso != 1
+                                          select new
+                                          {
+                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
+                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
+                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
+                        sade_completo = (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select sade_proc).All(sade_proc => sade_proc.realizado_en_pasarela &&
+                                                                             sade_proc.realizado_en_SADE) ? 1 : 0,
                         cant_observaciones = sol.SSIT_Solicitudes_Observaciones.Count(),
                         url_visorTramite = "~/GestionTramite/VisorTramite.aspx?id={0}",
                         url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -606,6 +642,23 @@ namespace SGI
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
+                       continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select sade_proc).Any() ? (
+                                         (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          && sade_proc.id_proceso != 1
+                                          select new
+                                          {
+                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
+                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
+                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
+                       sade_completo = (from sade_proc in db.SGI_SADE_Procesos
+                                        where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                        && sade_proc.id_proceso != 1
+                                        select sade_proc).All(sade_proc => sade_proc.realizado_en_pasarela &&
+                                                                            sade_proc.realizado_en_SADE) ? 1 : 0,
                        cant_observaciones = sol.CPadron_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteCP/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -648,6 +701,23 @@ namespace SGI
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
+                       continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
+                                         where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                         && sade_proc.id_proceso != 1
+                                         select sade_proc).Any() ? (
+                                         (from sade_proc in db.SGI_SADE_Procesos
+                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                          && sade_proc.id_proceso != 1
+                                          select new
+                                          {
+                                              pasarela = sade_proc.realizado_en_pasarela ? 1 : 0,
+                                              sade = sade_proc.realizado_en_SADE ? 1 : 0
+                                          }).Sum(p => p.pasarela - p.sade) == 0 ? 1 : 0) : 1,
+                       sade_completo = (from sade_proc in db.SGI_SADE_Procesos
+                                        where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
+                                        && sade_proc.id_proceso != 1
+                                        select sade_proc).All(sade_proc => sade_proc.realizado_en_pasarela &&
+                                                                            sade_proc.realizado_en_SADE) ? 1 : 0,
                        cant_observaciones = sol.Transf_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
@@ -660,9 +730,9 @@ namespace SGI
                              join cir in db.ENG_Circuitos on tareas.id_circuito equals cir.id_circuito
                              join sol in db.SSIT_Solicitudes on enc.id_solicitud equals sol.id_solicitud
                              select new
-                             {                                 
+                             {
                                  id_tipoTramite = sol.id_tipotramite,
-                                 tipotramite = enc.tipoTramite,                                    
+                                 tipotramite = enc.tipoTramite,
                                  nombre_tarea = enc.nombre_tarea,
                                  id_tarea = enc.id_tarea,
                                  cir.id_circuito,
@@ -677,7 +747,7 @@ namespace SGI
                             {
                                 id_tipoTramite = sol.id_tipotramite,
                                 tipotramite = enc.tipoTramite,
-                                nombre_tarea =  enc.nombre_tarea,
+                                nombre_tarea = enc.nombre_tarea,
                                 id_tarea = enc.id_tarea,
                                 cir.id_circuito,
                                 cir.cod_circuito
@@ -691,12 +761,11 @@ namespace SGI
                             {
                                 id_tipoTramite = sol.id_tipotramite,
                                 tipotramite = enc.tipoTramite,
-                                nombre_tarea =  enc.nombre_tarea,
+                                nombre_tarea = enc.nombre_tarea,
                                 id_tarea = enc.id_tarea,
                                 cir.id_circuito,
                                 cir.cod_circuito
                             }).ToList().Distinct();
-
 
             var qTarea = qTareaENC.Union(qTareaCP).Union(qTareaTR).ToList().Distinct();
 
@@ -815,11 +884,11 @@ namespace SGI
                            where res.id_tarea == id_tar
                            select res);
                     qTR = (from res in qTR
-                           where res.id_tarea == id_tar 
+                           where res.id_tarea == id_tar
                            select res);
                 }
-                
-            }            
+
+            }
 
             if (ViewState["asignado"] != null)
             {
@@ -867,7 +936,8 @@ namespace SGI
             AddQueryFinal(qTR, ref qFinal);
 
             totalRowCount = qFinal.Count();
-
+            cantCompletoSade = qFinal.Count( x => x.sade_completo == 1);
+            cantContinuarSade = qFinal.Count(x => x.continuar_sade == 1 && x.sade_completo != 1);
 
             if (sortByExpression != null)
             {
@@ -964,9 +1034,9 @@ namespace SGI
                     lstDireccionesTR = Shared.GetDireccionesTR(arrSolicitudesTR);
 
                 string[] arrSolicitudesTRNuevas = (from r in resultados
-                                             where r.cod_grupotramite == Constants.GruposDeTramite.TR.ToString()
-                                             && r.id_solicitud > nroTrReferencia
-                                             select r.id_solicitud.ToString()).ToArray();
+                                                   where r.cod_grupotramite == Constants.GruposDeTramite.TR.ToString()
+                                                   && r.id_solicitud > nroTrReferencia
+                                                   select r.id_solicitud.ToString()).ToArray();
 
                 if (arrSolicitudesTRNuevas.Length > 0)
                     lstDireccionesTR.AddRange(Shared.GetDireccionesTRNuevas(arrSolicitudesTRNuevas));
@@ -978,7 +1048,7 @@ namespace SGI
                 //------------------------------------------------------------------------
                 //Rellena la clase a devolver con los datos que faltaban (Direccion, dias transcurrido)
                 //------------------------------------------------------------------------
-                
+
                 foreach (var row in resultados)
                 {
                     clsItemDireccion itemDireccion = null;
@@ -1039,23 +1109,23 @@ namespace SGI
                                     row.superficie_total = dl.superficie_cubierta_dl.Value + dl.superficie_descubierta_dl.Value;
                             }
                         }
-                            row.Rubros = (from tr in db.Transf_Solicitudes
+                        row.Rubros = (from tr in db.Transf_Solicitudes
                                       join cpr in db.CPadron_Rubros on tr.id_cpadron equals cpr.id_cpadron
                                       where tr.id_solicitud == row.id_solicitud
-                                           select new clsItemBandejaEntradaRubros
-                                           {
-                                               cod_rubro = cpr.cod_rubro,
-                                               desc_rubro = cpr.desc_rubro
-                                           }).Union
-                                    (from enc in db.Encomienda_Transf_Solicitudes 
-                                    join encrub in db.Encomienda_RubrosCN on enc.id_encomienda equals encrub.id_encomienda
-                                    where enc.id_solicitud == row.id_solicitud
-                                            select new clsItemBandejaEntradaRubros
-                                            {
-                                                cod_rubro = encrub.CodigoRubro,
-                                                desc_rubro = encrub.NombreRubro
-                                            }
-                                            ).ToList();
+                                      select new clsItemBandejaEntradaRubros
+                                      {
+                                          cod_rubro = cpr.cod_rubro,
+                                          desc_rubro = cpr.desc_rubro
+                                      }).Union
+                                (from enc in db.Encomienda_Transf_Solicitudes
+                                 join encrub in db.Encomienda_RubrosCN on enc.id_encomienda equals encrub.id_encomienda
+                                 where enc.id_solicitud == row.id_solicitud
+                                 select new clsItemBandejaEntradaRubros
+                                 {
+                                     cod_rubro = encrub.CodigoRubro,
+                                     desc_rubro = encrub.NombreRubro
+                                 }
+                                        ).ToList();
                     }
 
                     // Llenado para todos
@@ -1063,7 +1133,9 @@ namespace SGI
                         row.direccion = (string.IsNullOrEmpty(itemDireccion.direccion) ? "" : itemDireccion.direccion);
                     row.url_visorTramite = string.Format(row.url_visorTramite, row.id_solicitud.ToString());
                     if (row.formulario_tarea != null)
+                    {
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
+                    }
                     else
                         row.url_tareaTramite = "";
                     //row.Dias_Transcurridos = (DateTime.Now - row.FechaInicio_tarea).Days;
@@ -1114,28 +1186,28 @@ namespace SGI
             lista_tareas_perfil.ForEach(tarea => tareasPerfil.Add(tarea.id_tarea));
 
             var qTT = (from bandeja in db.ENG_Config_BandejaAsignacion
-                        join tt in db.SGI_Tramites_Tareas on bandeja.id_tarea equals tt.id_tarea
-                        where 
-                        perfiles.Contains(bandeja.id_perfil_asignador.Value)
-                            && tt.UsuarioAsignado_tramitetarea == null
-                            && tt.FechaCierre_tramitetarea == null
-                        select new
-                        {
-                            bandeja.id_perfil_asignado,
-                            bandeja.id_perfil_asignador,
-                            tt.id_tramitetarea,
-                            tt.id_tarea,
-                            tt.UsuarioAsignado_tramitetarea,
-                            tt.FechaCierre_tramitetarea,
-                            tt.FechaAsignacion_tramtietarea,
-                            tt.FechaInicio_tramitetarea,
-                            tt.CreateUser
-                        }).Distinct();
+                       join tt in db.SGI_Tramites_Tareas on bandeja.id_tarea equals tt.id_tarea
+                       where
+                       perfiles.Contains(bandeja.id_perfil_asignador.Value)
+                           && tt.UsuarioAsignado_tramitetarea == null
+                           && tt.FechaCierre_tramitetarea == null
+                       select new
+                       {
+                           bandeja.id_perfil_asignado,
+                           bandeja.id_perfil_asignador,
+                           tt.id_tramitetarea,
+                           tt.id_tarea,
+                           tt.UsuarioAsignado_tramitetarea,
+                           tt.FechaCierre_tramitetarea,
+                           tt.FechaAsignacion_tramtietarea,
+                           tt.FechaInicio_tramitetarea,
+                           tt.CreateUser
+                       }).Distinct();
 
             qTT = (from tt_bandeja in qTT
-                                     where tareasPerfil.Contains(tt_bandeja.id_tarea)
-                                     select tt_bandeja).Distinct();
-            
+                   where tareasPerfil.Contains(tt_bandeja.id_tarea)
+                   select tt_bandeja).Distinct();
+
             // Bandeja de datos Encomienda
             #region "Consulta Encomienda"
             qENC = (
@@ -1144,7 +1216,7 @@ namespace SGI
                     join tarea in db.ENG_Tareas on tt_bandeja.id_tarea equals tarea.id_tarea
                     join sol in db.SSIT_Solicitudes on tramite_tareas_HAB.id_solicitud equals sol.id_solicitud
                     join enc in db.Encomienda on sol.id_solicitud equals enc.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud
-                    where 
+                    where
                         enc.FechaEncomienda == (from en in db.Encomienda where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == sol.id_solicitud && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo select en.FechaEncomienda).Max()
                     select new clsItemBandejaEntradaAsignacion
                     {
@@ -1229,12 +1301,12 @@ namespace SGI
                        id_perfil_asignado = tt_bandeja.id_perfil_asignado.Value,
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}"
-                       
+
                    }).Distinct();
             #endregion
 
 
-            
+
             AddQueryFinalAsig(qENC, ref qFinal);
             AddQueryFinalAsig(qCP, ref qFinal);
             AddQueryFinalAsig(qTR, ref qFinal);
@@ -1353,7 +1425,7 @@ namespace SGI
                     {
                         nro_de_veces_que_se_repite = 0;
                     }
-                }                   
+                }
             }
 
             resultados = lista_aux;
@@ -1464,7 +1536,7 @@ namespace SGI
                                      }
                                             ).ToList();
                     }
-                    
+
                     // Llenado para todos
                     if (itemDireccion != null)
                         row.direccion = (string.IsNullOrEmpty(itemDireccion.direccion) ? "" : itemDireccion.direccion);
@@ -1506,5 +1578,29 @@ namespace SGI
             grdBandeja.DataBind();
             //updBandejaPropia.Update();
         }
+
+        /*
+        protected void gridViewBandejaSade_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var itemActual = e.Row.DataItem as clsItemBandejaEntrada;
+                int rowActual = e.Row.RowIndex;
+                HiddenField hidIdTramitetarea = (HiddenField)e.Row.FindControl("hiddenIdTramiteTarea");
+                int id_tramitetarea = int.Parse(hidIdTramitetarea.Value);
+                int continuarSade = itemActual.continuar_sade;
+                int completoSade = itemActual.sade_completo;              
+
+                // Cantidad de tramites en la bandeja
+                if (completoSade == 1)
+                    lblCantSadeCompletos.Text = string.Format("{0} trámites para finalizar", cantCompletoSade++);
+                else if (continuarSade == 1)
+                    lblCantSadeContinuar.Text = string.Format("{0} trámites para continuar", cantContinuarSade++);
+
+
+
+            }
+        }
+        */
     }
 }
