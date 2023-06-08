@@ -10,6 +10,8 @@
 <%@ Register Src="~/GestionTramite/Controls/ucSGI_DocumentoAdjunto.ascx" TagPrefix="uc1" TagName="ucSGI_DocumentoAdjunto" %>
 <%@ Register Src="~/GestionTramite/Controls/ucProcesosSADEv1.ascx" TagPrefix="uc1" TagName="ucProcesosSADEv1" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaObservacionesAnteriores.ascx" TagPrefix="uc1" TagName="ucListaObservacionesAnteriores" %>
+<%@ Register Src="~/GestionTramite/Controls/ucDatosContacto.ascx" TagPrefix="uc1" TagName="ucDatosContacto" %>
+
 
 <asp:content id="Content1" contentplaceholderid="HeadContent" runat="server">
     <script type="text/javascript">
@@ -51,9 +53,12 @@
 
                     <uc1:ucSGI_DocumentoAdjunto runat="server" ID="ucSGI_DocumentoAdjunto" />
 
+                    <uc1:ucDatosContacto runat="server" ID="ucDatosContacto" />
+
                     <uc1:ucObservacionesTarea runat="server" ID="ucObservacionesTarea" />
 
                     <uc1:ucProcesosSADEv1 runat="server" ID="ucProcesosSADE" OnFinalizadoEnSADE="ucProcesosSADE_FinalizadoEnSADE" />
+
                     
                     <asp:UpdatePanel ID="updFinalizarTarea" runat="server">
                         <ContentTemplate>

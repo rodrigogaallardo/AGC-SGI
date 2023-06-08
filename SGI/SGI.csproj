@@ -708,6 +708,7 @@
     <Content Include="Errores\error3030.aspx" />
     <Content Include="Errores\Error3040.aspx" />
     <Content Include="Errores\Error3051.aspx" />
+    <Content Include="GestionTramite\Controls\ucDatosContacto.ascx" />
     <Content Include="Operaciones\FeriadosIndex.aspx" />
     <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
@@ -2144,6 +2145,13 @@
     </Compile>
     <Compile Include="Errores\error3030.aspx.designer.cs">
       <DependentUpon>error3030.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucDatosContacto.ascx.cs">
+      <DependentUpon>ucDatosContacto.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucDatosContacto.ascx.designer.cs">
+      <DependentUpon>ucDatosContacto.ascx</DependentUpon>
     </Compile>
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
