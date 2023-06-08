@@ -78,6 +78,7 @@ namespace SGI.GestionTramite.Tareas
             ucTramitesRelacionados.LoadData(this.id_solicitud);
             ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
+            ucDatosContacto.LoadData(id_grupotramite, id_solicitud);
             ucObservacionesTarea.Text = (pvh != null) ? pvh.Observaciones : "";
 
             ucSGI_DocumentoAdjunto.LoadData(id_grupotramite, this._id_solicitud, id_tramitetarea);
