@@ -18,14 +18,6 @@ namespace SGI.GestionTramite.Controls
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            //DGHP_Entities db = new DGHP_Entities();
-
-            //var sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
-
-
-            //var tel = (from q in db.SSIT_Solicitudes_Titulares_PersonasJuridicas
-            //           where q.id_solicitud == sol.id_solicitud
-            //           select q.Telefono).FirstOrDefault();
         }
 
         public void LoadData(int id_grupotramite, int id_solicitud)
@@ -62,7 +54,10 @@ namespace SGI.GestionTramite.Controls
                     telJuridico.Text = personaJuridica.Telefono.ToString();
                     emailJuridico.Text = personaJuridica.Email.ToString();
 
-                    pnlDatosFisicos.Visible = false;
+                }
+                else
+                {
+                    pnlDatosJuridico.Visible = false;
                 }
 
                 if(personaFisica != null)
@@ -75,7 +70,10 @@ namespace SGI.GestionTramite.Controls
                     telefonoFijo.Text = personaFisica.Telefono.ToString();
                     emailFisico.Text = personaFisica.Email.ToString();
 
-                    pnlDatosJuridico.Visible = false;
+                }
+                else
+                {
+                    pnlDatosFisicos.Visible = false;
                 }
 
 
