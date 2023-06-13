@@ -49,13 +49,13 @@ namespace SGI
 
         }
 
-        public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows, 
+        public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows,
                 out int totalRowCount, string sortByExpression)
         {
             Guid userid = Functions.GetUserId();
             int cantCompletoSade = 0;
             int cantContinuarSade = 0;
-            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression,ref cantCompletoSade,ref cantContinuarSade, out totalRowCount);
+            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression, ref cantCompletoSade, ref cantContinuarSade, out totalRowCount);
 
             pnlBandejaPropiaVacia.Visible = (totalRowCount <= 0);
 
@@ -605,7 +605,18 @@ namespace SGI
                         cant_observaciones = sol.SSIT_Solicitudes_Observaciones.Count(),
                         url_visorTramite = "~/GestionTramite/VisorTramite.aspx?id={0}",
                         url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
-                        zona_declarada = ""
+                        zona_declarada = "",
+                        nombre_resultado = (from tt in db.SGI_Tramites_Tareas
+                                            join ttt in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals ttt.id_tramitetarea
+                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
+                                            where ttt.id_solicitud == sol.id_solicitud &&
+                                                  ttt.id_tramitetarea == (
+                                                      from t2 in db.SGI_Tramites_Tareas_HAB
+                                                      where t2.id_solicitud == ttt.id_solicitud &&
+                                                            t2.id_tramitetarea < tramite_tareas.id_tramitetarea
+                                                      select t2.id_tramitetarea
+                                                  ).Max()
+                                            select r.nombre_resultado).FirstOrDefault()
                     }).Distinct();
 
             #endregion
@@ -662,7 +673,18 @@ namespace SGI
                        cant_observaciones = sol.CPadron_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteCP/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
-                       zona_declarada = sol.ZonaDeclarada
+                       zona_declarada = sol.ZonaDeclarada,
+                       nombre_resultado = (from tt in db.SGI_Tramites_Tareas
+                                           join ttt in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals ttt.id_tramitetarea
+                                           join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
+                                           where ttt.id_cpadron == sol.id_cpadron &&
+                                                 ttt.id_tramitetarea == (
+                                                     from t2 in db.SGI_Tramites_Tareas_HAB
+                                                     where t2.id_solicitud == ttt.id_cpadron &&
+                                                           t2.id_tramitetarea < tramite_tareas.id_tramitetarea
+                                                     select t2.id_tramitetarea
+                                                 ).Max()
+                                           select r.nombre_resultado).FirstOrDefault()
                    }).Distinct();
             #endregion
 
@@ -700,6 +722,7 @@ namespace SGI
                        tomar_tarea = (tarea.id_tarea != 60) ? true : false,//Correcion de solicitudes
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
+
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
                        continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
@@ -721,7 +744,18 @@ namespace SGI
                        cant_observaciones = sol.Transf_Solicitudes_Observaciones.Count(),
                        url_visorTramite = "~/VisorTramiteTR/{0}",
                        url_tareaTramite = "~/GestionTramite/Tareas/{0}?id={1}",
-                       zona_declarada = cpsol.ZonaDeclarada
+                       zona_declarada = cpsol.ZonaDeclarada,
+                       nombre_resultado = (from tt in db.SGI_Tramites_Tareas
+                                           join ttt in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals ttt.id_tramitetarea
+                                           join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
+                                           where ttt.id_solicitud == sol.id_solicitud &&
+                                                 ttt.id_tramitetarea == (
+                                                     from t2 in db.SGI_Tramites_Tareas_TRANSF
+                                                     where t2.id_solicitud == ttt.id_solicitud &&
+                                                           t2.id_tramitetarea < tramite_tareas.id_tramitetarea
+                                                     select t2.id_tramitetarea
+                                                 ).Max()
+                                           select r.nombre_resultado).FirstOrDefault()
                    }).Distinct();
             #endregion
 
@@ -936,7 +970,7 @@ namespace SGI
             AddQueryFinal(qTR, ref qFinal);
 
             totalRowCount = qFinal.Count();
-            cantCompletoSade = qFinal.Count( x => x.sade_completo == 1);
+            cantCompletoSade = qFinal.Count(x => x.sade_completo == 1);
             cantContinuarSade = qFinal.Count(x => x.continuar_sade == 1 && x.sade_completo != 1);
 
             if (sortByExpression != null)
