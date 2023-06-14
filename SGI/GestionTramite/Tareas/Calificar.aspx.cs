@@ -1,12 +1,11 @@
-﻿using System;
+﻿using SGI.GestionTramite.Controls;
+using SGI.Model;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web.UI;
-using SGI.GestionTramite.Controls;
-using SGI.Model;
-using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using DocumentFormat.OpenXml.Wordprocessing;
 using CheckBox = System.Web.UI.WebControls.CheckBox;
 
 namespace SGI.GestionTramite.Tareas
@@ -148,10 +147,11 @@ namespace SGI.GestionTramite.Tareas
                         && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
 
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
-                bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda,"U");
+                bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda, "U");
                 bool tieneNormativas = TieneNormativas(enc.id_encomienda);
                 bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
                 bool esZonaAHP = isUbicacionEspecial(enc.id_encomienda, "APH");
+                bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda);
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
                 var condicionDGIUR = false;
@@ -191,7 +191,7 @@ namespace SGI.GestionTramite.Tareas
                 if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
                     tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
                 {
-                    if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP)
+                    if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios)
                     {
                         pnl_Librar_Uso.Visible = true;
                     }
@@ -215,7 +215,7 @@ namespace SGI.GestionTramite.Tareas
                         chbLibrarUso.Checked = true;
                     else
                         chbLibrarUso.Checked = false;
-                } 
+                }
             }
 
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Calificar_1 ||
@@ -257,13 +257,13 @@ namespace SGI.GestionTramite.Tareas
             int tipoPlanoIncendio = 2;
             int tipoDocReqSol = 66;
             bool planoIncEnc = (from ep in db.Encomienda_Planos
-                                where   ep.id_encomienda == id_encomienda
-                                &&      ep.id_tipo_plano == tipoPlanoIncendio
-                                select  ep).Any();
+                                where ep.id_encomienda == id_encomienda
+                                && ep.id_tipo_plano == tipoPlanoIncendio
+                                select ep).Any();
 
-            bool planoIncSol = (from  sd in db.SSIT_DocumentosAdjuntos
+            bool planoIncSol = (from sd in db.SSIT_DocumentosAdjuntos
                                 where sd.id_solicitud == id_solicitud
-                                &&    sd.id_tdocreq == tipoDocReqSol
+                                && sd.id_tdocreq == tipoDocReqSol
                                 select sd).Any();
 
             return (planoIncEnc || planoIncSol);
@@ -276,7 +276,7 @@ namespace SGI.GestionTramite.Tareas
                     select encoNorm.id_tiponormativa).Count() > 0;
         }
 
-        private bool isUbicacionEspecial(int id_encomienda,string codigo)
+        private bool isUbicacionEspecial(int id_encomienda, string codigo)
         {
             return (from encubic in db.Encomienda_Ubicaciones
                     join encubicDist in db.Encomienda_Ubicaciones_Distritos on encubic.id_encomiendaubicacion equals encubicDist.id_encomiendaubicacion
@@ -310,6 +310,13 @@ namespace SGI.GestionTramite.Tareas
                 where encrub.id_encomienda == id_encomienda
                 select encrub.CodigoRubro).Count();
             return cant_rubros_librar == cant_rubros;
+        }
+
+        private bool EncomiendaAcogeBeneficiosUERESGP(int id_encomienda)
+        {
+            return (bool)(from enc in db.Encomienda
+                          where enc.id_encomienda == id_encomienda
+                          select enc.AcogeBeneficios).FirstOrDefault();
         }
 
 
