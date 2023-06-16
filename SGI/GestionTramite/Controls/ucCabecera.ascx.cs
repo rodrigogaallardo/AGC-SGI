@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using SGI.Model;
-using System.Transactions;
-using System.Configuration;
+﻿using SGI.Model;
+using System;
 using System.Collections.Generic;
-using Org.BouncyCastle.Crypto.Modes;
+using System.Configuration;
+using System.Linq;
+using System.Transactions;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -87,7 +86,7 @@ namespace SGI.GestionTramite.Controls
                                   sol.TipoExpediente.descripcion_tipoexpediente,
                                   sol.NroExpedienteSadeRelacionado,
                                   sol.FechaLibrado
-                              }).FirstOrDefault();              
+                              }).FirstOrDefault();
 
                 var enc = (from rel in db.Encomienda_SSIT_Solicitudes
                            join enco in db.Encomienda on rel.id_encomienda equals enco.id_encomienda
@@ -95,7 +94,8 @@ namespace SGI.GestionTramite.Controls
                                 && enco.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
                            orderby enco.id_encomienda descending
                            select enco).FirstOrDefault();
-                
+
+
                 if (enc != null)
                 {
                     string encomienda_desc = enc.id_encomienda.ToString() + " - " + Functions.GetTipoDeTramiteDesc(objsol.id_tipotramite) + " " + Functions.GetTipoExpedienteDesc(objsol.id_tipoexpediente, objsol.id_subtipoexpediente);
@@ -131,13 +131,17 @@ namespace SGI.GestionTramite.Controls
                     lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_dl.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_dl.Value).ToString();
                     lblEncomienda.Text = encomienda_desc;
                     lblUbicacion.Text = objResult + ". - Plantas a Habilitar: " + CargarPlantasHabilitar(enc.id_encomienda);
-                    if(objsol.FechaLibrado != null)
-                    { 
-                    lblLibradoUso.Text = "<b>" + objsol.FechaLibrado.ToString() +"</b>";
+                    if (objsol.FechaLibrado != null)
+                    {
+                        lblLibradoUso.Text = "<b>" + objsol.FechaLibrado.ToString() + "</b>";
+                    }
+                    else if (objsol.FechaLibrado == null && enc.AcogeBeneficios == true)
+                    {
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO, YA QUE SE ACOGE A LOS BENEFICIOS DE LA DI-2023-2-GCABA-UERESGP.</b></font>";
                     }
                     else
                     {
-                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO</b></font>";
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO.</b></font>";
                     }
                 }
                 else if (objsol.id_tipotramite == (int)Constants.TipoDeTramite.Permiso)
@@ -170,7 +174,7 @@ namespace SGI.GestionTramite.Controls
                         {
                             lblUbicacion.Text = GetDireccionPermiso(solOrigen.id_solicitud_origen.Value);
                         }
-                        else 
+                        else
                         {
                             lblUbicacion.Text = GetDireccionPermiso(solOrigen.id_transf_origen.Value);
                         }
