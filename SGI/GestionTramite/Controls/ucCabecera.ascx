@@ -121,7 +121,7 @@
 
             <asp:Panel ID="pnlHAB" runat="server" Visible="false">
                 <div style="width: 50%; float: left">
-                    <ul class="cabecera">
+                    <ul class="cabecera" style="padding-left: 10px">
                         <li>Telefono:<strong><asp:Label ID="lblTelefono" runat="server"></asp:Label></strong>
                         </li>
                     </ul>
