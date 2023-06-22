@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace SGI.Model
 {
@@ -43,9 +42,9 @@ namespace SGI.Model
             DGHP_Entities db = new DGHP_Entities();
 
             int feriadosCount = (from hab in db.SGI_Feriados
-                        where hab.Fecha >= start
-                        & hab.Fecha <= end
-                        select hab).Count();
+                                 where hab.Fecha >= start
+                                 & hab.Fecha <= end
+                                 select hab).Count();
 
             result = result - feriadosCount;
             #endregion
@@ -460,7 +459,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta'  = CASE   ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion IN (SELECT id_tipoubicacion FROM TiposDeUbicacion ub WHERE ub.descripcion_tipoubicacion IN ('Objeto territorial'))  ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),solpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),solpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0");
             sql.AppendLine("        THEN IsNull(convert(nvarchar, solpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
@@ -507,7 +506,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta' = CASE  ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = (SELECT TiposDeUbicacion.id_tipoubicacion FROM TiposDeUbicacion WHERE dbo.TiposDeUbicacion.descripcion_tipoubicacion = 'Objeto territorial') ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0  THEN IsNull(convert(nvarchar, encpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
             sql.AppendLine("				IsNull('Local ' + encubic.local_subtipoubicacion,'') ");
@@ -553,7 +552,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta'  = CASE   ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = (SELECT TiposDeUbicacion.id_tipoubicacion FROM TiposDeUbicacion WHERE dbo.TiposDeUbicacion.descripcion_tipoubicacion = 'Objeto territorial') ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0  THEN IsNull(convert(nvarchar, encpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
             sql.AppendLine("				IsNull('Local ' + encubic.local_subtipoubicacion,'') ");
@@ -599,7 +598,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta'  = CASE   ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = (SELECT TiposDeUbicacion.id_tipoubicacion FROM TiposDeUbicacion WHERE dbo.TiposDeUbicacion.descripcion_tipoubicacion = 'Objeto territorial') ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0  THEN IsNull(convert(nvarchar, encpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
             sql.AppendLine("				IsNull('Local ' + encubic.local_subtipoubicacion,'') ");
