@@ -247,6 +247,7 @@ namespace SGI.GestionTramite.Controls
                                   sol.observaciones,
                                   sol.CreateDate
                               }).FirstOrDefault();
+
                 lblSolicitud.Text = objsol.id_cpadron.ToString();
                 lblEstado.Text = objsol.DescripcionEstadoSolicitud;
                 lblNroExpediente.Text = objsol.nro_expediente_anterior;
