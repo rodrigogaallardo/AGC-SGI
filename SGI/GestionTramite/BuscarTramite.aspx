@@ -71,6 +71,7 @@
             $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlLibradoUso.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlIncluyeAnulados.ClientID %>").select2({ allowClear: true });
 
 <%--            var tags_selecionados = "";
             if ($("#<%: hid_estados_selected.ClientID %>").val().length > 0) {
@@ -640,13 +641,20 @@
                                                             <asp:DropDownList ID="ddlTarea" runat="server" Width="300px"></asp:DropDownList>
                                                         </div>
                                                     </div>
-                                                    <div class="control-group">
-                                                    </div>
+
                                                     <div class="control-group">
                                                         <asp:Label ID="lblTareaCerrada" runat="server" AssociatedControlID="ddlTareaCerrada"
                                                             Text="Tarea cerrada:" class="control-label"></asp:Label>
                                                         <div class="controls">
                                                             <asp:DropDownList ID="ddlTareaCerrada" runat="server" Width="300px"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="control-group">
+                                                        <asp:Label ID="lblIncluyeAnulados" runat="server" AssociatedControlID="ddlIncluyeAnulados"
+                                                            Text="¿Incluye Anulados?:" class="control-label"></asp:Label>
+                                                        <div class="controls">
+                                                            <asp:DropDownList ID="ddlIncluyeAnulados" runat="server" Width="100px"></asp:DropDownList>
                                                         </div>
                                                     </div>
 

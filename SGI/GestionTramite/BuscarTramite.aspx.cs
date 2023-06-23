@@ -99,6 +99,7 @@ namespace SGI
                     fechaCierreDesde = txtFechaCierreDesde.Text,
                     fechaCierreHasta = txtFechaCierreHasta.Text,
                     libradoUso = ddlLibradoUso.SelectedIndex.ToString(),
+                    incluyeAnulados = ddlIncluyeAnulados.SelectedIndex.ToString(),
                     ////----------------------------------------------------------------Hasta aca filtro por Tramite
 
                     rbtnUbiPartidaMatriz = rbtnUbiPartidaMatriz.Checked,
@@ -256,6 +257,7 @@ namespace SGI
                 CargarCombo_tipoUbicacion();
                 CargarCombo_subTipoUbicacion(-1);
                 CargarCombo_LibradoUso();
+                CargarCombo_IncluyeAnulados();
                 updPnlFiltroBuscar_tramite.Update();
                 updPnlFiltroBuscar_ubi_partida.Update();
                 updPnlFiltroBuscar_ubi_dom.Update();
@@ -337,6 +339,19 @@ namespace SGI
             listItem.Text = "NO";
             listItem.Value = "2";
             ddlLibradoUso.Items.Add(listItem);
+        }
+
+        private void CargarCombo_IncluyeAnulados()
+        {
+            ListItem listItem = new ListItem();
+            listItem.Text = "NO";
+            listItem.Value = "0";
+            ddlIncluyeAnulados.Items.Add(listItem);
+
+            listItem = new ListItem();
+            listItem.Text = "SI";
+            listItem.Value = "1";
+            ddlIncluyeAnulados.Items.Add(listItem);
         }
 
         private void CargarCombo_TipoExpediente(int idtipoTramite)
@@ -556,6 +571,8 @@ namespace SGI
                 ddlSubTipoTramite.SelectedIndex = 0;
 
             ddlLibradoUso.SelectedIndex = 0;
+
+            ddlIncluyeAnulados.SelectedIndex = 0;
 
             //if (ddlEstado.Items.Count >= 0)
             //    ddlEstado.SelectedIndex = 0;
@@ -861,7 +878,7 @@ namespace SGI
         private string nroExp = "";
         private string estados = string.Empty;
         private int LibradoUso = 0;
-
+        private int IncluyeAnulados = 0;
 
         private DateTime? fechaDesde;
         private DateTime? fechaHasta;
@@ -976,6 +993,9 @@ namespace SGI
             int.TryParse(ddlLibradoUso.SelectedItem.Value, out idAux);
             this.LibradoUso = idAux;
             //this.estados = hid_estados_selected.Value;
+            idAux = 0;
+            int.TryParse(ddlIncluyeAnulados.SelectedItem.Value, out idAux);
+            this.IncluyeAnulados = idAux;
         }
 
         private int nro_partida_matriz = 0;
@@ -1179,7 +1199,8 @@ namespace SGI
                 id_sub_tipo_ubicacion = ddlUbiSubTipoUbicacion.SelectedIndex.ToString(),
                 rubro_desc = txtRubroCodDesc.Text,
                 tit_razon = txtTitApellido.Text,
-                libradoUso = ddlLibradoUso.SelectedIndex.ToString()
+                libradoUso = ddlLibradoUso.SelectedIndex.ToString(),
+                incluyeAnulados = ddlIncluyeAnulados.SelectedIndex.ToString()
             };
             string jsonString = filtros.ToJSON();
 
@@ -1229,6 +1250,7 @@ namespace SGI
             txtFechaHasta.Text = filtros.fechaHasta;
             txtFechaCierreHasta.Text = filtros.fechaCierreHasta;
             ddlLibradoUso.SelectedIndex = Convert.ToInt32(filtros.libradoUso);
+            ddlIncluyeAnulados.SelectedIndex = Convert.ToInt32(filtros.incluyeAnulados);
 
             IniciarEntity();
             int idTipoTramite = Convert.ToInt32(ddlTipoTramite.SelectedValue);
@@ -1485,7 +1507,7 @@ namespace SGI
             this.rubro_desc = filtros.rubro_desc;
             this.tit_razon = filtros.tit_razon;
 
-            this.estados = filtros.id_estado;
+            //this.estados = filtros.id_estado;
 
             return true;
         }
@@ -1679,6 +1701,7 @@ namespace SGI
 
                 this.LibradoUso = Convert.ToInt32(ddlLibradoUso.SelectedValue);
                 //this.estados = hid_estados_selected.Value;
+                this.IncluyeAnulados = Convert.ToInt32(ddlIncluyeAnulados.SelectedValue);
 
                 if (string.IsNullOrEmpty(txtFechaDesde.Text))
                 {
@@ -1878,7 +1901,6 @@ namespace SGI
                         && !tareasFin.Contains(x.SGI_Tramites_Tareas.ENG_Tareas.id_tarea)).Count() > 0)
                         || sol.id_tipotramite == (int)Constants.TipoDeTramite.Permiso
                         )
-                    && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                     select new clsItemBuscarTramite
                     {
                         cod_grupotramite = Constants.GruposDeTramite.HAB.ToString(),
@@ -1955,13 +1977,13 @@ namespace SGI
                         select res);
 
             //busqueda por estado
-            if (!string.IsNullOrEmpty(this.estados))
-            {
-                var arrayEstados = this.estados.Split(',').Select(Int32.Parse).ToList();
-                qSOL = (from res in qSOL
-                        where arrayEstados.Contains(res.id_estado)
-                        select res);
-            }
+            //if (!string.IsNullOrEmpty(this.estados))
+            //{
+            //    var arrayEstados = this.estados.Split(',').Select(Int32.Parse).ToList();
+            //    qSOL = (from res in qSOL
+            //            where arrayEstados.Contains(res.id_estado)
+            //            select res);
+            //}
 
             //búsqueda entre fechas
             if (this.fechaDesde.HasValue || this.fechaHasta.HasValue)
@@ -2025,6 +2047,14 @@ namespace SGI
                             where res.LibradoUso == null
                             select res);
                 }
+            }
+
+            //filtro si incluye o no anulados
+            if (this.IncluyeAnulados == 0)
+            {
+                qSOL = (from res in qSOL
+                         where res.id_estado != (int)Constants.Solicitud_Estados.Anulado
+                        select res);
             }
 
             //búsqueda por numero partida matriz
@@ -2355,7 +2385,6 @@ namespace SGI
                    from cir in pleft_tarea.DefaultIfEmpty()
                    where db.SGI_Tramites_Tareas_CPADRON.Where(x => x.id_cpadron == sol.id_cpadron && x.SGI_Tramites_Tareas.ENG_Tareas.formulario_tarea != null
                    && x.SGI_Tramites_Tareas.ENG_Tareas.id_tarea != (int)Constants.ENG_Tareas.CP_Fin_Tramite).Count() > 0
-                   && sol.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
                    select new clsItemBuscarTramite
                    {
                        cod_grupotramite = Constants.GruposDeTramite.CP.ToString(),
@@ -2483,6 +2512,14 @@ namespace SGI
                 qCP = (from res in qCP
                         where 1 == 0
                         select res);
+            }
+
+            //filtro si incluye o no anulados
+            if (this.IncluyeAnulados == 0)
+            {
+                qCP = (from res in qCP
+                       where res.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
+                       select res);
             }
 
             //búsqueda por numero partida matriz
@@ -2694,13 +2731,13 @@ namespace SGI
             }
 
             //busqueda por estado
-            if (!string.IsNullOrEmpty(this.estados))
-            {
-                var arrayEstados = this.estados.Split(',').Select(Int32.Parse).ToList();
-                qCP = (from res in qCP
-                       where arrayEstados.Contains(res.id_estado)
-                       select res);
-            }
+            //if (!string.IsNullOrEmpty(this.estados))
+            //{
+            //    var arrayEstados = this.estados.Split(',').Select(Int32.Parse).ToList();
+            //    qCP = (from res in qCP
+            //           where arrayEstados.Contains(res.id_estado)
+            //           select res);
+            //}
 
             //búsqueda entre superficies
             if (this.SuperficieDesde.HasValue || this.SuperficieHasta.HasValue)
@@ -2751,7 +2788,6 @@ namespace SGI
                    from cir in pleft_tarea.DefaultIfEmpty()
                    where db.SGI_Tramites_Tareas_TRANSF.Where(x => x.id_solicitud == sol.id_solicitud && x.SGI_Tramites_Tareas.ENG_Tareas.formulario_tarea != null
                        && x.SGI_Tramites_Tareas.ENG_Tareas.id_tarea != (int)Constants.ENG_Tareas.TR_Fin_Tramite).Count() > 0
-                       && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                    select new clsItemBuscarTramite
                    {
                        cod_grupotramite = Constants.GruposDeTramite.TR.ToString(),
@@ -2876,6 +2912,14 @@ namespace SGI
             {
                 qTR = (from res in qTR
                        where 1 == 0
+                       select res);
+            }
+
+            //filtro si incluye o no anulados
+            if (this.IncluyeAnulados == 0)
+            {
+                qTR = (from res in qTR
+                       where res.id_estado != (int)Constants.Solicitud_Estados.Anulado
                        select res);
             }
 
@@ -3192,13 +3236,13 @@ namespace SGI
             }
 
             //busqueda por estado
-            if (!string.IsNullOrEmpty(this.estados))
-            {
-                var arrayEstados = this.estados.Split(',').Select(Int32.Parse).ToList();
-                qTR = (from res in qTR
-                       where arrayEstados.Contains(res.id_estado)
-                       select res);
-            }
+            //if (!string.IsNullOrEmpty(this.estados))
+            //{
+            //    var arrayEstados = this.estados.Split(',').Select(Int32.Parse).ToList();
+            //    qTR = (from res in qTR
+            //           where arrayEstados.Contains(res.id_estado)
+            //           select res);
+            //}
             #endregion
 
             //filtrado por superficie
