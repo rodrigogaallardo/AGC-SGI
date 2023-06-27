@@ -45,15 +45,32 @@ namespace SGI.GestionTramite.Controls
                                      where pf.id_solicitud == id_solicitud
                                      select pf).FirstOrDefault();
 
-                if(personaJuridica != null)
+                if (objsol != null)
                 {
-                    codigoArea.Text = objsol.CodArea.ToString();
-                    prefijo.Text = objsol.Prefijo.ToString();
-                    sufijo.Text = objsol.Sufijo.ToString();
+                    if (string.IsNullOrEmpty(objsol.CodArea))
+                        codigoArea.Text = string.Empty;
+                    else
+                        codigoArea.Text = objsol.CodArea.ToString();
+                    if (string.IsNullOrEmpty(objsol.Prefijo))
+                        prefijo.Text = string.Empty;
+                    else
+                        prefijo.Text = objsol.Prefijo.ToString();
+                    if (string.IsNullOrEmpty(objsol.Sufijo))
+                        sufijo.Text = string.Empty;
+                    else
+                        sufijo.Text = objsol.Sufijo.ToString();
+                }
+                else
+                {
+                    codigoArea.Text = string.Empty;
+                    prefijo.Text = string.Empty;
+                    sufijo.Text = string.Empty;
+                }
 
+                if (personaJuridica != null)
+                {
                     telJuridico.Text = personaJuridica.Telefono.ToString();
                     emailJuridico.Text = personaJuridica.Email.ToString();
-
                 }
                 else
                 {
@@ -62,21 +79,14 @@ namespace SGI.GestionTramite.Controls
 
                 if(personaFisica != null)
                 {
-                    codigoArea.Text = objsol.CodArea.ToString();
-                    prefijo.Text = objsol.Prefijo.ToString();
-                    sufijo.Text = objsol.Sufijo.ToString();
-
                     telefonoMovil.Text = personaFisica.TelefonoMovil.ToString();
                     telefonoFijo.Text = personaFisica.Telefono.ToString();
                     emailFisico.Text = personaFisica.Email.ToString();
-
                 }
                 else
                 {
                     pnlDatosFisicos.Visible = false;
                 }
-
-
             }
             else if(id_grupotramite == (int)Constants.GruposDeTramite.TR)
             {
