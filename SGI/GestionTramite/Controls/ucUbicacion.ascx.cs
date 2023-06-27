@@ -1,10 +1,7 @@
 ﻿using SGI.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace SGI.GestionTramite.Controls
@@ -108,7 +105,7 @@ namespace SGI.GestionTramite.Controls
                 Label lblSubTipoUbicacion = (Label)e.Row.FindControl("lblSubTipoUbicacionview");
                 Panel pnlPartidasHorizontales = (Panel)e.Row.FindControl("pnlPartidasHorizontalesview");
                 Panel pnlDeptoLocal = (Panel)e.Row.FindControl("pnlDeptoLocalview");
-                Label lblLocal = (Label)e.Row.FindControl("lblLocalview");             
+                Label lblLocal = (Label)e.Row.FindControl("lblLocalview");
 
                 int id_solubicacion = Convert.ToInt32(gridubicacion_db.DataKeys[e.Row.RowIndex].Value);
                 bool RequiereSMP = true;
@@ -116,27 +113,27 @@ namespace SGI.GestionTramite.Controls
 
 
                 var dUbic = (from solubic in db.SSIT_Solicitudes_Ubicaciones
-                                      join ubic in db.Ubicaciones on solubic.id_ubicacion equals ubic.id_ubicacion
-                                      join stubic in db.SubTiposDeUbicacion on solubic.id_subtipoubicacion equals stubic.id_subtipoubicacion
-                                      join tubic in db.TiposDeUbicacion on stubic.id_tipoubicacion equals tubic.id_tipoubicacion
-                                      join zonpla in db.Zonas_Planeamiento on solubic.id_zonaplaneamiento equals zonpla.id_zonaplaneamiento
-                                      where solubic.id_solicitud == id_solicitud
-                                      && solubic.id_solicitudubicacion == id_solubicacion
+                             join ubic in db.Ubicaciones on solubic.id_ubicacion equals ubic.id_ubicacion
+                             join stubic in db.SubTiposDeUbicacion on solubic.id_subtipoubicacion equals stubic.id_subtipoubicacion
+                             join tubic in db.TiposDeUbicacion on stubic.id_tipoubicacion equals tubic.id_tipoubicacion
+                             join zonpla in db.Zonas_Planeamiento on solubic.id_zonaplaneamiento equals zonpla.id_zonaplaneamiento
+                             where solubic.id_solicitud == id_solicitud
+                             && solubic.id_solicitudubicacion == id_solubicacion
                              select new
-                                      {
-                                          tubic.id_tipoubicacion,
-                                          tubic.RequiereSMP,
-                                          tubic.descripcion_tipoubicacion,
-                                          stubic.descripcion_subtipoubicacion,
-                                          ubic.NroPartidaMatriz,
-                                          ubic.Seccion,
-                                          ubic.Manzana,
-                                          ubic.Parcela,
-                                          solubic.Depto,
-                                          zonpla.CodZonaPla,
-                                          zonpla.DescripcionZonaPla,
-                                          solubic.local_subtipoubicacion
-                                      }).FirstOrDefault();
+                             {
+                                 tubic.id_tipoubicacion,
+                                 tubic.RequiereSMP,
+                                 tubic.descripcion_tipoubicacion,
+                                 stubic.descripcion_subtipoubicacion,
+                                 ubic.NroPartidaMatriz,
+                                 ubic.Seccion,
+                                 ubic.Manzana,
+                                 ubic.Parcela,
+                                 solubic.Depto,
+                                 zonpla.CodZonaPla,
+                                 zonpla.DescripcionZonaPla,
+                                 solubic.local_subtipoubicacion
+                             }).FirstOrDefault();
 
 
 
@@ -183,17 +180,20 @@ namespace SGI.GestionTramite.Controls
                     string seccion = (dUbic.Seccion.HasValue ? dUbic.Seccion.Value.ToString() : "");
                     imgFoto.ImageUrl = Functions.GetUrlFoto(seccion, dUbic.Manzana.Trim(), dUbic.Parcela.Trim());
 
-                    dtlPuertas_db.DataSource = (from solpuer in db.SSIT_Solicitudes_Ubicaciones_Puertas
-                                                where solpuer.id_solicitudubicacion == id_solubicacion
+                    dtlPuertas_db.DataSource = (from ubiPuertas in db.SSIT_Solicitudes_Ubicaciones_Puertas
+                                                join solubic in db.SSIT_Solicitudes_Ubicaciones on ubiPuertas.id_solicitudubicacion equals solubic.id_solicitudubicacion
+                                                join su in db.SubTiposDeUbicacion on solubic.id_subtipoubicacion equals su.id_subtipoubicacion
+                                                join tu in db.TiposDeUbicacion on su.id_tipoubicacion equals tu.id_tipoubicacion
+                                                where ubiPuertas.id_solicitudubicacion == id_solubicacion
                                                 select new
                                                 {
-                                                    solpuer.id_solicitudpuerta,
-                                                    DescripcionCompleta = solpuer.nombre_calle + " " + solpuer.NroPuerta.ToString(),
-                                                    Calle = solpuer.nombre_calle,
-                                                    solpuer.codigo_calle,
-                                                    solpuer.NroPuerta
-
+                                                    ubiPuertas.id_solicitudpuerta,
+                                                    DescripcionCompleta = ubiPuertas.nombre_calle + " " + (tu.id_tipoubicacion == 11 ? ubiPuertas.NroPuerta.ToString() + "t" : ubiPuertas.NroPuerta.ToString()),
+                                                    Calle = ubiPuertas.nombre_calle,
+                                                    ubiPuertas.codigo_calle,
+                                                    ubiPuertas.NroPuerta
                                                 }).ToList();
+
                     dtlPuertas_db.DataBind();
 
                     if (dtlPuertas_db.Items.Count == 0)
@@ -283,26 +283,26 @@ namespace SGI.GestionTramite.Controls
 
         }*/
 
-       /* protected void btnEliminar_Click(object sender, EventArgs e)
-        {
-            LinkButton btnEliminar = (LinkButton)sender;
-            int id_cpadronubicacion = int.Parse(btnEliminar.CommandArgument);
+        /* protected void btnEliminar_Click(object sender, EventArgs e)
+         {
+             LinkButton btnEliminar = (LinkButton)sender;
+             int id_cpadronubicacion = int.Parse(btnEliminar.CommandArgument);
 
-            ucEliminarEventsArgs args = new ucEliminarEventsArgs();
-            args.id_cpadronubicacion = id_cpadronubicacion;
-            EliminarClick(sender, args);
+             ucEliminarEventsArgs args = new ucEliminarEventsArgs();
+             args.id_cpadronubicacion = id_cpadronubicacion;
+             EliminarClick(sender, args);
 
-        }
-        protected void btnEditar_Click(object sender, EventArgs e)
-        {
-            LinkButton btnEditar = (LinkButton)sender;
-            int id_cpadronubicacion = int.Parse(btnEditar.CommandArgument);
+         }
+         protected void btnEditar_Click(object sender, EventArgs e)
+         {
+             LinkButton btnEditar = (LinkButton)sender;
+             int id_cpadronubicacion = int.Parse(btnEditar.CommandArgument);
 
-            ucEditarEventsArgs args = new ucEditarEventsArgs();
-            args.id_cpadronubicacion = id_cpadronubicacion;
-            EditarClick(sender, args);
+             ucEditarEventsArgs args = new ucEditarEventsArgs();
+             args.id_cpadronubicacion = id_cpadronubicacion;
+             EditarClick(sender, args);
 
-        }*/
+         }*/
 
 
 

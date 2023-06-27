@@ -24,10 +24,10 @@
                                     <asp:Image ID="imgFotoParcela_db" runat="server" class="img-polaroid" Style="outline: solid 2px #939393"
                                         onError="noExisteFotoParcela(this);" />
                                 </td>
-                                
-        
-                                <td style="width: 700px; padding-left: 7px; vertical-align: text-top">                                     
-     
+
+
+                                <td style="width: 700px; padding-left: 7px; vertical-align: text-top">
+
                                     <asp:Panel ID="pnlSMPview" runat="server" Style="padding-top: 3px">
                                         <div>
                                             <b>Sección:</b>
@@ -82,8 +82,7 @@
                                         <asp:DataList ID="dtlPuertas_db" runat="server" RepeatDirection="Horizontal" RepeatColumns="3"
                                             CellSpacing="10">
                                             <ItemTemplate>
-                                                <asp:Label ID="lblPuertas_db" runat="server" Text='<% #Bind("Calle") %>'></asp:Label>
-                                                <asp:Label ID="lnkNroPuerta_db" runat="server" Text='<% #Bind("NroPuerta") %>' CssClass="pleft5"></asp:Label>
+                                                <asp:Label ID="lblPuertas_db" runat="server" Text='<% #Bind("DescripcionCompleta") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:DataList>
                                     </asp:Panel>
