@@ -983,8 +983,6 @@ namespace SGI
         private int nro_partida_horiz = 0;
         private int id_calle = 0;
         private int nro_calle = 0;
-        private int id_calle_aux = 0;
-        private int id_calle_page = 0;
 
         private string uf = "";
         private string dpto = "";
