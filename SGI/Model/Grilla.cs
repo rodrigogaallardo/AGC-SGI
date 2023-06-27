@@ -334,7 +334,9 @@ namespace SGI.Model
         public int sade_completo { get; set; }
         public string zona_declarada { get; set; }
         public List<clsItemBandejaEntradaRubros> Rubros { get; set; }
-        }
+
+        public string nombre_resultado { get; set; }
+    }
 
     public partial class clsItemBandejaEntradaRubros
     {

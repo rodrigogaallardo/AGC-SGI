@@ -44,7 +44,7 @@ namespace SGI.GestionTramite.Controls
                 var personaFisica = (from pf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
                                      where pf.id_solicitud == id_solicitud
                                      select pf).FirstOrDefault();
-
+                                     
                 if (objsol != null)
                 {
                     if (string.IsNullOrEmpty(objsol.CodArea))
