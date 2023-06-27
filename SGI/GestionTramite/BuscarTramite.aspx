@@ -1103,7 +1103,7 @@
                         </asp:UpdateProgress>
 
                     </div>
-                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick">
+                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" AutoPostBack="True">
                     <i class="icon-white icon-search"></i>
                     <span class="text">Buscar</span>
                     </asp:LinkButton>

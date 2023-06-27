@@ -74,10 +74,14 @@ namespace SGI
 
             if (!IsPostBack)
             {
+                Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;
+                this.id_calle_aux = 4;
+                this.id_calle_page = 5;
                 if (Request.Cookies["BuscarTramite_IdCalle"] != null)
                 {
                     AutocompleteCalles.SelectValueByKey = Request.Cookies["BuscarTramite_IdCalle"].Value;
                 }
+                
                 LoadData();
                 SiteMaster pmaster = (SiteMaster)this.Page.Master;
                 ucMenu mnu = (ucMenu)pmaster.FindControl("mnu");
@@ -680,7 +684,7 @@ namespace SGI
             }
             pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
-            Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
+            //Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
 
             return lstResult;
         }
@@ -982,6 +986,8 @@ namespace SGI
         private int nro_partida_horiz = 0;
         private int id_calle = 0;
         private int nro_calle = 0;
+        private int id_calle_aux = 0;
+        private int id_calle_page = 0;
 
         private string uf = "";
         private string dpto = "";
@@ -3409,6 +3415,8 @@ namespace SGI
      object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
             Response.Cookies["BuscarTramite_IdCalle"].Value = e.Key;
+            this.id_calle_aux = Convert.ToInt32(e.Key);
+            this.id_calle_page = Convert.ToInt32(e.Key);
             return;
         }
     }
