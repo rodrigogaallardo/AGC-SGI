@@ -186,8 +186,11 @@
                                     <asp:LinkButton ID="lnkTomarTarea" runat="server" title="Haga click aquí para asignarse la tarea" CommandArgument="<%# Item.id_tramitetarea %>"
                                         Text="Tomar" OnClick="lnkTomarTarea_Click" Visible="<%# (Item.FechaAsignacion_tramtietarea == null && Item.tomar_tarea ) %>"></asp:LinkButton>
                                 </ItemTemplate>
+
+
                             </asp:TemplateField>
                             <asp:BoundField DataField="dias_transcurridos" HeaderText="Días" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" />
+                            <asp:BoundField DataField="dias_acumulados" HeaderText="Días Acumulados" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" />
                             <asp:BoundField DataField="cant_observaciones" HeaderText="Observaciones" HeaderStyle-Wrap="true" HeaderStyle-Width="5%" ItemStyle-CssClass="align-center" SortExpression="cant_observaciones" />
                             
                             <asp:TemplateField HeaderText="SADE OK" HeaderStyle-Wrap="true" HeaderStyle-Width="3%" ItemStyle-CssClass="align-center">

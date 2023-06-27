@@ -326,6 +326,7 @@ namespace SGI.Model
         public bool tomar_tarea { get; set; }
         public string formulario_tarea { get; set; }
         public int Dias_Transcurridos { get; set; }
+        public int Dias_Acumulados { get; set; }
         public decimal superficie_total { get; set; }
         public string url_visorTramite { get; set; }
         public string url_tareaTramite { get; set; }
