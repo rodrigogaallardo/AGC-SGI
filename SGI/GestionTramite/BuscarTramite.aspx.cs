@@ -606,7 +606,7 @@ namespace SGI
             updPnlFiltroBuscar_rubros.Update();
             updPnlFiltroBuscar_titulares.Update();
 
-            pnlResultadoBuscar.Visible = false;
+            pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
 
         }
@@ -693,6 +693,8 @@ namespace SGI
 
         protected void grdTramites_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
+            pnlResultadoBuscar.Visible = true;
+            updPnlResultadoBuscar.Update();
             grdTramites.PageIndex = e.NewPageIndex;
         }
 
@@ -714,6 +716,8 @@ namespace SGI
 
         protected void grdTramites_DataBound(object sender, EventArgs e)
         {
+            pnlResultadoBuscar.Visible = true;
+            updPnlResultadoBuscar.Update();
             GridView grid = (GridView)grdTramites;
             GridViewRow fila = (GridViewRow)grid.BottomPagerRow;
 
