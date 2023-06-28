@@ -76,8 +76,9 @@ namespace SGI
             {
                 if (Request.Cookies["BuscarTramite_IdCalle"] != null)
                 {
-                    AutocompleteCalles.SelectValueByKey = Request.Cookies["BuscarTramite_IdCalle"].Value;
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
+                
                 LoadData();
                 SiteMaster pmaster = (SiteMaster)this.Page.Master;
                 ucMenu mnu = (ucMenu)pmaster.FindControl("mnu");
@@ -697,7 +698,7 @@ namespace SGI
             }
             pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
-            Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
+            //Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
 
             return lstResult;
         }
