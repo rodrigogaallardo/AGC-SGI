@@ -14,6 +14,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 using SGI.Controls;
+using System.Data.Entity;
 
 
 namespace SGI
@@ -610,14 +611,12 @@ namespace SGI
                                             join ttt in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals ttt.id_tramitetarea
                                             join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
                                             where ttt.id_solicitud == sol.id_solicitud &&
-                                                  ttt.id_tramitetarea == (
-                                                      from t2 in db.SGI_Tramites_Tareas_HAB
-                                                      where t2.id_solicitud == ttt.id_solicitud &&
-                                                            t2.id_tramitetarea < tramite_tareas.id_tramitetarea
-                                                      select t2.id_tramitetarea
-                                                  ).Max()
+                                                  ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_HAB
+                                                                          where t2.id_solicitud == ttt.id_solicitud &&
+                                                                                t2.id_tramitetarea < tramite_tareas.id_tramitetarea
+                                                                          select t2.id_tramitetarea).Max()
                                             select r.nombre_resultado).FirstOrDefault()
-                    }).Distinct();
+        }).Distinct();
 
             #endregion
 
@@ -678,12 +677,10 @@ namespace SGI
                                            join ttt in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals ttt.id_tramitetarea
                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
                                            where ttt.id_cpadron == sol.id_cpadron &&
-                                                 ttt.id_tramitetarea == (
-                                                     from t2 in db.SGI_Tramites_Tareas_HAB
-                                                     where t2.id_solicitud == ttt.id_cpadron &&
-                                                           t2.id_tramitetarea < tramite_tareas.id_tramitetarea
-                                                     select t2.id_tramitetarea
-                                                 ).Max()
+                                                 ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_CPADRON
+                                                                         where t2.id_cpadron == ttt.id_cpadron &&
+                                                                               t2.id_tramitetarea < tramite_tareas.id_tramitetarea
+                                                                         select t2.id_tramitetarea).Max()
                                            select r.nombre_resultado).FirstOrDefault()
                    }).Distinct();
             #endregion
@@ -749,12 +746,10 @@ namespace SGI
                                            join ttt in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals ttt.id_tramitetarea
                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
                                            where ttt.id_solicitud == sol.id_solicitud &&
-                                                 ttt.id_tramitetarea == (
-                                                     from t2 in db.SGI_Tramites_Tareas_TRANSF
-                                                     where t2.id_solicitud == ttt.id_solicitud &&
-                                                           t2.id_tramitetarea < tramite_tareas.id_tramitetarea
-                                                     select t2.id_tramitetarea
-                                                 ).Max()
+                                                 ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_TRANSF
+                                                                         where t2.id_solicitud == ttt.id_solicitud &&
+                                                                               t2.id_tramitetarea < tramite_tareas.id_tramitetarea
+                                                                         select t2.id_tramitetarea).Max()
                                            select r.nombre_resultado).FirstOrDefault()
                    }).Distinct();
             #endregion
