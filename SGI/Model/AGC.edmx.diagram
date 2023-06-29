@@ -13,6 +13,9 @@
         <EntityTypeShape EntityType="DGHP_Model.SGI_Feriados" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DGHP_Model.SGI_Tarea_Verificacion_IFCI" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DGHP_Model.SSIT_Solicitudes_AvisoRechazo" Width="1.5" PointX="4.375" PointY="0.875" />
+        <EntityTypeShape EntityType="DGHP_Model.SGI_Tarea_Transicion_Enviar_DGFYCO" Width="1.5" PointX="7.625" PointY="5.875" />
+        <EntityTypeShape EntityType="DGHP_Model.SGI_Tipos_Planos_Incendio" Width="1.5" PointX="5.375" PointY="5.875" />
+        <AssociationConnector Association="DGHP_Model.FK__SGI_Tarea__id_ti__0BDB7737" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

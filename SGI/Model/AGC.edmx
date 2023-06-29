@@ -3049,6 +3049,14 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="SGI_Tarea_Transicion_Enviar_DGFYCO">
+          <Key>
+            <PropertyRef Name="id_tareatransdgfyco" />
+          </Key>
+          <Property Name="id_tareatransdgfyco" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="int" Nullable="false" />
+          <Property Name="id_tipoplanoincendio" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="SGI_Tarea_Validar_Zonificacion">
           <Key>
             <PropertyRef Name="id_validar_zonificacion" />
@@ -3110,6 +3118,15 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="UpdateUser" Type="uniqueidentifier" />
           <Property Name="id_estado" Type="int" />
+        </EntityType>
+        <EntityType Name="SGI_Tipos_Planos_Incendio">
+          <Key>
+            <PropertyRef Name="id_tipoplanoincendio" />
+          </Key>
+          <Property Name="id_tipoplanoincendio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_tipoplanoincendio" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="descripcion_tipoplanoincendio" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="baja_logica" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Tramites_Tareas">
           <Key>
@@ -5331,6 +5348,30 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Principal>
             <Dependent Role="RubrosDepositosCN">
               <PropertyRef Name="idCondicionIncendio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SGI_Tarea__id_ti__0BDB7737">
+          <End Role="SGI_Tipos_Planos_Incendio" Type="Self.SGI_Tipos_Planos_Incendio" Multiplicity="1" />
+          <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tipos_Planos_Incendio">
+              <PropertyRef Name="id_tipoplanoincendio" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Transicion_Enviar_DGFYCO">
+              <PropertyRef Name="id_tipoplanoincendio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SGI_Tarea__id_tr__0AE752FE">
+          <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Transicion_Enviar_DGFYCO">
+              <PropertyRef Name="id_tramitetarea" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -17302,11 +17343,13 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SGI_Tarea_Revision_Pagos" EntityType="Self.SGI_Tarea_Revision_Pagos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Revision_SubGerente" EntityType="Self.SGI_Tarea_Revision_SubGerente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Revision_Tecnica_Legal" EntityType="Self.SGI_Tarea_Revision_Tecnica_Legal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Tarea_Transicion_Enviar_DGFYCO" EntityType="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Validar_Zonificacion" EntityType="Self.SGI_Tarea_Validar_Zonificacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Verificacion_AVH" EntityType="Self.SGI_Tarea_Verificacion_AVH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Verificacion_IFCI" EntityType="Self.SGI_Tarea_Verificacion_IFCI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Visado" EntityType="Self.SGI_Tarea_Visado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tareas_Pases_Sectores" EntityType="Self.SGI_Tareas_Pases_Sectores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Tipos_Planos_Incendio" EntityType="Self.SGI_Tipos_Planos_Incendio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tramites_Tareas" EntityType="Self.SGI_Tramites_Tareas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tramites_Tareas_CPADRON" EntityType="Self.SGI_Tramites_Tareas_CPADRON" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tramites_Tareas_Dispo_Considerando" EntityType="Self.SGI_Tramites_Tareas_Dispo_Considerando" Schema="dbo" store:Type="Tables" />
@@ -17715,6 +17758,14 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <AssociationSet Name="FK__RubrosDep__idCon__46EF9851" Association="Self.FK__RubrosDep__idCon__46EF9851">
             <End Role="CondicionesIncendio" EntitySet="CondicionesIncendio" />
             <End Role="RubrosDepositosCN" EntitySet="RubrosDepositosCN" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SGI_Tarea__id_ti__0BDB7737" Association="Self.FK__SGI_Tarea__id_ti__0BDB7737">
+            <End Role="SGI_Tipos_Planos_Incendio" EntitySet="SGI_Tipos_Planos_Incendio" />
+            <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SGI_Tarea__id_tr__0AE752FE" Association="Self.FK__SGI_Tarea__id_tr__0AE752FE">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
           <AssociationSet Name="FK__SSIT_Soli__Id_No__5EA40582" Association="Self.FK__SSIT_Soli__Id_No__5EA40582">
             <End Role="SSIT_Solicitudes_Notificaciones_motivos" EntitySet="SSIT_Solicitudes_Notificaciones_motivos" />
@@ -28382,6 +28433,16 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="DGFYCO_Ubicaciones_Puertas" EntityType="DGHP_Model.DGFYCO_Ubicaciones_Puertas" />
           <EntitySet Name="RAL_Ubicaciones_Puertas" EntityType="DGHP_Model.RAL_Ubicaciones_Puertas" />
           <EntitySet Name="Calles_Eliminadas" EntityType="DGHP_Model.Calles_Eliminadas" />
+          <EntitySet Name="SGI_Tarea_Transicion_Enviar_DGFYCO" EntityType="DGHP_Model.SGI_Tarea_Transicion_Enviar_DGFYCO" />
+          <EntitySet Name="SGI_Tipos_Planos_Incendio" EntityType="DGHP_Model.SGI_Tipos_Planos_Incendio" />
+          <AssociationSet Name="FK__SGI_Tarea__id_ti__0BDB7737" Association="DGHP_Model.FK__SGI_Tarea__id_ti__0BDB7737">
+            <End Role="SGI_Tipos_Planos_Incendio" EntitySet="SGI_Tipos_Planos_Incendio" />
+            <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SGI_Tarea__id_tr__0AE752FE" Association="DGHP_Model.FK__SGI_Tarea__id_tr__0AE752FE">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -31914,6 +31975,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SGI_Tarea_Gestion_Documental" Relationship="DGHP_Model.FK_SGI_Tarea_Gestion_Documental_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Gestion_Documental" />
           <NavigationProperty Name="SGI_Tarea_Enviar_Procuracion" Relationship="DGHP_Model.FK_SGI_Tarea_Enviar_Procuracion_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Enviar_Procuracion" />
           <NavigationProperty Name="SGI_Tarea_Verificacion_IFCI" Relationship="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Verificacion_IFCI" />
+          <NavigationProperty Name="SGI_Tarea_Transicion_Enviar_DGFYCO" Relationship="DGHP_Model.FK__SGI_Tarea__id_tr__0AE752FE" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Transicion_Enviar_DGFYCO" />
         </EntityType>
         <Association Name="FK_SGI_Tramites_Tareas_aspnet_Users">
           <End Type="DGHP_Model.aspnet_Users" Multiplicity="0..1" Role="aspnet_Users" />
@@ -43220,6 +43282,50 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SGI_Tarea_Transicion_Enviar_DGFYCO">
+          <Key>
+            <PropertyRef Name="id_tareatransdgfyco" />
+          </Key>
+          <Property Name="id_tareatransdgfyco" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_tramitetarea" Type="Int32" Nullable="false" />
+          <Property Name="id_tipoplanoincendio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SGI_Tipos_Planos_Incendio" Relationship="DGHP_Model.FK__SGI_Tarea__id_ti__0BDB7737" FromRole="SGI_Tarea_Transicion_Enviar_DGFYCO" ToRole="SGI_Tipos_Planos_Incendio" />
+          <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK__SGI_Tarea__id_tr__0AE752FE" FromRole="SGI_Tarea_Transicion_Enviar_DGFYCO" ToRole="SGI_Tramites_Tareas" />
+        </EntityType>
+        <EntityType Name="SGI_Tipos_Planos_Incendio">
+          <Key>
+            <PropertyRef Name="id_tipoplanoincendio" />
+          </Key>
+          <Property Name="id_tipoplanoincendio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_tipoplanoincendio" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion_tipoplanoincendio" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="baja_logica" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SGI_Tarea_Transicion_Enviar_DGFYCO" Relationship="DGHP_Model.FK__SGI_Tarea__id_ti__0BDB7737" FromRole="SGI_Tipos_Planos_Incendio" ToRole="SGI_Tarea_Transicion_Enviar_DGFYCO" />
+        </EntityType>
+        <Association Name="FK__SGI_Tarea__id_ti__0BDB7737">
+          <End Type="DGHP_Model.SGI_Tipos_Planos_Incendio" Role="SGI_Tipos_Planos_Incendio" Multiplicity="1" />
+          <End Type="DGHP_Model.SGI_Tarea_Transicion_Enviar_DGFYCO" Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tipos_Planos_Incendio">
+              <PropertyRef Name="id_tipoplanoincendio" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Transicion_Enviar_DGFYCO">
+              <PropertyRef Name="id_tipoplanoincendio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SGI_Tarea__id_tr__0AE752FE">
+          <End Type="DGHP_Model.SGI_Tramites_Tareas" Role="SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Type="DGHP_Model.SGI_Tarea_Transicion_Enviar_DGFYCO" Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Transicion_Enviar_DGFYCO">
+              <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -51056,6 +51162,25 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
                 <ScalarProperty Name="id_email" ColumnName="id_email" />
                 <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
                 <ScalarProperty Name="id_aviso" ColumnName="id_aviso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SGI_Tarea_Transicion_Enviar_DGFYCO">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Transicion_Enviar_DGFYCO">
+              <MappingFragment StoreEntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO">
+                <ScalarProperty Name="id_tipoplanoincendio" ColumnName="id_tipoplanoincendio" />
+                <ScalarProperty Name="id_tramitetarea" ColumnName="id_tramitetarea" />
+                <ScalarProperty Name="id_tareatransdgfyco" ColumnName="id_tareatransdgfyco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SGI_Tipos_Planos_Incendio">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Tipos_Planos_Incendio">
+              <MappingFragment StoreEntitySet="SGI_Tipos_Planos_Incendio">
+                <ScalarProperty Name="baja_logica" ColumnName="baja_logica" />
+                <ScalarProperty Name="descripcion_tipoplanoincendio" ColumnName="descripcion_tipoplanoincendio" />
+                <ScalarProperty Name="nombre_tipoplanoincendio" ColumnName="nombre_tipoplanoincendio" />
+                <ScalarProperty Name="id_tipoplanoincendio" ColumnName="id_tipoplanoincendio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -60,6 +60,7 @@ namespace SGI.Model
             this.SGI_Tarea_Gestion_Documental = new HashSet<SGI_Tarea_Gestion_Documental>();
             this.SGI_Tarea_Enviar_Procuracion = new HashSet<SGI_Tarea_Enviar_Procuracion>();
             this.SGI_Tarea_Verificacion_IFCI = new HashSet<SGI_Tarea_Verificacion_IFCI>();
+            this.SGI_Tarea_Transicion_Enviar_DGFYCO = new HashSet<SGI_Tarea_Transicion_Enviar_DGFYCO>();
         }
     
         public int id_tramitetarea { get; set; }
@@ -127,5 +128,6 @@ namespace SGI.Model
         public virtual ICollection<SGI_Tarea_Gestion_Documental> SGI_Tarea_Gestion_Documental { get; set; }
         public virtual ICollection<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public virtual ICollection<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
+        public virtual ICollection<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
     }
 }

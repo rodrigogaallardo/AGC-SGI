@@ -96,6 +96,15 @@ namespace SGI.GestionTramite.Tareas
         protected global::SGI.GestionTramite.Controls.ucDatosContacto ucDatosContacto;
 
         /// <summary>
+        /// Control ucPlanoIncendio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::SGI.GestionTramite.Controls.ucPlanoIncendio ucPlanoIncendio;
+
+        /// <summary>
         /// Control ucObservacionesTarea.
         /// </summary>
         /// <remarks>
