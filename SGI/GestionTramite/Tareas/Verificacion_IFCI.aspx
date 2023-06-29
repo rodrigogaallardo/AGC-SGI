@@ -11,6 +11,7 @@
 <%@ Register Src="~/GestionTramite/Controls/ucProcesosSADEv1.ascx" TagPrefix="uc1" TagName="ucProcesosSADEv1" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaObservacionesAnteriores.ascx" TagPrefix="uc1" TagName="ucListaObservacionesAnteriores" %>
 <%@ Register Src="~/GestionTramite/Controls/ucDatosContacto.ascx" TagPrefix="uc1" TagName="ucDatosContacto" %>
+<%@ Register Src="~/GestionTramite/Controls/ucPlanoIncendio.ascx" TagPrefix="uc1" TagName="ucPlanoIncendio" %>
 
 
 <asp:content id="Content1" contentplaceholderid="HeadContent" runat="server">
@@ -54,6 +55,8 @@
                     <uc1:ucSGI_DocumentoAdjunto runat="server" ID="ucSGI_DocumentoAdjunto" />
 
                     <uc1:ucDatosContacto runat="server" ID="ucDatosContacto" />
+
+                    <uc1:ucPlanoIncendio runat="server" ID="ucPlanoIncendio" />
 
                     <uc1:ucObservacionesTarea runat="server" ID="ucObservacionesTarea" />
 
