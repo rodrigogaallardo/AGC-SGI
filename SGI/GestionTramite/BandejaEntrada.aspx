@@ -170,7 +170,7 @@
                             
                             <asp:BoundField DataField="direccion" HeaderText="Ubicación" />
 
-                            <asp:BoundField DataField="nombre_resultado" HeaderText="Resultado Tarea Anterior" ItemStyle-CssClass="align-center" />
+                            <asp:BoundField DataField="nombre_resultado" HeaderText="Resultado Ultima Calificación" ItemStyle-CssClass="align-center" />
 
                             <asp:TemplateField HeaderText="Tarea" ItemStyle-Width="10%" ItemStyle-CssClass="align-center" SortExpression="nombre_tarea">
                                 <ItemTemplate>
