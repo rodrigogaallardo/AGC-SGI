@@ -610,16 +610,14 @@ namespace SGI
                         nombre_resultado = (from tt in db.SGI_Tramites_Tareas
                                             join ttt in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals ttt.id_tramitetarea
                                             join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
-                                            where ttt.id_solicitud == sol.id_solicitud &&
-                                                  ttt.id_tramitetarea == (
-                                                      from t2 in db.SGI_Tramites_Tareas_HAB
-                                                      join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
-                                                      join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
-                                                      where t2.id_solicitud == ttt.id_solicitud &&
-                                                            t2.id_tramitetarea < tramite_tareas.id_tramitetarea &&
-                                                            new[] { "01", "10" }.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
-                                                      select t2.id_tramitetarea
-                                                  ).Max()
+                                            where ttt.id_solicitud == sol.id_solicitud 
+                                               && ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_HAB
+                                                                          join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
+                                                                          join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
+                                                                          where t2.id_solicitud == ttt.id_solicitud 
+                                                                          && t2.id_tramitetarea < tramite_tareas.id_tramitetarea 
+                                                                          && new[] {"01", "10"}.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
+                                                                          select t2.id_tramitetarea).Max()
                                             select r.nombre_resultado).FirstOrDefault()
 
         }).Distinct();
@@ -682,16 +680,14 @@ namespace SGI
                        nombre_resultado = (from tt in db.SGI_Tramites_Tareas
                                            join ttt in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals ttt.id_tramitetarea
                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
-                                           where ttt.id_cpadron == sol.id_cpadron &&
-                                                 ttt.id_tramitetarea == (
-                                                     from t2 in db.SGI_Tramites_Tareas_CPADRON
-                                                     join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
-                                                     join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
-                                                     where t2.id_cpadron == ttt.id_cpadron &&
-                                                           t2.id_tramitetarea < tramite_tareas.id_tramitetarea &&
-                                                           new[] { "01", "10" }.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
-                                                     select t2.id_tramitetarea
-                                                 ).Max()
+                                           where ttt.id_cpadron == sol.id_cpadron 
+                                              && ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_CPADRON
+                                                                         join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
+                                                                         join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
+                                                                         where t2.id_cpadron == ttt.id_cpadron 
+                                                                         && t2.id_tramitetarea < tramite_tareas.id_tramitetarea 
+                                                                         && new[] {"01", "10"}.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
+                                                                         select t2.id_tramitetarea).Max()
                                            select r.nombre_resultado).FirstOrDefault()
 
         }).Distinct();
@@ -757,16 +753,14 @@ namespace SGI
                        nombre_resultado = (from tt in db.SGI_Tramites_Tareas
                                            join ttt in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals ttt.id_tramitetarea
                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
-                                           where ttt.id_solicitud == sol.id_solicitud &&
-                                                 ttt.id_tramitetarea == (
-                                                     from t2 in db.SGI_Tramites_Tareas_TRANSF
-                                                     join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
-                                                     join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
-                                                     where t2.id_solicitud == ttt.id_solicitud &&
-                                                           t2.id_tramitetarea < tramite_tareas.id_tramitetarea &&
-                                                           new[] { "01", "10" }.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
-                                                     select t2.id_tramitetarea
-                                                 ).Max()
+                                           where ttt.id_solicitud == sol.id_solicitud 
+                                              && ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_TRANSF
+                                                                         join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
+                                                                         join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
+                                                                         where t2.id_solicitud == ttt.id_solicitud 
+                                                                         && t2.id_tramitetarea < tramite_tareas.id_tramitetarea 
+                                                                         && new[] {"01", "10"}.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
+                                                                         select t2.id_tramitetarea).Max()
                                            select r.nombre_resultado).FirstOrDefault()
                    }).Distinct();
             #endregion
