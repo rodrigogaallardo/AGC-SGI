@@ -15,6 +15,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
+using System.Threading;
 
 
 namespace SGI.GestionTramite
@@ -524,8 +525,8 @@ namespace SGI.GestionTramite
 
             if (totalRowCount > 1)
             {
-                lblCantRegistros.Text = string.Format("{0} Trámites en hoja", lstResult.Count);//muestra tramites en la pagina (MAX 30)
-                lblTotalRegistros.Text = string.Format("{0} Trámites Totales", totalRowCount);//tramites totales
+                lblCantRegistros.Text = string.Format("{0} Trámites en hoja", lstResult.Count);//lstResult.Count
+                lblTotalRegistros.Text = string.Format("{0} Trámites Totales", totalRowCount);//totalRowCount
             }
             else if (totalRowCount == 1)
             {
@@ -1423,6 +1424,7 @@ namespace SGI.GestionTramite
 
         private List<clsItemConsultaTramite> FiltrarTramitesSP(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es-ES");
             if (!String.IsNullOrWhiteSpace(codigoGuid))
             {
                 int idAux = 0;
@@ -1574,6 +1576,8 @@ namespace SGI.GestionTramite
                 if (listRubros.Count() > 0)
                     this.rubros = string.Join(",", listRubros.Select(x => x.cod_rubro).Distinct());
 
+                string planoIncendio = ddlPlanoIncendio.SelectedValue;
+
                 var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));
 
                 List<SGI_ConsultaTramites> resultados = db.ConsultaTramites(
@@ -1605,6 +1609,7 @@ namespace SGI.GestionTramite
                     parcela,
                     ids_grupo_circuitos,
                     rubros,
+                    planoIncendio,
                     startRowIndex,
                     maximumRows,
                     cantResultados
@@ -1662,7 +1667,8 @@ namespace SGI.GestionTramite
                              Usuario = sol.Usuario,
                              NombreyApellido = sol.NombreyApellido,
                              FechaInicioAT = sol.FechaInicioAT,
-                             FechaAprobadoAT = sol.FechaAprobadoAT
+                             FechaAprobadoAT = sol.FechaAprobadoAT,
+                             TienePlanoIncendio = sol.TienePlanoIncendio
                          });
                
 
@@ -1727,48 +1733,11 @@ namespace SGI.GestionTramite
                         r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
                     }
 
-                    #region ASOSA
-                    int existe = (from s in db.SSIT_DocumentosAdjuntos
-                                  where s.id_solicitud == r.id_solicitud
-                                  && s.id_tdocreq == 66
-                                  select s).Count();
-                    if (existe < 1)
-                    {
-                        existe = (from t in db.Transf_DocumentosAdjuntos
-                                  where t.id_solicitud == r.id_solicitud
-                                  && t.id_tdocreq == 66
-                                  select t).Count();
-                    }
-                    if (existe < 1)
-                    {
-                        r.TienePlanoIncendio = false;
-                    }
-                    else
-                    {
-                        r.TienePlanoIncendio = true;
-                    }
-
-                    #endregion
                 }
 
-                #region ASOSA
-                    if (Session["ddlPlanoIncendio_Value"] != null)
-                {
-                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "C")
-                    {
-                        tramites = ( from t in tramites
-                              where t.TienePlanoIncendio == true
-                            select t).ToList();
-                    }
-                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "S")
-                    {
-                        tramites = (from t in tramites
-                                    where t.TienePlanoIncendio == false
-                                    select t).ToList();
-                    }
-                   
-                }
-                #endregion
+                if (tramites.Count == 0)
+                    totalRowCount = 0;
+
                 return tramites;
             }
         }

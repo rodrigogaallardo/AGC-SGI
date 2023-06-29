@@ -2364,6 +2364,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="NombreyApellido" Type="varchar" MaxLength="100" />
           <Property Name="FechaInicioAT" Type="datetime" />
           <Property Name="FechaAprobadoAT" Type="datetime" />
+          <Property Name="TienePlanoIncendio" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Feriados">
           <Key>
@@ -12659,6 +12660,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="parcela" Type="varchar" Mode="In" />
           <Parameter Name="ids_grupoCircuito" Type="varchar" Mode="In" />
           <Parameter Name="cods_rubros" Type="varchar" Mode="In" />
+          <Parameter Name="PlanoIncendio" Type="char" Mode="In" />
           <Parameter Name="rowIndex" Type="int" Mode="In" />
           <Parameter Name="pageSize" Type="int" Mode="In" />
           <Parameter Name="recordCount" Type="int" Mode="InOut" />
@@ -28093,6 +28095,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="parcela" Mode="In" Type="String" />
             <Parameter Name="ids_grupoCircuito" Mode="In" Type="String" />
             <Parameter Name="cods_rubros" Mode="In" Type="String" />
+            <Parameter Name="PlanoIncendio" Mode="In" Type="String" />
             <Parameter Name="rowIndex" Mode="In" Type="Int32" />
             <Parameter Name="pageSize" Mode="In" Type="Int32" />
             <Parameter Name="recordCount" Mode="InOut" Type="Int32" />
@@ -42236,6 +42239,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="NombreyApellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FechaInicioAT" Type="DateTime" Precision="3" />
           <Property Name="FechaAprobadoAT" Type="DateTime" Precision="3" />
+          <Property Name="TienePlanoIncendio" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CondicionesIncendio">
           <Key>
@@ -50747,6 +50751,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="SGI_ConsultaTramites">
             <EntityTypeMapping TypeName="DGHP_Model.SGI_ConsultaTramites">
               <MappingFragment StoreEntitySet="SGI_ConsultaTramites">
+                <ScalarProperty Name="TienePlanoIncendio" ColumnName="TienePlanoIncendio" />
                 <ScalarProperty Name="FechaAprobadoAT" ColumnName="FechaAprobadoAT" />
                 <ScalarProperty Name="FechaInicioAT" ColumnName="FechaInicioAT" />
                 <ScalarProperty Name="NombreyApellido" ColumnName="NombreyApellido" />
