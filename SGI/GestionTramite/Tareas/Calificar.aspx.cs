@@ -154,39 +154,8 @@ namespace SGI.GestionTramite.Tareas
                 bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda);
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
-                var condicionDGIUR = false;
                 var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
 
-
-                //if (!condicionIncendioOk)
-                //{
-                //    pnl_Librar_Uso.Visible = true;
-
-                //    if (LiberadoAlUsoRubro)
-                //        chbLibrarUso.Checked = true;
-                //    else
-                //    {
-                //        var librado = (from solic in db.SSIT_Solicitudes
-                //                       where solic.id_solicitud == id_solicitud
-                //                       select solic.FechaLibrado).Equals(null);
-                //        if (!librado)
-                //            chbLibrarUso.Checked = true;
-                //    }
-                //}
-                //else
-                //{
-                //    if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int)Constants.ENG_Grupos_Circuitos.SCPESCU)
-                //    {
-                //        if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple
-                //            || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro))
-                //        {
-                //            pnl_Librar_Uso.Visible = true;
-
-                //            if (LiberadoAlUsoRubro)
-                //                chbLibrarUso.Checked = true;
-                //        }
-                //    }
-                //}
                 bool librado = false;
                 if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
                     tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
@@ -235,21 +204,6 @@ namespace SGI.GestionTramite.Tareas
                 ucObservacionesTarea.Update();
             }
             FinalizarEntity();
-        }
-
-        private bool isLiberadoAlUsoAnterior(int id_solicitud, int id_tramitetarea)
-        {
-            List<int> q;
-            q =
-                (
-                    from tt in db.SGI_Tramites_Tareas
-                    join tt_hab in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals tt_hab.id_tramitetarea
-                    join cal in db.SGI_Tarea_Calificar on tt.id_tramitetarea equals cal.id_tramitetarea
-                    where tt_hab.id_solicitud == id_solicitud && tt.id_tramitetarea < id_tramitetarea
-                    && cal.Librar_Uso == true
-                    select cal.id_tramitetarea
-                ).ToList();
-            return q.Count() > 0;
         }
 
         private bool TienePlanoDeIncendio(int id_solicitud, int id_encomienda)
@@ -669,9 +623,6 @@ namespace SGI.GestionTramite.Tareas
                                 db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
                             }
                         }
-                        //Tran.Complete();
-                        //Tran.Dispose();
-
 
                         string mensaje_envio_mail = "";
                         try

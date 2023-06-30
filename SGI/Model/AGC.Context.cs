@@ -772,7 +772,7 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Observacion_Contribuyente_Actualizar", id_calificarParameter, observaciones_contribuyenteParameter, userIdParameter);
         }
     
-        public virtual int SGI_Tarea_Revision_Gerente_Actualizar(Nullable<int> id_revision_gerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId)
+        public virtual int SGI_Tarea_Revision_Gerente_Actualizar(Nullable<int> id_revision_gerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId, Nullable<bool> librar_Uso)
         {
             var id_revision_gerenteParameter = id_revision_gerente.HasValue ?
                 new ObjectParameter("id_revision_gerente", id_revision_gerente) :
@@ -802,10 +802,14 @@
                 new ObjectParameter("userId", userId) :
                 new ObjectParameter("userId", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_Gerente_Actualizar", id_revision_gerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter);
+            var librar_UsoParameter = librar_Uso.HasValue ?
+                new ObjectParameter("Librar_Uso", librar_Uso) :
+                new ObjectParameter("Librar_Uso", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_Gerente_Actualizar", id_revision_gerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter, librar_UsoParameter);
         }
     
-        public virtual int SGI_Tarea_Revision_SubGerente_Actualizar(Nullable<int> id_revision_subGerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId)
+        public virtual int SGI_Tarea_Revision_SubGerente_Actualizar(Nullable<int> id_revision_subGerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId, Nullable<bool> librar_Uso)
         {
             var id_revision_subGerenteParameter = id_revision_subGerente.HasValue ?
                 new ObjectParameter("id_revision_subGerente", id_revision_subGerente) :
@@ -835,7 +839,11 @@
                 new ObjectParameter("userId", userId) :
                 new ObjectParameter("userId", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_SubGerente_Actualizar", id_revision_subGerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter);
+            var librar_UsoParameter = librar_Uso.HasValue ?
+                new ObjectParameter("Librar_Uso", librar_Uso) :
+                new ObjectParameter("Librar_Uso", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_SubGerente_Actualizar", id_revision_subGerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter, librar_UsoParameter);
         }
     
         public virtual int SSIT_Solicitudes_ActualizarEstado(Nullable<int> id_solicitud, Nullable<int> id_estado, Nullable<System.Guid> userid, string nroExpediente, string telefono)

@@ -3010,6 +3010,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="observacion_plancheta" Type="nvarchar(max)" />
           <Property Name="observacion_providencia" Type="nvarchar" MaxLength="2000" />
           <Property Name="observaciones_contribuyente" Type="nvarchar(max)" />
+          <Property Name="Librar_Uso" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Revision_Pagos">
           <Key>
@@ -3037,6 +3038,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="observacion_plancheta" Type="nvarchar(max)" />
           <Property Name="observacion_providencia" Type="nvarchar" MaxLength="2000" />
           <Property Name="observaciones_contribuyente" Type="nvarchar(max)" />
+          <Property Name="Librar_Uso" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Revision_Tecnica_Legal">
           <Key>
@@ -15539,6 +15541,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="observacion_providencia" Type="nvarchar" Mode="In" />
           <Parameter Name="observaciones_contribuyente" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Librar_Uso" Type="bit" Mode="In" />
         </Function>
         <Function Name="SGI_Tarea_Revision_Gerente_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_revision_gerente" Type="int" Mode="In" />
@@ -15565,6 +15568,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="observacion_providencia" Type="nvarchar" Mode="In" />
           <Parameter Name="observaciones_contribuyente" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Librar_Uso" Type="bit" Mode="In" />
         </Function>
         <Function Name="SGI_Tarea_Revision_SubGerente_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_revision_subGerente" Type="int" Mode="In" />
@@ -20272,6 +20276,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="observacion_providencia" Mode="In" Type="String" />
             <Parameter Name="observaciones_contribuyente" Mode="In" Type="String" />
             <Parameter Name="userId" Mode="In" Type="Guid" />
+            <Parameter Name="Librar_Uso" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="SGI_Tarea_Revision_SubGerente_Actualizar">
             <Parameter Name="id_revision_subGerente" Mode="In" Type="Int32" />
@@ -20281,6 +20286,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="observacion_providencia" Mode="In" Type="String" />
             <Parameter Name="observaciones_contribuyente" Mode="In" Type="String" />
             <Parameter Name="userId" Mode="In" Type="Guid" />
+            <Parameter Name="Librar_Uso" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="SSIT_Solicitudes_ActualizarEstado">
             <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
@@ -29394,6 +29400,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="String" Name="observacion_providencia" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="observaciones_contribuyente" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Revision_Gerente_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Revision_Gerente" ToRole="SGI_Tramites_Tareas" />
+          <Property Name="Librar_Uso" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Revision_SubGerente">
           <Key>
@@ -29410,6 +29417,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="String" Name="observacion_providencia" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="observaciones_contribuyente" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Revision_SubGerente_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Revision_SubGerente" ToRole="SGI_Tramites_Tareas" />
+          <Property Name="Librar_Uso" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Generar_Expediente_Procesos">
           <Key>
@@ -43954,6 +43962,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="SGI_Tarea_Revision_Gerente">
             <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Revision_Gerente">
               <MappingFragment StoreEntitySet="SGI_Tarea_Revision_Gerente">
+                <ScalarProperty Name="Librar_Uso" ColumnName="Librar_Uso" />
                 <ScalarProperty Name="observaciones_contribuyente" ColumnName="observaciones_contribuyente" />
                 <ScalarProperty Name="observacion_providencia" ColumnName="observacion_providencia" />
                 <ScalarProperty Name="observacion_plancheta" ColumnName="observacion_plancheta" />
@@ -43970,6 +43979,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="SGI_Tarea_Revision_SubGerente">
             <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Revision_SubGerente">
               <MappingFragment StoreEntitySet="SGI_Tarea_Revision_SubGerente">
+                <ScalarProperty Name="Librar_Uso" ColumnName="Librar_Uso" />
                 <ScalarProperty Name="observaciones_contribuyente" ColumnName="observaciones_contribuyente" />
                 <ScalarProperty Name="observacion_providencia" ColumnName="observacion_providencia" />
                 <ScalarProperty Name="observacion_plancheta" ColumnName="observacion_plancheta" />
