@@ -62,6 +62,7 @@ namespace SGI.GestionTramite.Tareas
             ucSGI_DocumentoAdjunto.Enabled = IsEditable && !hayProcesosGenerados;
             ucObservaciones.Enabled = IsEditable && !hayProcesosGenerados;
             ucSGI_ListaPlanoVisado.Enabled = IsEditable && !hayProcesosGenerados;
+            chbLibrarUso.Enabled = IsEditable && !hayProcesosGenerados;
 
             int id_grupotramite = (int)Constants.GruposDeTramite.HAB;
             SGI_Tramites_Tareas_HAB ttHAB = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
@@ -130,6 +131,7 @@ namespace SGI.GestionTramite.Tareas
                 ucObservacionPlancheta.Text = gerente.observacion_plancheta;
                 UcObservacionesContribuyente.Text = gerente.observaciones_contribuyente;
                 ucObservacionProvidencia.Text = gerente.observacion_providencia;
+                chbLibrarUso.Checked = gerente.Librar_Uso;
             }
             else
             {
@@ -141,6 +143,55 @@ namespace SGI.GestionTramite.Tareas
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.GERENTE"), "\n\n\n", "\n\n", "se");
                 else
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.GERENTE"), "\n\n\n", "\n\n", "no se");
+                
+                chbLibrarUso.Checked = false;
+            }
+            pnl_Librar_Uso.Visible = false;
+
+            SSIT_Solicitudes sol = new SSIT_Solicitudes();
+            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
+
+            var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
+                    && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
+
+            bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
+            bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda, "U");
+            bool tieneNormativas = TieneNormativas(enc.id_encomienda);
+            bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
+            bool esZonaAHP = isUbicacionEspecial(enc.id_encomienda, "APH");
+            bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda);
+
+            var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
+            var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
+
+            bool librado = false;
+            if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
+                tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
+            {
+                if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios)
+                {
+                    pnl_Librar_Uso.Visible = true;
+                }
+                var fechalibrado = sol.FechaLibrado;
+                if (fechalibrado != null)
+                {
+                    librado = true;
+                }
+                if (librado || LiberadoAlUsoRubro)
+                    chbLibrarUso.Checked = true;
+                else
+                    chbLibrarUso.Checked = false;
+                if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
+                {
+                    chbLibrarUso.Checked = librado;
+                }
+            }
+            else
+            {
+                if (LiberadoAlUsoRubro)
+                    chbLibrarUso.Checked = true;
+                else
+                    chbLibrarUso.Checked = false;
             }
 
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Revision_Gerente_1 ||
@@ -278,7 +329,7 @@ namespace SGI.GestionTramite.Tareas
         {
         }
 
-        private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observacion_plancheta, string observacion_providencia, string observacion_contribuyente, Guid userId)
+        private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observacion_plancheta, string observacion_providencia, string observacion_contribuyente, bool librar_uso, Guid userId)
         {
 
             SGI_Tarea_Revision_Gerente gerente = Buscar_Tarea(id_tramite_tarea);
@@ -287,7 +338,7 @@ namespace SGI.GestionTramite.Tareas
             if (gerente != null)
                 id_revision_gerente = gerente.id_revision_gerente;
 
-            db.SGI_Tarea_Revision_Gerente_Actualizar(id_revision_gerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId);
+            db.SGI_Tarea_Revision_Gerente_Actualizar(id_revision_gerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, librar_uso);
             if (finalizar && !string.IsNullOrEmpty(observacion_contribuyente))
                 db.SSIT_Solicitudes_AgregarObservaciones(id_solicitud, observacion_contribuyente, userId);
         }
@@ -308,7 +359,7 @@ namespace SGI.GestionTramite.Tareas
 
                     try
                     {
-                        Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), userid);
+                        Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), chbLibrarUso.Checked, userid);
 
                         //ucSGI_ListaPlanoVisado.FindControl("grd_plan_visado");
 
@@ -365,6 +416,15 @@ namespace SGI.GestionTramite.Tareas
             int id_tarea_ge = t != null ? t.id_tarea : 0;
 
             var sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
+
+            if (pnl_Librar_Uso.Visible)
+            {
+                if (ucResultadoTarea.getIdResultadoTarea() == (int)Constants.ENG_ResultadoTarea.Aprobado
+                    && !chbLibrarUso.Checked
+                    && sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple
+                    )
+                    throw new Exception("Es obligatorio tildar Librar uso.");
+            }
 
             if (ucResultadoTarea.getIdProximaTarea() == id_tarea_cor)
             {
@@ -443,7 +503,7 @@ namespace SGI.GestionTramite.Tareas
 
                 Validar_Finalizar();
 
-                Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), userid);
+                Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), chbLibrarUso.Checked, userid);
                 db.SaveChanges();
                 bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0;
 
@@ -479,6 +539,40 @@ namespace SGI.GestionTramite.Tareas
                         try
                         {
                             id_tramitetarea_nuevo = ucResultadoTarea.FinalizarTarea();
+
+                            var sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == this.id_solicitud);
+
+                            // Si tiene Normativa y el calificador aprobo el trámite y es cualquier tareas de circuito 2 se debe generar el Qr
+                            if (chbLibrarUso.Checked && sol.FechaLibrado == null)
+                            {
+                                if (Documentos.generarDocumentoInicio(this.id_solicitud))
+                                {
+                                    try
+                                    {
+                                        db.SSIT_Solicitudes_Set_FechaLibrado(id_solicitud);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        LogError.Write(ex, "Error actualizando la Fecha de Librado al uso.");
+                                    }
+                                    try
+                                    {
+                                        Encuestas.enviarEncuesta(id_solicitud);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        LogError.Write(ex, "Error en ws encuesta");
+                                    }
+                                    Mailer.MailMessages.SendMail_DisponibilzarQR_v2(this.id_solicitud);
+                                }
+
+                                // Si el estado es suspendida se pasa a en trámite.
+                                if (sol.id_estado == (int)Constants.Solicitud_Estados.Suspendida)
+                                {
+                                    db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
+                                }
+                            }
+
                             Tran.Complete();
                             Tran.Dispose();
                         }
@@ -565,5 +659,78 @@ namespace SGI.GestionTramite.Tareas
             ucResultadoTarea.btnFinalizar_Enabled = false;
         }
         #endregion
+
+        private bool isLiberadoAlUsoRubro(int id_encomienda)
+        {
+            int cant_rubros_librar;
+            cant_rubros_librar = (
+                from encrub in db.Encomienda_Rubros
+                join rub in db.Rubros on encrub.cod_rubro equals rub.cod_rubro
+                where encrub.id_encomienda == id_encomienda && rub.Librar_Uso
+                select encrub.cod_rubro
+                ).Union(
+                from encrub in db.Encomienda_RubrosCN
+                join rub in db.RubrosCN on encrub.IdRubro equals rub.IdRubro
+                where encrub.id_encomienda == id_encomienda && rub.LibrarUso
+                select encrub.CodigoRubro).Count();
+            int cant_rubros;
+            cant_rubros = (
+                from encrub in db.Encomienda_Rubros
+                join rub in db.Rubros on encrub.cod_rubro equals rub.cod_rubro
+                where encrub.id_encomienda == id_encomienda
+                select encrub.cod_rubro
+                ).Union(
+                from encrub in db.Encomienda_RubrosCN
+                join rub in db.RubrosCN on encrub.IdRubro equals rub.IdRubro
+                where encrub.id_encomienda == id_encomienda
+                select encrub.CodigoRubro).Count();
+            return cant_rubros_librar == cant_rubros;
+        }
+
+        private bool isUbicacionEspecial(int id_encomienda, string codigo)
+        {
+            return (from encubic in db.Encomienda_Ubicaciones
+                    join encubicDist in db.Encomienda_Ubicaciones_Distritos on encubic.id_encomiendaubicacion equals encubicDist.id_encomiendaubicacion
+                    join cat in db.Ubicaciones_CatalogoDistritos on encubicDist.IdDistrito equals cat.IdDistrito
+                    join gd in db.Ubicaciones_GruposDistritos on cat.IdGrupoDistrito equals gd.IdGrupoDistrito
+                    where encubic.id_encomienda == id_encomienda && gd.Codigo == codigo
+                    select gd.Codigo).Count() > 0;
+        }
+
+        private bool TieneNormativas(int id_encomienda)
+        {
+            return (from encoNorm in db.Encomienda_Normativas
+                    where encoNorm.id_encomienda == id_encomienda
+                    select encoNorm.id_tiponormativa).Count() > 0;
+        }
+
+        private bool TienePlanoDeIncendio(int id_solicitud, int id_encomienda)
+        {
+            int tipoPlanoIncendio = 2;
+            int tipoDocReqSol = 66;
+            bool planoIncEnc = (from ep in db.Encomienda_Planos
+                                where ep.id_encomienda == id_encomienda
+                                && ep.id_tipo_plano == tipoPlanoIncendio
+                                select ep).Any();
+
+            bool planoIncSol = (from sd in db.SSIT_DocumentosAdjuntos
+                                where sd.id_solicitud == id_solicitud
+                                && sd.id_tdocreq == tipoDocReqSol
+                                select sd).Any();
+
+            return (planoIncEnc || planoIncSol);
+        }
+
+        private bool EncomiendaAcogeBeneficiosUERESGP(int id_encomienda)
+        {
+            return (bool)(from enc in db.Encomienda
+                          where enc.id_encomienda == id_encomienda
+                          select enc.AcogeBeneficios).FirstOrDefault();
+        }
+
+        public bool EsInmuebleCatalogado(int IdEncomienda)
+        {
+            return db.Encomienda_Ubicaciones.Any(encubic => encubic.id_encomienda == IdEncomienda && encubic.InmuebleCatalogado == true);
+        }
     }
 }

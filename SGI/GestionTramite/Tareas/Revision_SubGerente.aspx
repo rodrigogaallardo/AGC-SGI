@@ -82,6 +82,13 @@
 
                     <uc1:ucObservacionesTareav1 runat="server" id="ucObservaciones"/>
 
+                    <asp:Panel ID="pnl_Librar_Uso" runat="server" Visible="false">
+                        <div class="control-group">
+                            <label class="control-label">Librar Uso:</label>
+                                <asp:CheckBox ID="chbLibrarUso" runat="server" Checked="false" />
+                        </div>
+                    </asp:Panel>
+
                     <uc1:ucResultadoTarea runat="server" ID="ucResultadoTarea"
                         OnGuardarClick="ucResultadoTarea_GuardarClick"
                         OnCerrarClick="ucResultadoTarea_CerrarClick"
