@@ -183,40 +183,32 @@ namespace SGI.GestionTramite.Tareas
             bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
             bool esZonaAHP = isUbicacionEspecial(enc.id_encomienda, "APH");
             bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda);
+            bool esHabilitacionPrevia = tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito == (int)Constants.ENG_Grupos_Circuitos.HP ||
+                                        tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito == (int)Constants.ENG_Grupos_Circuitos.HPESCU;
 
             var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
             var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
 
             bool librado = false;
-            if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
-                tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
+            
+            if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios || esHabilitacionPrevia)
             {
-                if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios)
-                {
-                    pnl_Librar_Uso.Visible = true;
-                }
-                var fechalibrado = sol.FechaLibrado;
-                if (fechalibrado != null)
-                {
-                    librado = true;
-                }
-                if (librado || LiberadoAlUsoRubro)
-                    chbLibrarUso.Checked = true;
-                else
-                    chbLibrarUso.Checked = false;
-                if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
-                {
-                    chbLibrarUso.Checked = librado;
-                }
+                pnl_Librar_Uso.Visible = true;
             }
+            var fechalibrado = sol.FechaLibrado;
+            if (fechalibrado != null)
+            {
+                librado = true;
+            }
+            if (librado || LiberadoAlUsoRubro)
+                chbLibrarUso.Checked = true;
             else
+                chbLibrarUso.Checked = false;
+            if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
             {
-                if (LiberadoAlUsoRubro)
-                    chbLibrarUso.Checked = true;
-                else
-                    chbLibrarUso.Checked = false;
+                chbLibrarUso.Checked = librado;
             }
-
+            
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Revision_SubGerente_1 ||
                 tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Revision_SubGerente_2 ||
                 tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_IP_Revision_SubGerente_1 ||
