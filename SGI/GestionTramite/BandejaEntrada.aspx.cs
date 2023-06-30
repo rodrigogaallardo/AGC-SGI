@@ -585,6 +585,7 @@ namespace SGI
                         tomar_tarea = (tarea.id_tarea != 25 && tarea.id_tarea != 49) ? true : false,//Correcion de solicitudes
                         formulario_tarea = tarea.formulario_tarea,
                         Dias_Transcurridos = 0,
+                        Dias_Acumulados = 0,
                         superficie_total = 0,
                         continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
                                           where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
@@ -655,6 +656,7 @@ namespace SGI
                        tomar_tarea = tarea.id_tarea != 71 ? true : false,//Correcion de solicitudes
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
+                       Dias_Acumulados = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
                        continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
@@ -727,7 +729,7 @@ namespace SGI
                        tomar_tarea = (tarea.id_tarea != 60) ? true : false,//Correcion de solicitudes
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
-
+                       Dias_Acumulados = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
                        continuar_sade = (from sade_proc in db.SGI_SADE_Procesos
                                          where sade_proc.id_tramitetarea == tramite_tareas.id_tramitetarea
@@ -987,6 +989,8 @@ namespace SGI
                         qFinal = qFinal.OrderByDescending(o => o.id_solicitud).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("Dias_Transcurridos"))
                         qFinal = qFinal.OrderByDescending(o => o.Dias_Transcurridos).Skip(startRowIndex).Take(maximumRows);
+                    else if (sortByExpression.Contains("Dias_Acumulados"))
+                        qFinal = qFinal.OrderByDescending(o => o.Dias_Acumulados).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("direccion"))
                         qFinal = qFinal.OrderByDescending(o => o.direccion).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("FechaAsignacion_tarea"))
@@ -1010,6 +1014,8 @@ namespace SGI
                         qFinal = qFinal.OrderBy(o => o.id_solicitud).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("Dias_Transcurridos"))
                         qFinal = qFinal.OrderBy(o => o.Dias_Transcurridos).Skip(startRowIndex).Take(maximumRows);
+                    else if (sortByExpression.Contains("Dias_Acumulados"))
+                        qFinal = qFinal.OrderBy(o => o.Dias_Acumulados).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("direccion"))
                         qFinal = qFinal.OrderBy(o => o.direccion).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("FechaAsignacion_tarea"))
@@ -1178,8 +1184,61 @@ namespace SGI
                     }
                     else
                         row.url_tareaTramite = "";
-                    //row.Dias_Transcurridos = (DateTime.Now - row.FechaInicio_tarea).Days;
-                    row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+                        row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+
+
+                    int firstTramiteTarea = 0;
+                    int idTramiteTarea = 0;
+
+                    if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.CP.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                             where th.id_cpadron == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                          where th.id_cpadron == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+
+                    DateTime fechaInicio;
+
+                    if (idTramiteTarea > 0)
+                    {
+                        fechaInicio = (from t in db.SGI_Tramites_Tareas
+                                       where t.id_tramitetarea == idTramiteTarea
+                                       select t.FechaInicio_tramitetarea).FirstOrDefault();
+
+                        row.Dias_Acumulados = Shared.GetBusinessDays_V2(fechaInicio, DateTime.Now);
+                    }
+                    else
+                    {
+                        row.Dias_Acumulados = 0;
+                    }
+
                 }
             }
 
@@ -1273,6 +1332,7 @@ namespace SGI
                         tomar_tarea = (tarea.id_tarea != 25 && tarea.id_tarea != 49) ? true : false,//Correcion de solicitudes
                         formulario_tarea = tarea.formulario_tarea,
                         Dias_Transcurridos = 0,
+                        Dias_Acumulados = 0,
                         superficie_total = 0,
                         id_perfil_asignador = tt_bandeja.id_perfil_asignador.Value,
                         id_perfil_asignado = tt_bandeja.id_perfil_asignado.Value,
@@ -1304,6 +1364,7 @@ namespace SGI
                        tomar_tarea = tarea.id_tarea != 71 ? true : false,//Correcion de solicitudes
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
+                       Dias_Acumulados = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
                        id_perfil_asignador = tt_bandeja.id_perfil_asignador.Value,
                        id_perfil_asignado = tt_bandeja.id_perfil_asignado.Value,
@@ -1336,6 +1397,7 @@ namespace SGI
                        tomar_tarea = (tarea.id_tarea != 60) ? true : false,//Correcion de solicitudes
                        formulario_tarea = tarea.formulario_tarea,
                        Dias_Transcurridos = 0,
+                       Dias_Acumulados = 0,
                        superficie_total = ed != null ? (ed.superficie_cubierta_dl.Value + ed.superficie_descubierta_dl.Value) : 0,
                        id_perfil_asignador = tt_bandeja.id_perfil_asignador.Value,
                        id_perfil_asignado = tt_bandeja.id_perfil_asignado.Value,
@@ -1397,6 +1459,8 @@ namespace SGI
                         qFinal = qFinal.OrderByDescending(o => o.id_solicitud).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("Dias_Transcurridos"))
                         qFinal = qFinal.OrderByDescending(o => o.Dias_Transcurridos).Skip(startRowIndex).Take(maximumRows);
+                    else if (sortByExpression.Contains("Dias_Acumulados"))
+                        qFinal = qFinal.OrderByDescending(o => o.Dias_Acumulados).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("direccion"))
                         qFinal = qFinal.OrderByDescending(o => o.direccion).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("FechaAsignacion_tarea"))
@@ -1418,6 +1482,8 @@ namespace SGI
                         qFinal = qFinal.OrderBy(o => o.id_solicitud).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("Dias_Transcurridos"))
                         qFinal = qFinal.OrderBy(o => o.Dias_Transcurridos).Skip(startRowIndex).Take(maximumRows);
+                    else if (sortByExpression.Contains("Dias_Acumulados"))
+                        qFinal = qFinal.OrderBy(o => o.Dias_Acumulados).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("direccion"))
                         qFinal = qFinal.OrderBy(o => o.direccion).Skip(startRowIndex).Take(maximumRows);
                     else if (sortByExpression.Contains("FechaAsignacion_tarea"))
@@ -1585,8 +1651,62 @@ namespace SGI
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
                     else
                         row.url_tareaTramite = "";
+                        row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
 
-                    row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+
+
+                    int firstTramiteTarea = 0;
+                    int idTramiteTarea = 0;
+
+                    if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.CP.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                             where th.id_cpadron == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                          where th.id_cpadron == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+
+                    DateTime fechaInicio;
+
+                    if (idTramiteTarea > 0)
+                    {
+                        fechaInicio = (from t in db.SGI_Tramites_Tareas
+                                       where t.id_tramitetarea == idTramiteTarea
+                                       select t.FechaInicio_tramitetarea).FirstOrDefault();
+
+                        row.Dias_Acumulados = Shared.GetBusinessDays_V2(fechaInicio, DateTime.Now);
+                    }
+                    else
+                    {
+                        row.Dias_Acumulados = 0;
+                    }
+
                 }
             }
 
