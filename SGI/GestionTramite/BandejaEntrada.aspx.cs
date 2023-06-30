@@ -49,13 +49,13 @@ namespace SGI
 
         }
 
-        public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows, 
+        public List<clsItemBandejaEntrada> GetTramitesBandeja(int startRowIndex, int maximumRows,
                 out int totalRowCount, string sortByExpression)
         {
             Guid userid = Functions.GetUserId();
             int cantCompletoSade = 0;
             int cantContinuarSade = 0;
-            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression,ref cantCompletoSade,ref cantContinuarSade, out totalRowCount);
+            List<clsItemBandejaEntrada> lstTramites = FiltrarTramites(startRowIndex, maximumRows, sortByExpression, ref cantCompletoSade, ref cantContinuarSade, out totalRowCount);
 
             pnlBandejaPropiaVacia.Visible = (totalRowCount <= 0);
 
@@ -939,7 +939,7 @@ namespace SGI
             AddQueryFinal(qTR, ref qFinal);
 
             totalRowCount = qFinal.Count();
-            cantCompletoSade = qFinal.Count( x => x.sade_completo == 1);
+            cantCompletoSade = qFinal.Count(x => x.sade_completo == 1);
             cantContinuarSade = qFinal.Count(x => x.continuar_sade == 1 && x.sade_completo != 1);
 
             if (sortByExpression != null)
@@ -1144,9 +1144,63 @@ namespace SGI
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
                     }
                     else
+
                         row.url_tareaTramite = "";
                     row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
-                    row.Dias_Acumulados = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+
+
+                    int firstTramiteTarea = 0;
+                    int idTramiteTarea = 0;
+
+                    if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.CP.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                             where th.id_cpadron == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                          where th.id_cpadron == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+
+                    DateTime fechaInicio;
+
+                    if (idTramiteTarea > 0)
+                    {
+                        fechaInicio = (from t in db.SGI_Tramites_Tareas
+                                       where t.id_tramitetarea == idTramiteTarea
+                                       select t.FechaInicio_tramitetarea).FirstOrDefault();
+
+                        row.Dias_Acumulados = Shared.GetBusinessDays_V2(fechaInicio, DateTime.Now);
+                    }
+                    else
+                    {
+                        row.Dias_Acumulados = 0;
+                    }
+
                 }
             }
 
@@ -1558,10 +1612,64 @@ namespace SGI
                     if (row.formulario_tarea != null)
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
                     else
-                        row.url_tareaTramite = "";
 
+                        row.url_tareaTramite = "";
                     row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
-                    row.Dias_Acumulados = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+
+
+
+                    int firstTramiteTarea = 0;
+                    int idTramiteTarea = 0;
+
+                    if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_HAB
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.CP.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                             where th.id_cpadron == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_CPADRON
+                                          where th.id_cpadron == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString())
+                    {
+                        firstTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                             where th.id_solicitud == row.id_solicitud
+                                             select th.id_tramitetarea).Min();
+
+                        idTramiteTarea = (from th in db.SGI_Tramites_Tareas_TRANSF
+                                          where th.id_solicitud == row.id_solicitud
+                                          & th.id_tramitetarea > firstTramiteTarea
+                                          select th.id_tramitetarea).Min();
+                    }
+
+                    DateTime fechaInicio;
+
+                    if (idTramiteTarea > 0)
+                    {
+                        fechaInicio = (from t in db.SGI_Tramites_Tareas
+                                       where t.id_tramitetarea == idTramiteTarea
+                                       select t.FechaInicio_tramitetarea).FirstOrDefault();
+
+                        row.Dias_Acumulados = Shared.GetBusinessDays_V2(fechaInicio, DateTime.Now);
+                    }
+                    else
+                    {
+                        row.Dias_Acumulados = 0;
+                    }
+
                 }
             }
 
