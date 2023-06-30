@@ -1111,7 +1111,7 @@
                         </asp:UpdateProgress>
 
                     </div>
-                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick">
+                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" AutoPostBack="True">
                     <i class="icon-white icon-search"></i>
                     <span class="text">Buscar</span>
                     </asp:LinkButton>
@@ -1247,9 +1247,9 @@
                                     <div style="display: inline-table">
 
                                         <asp:UpdateProgress ID="updPrgssPager" AssociatedUpdatePanelID="updPnlResultadoBuscar" runat="server"
-                                            DisplayAfter="0">
+                                            DisplayAfter="0" UpdateMode="Conditional">
                                             <ProgressTemplate>
-                                                <img src="../Content/img/app/Loading24x24.gif" alt="" />
+                                                <img src="../../Content/img/app/Loading24x24.gif" alt="Cargando..." />
                                             </ProgressTemplate>
                                         </asp:UpdateProgress>
                                     </div>

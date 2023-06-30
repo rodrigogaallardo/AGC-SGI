@@ -165,10 +165,12 @@
 
                             </asp:TemplateField>
 
-                            <asp:BoundField DataField="superficie_total" ItemStyle-Width="60px" HeaderText="Superficie Total" SortExpression="superficie_total" />
+                            <asp:BoundField DataField="superficie_total" ItemStyle-Width="50px" HeaderText="Superficie Total" SortExpression="superficie_total" />
 
                             
                             <asp:BoundField DataField="direccion" HeaderText="Ubicación" />
+
+                            <asp:BoundField DataField="nombre_resultado" HeaderText="Resultado Ultima Calificación" ItemStyle-CssClass="align-center" />
 
                             <asp:TemplateField HeaderText="Tarea" ItemStyle-Width="10%" ItemStyle-CssClass="align-center" SortExpression="nombre_tarea">
                                 <ItemTemplate>

@@ -76,8 +76,9 @@ namespace SGI
             {
                 if (Request.Cookies["BuscarTramite_IdCalle"] != null)
                 {
-                    AutocompleteCalles.SelectValueByKey = Request.Cookies["BuscarTramite_IdCalle"].Value;
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
+                
                 LoadData();
                 SiteMaster pmaster = (SiteMaster)this.Page.Master;
                 ucMenu mnu = (ucMenu)pmaster.FindControl("mnu");
@@ -622,7 +623,7 @@ namespace SGI
             updPnlFiltroBuscar_rubros.Update();
             updPnlFiltroBuscar_titulares.Update();
 
-            pnlResultadoBuscar.Visible = false;
+            pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
 
         }
@@ -697,7 +698,7 @@ namespace SGI
             }
             pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
-            Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
+            //Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;//ASOSA
 
             return lstResult;
         }
@@ -709,6 +710,8 @@ namespace SGI
 
         protected void grdTramites_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
+            pnlResultadoBuscar.Visible = true;
+            updPnlResultadoBuscar.Update();
             grdTramites.PageIndex = e.NewPageIndex;
         }
 
@@ -730,6 +733,8 @@ namespace SGI
 
         protected void grdTramites_DataBound(object sender, EventArgs e)
         {
+            pnlResultadoBuscar.Visible = true;
+            updPnlResultadoBuscar.Update();
             GridView grid = (GridView)grdTramites;
             GridViewRow fila = (GridViewRow)grid.BottomPagerRow;
 
