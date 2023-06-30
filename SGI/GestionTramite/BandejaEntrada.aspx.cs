@@ -1144,9 +1144,8 @@ namespace SGI
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
                     }
                     else
-
                         row.url_tareaTramite = "";
-                    row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+                        row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
 
 
                     int firstTramiteTarea = 0;
@@ -1612,9 +1611,8 @@ namespace SGI
                     if (row.formulario_tarea != null)
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
                     else
-
                         row.url_tareaTramite = "";
-                    row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
+                        row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
 
 
 
