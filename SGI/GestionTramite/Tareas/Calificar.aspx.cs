@@ -151,39 +151,31 @@ namespace SGI.GestionTramite.Tareas
                 bool tieneNormativas = TieneNormativas(enc.id_encomienda);
                 bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
                 bool esZonaAHP = isUbicacionEspecial(enc.id_encomienda, "APH");
-                bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda);
+                bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda); 
+                bool esHabilitacionPrevia = tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito == (int)Constants.ENG_Grupos_Circuitos.HP || 
+                                            tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito == (int)Constants.ENG_Grupos_Circuitos.HPESCU;
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
                 var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
 
                 bool librado = false;
-                if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
-                    tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
+                
+                if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios || esHabilitacionPrevia)
                 {
-                    if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios)
-                    {
-                        pnl_Librar_Uso.Visible = true;
-                    }
-                    var fechalibrado = sol.FechaLibrado;
-                    if (fechalibrado != null)
-                    {
-                        librado = true;
-                    }
-                    if (librado || LiberadoAlUsoRubro)
-                        chbLibrarUso.Checked = true;
-                    else
-                        chbLibrarUso.Checked = false;
-                    if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
-                    {
-                        chbLibrarUso.Checked = librado;
-                    }
+                    pnl_Librar_Uso.Visible = true;
                 }
-                else
+                var fechalibrado = sol.FechaLibrado;
+                if (fechalibrado != null)
                 {
-                    if (LiberadoAlUsoRubro)
-                        chbLibrarUso.Checked = true;
-                    else
-                        chbLibrarUso.Checked = false;
+                    librado = true;
+                }
+                if (librado || LiberadoAlUsoRubro)
+                    chbLibrarUso.Checked = true;
+                else
+                    chbLibrarUso.Checked = false;
+                if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
+                {
+                    chbLibrarUso.Checked = librado;
                 }
             }
 
