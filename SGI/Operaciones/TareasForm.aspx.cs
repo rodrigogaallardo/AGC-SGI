@@ -122,7 +122,7 @@ namespace SGI.Operaciones
                     ddltarea.DataBind();
                     ddltarea.Enabled = false;
                     ddltarea.SelectedIndex = 0;
-                    ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
+                    //ddlResultado.SelectedValue = sGI_Tramites_Tareas.id_resultado.ToString();
                     ddltarea_SelectedIndexChanged(null, null);
 
                     if (sGI_Tramites_Tareas.id_resultado == 0)
