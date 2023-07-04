@@ -883,7 +883,7 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
+            if ((string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
                 && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == ""))
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
