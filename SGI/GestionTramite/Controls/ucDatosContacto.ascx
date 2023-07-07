@@ -2,8 +2,6 @@
     CodeBehind="ucDatosContacto.ascx.cs"
     Inherits="SGI.GestionTramite.Controls.ucDatosContacto" %>
 
-<%: Scripts.Render("~/bundles/fileUpload") %>
-<%: Styles.Render("~/bundles/fileUploadCss") %>
 <%: Scripts.Render("~/bundles/select2") %>
 <%: Styles.Render("~/bundles/Select2Css") %>
 
@@ -101,19 +99,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function tda_btnUpDown_collapse_click(obj) {
-        var href_collapse = $(obj).attr("href");
-        if ($(href_collapse).attr("id") != undefined) {
-            if ($(href_collapse).css("height") == "0px") {
-                tda_init_fileUpload(false);
-                $(obj).find(".icon-chevron-down").switchClass("icon-chevron-down", "icon-chevron-up", 0);
-            }
-            else {
-                $(obj).find(".icon-chevron-up").switchClass("icon-chevron-up", "icon-chevron-down", 0);
-            }
-
-        }
-    }
-</script>

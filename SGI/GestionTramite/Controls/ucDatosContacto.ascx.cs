@@ -14,12 +14,6 @@ namespace SGI.GestionTramite.Controls
 {
     public partial class ucDatosContacto : System.Web.UI.UserControl
     {
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
-
         public void LoadData(int id_grupotramite, int id_solicitud)
         {
             DGHP_Entities db = new DGHP_Entities();
