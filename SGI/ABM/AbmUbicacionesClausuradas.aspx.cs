@@ -46,7 +46,7 @@ namespace SGI.ABM
             {
                 if (Request.Cookies["AbmUbicacionesClausuradas_IdCalle"] != null)
                 {
-                    AutocompleteCalles.SelectValueByKey = Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value;
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
                 CargarCombo_tipoUbicacion();
                 CargarCombo_subTipoUbicacion(-1);
@@ -266,7 +266,6 @@ namespace SGI.ABM
         {
             try
             {
-
                 Buscador();
 
             }
@@ -570,18 +569,23 @@ namespace SGI.ABM
                 }
 
             }
-
             //filtro por domicilio
             if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value)) ? "" : Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
-            idAux = 0;
-            if (Request.Cookies["AbmUbicacionesClausuradas_IdCalle"] != null)
-                int.TryParse(Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value, out idAux);
-            this.id_calle = idAux;
-
+            if ((Request.Cookies["AbmUbicacionesClausuradas_IdCalle"] == null))
+            {
+                this.id_calle = 0;
+            }
+            else
+            {
+                idAux = 0;
+                if (Request.Cookies["AbmUbicacionesClausuradas_IdCalle"] != null)
+                    int.TryParse(Request.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value, out idAux);
+                this.id_calle = idAux;
+            }
             idAux = 0;
             int.TryParse(txtUbiNroPuerta.Text.Trim(), out idAux);
             this.nro_calle = idAux;

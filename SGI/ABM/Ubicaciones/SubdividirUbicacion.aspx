@@ -449,7 +449,7 @@
                                                             </ProgressTemplate>
                                                         </asp:UpdateProgress>
                                                     </div>
-                                                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn btn-primary" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" OnClientClick="return validarBuscar();">
+                                                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn btn-primary" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" OnClientClick="return validarBuscar();" AutoPostBack ="true">
                                                         <i class="icon-white icon-search"></i>
                                                         <span class="text">Buscar</span>
                                                     </asp:LinkButton>

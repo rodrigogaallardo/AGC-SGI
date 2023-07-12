@@ -654,18 +654,14 @@ namespace SGI
         {
             try
             {
-
+                this.ReqCalle.Validate();
+                if (!this.ReqCalle.IsValid)
+                    Response.Cookies["BuscarTramite_IdCalle"].Value = string.Empty;
                 IniciarEntity();
 
                 Validar();
 
                 guardarFiltro();
-
-             
-                //grdTramites.DataBind();
-
-                //FinalizarEntity();
-                //EjecutarScript(btn_BuscarTramite, "showResultado();");
 
             }
             catch (Exception ex)
