@@ -7,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SGI.Model;
 using System.Data.Entity.Core.Objects;
+using System.Collections;
+using System.Data.Entity.Migrations;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -38,10 +40,13 @@ namespace SGI.GestionTramite.Controls
                 _Enabled = value;
                 ddlResultado.Enabled = value;
                 ddlProximaTarea.Enabled = value;
+                ddlTipoPlanoIncendio.Enabled = value;
                 btnFinalizarTarea.Visible = _Enabled;
                 btnGuardar.Visible = _Enabled;
                 ddlProximaTarea.Visible = _Enabled;
                 lblProximaTarea.Visible = _Enabled;
+                lblTipoPlanoIncendio.Visible = _Enabled;
+                ddlTipoPlanoIncendio.Visible = _Enabled;
             }
         }
 
@@ -180,10 +185,12 @@ namespace SGI.GestionTramite.Controls
                 int id_proxima_tarea = 0;
                 int id_resultado = 0;
                 int id_tramitetarea = 0;
+                int id_planoincendio = 0;
                 int.TryParse(hid_id_tramite_tarea.Value, out id_tramitetarea);
                 int.TryParse(hid_id_tarea.Value, out id_tarea_actual);
                 int.TryParse(ddlProximaTarea.SelectedValue, out id_proxima_tarea);
                 int.TryParse(ddlResultado.SelectedValue, out id_resultado);
+                int.TryParse(ddlTipoPlanoIncendio.SelectedValue, out id_planoincendio);
 
                 ucResultadoTareaEventsArgs args = new ucResultadoTareaEventsArgs();
                 args.id_tramitetarea_actual = id_tramitetarea;
@@ -195,6 +202,7 @@ namespace SGI.GestionTramite.Controls
                 if (id_resultado > 0)
                     args.id_resultado = id_resultado;
 
+                actualizarTabla(id_resultado, id_tramitetarea, id_planoincendio);
                 GuardarClick(this, args);
             }
         }
@@ -209,10 +217,12 @@ namespace SGI.GestionTramite.Controls
                     int id_proxima_tarea = 0;
                     int id_resultado = 0;
                     int id_tramitetarea = 0;
+                    int id_planoincendio = 0;
                     int.TryParse(hid_id_tramite_tarea.Value, out id_tramitetarea);
                     int.TryParse(hid_id_tarea.Value, out id_tarea_actual);
                     int.TryParse(ddlProximaTarea.SelectedValue, out id_proxima_tarea);
                     int.TryParse(ddlResultado.SelectedValue, out id_resultado);
+                    int.TryParse(ddlTipoPlanoIncendio.SelectedValue, out id_planoincendio);
 
                     ucResultadoTareaEventsArgs args = new ucResultadoTareaEventsArgs();
                     args.id_tramitetarea_actual = id_tramitetarea;
@@ -224,6 +234,7 @@ namespace SGI.GestionTramite.Controls
                     if (id_resultado > 0)
                         args.id_resultado = id_resultado;
 
+                    actualizarTabla(id_resultado, id_tramitetarea, id_planoincendio);
                     FinalizarTareaClick(this, args);
                 }
             }
@@ -257,12 +268,23 @@ namespace SGI.GestionTramite.Controls
             int id_tarea = 0, id_resultado = 0, id_proxima_tarea;
             DateTime? FechaCierre_tramitetarea = null;
             SGI_Tramites_Tareas tramite_tarea = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
+            SGI_Tarea_Transicion_Enviar_DGFYCO transicion = db.SGI_Tarea_Transicion_Enviar_DGFYCO.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
             id_tarea = tramite_tarea.id_tarea;
             FechaCierre_tramitetarea = tramite_tarea.FechaCierre_tramitetarea;
             id_resultado = tramite_tarea.id_resultado;
             id_proxima_tarea = tramite_tarea.id_proxima_tarea != null ? tramite_tarea.id_proxima_tarea.Value : 0;
             if (id_proxima_tarea == 0)
                 id_proxima_tarea = id_proximatarea_default;
+
+            var tiposPlanos = db.SGI_Tipos_Planos_Incendio.ToList();
+
+            ddlTipoPlanoIncendio.DataSource = tiposPlanos;
+            ddlTipoPlanoIncendio.DataTextField = "nombre_tipoplanoincendio";
+            ddlTipoPlanoIncendio.DataValueField = "id_tipoplanoincendio";
+            ddlTipoPlanoIncendio.DataBind();
+
+            if (transicion != null)
+                ddlTipoPlanoIncendio.SelectedValue = transicion.id_tipoplanoincendio.ToString();
 
             hid_id_grupotramite.Value = id_grupotramite.ToString();
             hid_id_tramite_tarea.Value = id_tramitetarea.ToString();
@@ -290,7 +312,7 @@ namespace SGI.GestionTramite.Controls
                     }
                 }
                 int id_resultadoSelect = int.Parse(ddlResultado.SelectedValue);
-
+                
                 CargarProximasTareas(id_resultadoSelect, id_tarea, id_tramitetarea, id_proxima_tarea);
             }
 
@@ -325,7 +347,16 @@ namespace SGI.GestionTramite.Controls
             //setea el valor leido desde la tarea ya almacenada
             if (id_proxima_tarea > 0)
                 ddlProximaTarea.SelectedValue = id_proxima_tarea.ToString();
-
+            if (id_resultado == 94)
+            {
+                ddlTipoPlanoIncendio.Visible = true;
+                lblTipoPlanoIncendio.Visible = true;
+            }
+            else
+            {
+                ddlTipoPlanoIncendio.Visible = false;
+                lblTipoPlanoIncendio.Visible = false;
+            }
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -462,6 +493,39 @@ namespace SGI.GestionTramite.Controls
         protected void btnCerrar_Click(object sender, EventArgs e)
         {
             OnCerrarClick(e);
+        }
+
+        protected void actualizarTabla(int id_resultado, int id_tramitetarea, int id_tipoplanoincendio)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            SGI_Tarea_Transicion_Enviar_DGFYCO actual = (from u in db.SGI_Tarea_Transicion_Enviar_DGFYCO
+                                                        where u.id_tramitetarea == id_tramitetarea
+                                                        select u).FirstOrDefault();
+
+            if (id_resultado == 94)
+            {
+                if (actual != null)
+                {
+                    actual.id_tipoplanoincendio = id_tipoplanoincendio;
+                    db.SGI_Tarea_Transicion_Enviar_DGFYCO.AddOrUpdate(actual);
+                }
+                else
+                {
+                    SGI_Tarea_Transicion_Enviar_DGFYCO nuevo = new SGI_Tarea_Transicion_Enviar_DGFYCO();
+                    nuevo.id_tramitetarea = id_tramitetarea;
+                    nuevo.id_tipoplanoincendio = id_tipoplanoincendio;
+                    db.SGI_Tarea_Transicion_Enviar_DGFYCO.Add(nuevo);
+                }
+            }
+            else
+            {
+                if (actual != null)
+                {
+                    db.SGI_Tarea_Transicion_Enviar_DGFYCO.Remove(actual);
+                }
+            }
+            db.SaveChanges();
+            db.Dispose();
         }
 
         public int getIdProximaTarea()

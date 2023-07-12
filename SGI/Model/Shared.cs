@@ -10,33 +10,22 @@ namespace SGI.Model
         /*Dado dos fechas, retorna la cantidad de dias habiales entre las mismas*/
         public static int GetBusinessDays(DateTime start, DateTime end)
         {
-            if (start.DayOfWeek == DayOfWeek.Saturday)
+            
+            int count = 0;
+            while (DateTime.Compare(start, end) < 0)
             {
-                start = start.AddDays(2);
-            }
-            else if (start.DayOfWeek == DayOfWeek.Sunday)
-            {
+                if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
+                {
+                    start = start.AddDays(1);
+                    count++;
+                    continue;
+                }
+
                 start = start.AddDays(1);
+
             }
 
-            if (end.DayOfWeek == DayOfWeek.Saturday)
-            {
-                end = end.AddDays(-1);
-            }
-            else if (end.DayOfWeek == DayOfWeek.Sunday)
-            {
-                end = end.AddDays(-2);
-            }
 
-            int diff = (int)end.Subtract(start).TotalDays;
-
-            int result = diff / 7 * 5 + diff % 7;
-
-
-            if (end.DayOfWeek < start.DayOfWeek)
-            {
-                result = result - 2;
-            }
 
             #region Feriados ASOSA
             DGHP_Entities db = new DGHP_Entities();
@@ -46,10 +35,42 @@ namespace SGI.Model
                                  & hab.Fecha <= end
                                  select hab).Count();
 
-            result = result - feriadosCount;
+            count = count - feriadosCount;
             #endregion
 
-            return result;
+            return count;
+        }
+
+        public static int GetBusinessDays_V2(DateTime start, DateTime end)
+        {
+            int count = 0;
+            while (DateTime.Compare(start, end) < 0)
+            {
+                if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
+                {
+                    start = start.AddDays(1);
+                    count++;
+                    continue;
+                }
+
+                start = start.AddDays(1);
+
+            }
+
+
+
+            #region Feriados ASOSA
+            DGHP_Entities db = new DGHP_Entities();
+
+            int feriadosCount = (from hab in db.SGI_Feriados
+                                 where hab.Fecha >= start
+                                 & hab.Fecha <= end
+                                 select hab).Count();
+
+            count = count - feriadosCount;
+            #endregion
+
+            return count;
         }
         public class clsProfesional
         {

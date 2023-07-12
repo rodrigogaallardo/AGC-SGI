@@ -15,6 +15,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
+using System.Threading;
 
 
 namespace SGI.GestionTramite
@@ -93,10 +94,9 @@ namespace SGI.GestionTramite
             CargarCalles();
             if (!IsPostBack)
             {
-
                 if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
                 {
-                    AutocompleteCalles.SelectValueByKey = Request.Cookies["ConsultaTramite_IdCalle"].Value;
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
                 hid_DecimalSeparator.Value = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
@@ -524,8 +524,8 @@ namespace SGI.GestionTramite
 
             if (totalRowCount > 1)
             {
-                lblCantRegistros.Text = string.Format("{0} Trámites en hoja", lstResult.Count);//muestra tramites en la pagina (MAX 30)
-                lblTotalRegistros.Text = string.Format("{0} Trámites Totales", totalRowCount);//tramites totales
+                lblCantRegistros.Text = string.Format("{0} Trámites en hoja", lstResult.Count);//lstResult.Count
+                lblTotalRegistros.Text = string.Format("{0} Trámites Totales", totalRowCount);//totalRowCount
             }
             else if (totalRowCount == 1)
             {
@@ -537,7 +537,6 @@ namespace SGI.GestionTramite
             }
             pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
-            Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;//ASOSA
             return lstResult;
         }
 
@@ -882,8 +881,8 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
-                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == ""))
+            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) && !string.IsNullOrEmpty(txtUbiNroPuertaHasta.Text))
+                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
@@ -1257,6 +1256,9 @@ namespace SGI.GestionTramite
             DGHP_Entities db = new DGHP_Entities();
             try
             {
+                this.ReqCalle.Validate();
+                if (!this.ReqCalle.IsValid)
+                    Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
                 ValidadorAgregarRubros.Style["display"] = "none";
 
                 var lstRubros = (from rub in db.Rubros
@@ -1423,6 +1425,7 @@ namespace SGI.GestionTramite
 
         private List<clsItemConsultaTramite> FiltrarTramitesSP(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es-ES");
             if (!String.IsNullOrWhiteSpace(codigoGuid))
             {
                 int idAux = 0;
@@ -1519,6 +1522,18 @@ namespace SGI.GestionTramite
                 else
                     this.seccion = int.Parse(txtUbiSeccion.Text);
 
+                if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
+                {
+                    this.id_calle = 0;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
+                        this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
+                    else
+                        this.id_calle = 0;
+                }
+
                 this.manzana = txtUbiManzana.Text;
                 this.parcela = txtUbiParcela.Text;
                 var listRubros = GetRubrosCargados();
@@ -1574,6 +1589,8 @@ namespace SGI.GestionTramite
                 if (listRubros.Count() > 0)
                     this.rubros = string.Join(",", listRubros.Select(x => x.cod_rubro).Distinct());
 
+                string planoIncendio = ddlPlanoIncendio.SelectedValue;
+
                 var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));
 
                 List<SGI_ConsultaTramites> resultados = db.ConsultaTramites(
@@ -1605,6 +1622,7 @@ namespace SGI.GestionTramite
                     parcela,
                     ids_grupo_circuitos,
                     rubros,
+                    planoIncendio,
                     startRowIndex,
                     maximumRows,
                     cantResultados
@@ -1662,7 +1680,8 @@ namespace SGI.GestionTramite
                              Usuario = sol.Usuario,
                              NombreyApellido = sol.NombreyApellido,
                              FechaInicioAT = sol.FechaInicioAT,
-                             FechaAprobadoAT = sol.FechaAprobadoAT
+                             FechaAprobadoAT = sol.FechaAprobadoAT,
+                             TienePlanoIncendio = sol.TienePlanoIncendio
                          });
                
 
@@ -1727,48 +1746,11 @@ namespace SGI.GestionTramite
                         r.id_solicitud_ref = sol.SSIT_Solicitudes_Origen?.id_solicitud_origen;
                     }
 
-                    #region ASOSA
-                    int existe = (from s in db.SSIT_DocumentosAdjuntos
-                                  where s.id_solicitud == r.id_solicitud
-                                  && s.id_tdocreq == 66
-                                  select s).Count();
-                    if (existe < 1)
-                    {
-                        existe = (from t in db.Transf_DocumentosAdjuntos
-                                  where t.id_solicitud == r.id_solicitud
-                                  && t.id_tdocreq == 66
-                                  select t).Count();
-                    }
-                    if (existe < 1)
-                    {
-                        r.TienePlanoIncendio = false;
-                    }
-                    else
-                    {
-                        r.TienePlanoIncendio = true;
-                    }
-
-                    #endregion
                 }
 
-                #region ASOSA
-                    if (Session["ddlPlanoIncendio_Value"] != null)
-                {
-                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "C")
-                    {
-                        tramites = ( from t in tramites
-                              where t.TienePlanoIncendio == true
-                            select t).ToList();
-                    }
-                    if (Convert.ToString(Session["ddlPlanoIncendio_Value"]) == "S")
-                    {
-                        tramites = (from t in tramites
-                                    where t.TienePlanoIncendio == false
-                                    select t).ToList();
-                    }
-                   
-                }
-                #endregion
+                if (tramites.Count == 0)
+                    totalRowCount = 0;
+
                 return tramites;
             }
         }
@@ -2126,30 +2108,9 @@ namespace SGI.GestionTramite
 
         #endregion
 
-        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
-       object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
-            //HidCalle.Value = e.Key;
-
             Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
-
-            //ASOSA MENSAJE DE ERROR
-            //ScriptManager sm = ScriptManager.GetCurrent(this);
-            //string script = "window.localStorage.setItem('IdCalle'," + e.Key + ");";
-            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
-
-
-
-
-            // ScriptManager sm2 = ScriptManager.GetCurrent(this);
-            //string script2 = "alert(window.localStorage.getItem('IdCalle'))";
-            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript2", script2, true);
-
-            //// ScriptManager sm3 = ScriptManager.GetCurrent(this);
-            //string script3 = "document.getElementById('<%=HidCalle.ClientID %>').value = window.localStorage.getItem('IdCalle');";
-            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript3", script3, true);
-
-
             return;
         }
     }
