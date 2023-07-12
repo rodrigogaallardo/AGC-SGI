@@ -537,7 +537,6 @@ namespace SGI.GestionTramite
             }
             pnlResultadoBuscar.Visible = true;
             updPnlResultadoBuscar.Update();
-            Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;//ASOSA
             return lstResult;
         }
 
@@ -882,7 +881,7 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) && !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text))
+            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) && !string.IsNullOrEmpty(txtUbiNroPuertaHasta.Text))
                 && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
@@ -2109,8 +2108,7 @@ namespace SGI.GestionTramite
 
         #endregion
 
-        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
-       object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
             Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
             return;

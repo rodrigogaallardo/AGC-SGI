@@ -901,8 +901,7 @@ namespace SGI.ABM
             //Response.End();
         }
 
-        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
-            object sender,Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e) 
+        protected void AutocompleteCalles_ValueSelect(object sender,Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e) 
         {
             Response.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value = e.Key;
             return;
