@@ -94,10 +94,9 @@ namespace SGI.GestionTramite
             CargarCalles();
             if (!IsPostBack)
             {
-
                 if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
                 {
-                    AutocompleteCalles.SelectValueByKey = Request.Cookies["ConsultaTramite_IdCalle"].Value;
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
                 hid_DecimalSeparator.Value = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
@@ -883,8 +882,8 @@ namespace SGI.GestionTramite
             this.parcela = "";
 
             //filtro por domicilio
-            if ((string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) || string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text)
-                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == ""))
+            if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) && !string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text))
+                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
@@ -1258,6 +1257,9 @@ namespace SGI.GestionTramite
             DGHP_Entities db = new DGHP_Entities();
             try
             {
+                this.ReqCalle.Validate();
+                if (!this.ReqCalle.IsValid)
+                    Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
                 ValidadorAgregarRubros.Style["display"] = "none";
 
                 var lstRubros = (from rub in db.Rubros
@@ -1520,6 +1522,18 @@ namespace SGI.GestionTramite
                     this.seccion = null;
                 else
                     this.seccion = int.Parse(txtUbiSeccion.Text);
+
+                if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
+                {
+                    this.id_calle = 0;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
+                        this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
+                    else
+                        this.id_calle = 0;
+                }
 
                 this.manzana = txtUbiManzana.Text;
                 this.parcela = txtUbiParcela.Text;
@@ -2098,27 +2112,7 @@ namespace SGI.GestionTramite
         protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
        object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
-            //HidCalle.Value = e.Key;
-
             Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
-
-            //ASOSA MENSAJE DE ERROR
-            //ScriptManager sm = ScriptManager.GetCurrent(this);
-            //string script = "window.localStorage.setItem('IdCalle'," + e.Key + ");";
-            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
-
-
-
-
-            // ScriptManager sm2 = ScriptManager.GetCurrent(this);
-            //string script2 = "alert(window.localStorage.getItem('IdCalle'))";
-            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript2", script2, true);
-
-            //// ScriptManager sm3 = ScriptManager.GetCurrent(this);
-            //string script3 = "document.getElementById('<%=HidCalle.ClientID %>').value = window.localStorage.getItem('IdCalle');";
-            //ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript3", script3, true);
-
-
             return;
         }
     }

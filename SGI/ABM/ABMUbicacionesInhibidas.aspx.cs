@@ -42,7 +42,10 @@ namespace SGI.ABM
             }
             if (!IsPostBack)
             {
-
+                if (Request.Cookies["AbmUbicacionesInhibidas_IdCalle"] != null)
+                {
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
+                }
 
                 CargarCombo_tipoUbicacion();
                 CargarCombo_subTipoUbicacion(-1);
@@ -512,12 +515,17 @@ namespace SGI.ABM
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
-
-            idAux = 0;
-            if (Request.Cookies["AbmUbicacionesInhibidas_IdCalle"] != null)
-                int.TryParse(Request.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value, out idAux);//ASOSA SYNCFUSION Hidden
-            this.id_calle = idAux; 
-
+            if ((Request.Cookies["AbmUbicacionesInhibidas_IdCalle"] == null))
+            {
+                this.id_calle = 0;
+            }
+            else
+            {
+                idAux = 0;
+                if (Request.Cookies["AbmUbicacionesInhibidas_IdCalle"] != null)
+                    int.TryParse(Request.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value, out idAux);//ASOSA SYNCFUSION Hidden
+                this.id_calle = idAux;
+            }
             idAux = 0;
             int.TryParse(txtUbiNroPuerta.Text.Trim(), out idAux);
             this.nro_calle = idAux;
@@ -897,6 +905,7 @@ namespace SGI.ABM
             object sender,Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e) 
         {
             Response.Cookies["AbmUbicacionesInhibidas_IdCalle"].Value = e.Key;
+            return;
         }
     }
 }
