@@ -2575,8 +2575,7 @@ namespace SGI.ABM.Ubicaciones
             LimpiarAgregarParASub();
             CargarComboCalles();
         }
-        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
-   object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
             Response.Cookies["SubdividirUbicacion_IdCalle"].Value = e.Key;
             return;
