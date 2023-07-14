@@ -100,6 +100,14 @@ namespace SGI.ABM.Ubicaciones
             CargarComboCallesSub();
             if (!IsPostBack)
             {
+                if (Request.Cookies["SubdividirUbicacionSub_IdCalle"] != null)
+                {
+                    AutocompleteCallesSub.SelectValueByKey = string.Empty;
+                }
+                if (Request.Cookies["SubdividirUbicacion_IdCalle"] != null)
+                {
+                    AutocompleteCalles.SelectValueByKey = string.Empty;
+                }
                 hid_id_ubi_padre.Value = "";
                 hid_ids_ubi_sub.Value = "";
 
@@ -1354,13 +1362,14 @@ namespace SGI.ABM.Ubicaciones
             }
 
             //filtro por domicilio
-            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && 
-                string.IsNullOrEmpty(Request.Cookies["SubdividirUbicacion_IdCalle"].Value))
+            if (!string.IsNullOrEmpty(txtUbiNroPuerta.Text) && ((String.IsNullOrEmpty(Request.Cookies["SubdividirUbicacion_IdCalle"].Value)) ? "" : Request.Cookies["SubdividirUbicacion_IdCalle"].Value) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
-
-            this.cod_calle = Request.Cookies["SubdividirUbicacion_IdCalle"].Value;
+            if (Request.Cookies["SubdividirUbicacion_IdCalle"] != null)
+            {
+                this.cod_calle = Request.Cookies["SubdividirUbicacion_IdCalle"].Value;
+            }
 
             int.TryParse(txtUbiNroPuerta.Text.Trim(), out idAux);
             this.nro_puerta = idAux;
@@ -2566,8 +2575,7 @@ namespace SGI.ABM.Ubicaciones
             LimpiarAgregarParASub();
             CargarComboCalles();
         }
-        protected void AutocompleteCalles_ValueSelect(//ASOSA SYNCFUSION ValueSelect
-   object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
+        protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
             Response.Cookies["SubdividirUbicacion_IdCalle"].Value = e.Key;
             return;

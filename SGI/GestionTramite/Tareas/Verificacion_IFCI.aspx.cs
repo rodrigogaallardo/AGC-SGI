@@ -78,11 +78,13 @@ namespace SGI.GestionTramite.Tareas
             ucTramitesRelacionados.LoadData(this.id_solicitud);
             ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
+            ucDatosContacto.LoadData(id_grupotramite, id_solicitud);
             ucObservacionesTarea.Text = (pvh != null) ? pvh.Observaciones : "";
 
             ucSGI_DocumentoAdjunto.LoadData(id_grupotramite, this._id_solicitud, id_tramitetarea);
             ucListaObservacionesAnteriores.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
-            
+            ucPlanoIncendio.LoadData(tramite_tarea.id_tramitetarea, this.id_solicitud);
+
             ucProcesosSADE.id_grupo_tramite = (int)Constants.GruposDeTramite.HAB;
             ucProcesosSADE.id_tarea = (int)Constants.ENG_Tareas.ESP_Verificacion_AVH;
             ucProcesosSADE.cargarDatosProcesos(tramite_tarea.id_tramitetarea, IsEditable);

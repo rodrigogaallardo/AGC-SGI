@@ -326,13 +326,18 @@ namespace SGI.Model
         public bool tomar_tarea { get; set; }
         public string formulario_tarea { get; set; }
         public int Dias_Transcurridos { get; set; }
+        public int Dias_Acumulados { get; set; }
         public decimal superficie_total { get; set; }
         public string url_visorTramite { get; set; }
         public string url_tareaTramite { get; set; }
         public int cant_observaciones { get; set; }
+        public int continuar_sade { get; set; }
+        public int sade_completo { get; set; }
         public string zona_declarada { get; set; }
         public List<clsItemBandejaEntradaRubros> Rubros { get; set; }
-        }
+
+        public string nombre_resultado { get; set; }
+    }
 
     public partial class clsItemBandejaEntradaRubros
     {
@@ -377,7 +382,7 @@ namespace SGI.Model
         public string url_tareaTramite { get; set; }
         public string nro_Expediente { get; set; }
         public string estado { get; set; }
-
+        public Nullable<System.DateTime> LibradoUso { get; set; }
     }
 
     public partial class clsItemIndicadores

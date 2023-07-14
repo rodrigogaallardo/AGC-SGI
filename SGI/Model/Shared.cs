@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace SGI.Model
 {
@@ -11,36 +10,67 @@ namespace SGI.Model
         /*Dado dos fechas, retorna la cantidad de dias habiales entre las mismas*/
         public static int GetBusinessDays(DateTime start, DateTime end)
         {
-            if (start.DayOfWeek == DayOfWeek.Saturday)
+            
+            int count = 0;
+            while (DateTime.Compare(start, end) < 0)
             {
-                start = start.AddDays(2);
-            }
-            else if (start.DayOfWeek == DayOfWeek.Sunday)
-            {
+                if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
+                {
+                    start = start.AddDays(1);
+                    count++;
+                    continue;
+                }
+
                 start = start.AddDays(1);
+
             }
 
-            if (end.DayOfWeek == DayOfWeek.Saturday)
+
+
+            #region Feriados ASOSA
+            DGHP_Entities db = new DGHP_Entities();
+
+            int feriadosCount = (from hab in db.SGI_Feriados
+                                 where hab.Fecha >= start
+                                 & hab.Fecha <= end
+                                 select hab).Count();
+
+            count = count - feriadosCount;
+            #endregion
+
+            return count;
+        }
+
+        public static int GetBusinessDays_V2(DateTime start, DateTime end)
+        {
+            int count = 0;
+            while (DateTime.Compare(start, end) < 0)
             {
-                end = end.AddDays(-1);
-            }
-            else if (end.DayOfWeek == DayOfWeek.Sunday)
-            {
-                end = end.AddDays(-2);
+                if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
+                {
+                    start = start.AddDays(1);
+                    count++;
+                    continue;
+                }
+
+                start = start.AddDays(1);
+
             }
 
-            int diff = (int)end.Subtract(start).TotalDays;
 
-            int result = diff / 7 * 5 + diff % 7;
 
-            if (end.DayOfWeek < start.DayOfWeek)
-            {
-                return result - 2;
-            }
-            else
-            {
-                return result;
-            }
+            #region Feriados ASOSA
+            DGHP_Entities db = new DGHP_Entities();
+
+            int feriadosCount = (from hab in db.SGI_Feriados
+                                 where hab.Fecha >= start
+                                 & hab.Fecha <= end
+                                 select hab).Count();
+
+            count = count - feriadosCount;
+            #endregion
+
+            return count;
         }
         public class clsProfesional
         {
@@ -450,7 +480,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta'  = CASE   ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion IN (SELECT id_tipoubicacion FROM TiposDeUbicacion ub WHERE ub.descripcion_tipoubicacion IN ('Objeto territorial'))  ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),solpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),solpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0");
             sql.AppendLine("        THEN IsNull(convert(nvarchar, solpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
@@ -497,7 +527,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta' = CASE  ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = (SELECT TiposDeUbicacion.id_tipoubicacion FROM TiposDeUbicacion WHERE dbo.TiposDeUbicacion.descripcion_tipoubicacion = 'Objeto territorial') ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0  THEN IsNull(convert(nvarchar, encpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
             sql.AppendLine("				IsNull('Local ' + encubic.local_subtipoubicacion,'') ");
@@ -543,7 +573,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta'  = CASE   ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = (SELECT TiposDeUbicacion.id_tipoubicacion FROM TiposDeUbicacion WHERE dbo.TiposDeUbicacion.descripcion_tipoubicacion = 'Objeto territorial') ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0  THEN IsNull(convert(nvarchar, encpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
             sql.AppendLine("				IsNull('Local ' + encubic.local_subtipoubicacion,'') ");
@@ -589,7 +619,7 @@ namespace SGI.Model
             sql.AppendLine("		END as calle, ");
             sql.AppendLine("		'puerta'  = CASE   ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = (SELECT TiposDeUbicacion.id_tipoubicacion FROM TiposDeUbicacion WHERE dbo.TiposDeUbicacion.descripcion_tipoubicacion = 'Objeto territorial') ");
-            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'f' ");
+            sql.AppendLine("			THEN CONVERT(nvarchar(20),encpuer.nropuerta)+'t' ");
             sql.AppendLine("			WHEN tubic.id_tipoubicacion = 0  THEN IsNull(convert(nvarchar, encpuer.nropuerta),'') ");
             sql.AppendLine("			ELSE ");
             sql.AppendLine("				IsNull('Local ' + encubic.local_subtipoubicacion,'') ");

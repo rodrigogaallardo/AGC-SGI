@@ -76,5 +76,6 @@ namespace SGI.Model
         public string NombreyApellido { get; set; }
         public Nullable<System.DateTime> FechaInicioAT { get; set; }
         public Nullable<System.DateTime> FechaAprobadoAT { get; set; }
+        public bool TienePlanoIncendio { get; set; }
     }
 }

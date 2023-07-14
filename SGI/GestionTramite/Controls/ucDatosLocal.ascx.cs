@@ -1,9 +1,7 @@
 ﻿using SGI.Model;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -25,7 +23,7 @@ namespace SGI.GestionTramite.Controls
             }
 
         }
-       
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -46,7 +44,8 @@ namespace SGI.GestionTramite.Controls
             HabilitarEdicion(false);
         }
 
-        public void HabilitarEdicion(bool valor) {
+        public void HabilitarEdicion(bool valor)
+        {
             txtCantidadArtefactosSanitarios.Enabled = valor;
             txtCantOperarios.Enabled = valor;
             txtDimensionFrente.Enabled = valor;

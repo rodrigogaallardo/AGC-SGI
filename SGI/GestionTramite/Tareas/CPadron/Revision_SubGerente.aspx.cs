@@ -185,7 +185,7 @@ namespace SGI.GestionTramite.Tareas.CPadron
             if (tarea != null)
                 id_tarea = tarea.id_revision_subGerente;
 
-            db.SGI_Tarea_Revision_SubGerente_Actualizar(id_tarea, id_tramitetarea, observacion, null, null, null, userId);
+            db.SGI_Tarea_Revision_SubGerente_Actualizar(id_tarea, id_tramitetarea, observacion, null, null, null, userId, null);
 
 
         }

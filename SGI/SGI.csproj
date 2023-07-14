@@ -708,6 +708,8 @@
     <Content Include="Errores\error3030.aspx" />
     <Content Include="Errores\Error3040.aspx" />
     <Content Include="Errores\Error3051.aspx" />
+    <Content Include="GestionTramite\Controls\ucDatosContacto.ascx" />
+    <Content Include="GestionTramite\Controls\ucPlanoIncendio.ascx" />
     <Content Include="Operaciones\FeriadosIndex.aspx" />
     <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
@@ -2145,10 +2147,30 @@
     <Compile Include="Errores\error3030.aspx.designer.cs">
       <DependentUpon>error3030.aspx</DependentUpon>
     </Compile>
+    <Compile Include="GestionTramite\Controls\ucDatosContacto.ascx.cs">
+      <DependentUpon>ucDatosContacto.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucDatosContacto.ascx.designer.cs">
+      <DependentUpon>ucDatosContacto.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.cs">
+      <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.designer.cs">
+      <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SGI_Tarea_Transicion_Enviar_DGFYCO.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SGI_Tarea_Verificacion_IFCI.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Tipos_Planos_Incendio.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SSIT_Solicitudes_AvisoRechazo.cs">

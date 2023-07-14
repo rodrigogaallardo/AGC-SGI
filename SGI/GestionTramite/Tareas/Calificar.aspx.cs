@@ -1,12 +1,11 @@
-﻿using System;
+﻿using SGI.GestionTramite.Controls;
+using SGI.Model;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web.UI;
-using SGI.GestionTramite.Controls;
-using SGI.Model;
-using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using DocumentFormat.OpenXml.Wordprocessing;
 using CheckBox = System.Web.UI.WebControls.CheckBox;
 
 namespace SGI.GestionTramite.Tareas
@@ -148,76 +147,36 @@ namespace SGI.GestionTramite.Tareas
                         && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
 
                 bool LiberadoAlUsoRubro = isLiberadoAlUsoRubro(enc.id_encomienda);
+                bool ubicacionEspecial = isUbicacionEspecial(enc.id_encomienda, "U");
+                bool tieneNormativas = TieneNormativas(enc.id_encomienda);
+                bool condicionIncendioOk = TienePlanoDeIncendio(this.id_solicitud, enc.id_encomienda);
+                bool esZonaAHP = isUbicacionEspecial(enc.id_encomienda, "APH");
+                bool acogeBeneficios = EncomiendaAcogeBeneficiosUERESGP(enc.id_encomienda); 
+                bool esHabilitacionPrevia = tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito == (int)Constants.ENG_Grupos_Circuitos.HP || 
+                                            tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito == (int)Constants.ENG_Grupos_Circuitos.HPESCU;
 
                 var datosLocal = enc.Encomienda_DatosLocal.FirstOrDefault();
-                var condicionIncendioOk = false;
-                var condicionDGIUR = false;
-                if (datosLocal != null)
-                {
-                    var superficie = datosLocal.superficie_cubierta_dl.Value + datosLocal.superficie_descubierta_dl.Value;
-                    condicionIncendioOk = enc.Encomienda_RubrosCN.Where(x => x.RubrosCN.CondicionesIncendio.superficie < superficie).Any();
-                }
-                condicionDGIUR = sol.SSIT_DocumentosAdjuntos.Where(x => x.id_tdocreq == 21).Any() ||
-                                 enc.Encomienda_DocumentosAdjuntos.Where(x => x.id_tdocreq == 21).Any();
+                var esInmuebleCatalogo = EsInmuebleCatalogado(enc.id_encomienda);
 
-                //if (!condicionIncendioOk)
-                //{
-                //    pnl_Librar_Uso.Visible = true;
-
-                //    if (LiberadoAlUsoRubro)
-                //        chbLibrarUso.Checked = true;
-                //    else
-                //    {
-                //        var librado = (from solic in db.SSIT_Solicitudes
-                //                       where solic.id_solicitud == id_solicitud
-                //                       select solic.FechaLibrado).Equals(null);
-                //        if (!librado)
-                //            chbLibrarUso.Checked = true;
-                //    }
-                //}
-                //else
-                //{
-                //    if (sol.FechaLibrado == null && Shared.GetGrupoCircuito(id_solicitud) != (int)Constants.ENG_Grupos_Circuitos.SCPESCU)
-                //    {
-                //        if (sol.id_tipoexpediente == (int)Constants.TipoDeExpediente.Simple
-                //            || (sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.HabilitacionPrevia && LiberadoAlUsoRubro))
-                //        {
-                //            pnl_Librar_Uso.Visible = true;
-
-                //            if (LiberadoAlUsoRubro)
-                //                chbLibrarUso.Checked = true;
-                //        }
-                //    }
-                //}
                 bool librado = false;
-                if (tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HP &&
-                    tramite_tarea.ENG_Tareas.ENG_Circuitos.id_grupocircuito != (int)Constants.ENG_Grupos_Circuitos.HPESCU)
+                
+                if (condicionIncendioOk || tieneNormativas || ubicacionEspecial || esInmuebleCatalogo || esZonaAHP || acogeBeneficios || esHabilitacionPrevia)
                 {
-                    if (condicionIncendioOk || condicionDGIUR)
-                    {
-                        pnl_Librar_Uso.Visible = true;
-                    }
-                    var fechalibrado = sol.FechaLibrado;
-                    if (fechalibrado != null)
-                    {
-                        librado = true;
-                    }
-                    if (librado || LiberadoAlUsoRubro)
-                        chbLibrarUso.Checked = true;
-                    else
-                        chbLibrarUso.Checked = false;
-                    if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
-                    {
-                        chbLibrarUso.Checked = librado;
-                    }
+                    pnl_Librar_Uso.Visible = true;
                 }
-                else
+                var fechalibrado = sol.FechaLibrado;
+                if (fechalibrado != null)
                 {
-                    if (LiberadoAlUsoRubro)
-                        chbLibrarUso.Checked = true;
-                    else
-                        chbLibrarUso.Checked = false;
-                } 
+                    librado = true;
+                }
+                if (librado || LiberadoAlUsoRubro)
+                    chbLibrarUso.Checked = true;
+                else
+                    chbLibrarUso.Checked = false;
+                if (chbLibrarUso.Visible && !chbLibrarUso.Enabled)
+                {
+                    chbLibrarUso.Checked = librado;
+                }
             }
 
             if (tramite_tarea.id_tarea == (int)Constants.ENG_Tareas.ESCU_HP_Calificar_1 ||
@@ -239,21 +198,39 @@ namespace SGI.GestionTramite.Tareas
             FinalizarEntity();
         }
 
-        private bool isLiberadoAlUsoAnterior(int id_solicitud, int id_tramitetarea)
+        private bool TienePlanoDeIncendio(int id_solicitud, int id_encomienda)
         {
-            List<int> q;
-            q =
-                (
-                    from tt in db.SGI_Tramites_Tareas
-                    join tt_hab in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals tt_hab.id_tramitetarea
-                    join cal in db.SGI_Tarea_Calificar on tt.id_tramitetarea equals cal.id_tramitetarea
-                    where tt_hab.id_solicitud == id_solicitud && tt.id_tramitetarea < id_tramitetarea
-                    && cal.Librar_Uso == true
-                    select cal.id_tramitetarea
-                ).ToList();
-            return q.Count() > 0;
+            int tipoPlanoIncendio = 2;
+            int tipoDocReqSol = 66;
+            bool planoIncEnc = (from ep in db.Encomienda_Planos
+                                where ep.id_encomienda == id_encomienda
+                                && ep.id_tipo_plano == tipoPlanoIncendio
+                                select ep).Any();
+
+            bool planoIncSol = (from sd in db.SSIT_DocumentosAdjuntos
+                                where sd.id_solicitud == id_solicitud
+                                && sd.id_tdocreq == tipoDocReqSol
+                                select sd).Any();
+
+            return (planoIncEnc || planoIncSol);
         }
 
+        private bool TieneNormativas(int id_encomienda)
+        {
+            return (from encoNorm in db.Encomienda_Normativas
+                    where encoNorm.id_encomienda == id_encomienda
+                    select encoNorm.id_tiponormativa).Count() > 0;
+        }
+
+        private bool isUbicacionEspecial(int id_encomienda, string codigo)
+        {
+            return (from encubic in db.Encomienda_Ubicaciones
+                    join encubicDist in db.Encomienda_Ubicaciones_Distritos on encubic.id_encomiendaubicacion equals encubicDist.id_encomiendaubicacion
+                    join cat in db.Ubicaciones_CatalogoDistritos on encubicDist.IdDistrito equals cat.IdDistrito
+                    join gd in db.Ubicaciones_GruposDistritos on cat.IdGrupoDistrito equals gd.IdGrupoDistrito
+                    where encubic.id_encomienda == id_encomienda && gd.Codigo == codigo
+                    select gd.Codigo).Count() > 0;
+        }
         private bool isLiberadoAlUsoRubro(int id_encomienda)
         {
             int cant_rubros_librar;
@@ -279,6 +256,13 @@ namespace SGI.GestionTramite.Tareas
                 where encrub.id_encomienda == id_encomienda
                 select encrub.CodigoRubro).Count();
             return cant_rubros_librar == cant_rubros;
+        }
+
+        private bool EncomiendaAcogeBeneficiosUERESGP(int id_encomienda)
+        {
+            return (bool)(from enc in db.Encomienda
+                          where enc.id_encomienda == id_encomienda
+                          select enc.AcogeBeneficios).FirstOrDefault();
         }
 
 
@@ -631,9 +615,6 @@ namespace SGI.GestionTramite.Tareas
                                 db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
                             }
                         }
-                        //Tran.Complete();
-                        //Tran.Dispose();
-
 
                         string mensaje_envio_mail = "";
                         try
@@ -750,6 +731,12 @@ namespace SGI.GestionTramite.Tareas
         }
 
         #endregion
+
+
+        public bool EsInmuebleCatalogado(int IdEncomienda)
+        {
+            return db.Encomienda_Ubicaciones.Any(encubic => encubic.id_encomienda == IdEncomienda && encubic.InmuebleCatalogado == true);
+        }
 
     }
 }

@@ -205,7 +205,7 @@ namespace SGI.Model
 
             DGHP_Entities db = new DGHP_Entities();
             ObjectResult<ENG_GetTransicionesxResultado_Result> objResult = db.ENG_GetTransicionesxResultado(id_tarea_actual, id_resultado, id_tramitetarea);
-            IEnumerable<ENG_GetTransicionesxResultado_Result> lstResult = objResult.OrderBy(x => x.nombre_tarea);
+            IEnumerable<ENG_GetTransicionesxResultado_Result> lstResult = objResult.OrderBy(x => x.nombre_tarea).ToList();
 
 
             foreach (var item in lstResult)

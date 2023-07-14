@@ -68,6 +68,23 @@
             </asp:UpdatePanel>
             </td>
         </tr>
+        <tr>
+            <td>
+                <asp:UpdatePanel ID="updlbltipoplanoincendio" runat="server">
+                    <ContentTemplate>
+                        <asp:Label ID="lblTipoPlanoIncendio" runat="server">Tipo Plano Incendio:</asp:Label>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </td>
+            <td>
+                <asp:UpdatePanel ID="updTipoPlanoIncendio" runat="server">
+                    <ContentTemplate>
+                        <asp:DropDownList ID="ddlTipoPlanoIncendio" runat="server" Width="400px">
+                        </asp:DropDownList>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </td>
+        </tr>
     </table>
     
     <div style="border-top: solid 1px #dddddd; padding-top:15px; padding-bottom:15px">

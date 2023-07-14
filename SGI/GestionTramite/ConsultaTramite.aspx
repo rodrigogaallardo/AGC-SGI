@@ -1263,7 +1263,7 @@
                         </asp:UpdateProgress>
 
                     </div>
-                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick">
+                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" AutoPostBack="true">
                     <i class="icon-white icon-search"></i>
                     <span class="text">Buscar</span>
                     </asp:LinkButton>
@@ -1314,6 +1314,7 @@
                                     Cantidad de registros:
                                 </strong>
                                 <asp:Label ID="lblCantRegistros" runat="server" CssClass="badge">0</asp:Label>
+                                <asp:Label ID="lblTotalRegistros" runat="server" CssClass="badge"></asp:Label>
                             </div>
                         </asp:Panel>
 

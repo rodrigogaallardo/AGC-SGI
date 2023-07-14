@@ -70,6 +70,8 @@
             $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlLibradoUso.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlIncluyeAnulados.ClientID %>").select2({ allowClear: true });
 
 <%--            var tags_selecionados = "";
             if ($("#<%: hid_estados_selected.ClientID %>").val().length > 0) {
@@ -561,14 +563,13 @@
                                                             <asp:TextBox ID="txtNroExp" runat="server" MaxLength="50" Width="250px"></asp:TextBox>
                                                         </div>
                                                     </div>
-<%--                                                    <div class="control-group">
-                                                        <asp:Label ID="lblEstado" runat="server" AssociatedControlID="ddlEstado"
-                                                            Text="Estado del Trámite:" class="control-label"></asp:Label>
+                                                    <div class="control-group">
+                                                        <asp:Label ID="lblLibradoUso" runat="server" AssociatedControlID="ddlLibradoUso"
+                                                            Text="Librado al Uso:" class="control-label"></asp:Label>
                                                         <div class="controls">
-                                                            <asp:DropDownList ID="ddlEstado" runat="server" Width="300px" multiple="true" OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged"></asp:DropDownList>
-                                                            <asp:HiddenField ID="hid_estados_selected" runat="server"></asp:HiddenField>
+                                                            <asp:DropDownList ID="ddlLibradoUso" runat="server" Width="200px"></asp:DropDownList>
                                                         </div>
-                                                    </div>--%>
+                                                    </div>
                                                 </fieldset>
                                             </div>
                                         </td>
@@ -640,13 +641,20 @@
                                                             <asp:DropDownList ID="ddlTarea" runat="server" Width="300px"></asp:DropDownList>
                                                         </div>
                                                     </div>
-                                                    <div class="control-group">
-                                                    </div>
+
                                                     <div class="control-group">
                                                         <asp:Label ID="lblTareaCerrada" runat="server" AssociatedControlID="ddlTareaCerrada"
                                                             Text="Tarea cerrada:" class="control-label"></asp:Label>
                                                         <div class="controls">
                                                             <asp:DropDownList ID="ddlTareaCerrada" runat="server" Width="300px"></asp:DropDownList>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="control-group">
+                                                        <asp:Label ID="lblIncluyeAnulados" runat="server" AssociatedControlID="ddlIncluyeAnulados"
+                                                            Text="¿Incluye Anulados?:" class="control-label"></asp:Label>
+                                                        <div class="controls">
+                                                            <asp:DropDownList ID="ddlIncluyeAnulados" runat="server" Width="100px"></asp:DropDownList>
                                                         </div>
                                                     </div>
 
@@ -1103,7 +1111,7 @@
                         </asp:UpdateProgress>
 
                     </div>
-                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick">
+                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" AutoPostBack="true">
                     <i class="icon-white icon-search"></i>
                     <span class="text">Buscar</span>
                     </asp:LinkButton>
@@ -1219,6 +1227,7 @@
 
                                 <asp:BoundField DataField="FechaInicio_tarea" HeaderText="Tarea creada el" DataFormatString="{0:d}" ItemStyle-Width="100px" ItemStyle-CssClass="align-center" SortExpression="FechaInicio_tarea" />
 
+                                <asp:BoundField DataField="LibradoUso" HeaderText ="Librado al uso el" DataFormatString="{0:g}" ItemStyle-Width="200px" ItemStyle-CssClass="align-center" SortExpression="LibradoUso" />
                             </Columns>
 
                             <EmptyDataTemplate>
@@ -1238,9 +1247,9 @@
                                     <div style="display: inline-table">
 
                                         <asp:UpdateProgress ID="updPrgssPager" AssociatedUpdatePanelID="updPnlResultadoBuscar" runat="server"
-                                            DisplayAfter="0">
+                                            DisplayAfter="0" UpdateMode="Conditional">
                                             <ProgressTemplate>
-                                                <img src="../Content/img/app/Loading24x24.gif" alt="" />
+                                                <img src="../../Content/img/app/Loading24x24.gif" alt="Cargando..." />
                                             </ProgressTemplate>
                                         </asp:UpdateProgress>
                                     </div>

@@ -370,15 +370,16 @@
         public DbSet<Ubicaciones> Ubicaciones { get; set; }
         public DbSet<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
+        public DbSet<SGI_Feriados> SGI_Feriados { get; set; }
+        public DbSet<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
+        public DbSet<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
         public DbSet<AVH_Ubicaciones_Puertas> AVH_Ubicaciones_Puertas { get; set; }
         public DbSet<EncomiendaExt_Ubicaciones_Puertas> EncomiendaExt_Ubicaciones_Puertas { get; set; }
         public DbSet<DGFYCO_Ubicaciones_Puertas> DGFYCO_Ubicaciones_Puertas { get; set; }
         public DbSet<RAL_Ubicaciones_Puertas> RAL_Ubicaciones_Puertas { get; set; }
         public DbSet<Calles_Eliminadas> Calles_Eliminadas { get; set; }
-    
-        public DbSet<SGI_Feriados> SGI_Feriados { get; set; }
-        public DbSet<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
-        public DbSet<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
+        public DbSet<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
+        public DbSet<SGI_Tipos_Planos_Incendio> SGI_Tipos_Planos_Incendio { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
@@ -771,7 +772,7 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Observacion_Contribuyente_Actualizar", id_calificarParameter, observaciones_contribuyenteParameter, userIdParameter);
         }
     
-        public virtual int SGI_Tarea_Revision_Gerente_Actualizar(Nullable<int> id_revision_gerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId)
+        public virtual int SGI_Tarea_Revision_Gerente_Actualizar(Nullable<int> id_revision_gerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId, Nullable<bool> librar_Uso)
         {
             var id_revision_gerenteParameter = id_revision_gerente.HasValue ?
                 new ObjectParameter("id_revision_gerente", id_revision_gerente) :
@@ -801,10 +802,14 @@
                 new ObjectParameter("userId", userId) :
                 new ObjectParameter("userId", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_Gerente_Actualizar", id_revision_gerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter);
+            var librar_UsoParameter = librar_Uso.HasValue ?
+                new ObjectParameter("Librar_Uso", librar_Uso) :
+                new ObjectParameter("Librar_Uso", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_Gerente_Actualizar", id_revision_gerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter, librar_UsoParameter);
         }
     
-        public virtual int SGI_Tarea_Revision_SubGerente_Actualizar(Nullable<int> id_revision_subGerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId)
+        public virtual int SGI_Tarea_Revision_SubGerente_Actualizar(Nullable<int> id_revision_subGerente, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId, Nullable<bool> librar_Uso)
         {
             var id_revision_subGerenteParameter = id_revision_subGerente.HasValue ?
                 new ObjectParameter("id_revision_subGerente", id_revision_subGerente) :
@@ -834,7 +839,11 @@
                 new ObjectParameter("userId", userId) :
                 new ObjectParameter("userId", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_SubGerente_Actualizar", id_revision_subGerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter);
+            var librar_UsoParameter = librar_Uso.HasValue ?
+                new ObjectParameter("Librar_Uso", librar_Uso) :
+                new ObjectParameter("Librar_Uso", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Revision_SubGerente_Actualizar", id_revision_subGerenteParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter, librar_UsoParameter);
         }
     
         public virtual int SSIT_Solicitudes_ActualizarEstado(Nullable<int> id_solicitud, Nullable<int> id_estado, Nullable<System.Guid> userid, string nroExpediente, string telefono)
@@ -19726,7 +19735,7 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Prueba_ConsultaTramites");
         }
     
-        public virtual ObjectResult<SGI_ConsultaTramites> ConsultaTramites(Nullable<int> id_solicitud, string ids_tipo_tramite, Nullable<int> id_tipo_expediente, Nullable<int> id_sub_tipo_tramite, Nullable<int> id_tipo_tarea, string ids_tipo_estado, Nullable<System.DateTime> fechaInicioDesde, Nullable<System.DateTime> fechaInicioHasta, Nullable<System.DateTime> fechaIngresoDesde, Nullable<System.DateTime> fechaIngresoHasta, Nullable<System.DateTime> fechaLibradoUsoDesde, Nullable<System.DateTime> fechaLibradoUsoHasta, Nullable<System.DateTime> fechaHabilitacionDesde, Nullable<System.DateTime> fechaHabilitacionHasta, Nullable<decimal> superficieDesde, Nullable<decimal> superficieHasta, Nullable<int> id_zona, Nullable<int> id_barrio, Nullable<int> id_comuna, Nullable<int> id_calle, Nullable<int> nro_calle_desde, Nullable<int> nro_calle_hasta, Nullable<int> vereda, Nullable<int> seccion, string manzana, string parcela, string ids_grupoCircuito, string cods_rubros, Nullable<int> rowIndex, Nullable<int> pageSize, ObjectParameter recordCount)
+        public virtual ObjectResult<SGI_ConsultaTramites> ConsultaTramites(Nullable<int> id_solicitud, string ids_tipo_tramite, Nullable<int> id_tipo_expediente, Nullable<int> id_sub_tipo_tramite, Nullable<int> id_tipo_tarea, string ids_tipo_estado, Nullable<System.DateTime> fechaInicioDesde, Nullable<System.DateTime> fechaInicioHasta, Nullable<System.DateTime> fechaIngresoDesde, Nullable<System.DateTime> fechaIngresoHasta, Nullable<System.DateTime> fechaLibradoUsoDesde, Nullable<System.DateTime> fechaLibradoUsoHasta, Nullable<System.DateTime> fechaHabilitacionDesde, Nullable<System.DateTime> fechaHabilitacionHasta, Nullable<decimal> superficieDesde, Nullable<decimal> superficieHasta, Nullable<int> id_zona, Nullable<int> id_barrio, Nullable<int> id_comuna, Nullable<int> id_calle, Nullable<int> nro_calle_desde, Nullable<int> nro_calle_hasta, Nullable<int> vereda, Nullable<int> seccion, string manzana, string parcela, string ids_grupoCircuito, string cods_rubros, string planoIncendio, Nullable<int> rowIndex, Nullable<int> pageSize, ObjectParameter recordCount)
         {
             var id_solicitudParameter = id_solicitud.HasValue ?
                 new ObjectParameter("id_solicitud", id_solicitud) :
@@ -19840,6 +19849,10 @@
                 new ObjectParameter("cods_rubros", cods_rubros) :
                 new ObjectParameter("cods_rubros", typeof(string));
     
+            var planoIncendioParameter = planoIncendio != null ?
+                new ObjectParameter("PlanoIncendio", planoIncendio) :
+                new ObjectParameter("PlanoIncendio", typeof(string));
+    
             var rowIndexParameter = rowIndex.HasValue ?
                 new ObjectParameter("rowIndex", rowIndex) :
                 new ObjectParameter("rowIndex", typeof(int));
@@ -19848,10 +19861,10 @@
                 new ObjectParameter("pageSize", pageSize) :
                 new ObjectParameter("pageSize", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SGI_ConsultaTramites>("ConsultaTramites", id_solicitudParameter, ids_tipo_tramiteParameter, id_tipo_expedienteParameter, id_sub_tipo_tramiteParameter, id_tipo_tareaParameter, ids_tipo_estadoParameter, fechaInicioDesdeParameter, fechaInicioHastaParameter, fechaIngresoDesdeParameter, fechaIngresoHastaParameter, fechaLibradoUsoDesdeParameter, fechaLibradoUsoHastaParameter, fechaHabilitacionDesdeParameter, fechaHabilitacionHastaParameter, superficieDesdeParameter, superficieHastaParameter, id_zonaParameter, id_barrioParameter, id_comunaParameter, id_calleParameter, nro_calle_desdeParameter, nro_calle_hastaParameter, veredaParameter, seccionParameter, manzanaParameter, parcelaParameter, ids_grupoCircuitoParameter, cods_rubrosParameter, rowIndexParameter, pageSizeParameter, recordCount);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SGI_ConsultaTramites>("ConsultaTramites", id_solicitudParameter, ids_tipo_tramiteParameter, id_tipo_expedienteParameter, id_sub_tipo_tramiteParameter, id_tipo_tareaParameter, ids_tipo_estadoParameter, fechaInicioDesdeParameter, fechaInicioHastaParameter, fechaIngresoDesdeParameter, fechaIngresoHastaParameter, fechaLibradoUsoDesdeParameter, fechaLibradoUsoHastaParameter, fechaHabilitacionDesdeParameter, fechaHabilitacionHastaParameter, superficieDesdeParameter, superficieHastaParameter, id_zonaParameter, id_barrioParameter, id_comunaParameter, id_calleParameter, nro_calle_desdeParameter, nro_calle_hastaParameter, veredaParameter, seccionParameter, manzanaParameter, parcelaParameter, ids_grupoCircuitoParameter, cods_rubrosParameter, planoIncendioParameter, rowIndexParameter, pageSizeParameter, recordCount);
         }
     
-        public virtual ObjectResult<SGI_ConsultaTramites> ConsultaTramites(Nullable<int> id_solicitud, string ids_tipo_tramite, Nullable<int> id_tipo_expediente, Nullable<int> id_sub_tipo_tramite, Nullable<int> id_tipo_tarea, string ids_tipo_estado, Nullable<System.DateTime> fechaInicioDesde, Nullable<System.DateTime> fechaInicioHasta, Nullable<System.DateTime> fechaIngresoDesde, Nullable<System.DateTime> fechaIngresoHasta, Nullable<System.DateTime> fechaLibradoUsoDesde, Nullable<System.DateTime> fechaLibradoUsoHasta, Nullable<System.DateTime> fechaHabilitacionDesde, Nullable<System.DateTime> fechaHabilitacionHasta, Nullable<decimal> superficieDesde, Nullable<decimal> superficieHasta, Nullable<int> id_zona, Nullable<int> id_barrio, Nullable<int> id_comuna, Nullable<int> id_calle, Nullable<int> nro_calle_desde, Nullable<int> nro_calle_hasta, Nullable<int> vereda, Nullable<int> seccion, string manzana, string parcela, string ids_grupoCircuito, string cods_rubros, Nullable<int> rowIndex, Nullable<int> pageSize, ObjectParameter recordCount, MergeOption mergeOption)
+        public virtual ObjectResult<SGI_ConsultaTramites> ConsultaTramites(Nullable<int> id_solicitud, string ids_tipo_tramite, Nullable<int> id_tipo_expediente, Nullable<int> id_sub_tipo_tramite, Nullable<int> id_tipo_tarea, string ids_tipo_estado, Nullable<System.DateTime> fechaInicioDesde, Nullable<System.DateTime> fechaInicioHasta, Nullable<System.DateTime> fechaIngresoDesde, Nullable<System.DateTime> fechaIngresoHasta, Nullable<System.DateTime> fechaLibradoUsoDesde, Nullable<System.DateTime> fechaLibradoUsoHasta, Nullable<System.DateTime> fechaHabilitacionDesde, Nullable<System.DateTime> fechaHabilitacionHasta, Nullable<decimal> superficieDesde, Nullable<decimal> superficieHasta, Nullable<int> id_zona, Nullable<int> id_barrio, Nullable<int> id_comuna, Nullable<int> id_calle, Nullable<int> nro_calle_desde, Nullable<int> nro_calle_hasta, Nullable<int> vereda, Nullable<int> seccion, string manzana, string parcela, string ids_grupoCircuito, string cods_rubros, string planoIncendio, Nullable<int> rowIndex, Nullable<int> pageSize, ObjectParameter recordCount, MergeOption mergeOption)
         {
             var id_solicitudParameter = id_solicitud.HasValue ?
                 new ObjectParameter("id_solicitud", id_solicitud) :
@@ -19965,6 +19978,10 @@
                 new ObjectParameter("cods_rubros", cods_rubros) :
                 new ObjectParameter("cods_rubros", typeof(string));
     
+            var planoIncendioParameter = planoIncendio != null ?
+                new ObjectParameter("PlanoIncendio", planoIncendio) :
+                new ObjectParameter("PlanoIncendio", typeof(string));
+    
             var rowIndexParameter = rowIndex.HasValue ?
                 new ObjectParameter("rowIndex", rowIndex) :
                 new ObjectParameter("rowIndex", typeof(int));
@@ -19973,7 +19990,7 @@
                 new ObjectParameter("pageSize", pageSize) :
                 new ObjectParameter("pageSize", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SGI_ConsultaTramites>("ConsultaTramites", mergeOption, id_solicitudParameter, ids_tipo_tramiteParameter, id_tipo_expedienteParameter, id_sub_tipo_tramiteParameter, id_tipo_tareaParameter, ids_tipo_estadoParameter, fechaInicioDesdeParameter, fechaInicioHastaParameter, fechaIngresoDesdeParameter, fechaIngresoHastaParameter, fechaLibradoUsoDesdeParameter, fechaLibradoUsoHastaParameter, fechaHabilitacionDesdeParameter, fechaHabilitacionHastaParameter, superficieDesdeParameter, superficieHastaParameter, id_zonaParameter, id_barrioParameter, id_comunaParameter, id_calleParameter, nro_calle_desdeParameter, nro_calle_hastaParameter, veredaParameter, seccionParameter, manzanaParameter, parcelaParameter, ids_grupoCircuitoParameter, cods_rubrosParameter, rowIndexParameter, pageSizeParameter, recordCount);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SGI_ConsultaTramites>("ConsultaTramites", mergeOption, id_solicitudParameter, ids_tipo_tramiteParameter, id_tipo_expedienteParameter, id_sub_tipo_tramiteParameter, id_tipo_tareaParameter, ids_tipo_estadoParameter, fechaInicioDesdeParameter, fechaInicioHastaParameter, fechaIngresoDesdeParameter, fechaIngresoHastaParameter, fechaLibradoUsoDesdeParameter, fechaLibradoUsoHastaParameter, fechaHabilitacionDesdeParameter, fechaHabilitacionHastaParameter, superficieDesdeParameter, superficieHastaParameter, id_zonaParameter, id_barrioParameter, id_comunaParameter, id_calleParameter, nro_calle_desdeParameter, nro_calle_hastaParameter, veredaParameter, seccionParameter, manzanaParameter, parcelaParameter, ids_grupoCircuitoParameter, cods_rubrosParameter, planoIncendioParameter, rowIndexParameter, pageSizeParameter, recordCount);
         }
     
         public virtual ObjectResult<Rubros_RubrosCN_PorBusquedaCPadron_Result> Rubros_RubrosCN_PorBusquedaCPadron(string busqueda, Nullable<bool> esAnterior, Nullable<bool> soloAPRA)

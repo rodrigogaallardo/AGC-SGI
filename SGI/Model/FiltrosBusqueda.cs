@@ -49,6 +49,8 @@ namespace SGI.Model
         public string rubro_desc { get; set; }
         public string tit_razon { get; set; }
         public string id_estado { get; set; }
+        public string libradoUso { get; set; }
+        public string incluyeAnulados { get; set; }
     }
 
     public partial class FiltrosConsulta

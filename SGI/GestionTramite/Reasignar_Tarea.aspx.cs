@@ -60,54 +60,66 @@ namespace SGI
         private List<Servicios.clsEquipoTrabajo> getEquipoTrabajo(Guid userid)
         {
             List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
-
-            var qUsuario =
-                (
-                    from perf in db.SGI_Profiles
-                    where perf.userid == userid
-                    select new
-                    {
-                        perf.Apellido,
-                        perf.Nombres,
-                        perf.userid
-                    }
-                ).FirstOrDefault();
-
-            var qEquipo =
-                (
-                    from eq in db.ENG_EquipoDeTrabajo
-                    join usr in db.SGI_Profiles on eq.Userid equals usr.userid
-                    join mem in db.aspnet_Membership on usr.userid equals mem.UserId
-                    where eq.Userid_Responsable == userid
-                        && mem.IsApproved==true
-                    select new
-                    {
-                        usr.Apellido,
-                        usr.Nombres,
-                        userid = usr.userid
-                    }
-                ).ToList();
-
-            lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
-            SGI.Servicios.clsEquipoTrabajo equipo = null;
-
-            foreach (var item in qEquipo)
+            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions {IsolationLevel = IsolationLevel.ReadUncommitted}))
             {
-                equipo = new Servicios.clsEquipoTrabajo();
-                equipo.nombres_apellido = item.Apellido + " " + item.Nombres;
-                equipo.userid = item.userid.ToString().ToLower();
-                lstEquipoTrabajo.Add(equipo);
-            }
-
-            // si puedo asignarlo a otros tambien me agrego a mi
-            if (lstEquipoTrabajo.Count > 0)
-            {
-                if (!lstEquipoTrabajo.Exists(x => x.userid.ToLower() == userid.ToString().ToLower()))
+                try
                 {
-                    equipo = new Servicios.clsEquipoTrabajo();
-                    equipo.userid = qUsuario.userid.ToString().ToLower();
-                    equipo.nombres_apellido = qUsuario.Apellido + " " + qUsuario.Nombres;
-                    lstEquipoTrabajo.Add(equipo);
+                    var qUsuario =
+                    (
+                        from perf in db.SGI_Profiles
+                        where perf.userid == userid
+                        select new
+                        {
+                            perf.Apellido,
+                            perf.Nombres,
+                            perf.userid
+                        }
+                    ).FirstOrDefault();
+
+                    var qEquipo =
+                        (
+                            from eq in db.ENG_EquipoDeTrabajo
+                            join usr in db.SGI_Profiles on eq.Userid equals usr.userid
+                            join mem in db.aspnet_Membership on usr.userid equals mem.UserId
+                            where eq.Userid_Responsable == userid
+                                && mem.IsApproved == true
+                            select new
+                            {
+                                usr.Apellido,
+                                usr.Nombres,
+                                userid = usr.userid
+                            }
+                        ).ToList();
+
+                    lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
+                    SGI.Servicios.clsEquipoTrabajo equipo = null;
+
+                    foreach (var item in qEquipo)
+                    {
+                        equipo = new Servicios.clsEquipoTrabajo();
+                        equipo.nombres_apellido = item.Apellido + " " + item.Nombres;
+                        equipo.userid = item.userid.ToString().ToLower();
+                        lstEquipoTrabajo.Add(equipo);
+                    }
+
+                    // si puedo asignarlo a otros tambien me agrego a mi
+                    if (lstEquipoTrabajo.Count > 0)
+                    {
+                        if (!lstEquipoTrabajo.Exists(x => x.userid.ToLower() == userid.ToString().ToLower()))
+                        {
+                            equipo = new Servicios.clsEquipoTrabajo();
+                            equipo.userid = qUsuario.userid.ToString().ToLower();
+                            equipo.nombres_apellido = qUsuario.Apellido + " " + qUsuario.Nombres;
+                            lstEquipoTrabajo.Add(equipo);
+                        }
+                    }
+                    txn.Complete();
+                    txn.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    txn.Dispose();
+                    throw ex;
                 }
             }
 
@@ -118,30 +130,45 @@ namespace SGI
         {
             List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
 
-            var qUsuario =
-                (
-                    from perf in db.SGI_Profiles
-                    where perf.userid == userid
-                    select new
-                    {
-                        perf.Apellido,
-                        perf.Nombres,
-                        perf.userid
-                    }
-                ).FirstOrDefault();
+            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }))
+            {
+                try
+                {
+                    var qUsuario =
+                    (
+                        from perf in db.SGI_Profiles
+                        where perf.userid == userid
+                        select new
+                        {
+                            perf.Apellido,
+                            perf.Nombres,
+                            perf.userid
+                        }
+                    ).FirstOrDefault();
 
-            // buscar roles de usuario
+                    // buscar roles de usuario
 
-            var qEquipoTrabajo = (from eq in db.ENG_EquipoDeTrabajo
-                                  join usr in db.SGI_Profiles on eq.Userid equals usr.userid
-                                  join mem in db.aspnet_Membership on usr.userid equals mem.UserId
-                                  where eq.Userid_Responsable == qUsuario.userid && mem.IsApproved
-                                  select new Servicios.clsEquipoTrabajo{
-                                        userid = eq.Userid.ToString(),
-                                        nombres_apellido = usr.Apellido + " " + usr.Nombres
-                                  });
+                    var qEquipoTrabajo = (from eq in db.ENG_EquipoDeTrabajo
+                                          join usr in db.SGI_Profiles on eq.Userid equals usr.userid
+                                          join mem in db.aspnet_Membership on usr.userid equals mem.UserId
+                                          where eq.Userid_Responsable == qUsuario.userid && mem.IsApproved
+                                          select new Servicios.clsEquipoTrabajo
+                                          {
+                                              userid = eq.Userid.ToString(),
+                                              nombres_apellido = usr.Apellido + " " + usr.Nombres
+                                          });
 
-            lstEquipoTrabajo = qEquipoTrabajo.ToList();
+                    lstEquipoTrabajo = qEquipoTrabajo.ToList();
+                    txn.Complete();
+                    txn.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    txn.Dispose();
+                    throw ex;
+                }
+            }
+
             return lstEquipoTrabajo;
         }
 

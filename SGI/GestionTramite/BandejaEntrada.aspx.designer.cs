@@ -249,6 +249,15 @@ namespace SGI
         protected global::System.Web.UI.WebControls.Label lblCantTramitesBandejaPropia;
 
         /// <summary>
+        /// Control lblCantSadeContinuar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCantSadeContinuar;
+
+        /// <summary>
         /// Control btnActualizarBandejaPropia.
         /// </summary>
         /// <remarks>
@@ -310,6 +319,24 @@ namespace SGI
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCantTramitesBandejaAsignacion;
+
+        /// <summary>
+        /// Control lblCantContinuarSade.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCantContinuarSade;
+
+        /// <summary>
+        /// Control lblCantCompletoSade.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCantCompletoSade;
 
         /// <summary>
         /// Control btnActualizarBandejaAsignacion.

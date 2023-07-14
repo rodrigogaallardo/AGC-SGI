@@ -66,6 +66,7 @@ namespace SGI.Model
         public Nullable<bool> EsActBaile { get; set; }
         public Nullable<bool> EsLuminaria { get; set; }
         public Nullable<bool> ProductosInflamables { get; set; }
+        public Nullable<bool> AcogeBeneficios { get; set; }
     
         public virtual aspnet_Users aspnet_Users { get; set; }
         public virtual ICollection<Encomienda_ConformacionLocal> Encomienda_ConformacionLocal { get; set; }

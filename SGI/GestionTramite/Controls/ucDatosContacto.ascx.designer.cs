@@ -11,196 +11,223 @@ namespace SGI.GestionTramite.Controls
 {
 
 
-    public partial class ucResultadoTarea
+    public partial class ucDatosContacto
     {
 
         /// <summary>
-        /// Control hid_id_tramite_tarea.
+        /// Control titulo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_id_tramite_tarea;
+        protected global::System.Web.UI.WebControls.Label titulo;
 
         /// <summary>
-        /// Control hid_id_tarea.
+        /// Control hid_id_solicitud.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_id_tarea;
+        protected global::System.Web.UI.WebControls.HiddenField hid_id_solicitud;
 
         /// <summary>
-        /// Control hid_id_grupotramite.
+        /// Control pnlDatosTramite.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_id_grupotramite;
+        protected global::System.Web.UI.WebControls.Panel pnlDatosTramite;
 
         /// <summary>
-        /// Control hid_alert_conf.
+        /// Control tituloPanel.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_alert_conf;
+        protected global::System.Web.UI.WebControls.Label tituloPanel;
 
         /// <summary>
-        /// Control lblResultado.
+        /// Control lblCodigoArea.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResultado;
+        protected global::System.Web.UI.WebControls.Label lblCodigoArea;
 
         /// <summary>
-        /// Control updResultado.
+        /// Control codigoArea.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updResultado;
+        protected global::System.Web.UI.WebControls.TextBox codigoArea;
 
         /// <summary>
-        /// Control ddlResultado.
+        /// Control lblPrefijo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlResultado;
+        protected global::System.Web.UI.WebControls.Label lblPrefijo;
 
         /// <summary>
-        /// Control lblProximaTarea.
+        /// Control prefijo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProximaTarea;
+        protected global::System.Web.UI.WebControls.TextBox prefijo;
 
         /// <summary>
-        /// Control UpdatePanel1.
+        /// Control lblSufijo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        protected global::System.Web.UI.WebControls.Label lblSufijo;
 
         /// <summary>
-        /// Control ddlProximaTarea.
+        /// Control sufijo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProximaTarea;
+        protected global::System.Web.UI.WebControls.TextBox sufijo;
 
         /// <summary>
-        /// Control updlbltipoplanoincendio.
+        /// Control pnlDatosFisicos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updlbltipoplanoincendio;
+        protected global::System.Web.UI.WebControls.Panel pnlDatosFisicos;
 
         /// <summary>
-        /// Control lblTipoPlanoIncendio.
+        /// Control tituloPanel2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTipoPlanoIncendio;
+        protected global::System.Web.UI.WebControls.Label tituloPanel2;
 
         /// <summary>
-        /// Control updTipoPlanoIncendio.
+        /// Control lblTelefonoMovil.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updTipoPlanoIncendio;
+        protected global::System.Web.UI.WebControls.Label lblTelefonoMovil;
 
         /// <summary>
-        /// Control ddlTipoPlanoIncendio.
+        /// Control telefonoMovil.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPlanoIncendio;
+        protected global::System.Web.UI.WebControls.TextBox telefonoMovil;
 
         /// <summary>
-        /// Control updGuardarTarea.
+        /// Control lblTelefonoFijo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updGuardarTarea;
+        protected global::System.Web.UI.WebControls.Label lblTelefonoFijo;
 
         /// <summary>
-        /// Control btnGuardar.
+        /// Control telefonoFijo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
+        protected global::System.Web.UI.WebControls.TextBox telefonoFijo;
 
         /// <summary>
-        /// Control progGuardarTarea.
+        /// Control lblEmail.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdateProgress progGuardarTarea;
+        protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// Control updFinalizarTarea.
+        /// Control emailFisico.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updFinalizarTarea;
+        protected global::System.Web.UI.WebControls.TextBox emailFisico;
 
         /// <summary>
-        /// Control btnFinalizarTarea.
+        /// Control pnlDatosJuridico.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFinalizarTarea;
+        protected global::System.Web.UI.WebControls.Panel pnlDatosJuridico;
 
         /// <summary>
-        /// Control progFinalizarTarea.
+        /// Control tituloPanel3.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdateProgress progFinalizarTarea;
+        protected global::System.Web.UI.WebControls.Label tituloPanel3;
 
         /// <summary>
-        /// Control btnCerrar.
+        /// Control lblTelJuridico.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCerrar;
+        protected global::System.Web.UI.WebControls.Label lblTelJuridico;
+
+        /// <summary>
+        /// Control telJuridico.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox telJuridico;
+
+        /// <summary>
+        /// Control lblEmailJuridico.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEmailJuridico;
+
+        /// <summary>
+        /// Control emailJuridico.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox emailJuridico;
     }
 }

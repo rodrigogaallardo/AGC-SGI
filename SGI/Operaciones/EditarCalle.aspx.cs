@@ -15,6 +15,7 @@ using SGI.GestionTramite.Controls;
 using Syncfusion.DocIO.DLS;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using static System.Net.WebRequestMethods;
 
 namespace SGI
 {
@@ -192,30 +193,7 @@ namespace SGI
                 this.EjecutarScript(updResultados, "showfrmError();");
             }
 
-
-            //Validacion de si ya existe el codigo de calle y la calle en la base de datos
-            var ftx = new DGHP_Entities();
-
-            Calles calle = (from c in ftx.Calles
-                            where c.Codigo_calle == codigoCalleInt
-                            && c.NombreOficial_calle == nombreCalleString
-                            select c).FirstOrDefault();
-
-            if(calle == null)
-            {
-                pudo = true;
-            }
-            else
-            {           
-                    pudo = false;
-                    lblError.Text = "El código de calle y/o la calle ya existe";
-                    lblError.ForeColor = Color.Red;
-                    this.EjecutarScript(updResultados, "showfrmError();");
-                    return;
-            }
-
             #endregion
-
             using (var dbContext = context.Database.BeginTransaction())
             {
                 try
@@ -256,6 +234,7 @@ namespace SGI
             }
         }
 
+
         protected void btnReturn_OnClick(object sender, EventArgs e)
         {
             var idNuevo = Convert.ToInt32(Request.QueryString["id"]);
@@ -286,14 +265,13 @@ namespace SGI
                                 where c.id_calle == id_calle
                                 select c).FirstOrDefault();
 
-            codigoCalle.Text = calle.Codigo_calle.ToString();
-            nombreCalle.Text = calle.NombreOficial_calle.ToString();
-            altIzqInicio.Text = calle.AlturaIzquierdaInicio_calle.ToString();
-            altIzqFin.Text =    calle.AlturaIzquierdaFin_calle.ToString();
-            altDerInicio.Text = calle.AlturaDerechaInicio_calle.ToString();
-            altDerFin.Text = calle.AlturaDerechaFin_calle.ToString();
-            ddlTipoCalle.Text = calle.TipoCalle_calle.ToString();
-
+                codigoCalle.Text = calle.Codigo_calle.ToString();
+                nombreCalle.Text = calle.NombreOficial_calle.ToString();
+                altIzqInicio.Text = calle.AlturaIzquierdaInicio_calle.ToString();
+                altIzqFin.Text = calle.AlturaIzquierdaFin_calle.ToString();
+                altDerInicio.Text = calle.AlturaDerechaInicio_calle.ToString();
+                altDerFin.Text = calle.AlturaDerechaFin_calle.ToString();
+                ddlTipoCalle.Text = calle.TipoCalle_calle.ToString();
         }
     }
 }

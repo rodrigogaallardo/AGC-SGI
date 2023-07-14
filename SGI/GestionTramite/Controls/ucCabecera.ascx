@@ -35,7 +35,10 @@
                         <li>Solicitud de Origen:<strong><asp:Label ID="lblSoliictitudOrigen" runat="server"></asp:Label></strong>
                         </li>
                     </asp:Panel>
-
+                    <asp:Panel ID="pnlLibradoUso" runat="server">
+                        <li>Fecha de Librado al Uso:<strong><asp:Label ID="lblLibradoUso" runat="server"></asp:Label></strong>
+                        </li>
+                    </asp:Panel>
                 </ul>
 
             </div>
@@ -118,7 +121,7 @@
 
             <asp:Panel ID="pnlHAB" runat="server" Visible="false">
                 <div style="width: 50%; float: left">
-                    <ul class="cabecera">
+                    <ul class="cabecera" style="padding-left: 10px">
                         <li>Telefono:<strong><asp:Label ID="lblTelefono" runat="server"></asp:Label></strong>
                         </li>
                     </ul>
