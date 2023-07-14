@@ -231,7 +231,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             if (subGenrente != null)
                 id_revision_subGerente = subGenrente.id_revision_subGerente;
 
-            db.SGI_Tarea_Revision_SubGerente_Actualizar(id_revision_subGerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, null);
+            db.SGI_Tarea_Revision_SubGerente_Actualizar(id_revision_subGerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, false);
             //if (finalizar && !string.IsNullOrEmpty(observacion_contribuyente))
             //    db.SSIT_Solicitudes_AgregarObservaciones(id_solicitud, observacion_contribuyente, userId);
 

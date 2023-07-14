@@ -235,7 +235,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             if (gerente != null)
                 id_revision_gerente = gerente.id_revision_gerente;
 
-            db.SGI_Tarea_Revision_Gerente_Actualizar(id_revision_gerente, id_tramite_tarea, observaciones, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, null);
+            db.SGI_Tarea_Revision_Gerente_Actualizar(id_revision_gerente, id_tramite_tarea, observaciones, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, false);
             //if (finalizar && !string.IsNullOrEmpty(observacion_contribuyente))
             //    db.SSIT_Solicitudes_AgregarObservaciones(id_solicitud, observacion_contribuyente, userId);
         }
