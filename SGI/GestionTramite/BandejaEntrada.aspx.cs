@@ -1232,7 +1232,7 @@ namespace SGI
                                        where t.id_tramitetarea == idTramiteTarea
                                        select t.FechaInicio_tramitetarea).FirstOrDefault();
 
-                        row.Dias_Acumulados = Shared.GetBusinessDays_V2(fechaInicio, DateTime.Now);
+                        row.Dias_Acumulados = Shared.GetBusinessDays(fechaInicio, DateTime.Now);
                     }
                     else
                     {
@@ -1700,7 +1700,7 @@ namespace SGI
                                        where t.id_tramitetarea == idTramiteTarea
                                        select t.FechaInicio_tramitetarea).FirstOrDefault();
 
-                        row.Dias_Acumulados = Shared.GetBusinessDays_V2(fechaInicio, DateTime.Now);
+                        row.Dias_Acumulados = Shared.GetBusinessDays(fechaInicio, DateTime.Now);
                     }
                     else
                     {
