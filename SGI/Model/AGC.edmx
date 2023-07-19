@@ -1428,7 +1428,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Ho
           <Property Name="Dif_asig_cierre" Type="int" />
           <Property Name="username" Type="nvarchar" MaxLength="50" />
           <Property Name="superficie" Type="decimal" Precision="14" Scale="2" />
-          <Property Name="NroDisposicionSADE" Type="nvarchar" MaxLength="50" />
+          <Property Name="NroDisposicionSADE" Type="nvarchar" MaxLength="100" />
           <Property Name="nombre_proxima_tarea" Type="nvarchar" MaxLength="100" />
           <Property Name="Fecha" Type="date" />
           <Property Name="Circuito_Origen" Type="nvarchar" MaxLength="20" />
@@ -5054,6 +5054,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
             <PropertyRef Name="nombre_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
+            <PropertyRef Name="prioridad" />
           </Key>
           <Property Name="id_tipocertificado" Type="int" Nullable="false" />
           <Property Name="codigo_tipocertificado" Type="nvarchar" MaxLength="20" Nullable="false" />
@@ -5061,6 +5062,9 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
           <Property Name="descripcion_tipocertificado" Type="nvarchar" MaxLength="100" />
           <Property Name="id_ImactoAmbiental" Type="int" Nullable="false" />
           <Property Name="puntaje_para_peligrosos" Type="int" Nullable="false" />
+          <Property Name="prioridad" Type="int" Nullable="false" />
+          <Property Name="AcronimoSADE" Type="nvarchar" MaxLength="20" />
+          <Property Name="NombreArchivoCertificado" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Files' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -5354,7 +5358,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SGI_Tarea__id_ti__0BDB7737">
+        <Association Name="FK__SGI_Tarea__id_ti__365FB99B">
           <End Role="SGI_Tipos_Planos_Incendio" Type="Self.SGI_Tipos_Planos_Incendio" Multiplicity="1" />
           <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5366,7 +5370,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SGI_Tarea__id_tr__0AE752FE">
+        <Association Name="FK__SGI_Tarea__id_tr__18103CA5">
           <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
           <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
           <ReferentialConstraint>
@@ -16227,6 +16231,12 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="id_encomienda" Type="int" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="SSIT_Solicitudes_Historial_LibradoUso_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_solicitud" Type="int" Mode="In" />
+          <Parameter Name="fechaLibrado" Type="date" Mode="In" />
+          <Parameter Name="createDate" Type="date" Mode="In" />
+          <Parameter Name="createUser" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="SSIT_Solicitudes_Observaciones_1Linea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
           <Parameter Name="id_solicitud" Type="int" Mode="In" />
         </Function>
@@ -17620,7 +17630,10 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [CAA_TiposDeCertificados].[nombre_tipocertificado] AS [nombre_tipocertificado], 
     [CAA_TiposDeCertificados].[descripcion_tipocertificado] AS [descripcion_tipocertificado], 
     [CAA_TiposDeCertificados].[id_ImactoAmbiental] AS [id_ImactoAmbiental], 
-    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]
+    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos], 
+    [CAA_TiposDeCertificados].[prioridad] AS [prioridad], 
+    [CAA_TiposDeCertificados].[AcronimoSADE] AS [AcronimoSADE], 
+    [CAA_TiposDeCertificados].[NombreArchivoCertificado] AS [NombreArchivoCertificado]
     FROM [dbo].[CAA_TiposDeCertificados] AS [CAA_TiposDeCertificados]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Files" EntityType="Self.Files" store:Type="Views" store:Schema="dbo">
@@ -17765,11 +17778,11 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="CondicionesIncendio" EntitySet="CondicionesIncendio" />
             <End Role="RubrosDepositosCN" EntitySet="RubrosDepositosCN" />
           </AssociationSet>
-          <AssociationSet Name="FK__SGI_Tarea__id_ti__0BDB7737" Association="Self.FK__SGI_Tarea__id_ti__0BDB7737">
+          <AssociationSet Name="FK__SGI_Tarea__id_ti__365FB99B" Association="Self.FK__SGI_Tarea__id_ti__365FB99B">
             <End Role="SGI_Tipos_Planos_Incendio" EntitySet="SGI_Tipos_Planos_Incendio" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
-          <AssociationSet Name="FK__SGI_Tarea__id_tr__0AE752FE" Association="Self.FK__SGI_Tarea__id_tr__0AE752FE">
+          <AssociationSet Name="FK__SGI_Tarea__id_tr__18103CA5" Association="Self.FK__SGI_Tarea__id_tr__18103CA5">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
@@ -28452,6 +28465,12 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
+          <FunctionImport Name="SSIT_Solicitudes_Historial_LibradoUso_INSERT">
+            <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
+            <Parameter Name="fechaLibrado" Mode="In" Type="DateTime" />
+            <Parameter Name="createDate" Mode="In" Type="DateTime" />
+            <Parameter Name="createUser" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -37543,7 +37562,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="Dif_asig_cierre" Type="Int32" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="superficie" Type="Decimal" Precision="14" Scale="2" />
-          <Property Name="NroDisposicionSADE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NroDisposicionSADE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="nombre_proxima_tarea" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Fecha" Type="DateTime" Precision="0" />
           <Property Name="Circuito_Origen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -41922,6 +41941,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <PropertyRef Name="nombre_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
+            <PropertyRef Name="prioridad" />
           </Key>
           <Property Name="id_tipocertificado" Type="Int32" Nullable="false" />
           <Property Name="codigo_tipocertificado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -41929,6 +41949,9 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="descripcion_tipocertificado" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="id_ImactoAmbiental" Type="Int32" Nullable="false" />
           <Property Name="puntaje_para_peligrosos" Type="Int32" Nullable="false" />
+          <Property Name="prioridad" Type="Int32" Nullable="false" />
+          <Property Name="AcronimoSADE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NombreArchivoCertificado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ENG_Circuitos">
           <Key>
@@ -50660,6 +50683,9 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="CAA_TiposDeCertificados">
             <EntityTypeMapping TypeName="DGHP_Model.CAA_TiposDeCertificados">
               <MappingFragment StoreEntitySet="CAA_TiposDeCertificados">
+                <ScalarProperty Name="NombreArchivoCertificado" ColumnName="NombreArchivoCertificado" />
+                <ScalarProperty Name="AcronimoSADE" ColumnName="AcronimoSADE" />
+                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
                 <ScalarProperty Name="puntaje_para_peligrosos" ColumnName="puntaje_para_peligrosos" />
                 <ScalarProperty Name="id_ImactoAmbiental" ColumnName="id_ImactoAmbiental" />
                 <ScalarProperty Name="descripcion_tipocertificado" ColumnName="descripcion_tipocertificado" />
@@ -51199,6 +51225,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SSIT_Solicitudes_Historial_LibradoUso_INSERT" FunctionName="DGHP_Model.Store.SSIT_Solicitudes_Historial_LibradoUso_INSERT" />
           
           </EntityContainerMapping>
       </Mapping>
