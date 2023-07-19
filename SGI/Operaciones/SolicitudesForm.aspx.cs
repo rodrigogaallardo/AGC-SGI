@@ -215,7 +215,7 @@ namespace SGI.Operaciones
                 {
                     if (calFechaLibrado.SelectedDate != null)
                     {
-                        if (sSIT_Solicitudes.FechaLibrado == null)
+                        if (sSIT_Solicitudes.FechaLibrado  != calFechaLibrado.SelectedDate)
                             estoyLibrando = true;
                         sSIT_Solicitudes.FechaLibrado = calFechaLibrado.SelectedDate;
                     }
