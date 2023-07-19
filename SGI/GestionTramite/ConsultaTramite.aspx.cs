@@ -498,6 +498,9 @@ namespace SGI.GestionTramite
         {
             try
             {
+                this.ReqCalle.Validate();
+                if (!this.ReqCalle.IsValid)
+                    Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
                 IniciarEntity();
 
                 Validar();
@@ -1524,14 +1527,14 @@ namespace SGI.GestionTramite
 
                 if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
                 {
-                    this.id_calle = 0;
+                    this.id_calle = null;
                 }
                 else
                 {
                     if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
                         this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
                     else
-                        this.id_calle = 0;
+                        this.id_calle = null;
                 }
 
                 this.manzana = txtUbiManzana.Text;
