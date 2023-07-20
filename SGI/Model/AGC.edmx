@@ -5052,7 +5052,6 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
             <PropertyRef Name="id_tipocertificado" />
             <PropertyRef Name="codigo_tipocertificado" />
             <PropertyRef Name="nombre_tipocertificado" />
-            <PropertyRef Name="descripcion_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
           </Key>
@@ -41933,7 +41932,6 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <PropertyRef Name="id_tipocertificado" />
             <PropertyRef Name="codigo_tipocertificado" />
             <PropertyRef Name="nombre_tipocertificado" />
-            <PropertyRef Name="descripcion_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
           </Key>
