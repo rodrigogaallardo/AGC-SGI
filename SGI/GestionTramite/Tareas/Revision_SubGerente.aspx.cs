@@ -504,7 +504,7 @@ namespace SGI.GestionTramite.Tareas
                                     {
                                         db.SSIT_Solicitudes_Set_FechaLibrado(id_solicitud);
 
-                                        db.SSIT_Solicitudes_Historial_LibradoUso_INSERT(id_solicitud, sol.FechaLibrado, DateTime.Now, userid);
+                                        db.SSIT_Solicitudes_Historial_LibradoUso_INSERT(id_solicitud, DateTime.Now, DateTime.Now, userid);
 
 
                                     }
