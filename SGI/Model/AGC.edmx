@@ -17627,7 +17627,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [CAA_TiposDeCertificados].[nombre_tipocertificado] AS [nombre_tipocertificado], 
     [CAA_TiposDeCertificados].[descripcion_tipocertificado] AS [descripcion_tipocertificado], 
     [CAA_TiposDeCertificados].[id_ImactoAmbiental] AS [id_ImactoAmbiental], 
-    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]	
+    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]
     FROM [dbo].[CAA_TiposDeCertificados] AS [CAA_TiposDeCertificados]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Files" EntityType="Self.Files" store:Type="Views" store:Schema="dbo">
@@ -50677,8 +50677,8 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
                 <ScalarProperty Name="puntaje_para_peligrosos" ColumnName="puntaje_para_peligrosos" />
                 <ScalarProperty Name="id_ImactoAmbiental" ColumnName="id_ImactoAmbiental" />
                 <ScalarProperty Name="descripcion_tipocertificado" ColumnName="descripcion_tipocertificado" />
-                <ScalarProperty Name="nombre_tipocertificado" ColumnName="nombre_tipocertificado" />	
-                <ScalarProperty Name="codigo_tipocertificado" ColumnName="codigo_tipocertificado" />	
+                <ScalarProperty Name="nombre_tipocertificado" ColumnName="nombre_tipocertificado" />
+                <ScalarProperty Name="codigo_tipocertificado" ColumnName="codigo_tipocertificado" />
                 <ScalarProperty Name="id_tipocertificado" ColumnName="id_tipocertificado" />
               </MappingFragment>
             </EntityTypeMapping>
