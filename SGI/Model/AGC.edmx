@@ -16230,8 +16230,8 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         </Function>
         <Function Name="SSIT_Solicitudes_Historial_LibradoUso_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_solicitud" Type="int" Mode="In" />
-          <Parameter Name="fechaLibrado" Type="date" Mode="In" />
-          <Parameter Name="createDate" Type="date" Mode="In" />
+          <Parameter Name="fechaLibrado" Type="datetime" Mode="In" />
+          <Parameter Name="createDate" Type="datetime" Mode="In" />
           <Parameter Name="createUser" Type="uniqueidentifier" Mode="In" />
         </Function>
         <Function Name="SSIT_Solicitudes_Observaciones_1Linea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
