@@ -5052,6 +5052,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
             <PropertyRef Name="id_tipocertificado" />
             <PropertyRef Name="codigo_tipocertificado" />
             <PropertyRef Name="nombre_tipocertificado" />
+            <PropertyRef Name="descripcion_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
           </Key>
@@ -5061,7 +5062,6 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
           <Property Name="descripcion_tipocertificado" Type="nvarchar" MaxLength="100" />
           <Property Name="id_ImactoAmbiental" Type="int" Nullable="false" />
           <Property Name="puntaje_para_peligrosos" Type="int" Nullable="false" />
-          <Property Name="prioridad" Type="int" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Files' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -17627,8 +17627,8 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [CAA_TiposDeCertificados].[nombre_tipocertificado] AS [nombre_tipocertificado], 
     [CAA_TiposDeCertificados].[descripcion_tipocertificado] AS [descripcion_tipocertificado], 
     [CAA_TiposDeCertificados].[id_ImactoAmbiental] AS [id_ImactoAmbiental], 
-    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]
-	</DefiningQuery>
+    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]	
+    FROM [dbo].[CAA_TiposDeCertificados] AS [CAA_TiposDeCertificados]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Files" EntityType="Self.Files" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -41933,6 +41933,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <PropertyRef Name="id_tipocertificado" />
             <PropertyRef Name="codigo_tipocertificado" />
             <PropertyRef Name="nombre_tipocertificado" />
+            <PropertyRef Name="descripcion_tipocertificado" />
             <PropertyRef Name="id_ImactoAmbiental" />
             <PropertyRef Name="puntaje_para_peligrosos" />
           </Key>
@@ -50673,12 +50674,12 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="CAA_TiposDeCertificados">
             <EntityTypeMapping TypeName="DGHP_Model.CAA_TiposDeCertificados">
               <MappingFragment StoreEntitySet="CAA_TiposDeCertificados">
-                <ScalarProperty Name="NombreArchivoCertificado" ColumnName="NombreArchivoCertificado" />
-                <ScalarProperty Name="AcronimoSADE" ColumnName="AcronimoSADE" />
-                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
                 <ScalarProperty Name="puntaje_para_peligrosos" ColumnName="puntaje_para_peligrosos" />
                 <ScalarProperty Name="id_ImactoAmbiental" ColumnName="id_ImactoAmbiental" />
                 <ScalarProperty Name="descripcion_tipocertificado" ColumnName="descripcion_tipocertificado" />
+                <ScalarProperty Name="nombre_tipocertificado" ColumnName="nombre_tipocertificado" />	
+                <ScalarProperty Name="codigo_tipocertificado" ColumnName="codigo_tipocertificado" />	
+                <ScalarProperty Name="id_tipocertificado" ColumnName="id_tipocertificado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
