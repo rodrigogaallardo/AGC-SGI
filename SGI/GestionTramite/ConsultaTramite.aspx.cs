@@ -458,7 +458,6 @@ namespace SGI.GestionTramite
             txtSuperficieDesde.Text = "";
             txtSuperficieHasta.Text = "";
             AutocompleteCalles.ClearSelection();
-            //Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
             Session["ConsultaTramite_IdCalle"] = string.Empty;
             txtUbiNroPuertaDesde.Text = "";
             txtUbiNroPuertaHasta.Text = "";
@@ -502,7 +501,6 @@ namespace SGI.GestionTramite
             {
                 this.ReqCalle.Validate();
                 if (!this.ReqCalle.IsValid)
-                    //Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
                     Session["ConsultaTramite_IdCalle"] = string.Empty;
                 IniciarEntity();
 
@@ -1266,7 +1264,6 @@ namespace SGI.GestionTramite
                 this.ReqCalle.Validate();
                 if (!this.ReqCalle.IsValid)
                     Session["ConsultaTramite_IdCalle"] = string.Empty;
-                    //Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
                 ValidadorAgregarRubros.Style["display"] = "none";
 
                 var lstRubros = (from rub in db.Rubros
@@ -2127,7 +2124,6 @@ namespace SGI.GestionTramite
 
         protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
-            //Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key; //galletita
             Session["ConsultaTramite_IdCalle"] = e.Key;
             return;
         }
