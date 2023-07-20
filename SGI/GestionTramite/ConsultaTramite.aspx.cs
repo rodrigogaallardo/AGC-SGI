@@ -16,6 +16,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
+using Newtonsoft.Json;
 
 
 namespace SGI.GestionTramite
@@ -1796,12 +1797,8 @@ namespace SGI.GestionTramite
         {
 
             btnCerrarExportacion.Visible = false;
-            // genera un nombre de archivo aleatorio
-            //Random random = new Random((int)DateTime.Now.Ticks);
             //ahora crea el excel con la fecha en su nombre
             string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
-            //int NroAleatorio = random.Next(0, 100);
-            //NroAleatorio = NroAleatorio * random.Next(0, 100);
             string fileName = string.Format("Grilla-Solicitudes-{0}.xlsx", fecha);
 
             pnlDescargarExcel.Style["display"] = "none";
@@ -2052,16 +2049,33 @@ namespace SGI.GestionTramite
                 dt.TableName = "Solicitudes";
                 ds.Tables.Add(dt);
                 string path = Constants.Path_Temporal;
-
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
-
+                string pythonScriptPath = "F:\\DEPLOY\\DGHP\\export_dataset_to_excel.py";
                 string savedFileName = path + Session["filename_exportacion"].ToString();
+                string jason = "armamos un json con el dataset";
+                string pythonArguments = $"\"{jason}\" \"{savedFileName}\"";
 
                 Functions.EliminarArchivosDirectorioTemporal();
 
                 // Utiliza DocumentFormat.OpenXml para exportar a excel
-                Functions.ExportDataSetToExcel(ds, savedFileName);
+                //Functions.ExportDataSetToExcel(ds, savedFileName);
+
+                #region krasorx ahora exportamos la consultaTramite mediante un python con pandas
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "python", // Assuming Python is in the system PATH
+                    Arguments = $"{pythonScriptPath} {pythonArguments}",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = false  //pasar a true para produccion
+                };
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+                #endregion
 
                 // quita la variable de session.
                 Session.Remove("progress_data");
