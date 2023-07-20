@@ -1524,18 +1524,26 @@ namespace SGI.GestionTramite
                     this.seccion = null;
                 else
                     this.seccion = int.Parse(txtUbiSeccion.Text);
-
-                if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
+                try
                 {
-                    this.id_calle = null;
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
-                        this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
-                    else
+                    //Esta rompiendo en la segunda vuelta, no encuentra la cookie, quien se la comio?
+                    if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
+                    {
                         this.id_calle = null;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
+                            this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
+                        else
+                            this.id_calle = null;
+                    }
                 }
+                catch(HttpException ex)
+                {
+                    LogError.Write(ex, "Falló al encontrar la cookie de la calle");
+                }
+                
 
                 this.manzana = txtUbiManzana.Text;
                 this.parcela = txtUbiParcela.Text;
@@ -1594,7 +1602,7 @@ namespace SGI.GestionTramite
 
                 string planoIncendio = ddlPlanoIncendio.SelectedValue;
 
-                var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));
+                var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));//esto devuelve null wat
 
                 List<SGI_ConsultaTramites> resultados = db.ConsultaTramites(
                     id_solicitud,
@@ -1788,10 +1796,12 @@ namespace SGI.GestionTramite
 
             btnCerrarExportacion.Visible = false;
             // genera un nombre de archivo aleatorio
-            Random random = new Random((int)DateTime.Now.Ticks);
-            int NroAleatorio = random.Next(0, 100);
-            NroAleatorio = NroAleatorio * random.Next(0, 100);
-            string fileName = string.Format("Grilla-Solicitudes-{0}.xls", NroAleatorio);
+            //Random random = new Random((int)DateTime.Now.Ticks);
+            //ahora crea el excel con la fecha en su nombre
+            string fecha = System.DateTime.Now.ToString();
+            //int NroAleatorio = random.Next(0, 100);
+            //NroAleatorio = NroAleatorio * random.Next(0, 100);
+            string fileName = string.Format("Grilla-Solicitudes-{0}.xls", fecha);
 
             pnlDescargarExcel.Style["display"] = "none";
             pnlExportandoExcel.Style["display"] = "block";
