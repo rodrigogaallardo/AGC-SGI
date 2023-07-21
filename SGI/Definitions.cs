@@ -19,6 +19,7 @@ using iTextSharp.text.pdf;
 using System.Text;
 using System.Data.Entity;
 using System.Data.Entity.SqlServer;
+using System.Diagnostics;
 
 namespace SGI
 {
@@ -1206,6 +1207,60 @@ namespace SGI
                 if (fechaCreacion < DateTime.Now.AddDays(-3))
                     System.IO.File.Delete(arch);
             }
+        }
+
+        public static void PythonExportScript(string path, string p_args)
+        {
+            string pythonScriptPath = path;
+            string pythonArguments = "{\"Solicitudes\":[{\"Solicitud\":\"6710\",\"SolicitudReferencia\":\"350736\",\"FechaInicio\":\"12/01/2023 10:18:04\",\"FechaIngreso\":\"23/01/2023 16:49:15\",\"TienePlanoIncendio\":\"False\"}]}";// p_args;
+            string pythonPath = @"C:\Program Files\Python310\python.exe";
+            string pythonArguments2 = $"{pythonScriptPath} {pythonArguments}";
+
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = pythonPath;
+            start.Arguments = pythonArguments2;
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            using (Process process = Process.Start(start))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.Write(result);
+                }
+            }
+            /*
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = @"C:\Program Files\Python310\python.exe", //FileName = "python",
+                Arguments = $"{pythonScriptPath} {pythonArguments}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true 
+            };
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            // Check the output and error streams if needed
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+
+            // Optionally, you can handle the output and error messages
+            if (!string.IsNullOrWhiteSpace(output))
+            {
+                // Process the output
+            }
+
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                // Handle any errors
+            }
+
+            // Output and error streams may contain relevant information from the Python script execution
+            */
         }
 
         public static DataTable ToDataTable<T>(List<T> items)

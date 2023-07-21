@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -5106,8 +5107,8 @@
       <DependentUpon>VisorTramite.aspx</DependentUpon>
     </Compile>
     <Compile Include="Mailer\MailAprobacionDG.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>MailAprobacionDG.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mailer\MailAprobacionDG.aspx.designer.cs">
       <DependentUpon>MailAprobacionDG.aspx</DependentUpon>
@@ -5135,8 +5136,8 @@
     </Compile>
     <Compile Include="Mailer\MailMessages.cs" />
     <Compile Include="Mailer\MailPagoPendiente.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>MailPagoPendiente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mailer\MailPagoPendiente.aspx.designer.cs">
       <DependentUpon>MailPagoPendiente.aspx</DependentUpon>

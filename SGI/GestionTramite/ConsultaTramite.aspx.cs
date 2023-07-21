@@ -1800,6 +1800,7 @@ namespace SGI.GestionTramite
             //ahora crea el excel con la fecha en su nombre
             string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
             string fileName = string.Format("Grilla-Solicitudes-{0}.xlsx", fecha);
+            string jason;
 
             pnlDescargarExcel.Style["display"] = "none";
             pnlExportandoExcel.Style["display"] = "block";
@@ -2043,39 +2044,35 @@ namespace SGI.GestionTramite
                     dt = Functions.ToDataTable(lstExportar);
                 }
 
-
+                
                 // Convierte la lista en un dataset
                 DataSet ds = new DataSet();
                 dt.TableName = "Solicitudes";
                 ds.Tables.Add(dt);
+                
                 string path = Constants.Path_Temporal;
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
-                string pythonScriptPath = "F:\\DEPLOY\\DGHP\\export_dataset_to_excel.py";
-                string savedFileName = path + Session["filename_exportacion"].ToString();
-                string jason = "armamos un json con el dataset";
-                string pythonArguments = $"\"{jason}\" \"{savedFileName}\"";
+                
+                string pythonScriptPath = @"F:\DEPLOY\DGHP\export_dataset_to_excel.py";
+                string savedFileName = path + Session["filename_exportacion"].ToString(); 
+                string jason = JsonConvert.SerializeObject(ds);
+                string pythonArguments = $"\"{savedFileName}\" \"{jason}\"";
 
                 Functions.EliminarArchivosDirectorioTemporal();
+                Functions.PythonExportScript(pythonScriptPath, jason);
+                //System.Threading.Thread thread = new System.Threading.Thread(() => RunPythonScript(pythonScriptPath, pythonArguments));
+                //thread.Start();
 
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=file.xlsx");
+
+                // Write the Excel file content to the response output stream
+                Response.TransmitFile(savedFileName);
+                Response.End();
                 // Utiliza DocumentFormat.OpenXml para exportar a excel
                 //Functions.ExportDataSetToExcel(ds, savedFileName);
-
-                #region krasorx ahora exportamos la consultaTramite mediante un python con pandas
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "python", // Assuming Python is in the system PATH
-                    Arguments = $"{pythonScriptPath} {pythonArguments}",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = false  //pasar a true para produccion
-                };
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
-                #endregion
+                
 
                 // quita la variable de session.
                 Session.Remove("progress_data");
