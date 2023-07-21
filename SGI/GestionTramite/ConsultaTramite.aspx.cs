@@ -82,7 +82,7 @@ namespace SGI.GestionTramite
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var value = Session["ConsultaTramite_IdCalle"] as string;
             ScriptManager sm = ScriptManager.GetCurrent(this);
 
             if (sm.IsInAsyncPostBack)
@@ -94,8 +94,9 @@ namespace SGI.GestionTramite
             CargarCalles();
             if (!IsPostBack)
             {
-                if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
+                if (Session["ConsultaTramite_IdCalle"] != null)
                 {
+                    Session.Remove("ConsultaTramite_IdCalle");
                     AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
                 hid_DecimalSeparator.Value = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
@@ -457,7 +458,7 @@ namespace SGI.GestionTramite
             txtSuperficieDesde.Text = "";
             txtSuperficieHasta.Text = "";
             AutocompleteCalles.ClearSelection();
-            Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
+            Session["ConsultaTramite_IdCalle"] = string.Empty;
             txtUbiNroPuertaDesde.Text = "";
             txtUbiNroPuertaHasta.Text = "";
             ddlVereda.SelectedIndex = 0;
@@ -498,6 +499,9 @@ namespace SGI.GestionTramite
         {
             try
             {
+                this.ReqCalle.Validate();
+                if (!this.ReqCalle.IsValid)
+                    Session["ConsultaTramite_IdCalle"] = string.Empty;
                 IniciarEntity();
 
                 Validar();
@@ -882,14 +886,15 @@ namespace SGI.GestionTramite
 
             //filtro por domicilio
             if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) && !string.IsNullOrEmpty(txtUbiNroPuertaHasta.Text))
-                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == "")
+            && ((string.IsNullOrEmpty(Session["ConsultaTramite_IdCalle"] as string)) ? "" : Session["ConsultaTramite_IdCalle"].ToString()) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
+
             idAux = 0;
-            if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
-                int.TryParse(Request.Cookies["ConsultaTramite_IdCalle"].Value, out idAux);
+            if (Session["ConsultaTramite_IdCalle"] != null)
+                int.TryParse(Session["ConsultaTramite_IdCalle"].ToString(), out idAux);
             this.id_calle = idAux;
 
             idAux = 0;
@@ -1258,7 +1263,7 @@ namespace SGI.GestionTramite
             {
                 this.ReqCalle.Validate();
                 if (!this.ReqCalle.IsValid)
-                    Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
+                    Session["ConsultaTramite_IdCalle"] = string.Empty;
                 ValidadorAgregarRubros.Style["display"] = "none";
 
                 var lstRubros = (from rub in db.Rubros
@@ -1521,18 +1526,25 @@ namespace SGI.GestionTramite
                     this.seccion = null;
                 else
                     this.seccion = int.Parse(txtUbiSeccion.Text);
-
-                if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
+               /*
+                try
                 {
-                    this.id_calle = 0;
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
-                        this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
+                    //Esta rompiendo en la segunda vuelta, no encuentra la cookie, quien se la comio?
+                    if (Session["ConsultaTramite_IdCalle"] == null)
+                    {
+                        this.id_calle = null;
+                    }
                     else
-                        this.id_calle = 0;
+                    {
+                        this.id_calle = Convert.ToInt32(Session["ConsultaTramite_IdCalle"]);
+                    }
                 }
+                catch(HttpException ex)
+                {
+                    LogError.Write(ex, "Falló al encontrar la cookie de la calle");
+                }
+               */
+                
 
                 this.manzana = txtUbiManzana.Text;
                 this.parcela = txtUbiParcela.Text;
@@ -1591,7 +1603,7 @@ namespace SGI.GestionTramite
 
                 string planoIncendio = ddlPlanoIncendio.SelectedValue;
 
-                var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));
+                var cantResultados = new System.Data.Entity.Core.Objects.ObjectParameter("recordCount", typeof(int));//esto devuelve null wat
 
                 List<SGI_ConsultaTramites> resultados = db.ConsultaTramites(
                     id_solicitud,
@@ -1785,10 +1797,12 @@ namespace SGI.GestionTramite
 
             btnCerrarExportacion.Visible = false;
             // genera un nombre de archivo aleatorio
-            Random random = new Random((int)DateTime.Now.Ticks);
-            int NroAleatorio = random.Next(0, 100);
-            NroAleatorio = NroAleatorio * random.Next(0, 100);
-            string fileName = string.Format("Grilla-Solicitudes-{0}.xls", NroAleatorio);
+            //Random random = new Random((int)DateTime.Now.Ticks);
+            //ahora crea el excel con la fecha en su nombre
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+            //int NroAleatorio = random.Next(0, 100);
+            //NroAleatorio = NroAleatorio * random.Next(0, 100);
+            string fileName = string.Format("Grilla-Solicitudes-{0}.xlsx", fecha);
 
             pnlDescargarExcel.Style["display"] = "none";
             pnlExportandoExcel.Style["display"] = "block";
@@ -2110,7 +2124,7 @@ namespace SGI.GestionTramite
 
         protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
-            Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
+            Session["ConsultaTramite_IdCalle"] = e.Key;
             return;
         }
     }
