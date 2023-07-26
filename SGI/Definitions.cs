@@ -1,24 +1,20 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Packaging;
+using iTextSharp.text.pdf;
+using SGI.Model;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.Entity.SqlServer;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SGI.Model;
-using System.Linq;
-using Elmah;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
-
-using System.Reflection;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using System.Data;
-using iTextSharp.text.pdf;
-using System.Text;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
 
 namespace SGI
 {
@@ -1670,7 +1666,7 @@ namespace SGI
             if (manzana.Length > 0)
             {
                 if (!Char.IsNumber(manzana, manzana.Length - 1))
-                    tamaManzana = 4;
+                    tamaManzana = 6;
             }
 
             SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
@@ -1709,7 +1705,7 @@ namespace SGI
             if (manzana.Length > 0)
             {
                 if (!Char.IsNumber(manzana, manzana.Length - 1))
-                    tamaManzana = 4;
+                    tamaManzana = 6;
             }
 
             SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
@@ -1747,7 +1743,7 @@ namespace SGI
             if (manzana.Length > 0)
             {
                 if (!Char.IsNumber(manzana, manzana.Length - 1))
-                    tamaManzana = 4;
+                    tamaManzana = 6;
             }
 
             SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
