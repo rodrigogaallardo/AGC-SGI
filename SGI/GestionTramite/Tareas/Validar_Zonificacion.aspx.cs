@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using SGI.GestionTramite.Controls;
 using SGI.Model;
-using SGI.GestionTramite.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Transactions;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Collections.Generic;
-using System.Web;
 
 
 namespace SGI.GestionTramite.Tareas
@@ -543,7 +543,7 @@ public class ENC_Ubicacion : Encomienda_Ubicaciones
         if (manzana.Length > 0)
         {
             if (!Char.IsNumber(manzana, manzana.Length - 1))
-                tamaManzana = 6;
+                tamaManzana = 4;
         }
 
         SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
@@ -587,7 +587,7 @@ public class ENC_Ubicacion : Encomienda_Ubicaciones
         if (manzana.Length > 0)
         {
             if (!Char.IsNumber(manzana, manzana.Length - 1))
-                tamaManzana = 6;
+                tamaManzana = 4;
         }
 
         SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
@@ -635,7 +635,7 @@ public class ENC_Ubicacion : Encomienda_Ubicaciones
         if (manzana.Length > 0)
         {
             if (!Char.IsNumber(manzana, manzana.Length - 1))
-                tamaManzana = 6;
+                tamaManzana = 4;
         }
 
         SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));

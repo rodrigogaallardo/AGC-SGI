@@ -124,7 +124,7 @@ namespace SGI.Model
             if (manzana.Length > 0)
             {
                 if (!Char.IsNumber(manzana, manzana.Length - 1))
-                    tamaManzana = 6;
+                    tamaManzana = 4;
             }
 
             SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
@@ -164,7 +164,7 @@ namespace SGI.Model
             if (manzana.Length > 0)
             {
                 if (!Char.IsNumber(manzana, manzana.Length - 1))
-                    tamaManzana = 6;
+                    tamaManzana = 4;
             }
 
             SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
@@ -201,7 +201,7 @@ namespace SGI.Model
             if (manzana.Length > 0)
             {
                 if (!Char.IsNumber(manzana, manzana.Length - 1))
-                    tamaManzana = 6;
+                    tamaManzana = 4;
             }
 
             SMP += manzana.PadLeft(tamaManzana, Convert.ToChar("0"));
