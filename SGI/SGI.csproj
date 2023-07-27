@@ -2161,6 +2161,7 @@
     <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.designer.cs">
       <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Ley257DTO.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -5473,6 +5474,7 @@
     <Compile Include="WebServices\ws_DGFYCOInformesTecnicos.cs" />
     <Compile Include="WebServices\ws_ExpedienteElectronico.cs" />
     <Compile Include="WebServices\ws_GP.cs" />
+    <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\ws_MailsRest.cs" />
     <Compile Include="WebServices\ws_PagosRest.cs" />
     <Compile Include="WebServices\ws_FilesRest.cs" />
