@@ -20,6 +20,8 @@ using System.Text;
 using System.Data.Entity;
 using System.Data.Entity.SqlServer;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using System.IO.Pipes;
 
 namespace SGI
 {
@@ -1209,46 +1211,73 @@ namespace SGI
             }
         }
 
-        public static void PythonExportScript(string path, string p_args)
+        public static void CreateJasonExport(string jsonFilePath, string json)
         {
-            string pythonScriptPath = path;
-            string pythonArguments = "{\"Solicitudes\":[{\"Solicitud\":\"6710\",\"SolicitudReferencia\":\"350736\",\"FechaInicio\":\"12/01/2023 10:18:04\",\"FechaIngreso\":\"23/01/2023 16:49:15\",\"TienePlanoIncendio\":\"False\"}]}";// p_args;
-            string pythonPath = @"C:\Program Files\Python310\python.exe";
-            string pythonArguments2 = $"{pythonScriptPath} {pythonArguments}";
+            byte[] utf8Bytes = Encoding.UTF8.GetBytes(json);
+            string utf8String = Encoding.UTF8.GetString(utf8Bytes);
 
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = pythonPath;
-            start.Arguments = pythonArguments2;
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            using (Process process = Process.Start(start))
+            using (StreamWriter sw = new StreamWriter(jsonFilePath, false, Encoding.UTF8))
             {
-                using (StreamReader reader = process.StandardOutput)
+                sw.Write(utf8String);
+            }
+
+        }
+
+        public static void ExportDataToPythonAndReceiveResults(string jsonData)
+        {
+            byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonData);
+
+            // Create a Named Pipe client
+            using (NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "ThisIsOnlyATest", PipeDirection.InOut, PipeOptions.None))
+            {
+                // Connect to the Python Named Pipe server
+                pipeClient.Connect();
+
+                // Send the JSON data to the Python server
+                pipeClient.Write(jsonBytes, 0, jsonBytes.Length);
+
+                // Wait for the Python server to process the data and send the response
+                byte[] responseBytes = new byte[4096];
+                using (MemoryStream responseStream = new MemoryStream())
                 {
-                    string result = reader.ReadToEnd();
-                    Console.Write(result);
+                    int bytesRead;
+                    while ((bytesRead = pipeClient.Read(responseBytes, 0, responseBytes.Length)) > 0)
+                    {
+                        responseStream.Write(responseBytes, 0, bytesRead);
+                    }
+
+                    // Convert the response to a string
+                    string response = Encoding.UTF8.GetString(responseStream.ToArray());
+
+                    // Process the response if needed
+                    // ...
+
+                    // Close the Named Pipe client
+                    pipeClient.Close();
                 }
             }
-            /*
+        }
+
+
+        public static void RunPythonExecutable(string path, string arguments)
+        {
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = @"C:\Program Files\Python310\python.exe", //FileName = "python",
-                Arguments = $"{pythonScriptPath} {pythonArguments}",
+                FileName = path,
+                Arguments = arguments,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = true 
+                CreateNoWindow = true
             };
             process.StartInfo = startInfo;
             process.Start();
             process.WaitForExit();
 
-            // Check the output and error streams if needed
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
 
-            // Optionally, you can handle the output and error messages
             if (!string.IsNullOrWhiteSpace(output))
             {
                 // Process the output
@@ -1258,9 +1287,8 @@ namespace SGI
             {
                 // Handle any errors
             }
-
-            // Output and error streams may contain relevant information from the Python script execution
-            */
+            // Access the ExitCode after the process has exited
+            int exitCode = process.ExitCode;
         }
 
         public static DataTable ToDataTable<T>(List<T> items)
