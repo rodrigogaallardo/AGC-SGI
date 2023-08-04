@@ -2068,18 +2068,17 @@ namespace SGI.GestionTramite
                     dt = Functions.ToDataTable(lstExportar);
                 }
 
-                
                 // Convierte la lista en un dataset
                 DataSet ds = new DataSet();
                 dt.TableName = "Solicitudes";
                 ds.Tables.Add(dt);
-                
+
                 string path = Constants.Path_Temporal;
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
-
-                //string pythonScriptPath = @"F:\DEPLOY\DGHP\export_dataset_to_excel.py";
-                string pythonScriptPath = @"F:\DEPLOY\DGHP\dist\export_dataset_to_excel.exe";
+                //test
+                //string pythonScriptPath = @"F:\DEPLOY\DGHP\dist\export_dataset_to_excel.exe";
+                string pythonScriptPath = @"C:\Python\exportSGI\export_dataset_to_excel.exe";
                 if (!File.Exists(pythonScriptPath))
                 {
                     Console.WriteLine("El archivo ejecutable de Python no existe en la ubicacion indicada.");
@@ -2089,25 +2088,16 @@ namespace SGI.GestionTramite
                 #region python ejecutable para exportar
                 string jason = JsonConvert.SerializeObject(ds, Formatting.Indented);
                 string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
-                //string jasonFileName = string.Format("jason_{0}.json", fechaAct);
-                //string jasonPath = Path.Combine($"{path}", $"{jasonFileName}");
-                //string pythonArguments = $"\"{savedFileName}\" \"{jasonPath}\"";
-                //Functions.CreateJasonExport(jasonPath, jason);
+                string namedPipeName = "mypipe_" + Guid.NewGuid().ToString();
+
                 #endregion
                 Functions.EliminarArchivosDirectorioTemporal();
-                //test pipe
-                string pythonArguments = $"\"{savedFileName}\" ";
-                Functions.RunPythonExecutable(pythonScriptPath, pythonArguments);
-                Functions.ExportDataToPythonAndReceiveResults(jason);
-                //Functions.RunPythonExecutable(pythonScriptPath, pythonArguments);
 
-                //Functions.PythonExportScript(pythonScriptPath, jason);
-                //System.Threading.Thread thread = new System.Threading.Thread(() => RunPythonScript(pythonScriptPath, pythonArguments));
-                //thread.Start();
+                string pythonArguments = $"\"{savedFileName}\" \"{namedPipeName}\" ";
 
-                //Functions.ExportDataSetToExcel(ds, savedFileName);
-
-                LogToTemporalFile("Export ended at: " + startTime.ToString() + "\n" + "Filas: " + totalRowCount);
+                Functions.RunPythonExecutable(pythonScriptPath, pythonArguments,jason,namedPipeName); //invoca al python y abre el pipe
+                DateTime endtTime = DateTime.Now;
+                LogToTemporalFile("Export ended at: " + endtTime.ToString() + "\n" + "Filas: " + totalRowCount);
 
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 Response.AppendHeader("Content-Disposition", "attachment; filename=file.xlsx");
@@ -2115,7 +2105,7 @@ namespace SGI.GestionTramite
                 // Write the Excel file content to the response output stream
                 Response.TransmitFile(savedFileName);
                 Response.End();
-                // Utiliza DocumentFormat.OpenXml para exportar a excel
+
                 
                 // quita la variable de session.
                 Session.Remove("progress_data");
@@ -2125,16 +2115,16 @@ namespace SGI.GestionTramite
             }
             catch (TimeoutException tex)
             {
+                LogToTemporalFile("Error de exportacion: " + tex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
                 throw new Exception("Error de exportacion: Intente nuevamente.");
-                LogToTemporalFile("Error de exportacion: " + tex.ToString());
             }
             catch (Exception ex)
             {
+                LogToTemporalFile("Error de exportacion: " + ex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
-                LogToTemporalFile("Error de exportacion: " + ex.ToString());
             }
         }
 
