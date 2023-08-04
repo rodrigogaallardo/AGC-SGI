@@ -10,68 +10,21 @@ namespace SGI.Model
         /*Dado dos fechas, retorna la cantidad de dias habiales entre las mismas*/
         public static int GetBusinessDays(DateTime start, DateTime end)
         {
-            
+            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0);
+            end = new DateTime(end.Year, end.Month, end.Day, 0, 0, 0);
             int count = 0;
             while (DateTime.Compare(start, end) < 0)
             {
                 if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
-                {
-                    start = start.AddDays(1);
                     count++;
-                    continue;
-                }
-
                 start = start.AddDays(1);
-
             }
-
-
-
-            #region Feriados ASOSA
             DGHP_Entities db = new DGHP_Entities();
-
-            int feriadosCount = (from hab in db.SGI_Feriados
-                                 where hab.Fecha >= start
-                                 & hab.Fecha <= end
-                                 select hab).Count();
-
-            count = count - feriadosCount;
-            #endregion
-
+            int feriadosCount = (from hab in db.SGI_Feriados where hab.Fecha >= start && hab.Fecha <= end select hab).Count();
+            count -= feriadosCount;
             return count;
         }
 
-        public static int GetBusinessDays_V2(DateTime start, DateTime end)
-        {
-            int count = 0;
-            while (DateTime.Compare(start, end) < 0)
-            {
-                if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
-                {
-                    start = start.AddDays(1);
-                    count++;
-                    continue;
-                }
-
-                start = start.AddDays(1);
-
-            }
-
-
-
-            #region Feriados ASOSA
-            DGHP_Entities db = new DGHP_Entities();
-
-            int feriadosCount = (from hab in db.SGI_Feriados
-                                 where hab.Fecha >= start
-                                 & hab.Fecha <= end
-                                 select hab).Count();
-
-            count = count - feriadosCount;
-            #endregion
-
-            return count;
-        }
         public class clsProfesional
         {
             public int id_profesional { get; set; }

@@ -1126,7 +1126,7 @@
                                                 </div>
 
                                                 <asp:Panel ID="BotonesBuscarRubros" runat="server" CssClas="form-group">
-                                                    <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btn-primary" Style="color: white" OnClick="btnBuscar_Click" OnClientClick="return validarBuscar_Rubros();">
+                                                    <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btn-primary" Style="color: white" OnClick="btnBuscar_Click" AutoPostBack="true" OnClientClick="return validarBuscar_Rubros();">
                                                         <i class="imoon imoon-search"></i>
                                                         <span class="text">Buscar</span>
                                                     </asp:LinkButton>

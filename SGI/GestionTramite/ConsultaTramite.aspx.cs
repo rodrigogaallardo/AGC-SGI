@@ -16,7 +16,8 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
-
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite
 {
@@ -82,7 +83,7 @@ namespace SGI.GestionTramite
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var value = Session["ConsultaTramite_IdCalle"] as string;
             ScriptManager sm = ScriptManager.GetCurrent(this);
 
             if (sm.IsInAsyncPostBack)
@@ -94,8 +95,9 @@ namespace SGI.GestionTramite
             CargarCalles();
             if (!IsPostBack)
             {
-                if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
+                if (Session["ConsultaTramite_IdCalle"] != null)
                 {
+                    Session.Remove("ConsultaTramite_IdCalle");
                     AutocompleteCalles.SelectValueByKey = string.Empty;
                 }
                 hid_DecimalSeparator.Value = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
@@ -457,7 +459,7 @@ namespace SGI.GestionTramite
             txtSuperficieDesde.Text = "";
             txtSuperficieHasta.Text = "";
             AutocompleteCalles.ClearSelection();
-            Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
+            Session["ConsultaTramite_IdCalle"] = string.Empty;
             txtUbiNroPuertaDesde.Text = "";
             txtUbiNroPuertaHasta.Text = "";
             ddlVereda.SelectedIndex = 0;
@@ -498,6 +500,7 @@ namespace SGI.GestionTramite
         {
             try
             {
+                this.ReqCalle.Validate();
                 IniciarEntity();
 
                 Validar();
@@ -882,14 +885,15 @@ namespace SGI.GestionTramite
 
             //filtro por domicilio
             if ((!string.IsNullOrEmpty(txtUbiNroPuertaDesde.Text) && !string.IsNullOrEmpty(txtUbiNroPuertaHasta.Text))
-                && ((String.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value)) ? "" : Request.Cookies["ConsultaTramite_IdCalle"].Value) == "")
+            && ((string.IsNullOrEmpty(Session["ConsultaTramite_IdCalle"] as string)) ? "" : Session["ConsultaTramite_IdCalle"].ToString()) == "")
             {
                 throw new Exception("Cuando especifica el número de puerta debe ingresar la calle.");
             }
 
+
             idAux = 0;
-            if (Request.Cookies["ConsultaTramite_IdCalle"] != null)
-                int.TryParse(Request.Cookies["ConsultaTramite_IdCalle"].Value, out idAux);
+            if (Session["ConsultaTramite_IdCalle"] != null)
+                int.TryParse(Session["ConsultaTramite_IdCalle"].ToString(), out idAux);
             this.id_calle = idAux;
 
             idAux = 0;
@@ -1258,7 +1262,7 @@ namespace SGI.GestionTramite
             {
                 this.ReqCalle.Validate();
                 if (!this.ReqCalle.IsValid)
-                    Response.Cookies["ConsultaTramite_IdCalle"].Value = string.Empty;
+                    Session["ConsultaTramite_IdCalle"] = string.Empty;
                 ValidadorAgregarRubros.Style["display"] = "none";
 
                 var lstRubros = (from rub in db.Rubros
@@ -1422,7 +1426,6 @@ namespace SGI.GestionTramite
             return nro_Expediente;
 
         }
-
         private List<clsItemConsultaTramite> FiltrarTramitesSP(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es-ES");
@@ -1521,18 +1524,25 @@ namespace SGI.GestionTramite
                     this.seccion = null;
                 else
                     this.seccion = int.Parse(txtUbiSeccion.Text);
-
-                if ((Request.Cookies["ConsultaTramite_IdCalle"] == null))
+               /*
+                try
                 {
-                    this.id_calle = 0;
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(Request.Cookies["ConsultaTramite_IdCalle"].Value))
-                        this.id_calle = Convert.ToInt32(Request.Cookies["ConsultaTramite_IdCalle"].Value);
+                    //Esta rompiendo en la segunda vuelta, no encuentra la cookie, quien se la comio?
+                    if (Session["ConsultaTramite_IdCalle"] == null)
+                    {
+                        this.id_calle = null;
+                    }
                     else
-                        this.id_calle = 0;
+                    {
+                        this.id_calle = Convert.ToInt32(Session["ConsultaTramite_IdCalle"]);
+                    }
                 }
+                catch(HttpException ex)
+                {
+                    LogError.Write(ex, "Falló al encontrar la cookie de la calle");
+                }
+               */
+                
 
                 this.manzana = txtUbiManzana.Text;
                 this.parcela = txtUbiParcela.Text;
@@ -1628,70 +1638,93 @@ namespace SGI.GestionTramite
                     cantResultados
                     ).ToList();
 
-
                 totalRowCount = (int)cantResultados.Value;
-
 
                 var q = (from sol in resultados
                          join gc in db.ENG_Grupos_Circuitos on sol.id_grupo_circuito equals gc.id_grupo_circuito
-                         select new clsItemConsultaTramite
+                         orderby sol.id_solicitud
+                         select new
                          {
-                             cod_grupotramite = gc.cod_grupo_circuito,
-                             id_solicitud = sol.id_solicitud,
-                             id_aux = sol.id_encomienda ?? 0,
-                             FechaInicio = sol.FechaInicio,
-                             FechaIngreso = sol.FechaIngreso,
-                             id_tipotramite = sol.id_tipotramite,
-                             TipoTramite = sol.TipoTramite,
-                             id_tipoexpediente = sol.id_tipoexpediente,
-                             TipoExpediente = sol.TipoExpediente,
-                             id_subtipoexpediente = sol.id_subtipoexpediente,
-                             SubTipoExpediente = sol.SubTipoExpediente,
-                             TipoCAA = sol.TipoCAA,
-                             TareaActual = sol.TareaActual,
-                             FechaCreacionTareaActual = sol.FechaCreacionTareaActual,
-                             FechaAsignacionTareaActual = sol.FechaAsignacionTareaActual,
-                             GrupoCircuito = gc.nom_grupo_circuito,
-                             Superficie = sol.Superficie ?? 0.00m,
-                             id_estado = sol.id_estado,
-                             Estado = sol.Estado,
-                             Calificador = sol.Calificador,
-                             ProfesionalAnexoTecnico = sol.ProfesionalAnexoTecnico,
-                             ProfesionalAnexoNotarial = sol.ProfesionalAnexoNotarial,
-                             FechaLibrado = sol.FechaLibrado,
-                             FechaHabilitacion = sol.FechaHabilitacion,
-                             FechaRechazo = sol.FechaRechazo,
-                             NumeroExp = sol.NumeroExp,
-                             Observaciones = sol.Observaciones,
-                             idCAA = sol.idCAA,
-                             idSIPSA = sol.idSIPSA,
-                             idEncomienda = sol.id_encomienda,
-                             TipoNormativa = sol.TipoNormativa,
-                             Organismo = sol.Organismo,
-                             NroNormativa = sol.NroNormativa,
-                             FechaBaja = sol.FechaBaja,
-                             FechaCaducidad = sol.FechaCaducidad,
-                             DiasEnCorreccion = sol.DiasEnCorreccion,
-                             MailFirmantes = GetCadenaLimpia(sol.MailFirmantes),
-                             MailTitulares = GetCadenaLimpia(sol.MailTitulares),
-                             MailUsuarioSSIT = GetCadenaLimpia(sol.MailUsuarioSSIT),
-                             MailUsuarioTAD = GetCadenaLimpia(sol.MailUsuarioTAD),
-                             PlantasHabilitar = sol.PlantasHabilitar,
-                             Usuario = sol.Usuario,
-                             NombreyApellido = sol.NombreyApellido,
-                             FechaInicioAT = sol.FechaInicioAT,
-                             FechaAprobadoAT = sol.FechaAprobadoAT,
-                             TienePlanoIncendio = sol.TienePlanoIncendio
-                         });
-               
+                             Solicitud = sol,
+                             GrupoCircuito = gc
+                         }).ToList();
 
-                tramites = q.ToList();
+                tramites = q.Select(item => new clsItemConsultaTramite
+                {
+                    cod_grupotramite = item.GrupoCircuito.cod_grupo_circuito,
+                    id_solicitud = item.Solicitud.id_solicitud,
+                    id_aux = item.Solicitud.id_encomienda ?? 0,
+                    FechaInicio = item.Solicitud.FechaInicio,
+                    FechaIngreso = item.Solicitud.FechaIngreso,
+                    id_tipotramite = item.Solicitud.id_tipotramite,
+                    TipoTramite = item.Solicitud.TipoTramite,
+                    id_tipoexpediente = item.Solicitud.id_tipoexpediente,
+                    TipoExpediente = item.Solicitud.TipoExpediente,
+                    id_subtipoexpediente = item.Solicitud.id_subtipoexpediente,
+                    SubTipoExpediente = item.Solicitud.SubTipoExpediente,
+                    TipoCAA = item.Solicitud.TipoCAA,
+                    TareaActual = item.Solicitud.TareaActual,
+                    FechaCreacionTareaActual = item.Solicitud.FechaCreacionTareaActual,
+                    FechaAsignacionTareaActual = item.Solicitud.FechaAsignacionTareaActual,
+                    GrupoCircuito = item.GrupoCircuito.nom_grupo_circuito,
+                    Superficie = item.Solicitud.Superficie ?? 0.00m,
+                    id_estado = item.Solicitud.id_estado,
+                    Estado = item.Solicitud.Estado,
+                    Calificador = item.Solicitud.Calificador,
+                    ProfesionalAnexoTecnico = item.Solicitud.ProfesionalAnexoTecnico,
+                    ProfesionalAnexoNotarial = item.Solicitud.ProfesionalAnexoNotarial,
+                    FechaLibrado = item.Solicitud.FechaLibrado,
+                    FechaHabilitacion = item.Solicitud.FechaHabilitacion,
+                    FechaRechazo = item.Solicitud.FechaRechazo,
+                    NumeroExp = item.Solicitud.NumeroExp,
+                    Observaciones = item.Solicitud.Observaciones,
+                    idCAA = item.Solicitud.idCAA,
+                    idSIPSA = item.Solicitud.idSIPSA,
+                    idEncomienda = item.Solicitud.id_encomienda,
+                    TipoNormativa = item.Solicitud.TipoNormativa,
+                    Organismo = item.Solicitud.Organismo,
+                    NroNormativa = item.Solicitud.NroNormativa,
+                    FechaBaja = item.Solicitud.FechaBaja,
+                    FechaCaducidad = item.Solicitud.FechaCaducidad,
+                    DiasEnCorreccion = item.Solicitud.DiasEnCorreccion,
+                    MailFirmantes = GetCadenaLimpia(item.Solicitud.MailFirmantes),
+                    MailTitulares = GetCadenaLimpia(item.Solicitud.MailTitulares),
+                    MailUsuarioSSIT = GetCadenaLimpia(item.Solicitud.MailUsuarioSSIT),
+                    MailUsuarioTAD = GetCadenaLimpia(item.Solicitud.MailUsuarioTAD),
+                    PlantasHabilitar = item.Solicitud.PlantasHabilitar,
+                    Usuario = item.Solicitud.Usuario,
+                    NombreyApellido = item.Solicitud.NombreyApellido,
+                    FechaInicioAT = item.Solicitud.FechaInicioAT,
+                    FechaAprobadoAT = item.Solicitud.FechaAprobadoAT,
+                    TienePlanoIncendio = item.Solicitud.TienePlanoIncendio,
 
+                    Ubicaciones = new List<clsItemConsultaUbicacion>(),
+                    Rubros = new List<clsItemddlRubro>(),
+                    Titulares = new List<clsItemConsulta>(),
+                    Cuits = new List<clsItemConsulta>(),
+                }).ToList();
+
+                //cargo las listas antes del foreach
+                /*
+                var idSolicitudes = tramites.Select(r => r.id_solicitud).ToList();
+                var idTipoTramites = tramites.Select(r => r.id_tipotramite).ToList();
+                var lstConsTram = db.SGI_ConsultaTramites
+                                  .Where(x => idSolicitudes.Contains(x.id_solicitud) && idTipoTramites.Contains(x.id_tipotramite))
+                                  .ToList();
+                */
+                //probando si los hashmap son realmente mas rapidos
+                var idSolicitudesSet = new HashSet<int>(tramites.Select(r => r.id_solicitud));
+                var idTipoTramitesSet = new HashSet<int>(tramites.Select(r => r.id_tipotramite));
+                var lstConsTram = db.SGI_ConsultaTramites
+                                .Where(x => idSolicitudesSet.Contains(x.id_solicitud) && idTipoTramitesSet.Contains(x.id_tipotramite))
+                                .ToList();
                 foreach (var r in tramites)
                 {
-                    var lstConsTram = db.SGI_ConsultaTramites.Where(x => x.id_solicitud == r.id_solicitud && x.id_tipotramite == r.id_tipotramite).ToList();
-
-                    r.Ubicaciones = lstConsTram
+                    var matchingConsTram = lstConsTram
+                    .Where(x => x.id_solicitud == r.id_solicitud && x.id_tipotramite == r.id_tipotramite)
+                    .ToList();
+                    //var lstConsTram = db.SGI_ConsultaTramites.Where(x => x.id_solicitud == r.id_solicitud && x.id_tipotramite == r.id_tipotramite).ToList();
+                        r.Ubicaciones = matchingConsTram
                         .GroupBy(a => new { a.Zona, a.Barrio, a.UnidadFuncional, a.Seccion, a.Manzana, a.Parcela, a.NroPartidaMatriz, a.NroPartidaHorizontal, a.SubTipoUbicacion, a.LocalSubTipoUbicacion })
                         .Select(x => new clsItemConsultaUbicacion()
                         {
@@ -1706,7 +1739,7 @@ namespace SGI.GestionTramite
                             SubTipoUbicacion = x.Key.SubTipoUbicacion,
                             LocalSubTipoUbicacion = x.Key.LocalSubTipoUbicacion,
 
-                            Calles = lstConsTram.Where(u => u.Seccion == x.Key.Seccion && u.Manzana == x.Key.Manzana && u.Parcela == x.Key.Parcela)
+                            Calles = matchingConsTram//.Where(u => u.Seccion == x.Key.Seccion && u.Manzana == x.Key.Manzana && u.Parcela == x.Key.Parcela)
                             .GroupBy(a => new { a.nombre_calle, a.NroPuerta })
                             .Select(u => new clsItemConsultaPuerta
                             {
@@ -1717,7 +1750,7 @@ namespace SGI.GestionTramite
                         }).ToList();
 
 
-                    r.Rubros = lstConsTram
+                    r.Rubros = matchingConsTram
                         .GroupBy(a => new { a.id_rubro, a.cod_rubro, a.nom_rubro, a.id_subrubro, a.nom_subrubro })
                         .Select(p => new clsItemddlRubro
                         {
@@ -1728,10 +1761,12 @@ namespace SGI.GestionTramite
                             nom_subrubro = p.Key.nom_subrubro
                         }).ToList();
 
-                    r.Titulares = lstConsTram.GroupBy(a => new { a.Titulares })
+                    r.Titulares = matchingConsTram
+                        .GroupBy(a => new { a.Titulares })
                         .Select(x => new clsItemConsulta { value = GetCadenaLimpia(x.Key.Titulares) }).ToList();
 
-                    r.Cuits = lstConsTram.GroupBy(a => new { a.Cuits })
+                    r.Cuits = matchingConsTram
+                        .GroupBy(a => new { a.Cuits })
                         .Select(x => new clsItemConsulta { value = GetCadenaLimpia(x.Key.Cuits) }).ToList();
 
                     var sol = db.SSIT_Solicitudes.Where(s => s.id_solicitud == r.id_solicitud).FirstOrDefault();
@@ -1754,6 +1789,7 @@ namespace SGI.GestionTramite
                 return tramites;
             }
         }
+
 
         private string GetCadenaLimpia(string str)
         {
@@ -1784,11 +1820,9 @@ namespace SGI.GestionTramite
         {
 
             btnCerrarExportacion.Visible = false;
-            // genera un nombre de archivo aleatorio
-            Random random = new Random((int)DateTime.Now.Ticks);
-            int NroAleatorio = random.Next(0, 100);
-            NroAleatorio = NroAleatorio * random.Next(0, 100);
-            string fileName = string.Format("Grilla-Solicitudes-{0}.xls", NroAleatorio);
+            //ahora crea el excel con la fecha en su nombre
+            string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+            string fileName = string.Format("Grilla-Solicitudes-{0}.xlsx", fecha);
 
             pnlDescargarExcel.Style["display"] = "none";
             pnlExportandoExcel.Style["display"] = "block";
@@ -1798,14 +1832,13 @@ namespace SGI.GestionTramite
             Session["filename_exportacion"] = fileName;
 
             lblRegistrosExportados.Text = "Preparando exportación.";
-            System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(ExportarGrillaAExcel));
+            System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(ExportarGrillaAExcelAsync));
             thread.Start();
-
             Timer1.Enabled = true;
 
         }
 
-        private void ExportarGrillaAExcel()
+        private void ExportarGrillaAExcelAsync()
         {
 
             decimal cant_registros_x_vez = 0m;
@@ -1814,16 +1847,18 @@ namespace SGI.GestionTramite
 
             try
             {
-
+                DateTime startTime = DateTime.Now;
+                LogToTemporalFile("Export started at: " + startTime.ToString());
                 // Esto se realiza para saber el total y de a cuanto se va mostrar el progreso.
+
                 FiltrarTramitesSP(startRowIndex, 1, "", out totalRowCount);
                 if (totalRowCount < 10000)
-                    cant_registros_x_vez = 1000m;
+                    cant_registros_x_vez = 10000m;
                 else
-                    cant_registros_x_vez = 5000m;
+                    cant_registros_x_vez = 50000m;
 
                 int cantidad_veces = (int)Math.Ceiling(totalRowCount / cant_registros_x_vez);
-
+                
                 List<clsItemConsultaTramite> resultados = new List<clsItemConsultaTramite>();
 
                 for (int i = 1; i <= cantidad_veces; i++)
@@ -1832,6 +1867,7 @@ namespace SGI.GestionTramite
                     Session["progress_data"] = string.Format("{0} trámites exportados.", resultados.Count);
                     startRowIndex += Convert.ToInt32(cant_registros_x_vez);
                 }
+
                 Session["progress_data"] = string.Format("{0} trámites exportados.", resultados.Count);
                 DataTable dt;
                 if (rbtRubro.Checked)
@@ -2032,37 +2068,76 @@ namespace SGI.GestionTramite
                     dt = Functions.ToDataTable(lstExportar);
                 }
 
-
                 // Convierte la lista en un dataset
                 DataSet ds = new DataSet();
                 dt.TableName = "Solicitudes";
                 ds.Tables.Add(dt);
-                string path = Constants.Path_Temporal;
 
+                string path = Constants.Path_Temporal;
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
-
+                //test
+                //string pythonScriptPath = @"F:\DEPLOY\DGHP\dist\export_dataset_to_excel.exe";
+                string pythonScriptPath = @"C:\Python\exportSGI\export_dataset_to_excel.exe";
+                if (!File.Exists(pythonScriptPath))
+                {
+                    Console.WriteLine("El archivo ejecutable de Python no existe en la ubicacion indicada.");
+                    return;
+                }
                 string savedFileName = path + Session["filename_exportacion"].ToString();
+                #region python ejecutable para exportar
+                string jason = JsonConvert.SerializeObject(ds, Formatting.Indented);
+                string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+                string namedPipeName = "mypipe_" + Guid.NewGuid().ToString();
 
+                #endregion
                 Functions.EliminarArchivosDirectorioTemporal();
 
-                // Utiliza DocumentFormat.OpenXml para exportar a excel
-                Functions.ExportDataSetToExcel(ds, savedFileName);
+                string pythonArguments = $"\"{savedFileName}\" \"{namedPipeName}\" ";
 
+                Functions.RunPythonExecutable(pythonScriptPath, pythonArguments,jason,namedPipeName); //invoca al python y abre el pipe
+                DateTime endtTime = DateTime.Now;
+                LogToTemporalFile("Export ended at: " + endtTime.ToString() + "\n" + "Filas: " + totalRowCount);
+
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=file.xlsx");
+
+                // Write the Excel file content to the response output stream
+                Response.TransmitFile(savedFileName);
+                Response.End();
+
+                
                 // quita la variable de session.
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
+                Session["progress_data"] = "Exportación completada.";
+                
             }
             catch (TimeoutException tex)
             {
+                LogToTemporalFile("Error de exportacion: " + tex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
                 throw new Exception("Error de exportacion: Intente nuevamente.");
             }
             catch (Exception ex)
             {
+                LogToTemporalFile("Error de exportacion: " + ex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
+            }
+        }
+
+        private void LogToTemporalFile(string message)
+        {
+            string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+            string FileName = string.Format("log_timer_{0}.txt", fechaAct);
+            string path = @"C:\Temporal\";
+            string logFilePath = Path.Combine($"{path}", $"{FileName}");
+
+            using (StreamWriter sw = File.AppendText(logFilePath))
+            {
+                sw.WriteLine(message);
             }
         }
 
@@ -2110,7 +2185,7 @@ namespace SGI.GestionTramite
 
         protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
-            Response.Cookies["ConsultaTramite_IdCalle"].Value = e.Key;
+            Session["ConsultaTramite_IdCalle"] = e.Key;
             return;
         }
     }
