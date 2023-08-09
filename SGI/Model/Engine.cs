@@ -262,7 +262,8 @@ namespace SGI.Model
                 //antes chequeo si es una habilitacion
                 if (id_tramitetarea != 0)
                 {
-                    if (objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF_NUEVO)
+                    //tambien chequeo que no es una transferencia vieja)
+                    if (objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF_NUEVO && objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF) 
                     {
                         int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
                         int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
