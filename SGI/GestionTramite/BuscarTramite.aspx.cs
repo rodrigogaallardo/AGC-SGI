@@ -10,6 +10,8 @@ using ExtensionMethods;
 using System.Web.Script.Serialization;
 using ExcelLibrary.BinaryFileFormat;
 using DocumentFormat.OpenXml.Drawing;
+using System.IO;
+using System.Text;
 
 namespace SGI
 {
@@ -1630,6 +1632,9 @@ namespace SGI
         private List<clsItemBuscarTramite> FiltrarTramites(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
         {
             DGHP_Entities db = new DGHP_Entities();
+            string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+            string FileName = string.Format("log_busqueda_{0}.csv", fechaAct);
+            //LogToTemporalFile("Inicio ", FileName);
             if (!String.IsNullOrWhiteSpace(codigoGuid))
             {
 
@@ -1923,7 +1928,7 @@ namespace SGI
                         id_estado = sol.id_estado,
                         LibradoUso = sol.FechaLibrado
                     }).Distinct();
-
+            //LogToTemporalFile("qSOL_inicial ", FileName);
             // busqueda por datos del trámite
             if (this.id_solicitud > 0)
                 qSOL = qSOL.Where(x => x.id_solicitud == this.id_solicitud);
@@ -2053,7 +2058,7 @@ namespace SGI
             if (this.IncluyeAnulados == 0)
             {
                 qSOL = (from res in qSOL
-                         where res.id_estado != (int)Constants.Solicitud_Estados.Anulado
+                        where res.id_estado != (int)Constants.Solicitud_Estados.Anulado
                         select res);
             }
 
@@ -2237,7 +2242,7 @@ namespace SGI
                         where ubiprop.UnidadFuncional == this.uf
                         select res);
 
-           
+
 
             //busqueda por Sección / Manzana / Parcela
             if (this.seccion > 0)
@@ -2269,7 +2274,7 @@ namespace SGI
                         join tipubic in db.TiposDeUbicacion on stipubic.id_tipoubicacion equals tipubic.id_tipoubicacion
                         where tipubic.id_tipoubicacion == this.id_tipo_ubicacion
                         select res);
-
+            //LogToTemporalFile("qSOL_pre_rubros ", FileName);
             // búsqueda por rubros
             if (this.rubro_desc.Length > 0)
             {
@@ -2302,6 +2307,7 @@ namespace SGI
                          select res)
                         ;
             }
+            //LogToTemporalFile("qSOL_desp_rubros ", FileName);
             // búsqueda por titulares
             if (this.tit_razon.Length > 0)
             {
@@ -2361,8 +2367,37 @@ namespace SGI
                         where res.id_estado == (int)Constants.Solicitud_Estados.Aprobada
                         select res);
             }
-            #endregion
 
+            //filtrado por superficie
+            if (this.SuperficieDesde.HasValue || this.SuperficieHasta.HasValue)
+            {
+                Decimal? Superficie_Desde = null;
+                Decimal? Superficie_Hasta = null;
+
+                if (this.SuperficieDesde.HasValue)
+                    Superficie_Desde = this.SuperficieDesde.Value;
+                else
+                    Superficie_Desde = 0;
+
+                if (this.SuperficieHasta.HasValue)
+                    Superficie_Hasta = this.SuperficieHasta.Value;
+                else
+                    Superficie_Hasta = 99999999;
+
+                qSOL = (from res in qSOL
+                        join encsol in db.Encomienda_Transf_Solicitudes on res.id_solicitud equals encsol.id_solicitud
+                        join enc in db.Encomienda on encsol.id_encomienda equals enc.id_encomienda
+                        join encdl in db.Encomienda_DatosLocal on encsol.id_encomienda equals encdl.id_encomienda
+                        where (encdl.superficie_cubierta_dl + encdl.superficie_descubierta_dl >= Superficie_Desde &&
+                              encdl.superficie_cubierta_dl + encdl.superficie_descubierta_dl <= Superficie_Hasta)
+                        select res);
+            }
+
+            #endregion
+            //LogToTemporalFile("qSOL_ToList_ini", FileName);
+            //va a buscar los datos de las solicitudes a la base de datos
+            AddQueryFinal(qSOL, ref qFinal);
+            // LogToTemporalFile("qSOL_ToList_fin", FileName);
             // Consulta de datos CPadron
             #region "Consulta CPadron"
             IQueryable<cls_ultima_tarea> lst_Ultima_tareaCP = (from tt in db.SGI_Tramites_Tareas_CPADRON
@@ -2372,7 +2407,7 @@ namespace SGI
                                                                    id_solicitud = g.Key,
                                                                    id_tramitetarea = g.Max(s => s.id_tramitetarea)
                                                                });
-
+            //LogToTemporalFile("qCP_inicial", FileName);
             qCP = (from sol in db.CPadron_Solicitudes
                    join eDatos in db.CPadron_DatosLocal on sol.id_cpadron equals eDatos.id_cpadron into zr
                    from ed in zr.DefaultIfEmpty()
@@ -2510,8 +2545,8 @@ namespace SGI
             if (this.LibradoUso == 1)
             {
                 qCP = (from res in qCP
-                        where 1 == 0
-                        select res);
+                       where 1 == 0
+                       select res);
             }
 
             //filtro si incluye o no anulados
@@ -2698,14 +2733,14 @@ namespace SGI
                        join tipubic in db.TiposDeUbicacion on stipubic.id_tipoubicacion equals tipubic.id_tipoubicacion
                        where tipubic.id_tipoubicacion == this.id_tipo_ubicacion
                        select res);
-
+            //LogToTemporalFile("qCP_pre_rubros", FileName);
             // búsqueda por rubros
             if (this.rubro_desc.Length > 0)
                 qCP = (from res in qCP
                        join rub in db.CPadron_Rubros on res.id_solicitud equals rub.id_cpadron
                        where rub.cod_rubro == this.rubro_desc || rub.desc_rubro.Contains(this.rubro_desc)
                        select res);
-
+            //LogToTemporalFile("qCP_desp_rubros", FileName);
             // búsqueda por titulares
             if (this.tit_razon.Length > 0)
             {
@@ -2764,6 +2799,12 @@ namespace SGI
             }
             #endregion
 
+            //LogToTemporalFile("qCP_ToList_ini", FileName);
+            //va a buscar los datos de las consulta padron a la base de datos
+            AddQueryFinal(qCP, ref qFinal);
+            //LogToTemporalFile("qCP_ToList_fin", FileName);
+
+            //LogToTemporalFile("qTR_inicial", FileName);
             // Consulta de Transferencia
             #region "Consulta Transferencia"
             int nroTrReferencia = 0;
@@ -3203,7 +3244,7 @@ namespace SGI
                                          join encubic in db.Transf_Ubicaciones on res.id_solicitud equals encubic.id_solicitud
                                          where encubic.Ubicaciones.SubTiposDeUbicacion.id_tipoubicacion == this.id_tipo_ubicacion
                                          select res);
-
+            //LogToTemporalFile("qTR_pre_rubros", FileName);
             // búsqueda por rubros
             if (this.rubro_desc.Length > 0)
                 qTR = (from res in qTR
@@ -3211,7 +3252,7 @@ namespace SGI
                        join rub in db.CPadron_Rubros on sol.id_cpadron equals rub.id_cpadron
                        where rub.cod_rubro == this.rubro_desc || rub.desc_rubro.Contains(this.rubro_desc)
                        select res);
-
+            //LogToTemporalFile("qTR_desp_rubros", FileName);
             // búsqueda por titulares
             if (this.tit_razon.Length > 0)
             {
@@ -3245,36 +3286,23 @@ namespace SGI
             //}
             #endregion
 
-            //filtrado por superficie
-            if (this.SuperficieDesde.HasValue || this.SuperficieHasta.HasValue)
-            {
-                Decimal? Superficie_Desde = null;
-                Decimal? Superficie_Hasta = null;
+            //LogToTemporalFile("qTR_ToList_ini", FileName);
+            //va a buscar los datos de las transferencias a la base de datos
+            AddQueryFinal(qTR, ref qFinal);
+            //LogToTemporalFile("qTR_ToList_fin", FileName);
 
-                if (this.SuperficieDesde.HasValue)
-                    Superficie_Desde = this.SuperficieDesde.Value;
-                else
-                    Superficie_Desde = 0;
-
-                if (this.SuperficieHasta.HasValue)
-                    Superficie_Hasta = this.SuperficieHasta.Value;
-                else
-                    Superficie_Hasta = 99999999;
-
-                qSOL = (from res in qSOL
-                        join encsol in db.Encomienda_Transf_Solicitudes on res.id_solicitud equals encsol.id_solicitud
-                        join enc in db.Encomienda on encsol.id_encomienda equals enc.id_encomienda
-                        join encdl in db.Encomienda_DatosLocal on encsol.id_encomienda equals encdl.id_encomienda
-                        where (encdl.superficie_cubierta_dl + encdl.superficie_descubierta_dl >= Superficie_Desde &&
-                              encdl.superficie_cubierta_dl + encdl.superficie_descubierta_dl <= Superficie_Hasta)
-                        select res);
-            }
-
+            //LogToTemporalFile("qFinalArmado_ini", FileName);
+            /*
             AddQueryFinal(qTR, ref qFinal);
             AddQueryFinal(qCP, ref qFinal);
             AddQueryFinal(qSOL, ref qFinal);
-            qFinal = qFinal.Distinct();
+            */
+            //qFinal = qFinal.Distinct();
             totalRowCount = qFinal.Count();
+            //LogToTemporalFile("qFinalArmado_fin", FileName);
+
+            //la mitad de la performance se pierde aca
+            //LogToTemporalFile("qFinalSorting_ini", FileName);
 
             if (sortByExpression != null)
             {
@@ -3321,11 +3349,13 @@ namespace SGI
                 qFinal = qFinal.OrderBy(o => o.FechaInicio_tarea).Skip(startRowIndex).Take(maximumRows);
 
             resultados = qFinal.ToList();
+            //LogToTemporalFile("qFinalSorting_fin", FileName);
 
+            //LogToTemporalFile("qFinal_preDomAdic", FileName);
             #region "Domicilios y datos adicionales"
             if (resultados.Count > 0)
             {
-
+                //LogToTemporalFile("inicio_get_dir_enc", FileName);
                 //------------------------------
                 //Obtener las Direcciones del ENC
                 //-------------------------------
@@ -3336,10 +3366,11 @@ namespace SGI
 
                 if (arrSolicitudesENC.Length > 0)
                     lstDireccionesENC = Shared.GetDireccionesENC(arrSolicitudesENC);
-
+                //LogToTemporalFile("fin_get_dir_enc", FileName);
                 //------------------------------
                 //Obtener las Direcciones del CP
                 //-------------------------------
+                //LogToTemporalFile("inicio_get_dir_cp", FileName);
                 List<clsItemDireccion> lstDireccionesCP = new List<clsItemDireccion>();
                 string[] arrSolicitudesCP = (from r in resultados
                                              where r.cod_grupotramite == Constants.GruposDeTramite.CP.ToString()
@@ -3347,10 +3378,11 @@ namespace SGI
 
                 if (arrSolicitudesCP.Length > 0)
                     lstDireccionesCP = Shared.GetDireccionesCP(arrSolicitudesCP);
-
+                //LogToTemporalFile("fin_get_dir_cp", FileName);
                 //------------------------------
                 //Obtener las Direcciones del TR
                 //-------------------------------
+                //LogToTemporalFile("inicio_get_dir_TR", FileName);
                 List<clsItemDireccion> lstDireccionesTR = new List<clsItemDireccion>();
                 string[] arrSolicitudesTR = (from r in resultados
                                              where r.cod_grupotramite == Constants.GruposDeTramite.TR.ToString()
@@ -3367,69 +3399,110 @@ namespace SGI
 
                 if (arrSolicitudesTRNuevas.Length > 0)
                     lstDireccionesTR.AddRange(Shared.GetDireccionesTRNuevas(arrSolicitudesTRNuevas));
-
+                //LogToTemporalFile("fin_get_dir_TR", FileName);
                 ////------------------------------------------------------------------------
                 //Rellena la clase a devolver con los datos que faltaban (Direccion, dias transcurrido)
                 //------------------------------------------------------------------------
+                //LogToTemporalFile("inicio_get_datos_adic", FileName);
+                //creamos las listas
+                var dicDireccionesENC = lstDireccionesENC.ToDictionary(x => x.id_solicitud);
+                var dicDireccionesCP = lstDireccionesCP.ToDictionary(x => x.id_solicitud);
+                var dicDireccionesTR = lstDireccionesTR.ToDictionary(x => x.id_solicitud);
                 foreach (var row in resultados)
                 {
                     clsItemDireccion itemDireccion = null;
                     string datosadicionales = string.Empty;
+
                     // ENC
-                    if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
+                    if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString() && dicDireccionesENC.TryGetValue(row.id_solicitud, out itemDireccion))
                     {
-                        itemDireccion = lstDireccionesENC.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
-                        var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == row.id_solicitud
-                                                && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
+                        var enc = db.Encomienda
+                            .Include(x => x.Encomienda_SSIT_Solicitudes)
+                            .Include(x => x.Encomienda_DatosLocal)
+                            .Include(x => x.Encomienda_Ubicaciones)
+                            .Where(x => x.Encomienda_SSIT_Solicitudes.Any(y => y.id_solicitud == row.id_solicitud) && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)
+                            .OrderByDescending(x => x.id_encomienda)
+                            .FirstOrDefault();
+
                         if (enc != null)
                         {
-                            var datos = db.Encomienda_DatosLocal.FirstOrDefault(x => x.id_encomienda == enc.id_encomienda);
-                            var datosadic = db.Encomienda_Ubicaciones.FirstOrDefault(x => x.id_encomienda == enc.id_encomienda);
-                            row.superficie_total = datos.superficie_cubierta_dl.Value + datos.superficie_descubierta_dl.Value;
-                            datosadicionales = (string.IsNullOrEmpty(datosadic.Depto) ? "" : " (Depto: " + datosadic.Depto + ")") +
-                                               (string.IsNullOrEmpty(datosadic.Local) ? "" : " (Local: " + datosadic.Local + ")") +
-                                               (string.IsNullOrEmpty(datosadic.Torre) ? "" : " (Torre: " + datosadic.Torre + ")");
+                            var datos = enc.Encomienda_DatosLocal.FirstOrDefault();
+                            var datosadic = enc.Encomienda_Ubicaciones.FirstOrDefault();
+                            row.superficie_total = (decimal)(datos?.superficie_cubierta_dl.GetValueOrDefault() + datos?.superficie_descubierta_dl.GetValueOrDefault());
+                            datosadicionales = (string.IsNullOrEmpty(datosadic?.Depto) ? "" : " (Depto: " + datosadic.Depto + ")") +
+                                               (string.IsNullOrEmpty(datosadic?.Local) ? "" : " (Local: " + datosadic.Local + ")") +
+                                               (string.IsNullOrEmpty(datosadic?.Torre) ? "" : " (Torre: " + datosadic.Torre + ")");
                         }
                     }
-                    else if (row.cod_grupotramite == Constants.GruposDeTramite.CP.ToString())
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.CP.ToString() && dicDireccionesCP.TryGetValue(row.id_solicitud, out itemDireccion))
                     {
-                        itemDireccion = lstDireccionesCP.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
+                        // CP
                     }
-                    else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString())
+                    else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString() && dicDireccionesTR.TryGetValue(row.id_solicitud, out itemDireccion))
                     {
-                        itemDireccion = lstDireccionesTR.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
-                        var enc = db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == row.id_solicitud
-                                                && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
+                        var enc = db.Encomienda
+                            .Include(x => x.Encomienda_Transf_Solicitudes)
+                            .Include(x => x.Encomienda_DatosLocal)
+                            .Include(x => x.Encomienda_Ubicaciones)
+                            .Where(x => x.Encomienda_Transf_Solicitudes.Any(y => y.id_solicitud == row.id_solicitud) && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)
+                            .OrderByDescending(x => x.id_encomienda)
+                            .FirstOrDefault();
+
                         if (enc != null)
                         {
-                            var datos = db.Encomienda_DatosLocal.FirstOrDefault(x => x.id_encomienda == enc.id_encomienda);
-                            var datosadic = db.Encomienda_Ubicaciones.FirstOrDefault(x => x.id_encomienda == enc.id_encomienda);
-                            row.superficie_total = datos.superficie_cubierta_dl.Value + datos.superficie_descubierta_dl.Value;
-                            datosadicionales = (string.IsNullOrEmpty(datosadic.Depto) ? "" : " (Depto: " + datosadic.Depto + ")") +
-                                               (string.IsNullOrEmpty(datosadic.Local) ? "" : " (Local: " + datosadic.Local + ")") +
-                                               (string.IsNullOrEmpty(datosadic.Torre) ? "" : " (Torre: " + datosadic.Torre + ")");
+                            var datos = enc.Encomienda_DatosLocal.FirstOrDefault();
+                            var datosadic = enc.Encomienda_Ubicaciones.FirstOrDefault();
+                            row.superficie_total = (decimal)(datos?.superficie_cubierta_dl.GetValueOrDefault() + datos?.superficie_descubierta_dl.GetValueOrDefault());
+                            datosadicionales = (string.IsNullOrEmpty(datosadic?.Depto) ? "" : " (Depto: " + datosadic.Depto + ")") +
+                                               (string.IsNullOrEmpty(datosadic?.Local) ? "" : " (Local: " + datosadic.Local + ")") +
+                                               (string.IsNullOrEmpty(datosadic?.Torre) ? "" : " (Torre: " + datosadic.Torre + ")");
                         }
                     }
 
                     // Llenado para todos
                     if (itemDireccion != null)
-                        row.direccion = (string.IsNullOrEmpty(itemDireccion.direccion) ? "" : itemDireccion.direccion) +
-                                        (string.IsNullOrEmpty(datosadicionales) ? "" : datosadicionales);
+                    {
+                        StringBuilder direccionBuilder = new StringBuilder(itemDireccion.direccion);
+                        direccionBuilder.Append(datosadicionales);
+                        row.direccion = direccionBuilder.ToString();
+                    }
 
-                    row.url_visorTramite = string.Format(row.url_visorTramite, row.id_solicitud.ToString());
+                    row.url_visorTramite = string.Format(row.url_visorTramite, row.id_solicitud);
                     if (row.formulario_tarea != null)
                         row.url_tareaTramite = string.Format(row.url_tareaTramite, row.formulario_tarea.Substring(0, row.formulario_tarea.IndexOf(".")), row.id_tramitetarea.ToString());
                     else
                         row.url_tareaTramite = "";
                 }
+                //LogToTemporalFile("fin_get_datos_adic", FileName);
             }
 
             #endregion
             db.Dispose();
-
+            //LogToTemporalFile("Finalizo",FileName);
             return resultados;
         }
 
+        private void LogToTemporalFile(string message, string FileName)
+        {
+            string fechaAct = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            string path = @"C:\Temporal\";
+            string logFilePath = System.IO.Path.Combine($"{path}", $"{FileName}");
+
+            bool fileExists = File.Exists(logFilePath);
+
+            if (!fileExists)
+            {
+                using (StreamWriter sw = new StreamWriter(logFilePath))
+                {
+                    sw.WriteLine("Timestamp,Message");
+                }
+            }
+
+            using (StreamWriter sw = File.AppendText(logFilePath))
+            {
+                sw.WriteLine($"{fechaAct},{message}");
+            }
+        }
         private void AddQueryFinal(IQueryable<clsItemBuscarTramite> query, ref IQueryable<clsItemBuscarTramite> qFinal)
         {
             if (query != null)
