@@ -49,6 +49,7 @@
                                 <asp:BoundField DataField="TipoExpediente" HeaderText="Tipo Tramite" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="GrupoCircuito" HeaderText="Grupo Circuito" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="LibrarUso" HeaderText="Librado al Uso" ItemStyle-CssClass="align-center" />
+                                <asp:BoundField DataField="CondicionExpress" HeaderText="Condicion Express" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="ZonaMixtura1" HeaderText="ZonaMixtura 1" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="ZonaMixtura2" HeaderText="ZonaMixtura 2" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="ZonaMixtura3" HeaderText="ZonaMixtura 3" ItemStyle-CssClass="align-center" />

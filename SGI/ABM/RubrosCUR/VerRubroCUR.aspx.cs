@@ -51,6 +51,7 @@ namespace SGI.ABM
                     //
                     ChkLibrado.Checked = q.LibrarUso;
                     ChkSoloApra.Checked = q.SoloAPRA;
+                    ChkExpress.Checked = q.CondicionExpress;
                     txtZonaMixtura1.Text = q.ZonaMixtura1;
                     txtZonaMixtura2.Text = q.ZonaMixtura2;
                     txtZonaMixtura3.Text = q.ZonaMixtura3;
