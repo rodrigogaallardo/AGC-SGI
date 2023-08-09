@@ -1824,7 +1824,7 @@ namespace SGI.GestionTramite
             decimal cant_registros_x_vez = 0m;
             int totalRowCount = 0;
             int startRowIndex = 0;
-
+            string fechaInicio = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             try
             {
 
@@ -2068,17 +2068,21 @@ namespace SGI.GestionTramite
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
                 Session["progress_data"] = "Exportación completada.";
+                string fechaFin = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                LogError.Write(new Exception("Fecha Inicio: " + fechaInicio + " Fecha Final:" + fechaFin));
             }
             catch (TimeoutException tex)
             {
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
+                LogError.Write(tex);
                 throw new Exception("Error de exportacion: Intente nuevamente.");
             }
             catch (Exception ex)
             {
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
+                LogError.Write(ex);
             }
         }
 
@@ -2102,8 +2106,9 @@ namespace SGI.GestionTramite
                     Session.Remove("filename_exportacion");
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                LogError.Write(ex);
                 throw new Exception("Error de exportacion: Intente nuevamente.");
                 //Timer1.Enabled = false;
             }
