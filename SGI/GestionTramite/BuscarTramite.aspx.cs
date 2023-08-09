@@ -12,6 +12,7 @@ using ExcelLibrary.BinaryFileFormat;
 using DocumentFormat.OpenXml.Drawing;
 using System.IO;
 using System.Text;
+using System.Data.Entity;
 
 namespace SGI
 {
