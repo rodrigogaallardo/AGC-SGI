@@ -311,8 +311,8 @@
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
           <Property Name="LastUpdateDate" Type="datetime" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CPadron_Planos">
           <Key>
             <PropertyRef Name="id_cpadron_plano" />
@@ -1350,8 +1350,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CPadron_Planos'
           <Property Name="cfg_smpt_puerto" Type="int" />
           <Property Name="cfg_html" Type="nvarchar" MaxLength="2000" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send_Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Envio_Mail_Send_Estado">
           <Key>
             <PropertyRef Name="Estado_Proceso" />
@@ -1391,8 +1391,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Envio_Mail_Send
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Hoja2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Estadisticas_Hoja2">
           <Key>
             <PropertyRef Name="id" />
@@ -2094,6 +2094,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Ho
           <Property Name="idCondicionIncendio" Type="int" />
           <Property Name="SoloAPRA" Type="bit" Nullable="false" />
           <Property Name="SinBanioPCD" Type="bit" />
+          <Property Name="CondicionExpress" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RubrosCN_Config_Incendio">
           <Key>
@@ -2107,8 +2108,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Ho
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RubrosCN_Historial">
           <Key>
             <PropertyRef Name="IdRubrosCN_historial" />
@@ -2120,6 +2121,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
             <PropertyRef Name="LibrarUso" />
             <PropertyRef Name="CreateDate" />
             <PropertyRef Name="CreateUser" />
+            <PropertyRef Name="CondicionExpress" />
           </Key>
           <Property Name="IdRubrosCN_historial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="tipo_operacion" Type="nvarchar" MaxLength="2" Nullable="false" />
@@ -2148,6 +2150,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
           <Property Name="Asistentes350" Type="bit" />
           <Property Name="SinBanioPCD" Type="bit" />
+          <Property Name="CondicionExpress" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RubrosCN_InformacionRelevante">
           <Key>
@@ -2300,68 +2303,68 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="FechaInicio" Type="datetime" Nullable="false" />
           <Property Name="FechaIngreso" Type="datetime" />
           <Property Name="id_tipotramite" Type="int" Nullable="false" />
-          <Property Name="TipoTramite" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TipoTramite" Type="nvarchar(max)" Nullable="false" />
           <Property Name="id_tipoexpediente" Type="int" Nullable="false" />
-          <Property Name="TipoExpediente" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TipoExpediente" Type="nvarchar(max)" Nullable="false" />
           <Property Name="id_subtipoexpediente" Type="int" Nullable="false" />
-          <Property Name="SubTipoExpediente" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SubTipoExpediente" Type="nvarchar(max)" Nullable="false" />
           <Property Name="id_grupo_circuito" Type="int" />
-          <Property Name="TipoCAA" Type="nvarchar" MaxLength="100" />
+          <Property Name="TipoCAA" Type="nvarchar(max)" />
           <Property Name="id_tarea_actual" Type="int" />
-          <Property Name="TareaActual" Type="nvarchar" MaxLength="150" />
+          <Property Name="TareaActual" Type="nvarchar(max)" />
           <Property Name="FechaCreacionTareaActual" Type="datetime" />
           <Property Name="FechaAsignacionTareaActual" Type="datetime" />
           <Property Name="id_tramitetar_abierta" Type="int" />
           <Property Name="Superficie" Type="decimal" Precision="18" Scale="0" />
           <Property Name="id_estado" Type="int" Nullable="false" />
-          <Property Name="Estado" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Calificador" Type="nvarchar" MaxLength="200" />
-          <Property Name="ProfesionalAnexoTecnico" Type="nvarchar" MaxLength="200" />
-          <Property Name="ProfesionalAnexoNotarial" Type="nvarchar" MaxLength="200" />
+          <Property Name="Estado" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Calificador" Type="nvarchar(max)" />
+          <Property Name="ProfesionalAnexoTecnico" Type="nvarchar(max)" />
+          <Property Name="ProfesionalAnexoNotarial" Type="nvarchar(max)" />
           <Property Name="FechaLibrado" Type="datetime" />
           <Property Name="FechaHabilitacion" Type="datetime" />
           <Property Name="FechaRechazo" Type="datetime" />
           <Property Name="FechaBaja" Type="datetime" />
           <Property Name="FechaCaducidad" Type="datetime" />
-          <Property Name="Titulares" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Cuits" Type="nvarchar" MaxLength="1000" />
-          <Property Name="NumeroExp" Type="nvarchar" MaxLength="80" />
+          <Property Name="Titulares" Type="nvarchar(max)" />
+          <Property Name="Cuits" Type="nvarchar(max)" />
+          <Property Name="NumeroExp" Type="nvarchar(max)" />
           <Property Name="Observaciones" Type="int" />
           <Property Name="id_encomienda" Type="int" />
           <Property Name="idCAA" Type="int" />
           <Property Name="idSIPSA" Type="int" />
-          <Property Name="TipoNormativa" Type="varchar" MaxLength="100" />
-          <Property Name="Organismo" Type="varchar" MaxLength="100" />
-          <Property Name="NroNormativa" Type="nvarchar" MaxLength="100" />
+          <Property Name="TipoNormativa" Type="varchar(max)" />
+          <Property Name="Organismo" Type="varchar(max)" />
+          <Property Name="NroNormativa" Type="nvarchar(max)" />
           <Property Name="DiasEnCorreccion" Type="int" />
-          <Property Name="MailFirmantes" Type="nvarchar" MaxLength="150" />
-          <Property Name="MailTitulares" Type="nvarchar" MaxLength="150" />
-          <Property Name="MailUsuarioSSIT" Type="nvarchar" MaxLength="512" />
-          <Property Name="MailUsuarioTAD" Type="nvarchar" MaxLength="512" />
-          <Property Name="Zona" Type="nvarchar" MaxLength="50" />
+          <Property Name="MailFirmantes" Type="nvarchar(max)" />
+          <Property Name="MailTitulares" Type="nvarchar(max)" />
+          <Property Name="MailUsuarioSSIT" Type="nvarchar(max)" />
+          <Property Name="MailUsuarioTAD" Type="nvarchar(max)" />
+          <Property Name="Zona" Type="nvarchar(max)" />
           <Property Name="id_zonahabilitaciones" Type="int" />
           <Property Name="id_barrio" Type="int" />
-          <Property Name="Barrio" Type="nvarchar" MaxLength="100" />
+          <Property Name="Barrio" Type="nvarchar(max)" />
           <Property Name="id_comuna" Type="int" />
-          <Property Name="UnidadFuncional" Type="nvarchar" MaxLength="20" />
+          <Property Name="UnidadFuncional" Type="nvarchar(max)" />
           <Property Name="Seccion" Type="int" />
-          <Property Name="Manzana" Type="nvarchar" MaxLength="4" />
-          <Property Name="Parcela" Type="nvarchar" MaxLength="4" />
+          <Property Name="Manzana" Type="nvarchar(max)" />
+          <Property Name="Parcela" Type="nvarchar(max)" />
           <Property Name="NroPartidaMatriz" Type="int" />
           <Property Name="NroPartidaHorizontal" Type="int" />
-          <Property Name="SubTipoUbicacion" Type="nvarchar" MaxLength="200" />
-          <Property Name="LocalSubTipoUbicacion" Type="nvarchar" MaxLength="100" />
+          <Property Name="SubTipoUbicacion" Type="nvarchar(max)" />
+          <Property Name="LocalSubTipoUbicacion" Type="nvarchar(max)" />
           <Property Name="codigo_calle" Type="int" />
-          <Property Name="nombre_calle" Type="nvarchar" MaxLength="100" />
+          <Property Name="nombre_calle" Type="nvarchar(max)" />
           <Property Name="NroPuerta" Type="int" />
           <Property Name="id_rubro" Type="int" />
-          <Property Name="cod_rubro" Type="nvarchar" MaxLength="10" />
-          <Property Name="nom_rubro" Type="nvarchar" MaxLength="1000" />
+          <Property Name="cod_rubro" Type="nvarchar(max)" />
+          <Property Name="nom_rubro" Type="nvarchar(max)" />
           <Property Name="id_subrubro" Type="int" />
-          <Property Name="nom_subrubro" Type="nvarchar" MaxLength="1000" />
-          <Property Name="PlantasHabilitar" Type="nvarchar" MaxLength="200" />
-          <Property Name="Usuario" Type="varchar" MaxLength="100" />
-          <Property Name="NombreyApellido" Type="varchar" MaxLength="100" />
+          <Property Name="nom_subrubro" Type="nvarchar(max)" />
+          <Property Name="PlantasHabilitar" Type="nvarchar(max)" />
+          <Property Name="Usuario" Type="varchar(max)" />
+          <Property Name="NombreyApellido" Type="varchar(max)" />
           <Property Name="FechaInicioAT" Type="datetime" />
           <Property Name="FechaAprobadoAT" Type="datetime" />
           <Property Name="TienePlanoIncendio" Type="bit" Nullable="false" />
@@ -3337,8 +3340,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Encomienda' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Encomienda' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SSIT_Solicitudes_Encomienda">
           <Key>
             <PropertyRef Name="id_sol_enc" />
@@ -4909,8 +4912,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitude
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Parametros' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="wsPagos_Parametros">
           <Key>
             <PropertyRef Name="id_param" />
@@ -4920,8 +4923,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsPagos_Paramet
           <Property Name="nom_param" Type="nvarchar" MaxLength="500" />
           <Property Name="valor_param" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="wsPagos_Procesados">
           <Key>
             <PropertyRef Name="id_pago_BU" />
@@ -4987,8 +4990,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsPagos_Procesa
           <Property Name="nro_puerta" Type="int" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CAA_Estados">
           <Key>
             <PropertyRef Name="id_estado" />
@@ -5005,8 +5008,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_Estados' no
           <Property Name="orden" Type="int" Nullable="false" />
           <Property Name="visible_Aprob_prof" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CAA_Solicitudes">
           <Key>
             <PropertyRef Name="id_solicitud" />
@@ -5045,8 +5048,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_Solicitudes
           <Property Name="id_caa" Type="int" Nullable="false" />
           <Property Name="id_encomienda_agc" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCertificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CAA_TiposDeCertificados">
           <Key>
             <PropertyRef Name="id_tipocertificado" />
@@ -5062,8 +5065,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.CAA_TiposDeCert
           <Property Name="id_ImactoAmbiental" Type="int" Nullable="false" />
           <Property Name="puntaje_para_peligrosos" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Files' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.Files' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Files">
           <Key>
             <PropertyRef Name="rowid" />
@@ -5083,8 +5086,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Files' no tiene
           <Property Name="FileName" Type="varchar" MaxLength="1000" />
           <Property Name="Md5" Type="binary" MaxLength="32" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.PartidaHorizontal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PartidaHorizontal">
           <Key>
             <PropertyRef Name="id_partidahorizontal" />
@@ -5106,8 +5109,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.PartidaHorizont
           <Property Name="VigenciaHasta" Type="datetime" />
           <Property Name="baja_logica" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_historial' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="sysjobs_historial">
           <Key>
             <PropertyRef Name="name" />
@@ -5119,8 +5122,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.sysjobs_histori
           <Property Name="run_status" Type="int" Nullable="false" />
           <Property Name="run_status_desc" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="sysjobs_vista">
           <Key>
             <PropertyRef Name="name" />
@@ -5137,8 +5140,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.sysjobs_vista' 
           <Property Name="freq_subday_type_desc" Type="varchar" MaxLength="4" />
           <Property Name="intervalo_minutos" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.vis_Certificados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vis_Certificados">
           <Key>
             <PropertyRef Name="id_certificado" />
@@ -5155,8 +5158,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.vis_Certificado
           <Property Name="CreateUser" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="item" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocumentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocumentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="wsEE_TareasDocumentos">
           <Key>
             <PropertyRef Name="id_tarea_documento" />
@@ -5354,7 +5357,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SGI_Tarea__id_ti__0BDB7737">
+        <Association Name="FK__SGI_Tarea__id_ti__365FB99B">
           <End Role="SGI_Tipos_Planos_Incendio" Type="Self.SGI_Tipos_Planos_Incendio" Multiplicity="1" />
           <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5366,7 +5369,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SGI_Tarea__id_tr__0AE752FE">
+        <Association Name="FK__SGI_Tarea__id_tr__18103CA5">
           <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
           <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
           <ReferentialConstraint>
@@ -7922,8 +7925,8 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errores durante la generación:
-advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento' tiene columnas que no forman parte de la clave de la tabla en el lado principal de la relación. Se excluyó la relación.
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zonas_Planeamiento" />-->
         <Association Name="FK_Rubros_CircuitoAtomatico_Zonas_Historial_Cambios_Rubros_Historial_Cambios">
           <End Role="Rubros_Historial_Cambios" Type="Self.Rubros_Historial_Cambios" Multiplicity="1" />
@@ -17547,7 +17550,8 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [RubrosCN_Historial].[LastUpdateDate] AS [LastUpdateDate], 
     [RubrosCN_Historial].[LastUpdateUser] AS [LastUpdateUser], 
     [RubrosCN_Historial].[Asistentes350] AS [Asistentes350], 
-    [RubrosCN_Historial].[SinBanioPCD] AS [SinBanioPCD]
+    [RubrosCN_Historial].[SinBanioPCD] AS [SinBanioPCD], 
+    [RubrosCN_Historial].[CondicionExpress] AS [CondicionExpress]
     FROM [dbo].[RubrosCN_Historial] AS [RubrosCN_Historial]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="SSIT_Solicitudes_Encomienda" EntityType="Self.SSIT_Solicitudes_Encomienda" store:Type="Tables" store:Schema="dbo">
@@ -17765,11 +17769,11 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="CondicionesIncendio" EntitySet="CondicionesIncendio" />
             <End Role="RubrosDepositosCN" EntitySet="RubrosDepositosCN" />
           </AssociationSet>
-          <AssociationSet Name="FK__SGI_Tarea__id_ti__0BDB7737" Association="Self.FK__SGI_Tarea__id_ti__0BDB7737">
+          <AssociationSet Name="FK__SGI_Tarea__id_ti__365FB99B" Association="Self.FK__SGI_Tarea__id_ti__365FB99B">
             <End Role="SGI_Tipos_Planos_Incendio" EntitySet="SGI_Tipos_Planos_Incendio" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
-          <AssociationSet Name="FK__SGI_Tarea__id_tr__0AE752FE" Association="Self.FK__SGI_Tarea__id_tr__0AE752FE">
+          <AssociationSet Name="FK__SGI_Tarea__id_tr__18103CA5" Association="Self.FK__SGI_Tarea__id_tr__18103CA5">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
@@ -38971,6 +38975,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <PropertyRef Name="LibrarUso" />
             <PropertyRef Name="CreateDate" />
             <PropertyRef Name="CreateUser" />
+            <PropertyRef Name="CondicionExpress" />
           </Key>
           <Property Name="IdRubrosCN_historial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tipo_operacion" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
@@ -38999,6 +39004,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="LastUpdateUser" Type="Guid" />
           <Property Name="Asistentes350" Type="Boolean" />
 		  <Property Name="SinBanioPCD" Type="Boolean" />
+          <Property Name="CondicionExpress" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Gestion_Documental">
           <Key>
@@ -42183,68 +42189,68 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
           <Property Name="id_tipotramite" Type="Int32" Nullable="false" />
-          <Property Name="TipoTramite" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoTramite" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_tipoexpediente" Type="Int32" Nullable="false" />
-          <Property Name="TipoExpediente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoExpediente" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_subtipoexpediente" Type="Int32" Nullable="false" />
-          <Property Name="SubTipoExpediente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubTipoExpediente" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_grupo_circuito" Type="Int32" />
-          <Property Name="TipoCAA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TipoCAA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_tarea_actual" Type="Int32" />
-          <Property Name="TareaActual" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TareaActual" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FechaCreacionTareaActual" Type="DateTime" Precision="3" />
           <Property Name="FechaAsignacionTareaActual" Type="DateTime" Precision="3" />
           <Property Name="id_tramitetar_abierta" Type="Int32" />
           <Property Name="Superficie" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="id_estado" Type="Int32" Nullable="false" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Calificador" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ProfesionalAnexoTecnico" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ProfesionalAnexoNotarial" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Calificador" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfesionalAnexoTecnico" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfesionalAnexoNotarial" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FechaLibrado" Type="DateTime" Precision="3" />
           <Property Name="FechaHabilitacion" Type="DateTime" Precision="3" />
           <Property Name="FechaRechazo" Type="DateTime" Precision="3" />
           <Property Name="FechaBaja" Type="DateTime" Precision="3" />
           <Property Name="FechaCaducidad" Type="DateTime" Precision="3" />
-          <Property Name="Titulares" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Cuits" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NumeroExp" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Titulares" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cuits" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroExp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Observaciones" Type="Int32" />
           <Property Name="id_encomienda" Type="Int32" />
           <Property Name="idCAA" Type="Int32" />
           <Property Name="idSIPSA" Type="Int32" />
-          <Property Name="TipoNormativa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Organismo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NroNormativa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TipoNormativa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Organismo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NroNormativa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DiasEnCorreccion" Type="Int32" />
-          <Property Name="MailFirmantes" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="MailTitulares" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="MailUsuarioSSIT" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="MailUsuarioTAD" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="Zona" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MailFirmantes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MailTitulares" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MailUsuarioSSIT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MailUsuarioTAD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Zona" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_zonahabilitaciones" Type="Int32" />
           <Property Name="id_barrio" Type="Int32" />
-          <Property Name="Barrio" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Barrio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_comuna" Type="Int32" />
-          <Property Name="UnidadFuncional" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadFuncional" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Seccion" Type="Int32" />
-          <Property Name="Manzana" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Parcela" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Manzana" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Parcela" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NroPartidaMatriz" Type="Int32" />
           <Property Name="NroPartidaHorizontal" Type="Int32" />
-          <Property Name="SubTipoUbicacion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LocalSubTipoUbicacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SubTipoUbicacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LocalSubTipoUbicacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="codigo_calle" Type="Int32" />
-          <Property Name="nombre_calle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="nombre_calle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NroPuerta" Type="Int32" />
           <Property Name="id_rubro" Type="Int32" />
-          <Property Name="cod_rubro" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="nom_rubro" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="cod_rubro" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nom_rubro" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="id_subrubro" Type="Int32" />
-          <Property Name="nom_subrubro" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="PlantasHabilitar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NombreyApellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nom_subrubro" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlantasHabilitar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Usuario" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NombreyApellido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="FechaInicioAT" Type="DateTime" Precision="3" />
           <Property Name="FechaAprobadoAT" Type="DateTime" Precision="3" />
           <Property Name="TienePlanoIncendio" Type="Boolean" Nullable="false" />
@@ -42319,6 +42325,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="RubrosCN_TiposDeDocumentosRequeridos" Relationship="DGHP_Model.FK_RubrosCN_TiposDeDocumentosRequeridos_Rubros" FromRole="RubrosCN" ToRole="RubrosCN_TiposDeDocumentosRequeridos" />
           <NavigationProperty Name="SSIT_Solicitudes_RubrosCN" Relationship="DGHP_Model.FK_SSIT_Solicitudes_RubrosCN_RubrosCN" FromRole="RubrosCN" ToRole="SSIT_Solicitudes_RubrosCN" />
           <NavigationProperty Name="CPadron_RubrosCN" Relationship="DGHP_Model.FK_CPadron_RubrosCN_RubrosCN" FromRole="RubrosCN" ToRole="CPadron_RubrosCN" />
+          <Property Name="CondicionExpress" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK__RubrosCN__idCond__45FB7418">
           <End Type="DGHP_Model.CondicionesIncendio" Role="CondicionesIncendio" Multiplicity="0..1" />
@@ -49801,6 +49808,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="RubrosCN_Historial">
             <EntityTypeMapping TypeName="DGHP_Model.RubrosCN_Historial">
               <MappingFragment StoreEntitySet="RubrosCN_Historial">
+                <ScalarProperty Name="CondicionExpress" ColumnName="CondicionExpress" />
                 <ScalarProperty Name="SinBanioPCD" ColumnName="SinBanioPCD" />				  
                 <ScalarProperty Name="Asistentes350" ColumnName="Asistentes350" />
                 <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
@@ -50848,7 +50856,8 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="RubrosCN">
             <EntityTypeMapping TypeName="DGHP_Model.RubrosCN">
               <MappingFragment StoreEntitySet="RubrosCN">
-				<ScalarProperty Name="SinBanioPCD" ColumnName="SinBanioPCD" />
+				<ScalarProperty Name="CondicionExpress" ColumnName="CondicionExpress" />
+                <ScalarProperty Name="SinBanioPCD" ColumnName="SinBanioPCD" />
                 <ScalarProperty Name="SoloAPRA" ColumnName="SoloAPRA" />
                 <ScalarProperty Name="idCondicionIncendio" ColumnName="idCondicionIncendio" />
                 <ScalarProperty Name="TieneRubroDeposito" ColumnName="TieneRubroDeposito" />

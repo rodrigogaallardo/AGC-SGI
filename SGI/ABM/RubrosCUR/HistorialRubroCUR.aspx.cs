@@ -87,6 +87,7 @@ namespace SGI.ABM.RubrosCUR
                             TipoExpediente = tipoexp.descripcion_tipoexpediente,
                             GrupoCircuito = egc.cod_grupo_circuito + " - " + egc.nom_grupo_circuito,
                             LibrarUso = h.LibrarUso,
+                            CondicionExpress= h.CondicionExpress,
                             ZonaMixtura1 = h.ZonaMixtura1,
                             ZonaMixtura2 = h.ZonaMixtura2,
                             ZonaMixtura3 = h.ZonaMixtura3,
