@@ -565,7 +565,7 @@ namespace SGI
                     where perfiles.Contains(perfiles_tareas.id_perfil)
                         && tramite_tareas.FechaCierre_tramitetarea == null
                         && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                        //&& ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.usuarioAsignado_tramitetarea != null))
+                        && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                         && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                     // && enc.FechaEncomienda == (from en in db.Encomienda where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == sol.id_solicitud && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo select en.FechaEncomienda).Max()
 
@@ -638,7 +638,7 @@ namespace SGI
                    where perfiles.Contains(perfiles_tareas.id_perfil)
                        && tramite_tareas.FechaCierre_tramitetarea == null
                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                       //&& ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.usuarioAsignado_tramitetarea != null))
+                       && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                        && sol.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
                    select new clsItemBandejaEntrada
                    {
@@ -711,7 +711,7 @@ namespace SGI
                    where perfiles.Contains(perfiles_tareas.id_perfil)
                        && tramite_tareas.FechaCierre_tramitetarea == null
                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                       //&& ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.usuarioAsignado_tramitetarea != null))
+                       && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                        && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                    select new clsItemBandejaEntrada
                    {
