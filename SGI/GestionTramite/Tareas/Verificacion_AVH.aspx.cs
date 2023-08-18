@@ -229,18 +229,38 @@ namespace SGI.GestionTramite.Tareas
 
         private void Validar_Finalizar()
         {
-            var list_doc_adj =
-                (
-                    from adj in db.SGI_Tarea_Documentos_Adjuntos
-                    where adj.id_tramitetarea == this.TramiteTarea
-                    && adj.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Informe_AVH
-                    select new
-                    {
-                        adj
-                    }
-                );
-            if (list_doc_adj.Count() == 0)
-                throw new Exception("Debe subir el Informe de AVH.");
+
+            var cantResultado = (from cant in db.SGI_Tramites_Tareas
+                                 where cant.id_tarea == this.id_tarea
+                                 && id_tarea == this.TramiteTarea
+                                 select new
+                                 {
+                                   resultados = db.ENG_Tareas
+                                  .Where(t => t.nombre_tarea.Contains("Enviar a DGFyC"))
+                                  .Select(t => t.id_tarea)
+                                 }
+                                 ).Count();
+            if (cantResultado > 0)
+            {
+
+            }
+            else
+            {
+                var list_doc_adj =
+                    (
+                        from adj in db.SGI_Tarea_Documentos_Adjuntos
+                        where adj.id_tramitetarea == this.TramiteTarea
+                        && adj.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Informe_AVH
+                        select new
+                        {
+                            adj
+                        }
+                    );
+
+                if (list_doc_adj.Count() == 0)
+                    throw new Exception("Debe subir el Informe de AVH.");
+            }
+
         }
 
     
