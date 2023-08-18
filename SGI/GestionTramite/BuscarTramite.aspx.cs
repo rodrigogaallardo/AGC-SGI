@@ -1,18 +1,15 @@
-﻿using System;
+﻿using ExtensionMethods;
+using SGI.Controls;
+using SGI.Model;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SGI.Model;
-using SGI.Controls;
-using ExtensionMethods;
-using System.Web.Script.Serialization;
-using ExcelLibrary.BinaryFileFormat;
-using DocumentFormat.OpenXml.Drawing;
-using System.IO;
-using System.Text;
-using System.Data.Entity;
 
 namespace SGI
 {
@@ -284,6 +281,14 @@ namespace SGI
                 }
 
 
+            }
+            catch (FormatException fex)
+            {
+                FinalizarEntity();
+                LogError.Write(fex);
+                if (fex.InnerException != null)
+                    LogError.Write(fex.InnerException);
+                throw fex;
             }
             catch (Exception ex)
             {
@@ -1246,31 +1251,78 @@ namespace SGI
             txtNroSolicitud.Text = filtros.id_solicitud.ToString();
             txtFechaDesde.Text = filtros.fechaDesde;
             txtFechaCierreDesde.Text = filtros.fechaCierreDesde;
-            ddlTipoTramite.SelectedIndex = Convert.ToInt32(filtros.id_tipo_tramite);
+            if (String.IsNullOrWhiteSpace(filtros.id_tipo_tramite))
+            {
+                ddlTipoTramite.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlTipoTramite.SelectedIndex = Convert.ToInt32(filtros.id_tipo_tramite);
+            }
 
             txtNroExp.Text = filtros.nroExp;
             txtNroEncomienda.Text = filtros.id_encomida.ToString();
             txtFechaHasta.Text = filtros.fechaHasta;
             txtFechaCierreHasta.Text = filtros.fechaCierreHasta;
-            ddlLibradoUso.SelectedIndex = Convert.ToInt32(filtros.libradoUso);
-            ddlIncluyeAnulados.SelectedIndex = Convert.ToInt32(filtros.incluyeAnulados);
+            if (String.IsNullOrWhiteSpace(filtros.libradoUso))
+            {
+                ddlLibradoUso.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlLibradoUso.SelectedIndex = Convert.ToInt32(filtros.libradoUso);
+            }
+            if (String.IsNullOrWhiteSpace(filtros.incluyeAnulados))
+            {
+                ddlIncluyeAnulados.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlIncluyeAnulados.SelectedIndex = Convert.ToInt32(filtros.incluyeAnulados);
+            }
 
             IniciarEntity();
-            int idTipoTramite = Convert.ToInt32(ddlTipoTramite.SelectedValue);
+            int idTipoTramite = 0;
+            if (!String.IsNullOrEmpty(ddlTipoTramite.SelectedValue))
+            {
+                idTipoTramite = Convert.ToInt32(ddlTipoTramite.SelectedValue);
+            }
             CargarCombo_TipoExpediente(idTipoTramite);
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
 
-            ddlTipoExpediente.SelectedIndex = Convert.ToInt32(filtros.id_tipo_expediente);
+            if (String.IsNullOrEmpty(filtros.id_tipo_expediente))
+            {
+                ddlTipoExpediente.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlTipoExpediente.SelectedIndex = Convert.ToInt32(filtros.id_tipo_expediente);
+            }
             IniciarEntity();
-            int idTipoExp = Convert.ToInt32(ddlTipoExpediente.SelectedValue);
+            int idTipoExp = 0;
+            if (!String.IsNullOrEmpty(ddlTipoExpediente.SelectedValue))
+            {
+                idTipoExp = Convert.ToInt32(ddlTipoExpediente.SelectedValue);
+            }
             CargarCombo_subtipoTramite(idTipoExp);
             FinalizarEntity();
             updPnlFiltroBuscar_tramite.Update();
 
-            ddlSubTipoTramite.SelectedIndex = Convert.ToInt32(filtros.id_sub_tipo_tramite);
+            if (String.IsNullOrWhiteSpace(filtros.id_sub_tipo_tramite))
+            {
+                ddlSubTipoTramite.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSubTipoTramite.SelectedIndex = Convert.ToInt32(filtros.id_sub_tipo_tramite);
+            }
             IniciarEntity();
-            int idSubTipo = Convert.ToInt32(ddlSubTipoTramite.SelectedValue);
+            int idSubTipo = 0;
+            if (!String.IsNullOrEmpty(ddlSubTipoTramite.SelectedValue))
+            {
+                idSubTipo = Convert.ToInt32(ddlSubTipoTramite.SelectedValue);
+            }
             CargarCombo_tareas();
             //CargarCombo_tareas(idTipoTramite, idTipoExp, idSubTipo);
             FinalizarEntity();
@@ -1305,15 +1357,33 @@ namespace SGI
             txtUbiManzana.Text = filtros.manzana;
             txtUbiParcela.Text = filtros.parcela;
 
-            ddlbiTipoUbicacion.SelectedIndex = Convert.ToInt32(filtros.id_tipo_ubicacion);
+            if (String.IsNullOrWhiteSpace(filtros.id_tipo_ubicacion))
+            {
+                ddlbiTipoUbicacion.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlbiTipoUbicacion.SelectedIndex = Convert.ToInt32(filtros.id_tipo_ubicacion);
+            }
             IniciarEntity();
-            int id_tipoubicacion = int.Parse(ddlbiTipoUbicacion.SelectedValue);
+            int id_tipoubicacion = 0;
+            if (!String.IsNullOrWhiteSpace(ddlbiTipoUbicacion.SelectedValue))
+            {
+                id_tipoubicacion = int.Parse(ddlbiTipoUbicacion.SelectedValue);
+            }
             CargarCombo_subTipoUbicacion(id_tipoubicacion);
             FinalizarEntity();
             updPnlFiltroBuscar_ubi_especial.Update();
             txtRubroCodDesc.Text = filtros.rubro_desc;
             txtTitApellido.Text = filtros.tit_razon;
-            ddlUbiSubTipoUbicacion.SelectedIndex = Convert.ToInt32(filtros.id_sub_tipo_ubicacion);
+            if (String.IsNullOrWhiteSpace(filtros.id_sub_tipo_ubicacion))
+            {
+                ddlUbiSubTipoUbicacion.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlUbiSubTipoUbicacion.SelectedIndex = Convert.ToInt32(filtros.id_sub_tipo_ubicacion);
+            }
             rbtnUbiPartidaMatriz.Checked = filtros.rbtnUbiPartidaMatriz;
             rbtnUbiPartidaHoriz.Checked = filtros.rbtnUbiPartidaHoriz;
             txtRubroCodDesc.Text = filtros.rubro_desc;
