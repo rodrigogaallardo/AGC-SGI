@@ -2161,6 +2161,7 @@
     <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.designer.cs">
       <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Ley257DTO.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -5445,6 +5446,7 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\Servicios.asmx.cs">
       <DependentUpon>Servicios.asmx</DependentUpon>
       <SubType>Component</SubType>
