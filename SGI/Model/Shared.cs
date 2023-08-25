@@ -11,7 +11,7 @@ namespace SGI.Model
         public static int GetBusinessDays(DateTime start, DateTime end)
         {
             int count = 0;
-            while (DateTime.Compare(start, end) < 0)
+            while ((end - start).TotalMinutes > 1440)
             {
                 if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
                     count++;
