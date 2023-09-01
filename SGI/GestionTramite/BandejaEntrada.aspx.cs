@@ -565,7 +565,7 @@ namespace SGI
                     where perfiles.Contains(perfiles_tareas.id_perfil)
                         && tramite_tareas.FechaCierre_tramitetarea == null
                         && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                        //&& ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.usuarioAsignado_tramitetarea != null))
+                        && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                         && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                     // && enc.FechaEncomienda == (from en in db.Encomienda where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == sol.id_solicitud && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo select en.FechaEncomienda).Max()
 
@@ -638,7 +638,7 @@ namespace SGI
                    where perfiles.Contains(perfiles_tareas.id_perfil)
                        && tramite_tareas.FechaCierre_tramitetarea == null
                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                       //&& ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.usuarioAsignado_tramitetarea != null))
+                       && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                        && sol.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
                    select new clsItemBandejaEntrada
                    {
@@ -695,6 +695,8 @@ namespace SGI
         }).Distinct();
             #endregion
 
+
+          
             // Bandeja de datos Transferencias
             #region "Consulta Transferencias"
 
@@ -711,7 +713,7 @@ namespace SGI
                    where perfiles.Contains(perfiles_tareas.id_perfil)
                        && tramite_tareas.FechaCierre_tramitetarea == null
                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                       //&& ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.usuarioAsignado_tramitetarea != null))
+                       && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                        && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                    select new clsItemBandejaEntrada
                    {
@@ -1091,6 +1093,10 @@ namespace SGI
                                 join tt in db.SGI_Tramites_Tareas_HAB on g.id_tramitetarea equals tt.id_tramitetarea
                                 select new { tt.id_solicitud }).ToList();
 
+                
+                var listGrupTRN = (from g in db.SGI_Tarea_Calificar_ObsGrupo
+                                   join tt in db.SGI_Tramites_Tareas_TRANSF on g.id_tramitetarea equals tt.id_tramitetarea
+                                   select new { tt.id_solicitud }).ToList();
                 //------------------------------------------------------------------------
                 //Rellena la clase a devolver con los datos que faltaban (Direccion, dias transcurrido)
                 //------------------------------------------------------------------------
@@ -1139,12 +1145,19 @@ namespace SGI
                                           desc_rubro = cpr.desc_rubro
                                       }).ToList();
                     }
+                    
                     else if (row.cod_grupotramite == Constants.GruposDeTramite.TR.ToString())
                     {
                         itemDireccion = lstDireccionesTR.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
 
                         if (row.id_solicitud > nroTrReferencia)
                         {
+                            
+
+                            int count = listGrupTRN.Count(x => x.id_solicitud == row.id_solicitud);
+                            if (count > 0)
+                                row.cant_observaciones = count;
+
                             var enc = db.Encomienda_Transf_Solicitudes.Where(x => x.id_solicitud == row.id_solicitud &&
                                        x.Encomienda.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).
                                        OrderByDescending(x => x.Encomienda.id_encomienda).Select(x => x.Encomienda).FirstOrDefault();

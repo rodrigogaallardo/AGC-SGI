@@ -1,5 +1,7 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using SGI.Model;
+using SGI.StaticClassNameSpace;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -76,6 +78,11 @@ namespace SGI.WebServices
 
                 var response = client.Execute(request);
 
+                string ParamLogs = string.Format("client_id={0}&client_secret={1}", client_id, client_secret);
+                string requestLog = JsonConvert.SerializeObject(request);
+                string responseLog = JsonConvert.SerializeObject(response);
+                Funciones.Ley257GenerarLog(ParamLogs, requestLog, responseLog, Functions.GetUserId());
+
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     return new Response
@@ -107,6 +114,7 @@ namespace SGI.WebServices
         public Response DarBajaUbicacion(
             string token,
             string urlBase,
+            string method,
             Ley257RequestDarBajaUbicacion data)
         {
             try
@@ -114,11 +122,7 @@ namespace SGI.WebServices
                 if (urlBase.Substring(urlBase.Length - 1) != "/")
                     urlBase = urlBase + "/";
 
-                var url = string.Format("{0}{1}", urlBase, "DarDeBajaUbicacion");
-
-
-                //List<Ley257RequestDarBajaUbicacion> lst = new List<Ley257RequestDarBajaUbicacion>();
-                //lst.Add(data);
+                var url = string.Format("{0}{1}", urlBase, method);
 
                 var client = new RestClient(url);
                 RestRequest request = new RestRequest(Method.DELETE);
@@ -128,6 +132,13 @@ namespace SGI.WebServices
                 request.AddBody(data);
 
                 var response = client.Execute(request);
+
+
+                string ParamLogs = JsonConvert.SerializeObject(data);
+                string requestLog = JsonConvert.SerializeObject(request);
+                string responseLog = JsonConvert.SerializeObject(response);
+                Funciones.Ley257GenerarLog(ParamLogs, requestLog, responseLog, Functions.GetUserId());
+
 
                 if (response.StatusCode == HttpStatusCode.NoContent)
                 {
@@ -148,7 +159,6 @@ namespace SGI.WebServices
                 }
 
                 var cont = response.Content;
-
 
 
                 return new Response

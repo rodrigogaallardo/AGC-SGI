@@ -1524,25 +1524,7 @@ namespace SGI.GestionTramite
                     this.seccion = null;
                 else
                     this.seccion = int.Parse(txtUbiSeccion.Text);
-               /*
-                try
-                {
-                    //Esta rompiendo en la segunda vuelta, no encuentra la cookie, quien se la comio?
-                    if (Session["ConsultaTramite_IdCalle"] == null)
-                    {
-                        this.id_calle = null;
-                    }
-                    else
-                    {
-                        this.id_calle = Convert.ToInt32(Session["ConsultaTramite_IdCalle"]);
-                    }
-                }
-                catch(HttpException ex)
-                {
-                    LogError.Write(ex, "Falló al encontrar la cookie de la calle");
-                }
-               */
-                
+
 
                 this.manzana = txtUbiManzana.Text;
                 this.parcela = txtUbiParcela.Text;
@@ -1705,14 +1687,6 @@ namespace SGI.GestionTramite
                 }).ToList();
 
                 //cargo las listas antes del foreach
-                /*
-                var idSolicitudes = tramites.Select(r => r.id_solicitud).ToList();
-                var idTipoTramites = tramites.Select(r => r.id_tipotramite).ToList();
-                var lstConsTram = db.SGI_ConsultaTramites
-                                  .Where(x => idSolicitudes.Contains(x.id_solicitud) && idTipoTramites.Contains(x.id_tipotramite))
-                                  .ToList();
-                */
-                //probando si los hashmap son realmente mas rapidos
                 var idSolicitudesSet = new HashSet<int>(tramites.Select(r => r.id_solicitud));
                 var idTipoTramitesSet = new HashSet<int>(tramites.Select(r => r.id_tipotramite));
                 var lstConsTram = db.SGI_ConsultaTramites
@@ -1723,31 +1697,31 @@ namespace SGI.GestionTramite
                     var matchingConsTram = lstConsTram
                     .Where(x => x.id_solicitud == r.id_solicitud && x.id_tipotramite == r.id_tipotramite)
                     .ToList();
-                    //var lstConsTram = db.SGI_ConsultaTramites.Where(x => x.id_solicitud == r.id_solicitud && x.id_tipotramite == r.id_tipotramite).ToList();
-                        r.Ubicaciones = matchingConsTram
-                        .GroupBy(a => new { a.Zona, a.Barrio, a.UnidadFuncional, a.Seccion, a.Manzana, a.Parcela, a.NroPartidaMatriz, a.NroPartidaHorizontal, a.SubTipoUbicacion, a.LocalSubTipoUbicacion })
-                        .Select(x => new clsItemConsultaUbicacion()
+
+                    r.Ubicaciones = matchingConsTram
+                    .GroupBy(a => new { a.Zona, a.Barrio, a.UnidadFuncional, a.Seccion, a.Manzana, a.Parcela, a.NroPartidaMatriz, a.NroPartidaHorizontal, a.SubTipoUbicacion, a.LocalSubTipoUbicacion })
+                    .Select(x => new clsItemConsultaUbicacion()
+                    {
+                        Zona = x.Key.Zona,
+                        Barrio = x.Key.Barrio,
+                        UnidadFuncional = x.Key.UnidadFuncional,
+                        Seccion = x.Key.Seccion,
+                        Manzana = x.Key.Manzana,
+                        Parcela = x.Key.Parcela,
+                        PartidaMatriz = x.Key.NroPartidaMatriz,
+                        PartidaHorizontal = x.Key.NroPartidaHorizontal,
+                        SubTipoUbicacion = x.Key.SubTipoUbicacion,
+                        LocalSubTipoUbicacion = x.Key.LocalSubTipoUbicacion,
+
+                        Calles = matchingConsTram
+                        .GroupBy(a => new { a.nombre_calle, a.NroPuerta })
+                        .Select(u => new clsItemConsultaPuerta
                         {
-                            Zona = x.Key.Zona,
-                            Barrio = x.Key.Barrio,
-                            UnidadFuncional = x.Key.UnidadFuncional,
-                            Seccion = x.Key.Seccion,
-                            Manzana = x.Key.Manzana,
-                            Parcela = x.Key.Parcela,
-                            PartidaMatriz = x.Key.NroPartidaMatriz,
-                            PartidaHorizontal = x.Key.NroPartidaHorizontal,
-                            SubTipoUbicacion = x.Key.SubTipoUbicacion,
-                            LocalSubTipoUbicacion = x.Key.LocalSubTipoUbicacion,
+                            calle = u.Key.nombre_calle,
+                            puerta = u.Key.NroPuerta ?? 0
+                        }).ToList()
 
-                            Calles = matchingConsTram//.Where(u => u.Seccion == x.Key.Seccion && u.Manzana == x.Key.Manzana && u.Parcela == x.Key.Parcela)
-                            .GroupBy(a => new { a.nombre_calle, a.NroPuerta })
-                            .Select(u => new clsItemConsultaPuerta
-                            {
-                                calle = u.Key.nombre_calle,
-                                puerta = u.Key.NroPuerta ?? 0
-                            }).ToList()
-
-                        }).ToList();
+                    }).ToList();
 
 
                     r.Rubros = matchingConsTram
@@ -1844,7 +1818,7 @@ namespace SGI.GestionTramite
             decimal cant_registros_x_vez = 0m;
             int totalRowCount = 0;
             int startRowIndex = 0;
-
+            string fechaInicio = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             try
             {
                 DateTime startTime = DateTime.Now;
@@ -2072,32 +2046,12 @@ namespace SGI.GestionTramite
                 DataSet ds = new DataSet();
                 dt.TableName = "Solicitudes";
                 ds.Tables.Add(dt);
-
                 string path = Constants.Path_Temporal;
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
-                //test
-                //string pythonScriptPath = @"F:\DEPLOY\DGHP\dist\export_dataset_to_excel.exe";
-                string pythonScriptPath = @"C:\Python\exportSGI\export_dataset_to_excel.exe";
-                if (!File.Exists(pythonScriptPath))
-                {
-                    Console.WriteLine("El archivo ejecutable de Python no existe en la ubicacion indicada.");
-                    return;
-                }
                 string savedFileName = path + Session["filename_exportacion"].ToString();
-                #region python ejecutable para exportar
-                string jason = JsonConvert.SerializeObject(ds, Formatting.Indented);
-                string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
-                string namedPipeName = "mypipe_" + Guid.NewGuid().ToString();
-
-                #endregion
                 Functions.EliminarArchivosDirectorioTemporal();
-
-                string pythonArguments = $"\"{savedFileName}\" \"{namedPipeName}\" ";
-
-                Functions.RunPythonExecutable(pythonScriptPath, pythonArguments,jason,namedPipeName); //invoca al python y abre el pipe
-                DateTime endtTime = DateTime.Now;
-                LogToTemporalFile("Export ended at: " + endtTime.ToString() + "\n" + "Filas: " + totalRowCount);
+                Functions.ExportDataSetToExcel(ds, savedFileName);
 
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 Response.AppendHeader("Content-Disposition", "attachment; filename=file.xlsx");
@@ -2106,18 +2060,19 @@ namespace SGI.GestionTramite
                 Response.TransmitFile(savedFileName);
                 Response.End();
 
-                
                 // quita la variable de session.
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
                 Session["progress_data"] = "Exportación completada.";
-                
+                string fechaFin = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                LogError.Write(new Exception("Fecha Inicio: " + fechaInicio + " Fecha Final:" + fechaFin));
             }
             catch (TimeoutException tex)
             {
                 LogToTemporalFile("Error de exportacion: " + tex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
+                LogError.Write(tex);
                 throw new Exception("Error de exportacion: Intente nuevamente.");
             }
             catch (Exception ex)
@@ -2125,6 +2080,7 @@ namespace SGI.GestionTramite
                 LogToTemporalFile("Error de exportacion: " + ex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
+                LogError.Write(ex);
             }
         }
 
@@ -2161,8 +2117,9 @@ namespace SGI.GestionTramite
                     Session.Remove("filename_exportacion");
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                LogError.Write(ex);
                 throw new Exception("Error de exportacion: Intente nuevamente.");
                 //Timer1.Enabled = false;
             }

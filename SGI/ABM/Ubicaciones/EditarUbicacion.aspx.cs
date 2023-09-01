@@ -1342,6 +1342,11 @@ namespace SGI.ABM.Ubicaciones
                         string Pass = Parametros.GetParam_ValorChar("Pass.Ley257");
                         string URL = Parametros.GetParam_ValorChar("URL.Ley257");
                         var ActionLogin = Parametros.GetParam_ValorChar("Action.Login.Ley257");
+                        var ActionDarBajaUbicacion = Parametros.GetParam_ValorChar("Action.DarBajaUbicacion.Ley257");
+                        if (string.IsNullOrEmpty(ActionDarBajaUbicacion))
+                        {
+                            comunicoBajaFachadas = false;
+                        }
 
                         if (comunicoBajaFachadas)
                         {
@@ -1360,7 +1365,7 @@ namespace SGI.ABM.Ubicaciones
                                 };
 
                                 // Llamo al método DarBajaUbicacion
-                                var darBajaResponse = serv.DarBajaUbicacion(token.AccessToken, URL, data);
+                                var darBajaResponse = serv.DarBajaUbicacion(token.AccessToken, URL, ActionDarBajaUbicacion, data);
 
                                 if (darBajaResponse.IsSuccess)
                                 {
