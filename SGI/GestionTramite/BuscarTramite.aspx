@@ -64,7 +64,7 @@
             inicializar_popover();
             inicializar_fechas();
             camposAutonumericos();
-           // inicializar_autocomplete();
+            // inicializar_autocomplete();
             $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
             $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
@@ -91,38 +91,38 @@
             $("#<%: ddlEstado.ClientID %>").on("change", function () {
                 $("#<%: hid_estados_selected.ClientID %>").val($("#<%: ddlEstado.ClientID %>").val());
                 });--%>
-            }
+        }
 
-            function inicializar_controles1() {
+        function inicializar_controles1() {
 
-                //debugger;
-                //inicializar tootip del popOver
-                inicializar_popover();
-                inicializar_fechas();
-                camposAutonumericos();
-               // inicializar_autocomplete();
-                $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
+            //debugger;
+            //inicializar tootip del popOver
+            inicializar_popover();
+            inicializar_fechas();
+            camposAutonumericos();
+            // inicializar_autocomplete();
+            $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
                 $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
                 $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
                 $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
                 $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
 
-                switchear_buscar_ubicacion(1);
-                $("div.accordion-body").collapse().show();
-                //$('div.accordion-body').collapse().slideDown();
-                //$('div.accordion-body').collapse().slideUp();
-            }
+            switchear_buscar_ubicacion(1);
+            $("div.accordion-body").collapse().show();
+            //$('div.accordion-body').collapse().slideDown();
+            //$('div.accordion-body').collapse().slideUp();
+        }
 
-            function inicializar_controles2() {
-                inicializar_popover();
-                inicializar_fechas();
-                camposAutonumericos();
-                //inicializar_autocomplete();
-                $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
+        function inicializar_controles2() {
+            inicializar_popover();
+            inicializar_fechas();
+            camposAutonumericos();
+            //inicializar_autocomplete();
+            $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
+                $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
+                $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
+                $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
+                $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
 
             switchear_buscar_ubicacion(2);
             $("div.accordion-body").collapse().show();
@@ -132,27 +132,27 @@
             inicializar_popover();
             inicializar_fechas();
             camposAutonumericos();
-           // inicializar_autocomplete();
+            // inicializar_autocomplete();
+            $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
+            $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
+
+            switchear_buscar_ubicacion(3);
+            $("div.accordion-body").collapse().show();
+        }
+
+        function inicializar_controles4() {
+            inicializar_popover();
+            inicializar_fechas();
+            camposAutonumericos();
+            //inicializar_autocomplete();
             $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
         $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
         $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
         $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
         $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
-
-        switchear_buscar_ubicacion(3);
-        $("div.accordion-body").collapse().show();
-    }
-
-    function inicializar_controles4() {
-        inicializar_popover();
-        inicializar_fechas();
-        camposAutonumericos();
-        //inicializar_autocomplete();
-        $("#<%: ddlTipoTramite.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTareaCerrada.ClientID %>").select2({ allowClear: true });
 
             switchear_buscar_ubicacion(4);
             $("div.accordion-body").collapse().show();
@@ -160,125 +160,45 @@
 
         function camposAutonumericos() {
             $('#<%=txtNroSolicitud.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
-        $('#<%=txtNroEncomienda.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
-        $('#<%=txtUbiSeccion.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
-        $('#<%=txtUbiNroPartida.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
-        $('#<%=txtUbiNroPuerta.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
-    }
+            $('#<%=txtNroEncomienda.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
+            $('#<%=txtUbiSeccion.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
+            $('#<%=txtUbiNroPartida.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
+            $('#<%=txtUbiNroPuerta.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
+        }
 
-    function inicializar_fechas() {
+        function inicializar_fechas() {
 
-        var fechaDesde = $('#<%=txtFechaDesde.ClientID%>');
+            var fechaDesde = $('#<%=txtFechaDesde.ClientID%>');
         var es_readonly = $(fechaDesde).attr("readonly");
 
-       $("#<%: txtFechaDesde.ClientID %>").datepicker({
-                minDate: "-100Y",
-                maxDate: "0Y",
-                yearRange: "-100:-0",
-                dateFormat: "dd/mm/yy",
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                onSelect: function () {
-                    $("#Req_FechaDesde").hide();
-                    $("#Val_Formato_FechaDesde").hide();
-                    $("#Val_FechaDesdeMenor").hide();
-                }
-            });
+        $("#<%: txtFechaDesde.ClientID %>").datepicker({
+            minDate: "-100Y",
+            maxDate: "0Y",
+            yearRange: "-100:-0",
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            onSelect: function () {
+                $("#Req_FechaDesde").hide();
+                $("#Val_Formato_FechaDesde").hide();
+                $("#Val_FechaDesdeMenor").hide();
+            }
+        });
 
 
-            if (!($(fechaDesde).is('[disabled]') || $(fechaDesde).is('[readonly]'))) {
-                $(fechaDesde).datepicker(
-                    {
-                        maxDate: "0",
-                        closeText: 'Cerrar',
-                        prevText: '&#x3c;Ant',
-                        nextText: 'Sig&#x3e;',
-                        currentText: 'Hoy',
-                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                        weekHeader: 'Sm',
-                        dateFormat: 'dd/mm/yy',
-                        firstDay: 0,
-                        isRTL: false,
-                        showMonthAfterYear: false,
-                        yearSuffix: ''
-
-                    }
-                    );
-
-            };
-            var fechaCierreDesde = $('#<%=txtFechaCierreDesde.ClientID%>');
-            var es_readonlyCierre = $(fechaCierreDesde).attr("readonly");
-
-            $("#<%: txtFechaCierreDesde.ClientID %>").datepicker({
-                minDate: "-100Y",
-                maxDate: "0Y",
-                yearRange: "-100:-0",
-                dateFormat: "dd/mm/yy",
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                onSelect: function () {
-                    $("#Req_FechaCierreDesde").hide();
-                    $("#Val_Formato_FechaCierreDesde").hide();
-                    $("#Val_FechaCierreDesdeMenor").hide();
-                }
-            });
-
-
-            if (!($(fechaCierreDesde).is('[disabled]') || $(fechaCierreDesde).is('[readonly]'))) {
-                $(fechaCierreDesde).datepicker(
-                    {
-                        maxDate: "0",
-                        closeText: 'Cerrar',
-                        prevText: '&#x3c;Ant',
-                        nextText: 'Sig&#x3e;',
-                        currentText: 'Hoy',
-                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                        weekHeader: 'Sm',
-                        dateFormat: 'dd/mm/yy',
-                        firstDay: 0,
-                        isRTL: false,
-                        showMonthAfterYear: false,
-                        yearSuffix: ''
-
-                    }
-                    );
-
-            };
-
-            var fechaHasta = $('#<%=txtFechaHasta.ClientID%>');
-            var es_readonly = $(fechaHasta).attr("readonly");
-            if (!($(fechaHasta).is('[disabled]') || $(fechaHasta).is('[readonly]'))) {
-                $(fechaHasta).datepicker({
-                    minDate: "-100Y",
-                    maxDate: "0Y",
-                    yearRange: "-100:-0",
-                    dateFormat: "dd/mm/yy",
-                    changeMonth: true,
-                    changeYear: true,
-                    showButtonPanel: true,
+        if (!($(fechaDesde).is('[disabled]') || $(fechaDesde).is('[readonly]'))) {
+            $(fechaDesde).datepicker(
+                {
                     maxDate: "0",
                     closeText: 'Cerrar',
                     prevText: '&#x3c;Ant',
                     nextText: 'Sig&#x3e;',
                     currentText: 'Hoy',
                     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                     monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                     dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
                     dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
                     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
@@ -289,12 +209,60 @@
                     showMonthAfterYear: false,
                     yearSuffix: ''
 
-                });
-            };
-            var fechaCierreHasta = $('#<%=txtFechaCierreHasta.ClientID%>');
-        var es_readonlyCierre = $(fechaCierreHasta).attr("readonly");
-        if (!($(fechaCierreHasta).is('[disabled]') || $(fechaCierreHasta).is('[readonly]'))) {
-            $(fechaCierreHasta).datepicker({
+                }
+            );
+
+        };
+        var fechaCierreDesde = $('#<%=txtFechaCierreDesde.ClientID%>');
+        var es_readonlyCierre = $(fechaCierreDesde).attr("readonly");
+
+        $("#<%: txtFechaCierreDesde.ClientID %>").datepicker({
+            minDate: "-100Y",
+            maxDate: "0Y",
+            yearRange: "-100:-0",
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            onSelect: function () {
+                $("#Req_FechaCierreDesde").hide();
+                $("#Val_Formato_FechaCierreDesde").hide();
+                $("#Val_FechaCierreDesdeMenor").hide();
+            }
+        });
+
+
+        if (!($(fechaCierreDesde).is('[disabled]') || $(fechaCierreDesde).is('[readonly]'))) {
+            $(fechaCierreDesde).datepicker(
+                {
+                    maxDate: "0",
+                    closeText: 'Cerrar',
+                    prevText: '&#x3c;Ant',
+                    nextText: 'Sig&#x3e;',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                    weekHeader: 'Sm',
+                    dateFormat: 'dd/mm/yy',
+                    firstDay: 0,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: ''
+
+                }
+            );
+
+        };
+
+        var fechaHasta = $('#<%=txtFechaHasta.ClientID%>');
+        var es_readonly = $(fechaHasta).attr("readonly");
+        if (!($(fechaHasta).is('[disabled]') || $(fechaHasta).is('[readonly]'))) {
+            $(fechaHasta).datepicker({
                 minDate: "-100Y",
                 maxDate: "0Y",
                 yearRange: "-100:-0",
@@ -308,9 +276,9 @@
                 nextText: 'Sig&#x3e;',
                 currentText: 'Hoy',
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                 dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
                 dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
                 dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
@@ -322,123 +290,155 @@
                 yearSuffix: ''
 
             });
-
         };
+        var fechaCierreHasta = $('#<%=txtFechaCierreHasta.ClientID%>');
+            var es_readonlyCierre = $(fechaCierreHasta).attr("readonly");
+            if (!($(fechaCierreHasta).is('[disabled]') || $(fechaCierreHasta).is('[readonly]'))) {
+                $(fechaCierreHasta).datepicker({
+                    minDate: "-100Y",
+                    maxDate: "0Y",
+                    yearRange: "-100:-0",
+                    dateFormat: "dd/mm/yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    maxDate: "0",
+                    closeText: 'Cerrar',
+                    prevText: '&#x3c;Ant',
+                    nextText: 'Sig&#x3e;',
+                    currentText: 'Hoy',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                    weekHeader: 'Sm',
+                    dateFormat: 'dd/mm/yy',
+                    firstDay: 0,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: ''
 
-    }
-    function showResultado() {
-        $("#box_resultado").show("slow");
-    }
+                });
 
-    function hideResultado() {
-        $("#box_resultado").hide("slow");
-    }
+            };
 
- 
+        }
+        function showResultado() {
+            $("#box_resultado").show("slow");
+        }
+
+        function hideResultado() {
+            $("#box_resultado").hide("slow");
+        }
 
 
-    function bt_btnUpDown_collapse_click(obj) {
-        var href_collapse = $(obj).attr("href");
 
-        if ($(href_collapse).attr("id") != undefined) {
-            if ($(href_collapse).css("height") == "0px") {
-                $(obj).find(".icon-chevron-down").switchClass("icon-chevron-down", "icon-chevron-up", 0);
+
+        function bt_btnUpDown_collapse_click(obj) {
+            var href_collapse = $(obj).attr("href");
+
+            if ($(href_collapse).attr("id") != undefined) {
+                if ($(href_collapse).css("height") == "0px") {
+                    $(obj).find(".icon-chevron-down").switchClass("icon-chevron-down", "icon-chevron-up", 0);
+                }
+                else {
+                    $(obj).find(".icon-chevron-up").switchClass("icon-chevron-up", "icon-chevron-down", 0);
+                }
+            }
+        }
+
+        function switchear_buscar_ubicacion(btn) {
+
+            if (btn == 1) {
+                $("#buscar_ubi_por_partida").show();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").addClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+
+                $('#ultBTN input[type=hidden]').val("porPartida");
+            }
+            else if (btn == 2) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").show();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").addClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+
+                $('#ultBTN input[type=hidden]').val("porDomicilio");
+            }
+            else if (btn == 3) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").show();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").addClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+
+                $('#ultBTN input[type=hidden]').val("porSMP");
+            }
+            else if (btn == 4) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").show();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").addClass("active");
+
+                $('#ultBTN input[type=hidden]').val("porUbi");
+            }
+
+
+        }
+
+
+        function inicializar_popover() {
+
+            $("[id*='lnkTareasSolicitud']").tooltip({ delay: { show: 2000, hide: 100 }, placement: 'top' });
+
+            $("[id*='MainContent_grdTramites_lnkTareasSolicitud_']").each(function () {
+                //para cada fila de la grilla, se busca el link y se lo vincula al panel de la misma fila
+                //para que con el clikc del link habra el popOver de un html
+                var id_pnlTareas = $(this).attr("id").replace("MainContent_grdTramites_lnkTareasSolicitud_", "MainContent_grdTramites_pnlTareas_");
+                var objTareas = $("#" + id_pnlTareas).html();
+                $(this).popover({
+                    title: 'Tareas',
+                    content: objTareas,
+                    html: 'true'
+                });
+            });
+        }
+
+        function popOverTareas(obj) {
+
+            if ($(obj).attr("data-visible") == "true") {
+                $(obj).attr("data-visible", "false");
             }
             else {
-                $(obj).find(".icon-chevron-up").switchClass("icon-chevron-up", "icon-chevron-down", 0);
+                $("[data-visible='true']").popover("toggle");
+                $("[data-visible='true']").attr("data-visible", "false");
+                $(obj).attr("data-visible", "true");
             }
+
+            return false;
         }
-    }
-
-    function switchear_buscar_ubicacion(btn) {
-
-        if (btn == 1) {
-            $("#buscar_ubi_por_partida").show();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").addClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-
-            $('#ultBTN input[type=hidden]').val("porPartida");
-        }
-        else if (btn == 2) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").show();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").addClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-
-            $('#ultBTN input[type=hidden]').val("porDomicilio");
-        }
-        else if (btn == 3) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").show();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").addClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-
-            $('#ultBTN input[type=hidden]').val("porSMP");
-        }
-        else if (btn == 4) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").show();
-
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").addClass("active");
-
-            $('#ultBTN input[type=hidden]').val("porUbi");
-        }
-
-
-    }
-
-
-    function inicializar_popover() {
-
-        $("[id*='lnkTareasSolicitud']").tooltip({ delay: { show: 2000, hide: 100 }, placement: 'top' });
-
-        $("[id*='MainContent_grdTramites_lnkTareasSolicitud_']").each(function () {
-            //para cada fila de la grilla, se busca el link y se lo vincula al panel de la misma fila
-            //para que con el clikc del link habra el popOver de un html
-            var id_pnlTareas = $(this).attr("id").replace("MainContent_grdTramites_lnkTareasSolicitud_", "MainContent_grdTramites_pnlTareas_");
-            var objTareas = $("#" + id_pnlTareas).html();
-            $(this).popover({
-                title: 'Tareas',
-                content: objTareas,
-                html: 'true'
-            });
-        });
-    }
-
-    function popOverTareas(obj) {
-
-        if ($(obj).attr("data-visible") == "true") {
-            $(obj).attr("data-visible", "false");
-        }
-        else {
-            $("[data-visible='true']").popover("toggle");
-            $("[data-visible='true']").attr("data-visible", "false");
-            $(obj).attr("data-visible", "true");
-        }
-
-        return false;
-    }
 
     </script>
 
@@ -770,7 +770,7 @@
                                                 <div class="controls">
                                                     <div class="clearfix">
                                                         <div class="pull-left">
-                                                            <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="id_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
+                                                            <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="id_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false" OnValueSelect="AutocompleteCalles_ValueSelect" />
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
@@ -911,7 +911,7 @@
                                                 <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
                                                     Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
                                                 <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                    <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                    <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
                                                 </div>
 
 
@@ -1227,7 +1227,7 @@
 
                                 <asp:BoundField DataField="FechaInicio_tarea" HeaderText="Tarea creada el" DataFormatString="{0:d}" ItemStyle-Width="100px" ItemStyle-CssClass="align-center" SortExpression="FechaInicio_tarea" />
 
-                                <asp:BoundField DataField="LibradoUso" HeaderText ="Librado al uso el" DataFormatString="{0:g}" ItemStyle-Width="200px" ItemStyle-CssClass="align-center" SortExpression="LibradoUso" />
+                                <asp:BoundField DataField="LibradoUso" HeaderText="Librado al uso el" DataFormatString="{0:g}" ItemStyle-Width="200px" ItemStyle-CssClass="align-center" SortExpression="LibradoUso" />
                             </Columns>
 
                             <EmptyDataTemplate>

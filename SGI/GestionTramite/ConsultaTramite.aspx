@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Consulta del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ConsultaTramite.aspx.cs" Inherits="SGI.GestionTramite.ConsultaTramite" %>
+
 <%@ Register Assembly="Syncfusion.EJ.Web" Namespace="Syncfusion.JavaScript.Web" TagPrefix="ejx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -34,23 +35,23 @@
             });
         }
 
-            function inicializar_controles() {
+        function inicializar_controles() {
 
-                //debugger;
-                //inicializar tootip del popOver
-                inicializar_popover();
-                inicializar_fechas();
-                camposAutonumericos();
-                //inicializar_autocomplete();
-                $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
-            $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
+            //debugger;
+            //inicializar tootip del popOver
+            inicializar_popover();
+            inicializar_fechas();
+            camposAutonumericos();
+            //inicializar_autocomplete();
+            $("#<%: ddlTipoExpediente.ClientID %>").select2({ allowClear: true });
+                $("#<%: ddlSubTipoTramite.ClientID %>").select2({ allowClear: true });
+                $("#<%: ddlTarea.ClientID %>").select2({ allowClear: true });
 
-            /// Inicializar select2 de busqueda
-            var tags_selecionados = "";
-            if ($("#<%: hid_estados_selected.ClientID %>").val().length > 0) {
-            tags_selecionados = $("#<%: hid_estados_selected.ClientID %>").val().split(",");
-        }
+                /// Inicializar select2 de busqueda
+                var tags_selecionados = "";
+                if ($("#<%: hid_estados_selected.ClientID %>").val().length > 0) {
+                    tags_selecionados = $("#<%: hid_estados_selected.ClientID %>").val().split(",");
+                }
 
                 $("#<%: ddlEstado.ClientID %>").select2({
                     tags: true,
@@ -64,7 +65,7 @@
 
                 $("#<%: ddlEstado.ClientID %>").on("change", function () {
                     $("#<%: hid_estados_selected.ClientID %>").val($("#<%: ddlEstado.ClientID %>").val());
-            });
+                });
 
                 var tags_selecionados = "";
                 if ($("#<%: hid_grupocircuito_selected.ClientID %>").val().length > 0) {
@@ -83,7 +84,7 @@
 
                 $("#<%: ddlGrupoCircuito.ClientID %>").on("change", function () {
                     $("#<%: hid_grupocircuito_selected.ClientID %>").val($("#<%: ddlGrupoCircuito.ClientID %>").val());
-            });
+                });
 
 
                 var tags_selecionados = "";
@@ -103,279 +104,279 @@
 
                 $("#<%: ddlTipoTramite.ClientID %>").on("change", function () {
                     $("#<%: hid_tipotramite_selected.ClientID %>").val($("#<%: ddlTipoTramite.ClientID %>").val());
-            });
+                });
         }
 
         function camposAutonumericos() {
             $('#<%=txtNroSolicitud.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
-        $('#<%=txtUbiSeccion.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
-        $('#<%=txtUbiNroPuertaDesde.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
-        $('#<%=txtUbiNroPuertaHasta.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
-        vSeparadorDecimal = $("#<%: hid_DecimalSeparator.ClientID %>").attr("value");
-        eval("$('#<%: txtSuperficieDesde.ClientID %>').autoNumeric({ aSep: '', aDec: '" + vSeparadorDecimal + "', mDec: '2',vMax: '999999.99'})");
-        eval("$('#<%: txtSuperficieHasta.ClientID %>').autoNumeric({ aSep: '', aDec: '" + vSeparadorDecimal + "', mDec: '2',vMax: '999999.99'})");
+            $('#<%=txtUbiSeccion.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '99999999' });
+            $('#<%=txtUbiNroPuertaDesde.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
+            $('#<%=txtUbiNroPuertaHasta.ClientID%>').autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
+            vSeparadorDecimal = $("#<%: hid_DecimalSeparator.ClientID %>").attr("value");
+            eval("$('#<%: txtSuperficieDesde.ClientID %>').autoNumeric({ aSep: '', aDec: '" + vSeparadorDecimal + "', mDec: '2',vMax: '999999.99'})");
+            eval("$('#<%: txtSuperficieHasta.ClientID %>').autoNumeric({ aSep: '', aDec: '" + vSeparadorDecimal + "', mDec: '2',vMax: '999999.99'})");
 
         }
 
         function inicializar_fechas() {
             $("#<%: txtFechaInicioDesde.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaInicioDesde").hide();
-            }
-        });
-        if (!($('#<%=txtFechaInicioDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaInicioDesde.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaInicioDesde.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaInicioDesde").hide();
                 }
-            );
-        }
+            });
+            if (!($('#<%=txtFechaInicioDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaInicioDesde.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaInicioDesde.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
+            }
 
-        $("#<%: txtFechaInicioHasta.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaInicioHasta").hide();
-            }
-        });
-        if (!($('#<%=txtFechaInicioHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaInicioHasta.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaInicioHasta.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+            $("#<%: txtFechaInicioHasta.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaInicioHasta").hide();
                 }
-            );
-        }
+            });
+            if (!($('#<%=txtFechaInicioHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaInicioHasta.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaInicioHasta.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
+            }
 
-        $("#<%: txtFechaIngresoDesde.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaIngresoeDesde").hide();
-            }
-        });
-        if (!($('#<%=txtFechaIngresoDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaIngresoDesde.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaIngresoDesde.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+            $("#<%: txtFechaIngresoDesde.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaIngresoeDesde").hide();
                 }
-            );
-        }
+            });
+            if (!($('#<%=txtFechaIngresoDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaIngresoDesde.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaIngresoDesde.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
+            }
 
-        $("#<%: txtFechaIngresoHasta.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaIngresoHasta").hide();
-            }
-        });
-        if (!($('#<%=txtFechaIngresoHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaIngresoHasta.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaIngresoHasta.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+            $("#<%: txtFechaIngresoHasta.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaIngresoHasta").hide();
                 }
-            );
-        }
+            });
+            if (!($('#<%=txtFechaIngresoHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaIngresoHasta.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaIngresoHasta.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
+            }
 
-        $("#<%: txtFechaLibradoUsoDesde.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaLibradoUsoDesde").hide();
-            }
-        });
-        if (!($('#<%=txtFechaLibradoUsoDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaLibradoUsoDesde.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaLibradoUsoDesde.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+            $("#<%: txtFechaLibradoUsoDesde.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaLibradoUsoDesde").hide();
                 }
-            );
-        }
+            });
+            if (!($('#<%=txtFechaLibradoUsoDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaLibradoUsoDesde.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaLibradoUsoDesde.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
+            }
 
-        $("#<%: txtFechaLibradoUsoHasta.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaLibradoUsoHasta").hide();
-            }
-        });
-        if (!($('#<%=txtFechaLibradoUsoHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaLibradoUsoHasta.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaLibradoUsoHasta.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+            $("#<%: txtFechaLibradoUsoHasta.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaLibradoUsoHasta").hide();
                 }
-            );
-        }
-        $("#<%: txtFechaHabilitacionDesde.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaHabilitacionDesde").hide();
+            });
+            if (!($('#<%=txtFechaLibradoUsoHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaLibradoUsoHasta.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaLibradoUsoHasta.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
             }
-        });
-        if (!($('#<%=txtFechaHabilitacionDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaHabilitacionDesde.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaHabilitacionDesde.ClientID%>').datepicker(
-                {
-                    maxDate: "0",
-                    closeText: 'Cerrar',
-                    prevText: '&#x3c;Ant',
-                    nextText: 'Sig&#x3e;',
-                    currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
+            $("#<%: txtFechaHabilitacionDesde.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaHabilitacionDesde").hide();
                 }
-            );
-        }
+            });
+            if (!($('#<%=txtFechaHabilitacionDesde.ClientID%>').is('[disabled]') || $('#<%=txtFechaHabilitacionDesde.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaHabilitacionDesde.ClientID%>').datepicker(
+                    {
+                        maxDate: "0",
+                        closeText: 'Cerrar',
+                        prevText: '&#x3c;Ant',
+                        nextText: 'Sig&#x3e;',
+                        currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm',
+                        dateFormat: 'dd/mm/yy',
+                        firstDay: 0,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: ''
+                    }
+                );
+            }
 
-        $("#<%: txtFechaHabilitacionHasta.ClientID %>").datepicker({
-            minDate: "-100Y",
-            maxDate: "0Y",
-            yearRange: "-100:-0",
-            dateFormat: "dd/mm/yy",
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            onSelect: function () {
-                $("#rev_txtFechaHabilitacionHasta").hide();
-            }
-        });
-        if (!($('#<%=txtFechaHabilitacionHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaHabilitacionHasta.ClientID%>').is('[readonly]'))) {
-            $('#<%=txtFechaHabilitacionHasta.ClientID%>').datepicker(
+            $("#<%: txtFechaHabilitacionHasta.ClientID %>").datepicker({
+                minDate: "-100Y",
+                maxDate: "0Y",
+                yearRange: "-100:-0",
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onSelect: function () {
+                    $("#rev_txtFechaHabilitacionHasta").hide();
+                }
+            });
+            if (!($('#<%=txtFechaHabilitacionHasta.ClientID%>').is('[disabled]') || $('#<%=txtFechaHabilitacionHasta.ClientID%>').is('[readonly]'))) {
+                $('#<%=txtFechaHabilitacionHasta.ClientID%>').datepicker(
                     {
                         maxDate: "0",
                         closeText: 'Cerrar',
@@ -407,8 +408,8 @@
         }
 
 
-    function bt_btnUpDown_collapse_click(obj) {
-        var href_collapse = $(obj).attr("href");
+        function bt_btnUpDown_collapse_click(obj) {
+            var href_collapse = $(obj).attr("href");
 
             if ($(href_collapse).attr("id") != undefined) {
                 if ($(href_collapse).css("height") == "0px") {
@@ -497,17 +498,17 @@
         function showfrmAgregarRubros_Rubros() {
 
             $("#<%: txtBuscar.ClientID %>").val("");
-        $("#<%: pnlResultadoBusquedaRubros.ClientID %>").hide();
-        $("#<%: pnlBuscarRubros.ClientID %>").show();
-        $("#<%: pnlResultadoBusquedaRubros.ClientID %>").hide();
-        $("#<%: pnlBotonesAgregarRubros.ClientID %>").hide();
-        $("#<%: pnlBotonesBuscarRubros.ClientID %>").show();
+            $("#<%: pnlResultadoBusquedaRubros.ClientID %>").hide();
+            $("#<%: pnlBuscarRubros.ClientID %>").show();
+            $("#<%: pnlResultadoBusquedaRubros.ClientID %>").hide();
+            $("#<%: pnlBotonesAgregarRubros.ClientID %>").hide();
+            $("#<%: pnlBotonesBuscarRubros.ClientID %>").show();
 
-        $("#<%: BotonesBuscarRubros.ClientID %>").show();
+            $("#<%: BotonesBuscarRubros.ClientID %>").show();
 
 
-        $("#frmAgregarRubros_Rubros").on("shown.bs.modal", function (e) {
-            $("#<%: txtBuscar.ClientID %>").focus();
+            $("#frmAgregarRubros_Rubros").on("shown.bs.modal", function (e) {
+                $("#<%: txtBuscar.ClientID %>").focus();
         });
 
             $("#frmAgregarRubros_Rubros").modal({
@@ -741,8 +742,8 @@
                                             <div class="span5">
                                                 <asp:Label ID="lblTipoTramite" runat="server" AssociatedControlID="ddlTipoTramite"
                                                     Text="Tipo Trámite:" class="control-label"></asp:Label>
-                                                <div class="controls" >
-                                                    <asp:DropDownList  ID="ddlTipoTramite" runat="server" multiple="true" Width="300px"></asp:DropDownList>
+                                                <div class="controls">
+                                                    <asp:DropDownList ID="ddlTipoTramite" runat="server" multiple="true" Width="300px"></asp:DropDownList>
                                                     <asp:HiddenField ID="hid_tipotramite_selected" runat="server"></asp:HiddenField>
                                                 </div>
                                             </div>
@@ -902,10 +903,10 @@
                                                 <div class="controls">
                                                     <div class="clearfix">
                                                         <div class="pull-left">
-                                                      <ejx:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
+                                                            <ejx:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false" OnValueSelect="AutocompleteCalles_ValueSelect" />
                                                             <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
-<%--                                                            <asp:HiddenField ID="HidCalle" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />--%>
+                                                            <%--                                                            <asp:HiddenField ID="HidCalle" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />--%>
                                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
                                                                 Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                                 CssClass="field-validation-error"></asp:RequiredFieldValidator>
@@ -973,7 +974,7 @@
                                                 <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
                                                     Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
                                                 <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                    <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                    <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
                                                 </div>
 
 
@@ -1323,7 +1324,7 @@
                             DataKeyNames="id_solicitud"
                             SelectMethod="GetTramites" ItemType="SGI.Model.clsItemConsultaTramite"
                             AllowPaging="true" AllowSorting="true" PageSize="30" OnPageIndexChanging="grdTramites_PageIndexChanging"
-                            OnDataBound="grdTramites_DataBound" >
+                            OnDataBound="grdTramites_DataBound">
                             <SortedAscendingHeaderStyle CssClass="GridAscendingHeaderStyle" />
                             <SortedDescendingHeaderStyle CssClass="GridDescendingHeaderStyle" />
                             <Columns>
@@ -1381,7 +1382,7 @@
 
                                 <asp:TemplateField HeaderText="Tiene Plano Incendio" ItemStyle-CssClass="align-center">
                                     <ItemTemplate>
-                                           <asp:CheckBox  runat="server" Enabled="false" Checked='<%# Eval("TienePlanoIncendio") %>'  ToolTip='<%# Eval("TienePlanoIncendio") %>' />
+                                        <asp:CheckBox runat="server" Enabled="false" Checked='<%# Eval("TienePlanoIncendio") %>' ToolTip='<%# Eval("TienePlanoIncendio") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -1451,7 +1452,7 @@
                                 <asp:BoundField DataField="NombreyApellido" HeaderText="Nombre y Apellido" ItemStyle-Width="50px" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="FechaInicioAT" HeaderText="Fecha Inicio AT" DataFormatString="{0:d}" ItemStyle-Width="50px" ItemStyle-CssClass="align-center" />
                                 <asp:BoundField DataField="FechaAprobadoAT" HeaderText="Fecha Aprobado AT" DataFormatString="{0:d}" ItemStyle-Width="50px" ItemStyle-CssClass="align-center" />
-                                
+
 
                             </Columns>
                             <EmptyDataTemplate>

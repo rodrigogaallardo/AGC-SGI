@@ -73,7 +73,7 @@
                                                     <asp:Label ID="lblManzana" runat="server" AssociatedControlID="txtManzana"
                                                         Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
                                                     <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                        <asp:TextBox ID="txtManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                        <asp:TextBox ID="txtManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -454,7 +454,7 @@
                                             </ProgressTemplate>
                                         </asp:UpdateProgress>
                                     </div>
-<%--                                    <div class="text-left">
+                                    <%--                                    <div class="text-left">
                                         <label style="color: gray;">&nbsp;&nbsp;(Se actualizaran solo aquellas ubicaciones que no posean mixturas o distritos.)</label>
                                     </div>--%>
                                 </ContentTemplate>
@@ -659,10 +659,10 @@
             }
 
             if ($("#MainContent_ddlUbiCalle").val() == 0 &&
-                 $("#MainContent_txtPuertaDesde").val() == 0 &&
-                 $("#MainContent_txtPuertaHasta").val() == 0 &&
-                 $("#MainContent_txtUbiSeccion").val() == 0 &&
-                 $("#MainContent_txtUbiManzana").val() == 0) {
+                $("#MainContent_txtPuertaDesde").val() == 0 &&
+                $("#MainContent_txtPuertaHasta").val() == 0 &&
+                $("#MainContent_txtUbiSeccion").val() == 0 &&
+                $("#MainContent_txtUbiManzana").val() == 0) {
 
                 $("#ValFields").css("display", "inline-block");
                 ret = false;

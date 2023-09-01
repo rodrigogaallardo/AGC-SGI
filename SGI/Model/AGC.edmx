@@ -1428,7 +1428,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.Estadisticas_Ho
           <Property Name="Dif_asig_cierre" Type="int" />
           <Property Name="username" Type="nvarchar" MaxLength="50" />
           <Property Name="superficie" Type="decimal" Precision="14" Scale="2" />
-          <Property Name="NroDisposicionSADE" Type="nvarchar" MaxLength="50" />
+          <Property Name="NroDisposicionSADE" Type="nvarchar" MaxLength="100" />
           <Property Name="nombre_proxima_tarea" Type="nvarchar" MaxLength="100" />
           <Property Name="Fecha" Type="date" />
           <Property Name="Circuito_Origen" Type="nvarchar" MaxLength="20" />
@@ -2345,7 +2345,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Histor
           <Property Name="id_comuna" Type="int" />
           <Property Name="UnidadFuncional" Type="nvarchar" MaxLength="20" />
           <Property Name="Seccion" Type="int" />
-          <Property Name="Manzana" Type="nvarchar" MaxLength="4" />
+          <Property Name="Manzana" Type="nvarchar" MaxLength="6" />
           <Property Name="Parcela" Type="nvarchar" MaxLength="4" />
           <Property Name="NroPartidaMatriz" Type="int" />
           <Property Name="NroPartidaHorizontal" Type="int" />
@@ -5354,7 +5354,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SGI_Tarea__id_ti__0BDB7737">
+        <Association Name="FK__SGI_Tarea__id_ti__365FB99B">
           <End Role="SGI_Tipos_Planos_Incendio" Type="Self.SGI_Tipos_Planos_Incendio" Multiplicity="1" />
           <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5366,7 +5366,7 @@ advertencia 6002: La tabla o vista 'DGHP_Solicitudes_preprod.dbo.wsEE_TareasDocu
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SGI_Tarea__id_tr__0AE752FE">
+        <Association Name="FK__SGI_Tarea__id_tr__18103CA5">
           <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
           <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" Type="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Multiplicity="*" />
           <ReferentialConstraint>
@@ -16227,6 +16227,12 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="id_encomienda" Type="int" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="SSIT_Solicitudes_Historial_LibradoUso_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_solicitud" Type="int" Mode="In" />
+          <Parameter Name="fechaLibrado" Type="datetime" Mode="In" />
+          <Parameter Name="createDate" Type="datetime" Mode="In" />
+          <Parameter Name="createUser" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="SSIT_Solicitudes_Observaciones_1Linea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
           <Parameter Name="id_solicitud" Type="int" Mode="In" />
         </Function>
@@ -17765,11 +17771,11 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="CondicionesIncendio" EntitySet="CondicionesIncendio" />
             <End Role="RubrosDepositosCN" EntitySet="RubrosDepositosCN" />
           </AssociationSet>
-          <AssociationSet Name="FK__SGI_Tarea__id_ti__0BDB7737" Association="Self.FK__SGI_Tarea__id_ti__0BDB7737">
+          <AssociationSet Name="FK__SGI_Tarea__id_ti__365FB99B" Association="Self.FK__SGI_Tarea__id_ti__365FB99B">
             <End Role="SGI_Tipos_Planos_Incendio" EntitySet="SGI_Tipos_Planos_Incendio" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
-          <AssociationSet Name="FK__SGI_Tarea__id_tr__0AE752FE" Association="Self.FK__SGI_Tarea__id_tr__0AE752FE">
+          <AssociationSet Name="FK__SGI_Tarea__id_tr__18103CA5" Association="Self.FK__SGI_Tarea__id_tr__18103CA5">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
@@ -28452,6 +28458,12 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
+          <FunctionImport Name="SSIT_Solicitudes_Historial_LibradoUso_INSERT">
+            <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
+            <Parameter Name="fechaLibrado" Mode="In" Type="DateTime" />
+            <Parameter Name="createDate" Mode="In" Type="DateTime" />
+            <Parameter Name="createUser" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -30207,7 +30219,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_estado_pago" Nullable="true" />
           <Property Type="Int32" Name="id_empasc" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Nombre_calle" Nullable="true" MaxLength="150" />
           <Property Type="Int32" Name="NroPuerta" Nullable="true" />
@@ -31102,7 +31114,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         </EntityType>
         <ComplexType Name="IFCIExportarConsultaGeneral_Result">
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -31124,7 +31136,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         <ComplexType Name="ASRExportarElevadoresInspecciones_Result">
           <Property Type="Int32" Name="id_dgubicacion" Nullable="false" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -31145,7 +31157,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         <ComplexType Name="ASRExportarElevadoresGeneral_Result">
           <Property Type="Int32" Name="id_dgubicacion" Nullable="false" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -31835,7 +31847,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         </EntityType>
         <ComplexType Name="IFCIExportarConsultaGeneralExtendida_Result">
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -35841,7 +35853,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_dgubicacion" Nullable="true" />
           <Property Type="Int32" Name="anio_vigencia" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="Int32" Name="NroPartidaMatriz" Nullable="true" />
           <Property Type="Int32" Name="NroRegistro_empasc" Nullable="true" />
@@ -35862,7 +35874,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_subtipoubicacion" Nullable="true" />
           <Property Type="Int32" Name="pdamatriz" Nullable="true" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="PartidasHorizontales" Nullable="false" MaxLength="25" />
@@ -36128,7 +36140,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_PartidaMatriz" Nullable="false" />
           <Property Type="Int32" Name="NroPartidaMatriz" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="Decimal" Name="Superficie" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Int32" Name="NroLocales" Nullable="false" />
@@ -36150,7 +36162,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_subtipoubicacion" Nullable="true" />
           <Property Type="Int32" Name="pdamatriz" Nullable="true" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="PartidasHorizontales" Nullable="false" MaxLength="25" />
@@ -36160,7 +36172,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="264" />
           <Property Type="Int32" Name="PdaMatriz" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="Int32" Name="CALLE1_F" Nullable="true" />
           <Property Type="String" Name="CALLENOM1" Nullable="true" MaxLength="200" />
@@ -36527,7 +36539,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="CodCalle" Nullable="false" />
           <Property Type="String" Name="NroPuerta" Nullable="true" MaxLength="30" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="Piso" Nullable="true" MaxLength="10" />
@@ -36687,7 +36699,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="IdTipoSector" Nullable="true" />
           <Property Type="String" Name="NombreTipoSector" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="LEY_449" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="LEY_449_2" Nullable="true" MaxLength="15" />
@@ -36803,7 +36815,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_ubicacion" Nullable="false" />
           <Property Type="Int32" Name="NroPartidaMatriz" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="puerta" Nullable="false" MaxLength="162" />
         </ComplexType>
@@ -36998,7 +37010,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_cpadron" Nullable="false" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" Precision="16" />
         </ComplexType>
@@ -37543,7 +37555,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="Dif_asig_cierre" Type="Int32" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="superficie" Type="Decimal" Precision="14" Scale="2" />
-          <Property Name="NroDisposicionSADE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NroDisposicionSADE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="nombre_proxima_tarea" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Fecha" Type="DateTime" Precision="0" />
           <Property Name="Circuito_Origen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -42228,7 +42240,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="id_comuna" Type="Int32" />
           <Property Name="UnidadFuncional" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Seccion" Type="Int32" />
-          <Property Name="Manzana" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Manzana" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
           <Property Name="Parcela" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="NroPartidaMatriz" Type="Int32" />
           <Property Name="NroPartidaHorizontal" Type="Int32" />
@@ -51199,6 +51211,7 @@ advertencia 6035: La relación 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SSIT_Solicitudes_Historial_LibradoUso_INSERT" FunctionName="DGHP_Model.Store.SSIT_Solicitudes_Historial_LibradoUso_INSERT" />
           
           </EntityContainerMapping>
       </Mapping>

@@ -13,11 +13,11 @@
     button,
     select,
     textarea {
-        font-size: 12px;  
+        font-size: 12px;
     }
 </style>
 <div id="pnlBuscarUbicacion" style="width: 100%;">
-    <asp:UpdatePanel ID="updBuscarUbicacion" runat="server" >
+    <asp:UpdatePanel ID="updBuscarUbicacion" runat="server">
         <ContentTemplate>
 
             <asp:Panel ID="pnlContentBuscar" runat="server">
@@ -38,8 +38,7 @@
 
                         <asp:Panel ID="pnlPartidas" runat="server" DefaultButton="btnBuscar1">
                             <div>
-                                <strong class="mleft10">
-                                    Seleccione el Tipo de Partida:
+                                <strong class="mleft10">Seleccione el Tipo de Partida:
                                 </strong>
                                 <table border="0" style="border-collapse: separate; border-spacing: 10px;">
                                     <tr>
@@ -62,9 +61,9 @@
                                         </td>
                                     </tr>
                                 </table>
-                                
+
                                 <div class="form-inline">
-                                    <div class="form-group" >
+                                    <div class="form-group">
                                         Ingrese el N&uacute;mero de Partida:
                                     </div>
                                     <div class="form-group">
@@ -85,11 +84,11 @@
                             <%--Contenedor del botón buscar--%>
                             <asp:UpdatePanel ID="updPanelBuscar1" runat="server" RenderMode="Inline">
                                 <ContentTemplate>
-                                    
+
                                     <div class="form-inline text-right">
-                                        
+
                                         <div class="form-group">
-                                            <asp:UpdateProgress ID="UpdateProgress1" AssociatedUpdatePanelID="updPanelBuscar1" 
+                                            <asp:UpdateProgress ID="UpdateProgress1" AssociatedUpdatePanelID="updPanelBuscar1"
                                                 runat="server" DisplayAfter="200">
                                                 <ProgressTemplate>
                                                     <img src="<%: ResolveUrl("~/Content/img/app/Loading24x24.gif") %>" />
@@ -97,7 +96,7 @@
                                             </asp:UpdateProgress>
                                         </div>
 
-                                        <div class="form-group mbottom0" >
+                                        <div class="form-group mbottom0">
                                             <asp:LinkButton ID="btnBuscar1" runat="server" CssClass="btn btn-default" ValidationGroup="Buscar1" OnClick="btnBuscar1_Click">
                                                 <i class="imoon imoon-search"></i>
                                                 <span class="text">Buscar</span>
@@ -109,7 +108,7 @@
                                         </div>
 
                                     </div>
-                                    
+
                                 </ContentTemplate>
                             </asp:UpdatePanel>
 
@@ -127,7 +126,7 @@
                                     <td>Calle:
                                     </td>
                                     <td>
-                                   <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true"/>
+                                        <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -137,7 +136,7 @@
                                                                 las calles posibles.</span>
                                         <p>
                                             <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
-                                                Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"  
+                                                Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                 CssClass="field-validation-error"></asp:RequiredFieldValidator>
                                         </p>
                                     </td>
@@ -185,7 +184,7 @@
                                                 <span class="text">Cerrar</span>
                                             </asp:LinkButton>
                                         </div>
-                                    
+
                                     </div>
 
                                 </ContentTemplate>
@@ -216,7 +215,7 @@
                                     <td>Manzana:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtManzana" runat="server" Width="90px" MaxLength="4" Style="text-transform: uppercase" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtManzana" runat="server" Width="90px" MaxLength="6" Style="text-transform: uppercase" CssClass="form-control"></asp:TextBox>
                                     </td>
                                     <td>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Debe ingresar la Manzana."
@@ -263,7 +262,7 @@
                                                 <span class="text">Cerrar</span>
                                             </asp:LinkButton>
                                         </div>
-                                    
+
                                     </div>
 
                                 </ContentTemplate>
@@ -284,7 +283,7 @@
                                             </td>
                                             <td>
                                                 <asp:DropDownList ID="ddlTipoDeUbicacion" runat="server" OnSelectedIndexChanged="ddlTipoDeUbicacion_SelectedIndexChanged"
-                                                   AutoPostBack="true" Width="350px" CssClass="form-control">
+                                                    AutoPostBack="true" Width="350px" CssClass="form-control">
                                                 </asp:DropDownList>
                                                 <div>
                                                     <asp:RequiredFieldValidator ID="ReqddlTipoDeUbicacion" runat="server" ControlToValidate="ddlTipoDeUbicacion" CssClass="field-validation-error"
@@ -331,7 +330,7 @@
                                     <div class="form-inline text-right">
 
                                         <div class="form-group">
-                                            
+
                                             <asp:UpdateProgress ID="UpdateProgress4" AssociatedUpdatePanelID="updPanelBuscar4"
                                                 runat="server" DisplayAfter="200">
                                                 <ProgressTemplate>
@@ -341,7 +340,7 @@
 
                                         </div>
                                         <div class="form-group">
-                                            
+
                                             <asp:LinkButton ID="btnbuscar4" runat="server" CssClass="btn btn-default" ValidationGroup="Buscar4" OnClick="btnBuscar4_Click">
                                                 <i class="imoon imoon-search"></i>
                                                 <span class="text">Buscar</span>
@@ -426,7 +425,7 @@
                                                         </asp:Panel>
 
                                                         <div style="margin-top: 10px; min-height: 250px; min-width: 300px">
-                                                            <img id="imgCargando" src= '<%: ResolveUrl("~/Content/img/app/Loading128x128.gif") %>' alt="" style="margin-left: 60px; margin-top: 40px" />
+                                                            <img id="imgCargando" src='<%: ResolveUrl("~/Content/img/app/Loading128x128.gif") %>' alt="" style="margin-left: 60px; margin-top: 40px" />
                                                             <img id="imgFotoParcela" class="img-polaroid" src="<%# Item.GetUrlFoto(300,250) %>" onload="fotoCargada('imgCargando',this);" onerror="noExisteFotoParcela(this);" style="display: none" />
                                                         </div>
                                                     </td>
@@ -445,36 +444,36 @@
                                                             <strong>Puertas</strong>
 
                                                             <div style="overflow: auto; max-height: 300px">
-                                                                
+
                                                                 <asp:UpdatePanel ID="updPuertas" runat="server" OnLoad="updPuertas_Load">
                                                                     <ContentTemplate>
 
-                                                                    <asp:DataList ID="lstPuertas" runat="server" ItemType="SGI.Model.Ubicacion.Puerta"
-                                                                        RepeatColumns="1" RepeatDirection="Vertical" RepeatLayout="Table" Width="100%">
-                                                                        <AlternatingItemStyle BackColor="#f9f9f9" />
-                                                                        <ItemTemplate>
-                                                                            <asp:HiddenField ID="hid_ubic_puerta" runat="server" Value="<%# Item.id_ubic_puerta %>" />
-                                                                            <asp:HiddenField ID="hid_codigo_calle" runat="server" Value="<%# Item.codigo_calle %>" />
-                                                                            <asp:HiddenField ID="hid_NroPuerta_ubic" runat="server" Value="<%# Item.NroPuerta_ubic %>" />
+                                                                        <asp:DataList ID="lstPuertas" runat="server" ItemType="SGI.Model.Ubicacion.Puerta"
+                                                                            RepeatColumns="1" RepeatDirection="Vertical" RepeatLayout="Table" Width="100%">
+                                                                            <AlternatingItemStyle BackColor="#f9f9f9" />
+                                                                            <ItemTemplate>
+                                                                                <asp:HiddenField ID="hid_ubic_puerta" runat="server" Value="<%# Item.id_ubic_puerta %>" />
+                                                                                <asp:HiddenField ID="hid_codigo_calle" runat="server" Value="<%# Item.codigo_calle %>" />
+                                                                                <asp:HiddenField ID="hid_NroPuerta_ubic" runat="server" Value="<%# Item.NroPuerta_ubic %>" />
 
-                                                                            <div class="form-inline">
-                                                                                <div class="control-group">
-                                                                                    <label class="checkbox">
-                                                                                        <asp:CheckBox ID="chkPuerta" runat="server" Enabled="false" />
-                                                                                        <asp:Label ID="lblnombreCalle" runat="server" Text="<%# Item.Nombre_calle %>"></asp:Label>
-                                                                                    </label>
-                                                                                    <asp:TextBox ID="txtNroPuerta" runat="server" Text="<%# Item.NroPuerta_ubic %>" Width="65px" CssClass="form-control grid-txtNroPuerta" Enabled="false"></asp:TextBox>
-                                                                                    <asp:LinkButton ID="lnkAgregarOtraPuerta" runat="server" Text="Agregar otra puerta" Style="display: inline"
-                                                                                        data-toggle="tooltip" Enabled="false" Visible="false"
-                                                                                        ToolTip="Agrega otra puerta en la misma calle y dentro de la misma cuadra." CssClass="AgregarOtraPuerta"
-                                                                                        Font-Size="9pt" OnClick="lnkAgregarOtraPuerta_Click" CommandArgument='<%# Item.id_ubic_puerta  %>'></asp:LinkButton>
+                                                                                <div class="form-inline">
+                                                                                    <div class="control-group">
+                                                                                        <label class="checkbox">
+                                                                                            <asp:CheckBox ID="chkPuerta" runat="server" Enabled="false" />
+                                                                                            <asp:Label ID="lblnombreCalle" runat="server" Text="<%# Item.Nombre_calle %>"></asp:Label>
+                                                                                        </label>
+                                                                                        <asp:TextBox ID="txtNroPuerta" runat="server" Text="<%# Item.NroPuerta_ubic %>" Width="65px" CssClass="form-control grid-txtNroPuerta" Enabled="false"></asp:TextBox>
+                                                                                        <asp:LinkButton ID="lnkAgregarOtraPuerta" runat="server" Text="Agregar otra puerta" Style="display: inline"
+                                                                                            data-toggle="tooltip" Enabled="false" Visible="false"
+                                                                                            ToolTip="Agrega otra puerta en la misma calle y dentro de la misma cuadra." CssClass="AgregarOtraPuerta"
+                                                                                            Font-Size="9pt" OnClick="lnkAgregarOtraPuerta_Click" CommandArgument='<%# Item.id_ubic_puerta  %>'></asp:LinkButton>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
 
 
-                                                                        </ItemTemplate>
+                                                                            </ItemTemplate>
 
-                                                                    </asp:DataList>
+                                                                        </asp:DataList>
 
                                                                     </ContentTemplate>
                                                                 </asp:UpdatePanel>
@@ -545,7 +544,7 @@
                                                                     </div>
                                                                     <asp:Panel ID="pnlChecksListPHorizontales" runat="server" Style="overflow: auto; max-height: 129px">
                                                                         <asp:CheckBoxList ID="CheckBoxListPHorizontales" runat="server" Width="750px" RepeatDirection="Horizontal"
-                                                                            RepeatLayout="Table" RepeatColumns="3" CellPadding="1" Font-Size="9pt" >                                                                        
+                                                                            RepeatLayout="Table" RepeatColumns="3" CellPadding="1" Font-Size="9pt">
                                                                         </asp:CheckBoxList>
                                                                     </asp:Panel>
                                                                 </asp:Panel>
@@ -556,10 +555,10 @@
 
                                             </table>
 
-                                       
 
 
-                                            <div class="alert alert-info alert-block" style="margin-top: 10px; display:none">
+
+                                            <div class="alert alert-info alert-block" style="margin-top: 10px; display: none">
                                                 <strong>Info!</strong>
                                                 <ul>
                                                     <li>Si la numeración de la puerta no es correcta, puede modificarla siempre que se encuentre
@@ -618,7 +617,7 @@
                                     </asp:Panel>
                                 </PagerTemplate>
                                 <EmptyDataTemplate>
-                                    <asp:Panel ID="pnlNotFound" runat="server" Style="padding: 10px; ">
+                                    <asp:Panel ID="pnlNotFound" runat="server" Style="padding: 10px;">
                                         <div class="form-inline">
                                             <div class="controls">
                                                 <div class="mtop10">
@@ -635,7 +634,7 @@
                             </asp:GridView>
 
                             <asp:Panel ID="pnlValidacionIngresoUbicacion" runat="server" CssClass="alert alert-danger" Visible="false">
-                                
+
                                 <asp:BulletedList ID="lstValidacionesUbicacion" runat="server">
                                 </asp:BulletedList>
                             </asp:Panel>
@@ -646,16 +645,16 @@
                         <asp:UpdatePanel ID="updPanelBotones" runat="server">
                             <ContentTemplate>
                                 <asp:Panel ID="pnlbotonesingreso" runat="server">
-                                    
+
                                     <div class="form-inline text-center mtop5">
 
                                         <div class="form-group">
                                             <asp:Button ID="btnNuevaBusqueda" runat="server" CssClass="btn btn-default" Text="Nueva b&uacute;squeda"
                                                 Width="150px" OnClick="btnNuevaBusquedar_Click" />
-                                       
+
                                             <asp:Button ID="btnIngresarUbicacion" runat="server" CssClass="btn btn-primary" Text="Agregar Ubicaci&oacute;n"
                                                 Width="160px" OnClick="btnIngresarUbicacion_Click" OnClientClick="return hidefrmConfirmarNoPH(true);" />
-                                       
+
                                             <asp:UpdateProgress ID="UpdateProgress5" AssociatedUpdatePanelID="updPanelBotones"
                                                 runat="server" DisplayAfter="200">
                                                 <ProgressTemplate>
@@ -703,7 +702,9 @@
                                 <label class="imoon imoon-remove-circle fs64 color-blue"></label>
                             </td>
                             <td style="vertical-align: middle">
-                                <div>La ubicación ingresada tiene unidades funcionales. <br />
+                                <div>
+                                    La ubicación ingresada tiene unidades funcionales.
+                                    <br />
                                     ¿Está seguro que la ubicaci&oacute;n deseada no pertenece a una unidad funcional?.
                                 </div>
                                 <div class="mtop10">
@@ -729,7 +730,7 @@
         </div>
     </div>
     <!-- /.modal -->
-    
+
     <%-- Modal Solicitar nueva puerta por mail --%>
     <div id="frmSolicitarNuevaPuerta" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -738,15 +739,15 @@
                     <h4 class="modal-title">Solicitar Nueva Puerta</h4>
                 </div>
                 <div class="modal-body">
-                    
-                    <uc1:SolicitudNuevaPuerta runat="server" id="ucSolicitudNuevaPuerta" />
+
+                    <uc1:SolicitudNuevaPuerta runat="server" ID="ucSolicitudNuevaPuerta" />
 
                 </div>
             </div>
         </div>
     </div>
     <!-- /.modal -->
-    
+
     <script type="text/javascript">
         var vconfirm = false;
 
@@ -758,30 +759,28 @@
         });
 
         function init_JS_updPuertas() {
-            
+
             $(".grid-txtNroPuerta").autoNumeric("init", { aSep: "", mDec: 0, vMax: '99999' });
         }
 
-        function init_JS_updBuscarUbicacion()
-        {
-            
+        function init_JS_updBuscarUbicacion() {
+
             $("#<%: txtNroPartida.ClientID %>").autoNumeric("init", { aSep: "", mDec: 0, vMax: '9999999' });
             $("#<%: txtSeccion.ClientID %>").autoNumeric("init", { aSep: "", mDec: 0, vMax: '999' });
             $("#<%: txtNroPuerta.ClientID %>").autoNumeric("init", { aSep: "", mDec: 0, vMax: '99999' });
 
             $("#tabs").tabs({
                 activate: function (event, ui) {
-                    
+
                     var active = $("#tabs").tabs("option", "active");
                     $("#<%: hid_tabselected.ClientID %>").val(active);
                 }
             });
 
-            
 
-            
-            try
-            {
+
+
+            try {
 
                 var tabselected = 0;
                 tabselected = $("#<%: hid_tabselected.ClientID %>").val();
@@ -790,9 +789,9 @@
                     tabselected = 1;
                 }
 
-                $("#tabs").tabs("option", "active",tabselected)
+                $("#tabs").tabs("option", "active", tabselected)
             }
-            catch(err){
+            catch (err) {
                 //nada
             }
 
@@ -820,7 +819,7 @@
                 "backdrop": "static",
                 "keyboard": false
             });
-            
+
             return false;
         }
 
@@ -828,7 +827,7 @@
 
             vconfirm = value;
             $("#frmConfirmarNoPH").modal('hide');
-            
+
             if (value) {
                 $("#<%: btnIngresarUbicacion.ClientID %>").click();
             }
@@ -839,11 +838,11 @@
         function validarIngresarUbicacion() {
 
             var ret = true;
-           
+
             // Si no confirmo se valida, si ya confirmo no se valida.
             if (!vconfirm) {
                 $(".BuscarUbicacion-pnlPartidasHorizontales").each(function (index, item) {
-                    
+
                     // Si el panel de partidas horizontales está visible
                     if ($(item).css("display") == "block") {
                         //Si la cantidad de partidas horizontales seleccionadas es (0 cero).

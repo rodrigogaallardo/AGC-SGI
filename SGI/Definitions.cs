@@ -1,24 +1,23 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Packaging;
+using iTextSharp.text.pdf;
+using SGI.Model;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.Entity.SqlServer;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SGI.Model;
-using System.Linq;
-using Elmah;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
-
-using System.Reflection;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using System.Data;
-using iTextSharp.text.pdf;
-using System.Text;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using System.IO.Pipes;
 
 namespace SGI
 {
@@ -1205,6 +1204,98 @@ namespace SGI
                 DateTime fechaCreacion = System.IO.File.GetCreationTime(arch);
                 if (fechaCreacion < DateTime.Now.AddDays(-3))
                     System.IO.File.Delete(arch);
+            }
+        }
+
+        public static void ExportDataToPythonAndReceiveResults(string jsonData, string namedPipeName)
+        {
+            byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonData);
+            //separo a nuestro querido jason en pedacitos para que no explote el pipe
+            int chunkSize = 63670000; // 63.67 MB
+            int totalChunks = (int)Math.Ceiling((double)jsonBytes.Length / chunkSize);
+            
+            // Create a Named Pipe client
+            using (NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", namedPipeName, PipeDirection.InOut, PipeOptions.None))
+            {
+                // Connect to the Python Named Pipe server
+                pipeClient.Connect();
+                string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+                string FileName = string.Format("log_pipe_{0}.txt", fechaAct);
+                string path = @"C:\Temporal\";
+                string logFilePath = Path.Combine($"{path}", $"{FileName}");
+
+                using (StreamWriter sw = File.AppendText(logFilePath))
+                {
+                    sw.WriteLine("Connected to the Python Named Pipe server.");
+                }
+                // Send the total number of chunks to the python server
+                byte[] totalChunksBytes = BitConverter.GetBytes(totalChunks);
+                pipeClient.Write(totalChunksBytes, 0, totalChunksBytes.Length);
+
+                // Send the JSON data chunks to the server
+                for (int chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++)
+                {
+                    int startIndex = chunkIndex * chunkSize;
+                    int remainingBytes = jsonBytes.Length - startIndex;
+                    int bytesToSend = Math.Min(chunkSize, remainingBytes);
+                    byte[] chunkBytes = new byte[bytesToSend];
+                    Buffer.BlockCopy(jsonBytes, startIndex, chunkBytes, 0, bytesToSend);
+                    pipeClient.Write(chunkBytes, 0, chunkBytes.Length);
+                }
+
+                // Wait for the Python server to process the data and send the response
+                byte[] responseBytes = new byte[chunkSize];
+                using (MemoryStream responseStream = new MemoryStream())
+                {
+                    byte[] buffer = new byte[chunkSize];
+                    int bytesRead;
+                    do
+                    {
+                        bytesRead = pipeClient.Read(buffer, 0, buffer.Length);
+                        responseStream.Write(buffer, 0, bytesRead);
+                    } while (bytesRead > 0);
+
+                    // Convert the response to a string
+                    string response = Encoding.UTF8.GetString(responseStream.ToArray());
+
+                    // Close the Named Pipe client
+                    pipeClient.Close();
+                }
+            }
+        }
+
+
+        public static void RunPythonExecutable(string path, string arguments, string jsonData, string namedPipeName)
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = path,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            process.StartInfo = startInfo;
+            process.Start();
+
+
+            ExportDataToPythonAndReceiveResults(jsonData, namedPipeName);
+            process.WaitForExit();
+            string error = process.StandardError.ReadToEnd();
+            int exitCode = process.ExitCode;
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+                string FileName = string.Format("log_python_error_{0}.txt", fechaAct);
+                string path_err = @"C:\Temporal\";
+                string logFilePath = Path.Combine($"{path_err}", $"{FileName}");
+
+                using (StreamWriter sw = File.AppendText(logFilePath))
+                {
+                    sw.WriteLine("Error al ejecutar el python" + error);
+                }
             }
         }
 

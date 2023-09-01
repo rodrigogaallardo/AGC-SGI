@@ -16,7 +16,8 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
-
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite
 {
@@ -500,8 +501,6 @@ namespace SGI.GestionTramite
             try
             {
                 this.ReqCalle.Validate();
-                if (!this.ReqCalle.IsValid)
-                    Session["ConsultaTramite_IdCalle"] = string.Empty;
                 IniciarEntity();
 
                 Validar();
@@ -1427,7 +1426,6 @@ namespace SGI.GestionTramite
             return nro_Expediente;
 
         }
-
         private List<clsItemConsultaTramite> FiltrarTramitesSP(int startRowIndex, int maximumRows, string sortByExpression, out int totalRowCount)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("es-ES");
@@ -1766,6 +1764,7 @@ namespace SGI.GestionTramite
             }
         }
 
+
         private string GetCadenaLimpia(string str)
         {
             string s = "";
@@ -1795,12 +1794,8 @@ namespace SGI.GestionTramite
         {
 
             btnCerrarExportacion.Visible = false;
-            // genera un nombre de archivo aleatorio
-            //Random random = new Random((int)DateTime.Now.Ticks);
             //ahora crea el excel con la fecha en su nombre
             string fecha = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
-            //int NroAleatorio = random.Next(0, 100);
-            //NroAleatorio = NroAleatorio * random.Next(0, 100);
             string fileName = string.Format("Grilla-Solicitudes-{0}.xlsx", fecha);
 
             pnlDescargarExcel.Style["display"] = "none";
@@ -1811,14 +1806,13 @@ namespace SGI.GestionTramite
             Session["filename_exportacion"] = fileName;
 
             lblRegistrosExportados.Text = "Preparando exportación.";
-            System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(ExportarGrillaAExcel));
+            System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(ExportarGrillaAExcelAsync));
             thread.Start();
-
             Timer1.Enabled = true;
 
         }
 
-        private void ExportarGrillaAExcel()
+        private void ExportarGrillaAExcelAsync()
         {
 
             decimal cant_registros_x_vez = 0m;
@@ -1827,8 +1821,10 @@ namespace SGI.GestionTramite
             string fechaInicio = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             try
             {
-
+                DateTime startTime = DateTime.Now;
+                LogToTemporalFile("Export started at: " + startTime.ToString());
                 // Esto se realiza para saber el total y de a cuanto se va mostrar el progreso.
+
                 FiltrarTramitesSP(startRowIndex, 1, "", out totalRowCount);
                 if (totalRowCount < 10000)
                     cant_registros_x_vez = 10000m;
@@ -1836,7 +1832,7 @@ namespace SGI.GestionTramite
                     cant_registros_x_vez = 50000m;
 
                 int cantidad_veces = (int)Math.Ceiling(totalRowCount / cant_registros_x_vez);
-
+                
                 List<clsItemConsultaTramite> resultados = new List<clsItemConsultaTramite>();
 
                 for (int i = 1; i <= cantidad_veces; i++)
@@ -1845,6 +1841,7 @@ namespace SGI.GestionTramite
                     Session["progress_data"] = string.Format("{0} trámites exportados.", resultados.Count);
                     startRowIndex += Convert.ToInt32(cant_registros_x_vez);
                 }
+
                 Session["progress_data"] = string.Format("{0} trámites exportados.", resultados.Count);
                 DataTable dt;
                 if (rbtRubro.Checked)
@@ -2045,7 +2042,6 @@ namespace SGI.GestionTramite
                     dt = Functions.ToDataTable(lstExportar);
                 }
 
-
                 // Convierte la lista en un dataset
                 DataSet ds = new DataSet();
                 dt.TableName = "Solicitudes";
@@ -2073,6 +2069,7 @@ namespace SGI.GestionTramite
             }
             catch (TimeoutException tex)
             {
+                LogToTemporalFile("Error de exportacion: " + tex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
                 LogError.Write(tex);
@@ -2080,9 +2077,23 @@ namespace SGI.GestionTramite
             }
             catch (Exception ex)
             {
+                LogToTemporalFile("Error de exportacion: " + ex.ToString());
                 Session.Remove("progress_data");
                 Session.Remove("exportacion_en_proceso");
                 LogError.Write(ex);
+            }
+        }
+
+        private void LogToTemporalFile(string message)
+        {
+            string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+            string FileName = string.Format("log_timer_{0}.txt", fechaAct);
+            string path = @"C:\Temporal\";
+            string logFilePath = Path.Combine($"{path}", $"{FileName}");
+
+            using (StreamWriter sw = File.AppendText(logFilePath))
+            {
+                sw.WriteLine(message);
             }
         }
 
