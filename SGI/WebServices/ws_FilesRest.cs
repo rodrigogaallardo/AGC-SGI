@@ -146,9 +146,10 @@ namespace SGI.WebServices
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception("No se ha podido descargar el file en el servicio ");
 
-            fileExtension = response.Headers.First(p => p.Name.Equals("Content-Disposition")).Value.ToString().Replace("attachment; filename=", "");
+            //fileExtension = response.Headers.First(p => p.Name.Equals("Content-Disposition")).Value.ToString().Replace("attachment; filename=", "");
             //fileExtension = Path.GetExtension(fileExtension);
-            if(response.ContentLength <= 0)
+            fileExtension = response.Headers.First(p => p.Name.Equals("Filename")).Value.ToString();
+            if (response.ContentLength <= 0)
                 LogError.Write(new Exception("RESPONSE error red: " + Funciones.GetDataFromResponse(response)));
             return response.RawBytes;
         }
