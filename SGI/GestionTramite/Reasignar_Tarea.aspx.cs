@@ -301,34 +301,6 @@ namespace SGI
             //return lstResult;
         }
 
-        protected void grdTramites_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-
-            //if (e.Row.RowType == DataControlRowType.DataRow)
-            //{
-            //    IniciarEntity();
-
-            //    clsItemReasignar result = (clsItemReasignar)e.Row.DataItem;
-            //    DropDownList ddlUsuario = (DropDownList)e.Row.FindControl("ddlUsuario");
-            //    int id_solicitud = (int)result.id_solicitud;
-            //    int id_tarea = (int)result.id_tarea;
-            //    Guid userid = Functions.GetUserId();
-            //    List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo_tarea = getEquipoTrabajoTarea(id_tarea, userid);
-
-            //    ddlUsuario.DataValueField = "userid";
-            //    ddlUsuario.DataTextField = "nombres_apellido";
-            //    ddlUsuario.DataSource = lstEquipoTrabajo_tarea;
-            //    ddlUsuario.DataBind();
-
-            //    ddlUsuario.Items.Insert(0, new ListItem("Sin Asignación", "0"));
-
-            //    ddlUsuario.SelectedValue = result.UsuarioAsignado_tramitetarea.ToString().ToLower();
-
-
-            //}
-
-        }
-
         protected void btnGuadarUsuario_Command(object sender, CommandEventArgs e)
         {
             try
@@ -769,9 +741,7 @@ namespace SGI
             lblUsuarioAsignado.Style.Add("display", "none");
             btnEdit.Style.Add("display", "none");
 
-
             IniciarEntity();
-
 
             int id_tramitetarea = 0;
             int.TryParse(lbl_id_tramitetarea.Text, out id_tramitetarea);

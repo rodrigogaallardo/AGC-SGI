@@ -114,8 +114,7 @@
                 --%>
                 <asp:GridView ID="grdTramites" runat="server" AutoGenerateColumns="false"
                     GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
-                    DataKeyNames="id_solicitud" ItemType="SGI.Model.clsItemReasignar"
-                    OnRowDataBound="grdTramites_RowDataBound">
+                    DataKeyNames="id_solicitud" ItemType="SGI.Model.clsItemReasignar">
 
 
                     <Columns>
