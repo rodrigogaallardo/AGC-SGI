@@ -804,11 +804,6 @@ namespace SGI
 
             LinkButton btnGuadarUsuario = (LinkButton)row.FindControl("btnGuadarUsuario");
 
-            if (ddlUsuario.SelectedItem.Text == "Sin Asignación")
-            {
-                btnGuadarUsuario.Style.Add("display", "none");
-            }
-
             if (usuarioAsignado.ToString().ToLower() != ddlEquipo.SelectedItem.Text) 
             {
                 btnGuadarUsuario.Style.Add("display", "hiden");
@@ -818,8 +813,6 @@ namespace SGI
                 btnGuadarUsuario.Style.Add("display", "none");
             }
 
-           
-            
         }
     }
 

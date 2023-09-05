@@ -84,7 +84,7 @@
                 Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
                 function endRequestHandler() {
                     rt_incializar_dllUsuario();
-                    <%--rt_ocultar_boton_guardar();--%>
+                    /*rt_ocultar_boton_guardar();*/
                 }
             </script>
 
@@ -156,7 +156,9 @@
                                         </div>
 
                                         <div class="pull-left">
-                                            <asp:DropDownList ID="ddlUsuario" runat="server" OnSelectedIndexChanged="ddlUsuario_SelectedIndexChanged"  Width="165px" Style="display: none"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlUsuario" runat="server" 
+                                                OnSelectedIndexChanged="ddlUsuario_SelectedIndexChanged" 
+                                                Width="160px" Style="display: none"></asp:DropDownList>
                                         </div>
 
                                         <div class="pull-center">
@@ -166,22 +168,20 @@
                                             </asp:LinkButton>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="pull-right">
-                                                <asp:LinkButton ID="btnGuadarUsuario" runat="server" CssClass="btn"
-                                                    OnCommand="btnGuadarUsuario_Command" Style="display: none"
-                                                    CommandArgument='<%# Eval("id_tramitetarea") %>'> 
-                                                <span class="text">Guadar</span>
-                                                </asp:LinkButton>
-                                            </div>
-
-                                            <div class="pull-right">
-                                                <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn" OnCommand="btnCancel_Command"
-                                                    Style="display: none"
-                                                    CommandArgument='<%# Eval("id_tramitetarea") %>'> 
+                                        <div class="pull-right">
+                                            <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn" 
+                                                OnCommand="btnCancel_Command"
+                                                Style="display: none"
+                                                CommandArgument='<%# Eval("id_tramitetarea") %>'> 
                                                 <span class="text">Cancelar</span>
-                                                </asp:LinkButton>
-                                            </div>
+                                            </asp:LinkButton>
+                                        </div>
+                                        <div class="pull-right">
+                                            <asp:LinkButton ID="btnGuadarUsuario" runat="server" CssClass="btn"
+                                                OnCommand="btnGuadarUsuario_Command" Style="display: none"
+                                                CommandArgument='<%# Eval("id_tramitetarea") %>'> 
+                                                <span class="text">Guadar</span>
+                                            </asp:LinkButton>
                                         </div>
 
 
@@ -223,16 +223,16 @@
 
     <script type="text/javascript">
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        $('select').select2();
-        rt_incializar_dllEquipo();
-        rt_incializar_dllUsuario();
-    });
+            $('select').select2();
+            rt_incializar_dllEquipo();
+            rt_incializar_dllUsuario();
+        });
 
-    function rt_incializar_dllEquipo() {
+        function rt_incializar_dllEquipo() {
 
-        $("#<%=ddlEquipo.ClientID%>").select2({
+            $("#<%=ddlEquipo.ClientID%>").select2({
             allowClear: true,
             placeholder: "Seleccione usuario"
             //formatSelection: ddlUsuarioAsignar_formatSelection,
@@ -252,64 +252,64 @@
             }
             return false;
         });
-    }
+        }
 
-    function rt_ocultar_boton_guardar() {
-        
-        $("#<%=grdTramites.ClientID%>").find("[id*='updPnlReasignarUsuario']").each(function () {
+        function rt_ocultar_boton_guardar() {
 
-            var lbl_usuario = $(this).find("[id*='lbl_usuarioAsignado']");
-            var btn_guardar = $(this).find("[id*='btnGuadarUsuario']");
-            var userid_actual = lbl_usuario[0].innerHTML;
-            var ddl_usuario = $(this).find("[id*='ddlUsuario']");
-            var userid_nuevo = $(ddl_usuario).val();
+            $("#<%=grdTramites.ClientID%>").find("[id*='updPnlReasignarUsuario']").each(function () {
 
-            if (userid_actual != userid_nuevo) {
-                $(btn_guardar).show();
-            }
-            else {
-                $(btn_guardar).hide();
-            }
-
-
-        });
-
-    }
-
-    function rt_incializar_dllUsuario() {
-
-        $("[id*='ddlUsuario']").each(function () {
-         
-            $(this).change(function () {
-
-                var update_panel = $(this)[0].parentElement.parentElement;
-                var lbl_usuario = $(update_panel).find("[id*='lbl_usuarioAsignado']");
-                var btn_guardar = $(update_panel).find("[id*='btnGuadarUsuario']");
+                var lbl_usuario = $(this).find("[id*='lbl_usuarioAsignado']");
+                var btn_guardar = $(this).find("[id*='btnGuadarUsuario']");
                 var userid_actual = lbl_usuario[0].innerHTML;
-                var userid_nuevo = $(this).prop("value");
-             
+                var ddl_usuario = $(this).find("[id*='ddlUsuario']");
+                var userid_nuevo = $(ddl_usuario).val();
+
                 if (userid_actual != userid_nuevo) {
                     $(btn_guardar).show();
                 }
                 else {
                     $(btn_guardar).hide();
                 }
-                
+
+
             });
-            
-        });
+
+        }
+
+        function rt_incializar_dllUsuario() {
+
+            $("[id*='ddlUsuario']").each(function () {
+
+                $(this).change(function () {
+
+                    var update_panel = $(this)[0].parentElement.parentElement;
+                    var lbl_usuario = $(update_panel).find("[id*='lbl_usuarioAsignado']");
+                    var btn_guardar = $(update_panel).find("[id*='btnGuadarUsuario']");
+                    var userid_actual = lbl_usuario[0].innerHTML;
+                    var userid_nuevo = $(this).prop("value");
+
+                    if (userid_actual != userid_nuevo) {
+                        $(btn_guardar).show();
+                    }
+                    else {
+                        $(btn_guardar).hide();
+                    }
+
+                });
+
+            });
 
 
-    }
+        }
 
-    function rt_Select2CloseAll() {
-        // Cerrar todos los combos al abrir uno
-        $("select").each(function (ind, elem) {
-            $(elem).select2("close");
-        });
+        function rt_Select2CloseAll() {
+            // Cerrar todos los combos al abrir uno
+            $("select").each(function (ind, elem) {
+                $(elem).select2("close");
+            });
 
-        return false;
-    }
+            return false;
+        }
 
     </script>
 
