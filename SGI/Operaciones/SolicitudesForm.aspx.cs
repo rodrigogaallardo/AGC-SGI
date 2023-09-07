@@ -42,7 +42,7 @@ namespace SGI.Operaciones
             }
             int idSolicitud = int.Parse(idSolicitudStr);
             hdidSolicitud.Value = idSolicitudStr;
-            txtSolicitudId.Text = idSolicitudStr;
+            txtSolicitudId.Text= idSolicitudStr;
 
             string tipo = (Request.QueryString["tipo"] == null) ? "" : Request.QueryString["tipo"].ToString();
             hdtipo.Value = tipo;
@@ -50,7 +50,7 @@ namespace SGI.Operaciones
 
             if (!IsPostBack)
             {
-
+               
                 if (tipo == "S")
                 {
                     ddlTipoEstado.DataSource = CargarTipoEstadoSolicitud();
@@ -129,14 +129,14 @@ namespace SGI.Operaciones
 
         public List<TipoEstadoSolicitud> CargarTipoEstadoSolicitud()
         {
-
+          
 
             DGHP_Entities db = new DGHP_Entities();
 
             List<TipoEstadoSolicitud> q = (from usu in db.TipoEstadoSolicitud
-                                           orderby (usu.Descripcion)
-                                           select usu).ToList();
-
+                     orderby (usu.Descripcion)
+                     select usu).ToList();
+            
             return q;
         }
         public List<CPadron_Estados> CargarCPadron_Estados()
@@ -144,9 +144,9 @@ namespace SGI.Operaciones
             DGHP_Entities db = new DGHP_Entities();
 
             List<CPadron_Estados> q = (from usu in db.CPadron_Estados
-                                       orderby (usu.nom_estado_usuario)
-                                       select usu).ToList();
-
+                     orderby (usu.nom_estado_usuario)
+                     select usu).ToList();
+           
             return q;
         }
         public SSIT_Solicitudes CargarSSIT_SolicitudesByIdSolicitud(int IdSolicitud)
@@ -195,11 +195,6 @@ namespace SGI.Operaciones
             Transf_Solicitudes transf_Solicitudes = new Transf_Solicitudes();
             CPadron_Solicitudes cPadron_Solicitudes = new CPadron_Solicitudes();
             DGHP_Entities context = new DGHP_Entities();
-
-            Guid userid = Functions.GetUserId();
-            bool estoyDesLibrando = false;
-            bool estoyLibrando = false;
-
             if (tipo == "S")
             {
                 sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
@@ -207,16 +202,12 @@ namespace SGI.Operaciones
 
                 if (chkFecLibrado.Checked)
                 {
-                    if (sSIT_Solicitudes.FechaLibrado != null)
-                        estoyDesLibrando = true;
-                        sSIT_Solicitudes.FechaLibrado = null;
+                    sSIT_Solicitudes.FechaLibrado = null;
                 }
                 else
                 {
                     if (calFechaLibrado.SelectedDate != null)
                     {
-                        if (sSIT_Solicitudes.FechaLibrado  != calFechaLibrado.SelectedDate)
-                            estoyLibrando = true;
                         sSIT_Solicitudes.FechaLibrado = calFechaLibrado.SelectedDate;
                     }
                 }
@@ -227,11 +218,7 @@ namespace SGI.Operaciones
                     {
                         context.SSIT_Solicitudes.AddOrUpdate(sSIT_Solicitudes);
                         context.SaveChanges();
-                        if (estoyDesLibrando)
-                            context.SSIT_Solicitudes_Historial_LibradoUso_INSERT(idSolicitud,null, DateTime.Now, userid);
-                        if (estoyLibrando)
-                            context.SSIT_Solicitudes_Historial_LibradoUso_INSERT(idSolicitud, sSIT_Solicitudes.FechaLibrado, DateTime.Now, userid);
-                            dbContextTransaction.Commit();
+                        dbContextTransaction.Commit();
 
                     }
                     catch (Exception ex)
