@@ -20277,26 +20277,5 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_IFCI_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
         }
-    
-        public virtual int SSIT_Solicitudes_Historial_LibradoUso_INSERT(Nullable<int> id_solicitud, Nullable<System.DateTime> fechaLibrado, Nullable<System.DateTime> createDate, Nullable<System.Guid> createUser)
-        {
-            var id_solicitudParameter = id_solicitud.HasValue ?
-                new ObjectParameter("id_solicitud", id_solicitud) :
-                new ObjectParameter("id_solicitud", typeof(int));
-    
-            var fechaLibradoParameter = fechaLibrado.HasValue ?
-                new ObjectParameter("fechaLibrado", fechaLibrado) :
-                new ObjectParameter("fechaLibrado", typeof(System.DateTime));
-    
-            var createDateParameter = createDate.HasValue ?
-                new ObjectParameter("createDate", createDate) :
-                new ObjectParameter("createDate", typeof(System.DateTime));
-    
-            var createUserParameter = createUser.HasValue ?
-                new ObjectParameter("createUser", createUser) :
-                new ObjectParameter("createUser", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SSIT_Solicitudes_Historial_LibradoUso_INSERT", id_solicitudParameter, fechaLibradoParameter, createDateParameter, createUserParameter);
-        }
     }
 }
