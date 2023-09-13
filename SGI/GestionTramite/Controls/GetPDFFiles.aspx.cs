@@ -49,7 +49,7 @@ namespace SGI.GestionTramite.Controls
                 {
                     try
                     {
-                        Pdf = ws_FilesRest.descargarArchivo(id_file, out FileName);
+                        Pdf = ws_FilesRest.descargarArchivo_new(id_file, out FileName);
                     }
                     catch { }
                 }
