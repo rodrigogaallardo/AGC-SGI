@@ -160,15 +160,15 @@
                                                 Width="160px" Style="display: none"></asp:DropDownList>
                                         </div>
 
-                                        <div class="pull-center">
-                                            <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn" OnCommand="btnEdit_Command"
+                                        <div class="pull-right">
+                                            <asp:LinkButton ID="btnEdit" runat="server" CssClass="btn btn-primary" OnCommand="btnEdit_Command"
                                                 CommandArgument='<%# Eval("id_tramitetarea") %>'> 
                                                 <span class="text">Editar</span>
                                             </asp:LinkButton>
                                         </div>
 
                                         <div class="pull-right">
-                                            <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn" 
+                                            <asp:LinkButton ID="btnCancel" runat="server" CssClass="btn btn-danger" 
                                                 OnCommand="btnCancel_Command"
                                                 Style="display: none"
                                                 CommandArgument='<%# Eval("id_tramitetarea") %>'> 
@@ -176,7 +176,7 @@
                                             </asp:LinkButton>
                                         </div>
                                         <div class="pull-right">
-                                            <asp:LinkButton ID="btnGuadarUsuario" runat="server" CssClass="btn"
+                                            <asp:LinkButton ID="btnGuadarUsuario" runat="server" CssClass="btn btn-success"
                                                 OnCommand="btnGuadarUsuario_Command" Style="display: none"
                                                 CommandArgument='<%# Eval("id_tramitetarea") %>'> 
                                                 <span class="text">Guadar</span>

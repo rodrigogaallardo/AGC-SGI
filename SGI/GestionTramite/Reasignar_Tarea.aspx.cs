@@ -314,7 +314,12 @@ namespace SGI
                 DropDownList ddlUsuario = (DropDownList)row.FindControl("ddlUsuario");
                 Label lbl_usuarioAsignado = (Label)row.FindControl("lbl_usuarioAsignado");
                 Label lbl_id_tramitetarea = (Label)row.FindControl("lbl_id_tramitetarea");
+                Label lblUsuarioAsignado = (Label)row.FindControl("lblUsuarioAsignado");
                 UpdatePanel updPnlReasignarUsuario = (UpdatePanel)row.FindControl("updPnlReasignarUsuario");
+
+
+                LinkButton btnEdit = (LinkButton)row.FindControl("btnEdit");
+                LinkButton btnCancel = (LinkButton)row.FindControl("btnCancel");
 
 
                 Guid? usuarioNuevo = null;
@@ -333,8 +338,18 @@ namespace SGI
 
                 lbl_usuarioAsignado.Text = usuarioNuevo.ToString();
                 lbl_id_tramitetarea.Text = id_tramitetarea_nuevo.ToString();
+                lblUsuarioAsignado.Text = ddlUsuario.SelectedItem.Text;
                 FinalizarEntity();
                 updPnlReasignarUsuario.Update();
+
+                    
+                ddlUsuario.Style.Add("display", "none");
+                btnCancel.Style.Add("display", "none");
+                lblUsuarioAsignado.Style.Add("display", "block");
+                btnEdit.Style.Add("display", "block");
+                btnGuadarUsuario.Style.Add("display", "none");
+
+
             }
             catch (Exception ex)
             {
@@ -470,7 +485,7 @@ namespace SGI
                         FechaInicio_tramitetarea = tramite_tareas.FechaInicio_tramitetarea,
                         FechaAsignacion_tramtietarea = tramite_tareas.FechaAsignacion_tramtietarea,
                         UsuarioAsignado_tramitetarea = tramite_tareas.UsuarioAsignado_tramitetarea.Value,
-                        UsuarioAsignado_tramitetarea_username = usr.Nombres + " " + usr.Apellido,
+                        UsuarioAsignado_tramitetarea_username = usr.Apellido + " " + usr.Nombres,
                         id_solicitud = sol.id_solicitud,
                         direccion = "",
                         id_tarea = tarea.id_tarea,
@@ -509,7 +524,7 @@ namespace SGI
                        FechaInicio_tramitetarea = tramite_tareas.FechaInicio_tramitetarea,
                        FechaAsignacion_tramtietarea = tramite_tareas.FechaAsignacion_tramtietarea,
                        UsuarioAsignado_tramitetarea = tramite_tareas.UsuarioAsignado_tramitetarea.Value,
-                       UsuarioAsignado_tramitetarea_username = usr.Nombres + " " + usr.Apellido,
+                       UsuarioAsignado_tramitetarea_username = usr.Apellido + " " + usr.Nombres,
                        id_solicitud = sol.id_cpadron,
                        direccion = "",
                        id_tarea = tarea.id_tarea,
@@ -548,7 +563,7 @@ namespace SGI
                        FechaInicio_tramitetarea = tramite_tareas.FechaInicio_tramitetarea,
                        FechaAsignacion_tramtietarea = tramite_tareas.FechaAsignacion_tramtietarea,
                        UsuarioAsignado_tramitetarea = tramite_tareas.UsuarioAsignado_tramitetarea.Value,
-                       UsuarioAsignado_tramitetarea_username = usr.Nombres + " " + usr.Apellido,
+                       UsuarioAsignado_tramitetarea_username = usr.Apellido + " " + usr.Nombres,
                        id_solicitud = sol.id_solicitud,
                        direccion = "",
                        id_tarea = tarea.id_tarea,
@@ -714,8 +729,8 @@ namespace SGI
             ddlUsuario.Style.Add("display", "none");
             btnGuadarUsuario.Style.Add("display", "none");
             btnCancel.Style.Add("display", "none");
-            lblUsuarioAsignado.Style.Add("display", "hiden");
-            btnEdit.Style.Add("display", "hiden");
+            lblUsuarioAsignado.Style.Add("display", "block");
+            btnEdit.Style.Add("display", "block");
         }
 
         protected void btnEdit_Command(object sender, CommandEventArgs e)
@@ -735,9 +750,9 @@ namespace SGI
             LinkButton btnGuadarUsuario = (LinkButton)row.FindControl("btnGuadarUsuario");
             LinkButton btnCancel = (LinkButton)row.FindControl("btnCancel");
 
-            ddlUsuario.Style.Add("display", "hiden");
+            ddlUsuario.Style.Add("display", "block");
             //btnGuadarUsuario.Style.Add("display", "hiden");
-            btnCancel.Style.Add("display", "hiden");
+            btnCancel.Style.Add("display", "block");
             lblUsuarioAsignado.Style.Add("display", "none");
             btnEdit.Style.Add("display", "none");
 
@@ -776,7 +791,7 @@ namespace SGI
 
             if (usuarioAsignado.ToString().ToLower() != ddlEquipo.SelectedItem.Text) 
             {
-                btnGuadarUsuario.Style.Add("display", "hiden");
+                btnGuadarUsuario.Style.Add("display", "block");
             }
             else
             {
