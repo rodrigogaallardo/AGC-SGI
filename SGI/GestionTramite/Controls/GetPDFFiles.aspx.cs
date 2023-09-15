@@ -49,6 +49,7 @@ namespace SGI.GestionTramite.Controls
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 byte[] Pdf = new byte[0];
                 string FileName = string.Empty;
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file, url);
                 if (id_file > 0)
                 {
                     try
@@ -75,11 +76,6 @@ namespace SGI.GestionTramite.Controls
                 {
                     Response.Clear();
                     Response.Write("No es posible encontrar el archivo");
-                }
-
-                using (var db = new DGHP_Entities())
-                {
-                    var movimiento = db.SGI_Insertar_Movimiento_Usuario(userId, DateTime.Now, url, id_file);
                 }
 
             }

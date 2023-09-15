@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Transactions;
 using System.Web;
 using System.Web.Security;
@@ -60,8 +61,11 @@ namespace SGI.GestionTramite.Controls
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            var movimiento = db.SGI_Insertar_Movimiento_Usuario(userId, DateTime.Now, url, null);
             db.Database.CommandTimeout = 300;
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, url);
+
+
+
             if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
             {
                 lnkNroExpEdit.Visible = false;
