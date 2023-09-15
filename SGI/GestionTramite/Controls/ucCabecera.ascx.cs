@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Transactions;
+using System.Web;
+using System.Web.Security;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -55,8 +57,10 @@ namespace SGI.GestionTramite.Controls
         {
             int nroSolReferencia = 0;
             int.TryParse(ConfigurationManager.AppSettings["NroSolicitudReferencia"], out nroSolReferencia);
-
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
+            var movimiento = db.SGI_Insertar_Movimiento_Usuario(userId, DateTime.Now, url, null);
             db.Database.CommandTimeout = 300;
             if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
             {
