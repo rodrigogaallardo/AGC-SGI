@@ -272,7 +272,10 @@ namespace SGI.Model
                                                    where es.id_solicitud == id_solicitud
                                                    && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
                                                    && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                                   select es.id_encomiendaSolicitud).Count();
+                                                   select es.id_encomiendaSolicitud).Union(from sd in db.SSIT_DocumentosAdjuntos
+                                                                                           where sd.id_solicitud == id_solicitud
+                                                                                           && sd.id_tdocreq == 66
+                                                                                           select sd.id_docadjunto).Count();
 
                         List<Resultado> borrar = new List<Resultado>();
                         if (existePlanoIncendio == 0)
