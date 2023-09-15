@@ -2959,6 +2959,42 @@ public class ObservacionAnteriores
         return observ ?? string.Empty;
     }
 
+    public static string Buscar_ObservacionLibradoUso(int id_grupotramite, int id_solicitud, int id_tramitetarea)
+    {
+        DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
+
+        string observ = null;
+
+        int[] tareas = ObtenerTareasConLibradoUso();
+
+        TramiteTareaAnteriores tramite_tarea = TramiteTareaAnteriores.BuscarUltimoTramiteTareaPorTarea(id_grupotramite, id_solicitud, id_tramitetarea, tareas).FirstOrDefault();
+
+        if (tramite_tarea != null)
+        {
+            var q_calificar = (
+                from stc in db.SGI_Tarea_Calificar
+                where stc.id_tramitetarea == tramite_tarea.id_tramitetarea
+                select stc.Observaciones_LibradoUso).FirstOrDefault();
+
+            var q_sub_gerente = (
+                from strsg in db.SGI_Tarea_Revision_SubGerente
+                where strsg.id_tramitetarea == tramite_tarea.id_tramitetarea
+                select strsg.Observaciones_LibradoUso).FirstOrDefault();
+
+            var q_gerente = (
+                from strg in db.SGI_Tarea_Revision_Gerente
+                where strg.id_tramitetarea == tramite_tarea.id_tramitetarea
+                select strg.Observaciones_LibradoUso).FirstOrDefault();
+
+            observ = q_calificar ?? q_sub_gerente ?? q_gerente;
+        }
+
+        db.Dispose();
+
+        return observ ?? string.Empty;
+    }
+
     public static int[] ObtenerTareasConPlancheta()
     {
         DGHP_Entities db = new DGHP_Entities();
@@ -2973,6 +3009,21 @@ public class ObservacionAnteriores
         
         db.Dispose();
         
+        return tareas;
+    }
+
+    public static int[] ObtenerTareasConLibradoUso()
+    {
+        DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
+
+        var tareas = (
+            from et in db.ENG_Tareas
+            where (et.formulario_tarea.Contains("gerente") || et.formulario_tarea.Contains("calificar"))
+            select et.id_tarea).ToArray();
+
+        db.Dispose();
+
         return tareas;
     }
 }
