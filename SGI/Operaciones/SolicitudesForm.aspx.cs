@@ -195,6 +195,11 @@ namespace SGI.Operaciones
             Transf_Solicitudes transf_Solicitudes = new Transf_Solicitudes();
             CPadron_Solicitudes cPadron_Solicitudes = new CPadron_Solicitudes();
             DGHP_Entities context = new DGHP_Entities();
+
+            Guid userid = Functions.GetUserId();
+            bool estoyDesLibrando = false;
+            bool estoyLibrando = false;
+
             if (tipo == "S")
             {
                 sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
@@ -202,12 +207,16 @@ namespace SGI.Operaciones
 
                 if (chkFecLibrado.Checked)
                 {
+                    if (sSIT_Solicitudes.FechaLibrado != null)
+                        estoyDesLibrando = true;
                     sSIT_Solicitudes.FechaLibrado = null;
                 }
                 else
                 {
                     if (calFechaLibrado.SelectedDate != null)
                     {
+                        if (sSIT_Solicitudes.FechaLibrado != calFechaLibrado.SelectedDate)
+                            estoyLibrando = true;
                         sSIT_Solicitudes.FechaLibrado = calFechaLibrado.SelectedDate;
                     }
                 }
@@ -218,6 +227,47 @@ namespace SGI.Operaciones
                     {
                         context.SSIT_Solicitudes.AddOrUpdate(sSIT_Solicitudes);
                         context.SaveChanges();
+                        dbContextTransaction.Commit();
+                        if (estoyDesLibrando)
+                        {
+                            var cmd = context.Database.Connection.CreateCommand();
+                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", idSolicitud, 0, userid);
+                            cmd.CommandTimeout = 120;
+                            try
+                            {
+                                context.Database.Connection.Open();
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception exe)
+                            {
+                                throw exe;
+                            }
+                            finally
+                            {
+                                context.Database.Connection.Close();
+                                cmd.Dispose();
+                            }
+                        }
+                        if (estoyLibrando)
+                        {
+                            var cmd = context.Database.Connection.CreateCommand();
+                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", idSolicitud, -1, userid);
+                            cmd.CommandTimeout = 120;
+                            try
+                            {
+                                context.Database.Connection.Open();
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception exe)
+                            {
+                                throw exe;
+                            }
+                            finally
+                            {
+                                context.Database.Connection.Close();
+                                cmd.Dispose();
+                            }
+                        }
                         dbContextTransaction.Commit();
 
                     }

@@ -2,6 +2,7 @@
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Transactions;
 using System.Web.UI;
@@ -593,6 +594,23 @@ namespace SGI.GestionTramite.Tareas
                                 try
                                 {
                                     db.SSIT_Solicitudes_Set_FechaLibrado(id_solicitud);
+                                    var cmd = db.Database.Connection.CreateCommand();
+                                    cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 1, userid);
+                                    cmd.CommandTimeout = 120;
+                                    try
+                                    {
+                                        db.Database.Connection.Open();
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                    catch (Exception exe)
+                                    {
+                                        throw exe;
+                                    }
+                                    finally
+                                    {
+                                        db.Database.Connection.Close();
+                                        cmd.Dispose();
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
@@ -613,6 +631,29 @@ namespace SGI.GestionTramite.Tareas
                             if (sol.id_estado == (int)Constants.Solicitud_Estados.Suspendida)
                             {
                                 db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
+                            }
+                        }
+                        else if (chbLibrarUso.Checked == false && sol.FechaLibrado != null)
+                        {
+                            sol.FechaLibrado = null;
+                            db.SSIT_Solicitudes.AddOrUpdate(sol);
+                            db.SaveChanges();
+                            var cmd = db.Database.Connection.CreateCommand();
+                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 0, userid);
+                            cmd.CommandTimeout = 120;
+                            try
+                            {
+                                db.Database.Connection.Open();
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception exe)
+                            {
+                                throw exe;
+                            }
+                            finally
+                            {
+                                db.Database.Connection.Close();
+                                cmd.Dispose();
                             }
                         }
 
