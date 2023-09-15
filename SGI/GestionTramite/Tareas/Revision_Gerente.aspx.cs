@@ -6,6 +6,7 @@ using System.Transactions;
 using System.Web.UI;
 using SGI.GestionTramite.Controls;
 using SGI.Model;
+using SGI.Webservices.ws_interface_AGC;
 
 namespace SGI.GestionTramite.Tareas
 {
@@ -17,13 +18,13 @@ namespace SGI.GestionTramite.Tareas
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            UcObservacionesLibrarUso.Enabled = true;
             if (!IsPostBack)
             {
-
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
                     CargarDatosTramite(id_tramitetarea);
-
+                chbLibrarUso.CheckedChanged += ChbLibrarUso_CheckedChanged;
             }
         }
 
@@ -132,12 +133,14 @@ namespace SGI.GestionTramite.Tareas
                 ucObservacionPlancheta.Text = gerente.observacion_plancheta;
                 UcObservacionesContribuyente.Text = gerente.observaciones_contribuyente;
                 ucObservacionProvidencia.Text = gerente.observacion_providencia;
+                UcObservacionesLibrarUso.Text = gerente.Observaciones_LibradoUso;
                 chbLibrarUso.Checked = gerente.Librar_Uso;
             }
             else
             {
                 ucObservacionesTarea.Text = "";
                 UcObservacionesContribuyente.Text = "";
+                UcObservacionesLibrarUso.Text = ObservacionAnteriores.Buscar_ObservacionLibradoUso((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
                 ucObservacionPlancheta.Text = ObservacionAnteriores.Buscar_ObservacionPlancheta((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
 
                 if (Functions.isAprobado(this.id_solicitud))
@@ -146,6 +149,10 @@ namespace SGI.GestionTramite.Tareas
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.GERENTE"), "\n\n\n", "\n\n", "no se");
                 
                 chbLibrarUso.Checked = false;
+            }
+            if (!string.IsNullOrEmpty(UcObservacionesLibrarUso.Text))
+            {
+                UcObservacionesLibrarUso.Enabled = false;
             }
             pnl_Librar_Uso.Visible = false;
 
@@ -174,7 +181,10 @@ namespace SGI.GestionTramite.Tareas
                 pnl_Librar_Uso.Visible = true;
             }
             var fechalibrado = sol.FechaLibrado;
-            if (fechalibrado != null)
+            var estaLibrado = false;
+            if (gerente != null)
+                estaLibrado = gerente.Librar_Uso;
+            if (fechalibrado != null || estaLibrado)
             {
                 librado = true;
             }
@@ -205,6 +215,15 @@ namespace SGI.GestionTramite.Tareas
             }
             this.db.Dispose();
 
+        }
+
+        protected void ChbLibrarUso_CheckedChanged(object sender, EventArgs e)
+        {
+            UcObservacionesLibrarUso.Enabled = chbLibrarUso.Checked;
+            if (!chbLibrarUso.Checked)
+            {
+                UcObservacionesLibrarUso.Text = "";
+            }
         }
 
         #region entity
@@ -322,7 +341,7 @@ namespace SGI.GestionTramite.Tareas
         {
         }
 
-        private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observacion_plancheta, string observacion_providencia, string observacion_contribuyente, bool librar_uso, Guid userId)
+        private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observacion_plancheta, string observacion_providencia, string observacion_contribuyente, string observacion_LibradoUso, bool librar_uso, Guid userId)
         {
 
             SGI_Tarea_Revision_Gerente gerente = Buscar_Tarea(id_tramite_tarea);
@@ -331,7 +350,7 @@ namespace SGI.GestionTramite.Tareas
             if (gerente != null)
                 id_revision_gerente = gerente.id_revision_gerente;
 
-            db.SGI_Tarea_Revision_Gerente_Actualizar(id_revision_gerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, librar_uso);
+            db.SGI_Tarea_Revision_Gerente_Actualizar(id_revision_gerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, observacion_LibradoUso, userId, librar_uso);
             if (finalizar && !string.IsNullOrEmpty(observacion_contribuyente))
                 db.SSIT_Solicitudes_AgregarObservaciones(id_solicitud, observacion_contribuyente, userId);
         }
@@ -352,7 +371,7 @@ namespace SGI.GestionTramite.Tareas
 
                     try
                     {
-                        Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), chbLibrarUso.Checked, userid);
+                        Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), UcObservacionesLibrarUso.Text.Trim(), chbLibrarUso.Checked, userid);
 
                         //ucSGI_ListaPlanoVisado.FindControl("grd_plan_visado");
 
@@ -496,7 +515,7 @@ namespace SGI.GestionTramite.Tareas
 
                 Validar_Finalizar();
 
-                Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), chbLibrarUso.Checked, userid);
+                Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), UcObservacionesLibrarUso.Text.Trim(), chbLibrarUso.Checked, userid);
                 db.SaveChanges();
                 bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0;
 
