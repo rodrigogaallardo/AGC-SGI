@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using DocumentFormat.OpenXml.Packaging;
-using System.Reflection;
+﻿using DocumentFormat.OpenXml.Packaging;
 using RestSharp;
+using SGI.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SGI.StaticClassNameSpace
 {
     public static class StaticClass
     {
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey> (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             HashSet<TKey> seenKeys = new HashSet<TKey>();
             foreach (TSource element in source)
@@ -453,14 +454,34 @@ namespace SGI.StaticClassNameSpace
             return ret;
         }
 
+        public static void Ley257GenerarLog(string ParamLog, string RequestLog, string ResponseLog, Guid userIdLog)
+        {
+
+            var db = new DGHP_Entities();
+            var cmd = db.Database.Connection.CreateCommand();
+            ParamLog = ParamLog.Replace("'", "''");
+            RequestLog = RequestLog.Replace("'", "''");
+            ResponseLog = ResponseLog.Replace("\'", "''");
+            cmd.CommandText = string.Format("EXEC [dbo].[Ley257_ServicioLogs_Agregar] \'{0}\', \'{1}\', \'{2}\', \'{3}\'", ParamLog, RequestLog, ResponseLog, userIdLog);
+            try
+            {
+
+                db.Database.Connection.Open();
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            finally
+            {
+                try { db.Database.Connection.Close(); } catch { }; //Esto es para evitar los errores cuando ya se haya despachada la conexion
+                try { cmd.Dispose(); } catch { };
+                try { db.Dispose(); } catch { };
+            }
+
+        }
+
     }
-
-
-
-
-
-
-
-
-
-    }
+}

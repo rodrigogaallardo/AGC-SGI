@@ -6,6 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using RestSharp;
+using RestSharp.Deserializers;
+using RestSharp.Authenticators;
 
 namespace SGI.WebServices
 {
@@ -106,6 +109,81 @@ namespace SGI.WebServices
 
             }
             return archivo;
+        }
+        public static byte[] descargarArchivo_new(int id_file, out string fileExtension)
+        {
+            string hostParametro = Parametros.GetParam_ValorChar("SGI.Url.WebService.Rest.File");
+            //string serviceParametro = "/ws.rest.files";
+            string url_servicio = Parametros.GetParam_ValorChar("SGI.Url.WebService.Rest.File");
+            string fileParametro = "/api/files";
+            string userParametro = Parametros.GetParam_ValorChar("SGI.Username.WebService.Rest.File");//ConfigurationManager.AppSettings["NombreParamUser"];
+            string passParametro = Parametros.GetParam_ValorChar("SGI.Password.WebService.Rest.File");//ConfigurationManager.AppSettings["NombreParamPass"];
+
+            string _token = GetToken(userParametro, passParametro);
+
+            //string host = "http://www.dghpsh.agcontrol.gob.ar/test/ws.rest.files";
+            string _host = "";
+            if (hostParametro.IndexOf("http") < 0)
+                _host = "http://" + hostParametro;
+            else
+                _host = hostParametro;
+
+            var client = new RestClient(_host + fileParametro);
+            client.ClearHandlers();
+            client.AddHandler("application/json", new JsonDeserializer());
+
+            var request = new RestRequest("?IdFile=" + id_file, Method.GET);
+            request.AddParameter("redirect", "false");
+            request.AddParameter("redirectUrl", "");
+            request.AddHeader("Content-Type", "application/json charset=UTF-8");
+            request.AddHeader("Accept", "application/json");
+
+            request.AddHeader("Token", _token);
+
+            IRestResponse response = client.Execute(request);
+
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("No se ha podido descargar el file en el servicio ");
+
+            //fileExtension = response.Headers.First(p => p.Name.Equals("Content-Disposition")).Value.ToString().Replace("attachment; filename=", "");
+            //fileExtension = Path.GetExtension(fileExtension);
+            fileExtension = response.Headers.First(p => p.Name.Equals("Filename")).Value.ToString();
+            if (response.ContentLength <= 0)
+                LogError.Write(new Exception("RESPONSE error red: " + Funciones.GetDataFromResponse(response)));
+            return response.RawBytes;
+        }
+        /// <summary>
+        /// get token 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
+        public static string GetToken(string user, string pass)
+        {
+            string hostParametro = Parametros.GetParam_ValorChar("SGI.Url.WebService.Rest.File");
+            string autenticateHostParametro = "/Api/Authenticate";
+
+            //string host = "http://www.dghpsh.agcontrol.gob.ar/test/ws.rest.files";
+            string _host = "";
+            if (hostParametro.IndexOf("http") < 0)
+                _host = "http://" + hostParametro;
+            else
+                _host = hostParametro;
+
+            var client = new RestClient(_host + autenticateHostParametro);
+            client.ClearHandlers();
+            client.AddHandler("application/json", new JsonDeserializer());
+            client.Authenticator = new HttpBasicAuthenticator(user, pass);
+            var request = new RestRequest(Method.POST);
+            request.AddParameter("redirect", "false");
+            request.AddParameter("redirectUrl", "");
+            request.AddHeader("Content-Type", "application/json charset=UTF-8");
+            request.AddHeader("Accept", "application/json");
+            IRestResponse response = client.Execute(request);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(string.Format("Error al adquirir el Token con el usuario  {0}.", user));
+            return response.Headers.Where(p => p.Name == "Token").First().Value.ToString();
         }
     }
 }

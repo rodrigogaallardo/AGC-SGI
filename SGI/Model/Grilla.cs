@@ -360,6 +360,8 @@ namespace SGI.Model
     public partial class clsItemReasignar : clsItemBandejaEntrada
     {
         public Guid UsuarioAsignado_tramitetarea { get; set; }
+
+        public string UsuarioAsignado_tramitetarea_username { get; set; }
     }
 
     public partial class clsItemBuscarTramite

@@ -262,7 +262,8 @@ namespace SGI.Model
                 //antes chequeo si es una habilitacion
                 if (id_tramitetarea != 0)
                 {
-                    if (objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF_NUEVO)
+                    //tambien chequeo que no es una transferencia vieja)
+                    if (objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF_NUEVO && objret.id_circuito != (int)Constants.ENG_Circuitos.TRANSF) 
                     {
                         int id_solicitud = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea).id_solicitud;
                         int existePlanoIncendio = (from es in db.Encomienda_SSIT_Solicitudes
@@ -271,7 +272,10 @@ namespace SGI.Model
                                                    where es.id_solicitud == id_solicitud
                                                    && ep.id_tipo_plano == (int)Constants.TiposDePlanos.Plano_Contra_Incendio
                                                    && e.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                                   select es.id_encomiendaSolicitud).Count();
+                                                   select es.id_encomiendaSolicitud).Union(from sd in db.SSIT_DocumentosAdjuntos
+                                                                                           where sd.id_solicitud == id_solicitud
+                                                                                           && sd.id_tdocreq == 66
+                                                                                           select sd.id_docadjunto).Count();
 
                         List<Resultado> borrar = new List<Resultado>();
                         if (existePlanoIncendio == 0)

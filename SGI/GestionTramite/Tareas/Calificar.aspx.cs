@@ -1,7 +1,9 @@
-﻿using SGI.GestionTramite.Controls;
+﻿using RestSharp.Extensions;
+using SGI.GestionTramite.Controls;
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Transactions;
 using System.Web.UI;
@@ -19,12 +21,13 @@ namespace SGI.GestionTramite.Tareas
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            UcObservacionesLibrarUso.Enabled = true;
             if (!IsPostBack)
             {
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
                     CargarDatosTramite(id_tramitetarea);
-
+                chbLibrarUso.CheckedChanged += ChbLibrarUso_CheckedChanged;
             }
         }
 
@@ -126,6 +129,7 @@ namespace SGI.GestionTramite.Tareas
                 ucObservacionesTarea.Text = calificar.Observaciones.Trim();
                 ucObservacionContribuyente.Text = calificar.Observaciones_contribuyente.Trim();
                 ucObservacionesInternas.Text = calificar.Observaciones_Internas != null ? calificar.Observaciones_Internas.Trim() : "";
+                UcObservacionesLibrarUso.Text = calificar.Observaciones_LibradoUso != null ? calificar.Observaciones_LibradoUso.Trim() : "";
                 chbLibrarUso.Checked = calificar.Librar_Uso;
             }
             else
@@ -133,7 +137,12 @@ namespace SGI.GestionTramite.Tareas
                 ucObservacionesTarea.Text = ObservacionAnteriores.Buscar_ObservacionPlancheta((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
                 ucObservacionContribuyente.Text = "";
                 ucObservacionesInternas.Text = "";
+                UcObservacionesLibrarUso.Text = ObservacionAnteriores.Buscar_ObservacionLibradoUso((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
                 chbLibrarUso.Checked = false;
+            }
+            if (!string.IsNullOrEmpty(UcObservacionesLibrarUso.Text))
+            {
+                UcObservacionesLibrarUso.Enabled = false;
             }
             pnl_Librar_Uso.Visible = false;
 
@@ -165,7 +174,10 @@ namespace SGI.GestionTramite.Tareas
                     pnl_Librar_Uso.Visible = true;
                 }
                 var fechalibrado = sol.FechaLibrado;
-                if (fechalibrado != null)
+                var estaLibrado = false;
+                if (calificar != null)
+                    estaLibrado = calificar.Librar_Uso;
+                if (fechalibrado != null || estaLibrado)
                 {
                     librado = true;
                 }
@@ -265,6 +277,14 @@ namespace SGI.GestionTramite.Tareas
                           select enc.AcogeBeneficios).FirstOrDefault();
         }
 
+        protected void ChbLibrarUso_CheckedChanged(object sender, EventArgs e)
+        {
+            UcObservacionesLibrarUso.Enabled = chbLibrarUso.Checked;
+            if (!chbLibrarUso.Checked)
+            {
+                UcObservacionesLibrarUso.Text = "";
+            }
+        }
 
         private int _tramiteTarea = 0;
         public int TramiteTarea
@@ -349,7 +369,7 @@ namespace SGI.GestionTramite.Tareas
         }
 
         private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observContribuyente,
-            string observInternas, bool librar_uso, Guid userId)
+            string observInternas, string observaciones_LibradoUso, bool librar_uso, Guid userId)
         {
 
             SGI_Tarea_Calificar calificar = Buscar_Tarea(id_tramite_tarea);
@@ -358,7 +378,7 @@ namespace SGI.GestionTramite.Tareas
             if (calificar != null)
                 id_calificar = calificar.id_calificar;
 
-            int id = db.SGI_Tarea_Calificar_Actualizar(id_calificar, id_tramite_tarea, observacion, observContribuyente, observInternas, null, librar_uso, userId);
+            int id = db.SGI_Tarea_Calificar_Actualizar(id_calificar, id_tramite_tarea, observacion, observContribuyente, observInternas, null, observaciones_LibradoUso, librar_uso, userId);
 
             if (finalizar && !string.IsNullOrEmpty(observContribuyente))
                 db.SSIT_Solicitudes_AgregarObservaciones(id_solicitud, observContribuyente, userId);
@@ -383,7 +403,7 @@ namespace SGI.GestionTramite.Tareas
                     {
 
                         Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text, ucObservacionContribuyente.Text,
-                            ucObservacionesInternas.Text, chbLibrarUso.Checked, userid);
+                            ucObservacionesInternas.Text, UcObservacionesLibrarUso.Text, chbLibrarUso.Checked, userid);
 
                         db.SaveChanges();
 
@@ -542,7 +562,7 @@ namespace SGI.GestionTramite.Tareas
                 Validar_Finalizar();
 
                 Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text, ucObservacionContribuyente.Text,
-                    ucObservacionesInternas.Text, chbLibrarUso.Checked, userid);
+                    ucObservacionesInternas.Text, UcObservacionesLibrarUso.Text, chbLibrarUso.Checked, userid);
 
                 bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0;
 
@@ -593,6 +613,23 @@ namespace SGI.GestionTramite.Tareas
                                 try
                                 {
                                     db.SSIT_Solicitudes_Set_FechaLibrado(id_solicitud);
+                                    var cmd = db.Database.Connection.CreateCommand();
+                                    cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 1, userid);
+                                    cmd.CommandTimeout = 120;
+                                    try
+                                    {
+                                        db.Database.Connection.Open();
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                    catch (Exception exe)
+                                    {
+                                        throw exe;
+                                    }
+                                    finally
+                                    {
+                                        db.Database.Connection.Close();
+                                        cmd.Dispose();
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
@@ -613,6 +650,29 @@ namespace SGI.GestionTramite.Tareas
                             if (sol.id_estado == (int)Constants.Solicitud_Estados.Suspendida)
                             {
                                 db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
+                            }
+                        }
+                        else if (chbLibrarUso.Checked == false && sol.FechaLibrado != null)
+                        {
+                            sol.FechaLibrado = null;
+                            db.SSIT_Solicitudes.AddOrUpdate(sol);
+                            db.SaveChanges();
+                            var cmd = db.Database.Connection.CreateCommand();
+                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 0, userid);
+                            cmd.CommandTimeout = 120;
+                            try
+                            {
+                                db.Database.Connection.Open();
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception exe)
+                            {
+                                throw exe;
+                            }
+                            finally
+                            {
+                                db.Database.Connection.Close();
+                                cmd.Dispose();
                             }
                         }
 

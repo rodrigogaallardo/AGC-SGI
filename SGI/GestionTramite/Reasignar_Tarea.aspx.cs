@@ -6,6 +6,7 @@ using System.Web.UI;
 using SGI.Model;
 using System.Web.UI.WebControls;
 using System.Data.Entity.Core.Objects;
+using System.Web.Providers.Entities;
 
 namespace SGI
 {
@@ -18,7 +19,7 @@ namespace SGI
 
             if (sm != null && sm.IsInAsyncPostBack)
             {
-                ScriptManager.RegisterStartupScript(updPnlEquipo, updPnlEquipo.GetType(), 
+                ScriptManager.RegisterStartupScript(updPnlEquipo, updPnlEquipo.GetType(),
                         "rt_incializar_dllEquipo", "rt_incializar_dllEquipo();", true);
             }
 
@@ -60,7 +61,7 @@ namespace SGI
         private List<Servicios.clsEquipoTrabajo> getEquipoTrabajo(Guid userid)
         {
             List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
-            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions {IsolationLevel = IsolationLevel.ReadUncommitted}))
+            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }))
             {
                 try
                 {
@@ -242,7 +243,8 @@ namespace SGI
                     Guid.TryParse(hid_ddlEquipo.Value, out _usuario_seleccionado);
                 return _usuario_seleccionado;
             }
-            set{
+            set
+            {
                 _usuario_seleccionado = value;
             }
         }
@@ -277,7 +279,7 @@ namespace SGI
 
             List<clsItemReasignar> lstResult = FiltrarTramites(userid_asignado);
 
-            totalRowCount =  lstResult.Count();
+            totalRowCount = lstResult.Count();
             pnlCantRegistros.Visible = true;
 
             if (totalRowCount > 1)
@@ -299,34 +301,6 @@ namespace SGI
             //return lstResult;
         }
 
-        protected void grdTramites_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                IniciarEntity();
-
-                clsItemReasignar result = (clsItemReasignar)e.Row.DataItem;
-                DropDownList ddlUsuario = (DropDownList)e.Row.FindControl("ddlUsuario");
-                int id_solicitud = (int)result.id_solicitud;
-                int id_tarea = (int)result.id_tarea;
-                Guid userid = Functions.GetUserId();
-                List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo_tarea = getEquipoTrabajoTarea(id_tarea, userid);
-
-                ddlUsuario.DataValueField = "userid";
-                ddlUsuario.DataTextField = "nombres_apellido";
-                ddlUsuario.DataSource = lstEquipoTrabajo_tarea;
-                ddlUsuario.DataBind();
-
-                ddlUsuario.Items.Insert(0, new ListItem("Sin Asignación", "0"));
-
-                ddlUsuario.SelectedValue = result.UsuarioAsignado_tramitetarea.ToString().ToLower();
-
-
-            }
-
-        }
-
         protected void btnGuadarUsuario_Command(object sender, CommandEventArgs e)
         {
             try
@@ -335,17 +309,22 @@ namespace SGI
                 GridViewRow row = (GridViewRow)btnGuadarUsuario.Parent.Parent.Parent.Parent;
 
                 int id_tramitetarea_nuevo = 0;
-                int id_solicitud = Convert.ToInt32(grdTramites.DataKeys[row.RowIndex].Values[0] );
+                int id_solicitud = Convert.ToInt32(grdTramites.DataKeys[row.RowIndex].Values[0]);
 
                 DropDownList ddlUsuario = (DropDownList)row.FindControl("ddlUsuario");
                 Label lbl_usuarioAsignado = (Label)row.FindControl("lbl_usuarioAsignado");
                 Label lbl_id_tramitetarea = (Label)row.FindControl("lbl_id_tramitetarea");
+                Label lblUsuarioAsignado = (Label)row.FindControl("lblUsuarioAsignado");
                 UpdatePanel updPnlReasignarUsuario = (UpdatePanel)row.FindControl("updPnlReasignarUsuario");
 
 
+                LinkButton btnEdit = (LinkButton)row.FindControl("btnEdit");
+                LinkButton btnCancel = (LinkButton)row.FindControl("btnCancel");
+
+
                 Guid? usuarioNuevo = null;
-                if(ddlUsuario.SelectedIndex!=0)
-                    usuarioNuevo= Guid.Parse(ddlUsuario.SelectedValue);
+                if (ddlUsuario.SelectedIndex != 0)
+                    usuarioNuevo = Guid.Parse(ddlUsuario.SelectedValue);
 
                 Guid usuarioAsignado = new Guid();
                 Guid.TryParse(lbl_usuarioAsignado.Text, out usuarioAsignado);
@@ -359,8 +338,18 @@ namespace SGI
 
                 lbl_usuarioAsignado.Text = usuarioNuevo.ToString();
                 lbl_id_tramitetarea.Text = id_tramitetarea_nuevo.ToString();
+                lblUsuarioAsignado.Text = ddlUsuario.SelectedItem.Text;
                 FinalizarEntity();
                 updPnlReasignarUsuario.Update();
+
+                    
+                ddlUsuario.Style.Add("display", "none");
+                btnCancel.Style.Add("display", "none");
+                lblUsuarioAsignado.Style.Add("display", "block");
+                btnEdit.Style.Add("display", "block");
+                btnGuadarUsuario.Style.Add("display", "none");
+
+
             }
             catch (Exception ex)
             {
@@ -406,7 +395,7 @@ namespace SGI
             DGHP_Entities db = new DGHP_Entities();
 
             List<int> tareasNoReasignable = new List<int>();
-                        
+
             tareasNoReasignable.Add((int)Constants.ENG_Tareas.SCP_Generar_Expediente); //46
             tareasNoReasignable.Add((int)Constants.ENG_Tareas.SCP_Generar_Expediente_Nuevo); //407
 
@@ -480,6 +469,9 @@ namespace SGI
                     join tramite_tareas_HAB in db.SGI_Tramites_Tareas_HAB on tramite_tareas.id_tramitetarea equals tramite_tareas_HAB.id_tramitetarea
                     join tarea in db.ENG_Tareas on tramite_tareas.id_tarea equals tarea.id_tarea
                     join sol in db.SSIT_Solicitudes on tramite_tareas_HAB.id_solicitud equals sol.id_solicitud
+                    join user in db.aspnet_Users on tramite_tareas.UsuarioAsignado_tramitetarea equals user.UserId
+                    join usr in db.SGI_Profiles on tramite_tareas.UsuarioAsignado_tramitetarea equals usr.userid
+
 
                     where tramite_tareas.UsuarioAsignado_tramitetarea == userid_asignado
                     && tramite_tareas.FechaCierre_tramitetarea == null
@@ -493,6 +485,7 @@ namespace SGI
                         FechaInicio_tramitetarea = tramite_tareas.FechaInicio_tramitetarea,
                         FechaAsignacion_tramtietarea = tramite_tareas.FechaAsignacion_tramtietarea,
                         UsuarioAsignado_tramitetarea = tramite_tareas.UsuarioAsignado_tramitetarea.Value,
+                        UsuarioAsignado_tramitetarea_username = usr.Apellido + " " + usr.Nombres,
                         id_solicitud = sol.id_solicitud,
                         direccion = "",
                         id_tarea = tarea.id_tarea,
@@ -515,6 +508,8 @@ namespace SGI
                    join tramite_tareas_CP in db.SGI_Tramites_Tareas_CPADRON on tramite_tareas.id_tramitetarea equals tramite_tareas_CP.id_tramitetarea
                    join tarea in db.ENG_Tareas on tramite_tareas.id_tarea equals tarea.id_tarea
                    join sol in db.CPadron_Solicitudes on tramite_tareas_CP.id_cpadron equals sol.id_cpadron
+                   join user in db.aspnet_Users on tramite_tareas.UsuarioAsignado_tramitetarea equals user.UserId
+                   join usr in db.SGI_Profiles on tramite_tareas.UsuarioAsignado_tramitetarea equals usr.userid
 
                    join eDatos in db.CPadron_DatosLocal on sol.id_cpadron equals eDatos.id_cpadron into zr
                    from ed in zr.DefaultIfEmpty()
@@ -529,6 +524,7 @@ namespace SGI
                        FechaInicio_tramitetarea = tramite_tareas.FechaInicio_tramitetarea,
                        FechaAsignacion_tramtietarea = tramite_tareas.FechaAsignacion_tramtietarea,
                        UsuarioAsignado_tramitetarea = tramite_tareas.UsuarioAsignado_tramitetarea.Value,
+                       UsuarioAsignado_tramitetarea_username = usr.Apellido + " " + usr.Nombres,
                        id_solicitud = sol.id_cpadron,
                        direccion = "",
                        id_tarea = tarea.id_tarea,
@@ -551,6 +547,8 @@ namespace SGI
                    join tramite_tareas_TR in db.SGI_Tramites_Tareas_TRANSF on tramite_tareas.id_tramitetarea equals tramite_tareas_TR.id_tramitetarea
                    join tarea in db.ENG_Tareas on tramite_tareas.id_tarea equals tarea.id_tarea
                    join sol in db.Transf_Solicitudes on tramite_tareas_TR.id_solicitud equals sol.id_solicitud
+                   join user in db.aspnet_Users on tramite_tareas.UsuarioAsignado_tramitetarea equals user.UserId
+                   join usr in db.SGI_Profiles on tramite_tareas.UsuarioAsignado_tramitetarea equals usr.userid
                    join eDatos in db.CPadron_DatosLocal on sol.id_cpadron equals eDatos.id_cpadron into zr
                    from ed in zr.DefaultIfEmpty()
 
@@ -565,6 +563,7 @@ namespace SGI
                        FechaInicio_tramitetarea = tramite_tareas.FechaInicio_tramitetarea,
                        FechaAsignacion_tramtietarea = tramite_tareas.FechaAsignacion_tramtietarea,
                        UsuarioAsignado_tramitetarea = tramite_tareas.UsuarioAsignado_tramitetarea.Value,
+                       UsuarioAsignado_tramitetarea_username = usr.Apellido + " " + usr.Nombres,
                        id_solicitud = sol.id_solicitud,
                        direccion = "",
                        id_tarea = tarea.id_tarea,
@@ -708,6 +707,98 @@ namespace SGI
         }
 
         #endregion
+
+
+
+        protected void btnCancel_Command(object sender, CommandEventArgs e)
+        {
+            LinkButton btnCancel = (LinkButton)sender;
+
+            GridViewRow row = (GridViewRow)btnCancel.Parent.Parent.Parent.Parent;
+
+            int id_tramitetarea_nuevo = 0;
+            int id_solicitud = Convert.ToInt32(grdTramites.DataKeys[row.RowIndex].Values[0]);
+
+            DropDownList ddlUsuario = (DropDownList)row.FindControl("ddlUsuario");
+            Label lbl_usuarioAsignado = (Label)row.FindControl("lbl_usuarioAsignado");
+            Label lbl_id_tramitetarea = (Label)row.FindControl("lbl_id_tramitetarea");
+            Label lblUsuarioAsignado = (Label)row.FindControl("lblUsuarioAsignado");
+            LinkButton btnGuadarUsuario = (LinkButton)row.FindControl("btnGuadarUsuario");
+            LinkButton btnEdit = (LinkButton)row.FindControl("btnEdit");
+
+            ddlUsuario.Style.Add("display", "none");
+            btnGuadarUsuario.Style.Add("display", "none");
+            btnCancel.Style.Add("display", "none");
+            lblUsuarioAsignado.Style.Add("display", "block");
+            btnEdit.Style.Add("display", "block");
+        }
+
+        protected void btnEdit_Command(object sender, CommandEventArgs e)
+        {
+            LinkButton btnEdit = (LinkButton)sender;
+
+
+            GridViewRow row = (GridViewRow)btnEdit.Parent.Parent.Parent.Parent;
+
+            int id_tramitetarea_nuevo = 0;
+            int id_solicitud = Convert.ToInt32(grdTramites.DataKeys[row.RowIndex].Values[0]);
+
+            DropDownList ddlUsuario = (DropDownList)row.FindControl("ddlUsuario");
+            Label lbl_usuarioAsignado = (Label)row.FindControl("lbl_usuarioAsignado");
+            Label lbl_id_tramitetarea = (Label)row.FindControl("lbl_id_tramitetarea");
+            Label lblUsuarioAsignado = (Label)row.FindControl("lblUsuarioAsignado");
+            LinkButton btnGuadarUsuario = (LinkButton)row.FindControl("btnGuadarUsuario");
+            LinkButton btnCancel = (LinkButton)row.FindControl("btnCancel");
+
+            ddlUsuario.Style.Add("display", "block");
+            //btnGuadarUsuario.Style.Add("display", "hiden");
+            btnCancel.Style.Add("display", "block");
+            lblUsuarioAsignado.Style.Add("display", "none");
+            btnEdit.Style.Add("display", "none");
+
+            IniciarEntity();
+
+            int id_tramitetarea = 0;
+            int.TryParse(lbl_id_tramitetarea.Text, out id_tramitetarea);
+
+            string usuarioAsignado = Convert.ToString(lbl_usuarioAsignado.Text);
+
+            Guid userid = Functions.GetUserId();
+            List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo_tarea = getEquipoTrabajoTarea(id_tramitetarea, userid);
+
+            ddlUsuario.DataValueField = "userid";
+            ddlUsuario.DataTextField = "nombres_apellido";
+            ddlUsuario.DataSource = lstEquipoTrabajo_tarea;
+            ddlUsuario.DataBind();
+
+            ddlUsuario.Items.Insert(0, new ListItem("Sin Asignación", "0"));
+
+            ddlUsuario.SelectedValue = usuarioAsignado.ToString().ToLower();
+
+        }
+
+        protected void ddlUsuario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddlUsuario = (DropDownList)sender;
+
+            GridViewRow row = (GridViewRow)ddlUsuario.Parent.Parent.Parent.Parent;
+
+            Label lbl_usuarioAsignado = (Label)row.FindControl("lbl_usuarioAsignado");
+
+            string usuarioAsignado = Convert.ToString(lbl_usuarioAsignado.Text);
+
+            LinkButton btnGuadarUsuario = (LinkButton)row.FindControl("btnGuadarUsuario");
+
+            if (usuarioAsignado.ToString().ToLower() != ddlEquipo.SelectedItem.Text) 
+            {
+                btnGuadarUsuario.Style.Add("display", "block");
+            }
+            else
+            {
+                btnGuadarUsuario.Style.Add("display", "none");
+            }
+
+        }
     }
 
 }

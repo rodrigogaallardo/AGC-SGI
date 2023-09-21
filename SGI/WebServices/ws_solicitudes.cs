@@ -11,76 +11,85 @@
 // 
 // Este código fuente fue generado automáticamente por wsdl, Versión=4.0.30319.17929.
 // 
-namespace ws_solicitudes {
+namespace ws_solicitudes
+{
     using System;
     using System.Web.Services;
     using System.Diagnostics;
     using System.Web.Services.Protocols;
     using System.Xml.Serialization;
     using System.ComponentModel;
-    
-    
+
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="SolicitudesSoap11Binding", Namespace="http://ws.habilitaciones.gcba.gov.ar")]
-    public partial class Solicitudes : System.Web.Services.Protocols.SoapHttpClientProtocol {
-        
+    [System.Web.Services.WebServiceBindingAttribute(Name = "SolicitudesSoap11Binding", Namespace = "http://ws.habilitaciones.gcba.gov.ar")]
+    public partial class Solicitudes : System.Web.Services.Protocols.SoapHttpClientProtocol
+    {
+
         private System.Threading.SendOrPostCallback nuevaOperationCompleted;
-        
+
         private System.Threading.SendOrPostCallback nuevaEncomiendaOperationCompleted;
-        
+
         private System.Threading.SendOrPostCallback nuevaEncomiendaPVHOperationCompleted;
-        
+
         /// <remarks/>
-        public Solicitudes() {
+        public Solicitudes()
+        {
             this.Url = "http://172.25.102.75:5050/habilitaciones/services/Solicitudes.SolicitudesHttpSoap" +
                 "11Endpoint/";
         }
-        
+
         /// <remarks/>
         public event nuevaCompletedEventHandler nuevaCompleted;
-        
+
         /// <remarks/>
         public event nuevaEncomiendaCompletedEventHandler nuevaEncomiendaCompleted;
-        
+
         /// <remarks/>
         public event nuevaEncomiendaPVHCompletedEventHandler nuevaEncomiendaPVHCompleted;
-        
+
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:nueva", RequestNamespace="http://ws.habilitaciones.gcba.gov.ar", ResponseNamespace="http://ws.habilitaciones.gcba.gov.ar", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public WSResultado nueva([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string passw, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] WSNuevaSolicitud solicitud) {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:nueva", RequestNamespace = "http://ws.habilitaciones.gcba.gov.ar", ResponseNamespace = "http://ws.habilitaciones.gcba.gov.ar", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable = true)]
+        public WSResultado nueva([System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] string passw, [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] WSNuevaSolicitud solicitud)
+        {
             object[] results = this.Invoke("nueva", new object[] {
                         user,
                         passw,
                         solicitud});
             return ((WSResultado)(results[0]));
         }
-        
+
         /// <remarks/>
-        public System.IAsyncResult Beginnueva(string user, string passw, WSNuevaSolicitud solicitud, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult Beginnueva(string user, string passw, WSNuevaSolicitud solicitud, System.AsyncCallback callback, object asyncState)
+        {
             return this.BeginInvoke("nueva", new object[] {
                         user,
                         passw,
                         solicitud}, callback, asyncState);
         }
-        
+
         /// <remarks/>
-        public WSResultado Endnueva(System.IAsyncResult asyncResult) {
+        public WSResultado Endnueva(System.IAsyncResult asyncResult)
+        {
             object[] results = this.EndInvoke(asyncResult);
             return ((WSResultado)(results[0]));
         }
-        
+
         /// <remarks/>
-        public void nuevaAsync(string user, string passw, WSNuevaSolicitud solicitud) {
+        public void nuevaAsync(string user, string passw, WSNuevaSolicitud solicitud)
+        {
             this.nuevaAsync(user, passw, solicitud, null);
         }
-        
+
         /// <remarks/>
-        public void nuevaAsync(string user, string passw, WSNuevaSolicitud solicitud, object userState) {
-            if ((this.nuevaOperationCompleted == null)) {
+        public void nuevaAsync(string user, string passw, WSNuevaSolicitud solicitud, object userState)
+        {
+            if ((this.nuevaOperationCompleted == null))
+            {
                 this.nuevaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnnuevaOperationCompleted);
             }
             this.InvokeAsync("nueva", new object[] {
@@ -88,47 +97,55 @@ namespace ws_solicitudes {
                         passw,
                         solicitud}, this.nuevaOperationCompleted, userState);
         }
-        
-        private void OnnuevaOperationCompleted(object arg) {
-            if ((this.nuevaCompleted != null)) {
+
+        private void OnnuevaOperationCompleted(object arg)
+        {
+            if ((this.nuevaCompleted != null))
+            {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.nuevaCompleted(this, new nuevaCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
-        
+
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:nuevaEncomienda", RequestNamespace="http://ws.habilitaciones.gcba.gov.ar", ResponseNamespace="http://ws.habilitaciones.gcba.gov.ar", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public WSResultado nuevaEncomienda([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string passw, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] WSNuevaEncomienda solicitud) {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:nuevaEncomienda", RequestNamespace = "http://ws.habilitaciones.gcba.gov.ar", ResponseNamespace = "http://ws.habilitaciones.gcba.gov.ar", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable = true)]
+        public WSResultado nuevaEncomienda([System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] string passw, [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] WSNuevaEncomienda solicitud)
+        {
             object[] results = this.Invoke("nuevaEncomienda", new object[] {
                         user,
                         passw,
                         solicitud});
             return ((WSResultado)(results[0]));
         }
-        
+
         /// <remarks/>
-        public System.IAsyncResult BeginnuevaEncomienda(string user, string passw, WSNuevaEncomienda solicitud, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginnuevaEncomienda(string user, string passw, WSNuevaEncomienda solicitud, System.AsyncCallback callback, object asyncState)
+        {
             return this.BeginInvoke("nuevaEncomienda", new object[] {
                         user,
                         passw,
                         solicitud}, callback, asyncState);
         }
-        
+
         /// <remarks/>
-        public WSResultado EndnuevaEncomienda(System.IAsyncResult asyncResult) {
+        public WSResultado EndnuevaEncomienda(System.IAsyncResult asyncResult)
+        {
             object[] results = this.EndInvoke(asyncResult);
             return ((WSResultado)(results[0]));
         }
-        
+
         /// <remarks/>
-        public void nuevaEncomiendaAsync(string user, string passw, WSNuevaEncomienda solicitud) {
+        public void nuevaEncomiendaAsync(string user, string passw, WSNuevaEncomienda solicitud)
+        {
             this.nuevaEncomiendaAsync(user, passw, solicitud, null);
         }
-        
+
         /// <remarks/>
-        public void nuevaEncomiendaAsync(string user, string passw, WSNuevaEncomienda solicitud, object userState) {
-            if ((this.nuevaEncomiendaOperationCompleted == null)) {
+        public void nuevaEncomiendaAsync(string user, string passw, WSNuevaEncomienda solicitud, object userState)
+        {
+            if ((this.nuevaEncomiendaOperationCompleted == null))
+            {
                 this.nuevaEncomiendaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnnuevaEncomiendaOperationCompleted);
             }
             this.InvokeAsync("nuevaEncomienda", new object[] {
@@ -136,47 +153,55 @@ namespace ws_solicitudes {
                         passw,
                         solicitud}, this.nuevaEncomiendaOperationCompleted, userState);
         }
-        
-        private void OnnuevaEncomiendaOperationCompleted(object arg) {
-            if ((this.nuevaEncomiendaCompleted != null)) {
+
+        private void OnnuevaEncomiendaOperationCompleted(object arg)
+        {
+            if ((this.nuevaEncomiendaCompleted != null))
+            {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.nuevaEncomiendaCompleted(this, new nuevaEncomiendaCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
-        
+
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:nuevaEncomiendaPVH", RequestNamespace="http://ws.habilitaciones.gcba.gov.ar", ResponseNamespace="http://ws.habilitaciones.gcba.gov.ar", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable=true)]
-        public WSResultado nuevaEncomiendaPVH([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string passw, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] WSNuevaEncomiendaPVH solicitud) {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:nuevaEncomiendaPVH", RequestNamespace = "http://ws.habilitaciones.gcba.gov.ar", ResponseNamespace = "http://ws.habilitaciones.gcba.gov.ar", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", IsNullable = true)]
+        public WSResultado nuevaEncomiendaPVH([System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] string user, [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] string passw, [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)] WSNuevaEncomiendaPVH solicitud)
+        {
             object[] results = this.Invoke("nuevaEncomiendaPVH", new object[] {
                         user,
                         passw,
                         solicitud});
             return ((WSResultado)(results[0]));
         }
-        
+
         /// <remarks/>
-        public System.IAsyncResult BeginnuevaEncomiendaPVH(string user, string passw, WSNuevaEncomiendaPVH solicitud, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginnuevaEncomiendaPVH(string user, string passw, WSNuevaEncomiendaPVH solicitud, System.AsyncCallback callback, object asyncState)
+        {
             return this.BeginInvoke("nuevaEncomiendaPVH", new object[] {
                         user,
                         passw,
                         solicitud}, callback, asyncState);
         }
-        
+
         /// <remarks/>
-        public WSResultado EndnuevaEncomiendaPVH(System.IAsyncResult asyncResult) {
+        public WSResultado EndnuevaEncomiendaPVH(System.IAsyncResult asyncResult)
+        {
             object[] results = this.EndInvoke(asyncResult);
             return ((WSResultado)(results[0]));
         }
-        
+
         /// <remarks/>
-        public void nuevaEncomiendaPVHAsync(string user, string passw, WSNuevaEncomiendaPVH solicitud) {
+        public void nuevaEncomiendaPVHAsync(string user, string passw, WSNuevaEncomiendaPVH solicitud)
+        {
             this.nuevaEncomiendaPVHAsync(user, passw, solicitud, null);
         }
-        
+
         /// <remarks/>
-        public void nuevaEncomiendaPVHAsync(string user, string passw, WSNuevaEncomiendaPVH solicitud, object userState) {
-            if ((this.nuevaEncomiendaPVHOperationCompleted == null)) {
+        public void nuevaEncomiendaPVHAsync(string user, string passw, WSNuevaEncomiendaPVH solicitud, object userState)
+        {
+            if ((this.nuevaEncomiendaPVHOperationCompleted == null))
+            {
                 this.nuevaEncomiendaPVHOperationCompleted = new System.Threading.SendOrPostCallback(this.OnnuevaEncomiendaPVHOperationCompleted);
             }
             this.InvokeAsync("nuevaEncomiendaPVH", new object[] {
@@ -184,3374 +209,4132 @@ namespace ws_solicitudes {
                         passw,
                         solicitud}, this.nuevaEncomiendaPVHOperationCompleted, userState);
         }
-        
-        private void OnnuevaEncomiendaPVHOperationCompleted(object arg) {
-            if ((this.nuevaEncomiendaPVHCompleted != null)) {
+
+        private void OnnuevaEncomiendaPVHOperationCompleted(object arg)
+        {
+            if ((this.nuevaEncomiendaPVHCompleted != null))
+            {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.nuevaEncomiendaPVHCompleted(this, new nuevaEncomiendaPVHCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
-        
+
         /// <remarks/>
-        public new void CancelAsync(object userState) {
+        public new void CancelAsync(object userState)
+        {
             base.CancelAsync(userState);
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSNuevaSolicitud {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSNuevaSolicitud
+    {
+
         private WSActividad[] actividadesField;
-        
+
         private System.Nullable<int> anioNormativaField;
-        
+
         private bool anioNormativaFieldSpecified;
-        
+
         private WSPersona[] autorizadosField;
-        
+
         private System.Nullable<long> cantOperariosField;
-        
+
         private bool cantOperariosFieldSpecified;
-        
+
         private string codigoZonaDeclaradaField;
-        
+
         private WSLocal[] conformacionLocalField;
-        
+
         private string descripcionZonaDeclaradaField;
-        
+
         private WSPersona escribanoField;
-        
+
         private string[] expedientesRelacionadosField;
-        
+
         private System.Nullable<System.DateTime> fechaSolicitudField;
-        
+
         private bool fechaSolicitudFieldSpecified;
-        
+
         private System.Nullable<int> idEntidadNormativaField;
-        
+
         private bool idEntidadNormativaFieldSpecified;
-        
+
         private System.Nullable<int> idTipoNormativaField;
-        
+
         private bool idTipoNormativaFieldSpecified;
-        
+
         private System.Nullable<int> idTipoSociedadField;
-        
+
         private bool idTipoSociedadFieldSpecified;
-        
+
         private string nroCarpetaField;
-        
+
         private string nroExpedienteField;
-        
+
         private string nroNormativaField;
-        
+
         private long nroSolicitudField;
-        
+
         private bool nroSolicitudFieldSpecified;
-        
+
         private string otraPuertaField;
-        
+
         private WSPartida[] partidasField;
-        
+
         private WSPersona profesionalField;
-        
+
         private WSRubro[] rubrosField;
-        
+
         private string subtipoExpedienteField;
-        
+
         private System.Nullable<double> superficieField;
-        
+
         private bool superficieFieldSpecified;
-        
+
         private string tipoExpedienteField;
-        
+
         private string tipoTramiteField;
-        
+
         private WSPersona[] titularesField;
-        
+
         private string usernameCalificadorField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("actividades", IsNullable=true)]
-        public WSActividad[] actividades {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("actividades", IsNullable = true)]
+        public WSActividad[] actividades
+        {
+            get
+            {
                 return this.actividadesField;
             }
-            set {
+            set
+            {
                 this.actividadesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> anioNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> anioNormativa
+        {
+            get
+            {
                 return this.anioNormativaField;
             }
-            set {
+            set
+            {
                 this.anioNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool anioNormativaSpecified {
-            get {
+        public bool anioNormativaSpecified
+        {
+            get
+            {
                 return this.anioNormativaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.anioNormativaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("autorizados", IsNullable=true)]
-        public WSPersona[] autorizados {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("autorizados", IsNullable = true)]
+        public WSPersona[] autorizados
+        {
+            get
+            {
                 return this.autorizadosField;
             }
-            set {
+            set
+            {
                 this.autorizadosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<long> cantOperarios {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<long> cantOperarios
+        {
+            get
+            {
                 return this.cantOperariosField;
             }
-            set {
+            set
+            {
                 this.cantOperariosField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool cantOperariosSpecified {
-            get {
+        public bool cantOperariosSpecified
+        {
+            get
+            {
                 return this.cantOperariosFieldSpecified;
             }
-            set {
+            set
+            {
                 this.cantOperariosFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codigoZonaDeclarada {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codigoZonaDeclarada
+        {
+            get
+            {
                 return this.codigoZonaDeclaradaField;
             }
-            set {
+            set
+            {
                 this.codigoZonaDeclaradaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("conformacionLocal", IsNullable=true)]
-        public WSLocal[] conformacionLocal {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("conformacionLocal", IsNullable = true)]
+        public WSLocal[] conformacionLocal
+        {
+            get
+            {
                 return this.conformacionLocalField;
             }
-            set {
+            set
+            {
                 this.conformacionLocalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string descripcionZonaDeclarada {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string descripcionZonaDeclarada
+        {
+            get
+            {
                 return this.descripcionZonaDeclaradaField;
             }
-            set {
+            set
+            {
                 this.descripcionZonaDeclaradaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public WSPersona escribano {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public WSPersona escribano
+        {
+            get
+            {
                 return this.escribanoField;
             }
-            set {
+            set
+            {
                 this.escribanoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("expedientesRelacionados", IsNullable=true)]
-        public string[] expedientesRelacionados {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("expedientesRelacionados", IsNullable = true)]
+        public string[] expedientesRelacionados
+        {
+            get
+            {
                 return this.expedientesRelacionadosField;
             }
-            set {
+            set
+            {
                 this.expedientesRelacionadosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<System.DateTime> fechaSolicitud {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<System.DateTime> fechaSolicitud
+        {
+            get
+            {
                 return this.fechaSolicitudField;
             }
-            set {
+            set
+            {
                 this.fechaSolicitudField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool fechaSolicitudSpecified {
-            get {
+        public bool fechaSolicitudSpecified
+        {
+            get
+            {
                 return this.fechaSolicitudFieldSpecified;
             }
-            set {
+            set
+            {
                 this.fechaSolicitudFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idEntidadNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idEntidadNormativa
+        {
+            get
+            {
                 return this.idEntidadNormativaField;
             }
-            set {
+            set
+            {
                 this.idEntidadNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idEntidadNormativaSpecified {
-            get {
+        public bool idEntidadNormativaSpecified
+        {
+            get
+            {
                 return this.idEntidadNormativaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idEntidadNormativaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoNormativa
+        {
+            get
+            {
                 return this.idTipoNormativaField;
             }
-            set {
+            set
+            {
                 this.idTipoNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoNormativaSpecified {
-            get {
+        public bool idTipoNormativaSpecified
+        {
+            get
+            {
                 return this.idTipoNormativaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoNormativaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoSociedad {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoSociedad
+        {
+            get
+            {
                 return this.idTipoSociedadField;
             }
-            set {
+            set
+            {
                 this.idTipoSociedadField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoSociedadSpecified {
-            get {
+        public bool idTipoSociedadSpecified
+        {
+            get
+            {
                 return this.idTipoSociedadFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoSociedadFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroCarpeta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroCarpeta
+        {
+            get
+            {
                 return this.nroCarpetaField;
             }
-            set {
+            set
+            {
                 this.nroCarpetaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroExpediente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroExpediente
+        {
+            get
+            {
                 return this.nroExpedienteField;
             }
-            set {
+            set
+            {
                 this.nroExpedienteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroNormativa
+        {
+            get
+            {
                 return this.nroNormativaField;
             }
-            set {
+            set
+            {
                 this.nroNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public long nroSolicitud {
-            get {
+        public long nroSolicitud
+        {
+            get
+            {
                 return this.nroSolicitudField;
             }
-            set {
+            set
+            {
                 this.nroSolicitudField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool nroSolicitudSpecified {
-            get {
+        public bool nroSolicitudSpecified
+        {
+            get
+            {
                 return this.nroSolicitudFieldSpecified;
             }
-            set {
+            set
+            {
                 this.nroSolicitudFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string otraPuerta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string otraPuerta
+        {
+            get
+            {
                 return this.otraPuertaField;
             }
-            set {
+            set
+            {
                 this.otraPuertaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("partidas", IsNullable=true)]
-        public WSPartida[] partidas {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("partidas", IsNullable = true)]
+        public WSPartida[] partidas
+        {
+            get
+            {
                 return this.partidasField;
             }
-            set {
+            set
+            {
                 this.partidasField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public WSPersona profesional {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public WSPersona profesional
+        {
+            get
+            {
                 return this.profesionalField;
             }
-            set {
+            set
+            {
                 this.profesionalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("rubros", IsNullable=true)]
-        public WSRubro[] rubros {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("rubros", IsNullable = true)]
+        public WSRubro[] rubros
+        {
+            get
+            {
                 return this.rubrosField;
             }
-            set {
+            set
+            {
                 this.rubrosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string subtipoExpediente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string subtipoExpediente
+        {
+            get
+            {
                 return this.subtipoExpedienteField;
             }
-            set {
+            set
+            {
                 this.subtipoExpedienteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficie {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficie
+        {
+            get
+            {
                 return this.superficieField;
             }
-            set {
+            set
+            {
                 this.superficieField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieSpecified {
-            get {
+        public bool superficieSpecified
+        {
+            get
+            {
                 return this.superficieFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoExpediente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoExpediente
+        {
+            get
+            {
                 return this.tipoExpedienteField;
             }
-            set {
+            set
+            {
                 this.tipoExpedienteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoTramite {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoTramite
+        {
+            get
+            {
                 return this.tipoTramiteField;
             }
-            set {
+            set
+            {
                 this.tipoTramiteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("titulares", IsNullable=true)]
-        public WSPersona[] titulares {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("titulares", IsNullable = true)]
+        public WSPersona[] titulares
+        {
+            get
+            {
                 return this.titularesField;
             }
-            set {
+            set
+            {
                 this.titularesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string usernameCalificador {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string usernameCalificador
+        {
+            get
+            {
                 return this.usernameCalificadorField;
             }
-            set {
+            set
+            {
                 this.usernameCalificadorField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSActividad {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSActividad
+    {
+
         private string idField;
-        
+
         private string nroDisposicionField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string id {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string id
+        {
+            get
+            {
                 return this.idField;
             }
-            set {
+            set
+            {
                 this.idField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroDisposicion {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroDisposicion
+        {
+            get
+            {
                 return this.nroDisposicionField;
             }
-            set {
+            set
+            {
                 this.nroDisposicionField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSSobrecarga {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSSobrecarga
+    {
+
         private string estructuraSobrecargaField;
-        
+
         private System.Nullable<int> pesoSobrecargaField;
-        
+
         private bool pesoSobrecargaFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string estructuraSobrecarga {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string estructuraSobrecarga
+        {
+            get
+            {
                 return this.estructuraSobrecargaField;
             }
-            set {
+            set
+            {
                 this.estructuraSobrecargaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> pesoSobrecarga {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> pesoSobrecarga
+        {
+            get
+            {
                 return this.pesoSobrecargaField;
             }
-            set {
+            set
+            {
                 this.pesoSobrecargaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool pesoSobrecargaSpecified {
-            get {
+        public bool pesoSobrecargaSpecified
+        {
+            get
+            {
                 return this.pesoSobrecargaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.pesoSobrecargaFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSRubroEncomienda {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSRubroEncomienda
+    {
+
         private string codigoRubroField;
-        
+
         private string descripcionRubroField;
-        
+
         private bool esAnteriorField;
-        
+
         private bool esAnteriorFieldSpecified;
-        
+
         private System.Nullable<int> idTipoActividadField;
-        
+
         private bool idTipoActividadFieldSpecified;
-        
+
         private System.Nullable<int> idTipoDocReqField;
-        
+
         private bool idTipoDocReqFieldSpecified;
-        
+
         private string impactoAmbientalField;
-        
+
         private System.Nullable<double> superficieField;
-        
+
         private bool superficieFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codigoRubro {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codigoRubro
+        {
+            get
+            {
                 return this.codigoRubroField;
             }
-            set {
+            set
+            {
                 this.codigoRubroField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string descripcionRubro {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string descripcionRubro
+        {
+            get
+            {
                 return this.descripcionRubroField;
             }
-            set {
+            set
+            {
                 this.descripcionRubroField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool esAnterior {
-            get {
+        public bool esAnterior
+        {
+            get
+            {
                 return this.esAnteriorField;
             }
-            set {
+            set
+            {
                 this.esAnteriorField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool esAnteriorSpecified {
-            get {
+        public bool esAnteriorSpecified
+        {
+            get
+            {
                 return this.esAnteriorFieldSpecified;
             }
-            set {
+            set
+            {
                 this.esAnteriorFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoActividad {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoActividad
+        {
+            get
+            {
                 return this.idTipoActividadField;
             }
-            set {
+            set
+            {
                 this.idTipoActividadField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoActividadSpecified {
-            get {
+        public bool idTipoActividadSpecified
+        {
+            get
+            {
                 return this.idTipoActividadFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoActividadFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoDocReq {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoDocReq
+        {
+            get
+            {
                 return this.idTipoDocReqField;
             }
-            set {
+            set
+            {
                 this.idTipoDocReqField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoDocReqSpecified {
-            get {
+        public bool idTipoDocReqSpecified
+        {
+            get
+            {
                 return this.idTipoDocReqFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoDocReqFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string impactoAmbiental {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string impactoAmbiental
+        {
+            get
+            {
                 return this.impactoAmbientalField;
             }
-            set {
+            set
+            {
                 this.impactoAmbientalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficie {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficie
+        {
+            get
+            {
                 return this.superficieField;
             }
-            set {
+            set
+            {
                 this.superficieField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieSpecified {
-            get {
+        public bool superficieSpecified
+        {
+            get
+            {
                 return this.superficieFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSPlanta {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSPlanta
+    {
+
         private string detalleField;
-        
+
         private long idTipoSectorField;
-        
+
         private bool idTipoSectorFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string detalle {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string detalle
+        {
+            get
+            {
                 return this.detalleField;
             }
-            set {
+            set
+            {
                 this.detalleField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public long idTipoSector {
-            get {
+        public long idTipoSector
+        {
+            get
+            {
                 return this.idTipoSectorField;
             }
-            set {
+            set
+            {
                 this.idTipoSectorField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoSectorSpecified {
-            get {
+        public bool idTipoSectorSpecified
+        {
+            get
+            {
                 return this.idTipoSectorFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoSectorFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSFirmanteEncomienda {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSFirmanteEncomienda
+    {
+
         private string apellidoField;
-        
+
         private string codTipoCaracterLegalField;
-        
+
         private string firmanteDeCuitField;
-        
+
         private string firmanteDePersoneriaField;
-        
+
         private string nombreField;
-        
+
         private string nroDocumentoField;
-        
+
         private string tipoDocumentoField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string apellido {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string apellido
+        {
+            get
+            {
                 return this.apellidoField;
             }
-            set {
+            set
+            {
                 this.apellidoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codTipoCaracterLegal {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codTipoCaracterLegal
+        {
+            get
+            {
                 return this.codTipoCaracterLegalField;
             }
-            set {
+            set
+            {
                 this.codTipoCaracterLegalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string firmanteDeCuit {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string firmanteDeCuit
+        {
+            get
+            {
                 return this.firmanteDeCuitField;
             }
-            set {
+            set
+            {
                 this.firmanteDeCuitField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string firmanteDePersoneria {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string firmanteDePersoneria
+        {
+            get
+            {
                 return this.firmanteDePersoneriaField;
             }
-            set {
+            set
+            {
                 this.firmanteDePersoneriaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nombre {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nombre
+        {
+            get
+            {
                 return this.nombreField;
             }
-            set {
+            set
+            {
                 this.nombreField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroDocumento {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroDocumento
+        {
+            get
+            {
                 return this.nroDocumentoField;
             }
-            set {
+            set
+            {
                 this.nroDocumentoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoDocumento {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoDocumento
+        {
+            get
+            {
                 return this.tipoDocumentoField;
             }
-            set {
+            set
+            {
                 this.tipoDocumentoField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSDatosLocal {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSDatosLocal
+    {
+
         private System.Nullable<int> cantidadSanitariosField;
-        
+
         private bool cantidadSanitariosFieldSpecified;
-        
+
         private string croquisUbicacionField;
-        
+
         private System.Nullable<double> dimensionFrenteField;
-        
+
         private bool dimensionFrenteFieldSpecified;
-        
+
         private bool estacionamientoField;
-        
+
         private bool estacionamientoFieldSpecified;
-        
+
         private System.Nullable<double> fondoField;
-        
+
         private bool fondoFieldSpecified;
-        
+
         private System.Nullable<double> frenteField;
-        
+
         private bool frenteFieldSpecified;
-        
+
         private System.Nullable<double> lateralDerechoField;
-        
+
         private bool lateralDerechoFieldSpecified;
-        
+
         private System.Nullable<double> lateralIzquierdoField;
-        
+
         private bool lateralIzquierdoFieldSpecified;
-        
+
         private bool lugarCargaDescargaField;
-        
+
         private bool lugarCargaDescargaFieldSpecified;
-        
+
         private string materialesParedesField;
-        
+
         private string materialesPisosField;
-        
+
         private string materialesRevestimientosField;
-        
+
         private string materialesTechosField;
-        
+
         private bool redTransitoPesadoField;
-        
+
         private bool redTransitoPesadoFieldSpecified;
-        
+
         private System.Nullable<double> sanitariosDistanciaField;
-        
+
         private bool sanitariosDistanciaFieldSpecified;
-        
+
         private System.Nullable<int> sanitariosUbicacionField;
-        
+
         private bool sanitariosUbicacionFieldSpecified;
-        
+
         private bool sobreAvenidaField;
-        
+
         private bool sobreAvenidaFieldSpecified;
-        
+
         private string sobrecargaArt813IncisoField;
-        
+
         private string sobrecargaArt813ItemField;
-        
+
         private bool sobrecargaCorrespondeField;
-        
+
         private bool sobrecargaCorrespondeFieldSpecified;
-        
+
         private System.Nullable<int> sobrecargaRequisitosOpcionField;
-        
+
         private bool sobrecargaRequisitosOpcionFieldSpecified;
-        
+
         private string sobrecargaTipoObservacionField;
-        
+
         private System.Nullable<double> superficieCubiertaField;
-        
+
         private bool superficieCubiertaFieldSpecified;
-        
+
         private System.Nullable<double> superficieDescubiertaField;
-        
+
         private bool superficieDescubiertaFieldSpecified;
-        
+
         private System.Nullable<double> superficieSanitariosField;
-        
+
         private bool superficieSanitariosFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> cantidadSanitarios {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> cantidadSanitarios
+        {
+            get
+            {
                 return this.cantidadSanitariosField;
             }
-            set {
+            set
+            {
                 this.cantidadSanitariosField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool cantidadSanitariosSpecified {
-            get {
+        public bool cantidadSanitariosSpecified
+        {
+            get
+            {
                 return this.cantidadSanitariosFieldSpecified;
             }
-            set {
+            set
+            {
                 this.cantidadSanitariosFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string croquisUbicacion {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string croquisUbicacion
+        {
+            get
+            {
                 return this.croquisUbicacionField;
             }
-            set {
+            set
+            {
                 this.croquisUbicacionField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> dimensionFrente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> dimensionFrente
+        {
+            get
+            {
                 return this.dimensionFrenteField;
             }
-            set {
+            set
+            {
                 this.dimensionFrenteField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool dimensionFrenteSpecified {
-            get {
+        public bool dimensionFrenteSpecified
+        {
+            get
+            {
                 return this.dimensionFrenteFieldSpecified;
             }
-            set {
+            set
+            {
                 this.dimensionFrenteFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool estacionamiento {
-            get {
+        public bool estacionamiento
+        {
+            get
+            {
                 return this.estacionamientoField;
             }
-            set {
+            set
+            {
                 this.estacionamientoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool estacionamientoSpecified {
-            get {
+        public bool estacionamientoSpecified
+        {
+            get
+            {
                 return this.estacionamientoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.estacionamientoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> fondo {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> fondo
+        {
+            get
+            {
                 return this.fondoField;
             }
-            set {
+            set
+            {
                 this.fondoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool fondoSpecified {
-            get {
+        public bool fondoSpecified
+        {
+            get
+            {
                 return this.fondoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.fondoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> frente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> frente
+        {
+            get
+            {
                 return this.frenteField;
             }
-            set {
+            set
+            {
                 this.frenteField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool frenteSpecified {
-            get {
+        public bool frenteSpecified
+        {
+            get
+            {
                 return this.frenteFieldSpecified;
             }
-            set {
+            set
+            {
                 this.frenteFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> lateralDerecho {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> lateralDerecho
+        {
+            get
+            {
                 return this.lateralDerechoField;
             }
-            set {
+            set
+            {
                 this.lateralDerechoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool lateralDerechoSpecified {
-            get {
+        public bool lateralDerechoSpecified
+        {
+            get
+            {
                 return this.lateralDerechoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.lateralDerechoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> lateralIzquierdo {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> lateralIzquierdo
+        {
+            get
+            {
                 return this.lateralIzquierdoField;
             }
-            set {
+            set
+            {
                 this.lateralIzquierdoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool lateralIzquierdoSpecified {
-            get {
+        public bool lateralIzquierdoSpecified
+        {
+            get
+            {
                 return this.lateralIzquierdoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.lateralIzquierdoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool lugarCargaDescarga {
-            get {
+        public bool lugarCargaDescarga
+        {
+            get
+            {
                 return this.lugarCargaDescargaField;
             }
-            set {
+            set
+            {
                 this.lugarCargaDescargaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool lugarCargaDescargaSpecified {
-            get {
+        public bool lugarCargaDescargaSpecified
+        {
+            get
+            {
                 return this.lugarCargaDescargaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.lugarCargaDescargaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string materialesParedes {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string materialesParedes
+        {
+            get
+            {
                 return this.materialesParedesField;
             }
-            set {
+            set
+            {
                 this.materialesParedesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string materialesPisos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string materialesPisos
+        {
+            get
+            {
                 return this.materialesPisosField;
             }
-            set {
+            set
+            {
                 this.materialesPisosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string materialesRevestimientos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string materialesRevestimientos
+        {
+            get
+            {
                 return this.materialesRevestimientosField;
             }
-            set {
+            set
+            {
                 this.materialesRevestimientosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string materialesTechos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string materialesTechos
+        {
+            get
+            {
                 return this.materialesTechosField;
             }
-            set {
+            set
+            {
                 this.materialesTechosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool redTransitoPesado {
-            get {
+        public bool redTransitoPesado
+        {
+            get
+            {
                 return this.redTransitoPesadoField;
             }
-            set {
+            set
+            {
                 this.redTransitoPesadoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool redTransitoPesadoSpecified {
-            get {
+        public bool redTransitoPesadoSpecified
+        {
+            get
+            {
                 return this.redTransitoPesadoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.redTransitoPesadoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> sanitariosDistancia {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> sanitariosDistancia
+        {
+            get
+            {
                 return this.sanitariosDistanciaField;
             }
-            set {
+            set
+            {
                 this.sanitariosDistanciaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sanitariosDistanciaSpecified {
-            get {
+        public bool sanitariosDistanciaSpecified
+        {
+            get
+            {
                 return this.sanitariosDistanciaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.sanitariosDistanciaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> sanitariosUbicacion {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> sanitariosUbicacion
+        {
+            get
+            {
                 return this.sanitariosUbicacionField;
             }
-            set {
+            set
+            {
                 this.sanitariosUbicacionField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sanitariosUbicacionSpecified {
-            get {
+        public bool sanitariosUbicacionSpecified
+        {
+            get
+            {
                 return this.sanitariosUbicacionFieldSpecified;
             }
-            set {
+            set
+            {
                 this.sanitariosUbicacionFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool sobreAvenida {
-            get {
+        public bool sobreAvenida
+        {
+            get
+            {
                 return this.sobreAvenidaField;
             }
-            set {
+            set
+            {
                 this.sobreAvenidaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sobreAvenidaSpecified {
-            get {
+        public bool sobreAvenidaSpecified
+        {
+            get
+            {
                 return this.sobreAvenidaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.sobreAvenidaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string sobrecargaArt813Inciso {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string sobrecargaArt813Inciso
+        {
+            get
+            {
                 return this.sobrecargaArt813IncisoField;
             }
-            set {
+            set
+            {
                 this.sobrecargaArt813IncisoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string sobrecargaArt813Item {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string sobrecargaArt813Item
+        {
+            get
+            {
                 return this.sobrecargaArt813ItemField;
             }
-            set {
+            set
+            {
                 this.sobrecargaArt813ItemField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool sobrecargaCorresponde {
-            get {
+        public bool sobrecargaCorresponde
+        {
+            get
+            {
                 return this.sobrecargaCorrespondeField;
             }
-            set {
+            set
+            {
                 this.sobrecargaCorrespondeField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sobrecargaCorrespondeSpecified {
-            get {
+        public bool sobrecargaCorrespondeSpecified
+        {
+            get
+            {
                 return this.sobrecargaCorrespondeFieldSpecified;
             }
-            set {
+            set
+            {
                 this.sobrecargaCorrespondeFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> sobrecargaRequisitosOpcion {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> sobrecargaRequisitosOpcion
+        {
+            get
+            {
                 return this.sobrecargaRequisitosOpcionField;
             }
-            set {
+            set
+            {
                 this.sobrecargaRequisitosOpcionField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sobrecargaRequisitosOpcionSpecified {
-            get {
+        public bool sobrecargaRequisitosOpcionSpecified
+        {
+            get
+            {
                 return this.sobrecargaRequisitosOpcionFieldSpecified;
             }
-            set {
+            set
+            {
                 this.sobrecargaRequisitosOpcionFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string sobrecargaTipoObservacion {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string sobrecargaTipoObservacion
+        {
+            get
+            {
                 return this.sobrecargaTipoObservacionField;
             }
-            set {
+            set
+            {
                 this.sobrecargaTipoObservacionField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficieCubierta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficieCubierta
+        {
+            get
+            {
                 return this.superficieCubiertaField;
             }
-            set {
+            set
+            {
                 this.superficieCubiertaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieCubiertaSpecified {
-            get {
+        public bool superficieCubiertaSpecified
+        {
+            get
+            {
                 return this.superficieCubiertaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieCubiertaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficieDescubierta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficieDescubierta
+        {
+            get
+            {
                 return this.superficieDescubiertaField;
             }
-            set {
+            set
+            {
                 this.superficieDescubiertaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieDescubiertaSpecified {
-            get {
+        public bool superficieDescubiertaSpecified
+        {
+            get
+            {
                 return this.superficieDescubiertaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieDescubiertaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficieSanitarios {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficieSanitarios
+        {
+            get
+            {
                 return this.superficieSanitariosField;
             }
-            set {
+            set
+            {
                 this.superficieSanitariosField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieSanitariosSpecified {
-            get {
+        public bool superficieSanitariosSpecified
+        {
+            get
+            {
                 return this.superficieSanitariosFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieSanitariosFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSPersonaEncomienda {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSPersonaEncomienda
+    {
+
         private string apellidoField;
-        
+
         private string calleField;
-        
+
         private string codTipoCaracterLegalField;
-        
+
         private string codTipoIngresosBrutosField;
-        
+
         private string consejoField;
-        
+
         private string cuitField;
-        
+
         private string emailField;
-        
+
         private long idProvinciaField;
-        
+
         private bool idProvinciaFieldSpecified;
-        
+
         private System.Nullable<int> idTipoSociedadField;
-        
+
         private bool idTipoSociedadFieldSpecified;
-        
+
         private string ingresosBrutosField;
-        
+
         private bool inhibidoField;
-        
+
         private bool inhibidoFieldSpecified;
-        
+
         private string localidadField;
-        
+
         private string matriculaField;
-        
+
         private string nombreField;
-        
+
         private string nroDocumentoField;
-        
+
         private string personeriaField;
-        
+
         private string pisoField;
-        
+
         private int puertaField;
-        
+
         private bool puertaFieldSpecified;
-        
+
         private string registroField;
-        
+
         private string smsField;
-        
+
         private string telefonoField;
-        
+
         private string telefonoMovilField;
-        
+
         private string tipoDocumentoField;
-        
+
         private string unidadFuncionalField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string apellido {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string apellido
+        {
+            get
+            {
                 return this.apellidoField;
             }
-            set {
+            set
+            {
                 this.apellidoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string calle {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string calle
+        {
+            get
+            {
                 return this.calleField;
             }
-            set {
+            set
+            {
                 this.calleField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codTipoCaracterLegal {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codTipoCaracterLegal
+        {
+            get
+            {
                 return this.codTipoCaracterLegalField;
             }
-            set {
+            set
+            {
                 this.codTipoCaracterLegalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codTipoIngresosBrutos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codTipoIngresosBrutos
+        {
+            get
+            {
                 return this.codTipoIngresosBrutosField;
             }
-            set {
+            set
+            {
                 this.codTipoIngresosBrutosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string consejo {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string consejo
+        {
+            get
+            {
                 return this.consejoField;
             }
-            set {
+            set
+            {
                 this.consejoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string cuit {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string cuit
+        {
+            get
+            {
                 return this.cuitField;
             }
-            set {
+            set
+            {
                 this.cuitField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string email {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string email
+        {
+            get
+            {
                 return this.emailField;
             }
-            set {
+            set
+            {
                 this.emailField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public long idProvincia {
-            get {
+        public long idProvincia
+        {
+            get
+            {
                 return this.idProvinciaField;
             }
-            set {
+            set
+            {
                 this.idProvinciaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idProvinciaSpecified {
-            get {
+        public bool idProvinciaSpecified
+        {
+            get
+            {
                 return this.idProvinciaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idProvinciaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoSociedad {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoSociedad
+        {
+            get
+            {
                 return this.idTipoSociedadField;
             }
-            set {
+            set
+            {
                 this.idTipoSociedadField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoSociedadSpecified {
-            get {
+        public bool idTipoSociedadSpecified
+        {
+            get
+            {
                 return this.idTipoSociedadFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoSociedadFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string ingresosBrutos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string ingresosBrutos
+        {
+            get
+            {
                 return this.ingresosBrutosField;
             }
-            set {
+            set
+            {
                 this.ingresosBrutosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool inhibido {
-            get {
+        public bool inhibido
+        {
+            get
+            {
                 return this.inhibidoField;
             }
-            set {
+            set
+            {
                 this.inhibidoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool inhibidoSpecified {
-            get {
+        public bool inhibidoSpecified
+        {
+            get
+            {
                 return this.inhibidoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.inhibidoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string localidad {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string localidad
+        {
+            get
+            {
                 return this.localidadField;
             }
-            set {
+            set
+            {
                 this.localidadField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string matricula {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string matricula
+        {
+            get
+            {
                 return this.matriculaField;
             }
-            set {
+            set
+            {
                 this.matriculaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nombre {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nombre
+        {
+            get
+            {
                 return this.nombreField;
             }
-            set {
+            set
+            {
                 this.nombreField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroDocumento {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroDocumento
+        {
+            get
+            {
                 return this.nroDocumentoField;
             }
-            set {
+            set
+            {
                 this.nroDocumentoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string personeria {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string personeria
+        {
+            get
+            {
                 return this.personeriaField;
             }
-            set {
+            set
+            {
                 this.personeriaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string piso {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string piso
+        {
+            get
+            {
                 return this.pisoField;
             }
-            set {
+            set
+            {
                 this.pisoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public int puerta {
-            get {
+        public int puerta
+        {
+            get
+            {
                 return this.puertaField;
             }
-            set {
+            set
+            {
                 this.puertaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool puertaSpecified {
-            get {
+        public bool puertaSpecified
+        {
+            get
+            {
                 return this.puertaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.puertaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string registro {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string registro
+        {
+            get
+            {
                 return this.registroField;
             }
-            set {
+            set
+            {
                 this.registroField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string sms {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string sms
+        {
+            get
+            {
                 return this.smsField;
             }
-            set {
+            set
+            {
                 this.smsField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string telefono {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string telefono
+        {
+            get
+            {
                 return this.telefonoField;
             }
-            set {
+            set
+            {
                 this.telefonoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string telefonoMovil {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string telefonoMovil
+        {
+            get
+            {
                 return this.telefonoMovilField;
             }
-            set {
+            set
+            {
                 this.telefonoMovilField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoDocumento {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoDocumento
+        {
+            get
+            {
                 return this.tipoDocumentoField;
             }
-            set {
+            set
+            {
                 this.tipoDocumentoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string unidadFuncional {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string unidadFuncional
+        {
+            get
+            {
                 return this.unidadFuncionalField;
             }
-            set {
+            set
+            {
                 this.unidadFuncionalField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(WSNuevaEncomiendaPVH))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSNuevaEncomienda {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSNuevaEncomienda
+    {
+
         private WSActividad[] actividadesField;
-        
+
         private System.Nullable<int> anioNormativaField;
-        
+
         private bool anioNormativaFieldSpecified;
-        
+
         private WSPersonaEncomienda[] autorizadosField;
-        
+
         private System.Nullable<long> cantOperariosField;
-        
+
         private bool cantOperariosFieldSpecified;
-        
+
         private string codigoZonaDeclaradaField;
-        
+
         private WSLocal[] conformacionLocalField;
-        
+
         private string consejoField;
-        
+
         private WSDatosLocal datosLocalField;
-        
+
         private string descripcionZonaDeclaradaField;
-        
+
         private WSPersonaEncomienda escribanoField;
-        
+
         private string[] expedientesRelacionadosField;
-        
+
         private System.Nullable<System.DateTime> fechaSolicitudField;
-        
+
         private bool fechaSolicitudFieldSpecified;
-        
+
         private WSFirmanteEncomienda[] firmantesField;
-        
+
         private System.Nullable<int> idEntidadNormativaField;
-        
+
         private bool idEntidadNormativaFieldSpecified;
-        
+
         private System.Nullable<int> idTipoNormativaField;
-        
+
         private bool idTipoNormativaFieldSpecified;
-        
+
         private string nroCarpetaField;
-        
+
         private string nroExpedienteField;
-        
+
         private string nroNormativaField;
-        
+
         private long nroSolicitudField;
-        
+
         private bool nroSolicitudFieldSpecified;
-        
+
         private string observacionPlantasField;
-        
+
         private string observacionRubrosField;
-        
+
         private string otraPuertaField;
-        
+
         private WSPartida[] partidasField;
-        
+
         private WSPlanta[] plantasField;
-        
+
         private WSPersonaEncomienda profesionalField;
-        
+
         private WSRubroEncomienda[] rubrosField;
-        
+
         private WSSobrecarga[] sobrecargasField;
-        
+
         private string subtipoExpedienteField;
-        
+
         private System.Nullable<double> superficieField;
-        
+
         private bool superficieFieldSpecified;
-        
+
         private string tipoExpedienteField;
-        
+
         private string tipoTramiteField;
-        
+
         private WSPersonaEncomienda[] titularesField;
-        
+
         private string usernameCalificadorField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("actividades", IsNullable=true)]
-        public WSActividad[] actividades {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("actividades", IsNullable = true)]
+        public WSActividad[] actividades
+        {
+            get
+            {
                 return this.actividadesField;
             }
-            set {
+            set
+            {
                 this.actividadesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> anioNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> anioNormativa
+        {
+            get
+            {
                 return this.anioNormativaField;
             }
-            set {
+            set
+            {
                 this.anioNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool anioNormativaSpecified {
-            get {
+        public bool anioNormativaSpecified
+        {
+            get
+            {
                 return this.anioNormativaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.anioNormativaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("autorizados", IsNullable=true)]
-        public WSPersonaEncomienda[] autorizados {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("autorizados", IsNullable = true)]
+        public WSPersonaEncomienda[] autorizados
+        {
+            get
+            {
                 return this.autorizadosField;
             }
-            set {
+            set
+            {
                 this.autorizadosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<long> cantOperarios {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<long> cantOperarios
+        {
+            get
+            {
                 return this.cantOperariosField;
             }
-            set {
+            set
+            {
                 this.cantOperariosField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool cantOperariosSpecified {
-            get {
+        public bool cantOperariosSpecified
+        {
+            get
+            {
                 return this.cantOperariosFieldSpecified;
             }
-            set {
+            set
+            {
                 this.cantOperariosFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codigoZonaDeclarada {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codigoZonaDeclarada
+        {
+            get
+            {
                 return this.codigoZonaDeclaradaField;
             }
-            set {
+            set
+            {
                 this.codigoZonaDeclaradaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("conformacionLocal", IsNullable=true)]
-        public WSLocal[] conformacionLocal {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("conformacionLocal", IsNullable = true)]
+        public WSLocal[] conformacionLocal
+        {
+            get
+            {
                 return this.conformacionLocalField;
             }
-            set {
+            set
+            {
                 this.conformacionLocalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string consejo {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string consejo
+        {
+            get
+            {
                 return this.consejoField;
             }
-            set {
+            set
+            {
                 this.consejoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public WSDatosLocal datosLocal {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public WSDatosLocal datosLocal
+        {
+            get
+            {
                 return this.datosLocalField;
             }
-            set {
+            set
+            {
                 this.datosLocalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string descripcionZonaDeclarada {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string descripcionZonaDeclarada
+        {
+            get
+            {
                 return this.descripcionZonaDeclaradaField;
             }
-            set {
+            set
+            {
                 this.descripcionZonaDeclaradaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public WSPersonaEncomienda escribano {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public WSPersonaEncomienda escribano
+        {
+            get
+            {
                 return this.escribanoField;
             }
-            set {
+            set
+            {
                 this.escribanoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("expedientesRelacionados", IsNullable=true)]
-        public string[] expedientesRelacionados {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("expedientesRelacionados", IsNullable = true)]
+        public string[] expedientesRelacionados
+        {
+            get
+            {
                 return this.expedientesRelacionadosField;
             }
-            set {
+            set
+            {
                 this.expedientesRelacionadosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<System.DateTime> fechaSolicitud {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<System.DateTime> fechaSolicitud
+        {
+            get
+            {
                 return this.fechaSolicitudField;
             }
-            set {
+            set
+            {
                 this.fechaSolicitudField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool fechaSolicitudSpecified {
-            get {
+        public bool fechaSolicitudSpecified
+        {
+            get
+            {
                 return this.fechaSolicitudFieldSpecified;
             }
-            set {
+            set
+            {
                 this.fechaSolicitudFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("firmantes", IsNullable=true)]
-        public WSFirmanteEncomienda[] firmantes {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("firmantes", IsNullable = true)]
+        public WSFirmanteEncomienda[] firmantes
+        {
+            get
+            {
                 return this.firmantesField;
             }
-            set {
+            set
+            {
                 this.firmantesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idEntidadNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idEntidadNormativa
+        {
+            get
+            {
                 return this.idEntidadNormativaField;
             }
-            set {
+            set
+            {
                 this.idEntidadNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idEntidadNormativaSpecified {
-            get {
+        public bool idEntidadNormativaSpecified
+        {
+            get
+            {
                 return this.idEntidadNormativaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idEntidadNormativaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoNormativa
+        {
+            get
+            {
                 return this.idTipoNormativaField;
             }
-            set {
+            set
+            {
                 this.idTipoNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoNormativaSpecified {
-            get {
+        public bool idTipoNormativaSpecified
+        {
+            get
+            {
                 return this.idTipoNormativaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoNormativaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroCarpeta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroCarpeta
+        {
+            get
+            {
                 return this.nroCarpetaField;
             }
-            set {
+            set
+            {
                 this.nroCarpetaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroExpediente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroExpediente
+        {
+            get
+            {
                 return this.nroExpedienteField;
             }
-            set {
+            set
+            {
                 this.nroExpedienteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroNormativa {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroNormativa
+        {
+            get
+            {
                 return this.nroNormativaField;
             }
-            set {
+            set
+            {
                 this.nroNormativaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public long nroSolicitud {
-            get {
+        public long nroSolicitud
+        {
+            get
+            {
                 return this.nroSolicitudField;
             }
-            set {
+            set
+            {
                 this.nroSolicitudField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool nroSolicitudSpecified {
-            get {
+        public bool nroSolicitudSpecified
+        {
+            get
+            {
                 return this.nroSolicitudFieldSpecified;
             }
-            set {
+            set
+            {
                 this.nroSolicitudFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string observacionPlantas {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string observacionPlantas
+        {
+            get
+            {
                 return this.observacionPlantasField;
             }
-            set {
+            set
+            {
                 this.observacionPlantasField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string observacionRubros {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string observacionRubros
+        {
+            get
+            {
                 return this.observacionRubrosField;
             }
-            set {
+            set
+            {
                 this.observacionRubrosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string otraPuerta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string otraPuerta
+        {
+            get
+            {
                 return this.otraPuertaField;
             }
-            set {
+            set
+            {
                 this.otraPuertaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("partidas", IsNullable=true)]
-        public WSPartida[] partidas {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("partidas", IsNullable = true)]
+        public WSPartida[] partidas
+        {
+            get
+            {
                 return this.partidasField;
             }
-            set {
+            set
+            {
                 this.partidasField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("plantas", IsNullable=true)]
-        public WSPlanta[] plantas {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("plantas", IsNullable = true)]
+        public WSPlanta[] plantas
+        {
+            get
+            {
                 return this.plantasField;
             }
-            set {
+            set
+            {
                 this.plantasField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public WSPersonaEncomienda profesional {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public WSPersonaEncomienda profesional
+        {
+            get
+            {
                 return this.profesionalField;
             }
-            set {
+            set
+            {
                 this.profesionalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("rubros", IsNullable=true)]
-        public WSRubroEncomienda[] rubros {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("rubros", IsNullable = true)]
+        public WSRubroEncomienda[] rubros
+        {
+            get
+            {
                 return this.rubrosField;
             }
-            set {
+            set
+            {
                 this.rubrosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("sobrecargas", IsNullable=true)]
-        public WSSobrecarga[] sobrecargas {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("sobrecargas", IsNullable = true)]
+        public WSSobrecarga[] sobrecargas
+        {
+            get
+            {
                 return this.sobrecargasField;
             }
-            set {
+            set
+            {
                 this.sobrecargasField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string subtipoExpediente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string subtipoExpediente
+        {
+            get
+            {
                 return this.subtipoExpedienteField;
             }
-            set {
+            set
+            {
                 this.subtipoExpedienteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficie {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficie
+        {
+            get
+            {
                 return this.superficieField;
             }
-            set {
+            set
+            {
                 this.superficieField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieSpecified {
-            get {
+        public bool superficieSpecified
+        {
+            get
+            {
                 return this.superficieFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoExpediente {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoExpediente
+        {
+            get
+            {
                 return this.tipoExpedienteField;
             }
-            set {
+            set
+            {
                 this.tipoExpedienteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoTramite {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoTramite
+        {
+            get
+            {
                 return this.tipoTramiteField;
             }
-            set {
+            set
+            {
                 this.tipoTramiteField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("titulares", IsNullable=true)]
-        public WSPersonaEncomienda[] titulares {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("titulares", IsNullable = true)]
+        public WSPersonaEncomienda[] titulares
+        {
+            get
+            {
                 return this.titularesField;
             }
-            set {
+            set
+            {
                 this.titularesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string usernameCalificador {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string usernameCalificador
+        {
+            get
+            {
                 return this.usernameCalificadorField;
             }
-            set {
+            set
+            {
                 this.usernameCalificadorField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSLocal {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSLocal
+    {
+
         private System.Nullable<double> altoField;
-        
+
         private bool altoFieldSpecified;
-        
+
         private System.Nullable<double> anchoField;
-        
+
         private bool anchoFieldSpecified;
-        
+
         private string codDestinoField;
-        
+
         private string frisosField;
-        
+
         private System.Nullable<double> largoField;
-        
+
         private bool largoFieldSpecified;
-        
+
         private string observacionesField;
-        
+
         private string paredesField;
-        
+
         private string pisosField;
-        
+
         private string techosField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> alto {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> alto
+        {
+            get
+            {
                 return this.altoField;
             }
-            set {
+            set
+            {
                 this.altoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool altoSpecified {
-            get {
+        public bool altoSpecified
+        {
+            get
+            {
                 return this.altoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.altoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> ancho {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> ancho
+        {
+            get
+            {
                 return this.anchoField;
             }
-            set {
+            set
+            {
                 this.anchoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool anchoSpecified {
-            get {
+        public bool anchoSpecified
+        {
+            get
+            {
                 return this.anchoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.anchoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codDestino {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codDestino
+        {
+            get
+            {
                 return this.codDestinoField;
             }
-            set {
+            set
+            {
                 this.codDestinoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string frisos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string frisos
+        {
+            get
+            {
                 return this.frisosField;
             }
-            set {
+            set
+            {
                 this.frisosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> largo {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> largo
+        {
+            get
+            {
                 return this.largoField;
             }
-            set {
+            set
+            {
                 this.largoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool largoSpecified {
-            get {
+        public bool largoSpecified
+        {
+            get
+            {
                 return this.largoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.largoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string observaciones {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string observaciones
+        {
+            get
+            {
                 return this.observacionesField;
             }
-            set {
+            set
+            {
                 this.observacionesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string paredes {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string paredes
+        {
+            get
+            {
                 return this.paredesField;
             }
-            set {
+            set
+            {
                 this.paredesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string pisos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string pisos
+        {
+            get
+            {
                 return this.pisosField;
             }
-            set {
+            set
+            {
                 this.pisosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string techos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string techos
+        {
+            get
+            {
                 return this.techosField;
             }
-            set {
+            set
+            {
                 this.techosField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSPartida {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSPartida
+    {
+
         private string codigoZonaField;
-        
+
         private string deptoLocalField;
-        
+
         private string descripcionZonaField;
-        
+
         private System.Nullable<long>[] idTipoSectorField;
-        
+
         private string manzanaField;
-        
+
         private System.Nullable<long> numeroPartidaField;
-        
+
         private bool numeroPartidaFieldSpecified;
-        
+
         private string parcelaField;
-        
+
         private WSPartidaHorizontal[] partidasHorizontalesField;
-        
+
         private WSExpedientePartidaPuerta[] puertasField;
-        
+
         private System.Nullable<long> seccionField;
-        
+
         private bool seccionFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codigoZona {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codigoZona
+        {
+            get
+            {
                 return this.codigoZonaField;
             }
-            set {
+            set
+            {
                 this.codigoZonaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string deptoLocal {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string deptoLocal
+        {
+            get
+            {
                 return this.deptoLocalField;
             }
-            set {
+            set
+            {
                 this.deptoLocalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string descripcionZona {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string descripcionZona
+        {
+            get
+            {
                 return this.descripcionZonaField;
             }
-            set {
+            set
+            {
                 this.descripcionZonaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("idTipoSector", IsNullable=true)]
-        public System.Nullable<long>[] idTipoSector {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("idTipoSector", IsNullable = true)]
+        public System.Nullable<long>[] idTipoSector
+        {
+            get
+            {
                 return this.idTipoSectorField;
             }
-            set {
+            set
+            {
                 this.idTipoSectorField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string manzana {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string manzana
+        {
+            get
+            {
                 return this.manzanaField;
             }
-            set {
+            set
+            {
                 this.manzanaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<long> numeroPartida {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<long> numeroPartida
+        {
+            get
+            {
                 return this.numeroPartidaField;
             }
-            set {
+            set
+            {
                 this.numeroPartidaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool numeroPartidaSpecified {
-            get {
+        public bool numeroPartidaSpecified
+        {
+            get
+            {
                 return this.numeroPartidaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.numeroPartidaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string parcela {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string parcela
+        {
+            get
+            {
                 return this.parcelaField;
             }
-            set {
+            set
+            {
                 this.parcelaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("partidasHorizontales", IsNullable=true)]
-        public WSPartidaHorizontal[] partidasHorizontales {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("partidasHorizontales", IsNullable = true)]
+        public WSPartidaHorizontal[] partidasHorizontales
+        {
+            get
+            {
                 return this.partidasHorizontalesField;
             }
-            set {
+            set
+            {
                 this.partidasHorizontalesField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute("puertas", IsNullable=true)]
-        public WSExpedientePartidaPuerta[] puertas {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute("puertas", IsNullable = true)]
+        public WSExpedientePartidaPuerta[] puertas
+        {
+            get
+            {
                 return this.puertasField;
             }
-            set {
+            set
+            {
                 this.puertasField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<long> seccion {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<long> seccion
+        {
+            get
+            {
                 return this.seccionField;
             }
-            set {
+            set
+            {
                 this.seccionField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool seccionSpecified {
-            get {
+        public bool seccionSpecified
+        {
+            get
+            {
                 return this.seccionFieldSpecified;
             }
-            set {
+            set
+            {
                 this.seccionFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSPartidaHorizontal {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSPartidaHorizontal
+    {
+
         private string deptoField;
-        
+
         private System.Nullable<long> numeroPartidaField;
-        
+
         private bool numeroPartidaFieldSpecified;
-        
+
         private string pisoField;
-        
+
         private string unidadFuncionalField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string depto {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string depto
+        {
+            get
+            {
                 return this.deptoField;
             }
-            set {
+            set
+            {
                 this.deptoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<long> numeroPartida {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<long> numeroPartida
+        {
+            get
+            {
                 return this.numeroPartidaField;
             }
-            set {
+            set
+            {
                 this.numeroPartidaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool numeroPartidaSpecified {
-            get {
+        public bool numeroPartidaSpecified
+        {
+            get
+            {
                 return this.numeroPartidaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.numeroPartidaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string piso {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string piso
+        {
+            get
+            {
                 return this.pisoField;
             }
-            set {
+            set
+            {
                 this.pisoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string unidadFuncional {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string unidadFuncional
+        {
+            get
+            {
                 return this.unidadFuncionalField;
             }
-            set {
+            set
+            {
                 this.unidadFuncionalField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSExpedientePartidaPuerta {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSExpedientePartidaPuerta
+    {
+
         private long codigoCalleField;
-        
+
         private bool codigoCalleFieldSpecified;
-        
+
         private string nombreCalleField;
-        
+
         private System.Nullable<long> numeroPuertaField;
-        
+
         private bool numeroPuertaFieldSpecified;
-        
+
         /// <comentarios/>
-        public long codigoCalle {
-            get {
+        public long codigoCalle
+        {
+            get
+            {
                 return this.codigoCalleField;
             }
-            set {
+            set
+            {
                 this.codigoCalleField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool codigoCalleSpecified {
-            get {
+        public bool codigoCalleSpecified
+        {
+            get
+            {
                 return this.codigoCalleFieldSpecified;
             }
-            set {
+            set
+            {
                 this.codigoCalleFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nombreCalle {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nombreCalle
+        {
+            get
+            {
                 return this.nombreCalleField;
             }
-            set {
+            set
+            {
                 this.nombreCalleField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<long> numeroPuerta {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<long> numeroPuerta
+        {
+            get
+            {
                 return this.numeroPuertaField;
             }
-            set {
+            set
+            {
                 this.numeroPuertaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool numeroPuertaSpecified {
-            get {
+        public bool numeroPuertaSpecified
+        {
+            get
+            {
                 return this.numeroPuertaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.numeroPuertaFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSNuevaEncomiendaPVH : WSNuevaEncomienda {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSNuevaEncomiendaPVH : WSNuevaEncomienda
+    {
+
         private System.Nullable<System.DateTime> fechaHabilitacioField;
-        
+
         private bool fechaHabilitacioFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<System.DateTime> fechaHabilitacio {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<System.DateTime> fechaHabilitacio
+        {
+            get
+            {
                 return this.fechaHabilitacioField;
             }
-            set {
+            set
+            {
                 this.fechaHabilitacioField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool fechaHabilitacioSpecified {
-            get {
+        public bool fechaHabilitacioSpecified
+        {
+            get
+            {
                 return this.fechaHabilitacioFieldSpecified;
             }
-            set {
+            set
+            {
                 this.fechaHabilitacioFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSResultado {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSResultado
+    {
+
         private bool exitoField;
-        
+
         private bool exitoFieldSpecified;
-        
+
         private string mensajeField;
-        
+
         /// <comentarios/>
-        public bool exito {
-            get {
+        public bool exito
+        {
+            get
+            {
                 return this.exitoField;
             }
-            set {
+            set
+            {
                 this.exitoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool exitoSpecified {
-            get {
+        public bool exitoSpecified
+        {
+            get
+            {
                 return this.exitoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.exitoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string mensaje {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string mensaje
+        {
+            get
+            {
                 return this.mensajeField;
             }
-            set {
+            set
+            {
                 this.mensajeField = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSRubro {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSRubro
+    {
+
         private string codigoRubroField;
-        
+
         private string descripcionRubroField;
-        
+
         private bool esAnteriorField;
-        
+
         private bool esAnteriorFieldSpecified;
-        
+
         private System.Nullable<int> idTipoActividadField;
-        
+
         private bool idTipoActividadFieldSpecified;
-        
+
         private System.Nullable<int> idTipoDocReqField;
-        
+
         private bool idTipoDocReqFieldSpecified;
-        
+
         private string impactoAmbientalField;
-        
+
         private System.Nullable<double> superficieField;
-        
+
         private bool superficieFieldSpecified;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string codigoRubro {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string codigoRubro
+        {
+            get
+            {
                 return this.codigoRubroField;
             }
-            set {
+            set
+            {
                 this.codigoRubroField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string descripcionRubro {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string descripcionRubro
+        {
+            get
+            {
                 return this.descripcionRubroField;
             }
-            set {
+            set
+            {
                 this.descripcionRubroField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool esAnterior {
-            get {
+        public bool esAnterior
+        {
+            get
+            {
                 return this.esAnteriorField;
             }
-            set {
+            set
+            {
                 this.esAnteriorField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool esAnteriorSpecified {
-            get {
+        public bool esAnteriorSpecified
+        {
+            get
+            {
                 return this.esAnteriorFieldSpecified;
             }
-            set {
+            set
+            {
                 this.esAnteriorFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoActividad {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoActividad
+        {
+            get
+            {
                 return this.idTipoActividadField;
             }
-            set {
+            set
+            {
                 this.idTipoActividadField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoActividadSpecified {
-            get {
+        public bool idTipoActividadSpecified
+        {
+            get
+            {
                 return this.idTipoActividadFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoActividadFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<int> idTipoDocReq {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<int> idTipoDocReq
+        {
+            get
+            {
                 return this.idTipoDocReqField;
             }
-            set {
+            set
+            {
                 this.idTipoDocReqField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idTipoDocReqSpecified {
-            get {
+        public bool idTipoDocReqSpecified
+        {
+            get
+            {
                 return this.idTipoDocReqFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idTipoDocReqFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string impactoAmbiental {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string impactoAmbiental
+        {
+            get
+            {
                 return this.impactoAmbientalField;
             }
-            set {
+            set
+            {
                 this.impactoAmbientalField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public System.Nullable<double> superficie {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public System.Nullable<double> superficie
+        {
+            get
+            {
                 return this.superficieField;
             }
-            set {
+            set
+            {
                 this.superficieField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superficieSpecified {
-            get {
+        public bool superficieSpecified
+        {
+            get
+            {
                 return this.superficieFieldSpecified;
             }
-            set {
+            set
+            {
                 this.superficieFieldSpecified = value;
             }
         }
     }
-    
+
     /// <comentarios/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.habilitaciones.gcba.gov.ar/xsd")]
-    public partial class WSPersona {
-        
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://ws.habilitaciones.gcba.gov.ar/xsd")]
+    public partial class WSPersona
+    {
+
         private string apellidoField;
-        
+
         private string calleField;
-        
+
         private string consejoField;
-        
+
         private string cuitField;
-        
+
         private string emailField;
-        
+
         private long idProvinciaField;
-        
+
         private bool idProvinciaFieldSpecified;
-        
+
         private string ingresosBrutosField;
-        
+
         private bool inhibidoField;
-        
+
         private bool inhibidoFieldSpecified;
-        
+
         private string localidadField;
-        
+
         private string matriculaField;
-        
+
         private string nombreField;
-        
+
         private string nroDocumentoField;
-        
+
         private string pisoField;
-        
+
         private int puertaField;
-        
+
         private bool puertaFieldSpecified;
-        
+
         private string registroField;
-        
+
         private string telefonoField;
-        
+
         private string tipoDocumentoField;
-        
+
         private string unidadFuncionalField;
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string apellido {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string apellido
+        {
+            get
+            {
                 return this.apellidoField;
             }
-            set {
+            set
+            {
                 this.apellidoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string calle {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string calle
+        {
+            get
+            {
                 return this.calleField;
             }
-            set {
+            set
+            {
                 this.calleField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string consejo {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string consejo
+        {
+            get
+            {
                 return this.consejoField;
             }
-            set {
+            set
+            {
                 this.consejoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string cuit {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string cuit
+        {
+            get
+            {
                 return this.cuitField;
             }
-            set {
+            set
+            {
                 this.cuitField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string email {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string email
+        {
+            get
+            {
                 return this.emailField;
             }
-            set {
+            set
+            {
                 this.emailField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public long idProvincia {
-            get {
+        public long idProvincia
+        {
+            get
+            {
                 return this.idProvinciaField;
             }
-            set {
+            set
+            {
                 this.idProvinciaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool idProvinciaSpecified {
-            get {
+        public bool idProvinciaSpecified
+        {
+            get
+            {
                 return this.idProvinciaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.idProvinciaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string ingresosBrutos {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string ingresosBrutos
+        {
+            get
+            {
                 return this.ingresosBrutosField;
             }
-            set {
+            set
+            {
                 this.ingresosBrutosField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public bool inhibido {
-            get {
+        public bool inhibido
+        {
+            get
+            {
                 return this.inhibidoField;
             }
-            set {
+            set
+            {
                 this.inhibidoField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool inhibidoSpecified {
-            get {
+        public bool inhibidoSpecified
+        {
+            get
+            {
                 return this.inhibidoFieldSpecified;
             }
-            set {
+            set
+            {
                 this.inhibidoFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string localidad {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string localidad
+        {
+            get
+            {
                 return this.localidadField;
             }
-            set {
+            set
+            {
                 this.localidadField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string matricula {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string matricula
+        {
+            get
+            {
                 return this.matriculaField;
             }
-            set {
+            set
+            {
                 this.matriculaField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nombre {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nombre
+        {
+            get
+            {
                 return this.nombreField;
             }
-            set {
+            set
+            {
                 this.nombreField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string nroDocumento {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string nroDocumento
+        {
+            get
+            {
                 return this.nroDocumentoField;
             }
-            set {
+            set
+            {
                 this.nroDocumentoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string piso {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string piso
+        {
+            get
+            {
                 return this.pisoField;
             }
-            set {
+            set
+            {
                 this.pisoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        public int puerta {
-            get {
+        public int puerta
+        {
+            get
+            {
                 return this.puertaField;
             }
-            set {
+            set
+            {
                 this.puertaField = value;
             }
         }
-        
+
         /// <comentarios/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool puertaSpecified {
-            get {
+        public bool puertaSpecified
+        {
+            get
+            {
                 return this.puertaFieldSpecified;
             }
-            set {
+            set
+            {
                 this.puertaFieldSpecified = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string registro {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string registro
+        {
+            get
+            {
                 return this.registroField;
             }
-            set {
+            set
+            {
                 this.registroField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string telefono {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string telefono
+        {
+            get
+            {
                 return this.telefonoField;
             }
-            set {
+            set
+            {
                 this.telefonoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string tipoDocumento {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string tipoDocumento
+        {
+            get
+            {
                 return this.tipoDocumentoField;
             }
-            set {
+            set
+            {
                 this.tipoDocumentoField = value;
             }
         }
-        
+
         /// <comentarios/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string unidadFuncional {
-            get {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable = true)]
+        public string unidadFuncional
+        {
+            get
+            {
                 return this.unidadFuncionalField;
             }
-            set {
+            set
+            {
                 this.unidadFuncionalField = value;
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     public delegate void nuevaCompletedEventHandler(object sender, nuevaCompletedEventArgs e);
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class nuevaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
+    public partial class nuevaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
+    {
+
         private object[] results;
-        
-        internal nuevaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
+
+        internal nuevaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+                base(exception, cancelled, userState)
+        {
             this.results = results;
         }
-        
+
         /// <remarks/>
-        public WSResultado Result {
-            get {
+        public WSResultado Result
+        {
+            get
+            {
                 this.RaiseExceptionIfNecessary();
                 return ((WSResultado)(this.results[0]));
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     public delegate void nuevaEncomiendaCompletedEventHandler(object sender, nuevaEncomiendaCompletedEventArgs e);
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class nuevaEncomiendaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
+    public partial class nuevaEncomiendaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
+    {
+
         private object[] results;
-        
-        internal nuevaEncomiendaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
+
+        internal nuevaEncomiendaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+                base(exception, cancelled, userState)
+        {
             this.results = results;
         }
-        
+
         /// <remarks/>
-        public WSResultado Result {
-            get {
+        public WSResultado Result
+        {
+            get
+            {
                 this.RaiseExceptionIfNecessary();
                 return ((WSResultado)(this.results[0]));
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     public delegate void nuevaEncomiendaPVHCompletedEventHandler(object sender, nuevaEncomiendaPVHCompletedEventArgs e);
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "4.0.30319.17929")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class nuevaEncomiendaPVHCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
+    public partial class nuevaEncomiendaPVHCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
+    {
+
         private object[] results;
-        
-        internal nuevaEncomiendaPVHCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
+
+        internal nuevaEncomiendaPVHCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+                base(exception, cancelled, userState)
+        {
             this.results = results;
         }
-        
+
         /// <remarks/>
-        public WSResultado Result {
-            get {
+        public WSResultado Result
+        {
+            get
+            {
                 this.RaiseExceptionIfNecessary();
                 return ((WSResultado)(this.results[0]));
             }
