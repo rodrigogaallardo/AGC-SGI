@@ -594,23 +594,6 @@ namespace SGI.GestionTramite.Tareas
                                 try
                                 {
                                     db.SSIT_Solicitudes_Set_FechaLibrado(id_solicitud);
-                                    var cmd = db.Database.Connection.CreateCommand();
-                                    cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 1, userid);
-                                    cmd.CommandTimeout = 120;
-                                    try
-                                    {
-                                        db.Database.Connection.Open();
-                                        cmd.ExecuteNonQuery();
-                                    }
-                                    catch (Exception exe)
-                                    {
-                                        throw exe;
-                                    }
-                                    finally
-                                    {
-                                        db.Database.Connection.Close();
-                                        cmd.Dispose();
-                                    }
                                 }
                                 catch (Exception ex)
                                 {
@@ -638,23 +621,6 @@ namespace SGI.GestionTramite.Tareas
                             sol.FechaLibrado = null;
                             db.SSIT_Solicitudes.AddOrUpdate(sol);
                             db.SaveChanges();
-                            var cmd = db.Database.Connection.CreateCommand();
-                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 0, userid);
-                            cmd.CommandTimeout = 120;
-                            try
-                            {
-                                db.Database.Connection.Open();
-                                cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception exe)
-                            {
-                                throw exe;
-                            }
-                            finally
-                            {
-                                db.Database.Connection.Close();
-                                cmd.Dispose();
-                            }
                         }
 
                         string mensaje_envio_mail = "";
