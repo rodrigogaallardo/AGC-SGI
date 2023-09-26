@@ -7,7 +7,9 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -1171,6 +1173,8 @@ namespace SGI
 
         private void guardarFiltro()
         {
+
+
             FiltrosBusqueda filtros = new FiltrosBusqueda()
             {
                 id_solicitud = txtNroSolicitud.Text,
@@ -1224,7 +1228,12 @@ namespace SGI
                 filtrosInsertar.CreateUser = userid;
                 filtrosInsertar.botonAccion = hdUltBtn.Value;
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 DGHP_Entities db = new DGHP_Entities();
+                db.Database.CommandTimeout = 300;
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, url);
+
                 db.SGI_FiltrosBusqueda.Add(filtrosInsertar);
                 db.SaveChanges();
 
