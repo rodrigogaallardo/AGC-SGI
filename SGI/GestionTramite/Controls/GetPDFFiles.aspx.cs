@@ -61,7 +61,7 @@ namespace SGI.GestionTramite.Controls
                     Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
                     Response.ContentEncoding = Encoding.UTF8;
                     Response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", FileName));
-                    Response.AddHeader("Content-Length", Pdf.Length.ToString());
+                    //Response.AddHeader("Content-Length", Pdf.Length.ToString());
                     Response.AddHeader("Connection", "keep-alive");
                     Response.AddHeader("Accept-Encoding", "identity");
                     Response.OutputStream.Write(Pdf, 0, Pdf.Length);
