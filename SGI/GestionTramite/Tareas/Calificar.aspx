@@ -14,7 +14,7 @@
 <%@ Register Src="~/GestionTramite/Controls/ucTramitesRelacionados.ascx" TagPrefix="uc1" TagName="ucTramitesRelacionados" %>
 <%@ Register Src="~/GestionTramite/Controls/ucPreviewDocumentos.ascx" TagPrefix="uc1" TagName="ucPreviewDocumentos" %>
 <%@ Register Src="~/GestionTramite/Controls/ucProcesosSADEv1.ascx" TagPrefix="uc1" TagName="ucProcesosSADEv1" %>
- <%@ Register Src="~/GestionTramite/Controls/ucSGI_ListaPlanoVisado.ascx" TagPrefix="uc1" TagName="ucSGI_ListaPlanoVisado"%>
+<%@ Register Src="~/GestionTramite/Controls/ucSGI_ListaPlanoVisado.ascx" TagPrefix="uc1" TagName="ucSGI_ListaPlanoVisado"%>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
@@ -77,12 +77,16 @@
 
                     <uc1:ucObservacionesTareav1 runat="server" id="ucObservaciones"/>
                     
-                    <asp:Panel ID="pnl_Librar_Uso" runat="server" Visible="false">
-                        <div class="control-group">
-                            <label class="control-label">Librar Uso:</label>
-                                <asp:CheckBox ID="chbLibrarUso" runat="server" Checked="false" />
-                        </div>
-                    </asp:Panel>
+                    <asp:UpdatePanel ID="pnl_Librar_Uso" runat="server" Visible="false">
+                        <ContentTemplate>
+                            <div class="control-group">
+                                <label class="control-label">Librar Uso:</label>
+                                <asp:CheckBox ID="chbLibrarUso" runat="server" Checked="false" AutoPostBack="true" OnCheckedChanged="ChbLibrarUso_CheckedChanged" />
+                            </div>
+                            <uc1:ucObservacionesTarea runat="server" ID="UcObservacionesLibrarUso" UpdateMode="Conditional"
+                                LabelObservacion="Observaciones adicionales al Librado al Uso para la Oblea:" Enabled="true" />
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
 
                     <uc1:ucResultadoTarea runat="server" ID="ucResultadoTarea" 
                         OnGuardarClick="ucResultadoTarea_GuardarClick" 

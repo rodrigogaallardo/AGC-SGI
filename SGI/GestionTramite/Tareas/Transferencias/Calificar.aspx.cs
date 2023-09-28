@@ -206,7 +206,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             if (calificar != null)
                 id_calificar = calificar.id_calificar;
 
-            int id = db.SGI_Tarea_Calificar_Actualizar(id_calificar, id_tramite_tarea, observacion, observContribuyente, observInternas, observProvidencia, false, userId);
+            int id = db.SGI_Tarea_Calificar_Actualizar(id_calificar, id_tramite_tarea, observacion, observContribuyente, observInternas, observProvidencia, null, false, userId);
 
             if (finalizar && !string.IsNullOrEmpty(observContribuyente))
                 db.Transf_Solicitudes_AgregarObservaciones(id_solicitud, observContribuyente, userId);
