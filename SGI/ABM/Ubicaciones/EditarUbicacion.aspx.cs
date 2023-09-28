@@ -493,7 +493,7 @@ namespace SGI.ABM.Ubicaciones
                 {
                     foreach (DataRow item in dt.Rows)
                     {
-                        item[1] = item[1].ToString() + 't';
+                        item[1] = item[1].ToString();
                     }
                 }
 
