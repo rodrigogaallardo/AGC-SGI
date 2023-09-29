@@ -117,7 +117,7 @@ namespace SGI.Reportes
 
             string fechadecreto = Parametros.GetParam_ValorChar("Dec.197");
 
-            CultureInfo culture = new CultureInfo("es-ES");
+            CultureInfo culture = new CultureInfo("es-AR");
 
             if (Convert.ToDateTime(query_tt_fechainicio.fechainicio, culture) <= Convert.ToDateTime(fechadecreto, culture))
                 decreto = "93/GCBA/2006";
@@ -243,7 +243,7 @@ namespace SGI.Reportes
                 tc2.ColumnSpan = 2;
                 tc3.ColumnSpan = 2;
                 tc4.ColumnSpan = 2;
-                tc1.Text = "Secci&#243;n: " + sSeccion;
+                tc1.Text = "Sección: " + sSeccion;
                 tc2.Text = "Manzana: " + sManzana;
                 tc3.Text = "Parcela: " + sParcela;
                 tc4.Text = "Partida Matriz: " + sNroPartidaMatriz;
@@ -299,13 +299,13 @@ namespace SGI.Reportes
                 //foreach (DataRow r in dsDispo.Tables["Distritos"].Rows)
                 //    zonMix = zonMix + " - " + Convert.ToString(r["Descripcion"]);
 
-                lblZonaDeclarada.Text = "Mixtura / &#193;rea Especial: " + zonMix;
+                lblZonaDeclarada.Text = "Mixtura / Área Especial: " + zonMix;
                 lblPlantashabilitar.Text = "Plantas a autorizar: ";
                 lblSuperficieTotal.Text = "Superficie total a autorizar: ";
             }
             else
             {
-                lblZonaDeclarada.Text = "Distrito de zonificaci&#243;n: " + zonaDeclarada;
+                lblZonaDeclarada.Text = "Distrito de zonificación: " + zonaDeclarada;
                 lblPlantashabilitar.Text = "Plantas a habilitar: ";
                 lblSuperficieTotal.Text = "Superficie total a habilitar: ";
             }
