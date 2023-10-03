@@ -313,14 +313,14 @@ namespace SGI.Reportes
 
             pnlObservacion.Visible = (!string.IsNullOrEmpty(lblObservacion.Text));
 
-            Label1.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(label1)));
-            Label2.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(label2)));
-            Label3.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(label3)));
-            Label4.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(label4)));
-            Label5.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(label5)));
-            Label6.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(label6)));
-
-            Label8.Text = Encoding.GetEncoding("ISO-8859-1").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("ISO-8859-1"), Encoding.UTF8.GetBytes(labelArt3)));
+            Label1.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(label1)));
+            Label2.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(label2)));
+            Label3.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(label3)));
+            Label4.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(label4)));
+            Label5.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(label5)));
+            Label6.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(label6)));
+                                                
+            Label8.Text = Encoding.GetEncoding("utf-8").GetString(Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("utf-8"), Encoding.UTF8.GetBytes(labelArt3)));
 
             DateTime d = Convert.ToDateTime(fecha_disposicion);
             lblDia.Text = d.ToString("dd MMMM 'de' yyyy", CultureInfo.CreateSpecificCulture("es-ES"));
