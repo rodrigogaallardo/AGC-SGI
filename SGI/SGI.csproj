@@ -854,6 +854,7 @@
     <Content Include="Operaciones\TareasForm.aspx" />
     <Content Include="Operaciones\ViewLayer\NotificacionGenerica.aspx" />
     <Content Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx" />
+    <Content Include="Operaciones\ViewLayer\TemplateMailsEditor.aspx" />
     <Content Include="Reportes\CPadron\DescargarPlanos.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Carga_Tramite.aspx" />
     <Content Include="GestionTramite\Tareas\CPadron\Fin_Tramite.aspx" />
@@ -4661,6 +4662,13 @@
     </Compile>
     <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.designer.cs">
       <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\ViewLayer\TemplateMailsEditor.aspx.cs">
+      <DependentUpon>TemplateMailsEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ViewLayer\TemplateMailsEditor.aspx.designer.cs">
+      <DependentUpon>TemplateMailsEditor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reportes\BajaSolicitud.cs">
       <AutoGen>True</AutoGen>

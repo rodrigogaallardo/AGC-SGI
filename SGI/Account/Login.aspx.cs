@@ -6,6 +6,7 @@ using SGI.Model;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
+using SGI.Mailer;
 
 namespace SGI.Account
 {
@@ -27,7 +28,12 @@ namespace SGI.Account
             protected void Page_Load(object sender, EventArgs e)
             {
 
-                TextBox tbox = this.LoginControl.FindControl("UserName") as TextBox;
+            #region ASOSA BORRAR
+            string aaa = MailMessages.htmlMail_RectificacionBajaSolicitud();
+            #endregion
+
+
+            TextBox tbox = this.LoginControl.FindControl("UserName") as TextBox;
 
                 if (tbox != null)
                 {
