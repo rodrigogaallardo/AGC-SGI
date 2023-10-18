@@ -206,19 +206,18 @@ namespace SGI.Operaciones
                     Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
                 }
 
-                if(sSIT_Solicitudes.id_estado ==(int)Constants.Solicitud_Estados.Observado_PVH)
-                {
-                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
-                }
-
                 if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Aprobada)
                 {
                     Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(idSolicitud, DateTime.Now);
                 }
-
-                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Rechazada)
+                if (sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Rechazada)
                 {
                     Mailer.MailMessages.SendMail_RechazoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Caduco)
+                {
+                    Mailer.MailMessages.SendMail_Caducidad_v2(idSolicitud, DateTime.Now);
                 }
 
                 if (chkFecLibrado.Checked)
