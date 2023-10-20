@@ -5,19 +5,11 @@
     <script>
 
         function GetTemplate(template) {
-
-            alert(document.getElementsByName('editor')[0].innerHTML);
-
+            //alert(document.getElementsByName('editor')[0].innerHTML);
             document.getElementsByName('editor')[0].innerHTML = template;
-
         }
         function SaveTemplate() {
-
-
-            alert(document.getElementsByName('editor')[0].innerHTML);
-
-
-
+            //alert(document.getElementsByName('editor')[0].innerHTML);
             var hdSaveTemplate = document.getElementById('<%= hdSaveTemplate.ClientID %>');
             hdSaveTemplate.value = document.getElementsByName('editor')[0].innerHTML;
         }
@@ -41,7 +33,7 @@
 
         <div>
             <label>Lista de Template</label>
-            <asp:DropDownList ID="ddlTemplates" AutoPostBack="false" runat="server" OnSelectedIndexChanged="ddlTemplates_SelectedIndexChanged"></asp:DropDownList>
+            <asp:DropDownList ID="ddlTemplates" AutoPostBack="false" runat="server" OnSelectedIndexChanged="ddlTemplates_SelectedIndexChanged" ></asp:DropDownList>
             <asp:Button ID="btnGetTemplate" runat="server" Text="Traer Template" OnClick="btnGetTemplate_Click" CausesValidation="False" UseSubmitBehavior="false" />
         </div>
         <br />
@@ -60,8 +52,7 @@
             </div>
         </div>
         <br />
-        <button type="submit">Submit</button>
-
+      
         <asp:Button ID="btnSaveTemplate" runat="server" Text="Guardar Template" OnClientClick="SaveTemplate()" OnClick="btnSaveTemplate_Click" CausesValidation="False" UseSubmitBehavior="false" />
 
         <asp:HiddenField ID="hdSaveTemplate" runat="server" />

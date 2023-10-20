@@ -2162,6 +2162,9 @@
     <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.designer.cs">
       <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Model\EmailTemplates.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Ley257DTO.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>

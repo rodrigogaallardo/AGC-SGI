@@ -151,165 +151,243 @@ namespace SGI.Mailer
         }
         public static string htmlMail_ObservacionSolicitud()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailObservacionSolicitud.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailObservacionSolicitud.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-            
-            return emailHtml;
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_ObservacionSolicitud".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_RectificacionBajaSolicitud()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRectificacionBaja.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRectificacionBaja.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-            
-            return emailHtml;
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_RectificacionBajaSolicitud".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
+        public static string htmlMail_DisponibilizarQR()
+        {
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailQrDisponible.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
+
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_DisponibilizarQR".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
+        }
         public static string htmlMail_RechazoSolicitud()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRechazoSolicitud.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRechazoSolicitud.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_RechazoSolicitud".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_BajaSolicitud()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailBajaSolicitud.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailBajaSolicitud.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_BajaSolicitud".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_Caducidad()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCaducidad.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCaducidad.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_Caducidad".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
 
         public static string htmlMail_LevantaObserva()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCambioEstado.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCambioEstado.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_LevantaObserva".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_LevantaRechazo()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailLevantamientoRechazo.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailLevantamientoRechazo.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_LevantaRechazo".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_RechazoSolicitudEspar()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRechazoSolicitudEspar.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailRechazoSolicitudEspar.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_RechazoSolicitudEspar".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_AprobadoSolicitud()
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailAprobadoSolicitud.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailAprobadoSolicitud.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(surl);
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
 
-            return emailHtml;
-        }
-        public static string htmlMail_DisponibilizarQR()
-        {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailQrDisponible.aspx");
-            surl = BasePage.IPtoDomain(surl);
-
-            WebRequest request = WebRequest.Create(surl);
-            WebResponse response = request.GetResponse();
-
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_AprobadoSolicitud".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_Calificar(Guid userid, int id_solicitud)
         {
@@ -2733,7 +2811,7 @@ namespace SGI.Mailer
                 var result = pj.Select(p => p.titular).ToList();
                 result.AddRange(pj.Select(p => p.firmante).ToList());
                 return result;
-            } 
+            }
         }
 
         private static IEnumerable<string> GetEmailPersonaJuridica(DGHP_Entities db, int idSolicitud)

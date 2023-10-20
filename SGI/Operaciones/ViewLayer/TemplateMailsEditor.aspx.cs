@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ws_solicitudes;
 
 namespace SGI.Operaciones.ViewLayer
 {
@@ -18,14 +19,22 @@ namespace SGI.Operaciones.ViewLayer
         {
             if (!IsPostBack)
             {
-                List<EmailTemplate> emailTemplateList = GetEmailTemplateList();
-
-                Session["emailTemplateList"] = JsonConvert.SerializeObject(emailTemplateList); 
-                
-                ddlTemplates.DataTextField = "name";
-                ddlTemplates.DataValueField = "id";
-                ddlTemplates.DataSource = emailTemplateList;
-                ddlTemplates.DataBind();
+                List<EmailTemplates> emailTemplateList = GetEmailTemplateList();
+                ListItem emailItem = new ListItem();
+                emailItem.Text = "Elija un Template";
+                emailItem.Value = "0";
+                ddlTemplates.Items.Add(emailItem);
+                foreach (EmailTemplates emailTemplates in emailTemplateList)
+                {
+                     emailItem = new ListItem();
+                    emailItem.Text = emailTemplates.Name;
+                    emailItem.Value = emailTemplates.Id.ToString();
+                    ddlTemplates.Items.Add(emailItem);
+                }
+                //ddlTemplates.DataTextField = "name";
+                //ddlTemplates.DataValueField = "id";
+                //ddlTemplates.DataSource = emailTemplateList;
+                //ddlTemplates.DataBind();
             }
 
 
@@ -43,15 +52,18 @@ namespace SGI.Operaciones.ViewLayer
 
         protected void btnGetTemplate_Click(object sender, EventArgs e)
         {
-            List<EmailTemplate> emailTemplateList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EmailTemplate>>(Session["emailTemplateList"].ToString());
+            if (ddlTemplates.SelectedValue == "0")
+                return;
+            List <EmailTemplates> emailTemplateList = GetEmailTemplateList();
 
-            EmailTemplate emailTemplate = (from u in emailTemplateList
-                          .Where(x => x.id == ddlTemplates.SelectedValue)
-                                           select u).FirstOrDefault();
+            int Id = int.Parse(ddlTemplates.SelectedValue);
+            EmailTemplates emailTemplate = (from u in emailTemplateList
+                          .Where(x => x.Id == Id)
+                                            select u).FirstOrDefault();
 
 
-            string template = emailTemplate.html;
-            hdEmailTemplateId.Value = emailTemplate.id;
+            string template = emailTemplate.Html;
+            hdEmailTemplateId.Value = emailTemplate.Id.ToString();
             ScriptManager sm = ScriptManager.GetCurrent(this);
 
             ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "GetTemplate", "GetTemplate('" + template + "');", true);
@@ -61,56 +73,63 @@ namespace SGI.Operaciones.ViewLayer
 
         protected void btnSaveTemplate_Click(object sender, EventArgs e)
         {
-
            
+            ScriptManager sm = ScriptManager.GetCurrent(this);
+            string cadena = "";
+            string script  = string.Format("alert('{0}');", cadena);
             string newTemplate = hdSaveTemplate.Value.Substring(0, hdSaveTemplate.Value.IndexOf("</div>") + 6);
 
-            List<EmailTemplate> emailTemplateList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EmailTemplate>>(Session["emailTemplateList"].ToString());
+            List<EmailTemplates> emailTemplateList = new List<EmailTemplates>();
+            EmailTemplates emailTemplate;
+            using (var db = new DGHP_Entities())
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        int Id = int.Parse(hdEmailTemplateId.Value);
+                        emailTemplate = (from r in db.EmailTemplates
+                                    .Where(x => x.Id == Id)
+                                         select r).FirstOrDefault();
+                        emailTemplate.Html = newTemplate;
 
-            EmailTemplate emailTemplate = (from u in emailTemplateList
-                             .Where(x => x.id == hdEmailTemplateId.Value)
-                                           select u).FirstOrDefault();
-            emailTemplate.html = newTemplate;
-            ddlTemplates.DataTextField = "name";
-            ddlTemplates.DataValueField = "id";
-            ddlTemplates.DataSource = emailTemplateList;
-            ddlTemplates.DataBind();
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                       
+                         cadena = "Error. No se pudo Modificar el Tamplate";
+                         script = string.Format("alert('{0}');", cadena);
+                        ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
 
-            Session["emailTemplateList"] = JsonConvert.SerializeObject(emailTemplateList);
+                    }
+                }
+            }
+            ddlTemplates.SelectedIndex = 0; 
+            cadena = "El Tamplate se Modifico Correctamente";
+            script = string.Format("alert('{0}');", cadena);
+            ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+           // Response.Redirect("~/Operaciones/ViewLayer/TemplateMailsEditor.aspx");
         }
+ 
 
-
-        protected List<EmailTemplate> GetEmailTemplateList()
+        protected List<EmailTemplates> GetEmailTemplateList()
         {
-            List<EmailTemplate> emailTemplateList = new List<EmailTemplate>();
-            EmailTemplate emailTemplate = new EmailTemplate();
-            emailTemplate.id = "0";
-            emailTemplate.name = "";
-            emailTemplate.html = "";
-            emailTemplateList.Add(emailTemplate);
+            List<EmailTemplates> emailTemplateList = new List<EmailTemplates>();
 
-            emailTemplate = new EmailTemplate();
-            emailTemplate.id = "1";
-            emailTemplate.name = "Nombre 1";
-            emailTemplate.html = "<div class=\"ql-editor\" contenteditable=\"true\" data-placeholder=\"Description\"><h1>Nombre 2</h1></div>";
-            emailTemplateList.Add(emailTemplate);
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplateList = (from r in db.EmailTemplates
+                                     select r).ToList();
 
-            emailTemplate = new EmailTemplate();
-            emailTemplate.id = "2";
-            emailTemplate.name = "Nombre 2";
-            emailTemplate.html = "<div class=\"ql-editor\" contenteditable=\"true\" data-placeholder=\"Description\"><h1>Nombre 2</h1></div>";
-            emailTemplateList.Add(emailTemplate);
+            }
 
             return emailTemplateList;
         }
     }
 
 
-    public class EmailTemplate
-    {
-        public string id { get; set; }
-        public string name { get; set; }
 
-        public string html { get; set; }
-    }
 }

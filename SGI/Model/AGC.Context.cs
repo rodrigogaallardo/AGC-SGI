@@ -366,7 +366,6 @@
         public DbSet<CPadron_RubrosCN> CPadron_RubrosCN { get; set; }
         public DbSet<Ubicaciones_CatalogoDistritos> Ubicaciones_CatalogoDistritos { get; set; }
         public DbSet<Ubicaciones_temp> Ubicaciones_temp { get; set; }
-        public DbSet<SGI_Rel_Usuarios_Perfiles> SGI_Rel_Usuarios_Perfiles { get; set; }
         public DbSet<Ubicaciones> Ubicaciones { get; set; }
         public DbSet<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
         public DbSet<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
@@ -380,6 +379,7 @@
         public DbSet<Calles_Eliminadas> Calles_Eliminadas { get; set; }
         public DbSet<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
         public DbSet<SGI_Tipos_Planos_Incendio> SGI_Tipos_Planos_Incendio { get; set; }
+        public DbSet<EmailTemplates> EmailTemplates { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
