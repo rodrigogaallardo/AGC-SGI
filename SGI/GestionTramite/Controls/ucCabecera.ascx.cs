@@ -62,7 +62,7 @@ namespace SGI.GestionTramite.Controls
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
             db.Database.CommandTimeout = 300;
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, url);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null,string.Empty,url);
 
 
 
