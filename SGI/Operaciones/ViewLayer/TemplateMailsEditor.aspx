@@ -5,7 +5,7 @@
     <script>
 
         function GetTemplate(template) {
-            //alert(document.getElementsByName('editor')[0].innerHTML);
+            alert(document.getElementsByName('editor')[0].innerHTML);
             document.getElementsByName('editor')[0].innerHTML = template;
         }
         function SaveTemplate() {

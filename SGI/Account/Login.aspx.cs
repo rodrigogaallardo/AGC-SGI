@@ -30,6 +30,13 @@ namespace SGI.Account
 
             #region ASOSA BORRAR
             string aaa = MailMessages.htmlMail_RectificacionBajaSolicitud();
+
+            Guid newGuid = Guid.Parse("50F3BB3A-8383-4377-9F4B-54579C8C1D07");
+            string aaa1 = MailMessages.MailWelcome(newGuid);
+            //string bbb2 = MailMessages.htmlMail_PagoPendiente(newGuid,1);
+            //string ccc3 = MailMessages.htmlMail_CorreccionSolicitud(newGuid, 1);
+
+
             #endregion
 
 

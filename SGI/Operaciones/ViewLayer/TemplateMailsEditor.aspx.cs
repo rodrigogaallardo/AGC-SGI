@@ -14,7 +14,6 @@ namespace SGI.Operaciones.ViewLayer
 {
     public partial class TestBorrar : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -26,41 +25,27 @@ namespace SGI.Operaciones.ViewLayer
                 ddlTemplates.Items.Add(emailItem);
                 foreach (EmailTemplates emailTemplates in emailTemplateList)
                 {
-                     emailItem = new ListItem();
+                    emailItem = new ListItem();
                     emailItem.Text = emailTemplates.Name;
                     emailItem.Value = emailTemplates.Id.ToString();
                     ddlTemplates.Items.Add(emailItem);
                 }
-                //ddlTemplates.DataTextField = "name";
-                //ddlTemplates.DataValueField = "id";
-                //ddlTemplates.DataSource = emailTemplateList;
-                //ddlTemplates.DataBind();
             }
-
-
-
         }
-
-
-
-
-
         protected void ddlTemplates_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         protected void btnGetTemplate_Click(object sender, EventArgs e)
         {
             if (ddlTemplates.SelectedValue == "0")
                 return;
-            List <EmailTemplates> emailTemplateList = GetEmailTemplateList();
+            List<EmailTemplates> emailTemplateList = GetEmailTemplateList();
 
             int Id = int.Parse(ddlTemplates.SelectedValue);
             EmailTemplates emailTemplate = (from u in emailTemplateList
                           .Where(x => x.Id == Id)
                                             select u).FirstOrDefault();
-
 
             string template = emailTemplate.Html;
             hdEmailTemplateId.Value = emailTemplate.Id.ToString();
@@ -70,13 +55,12 @@ namespace SGI.Operaciones.ViewLayer
 
             return;
         }
-
         protected void btnSaveTemplate_Click(object sender, EventArgs e)
         {
-           
+
             ScriptManager sm = ScriptManager.GetCurrent(this);
             string cadena = "";
-            string script  = string.Format("alert('{0}');", cadena);
+            string script = string.Format("alert('{0}');", cadena);
             string newTemplate = hdSaveTemplate.Value.Substring(0, hdSaveTemplate.Value.IndexOf("</div>") + 6);
 
             List<EmailTemplates> emailTemplateList = new List<EmailTemplates>();
@@ -99,22 +83,20 @@ namespace SGI.Operaciones.ViewLayer
                     catch (Exception ex)
                     {
                         dbContextTransaction.Rollback();
-                       
-                         cadena = "Error. No se pudo Modificar el Tamplate";
-                         script = string.Format("alert('{0}');", cadena);
+
+                        cadena = "Error. No se pudo Modificar el Tamplate";
+                        script = string.Format("alert('{0}');", cadena);
                         ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
 
                     }
                 }
             }
-            ddlTemplates.SelectedIndex = 0; 
+            ddlTemplates.SelectedIndex = 0;
             cadena = "El Tamplate se Modifico Correctamente";
             script = string.Format("alert('{0}');", cadena);
             ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
-           // Response.Redirect("~/Operaciones/ViewLayer/TemplateMailsEditor.aspx");
+            // Response.Redirect("~/Operaciones/ViewLayer/TemplateMailsEditor.aspx");
         }
- 
-
         protected List<EmailTemplates> GetEmailTemplateList()
         {
             List<EmailTemplates> emailTemplateList = new List<EmailTemplates>();
@@ -123,13 +105,8 @@ namespace SGI.Operaciones.ViewLayer
             {
                 emailTemplateList = (from r in db.EmailTemplates
                                      select r).ToList();
-
             }
-
             return emailTemplateList;
         }
     }
-
-
-
 }

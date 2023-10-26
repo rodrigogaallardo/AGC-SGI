@@ -10,144 +10,258 @@ using SGI.Model;
 using SGI.WebServices;
 using SGI.StaticClassNameSpace;
 using System.Collections.Generic;
+using System.Security.Policy;
+using System.Web.UI.WebControls;
+using System.Web;
 
 namespace SGI.Mailer
 {
-    public class MailMessages
+    public class MyResolveUrl : Control
     {
-        public static string MailWelcome(Guid userid)
+        private string _ImageUrl;
+        public string ImageUrl
         {
+            get
+            {
+                return _ImageUrl;
+            }
+            set
+            {
+                _ImageUrl = value;
+            }
+        }
+        protected override void Render(HtmlTextWriter output)
+        {
+            Image myImage = new Image();
+            // Resolve Url.
+            myImage.ImageUrl = ResolveUrl(this.ImageUrl);
+            myImage.RenderControl(output);
+        }
+    }
+    public   class MailMessages : Control
+    {
+       
+        public static  string MailWelcome(Guid userid)
+        {
+            Page page = new Page();
+            
+            string pass = Membership.GetUser(userid).GetPassword();
+            string url = "http://" + HttpContext.Current.Request.Url.Authority + page.ResolveUrl("~/Account/ActivateUser") + string.Format("?userid={0}", userid);
+            string urlweb = "http://" + HttpContext.Current.Request.Url.Authority;
 
-            MembershipUser user = Membership.GetUser(userid);
 
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcome.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            string LinkController = "http://" + HttpContext.Current.Request.Url.Authority;//localhost
+
+            string LinkAmbiente = HttpContext.Current.Request.ApplicationPath;// return /test /preprod
+            if (!LinkAmbiente.EndsWith("/"))
+                LinkAmbiente += "/";
 
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
-            WebResponse response = request.GetResponse();
+            url = IPtoDomain(url);
+            urlweb = IPtoDomain(urlweb);
 
-            Encoding enc = System.Text.Encoding.GetEncoding("iso-8859-1");
-            StreamReader reader = new StreamReader(response.GetResponseStream(), enc);
+            DGHP_Entities db = new DGHP_Entities();
+            var query = from x in db.aspnet_Membership
+                         join usu in db.aspnet_Users on x.UserId equals usu.UserId
+                         where x.UserId.Equals(userid)
+                         select new MailWelcome
+                         {
+                             Username = usu.UserName,
+                             Email = x.Email,
+                             Password = pass,
+                             Urlactivacion = url,
+                             Renglon1 = "Para poder utilizar dicha cuenta deberá activar el usuario presionando el botón 'Activar usuario'.",
+                             Renglon2 = "Si tiene algún inconveniente con la activación del usuario, copie la siguiente dirección en su navegador:",
+                             ApplicationName = usu.aspnet_Applications.Description,
+                             UrlPage = LinkController + LinkAmbiente,
+                             Nombre = (usu.SGI_Profiles.Apellido + ", " + usu.SGI_Profiles.Nombres) ?? "Usuario"
+                         };
 
-            string emailHtml = reader.ReadToEnd();
+            var obj = query.FirstOrDefault();
+            //MembershipUser user = Membership.GetUser(userid);
 
-            reader.Dispose();
-            response.Dispose();
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcome.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            return emailHtml;
+
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
+            //WebResponse response = request.GetResponse();
+
+            //Encoding enc = System.Text.Encoding.GetEncoding("iso-8859-1");
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), enc);
+
+            //string emailHtml = reader.ReadToEnd();
+
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db2 = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db2.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "MailWelcome".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            emailTemplate.Html = emailTemplate.Html.Replace("Item.Nombre", obj.Nombre);
+            emailTemplate.Html = emailTemplate.Html.Replace("Item.ApplicationName", obj.ApplicationName);
+            emailTemplate.Html = emailTemplate.Html.Replace("Item.UrlPage", obj.UrlPage);
+            emailTemplate.Html = emailTemplate.Html.Replace("Item.Username", obj.Username);
+            emailTemplate.Html = emailTemplate.Html.Replace("Item.Password", obj.Password);
+            return emailTemplate.Html;
 
         }
         public static string MailWelcomeIFCI(Guid userid)
         {
 
-            MembershipUser user = Membership.GetUser(userid);
+            //MembershipUser user = Membership.GetUser(userid);
 
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcomeIFCI.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcomeIFCI.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
+            //WebResponse response = request.GetResponse();
 
-            Encoding enc = System.Text.Encoding.GetEncoding("iso-8859-1");
-            StreamReader reader = new StreamReader(response.GetResponseStream(), enc);
+            //Encoding enc = System.Text.Encoding.GetEncoding("iso-8859-1");
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), enc);
 
-            string emailHtml = reader.ReadToEnd();
+            //string emailHtml = reader.ReadToEnd();
 
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //reader.Dispose();
+            //response.Dispose();
+            // return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "MailWelcomeIFCI".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
 
         }
         public static string MailWelcomeECA(Guid userid)
         {
 
-            MembershipUser user = Membership.GetUser(userid);
+            //MembershipUser user = Membership.GetUser(userid);
 
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcomeECA.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailWelcomeECA.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
+            //WebResponse response = request.GetResponse();
 
-            Encoding enc = System.Text.Encoding.GetEncoding("utf-8");
-            StreamReader reader = new StreamReader(response.GetResponseStream(), enc);
+            //Encoding enc = System.Text.Encoding.GetEncoding("utf-8");
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), enc);
 
-            string emailHtml = reader.ReadToEnd();
+            //string emailHtml = reader.ReadToEnd();
 
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "MailWelcomeECA".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
 
         }
         public static string htmlMail_RecuperoContraseña(Guid userid)
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailPassRecovery.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailPassRecovery.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}", surl, userid));
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_RecuperoContraseña".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMailCaratula(Guid userid, int id_solicitud)
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCaratula.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCaratula.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}&solicitudId={2}", surl, userid, id_solicitud));
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}&solicitudId={2}", surl, userid, id_solicitud));
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMailCaratula".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_PagoPendiente(Guid userid, int id_solicitud)
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailPagoPendiente.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailPagoPendiente.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}&id_solicitud={2}", surl, userid, id_solicitud));
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}&id_solicitud={2}", surl, userid, id_solicitud));
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_PagoPendiente".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_CorreccionSolicitud(Guid userid, int id_solicitud)
         {
-            Control ctl = new Control();
-            string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCorreccionSolicitud.aspx");
-            surl = BasePage.IPtoDomain(surl);
+            //Control ctl = new Control();
+            //string surl = "http://" + HttpContext.Current.Request.Url.Authority + ctl.ResolveUrl("~/Mailer/MailCorreccionSolicitud.aspx");
+            //surl = BasePage.IPtoDomain(surl);
 
-            WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}&id_solicitud={2}", surl, userid, id_solicitud));
-            WebResponse response = request.GetResponse();
+            //WebRequest request = WebRequest.Create(string.Format("{0}?userid={1}&id_solicitud={2}", surl, userid, id_solicitud));
+            //WebResponse response = request.GetResponse();
 
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
-            string emailHtml = reader.ReadToEnd();
-            reader.Dispose();
-            response.Dispose();
-
-            return emailHtml;
+            //StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("ISO-8859-1"));
+            //string emailHtml = reader.ReadToEnd();
+            //reader.Dispose();
+            //response.Dispose();
+            //return emailHtml;
+            EmailTemplates emailTemplate = new EmailTemplates();
+            using (var db = new DGHP_Entities())
+            {
+                emailTemplate = (from u in db.EmailTemplates
+                                    .Where(x => x.Name.ToLower() == "htmlMail_CorreccionSolicitud".ToLower())
+                                 select u).FirstOrDefault();
+            }
+            return emailTemplate.Html;
         }
         public static string htmlMail_ObservacionSolicitud()
         {
@@ -2929,6 +3043,19 @@ namespace SGI.Mailer
 
             if (queryTramite.FechaCierre_tramitetarea.HasValue)
                 throw new Exception("La tarea corrección solicitud ha sido finalizada. id_solicitud: " + idSolicitud + " - id_tramitetarea:  " + queryTramite.id_tramitetarea);
+        }
+
+
+        public static string IPtoDomain(string url)
+        {
+
+            string ret = url.Replace("10.20.72.31", "www.dghpsh.agcontrol.gob.ar");
+            ret = url.Replace("10.20.72.23", "www.dghpsh.agcontrol.gob.ar");
+            ret = url.Replace("azufral.agc", "www.dghpsh.agcontrol.gob.ar");
+
+            return ret;
+
+
         }
     }
 }
