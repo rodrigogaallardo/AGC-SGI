@@ -159,6 +159,9 @@ namespace SGI
                 busca = hdUltBtn.Value;
                 //busca = hdMyControl.Value;
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
                 switch (busca)
                 {
                     case "porTramite":
@@ -185,6 +188,7 @@ namespace SGI
                         ScriptManager.RegisterStartupScript(updPnlFiltroBuscar_tramite, updPnlFiltroBuscar_tramite.GetType(),
                             "inicializar_controles0", "inicializar_controles0();", true);
                         hdUltBtn.Value = "porTramite";
+                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now,null,string.Empty, url);
                         //hdMyControl.Value = "porTramite";
                         break;
                 }
