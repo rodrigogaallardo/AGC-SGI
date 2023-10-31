@@ -73,14 +73,16 @@ namespace SGI.GestionTramite.Controls
 
                 if (ultimaPresentacion != null)
                 {
-                    idEncomiendasPresentadas  = (from rel in db.Encomienda_SSIT_Solicitudes
-                                                 join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
-                                                 join hist in db.Encomienda_HistorialEstados on enc.id_encomienda equals hist.id_encomienda
-                                                 where rel.id_solicitud == solicitud.id_solicitud
-                                                   && (enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo || enc.id_estado == (int)Constants.Encomienda_Estados.Vencida)
+                    idEncomiendasPresentadas = (from rel in db.Encomienda_SSIT_Solicitudes
+                                                join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
+                                                join hist in db.Encomienda_HistorialEstados on enc.id_encomienda equals hist.id_encomienda
+                                                where rel.id_solicitud == solicitud.id_solicitud
+                                                    && (enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo || enc.id_estado == (int)Constants.Encomienda_Estados.Vencida)
                                                     && hist.fecha_modificacion <= ultimaPresentacion
-                                                 orderby enc.id_encomienda descending
-                                                 select enc.id_encomienda);
+                                                select enc.id_encomienda
+                                            )
+                                            .OrderByDescending(id => id);
+
                 }
 
                 using (var dbFiles = new AGC_FilesEntities())
@@ -92,27 +94,24 @@ namespace SGI.GestionTramite.Controls
                     string nom_caa = lstTipoTramiteCertificados.Where(y => y.TipoTramite == (int)Constants.TipoTramiteCertificados.CAA).Select(x => x.Descripcion).FirstOrDefault();
                     string nom_acta_notarial = lstTipoTramiteCertificados.Where(y => y.TipoTramite == (int)Constants.TipoTramiteCertificados.ActaNotarial).Select(x => x.Descripcion).FirstOrDefault();
 
-                    var q = (       //Encomienda_DocumentosAdjuntos
-                                    from encdoc in db.Encomienda_DocumentosAdjuntos
-                                    join prof in db.Profesional on encdoc.CreateUser equals prof.UserId into us
-                                    from prof in us.DefaultIfEmpty()
-                                    where idEncomiendasPresentadas.Contains(encdoc.id_encomienda)
-                                    select new itemDocumentov1
-                                    {
-                                        id_doc_adj = encdoc.id_docadjunto,
-                                        nombre = (encdoc.id_tdocreq != 0 ? encdoc.TiposDeDocumentosRequeridos.nombre_tdocreq : encdoc.TiposDeDocumentosSistema.nombre_tipodocsis) + "-" + encdoc.id_encomienda,
-                                        id_file = encdoc.id_file,
-                                        id_solicitud = encdoc.id_encomienda,
-                                        url = null,
-                                        Fecha = encdoc.CreateDate,
-                                        UserName = prof != null ? prof.Apellido + ", " + prof.Nombre : "",
-                                        id_tipodocsis = encdoc.id_tipodocsis,
-                                        origen = "Encomienda_DocumentosAdjuntos",
-                                        numero_Gedo = ""
-
-                                    }).Union(
-
-                                    //Acta notarial
+                    var q = (   from encdoc in db.Encomienda_DocumentosAdjuntos
+                                join prof in db.Profesional on encdoc.CreateUser equals prof.UserId into us
+                                from prof in us.DefaultIfEmpty()
+                                where idEncomiendasPresentadas.Contains(encdoc.id_encomienda)
+                                select new itemDocumentov1
+                                {
+                                    id_doc_adj = encdoc.id_docadjunto,
+                                    nombre = (encdoc.id_tdocreq != 0 ? encdoc.TiposDeDocumentosRequeridos.nombre_tdocreq : encdoc.TiposDeDocumentosSistema.nombre_tipodocsis) + "-" + encdoc.id_encomienda,
+                                    id_file = encdoc.id_file,
+                                    id_solicitud = encdoc.id_encomienda,
+                                    url = null,
+                                    Fecha = encdoc.CreateDate,
+                                    UserName = prof != null ? prof.Apellido + ", " + prof.Nombre : "",
+                                    id_tipodocsis = encdoc.id_tipodocsis,
+                                    origen = "Encomienda_DocumentosAdjuntos",
+                                    numero_Gedo = ""
+                                })
+                                .Union(
                                     from acta in db.wsEscribanos_ActaNotarial
                                     where idEncomiendasPresentadas.Contains(acta.id_encomienda) && !acta.anulada && acta.id_file != null
                                     select new itemDocumentov1
@@ -127,17 +126,16 @@ namespace SGI.GestionTramite.Controls
                                         id_tipodocsis = 0,
                                         origen = "wsEscribanos_ActaNotarial",
                                         numero_Gedo = ""
-                                    }).Union(
-
-                                    //SSIT_Documentos adjuntos
+                                    }
+                                )
+                                .Union(
                                     from doc in db.SSIT_DocumentosAdjuntos
                                     join user in db.Usuario on doc.CreateUser equals user.UserId into us
                                     from u in us.DefaultIfEmpty()
                                     join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
                                     from p in pr.DefaultIfEmpty()
                                     where doc.id_solicitud == solicitud.id_solicitud
-                                    // Se agregan los documentos que no son subudos por el usuaqio id_tdocreq = 0, ya que sino no ve la carátula y la disposición
-                                    && (doc.fechaPresentado.HasValue || (doc.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Sin_Especificar))
+                                        && (doc.fechaPresentado.HasValue || (doc.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Sin_Especificar))
                                     select new itemDocumentov1
                                     {
                                         id_doc_adj = doc.id_docadjunto,
@@ -151,10 +149,9 @@ namespace SGI.GestionTramite.Controls
                                         id_tipodocsis = doc.id_tipodocsis,
                                         origen = "SSIT_DocumentosAdjuntos",
                                         numero_Gedo = ""
-
-                                    }).Union(
-
-                                    //SGI_Tarea_Documentos_Adjuntos
+                                    }
+                                )
+                                .Union(
                                     from docadj in db.SGI_Tarea_Documentos_Adjuntos
                                     join tt_hab in db.SGI_Tramites_Tareas_HAB on docadj.id_tramitetarea equals tt_hab.id_tramitetarea
                                     join user in db.SGI_Profiles on docadj.CreateUser equals user.userid into us
@@ -172,13 +169,13 @@ namespace SGI.GestionTramite.Controls
                                         id_tipodocsis = 0,
                                         origen = "SGI_Tarea_Documentos_Adjuntos",
                                         numero_Gedo = ""
-                                    }).Union(
-                        
-                                    //Planos
+                                    }
+                                )
+                                .Union(
                                     from encdoc in db.Encomienda_Planos
                                     join prof in db.Profesional on encdoc.CreateUser equals prof.UserId.ToString() into us
                                     from prof in us.DefaultIfEmpty()
-                                    where idEncomiendasPresentadas.Contains(encdoc.id_encomienda) 
+                                    where idEncomiendasPresentadas.Contains(encdoc.id_encomienda)
                                     select new itemDocumentov1
                                     {
                                         id_doc_adj = encdoc.id_encomienda_plano,
@@ -191,50 +188,50 @@ namespace SGI.GestionTramite.Controls
                                         id_tipodocsis = 0,
                                         origen = "Encomienda_Planos",
                                         numero_Gedo = ""
-                                    }).Union(
-                        
-                                        //SGI_LIZA_Procesos
-                                        from p in db.SGI_LIZA_Procesos
-                                        join tt in db.SGI_Tramites_Tareas_HAB on p.id_tramitetarea equals tt.id_tramitetarea
-                                        join prof in db.Profesional on p.CreateUser equals prof.UserId
-                                        where tt.id_solicitud == solicitud.id_solicitud && p.realizado == true 
-                                        select new itemDocumentov1
-                                        {
-                                            id_doc_adj = p.id_liza_proceso,
-                                            nombre = p.descripcion,
-                                            id_file = p.id_file.Value,
-                                            id_solicitud = tt.id_solicitud,
-                                            url = null,
-                                            Fecha = p.CreateDate,
-                                            UserName = prof.Apellido + ", " + prof.Nombre,
-                                            id_tipodocsis = 0,
-                                            origen = "SGI_LIZA_Procesos",
-                                            numero_Gedo = ""
+                                    }
+                                )
+                                .Union(
+                                    from p in db.SGI_LIZA_Procesos
+                                    join tt in db.SGI_Tramites_Tareas_HAB on p.id_tramitetarea equals tt.id_tramitetarea
+                                    join prof in db.Profesional on p.CreateUser equals prof.UserId
+                                    where tt.id_solicitud == solicitud.id_solicitud && p.realizado == true
+                                    select new itemDocumentov1
+                                    {
+                                        id_doc_adj = p.id_liza_proceso,
+                                        nombre = p.descripcion,
+                                        id_file = p.id_file.Value,
+                                        id_solicitud = tt.id_solicitud,
+                                        url = null,
+                                        Fecha = p.CreateDate,
+                                        UserName = prof.Apellido + ", " + prof.Nombre,
+                                        id_tipodocsis = 0,
+                                        origen = "SGI_LIZA_Procesos",
+                                        numero_Gedo = ""
+                                    }
+                                )
+                                .Union(
+                                    from o in db.SGI_Tarea_Calificar_ObsDocs
+                                    join g in db.SGI_Tarea_Calificar_ObsGrupo on o.id_ObsGrupo equals g.id_ObsGrupo
+                                    join th in db.SGI_Tramites_Tareas_HAB on g.id_tramitetarea equals th.id_tramitetarea
+                                    join sol in db.SSIT_Solicitudes on th.id_solicitud equals sol.id_solicitud
+                                    join file in db.Files on o.id_file equals file.id_file
+                                    join user in db.Usuario on sol.CreateUser equals user.UserId
+                                    where th.id_solicitud == solicitud.id_solicitud && o.id_file != null && o.CreateDate <= ultimaPresentacion
+                                    select new itemDocumentov1
+                                    {
+                                        id_doc_adj = o.id_ObsDocs,
+                                        nombre = "Documento_Observacion" + (o.id_file != null ? o.id_file.ToString() : (o.id_certificado != 0 ? o.id_certificado.ToString() : "")) + ".pdf",
+                                        id_file = o.id_file.Value,
+                                        id_solicitud = th.id_solicitud,
+                                        url = null,
+                                        Fecha = file.CreateDate,
+                                        UserName = user.Apellido + ", " + user.Nombre,
+                                        id_tipodocsis = 0,
+                                        origen = "SGI_Tarea_Calificar_ObsDocs",
+                                        numero_Gedo = ""
+                                    }
+                                );
 
-                                        }).Union(
-                        
-                                        //SGI_Tarea_Calificar_ObsDocs
-                                        from o in db.SGI_Tarea_Calificar_ObsDocs
-                                        join g in db.SGI_Tarea_Calificar_ObsGrupo on o.id_ObsGrupo equals g.id_ObsGrupo
-                                        join th in db.SGI_Tramites_Tareas_HAB on g.id_tramitetarea equals th.id_tramitetarea
-                                        join sol in db.SSIT_Solicitudes on th.id_solicitud equals sol.id_solicitud
-                                        join file in db.Files on o.id_file equals file.id_file
-                                        join user in db.Usuario on sol.CreateUser equals user.UserId
-                                        where th.id_solicitud == solicitud.id_solicitud && o.id_file != null && o.CreateDate <= ultimaPresentacion
-                                        select new itemDocumentov1
-                                        {
-                                            id_doc_adj = o.id_ObsDocs,
-                                            nombre = "Documento_Observacion" + (o.id_file != null ? o.id_file.ToString() : (o.id_certificado != 0 ? o.id_certificado.ToString() : "")) + ".pdf",
-                                            id_file = o.id_file.Value,
-                                            id_solicitud = th.id_solicitud,
-                                            url = null,
-                                            Fecha = file.CreateDate,
-                                            UserName = user.Apellido + ", " + user.Nombre,
-                                            id_tipodocsis = 0,
-                                            origen = "SGI_Tarea_Calificar_ObsDocs",
-                                            numero_Gedo = ""
-
-                                        });
                     var archivos = q.ToList();
 
                     foreach (var arc in archivos)
@@ -299,14 +296,19 @@ namespace SGI.GestionTramite.Controls
                 using (var db = new DGHP_Entities())
                 {
                     db.Database.CommandTimeout = 300;
-                    var SgiSadeProceso = (from ssp in db.SGI_SADE_Procesos
-                               join tth in db.SGI_Tramites_Tareas_HAB on ssp.id_tramitetarea equals tth.id_tramitetarea
-                               where tth.id_solicitud == id_solicitud && ssp.id_file == id_file
-                               select ssp).Union(
-                               from ssp in db.SGI_SADE_Procesos
-                               join ttt in db.SGI_Tramites_Tareas_TRANSF on ssp.id_tramitetarea equals ttt.id_tramitetarea
-                               where ttt.id_solicitud == id_solicitud && ssp.id_file == id_file
-                               select ssp).FirstOrDefault();
+                    var SgiSadeProceso = (  from ssp in db.SGI_SADE_Procesos
+                                            join tth in db.SGI_Tramites_Tareas_HAB on ssp.id_tramitetarea equals tth.id_tramitetarea
+                                            where tth.id_solicitud == id_solicitud && ssp.id_file == id_file
+                                            select ssp
+                                        )
+                                        .Union(
+                                            from ssp in db.SGI_SADE_Procesos
+                                            join ttt in db.SGI_Tramites_Tareas_TRANSF on ssp.id_tramitetarea equals ttt.id_tramitetarea
+                                            where ttt.id_solicitud == id_solicitud && ssp.id_file == id_file
+                                            select ssp
+                                        )
+                                        .FirstOrDefault();
+
 
                     if (SgiSadeProceso != null)
                         numeroGedo = SgiSadeProceso.resultado_ee?.ToString();
@@ -334,10 +336,12 @@ namespace SGI.GestionTramite.Controls
                                                 join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
                                                 join hist in db.Encomienda_HistorialEstados on enc.id_encomienda equals hist.id_encomienda
                                                 where rel.id_solicitud == solicitud.id_solicitud
-                                                  && (enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo || enc.id_estado == (int)Constants.Encomienda_Estados.Vencida)
-                                                   && hist.fecha_modificacion <= ultimaPresentacion
+                                                    && (enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo || enc.id_estado == (int)Constants.Encomienda_Estados.Vencida)
+                                                    && hist.fecha_modificacion <= ultimaPresentacion
                                                 orderby enc.id_encomienda descending
-                                                select enc.id_encomienda);
+                                                select enc.id_encomienda
+                                            );
+
                 }
 
                 using (var dbFiles = new AGC_FilesEntities())
@@ -349,8 +353,7 @@ namespace SGI.GestionTramite.Controls
                     {
                         if (idEncomiendasPresentadas.Any())
                         {
-                            var archivos = (//Encomienda_DocumentosAdjuntos
-                                            from encdoc in db.Encomienda_DocumentosAdjuntos
+                            var archivos = (from encdoc in db.Encomienda_DocumentosAdjuntos
                                             join prof in db.Profesional on encdoc.CreateUser equals prof.UserId into us
                                             from u in us.DefaultIfEmpty()
                                             where idEncomiendasPresentadas.Contains(encdoc.id_encomienda)
@@ -364,23 +367,26 @@ namespace SGI.GestionTramite.Controls
                                                 Fecha = encdoc.CreateDate,
                                                 UserName = u != null ? u.Apellido + ", " + u.Nombre : "",
                                                 id_tipodocsis = encdoc.id_tipodocsis
-                                            }).Union(//SGI_Dcouemntos_adjuntos
-                                            from docadj in db.SGI_Tarea_Documentos_Adjuntos
-                                            join tt_hab in db.SGI_Tramites_Tareas_HAB on docadj.id_tramitetarea equals tt_hab.id_tramitetarea
-                                            join user in db.SGI_Profiles on docadj.CreateUser equals user.userid into us
-                                            from u in us.DefaultIfEmpty()
-                                            where tt_hab.id_solicitud == solicitud.id_solicitud && docadj.CreateDate <= ultimaPresentacion
-                                            select new itemDocumentov1
-                                            {
-                                                id_doc_adj = docadj.id_doc_adj,
-                                                nombre = docadj.TiposDeDocumentosRequeridos.nombre_tdocreq,
-                                                id_file = docadj.id_file,
-                                                id_solicitud = solicitud.id_solicitud,
-                                                url = null,
-                                                Fecha = docadj.CreateDate,
-                                                UserName = u != null ? u.Apellido + ", " + u.Nombres : "",
-                                                id_tipodocsis = 0
-                                            }).Union(//SGI_Tarea_Calificar_ObsDocs
+                                            })
+                                            .Union(
+                                                from docadj in db.SGI_Tarea_Documentos_Adjuntos
+                                                join tt_hab in db.SGI_Tramites_Tareas_HAB on docadj.id_tramitetarea equals tt_hab.id_tramitetarea
+                                                join user in db.SGI_Profiles on docadj.CreateUser equals user.userid into us
+                                                from u in us.DefaultIfEmpty()
+                                                where tt_hab.id_solicitud == solicitud.id_solicitud && docadj.CreateDate <= ultimaPresentacion
+                                                select new itemDocumentov1
+                                                {
+                                                    id_doc_adj = docadj.id_doc_adj,
+                                                    nombre = docadj.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                                                    id_file = docadj.id_file,
+                                                    id_solicitud = solicitud.id_solicitud,
+                                                    url = null,
+                                                    Fecha = docadj.CreateDate,
+                                                    UserName = u != null ? u.Apellido + ", " + u.Nombres : "",
+                                                    id_tipodocsis = 0
+                                                }
+                                            )
+                                            .Union(
                                                 from o in db.SGI_Tarea_Calificar_ObsDocs
                                                 join g in db.SGI_Tarea_Calificar_ObsGrupo on o.id_ObsGrupo equals g.id_ObsGrupo
                                                 join th in db.SGI_Tramites_Tareas_TRANSF on g.id_tramitetarea equals th.id_tramitetarea
@@ -398,7 +404,9 @@ namespace SGI.GestionTramite.Controls
                                                     Fecha = file.CreateDate,
                                                     UserName = user.Apellido + ", " + user.Nombre,
                                                     id_tipodocsis = 0
-                                                }).Union(//Encomienda_DocumentosAdjuntos
+                                                }
+                                            )
+                                            .Union(
                                                 from doc in db.Transf_DocumentosAdjuntos
                                                 join user in db.Usuario on doc.CreateUser equals user.UserId into us
                                                 from u in us.DefaultIfEmpty()
@@ -416,7 +424,10 @@ namespace SGI.GestionTramite.Controls
                                                     Fecha = doc.CreateDate,
                                                     UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : "")),
                                                     id_tipodocsis = 0
-                                                }).ToList();
+                                                }
+                                            )
+                                            .ToList();
+
 
                             foreach (var arc in archivos)
                             {
@@ -465,40 +476,44 @@ namespace SGI.GestionTramite.Controls
                     }
                     else
                     {
-                        var archivos = (//Encomienda_DocumentosAdjuntos
-                                    from doc in db.Transf_DocumentosAdjuntos
-                                    join user in db.Usuario on doc.CreateUser equals user.UserId into us
-                                    from u in us.DefaultIfEmpty()
-                                    join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
-                                    from p in pr.DefaultIfEmpty()
-                                    where doc.id_solicitud == solicitud.id_solicitud //&& doc.CreateDate <= ultimaPresentacion
-                                    select new itemDocumentov1
-                                    {
-                                        nombre = doc.tdocreq_detalle != null && doc.tdocreq_detalle != "" ?
+                        var archivos = (from doc in db.Transf_DocumentosAdjuntos
+                                        join user in db.Usuario on doc.CreateUser equals user.UserId into us
+                                        from u in us.DefaultIfEmpty()
+                                        join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
+                                        from p in pr.DefaultIfEmpty()
+                                        where doc.id_solicitud == solicitud.id_solicitud //&& doc.CreateDate <= ultimaPresentacion
+                                        select new itemDocumentov1
+                                        {
+                                            nombre = doc.tdocreq_detalle != null && doc.tdocreq_detalle != "" ?
                                                 doc.tdocreq_detalle : (doc.id_tdocreq != 0 ? doc.TiposDeDocumentosRequeridos.nombre_tdocreq : doc.TiposDeDocumentosSistema.nombre_tipodocsis),
-                                        id_file = doc.id_file,
-                                        id_solicitud = doc.id_solicitud,
-                                        url = null,
-                                        Fecha = doc.CreateDate,
-                                        UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : ""))
-                                    }).Union(
-                                    from doc in db.CPadron_DocumentosAdjuntos
-                                    join sol in db.Transf_Solicitudes on doc.id_cpadron equals sol.id_cpadron
-                                    join user in db.Usuario on doc.CreateUser equals user.UserId into us
-                                    from u in us.DefaultIfEmpty()
-                                    join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
-                                    from p in pr.DefaultIfEmpty()
-                                    where sol.id_solicitud == solicitud.id_solicitud //&& doc.id_tipodocsis == (int)Constants.TiposDeDocumentosSistema.INFORMES_CPADRON
-                                         //&& doc.CreateDate <= ultimaPresentacion
-                                    select new itemDocumentov1
-                                    {
-                                        nombre = doc.id_tdocreq != 0 ? doc.TiposDeDocumentosRequeridos.nombre_tdocreq : doc.TiposDeDocumentosSistema.nombre_tipodocsis,
-                                        id_file = doc.id_file,
-                                        id_solicitud = doc.id_cpadron,
-                                        url = null,
-                                        Fecha = doc.CreateDate,
-                                        UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : ""))
-                                    }).ToList();
+                                            id_file = doc.id_file,
+                                            id_solicitud = doc.id_solicitud,
+                                            url = null,
+                                            Fecha = doc.CreateDate,
+                                            UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : ""))
+                                        })
+                                        .Concat(
+                                            from doc in db.CPadron_DocumentosAdjuntos
+                                            join sol in db.Transf_Solicitudes on doc.id_cpadron equals sol.id_cpadron
+                                            join user in db.Usuario on doc.CreateUser equals user.UserId into us
+                                            from u in us.DefaultIfEmpty()
+                                            join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
+                                            from p in pr.DefaultIfEmpty()
+                                            where sol.id_solicitud == solicitud.id_solicitud //&& doc.id_tipodocsis == (int)Constants.TiposDeDocumentosSistema.INFORMES_CPADRON
+                                                                                             //&& doc.CreateDate <= ultimaPresentacion
+                                            select new itemDocumentov1
+                                            {
+                                                nombre = doc.id_tdocreq != 0 ? doc.TiposDeDocumentosRequeridos.nombre_tdocreq : doc.TiposDeDocumentosSistema.nombre_tipodocsis,
+                                                id_file = doc.id_file,
+                                                id_solicitud = doc.id_cpadron,
+                                                url = null,
+                                                Fecha = doc.CreateDate,
+                                                UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : ""))
+                                            }
+                                        )
+                                        .ToList();
+
+
                         foreach (var arc in archivos)
                         {
                             if (arc.url == null)
@@ -568,6 +583,7 @@ namespace SGI.GestionTramite.Controls
                                         UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : "")),
                                         numero_Gedo = ""
                                     }).ToList();
+
                         foreach (var arc in archivos)
                         {
                             if (arc.url == null)

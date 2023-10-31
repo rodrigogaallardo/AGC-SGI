@@ -57,12 +57,13 @@ namespace SGI.GestionTramite.Controls
                 if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
                 {
                     var sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
-                    var enc = (from enco in db.Encomienda
-                               join rel in db.Encomienda_SSIT_Solicitudes on enco.id_encomienda equals rel.id_encomienda
-                               where enco.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                               orderby enco.id_encomienda descending
-                               select enco
-                               ).FirstOrDefault();
+                    var enc = ( from enco in db.Encomienda
+                                join rel in db.Encomienda_SSIT_Solicitudes on enco.id_encomienda equals rel.id_encomienda
+                                where enco.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                orderby enco.id_encomienda descending
+                                select enco
+                            ).FirstOrDefault();
+
 
                     this.id_encomienda = enc.id_encomienda;
                     this.id_tipotramite = sol.id_tipotramite;
@@ -108,13 +109,13 @@ namespace SGI.GestionTramite.Controls
 
         private void Cargar_tipo_documentos_adjuntos(int id_tipotramite)
         {
-            var q = (
-                    from tdoc in db.TiposDeDocumentosRequeridos
-                    join rel in db.Rel_TipoTramite_TiposDeDocumentosRequeridos on tdoc.id_tdocreq equals rel.id_tdocreq
-                    where tdoc.visible_en_SGI == true && rel.id_tipotramite == id_tipotramite
-                    orderby tdoc.RequiereDetalle, tdoc.nombre_tdocreq
-                    select tdoc
-                );
+            var q = (   from tdoc in db.TiposDeDocumentosRequeridos
+                        join rel in db.Rel_TipoTramite_TiposDeDocumentosRequeridos on tdoc.id_tdocreq equals rel.id_tdocreq
+                        where tdoc.visible_en_SGI == true && rel.id_tipotramite == id_tipotramite
+                        orderby tdoc.RequiereDetalle, tdoc.nombre_tdocreq
+                        select tdoc
+                    );
+
             List<TiposDeDocumentosRequeridos> list_doc_adj = q.ToList();
 
             if (list_doc_adj.Count > 1)
@@ -156,11 +157,11 @@ namespace SGI.GestionTramite.Controls
                                 {
                                     id_file = docadj.id_file,
                                     id_docadjunto = docadj.id_docadjunto,
-                                    nombre_tdocreq =  tdocreq.nombre_tdocreq + (tdocreq.RequiereDetalle ?  " (" + docadj.tdocreq_detalle + ")" : ""),
+                                    nombre_tdocreq = tdocreq.nombre_tdocreq + (tdocreq.RequiereDetalle ? " (" + docadj.tdocreq_detalle + ")" : ""),
                                     CreateDate = docadj.CreateDate,
                                     url = ""
-                                }).ToList();
-
+                                }
+                            ).ToList();
 
                 foreach (var item in lstFiles)
                 {
@@ -185,8 +186,8 @@ namespace SGI.GestionTramite.Controls
                                     nombre_tdocreq = tdocreq.nombre_tdocreq + (tdocreq.RequiereDetalle ? " (" + docadj.tdocreq_detalle + ")" : ""),
                                     CreateDate = docadj.CreateDate,
                                     url = ""
-                                }).ToList();
-
+                                }
+                            ).ToList();
 
                 foreach (var item in lstFiles)
                 {

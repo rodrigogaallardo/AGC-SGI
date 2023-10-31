@@ -36,12 +36,20 @@ namespace SGI.GestionTramite.Controls
             using (var db = new DGHP_Entities())
             {
                 db.Database.CommandTimeout = 300;
-                var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
-                          && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).Union(
-                          db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
-                          && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
-
-                if (enc != null)
+                var encomiendaSSIT = db.Encomienda
+                                    .Where(x => x.Encomienda_SSIT_Solicitudes.Any(y => y.id_solicitud == id_solicitud) &&
+                                    x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)
+                                    .OrderByDescending(x => x.id_encomienda)
+                                    .FirstOrDefault();
+                if (encomiendaSSIT == null)
+                {
+                    var encomiendaTransf = db.Encomienda
+                        .Where(x => x.Encomienda_Transf_Solicitudes.Any(y => y.id_solicitud == id_solicitud) &&
+                                    x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)
+                        .OrderByDescending(x => x.id_encomienda)
+                        .FirstOrDefault();
+                }
+                else
                 {
                     string objResult = db.SGI_GetDireccionEncomienda(enc.id_encomienda).FirstOrDefault();
                     direccion = objResult + ". - Plantas a Habilitar: " + CargarPlantasHabilitar(enc.id_encomienda);
@@ -66,34 +74,41 @@ namespace SGI.GestionTramite.Controls
                 pnlCPadron.Visible = false;
                 pnlPresentacionAgreagr.Visible = false;
                 pnlTransmision.Visible = false;
-                var objsol = (from sol in db.SSIT_Solicitudes
-                              where sol.id_solicitud == id_solicitud
-                              select new
-                              {
-                                  sol.id_solicitud,
-                                  DescripcionEstadoSolicitud = sol.TipoEstadoSolicitud.Descripcion,
-                                  sol.id_tipotramite,
-                                  sol.id_tipoexpediente,
-                                  sol.id_subtipoexpediente,
-                                  sol.NroExpediente,
-                                  sol.NroExpedienteSade,
-                                  sol.telefono,
-                                  sol.CodArea,
-                                  sol.Prefijo,
-                                  sol.Sufijo,
-                                  sol.documentacionPA,
-                                  sol.TipoTramite.descripcion_tipotramite,
-                                  sol.TipoExpediente.descripcion_tipoexpediente,
-                                  sol.NroExpedienteSadeRelacionado,
-                                  sol.FechaLibrado
-                              }).FirstOrDefault();
+                var objsol = db.SSIT_Solicitudes
+                   .Where(sol => sol.id_solicitud == id_solicitud)
+                   .Select(sol => new
+                   {
+                       sol.id_solicitud,
+                       DescripcionEstadoSolicitud = sol.TipoEstadoSolicitud.Descripcion,
+                       sol.id_tipotramite,
+                       sol.id_tipoexpediente,
+                       sol.id_subtipoexpediente,
+                       sol.NroExpediente,
+                       sol.NroExpedienteSade,
+                       sol.telefono,
+                       sol.CodArea,
+                       sol.Prefijo,
+                       sol.Sufijo,
+                       sol.documentacionPA,
+                       sol.TipoTramite.descripcion_tipotramite,
+                       sol.TipoExpediente.descripcion_tipoexpediente,
+                       sol.NroExpedienteSadeRelacionado,
+                       sol.FechaLibrado
+                   })
+                   .FirstOrDefault();
 
-                var enc = (from rel in db.Encomienda_SSIT_Solicitudes
-                           join enco in db.Encomienda on rel.id_encomienda equals enco.id_encomienda
-                           where rel.id_solicitud == id_solicitud
-                                && enco.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                           orderby enco.id_encomienda descending
-                           select enco).FirstOrDefault();
+                var enc = db.Encomienda_SSIT_Solicitudes
+                         .Where(rel => rel.id_solicitud == id_solicitud)
+                         .Join(
+                             db.Encomienda,
+                             rel => rel.id_encomienda,
+                             enco => enco.id_encomienda,
+                             (rel, enco) => new { rel, enco }
+                         )
+                         .Where(joinResult => joinResult.enco.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)
+                         .OrderByDescending(joinResult => joinResult.enco.id_encomienda)
+                         .Select(joinResult => joinResult.enco)
+                         .FirstOrDefault();
 
 
                 if (enc != null)
@@ -210,18 +225,21 @@ namespace SGI.GestionTramite.Controls
                 }
 
                 pnlTitulares.Visible = true;
-                var titulares = (from pf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
-                                 where pf.id_solicitud == id_solicitud
-                                 select new
-                                 {
-                                     label = pf.Apellido + ", " + pf.Nombres
-                                 }).Union(
-                                 from pj in db.SSIT_Solicitudes_Titulares_PersonasJuridicas
-                                 where pj.id_solicitud == id_solicitud
-                                 select new
-                                 {
-                                     label = pj.Razon_Social
-                                 }).ToList();
+                var titulares = (  from pf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
+                                   where pf.id_solicitud == id_solicitud
+                                   select new
+                                   {
+                                       label = pf.Apellido + ", " + pf.Nombres
+                                   }
+                               ).Concat(
+                                   from pj in db.SSIT_Solicitudes_Titulares_PersonasJuridicas
+                                   where pj.id_solicitud == id_solicitud
+                                   select new
+                                   {
+                                       label = pj.Razon_Social
+                                   }
+                               ).ToList();
+
                 lblTitulares.Text = "";
                 foreach (var tit in titulares)
                     lblTitulares.Text = lblTitulares.Text + tit.label + "; ";
@@ -236,17 +254,22 @@ namespace SGI.GestionTramite.Controls
                 pnlUbicaciones.Visible = false;
                 pnlCPadron.Visible = true;
                 pnlTransmision.Visible = false;
-                var objsol = (from sol in db.CPadron_Solicitudes
-                              join estado in db.CPadron_Estados on sol.id_estado equals estado.id_estado
-                              where sol.id_cpadron.Equals(id_solicitud)
-                              select new
+                var objsol = db.Transf_Solicitudes
+                              .Where(sol => sol.id_solicitud == id_solicitud)
+                              .Select(sol => new
                               {
+                                  sol.id_solicitud,
+                                  sol.id_tipotramite,
+                                  sol.id_tipoexpediente,
+                                  sol.id_subtipoexpediente,
                                   sol.id_cpadron,
-                                  DescripcionEstadoSolicitud = estado.nom_estado_interno,
-                                  sol.nro_expediente_anterior,
-                                  sol.observaciones,
-                                  sol.CreateDate
-                              }).FirstOrDefault();
+                                  DescripcionEstadoSolicitud = sol.TipoEstadoSolicitud.Descripcion,
+                                  sol.CPadron_Solicitudes.nro_expediente_anterior,
+                                  sol.NroExpedienteSade,
+                                  sol.CreateDate,
+                                  sol.TiposdeTransmision.nom_tipotransmision
+                              })
+                              .FirstOrDefault();
 
                 lblSolicitud.Text = objsol.id_cpadron.ToString();
                 lblEstado.Text = objsol.DescripcionEstadoSolicitud;
@@ -359,18 +382,19 @@ namespace SGI.GestionTramite.Controls
                     pnlExpediente.Visible = true;
                     pnlUbicaciones.Visible = false;
                     pnlCPadron.Visible = true;
-                    var objsol = (from sol in db.Transf_Solicitudes
-                                  where sol.id_solicitud.Equals(id_solicitud)
-                                  select new
+                    var objsol = db.Transf_Solicitudes
+                                  .Where(sol => sol.id_solicitud == id_solicitud)
+                                  .Select(sol => new
                                   {
                                       sol.id_solicitud,
                                       sol.id_cpadron,
                                       DescripcionEstadoSolicitud = sol.TipoEstadoSolicitud.Descripcion,
-                                      sol.CPadron_Solicitudes.nro_expediente_anterior,
+                                      nro_expediente_anterior = sol.CPadron_Solicitudes.nro_expediente_anterior,
                                       sol.NroExpedienteSade,
                                       sol.CreateDate
+                                  })
+                                  .FirstOrDefault();
 
-                                  }).FirstOrDefault();
                     lblSolicitud.Text = objsol.id_solicitud.ToString();
                     lblEstado.Text = objsol.DescripcionEstadoSolicitud;
                     lblTextEncomienda.Text = "Nro. Consulta al Padrón";
@@ -433,7 +457,9 @@ namespace SGI.GestionTramite.Controls
                     try
                     {
 
-                        CPadron_Solicitudes original = db.CPadron_Solicitudes.Where(x => x.id_cpadron == id_cpadron).FirstOrDefault();
+                        CPadron_Solicitudes original = db.CPadron_Solicitudes
+                            .AsNoTracking()
+                            .SingleOrDefault(x => x.id_cpadron == id_cpadron);
 
                         if (original != null)
                         {
@@ -473,10 +499,14 @@ namespace SGI.GestionTramite.Controls
                 lsta = (from encZona in db.Encomienda_Ubicaciones_Mixturas
                         join zona in db.Ubicaciones_ZonasMixtura on encZona.IdZonaMixtura equals zona.IdZonaMixtura
                         where encZona.id_encomiendaubicacion == id_encomiendaUbic
-                        select zona.Codigo).Union(from encDis in db.Encomienda_Ubicaciones_Distritos
-                                                  join distri in db.Ubicaciones_CatalogoDistritos on encDis.IdDistrito equals distri.IdDistrito
-                                                  where encDis.id_encomiendaubicacion == id_encomiendaUbic
-                                                  select distri.Codigo).ToList();
+                        select zona.Codigo
+                    )
+                    .Concat(
+                        from encDis in db.Encomienda_Ubicaciones_Distritos
+                        join distri in db.Ubicaciones_CatalogoDistritos on encDis.IdDistrito equals distri.IdDistrito
+                        where encDis.id_encomiendaubicacion == id_encomiendaUbic
+                        select distri.Codigo
+                    ).ToList();
 
             }
             catch (Exception ex)
@@ -498,12 +528,21 @@ namespace SGI.GestionTramite.Controls
             db.Database.CommandTimeout = 300;
             try
             {
-                lsta = (from encDis in db.Encomienda_Ubicaciones_Distritos
-                        join distri in db.Ubicaciones_CatalogoDistritos on encDis.IdDistrito equals distri.IdDistrito
-                        join zona in db.Ubicaciones_CatalogoDistritos_Zonas on distri.IdDistrito equals zona.IdDistrito
-                        join subzona in db.Ubicaciones_CatalogoDistritos_Subzonas on zona.IdZona equals subzona.IdZona
-                        where encDis.id_encomiendaubicacion == id_encomiendaUbic
-                        select subzona.CodigoSubZona).ToList();
+                lsta = db.Encomienda_Ubicaciones_Distritos
+                        .Where(encDis => encDis.id_encomiendaubicacion == id_encomiendaUbic)
+                        .Join(db.Ubicaciones_CatalogoDistritos,
+                              encDis => encDis.IdDistrito,
+                              distri => distri.IdDistrito,
+                              (encDis, distri) => distri)
+                        .Join(db.Ubicaciones_CatalogoDistritos_Zonas,
+                              distri => distri.IdDistrito,
+                              zona => zona.IdDistrito,
+                              (distri, zona) => zona)
+                        .Join(db.Ubicaciones_CatalogoDistritos_Subzonas,
+                              zona => zona.IdZona,
+                              subzona => subzona.IdZona,
+                              (zona, subzona) => subzona.CodigoSubZona)
+                        .ToList();
 
             }
             catch (Exception ex)
@@ -525,9 +564,17 @@ namespace SGI.GestionTramite.Controls
             string plantasHab = "";
             try
             {
-                var lstaPlantas = (from encPlan in db.Encomienda_Plantas
+                var plantasFiltradas = db.Encomienda_Plantas
+                                      .Where(encPlan => encPlan.id_encomienda == id_encomienda)
+                                      .Select(encPlan => new
+                                      {
+                                          encPlan.id_tiposector,
+                                          encPlan.TipoSector,
+                                          encPlan.detalle_encomiendatiposector
+                                      }).ToList();
+
+                var lstaPlantas = (from encPlan in plantasFiltradas
                                    join tipo in db.TipoSector on encPlan.id_tiposector equals tipo.Id
-                                   where encPlan.id_encomienda == id_encomienda
                                    select new
                                    {
                                        tipo.TamanoCampoAdicional,
@@ -536,6 +583,7 @@ namespace SGI.GestionTramite.Controls
                                        encPlan.detalle_encomiendatiposector,
                                        tipo.Descripcion
                                    }).ToList();
+
 
                 foreach (var item in lstaPlantas)
                 {

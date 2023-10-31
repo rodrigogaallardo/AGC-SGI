@@ -41,14 +41,12 @@ namespace SGI.GestionTramite.Controls
 
             if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
             {
-                var q = (
-                            from mail in db.Emails
+                var q = (   from mail in db.Emails
                             join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
                             join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
                             join ac in db.SSIT_Solicitudes_Notificaciones on mail.id_email equals ac.id_email into pleft_ac
                             from ac in pleft_ac // .DefaultIfEmpty()
                             where ac.id_solicitud == id_solicitud
-
                             orderby mail.id_email ascending
                             select new clsItemGrillaBuscarMails()
                             {
@@ -62,14 +60,13 @@ namespace SGI.GestionTramite.Controls
                             }
                         ).ToList();
 
-                var qa = (
-                            from mail in db.Emails
+                var qa = (  from mail in db.Emails
                             join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
                             join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
                             join ac in db.SSIT_Solicitudes_AvisoCaducidad on mail.id_email equals ac.id_email into pleft_ac
                             from ac in pleft_ac.DefaultIfEmpty()
                             where mail.asunto.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud ||
-                                mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
+                                  mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
 
                             orderby mail.id_email ascending
                             select new clsItemGrillaBuscarMails()
@@ -84,27 +81,28 @@ namespace SGI.GestionTramite.Controls
                             }
                         ).ToList();
 
-                var qr = (
-                            from mail in db.Emails
-                            join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
-                            join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
-                            join ac in db.SSIT_Solicitudes_AvisoRechazo on mail.id_email equals ac.id_email into pleft_ac
-                            from ac in pleft_ac.DefaultIfEmpty()
-                            where mail.asunto.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud ||
-                                mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
 
-                            orderby mail.id_email ascending
-                            select new clsItemGrillaBuscarMails()
-                            {
-                                Mail_ID = mail.id_email.ToString(),
-                                Mail_Estado = edo.descripcion,
-                                Mail_Proceso = tipo.descripcion,
-                                Mail_Asunto = mail.asunto,
-                                Mail_Email = mail.email,
-                                Mail_Fecha = (mail.fecha_envio == null) ? mail.fecha_alta : mail.fecha_envio,
-                                MailFechaNot_FechaSSIT = ac.fechaNotificacionSSIT
-                            }
-                        ).ToList();
+                var qr = ( from mail in db.Emails
+                           join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
+                           join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
+                           join ac in db.SSIT_Solicitudes_AvisoRechazo on mail.id_email equals ac.id_email into pleft_ac
+                           from ac in pleft_ac.DefaultIfEmpty()
+                           where mail.asunto.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud ||
+                                 mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
+
+                           orderby mail.id_email ascending
+                           select new clsItemGrillaBuscarMails()
+                           {
+                               Mail_ID = mail.id_email.ToString(),
+                               Mail_Estado = edo.descripcion,
+                               Mail_Proceso = tipo.descripcion,
+                               Mail_Asunto = mail.asunto,
+                               Mail_Email = mail.email,
+                               Mail_Fecha = (mail.fecha_envio == null) ? mail.fecha_alta : mail.fecha_envio,
+                               MailFechaNot_FechaSSIT = ac.fechaNotificacionSSIT
+                           }
+                       ).ToList();
+
 
                 var all = q.Union(qa).Union(qr);
                 if (all != null)
@@ -114,14 +112,12 @@ namespace SGI.GestionTramite.Controls
             }
             else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
             {
-                var q = (
-                            from mail in db.Emails
+                var q = (   from mail in db.Emails
                             join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
                             join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
                             join ac in db.Transf_Solicitudes_Notificaciones on mail.id_email equals ac.id_email into pleft_ac
                             from ac in pleft_ac.DefaultIfEmpty()
                             where ac.id_solicitud == id_solicitud
-
                             orderby mail.id_email ascending
                             select new clsItemGrillaBuscarMails()
                             {
@@ -135,14 +131,15 @@ namespace SGI.GestionTramite.Controls
                             }
                         ).ToList();
 
-                var qa = (
-                            from mail in db.Emails
+
+
+                var qa = (  from mail in db.Emails
                             join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
                             join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
                             join ac in db.Transf_Solicitudes_AvisoCaducidad on mail.id_email equals ac.id_email into pleft_ac
                             from ac in pleft_ac.DefaultIfEmpty()
                             where mail.asunto.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud ||
-                                mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
+                                  mail.html.Contains(id_solicitud.ToString()) && ac.id_solicitud == id_solicitud
 
                             orderby mail.id_email ascending
                             select new clsItemGrillaBuscarMails()
@@ -156,6 +153,7 @@ namespace SGI.GestionTramite.Controls
                                 //MailFechaNot_FechaSSIT = ac.fechaNotificacionSSIT
                             }
                         ).ToList();
+
                 var all = q.Union(qa);
                 if (all != null)
                     all = all.OrderBy(x => x.Mail_Fecha);
@@ -194,15 +192,12 @@ namespace SGI.GestionTramite.Controls
                     IniciarEntity();
                     /*Query LinQ*/
                     db = new DGHP_Entities();
-                    var q = (
-                                from mail in db.Emails
+                    var q = (   from mail in db.Emails
                                 join tipo in db.Emails_Tipos on mail.id_tipo_email equals tipo.id_tipo_email
                                 join edo in db.Email_Estados on mail.id_estado equals edo.id_estado
                                 join ac in db.SSIT_Solicitudes_AvisoCaducidad on mail.id_email equals ac.id_email into pleft_ac
                                 from ac in pleft_ac.DefaultIfEmpty()
-                                where
-                                    mail.id_email == idMail
-
+                                where mail.id_email == idMail
                                 orderby mail.id_email ascending
                                 select new clsItemGrillaBuscarMails()
                                 {
@@ -217,7 +212,9 @@ namespace SGI.GestionTramite.Controls
                                     Mail_FechaEnvio = mail.fecha_envio,
                                     Mail_Intentos = mail.cant_intentos,
                                     Mail_Prioridad = mail.prioridad,
-                                }).ToList();
+                                }
+                            ).ToList();
+
                     /*Para asignar valor a los campos de la tabla voy iterando por cada registro*/
 
                     foreach (var fila in q)

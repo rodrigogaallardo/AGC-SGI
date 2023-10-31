@@ -48,15 +48,17 @@ namespace SGI.GestionTramite.Controls
                 if (ultimaPresentacion != null)
                 {
 
-                    encomienda = (from rel in db.Encomienda_SSIT_Solicitudes
-                                  join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
-                                  join hist in db.Encomienda_HistorialEstados on enc.id_encomienda equals hist.id_encomienda
-                                  where rel.id_solicitud == solicitud.id_solicitud
-                                    && enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                     && hist.fecha_modificacion <= ultimaPresentacion
-                                  orderby enc.id_encomienda descending
-                                  select enc).FirstOrDefault();
-                             
+                    encomienda = (  from rel in db.Encomienda_SSIT_Solicitudes
+                                    join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
+                                    join hist in db.Encomienda_HistorialEstados on enc.id_encomienda equals hist.id_encomienda
+                                    where rel.id_solicitud == solicitud.id_solicitud
+                                        && enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                        && hist.fecha_modificacion <= ultimaPresentacion
+                                    orderby enc.id_encomienda descending
+                                    select enc
+                                ).FirstOrDefault();
+
+
                 }
             }
 
@@ -85,12 +87,13 @@ namespace SGI.GestionTramite.Controls
                     IQueryable<int> idEncsApro = null;
                     //idEncsApro = db.Encomienda.Where(x => x.Encomienda_Transf_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == solicitud.id_solicitud
                     //                            && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).Select(x => x.id_encomienda).OrderByDescending(x => x);
-                    idEncsApro = from enc in db.Encomienda
-                                 join et in db.Encomienda_Transf_Solicitudes on enc.id_encomienda equals et.id_encomienda
-                                 where et.id_solicitud == solicitud.id_solicitud
-                                 && enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
-                                 orderby enc.id_encomienda descending
-                                 select enc.id_encomienda;
+                     idEncsApro = db.Encomienda
+                                    .Where(enc => enc.Encomienda_Transf_Solicitudes
+                                        .Any(et => et.id_solicitud == solicitud.id_solicitud)
+                                        && enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo)
+                                    .OrderByDescending(enc => enc.id_encomienda)
+                                    .Select(enc => enc.id_encomienda);
+
 
                     if (idEncsApro != null)
                     {

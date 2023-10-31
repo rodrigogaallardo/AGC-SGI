@@ -117,67 +117,63 @@ namespace SGI.GestionTramite.Controls
                 }
                 else if (this.id_grupotramite == (int)Constants.GruposDeTramite.CP)
                 {
-                    lstTareas = (from tt in db.SGI_Tramites_Tareas
-                                 join tt_cp in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals tt_cp.id_tramitetarea
-                                 join uC in db.Usuario on tt_cp.CPadron_Solicitudes.CreateUser equals uC.UserId
-                                 into uCleftjoin
-                                 from userC in uCleftjoin.DefaultIfEmpty()
-                                 join aspu in db.aspnet_Users on userC.UserId equals aspu.UserId
-                                 into aspuleftoin
-                                 from asU in aspuleftoin.DefaultIfEmpty()
-                                 join p in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals p.userid
-                                 into pleftjoin
-                                 from prof in pleftjoin.DefaultIfEmpty()
+                    lstTareas = (   from tt in db.SGI_Tramites_Tareas
+                                    join tt_cp in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals tt_cp.id_tramitetarea
+                                    join uC in db.Usuario on tt_cp.CPadron_Solicitudes.CreateUser equals uC.UserId into uCleftjoin
+                                    from userC in uCleftjoin.DefaultIfEmpty()
+                                    join aspu in db.aspnet_Users on userC.UserId equals aspu.UserId into aspuleftjoin
+                                    from asU in aspuleftjoin.DefaultIfEmpty()
+                                    join p in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals p.userid into pleftjoin
+                                    from prof in pleftjoin.DefaultIfEmpty()
+                                    where tt_cp.id_cpadron == this.id_solicitud
+                                    orderby tt.id_tramitetarea
+                                    select new clsRowitemTarea
+                                    {
+                                        id_tramitetarea = tt.id_tramitetarea,
+                                        id_solicitud = tt_cp.id_cpadron,
+                                        id_tarea = tt.id_tarea,
+                                        Descripcion = tt.ENG_Tareas.nombre_tarea,
+                                        FechaCreacion = tt.FechaInicio_tramitetarea,
+                                        FechaAsignacion = tt.FechaAsignacion_tramtietarea,
+                                        FechaFinalizacion = tt.FechaCierre_tramitetarea,
+                                        UsuarioAsignado = tt.UsuarioAsignado_tramitetarea,
+                                        Username = (prof != null ? prof.aspnet_Users.UserName : (tt.ENG_Tareas.formulario_tarea == null ? asU.UserName : null)),
+                                        ApenomUsuario = (prof != null ? prof.Nombres + " " + prof.Apellido : (tt.ENG_Tareas.formulario_tarea == null ? userC.Nombre + " " + userC.Apellido : null)),
+                                        form_aspx = tt.ENG_Tareas.formulario_tarea,
+                                        codigo_circuito = tt.ENG_Tareas.ENG_Circuitos.nombre_grupo
+                                    }
+                                ).ToList();
 
-                                 where tt_cp.id_cpadron == this.id_solicitud
-                                 orderby tt.id_tramitetarea
-                                 select new clsRowitemTarea
-                                 {
-                                     id_tramitetarea = tt.id_tramitetarea,
-                                     id_solicitud = tt_cp.id_cpadron,
-                                     id_tarea = tt.id_tarea,
-                                     Descripcion = tt.ENG_Tareas.nombre_tarea,
-                                     FechaCreacion = tt.FechaInicio_tramitetarea,
-                                     FechaAsignacion = tt.FechaAsignacion_tramtietarea,
-                                     FechaFinalizacion = tt.FechaCierre_tramitetarea,
-                                     UsuarioAsignado = tt.UsuarioAsignado_tramitetarea,
-                                     Username = (prof != null ? prof.aspnet_Users.UserName : (tt.ENG_Tareas.formulario_tarea == null ? asU.UserName : null)),
-                                     ApenomUsuario = (prof != null ? prof.Nombres + " " + prof.Apellido : (tt.ENG_Tareas.formulario_tarea == null ? userC.Nombre + " " + userC.Apellido : null)),
-                                     form_aspx = tt.ENG_Tareas.formulario_tarea,
-                                     codigo_circuito = tt.ENG_Tareas.ENG_Circuitos.nombre_grupo
-                                 }).ToList();
 
                 }
                 else if (this.id_grupotramite == (int)Constants.GruposDeTramite.TR)
                 {
-                    lstTareas = (from tt in db.SGI_Tramites_Tareas
-                                 join tt_transf in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals tt_transf.id_tramitetarea
-                                 join uC in db.Usuario on tt_transf.Transf_Solicitudes.CreateUser equals uC.UserId
-                                 into uCleftjoin
-                                 from userC in uCleftjoin.DefaultIfEmpty()
-                                 join aspu in db.aspnet_Users on userC.UserId equals aspu.UserId
-                                 into aspuleftoin
-                                 from asU in aspuleftoin.DefaultIfEmpty()
-                                 join p in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals p.userid
-                                 into pleftjoin
-                                 from prof in pleftjoin.DefaultIfEmpty()
-                                 where tt_transf.id_solicitud == this.id_solicitud
-                                 orderby tt.id_tramitetarea
-                                 select new clsRowitemTarea
-                                 {
-                                     id_tramitetarea = tt.id_tramitetarea,
-                                     id_solicitud = tt_transf.id_solicitud,
-                                     id_tarea = tt.id_tarea,
-                                     Descripcion = tt.ENG_Tareas.nombre_tarea,
-                                     FechaCreacion = tt.FechaInicio_tramitetarea,
-                                     FechaAsignacion = tt.FechaAsignacion_tramtietarea,
-                                     FechaFinalizacion = tt.FechaCierre_tramitetarea,
-                                     UsuarioAsignado = tt.UsuarioAsignado_tramitetarea,
-                                     Username = (prof != null ? prof.aspnet_Users.UserName : (tt.ENG_Tareas.formulario_tarea == null ? asU.UserName : null)),
-                                     ApenomUsuario = (prof != null ? prof.Nombres + " " + prof.Apellido : (tt.ENG_Tareas.formulario_tarea == null ? userC.Nombre + " " + userC.Apellido : null)),
-                                     form_aspx = tt.ENG_Tareas.formulario_tarea,
-                                     codigo_circuito = tt.ENG_Tareas.ENG_Circuitos.nombre_grupo
-                                 }).ToList();
+                     lstTareas = (  from tt in db.SGI_Tramites_Tareas
+                                    join tt_transf in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals tt_transf.id_tramitetarea
+                                    join uC in db.Usuario on tt_transf.Transf_Solicitudes.CreateUser equals uC.UserId
+                                    join aspu in db.aspnet_Users on uC.UserId equals aspu.UserId into aspuleftjoin
+                                    from asU in aspuleftjoin.DefaultIfEmpty()
+                                    join p in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals p.userid into pleftjoin
+                                    from prof in pleftjoin.DefaultIfEmpty()
+                                    where tt_transf.id_solicitud == this.id_solicitud
+                                    orderby tt.id_tramitetarea
+                                    select new clsRowitemTarea
+                                    {
+                                        id_tramitetarea = tt.id_tramitetarea,
+                                        id_solicitud = tt_transf.id_solicitud,
+                                        id_tarea = tt.id_tarea,
+                                        Descripcion = tt.ENG_Tareas.nombre_tarea,
+                                        FechaCreacion = tt.FechaInicio_tramitetarea,
+                                        FechaAsignacion = tt.FechaAsignacion_tramtietarea,
+                                        FechaFinalizacion = tt.FechaCierre_tramitetarea,
+                                        UsuarioAsignado = tt.UsuarioAsignado_tramitetarea,
+                                        Username = (prof != null ? prof.aspnet_Users.UserName : (tt.ENG_Tareas.formulario_tarea == null ? asU.UserName : null)),
+                                        ApenomUsuario = (prof != null ? prof.Nombres + " " + prof.Apellido : (tt.ENG_Tareas.formulario_tarea == null ? uC.Nombre + " " + uC.Apellido : null)),
+                                        form_aspx = tt.ENG_Tareas.formulario_tarea,
+                                        codigo_circuito = tt.ENG_Tareas.ENG_Circuitos.nombre_grupo
+                                    }
+                                    ).ToList();
+
                 }
 
                 db.Dispose();

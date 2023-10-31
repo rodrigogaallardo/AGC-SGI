@@ -246,14 +246,18 @@ namespace SGI.GestionTramite.Controls
         private List<int> ListarTramites(int id_solicitud) 
         {
             var listaTramitesTareasTRANSF = (from ttt in db.SGI_Tramites_Tareas_TRANSF
-                                            where (ttt.id_solicitud == id_solicitud)
-                                            select ttt.id_tramitetarea).ToList();
+                                               where ttt.id_solicitud == id_solicitud
+                                               select ttt.id_tramitetarea
+                                             ).ToList();
+
 
             if (!listaTramitesTareasTRANSF.Any()) 
             {
                 var listaTramitesTareasHAB = (from ttt in db.SGI_Tramites_Tareas_HAB
-                                           where (ttt.id_solicitud == id_solicitud)
-                                           select ttt.id_tramitetarea).ToList();
+                                                 where ttt.id_solicitud == id_solicitud
+                                                 select ttt.id_tramitetarea
+                                             ).ToList();
+
 
                 return listaTramitesTareasHAB;
             }
@@ -292,17 +296,14 @@ namespace SGI.GestionTramite.Controls
         {
             string observacionesInternas = "";
 
-            var listaObservacionesInternas =
-                (
-                    from calif in db.SGI_Tarea_Calificar
-                    where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-                    orderby calif.id_calificar descending
-                    select new
-                    {
-                        Observaciones = calif.Observaciones_Internas
-                    }
-
-                ).ToList();
+            var listaObservacionesInternas = (from calif in db.SGI_Tarea_Calificar
+               where calif.id_tramitetarea <= id_tramite_tarea && listaTramiteTareas.Contains(calif.id_tramitetarea)
+               orderby calif.id_calificar descending
+               select new
+               {
+                   Observaciones = calif.Observaciones_Internas
+               }
+               ).ToList();
 
             if (!listaObservacionesInternas.Any()) return observacionesInternas;
 
@@ -317,10 +318,11 @@ namespace SGI.GestionTramite.Controls
         public string CargarObservacionInternaAnterior(int id_tramite_tarea, List<int> listaTramiteTareas)
         {
             string observacionesInternas = "";
-            var listaObservacionesInternas = (from calif in db.SGI_Tarea_Revision_Gerente
-                                              where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-                                              orderby calif.id_revision_gerente ascending
-                                              select new
+            var listaObservacionesInternas = (
+                                               from calif in db.SGI_Tarea_Revision_Gerente
+                                               where calif.id_tramitetarea <= id_tramite_tarea && listaTramiteTareas.Contains(calif.id_tramitetarea)
+                                               orderby calif.id_revision_gerente ascending
+                                               select new
                                               {
                                                   Observaciones = calif.Observaciones
                                               }).ToList();
@@ -429,10 +431,11 @@ namespace SGI.GestionTramite.Controls
         public string CargarObservacionesPlanchetaAnteriores(int id_tramite_tarea, List<int> listaTramiteTareas)
         {
             string observacionesPlancheta = "";
-            var listaObservacionesPlancheta = (from calif in db.SGI_Tarea_Revision_Gerente
-                                              where (listaTramiteTareas.Contains(calif.id_tramitetarea) && calif.id_tramitetarea <= id_tramite_tarea)
-                                              orderby calif.id_revision_gerente ascending
-                                              select new
+            var listaObservacionesPlancheta = (
+                                               from calif in db.SGI_Tarea_Revision_Gerente
+                                               where calif.id_tramitetarea <= id_tramite_tarea && listaTramiteTareas.Contains(calif.id_tramitetarea)
+                                               orderby calif.id_revision_gerente ascending
+                                               select new
                                               {
                                                   calif.observacion_plancheta
                                               }).ToList();
