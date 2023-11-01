@@ -113,13 +113,10 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Asignar_Inspector Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Asignar_Inspector asig_inspector =
-                (
-                    from inspector in db.SGI_Tarea_Asignar_Inspector
-                    where inspector.id_tramitetarea == id_tramitetarea
-                    orderby inspector.id_asignar_inspector descending
-                    select inspector
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Asignar_Inspector asig_inspector = db.SGI_Tarea_Asignar_Inspector
+                                                        .Where(inspector => inspector.id_tramitetarea == id_tramitetarea)
+                                                        .OrderByDescending(inspector => inspector.id_asignar_inspector)
+                                                        .FirstOrDefault();
 
             return asig_inspector;
         }

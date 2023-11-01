@@ -107,13 +107,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Rechazo_En_SADE Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Rechazo_En_SADE director =
-                (
-                    from dir in db.SGI_Tarea_Rechazo_En_SADE
-                    where dir.id_tramitetarea == id_tramitetarea
-                    orderby dir.id_Rechazo_En_SADE descending
-                    select dir
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Rechazo_En_SADE director = (from dir in db.SGI_Tarea_Rechazo_En_SADE
+                                                 where dir.id_tramitetarea == id_tramitetarea
+                                                 orderby dir.id_Rechazo_En_SADE descending
+                                                 select dir)
+                                                .FirstOrDefault();
+
 
             return director;
         }

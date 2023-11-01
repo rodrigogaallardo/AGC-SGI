@@ -162,13 +162,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Generar_Expediente Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Generar_Expediente expediente =
-                (
-                    from gen_exp in db.SGI_Tarea_Generar_Expediente
-                    where gen_exp.id_tramitetarea == id_tramitetarea
-                    orderby gen_exp.id_generar_expediente descending
-                    select gen_exp
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Generar_Expediente expediente =(from gen_exp in db.SGI_Tarea_Generar_Expediente
+                                                      where gen_exp.id_tramitetarea == id_tramitetarea
+                                                      orderby gen_exp.id_generar_expediente descending
+                                                      select gen_exp)
+                                                     .FirstOrDefault();
+
 
             return expediente;
         }

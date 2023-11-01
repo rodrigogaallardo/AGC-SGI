@@ -120,13 +120,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Resultado_Inspector Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Resultado_Inspector resul_inspector =
-                (
-                    from inspector in db.SGI_Tarea_Resultado_Inspector
-                    where inspector.id_tramitetarea == id_tramitetarea
-                    orderby inspector.id_resultado_inspector descending
-                    select inspector
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Resultado_Inspector resul_inspector =  (from inspector in db.SGI_Tarea_Resultado_Inspector
+                                                             where inspector.id_tramitetarea == id_tramitetarea
+                                                             orderby inspector.id_resultado_inspector descending
+                                                             select inspector)
+                                                            .FirstOrDefault();
+
 
             return resul_inspector;
         }

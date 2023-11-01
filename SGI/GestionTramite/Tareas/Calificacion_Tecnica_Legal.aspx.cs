@@ -105,13 +105,11 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Calificacion_Tecnica_Legal Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Calificacion_Tecnica_Legal tecnica_legal =
-                (
-                    from calif in db.SGI_Tarea_Calificacion_Tecnica_Legal
-                    where calif.id_tramitetarea == id_tramitetarea
-                    orderby calif.id_cal_tec_leg descending
-                    select calif
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Calificacion_Tecnica_Legal tecnica_legal = db.SGI_Tarea_Calificacion_Tecnica_Legal
+                                                                .Where(calif => calif.id_tramitetarea == id_tramitetarea)
+                                                                .OrderByDescending(calif => calif.id_cal_tec_leg)
+                                                                .FirstOrDefault();
+
 
             return tecnica_legal;
         }

@@ -254,13 +254,12 @@ namespace SGI.GestionTramite.Tareas
         }
         private SGI_Tarea_Gestion_Documental Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Gestion_Documental gerente =
-                (
-                    from gere in db.SGI_Tarea_Gestion_Documental
-                    where gere.id_tramitetarea == id_tramitetarea
-                    orderby gere.id_gestion_documental descending
-                    select gere
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Gestion_Documental gerente =   (from gere in db.SGI_Tarea_Gestion_Documental
+                                                     where gere.id_tramitetarea == id_tramitetarea
+                                                     orderby gere.id_gestion_documental descending
+                                                     select gere)
+                                                    .FirstOrDefault();
+
 
             return gerente;
         }

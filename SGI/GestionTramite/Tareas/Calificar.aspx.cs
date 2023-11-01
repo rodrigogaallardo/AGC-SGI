@@ -213,34 +213,32 @@ namespace SGI.GestionTramite.Tareas
         {
             int tipoPlanoIncendio = 2;
             int tipoDocReqSol = 66;
-            bool planoIncEnc = (from ep in db.Encomienda_Planos
-                                where ep.id_encomienda == id_encomienda
-                                && ep.id_tipo_plano == tipoPlanoIncendio
-                                select ep).Any();
+            bool planoIncEnc = db.Encomienda_Planos
+                              .Any(ep => ep.id_encomienda == id_encomienda && ep.id_tipo_plano == tipoPlanoIncendio);
 
-            bool planoIncSol = (from sd in db.SSIT_DocumentosAdjuntos
-                                where sd.id_solicitud == id_solicitud
-                                && sd.id_tdocreq == tipoDocReqSol
-                                select sd).Any();
+
+            bool planoIncSol = db.SSIT_DocumentosAdjuntos
+                              .Any(sd => sd.id_solicitud == id_solicitud && sd.id_tdocreq == tipoDocReqSol);
+
 
             return (planoIncEnc || planoIncSol);
         }
 
         private bool TieneNormativas(int id_encomienda)
         {
-            return (from encoNorm in db.Encomienda_Normativas
-                    where encoNorm.id_encomienda == id_encomienda
-                    select encoNorm.id_tiponormativa).Count() > 0;
+            return db.Encomienda_Normativas
+                    .Any(encoNorm => encoNorm.id_encomienda == id_encomienda);
+
         }
 
         private bool isUbicacionEspecial(int id_encomienda, string codigo)
         {
-            return (from encubic in db.Encomienda_Ubicaciones
-                    join encubicDist in db.Encomienda_Ubicaciones_Distritos on encubic.id_encomiendaubicacion equals encubicDist.id_encomiendaubicacion
-                    join cat in db.Ubicaciones_CatalogoDistritos on encubicDist.IdDistrito equals cat.IdDistrito
-                    join gd in db.Ubicaciones_GruposDistritos on cat.IdGrupoDistrito equals gd.IdGrupoDistrito
-                    where encubic.id_encomienda == id_encomienda && gd.Codigo == codigo
-                    select gd.Codigo).Count() > 0;
+            return db.Encomienda_Ubicaciones
+                    .Join(db.Encomienda_Ubicaciones_Distritos, encubic => encubic.id_encomiendaubicacion, encubicDist => encubicDist.id_encomiendaubicacion, (encubic, encubicDist) => new { encubic, encubicDist })
+                    .Join(db.Ubicaciones_CatalogoDistritos, joined => joined.encubicDist.IdDistrito, cat => cat.IdDistrito, (joined, cat) => new { joined.encubic, joined.encubicDist, cat })
+                    .Join(db.Ubicaciones_GruposDistritos, joined => joined.cat.IdGrupoDistrito, gd => gd.IdGrupoDistrito, (joined, gd) => new { joined.encubic, joined.encubicDist, joined.cat, gd })
+                    .Any(joined => joined.encubic.id_encomienda == id_encomienda && joined.gd.Codigo == codigo);
+
         }
         private bool isLiberadoAlUsoRubro(int id_encomienda)
         {
@@ -335,13 +333,11 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Calificar Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Calificar calificar =
-                (
-                    from calif in db.SGI_Tarea_Calificar
-                    where calif.id_tramitetarea == id_tramitetarea
-                    orderby calif.id_calificar descending
-                    select calif
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Calificar calificar = db.SGI_Tarea_Calificar
+                                            .Where(calif => calif.id_tramitetarea == id_tramitetarea)
+                                            .OrderByDescending(calif => calif.id_calificar)
+                                            .FirstOrDefault();
+
 
             return calificar;
         }

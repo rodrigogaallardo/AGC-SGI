@@ -160,13 +160,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Informar_Doc_Sade Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Informar_Doc_Sade rev_dghp =
-                (
-                    from dghp in db.SGI_Tarea_Informar_Doc_Sade
-                    where dghp.id_tramitetarea == id_tramitetarea
-                    orderby dghp.id_informar descending
-                    select dghp
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Informar_Doc_Sade rev_dghp =   (from dghp in db.SGI_Tarea_Informar_Doc_Sade
+                                                     where dghp.id_tramitetarea == id_tramitetarea
+                                                     orderby dghp.id_informar descending
+                                                     select dghp)
+                                                    .FirstOrDefault();
+
 
             return rev_dghp;
         }

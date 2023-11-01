@@ -307,13 +307,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Revision_DGHP Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Revision_DGHP rev_dghp =
-                (
-                    from dghp in db.SGI_Tarea_Revision_DGHP
-                    where dghp.id_tramitetarea == id_tramitetarea
-                    orderby dghp.id_revision_dghp descending
-                    select dghp
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Revision_DGHP rev_dghp =   (from dghp in db.SGI_Tarea_Revision_DGHP
+                                                 where dghp.id_tramitetarea == id_tramitetarea
+                                                 orderby dghp.id_revision_dghp descending
+                                                 select dghp)
+                                                .FirstOrDefault();
+
 
             return rev_dghp;
         }
@@ -340,7 +339,8 @@ namespace SGI.GestionTramite.Tareas
             int archivo = (from tth in db.SGI_Tramites_Tareas_HAB
                            join doc in db.SGI_Tarea_Documentos_Adjuntos on tth.id_tramitetarea equals doc.id_tramitetarea
                            where tth.id_solicitud == id_solicitud && doc.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Plano_Visado
-                           select doc).ToList().Count;
+                           select doc).Count();
+
 
             var tarea = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
             //143479: JADHE YYYYY - SGI - Plano visado en Escuelas

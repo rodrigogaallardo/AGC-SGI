@@ -109,13 +109,11 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Fin_Tramite Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Fin_Tramite director =
-                (
-                    from dir in db.SGI_Tarea_Fin_Tramite
-                    where dir.id_tramitetarea == id_tramitetarea
-                    orderby dir.id_Fin_Tramite descending
-                    select dir
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Fin_Tramite director = db.SGI_Tarea_Fin_Tramite
+                                            .Where(dir => dir.id_tramitetarea == id_tramitetarea)
+                                            .OrderByDescending(dir => dir.id_Fin_Tramite)
+                                            .FirstOrDefault();
+
 
             return director;
         }

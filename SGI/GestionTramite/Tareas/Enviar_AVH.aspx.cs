@@ -177,6 +177,7 @@ namespace SGI.GestionTramite.Tareas
                                    select p.id_paquete
                                ).FirstOrDefault();
 
+
             SGI_Tarea_Enviar_AVH pvh = Buscar_Tarea(id_tramitetarea);
 
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);

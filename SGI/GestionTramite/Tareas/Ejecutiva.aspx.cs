@@ -183,13 +183,11 @@ namespace SGI.GestionTramite.Tareas
         }
         private SGI_Tarea_Ejecutiva Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Ejecutiva gerente =
-                (
-                    from gere in db.SGI_Tarea_Ejecutiva
-                    where gere.id_tramitetarea == id_tramitetarea
-                    orderby gere.id_ejecutiva descending
-                    select gere
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Ejecutiva gerente = db.SGI_Tarea_Ejecutiva
+                                        .Where(gere => gere.id_tramitetarea == id_tramitetarea)
+                                        .OrderByDescending(gere => gere.id_ejecutiva)
+                                        .FirstOrDefault();
+
 
             return gerente;
         }

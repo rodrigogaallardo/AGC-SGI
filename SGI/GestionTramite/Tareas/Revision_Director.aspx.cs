@@ -105,13 +105,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Revision_Director Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Revision_Director director =
-                (
-                    from dir in db.SGI_Tarea_Revision_Director
-                    where dir.id_tramitetarea == id_tramitetarea
-                    orderby dir.id_revision_director descending
-                    select dir
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Revision_Director director =   (from dir in db.SGI_Tarea_Revision_Director
+                                                     where dir.id_tramitetarea == id_tramitetarea
+                                                     orderby dir.id_revision_director descending
+                                                     select dir)
+                                                    .FirstOrDefault();
+
 
             return director;
         }

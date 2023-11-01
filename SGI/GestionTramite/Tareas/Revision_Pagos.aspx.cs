@@ -150,13 +150,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Revision_Pagos Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Revision_Pagos pagos =
-                (
-                    from pag in db.SGI_Tarea_Revision_Pagos
-                    where pag.id_tramitetarea == id_tramitetarea
-                    orderby pag.id_revision_pagos descending
-                    select pag
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Revision_Pagos pagos = (from pag in db.SGI_Tarea_Revision_Pagos
+                                             where pag.id_tramitetarea == id_tramitetarea
+                                             orderby pag.id_revision_pagos descending
+                                             select pag)
+                                            .FirstOrDefault();
+
 
             return pagos;
         }

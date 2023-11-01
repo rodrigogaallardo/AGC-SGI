@@ -307,13 +307,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Revision_Gerente Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Revision_Gerente gerente =
-                (
-                    from gere in db.SGI_Tarea_Revision_Gerente
-                    where gere.id_tramitetarea == id_tramitetarea
-                    orderby gere.id_revision_gerente descending
-                    select gere
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Revision_Gerente gerente = (from gere in db.SGI_Tarea_Revision_Gerente
+                                                 where gere.id_tramitetarea == id_tramitetarea
+                                                 orderby gere.id_revision_gerente descending
+                                                 select gere)
+                                                .FirstOrDefault();
+
 
             return gerente;
         }

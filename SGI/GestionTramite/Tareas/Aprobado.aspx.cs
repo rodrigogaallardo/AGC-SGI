@@ -62,11 +62,13 @@ namespace SGI.GestionTramite.Tareas
             SGI_Tramites_Tareas_HAB ttHAB = db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
             this.id_solicitud = ttHAB.id_solicitud;
             this.id_tramitetarea = id_tramitetarea;
-            this.id_paquete = (from p in db.SGI_Tarea_Generar_Expediente_Procesos
-                               join tt in db.SGI_Tramites_Tareas on p.id_tramitetarea equals tt.id_tramitetarea
-                               join tt_hab in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals tt_hab.id_tramitetarea
-                               where tt_hab.id_solicitud == this.id_solicitud
-                               select p.id_paquete).FirstOrDefault();
+            this.id_paquete = db.SGI_Tarea_Generar_Expediente_Procesos
+                            .Join(db.SGI_Tramites_Tareas, p => p.id_tramitetarea, tt => tt.id_tramitetarea, (p, tt) => new { p, tt })
+                            .Join(db.SGI_Tramites_Tareas_HAB, x => x.tt.id_tramitetarea, tt_hab => tt_hab.id_tramitetarea, (x, tt_hab) => new { x.p, tt_hab })
+                            .Where(x => x.tt_hab.id_solicitud == this.id_solicitud)
+                            .Select(x => x.p.id_paquete)
+                            .FirstOrDefault();
+
 
 
             SGI_Tarea_Aprobado pvh = Buscar_Tarea(id_tramitetarea);

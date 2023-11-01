@@ -292,15 +292,14 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Revision_SubGerente Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Revision_SubGerente subGenrente =
-                (
-                    from sub_gere in db.SGI_Tarea_Revision_SubGerente
-                    where sub_gere.id_tramitetarea == id_tramitetarea
-                    orderby sub_gere.id_revision_subGerente descending
-                    select sub_gere
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Revision_SubGerente subGerente =   (from sub_gere in db.SGI_Tarea_Revision_SubGerente
+                                                         where sub_gere.id_tramitetarea == id_tramitetarea
+                                                         orderby sub_gere.id_revision_subGerente descending
+                                                         select sub_gere)
+                                                        .FirstOrDefault();
 
-            return subGenrente;
+
+            return subGerente;
         }
 
         #endregion

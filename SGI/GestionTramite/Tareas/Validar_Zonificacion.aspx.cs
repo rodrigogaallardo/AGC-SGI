@@ -270,26 +270,24 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Validar_Zonificacion Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Validar_Zonificacion zonificar =
-                (
-                    from zonif in db.SGI_Tarea_Validar_Zonificacion
-                    where zonif.id_tramitetarea == id_tramitetarea
-                    orderby zonif.id_validar_zonificacion descending
-                    select zonif
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Validar_Zonificacion zonificar =(from zonif in db.SGI_Tarea_Validar_Zonificacion
+                                                     where zonif.id_tramitetarea == id_tramitetarea
+                                                     orderby zonif.id_validar_zonificacion descending
+                                                     select zonif)
+                                                    .FirstOrDefault();
+
 
             return zonificar;
         }
 
         private SGI_Tarea_Validar_Zonificacion Buscar_Tarea_Anterior(int id_tramitetarea)
         {
-            SGI_Tarea_Validar_Zonificacion zonificar =
-                (
-                    from zonif in db.SGI_Tarea_Validar_Zonificacion
-                    where zonif.id_tramitetarea < id_tramitetarea
-                    orderby zonif.id_validar_zonificacion descending
-                    select zonif
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Validar_Zonificacion zonificar =    (from zonif in db.SGI_Tarea_Validar_Zonificacion
+                                                          where zonif.id_tramitetarea < id_tramitetarea
+                                                          orderby zonif.id_validar_zonificacion descending
+                                                          select zonif)
+                                                         .FirstOrDefault();
+
 
             return zonificar;
         }

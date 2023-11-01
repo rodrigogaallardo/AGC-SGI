@@ -104,13 +104,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Revision_Tecnica_Legal Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Revision_Tecnica_Legal tecnica_legal = 
-                (
-                    from tec_leg in db.SGI_Tarea_Revision_Tecnica_Legal
-                    where tec_leg.id_tramitetarea == id_tramitetarea
-                    orderby tec_leg.id_rev_tec_leg descending
-                    select tec_leg
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Revision_Tecnica_Legal tecnica_legal = (from tec_leg in db.SGI_Tarea_Revision_Tecnica_Legal
+                                                             where tec_leg.id_tramitetarea == id_tramitetarea
+                                                             orderby tec_leg.id_rev_tec_leg descending
+                                                             select tec_leg)
+                                                            .FirstOrDefault();
+
 
             return tecnica_legal;
         }

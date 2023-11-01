@@ -117,13 +117,12 @@ namespace SGI.GestionTramite.Tareas
 
         private SGI_Tarea_Entregar_Tramite Buscar_Tarea(int id_tramitetarea)
         {
-            SGI_Tarea_Entregar_Tramite entregar_tramite =
-                (
-                    from ent_tra in db.SGI_Tarea_Entregar_Tramite
-                    where ent_tra.id_tramitetarea == id_tramitetarea
-                    orderby ent_tra.id_entregar_tramite descending
-                    select ent_tra
-                ).ToList().FirstOrDefault();
+            SGI_Tarea_Entregar_Tramite entregar_tramite =(from ent_tra in db.SGI_Tarea_Entregar_Tramite
+                                                         where ent_tra.id_tramitetarea == id_tramitetarea
+                                                         orderby ent_tra.id_entregar_tramite descending
+                                                         select ent_tra)
+                                                        .FirstOrDefault();
+
 
             return entregar_tramite;
         }
