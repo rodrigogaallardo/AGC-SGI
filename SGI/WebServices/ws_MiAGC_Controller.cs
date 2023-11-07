@@ -22,6 +22,12 @@ namespace SGI.WebServices
             public int statusCode { get; set; }
         }
 
+        public class ResponsePerfiles
+        {
+            public List<string> perfiles { get; set; }
+            public int statusCode { get; set; }
+        }
+
         [WebMethod]
         [HttpGet]
         [Route("ConsultaPerfilesRoles")]
@@ -30,15 +36,22 @@ namespace SGI.WebServices
         {
             try
             {
-                string roles;
                 DGHP_Entities db = new DGHP_Entities();
-
+                //esto es para pasarlo a async
                 //var rolesSGI = await Task.Run(() => db.aspnet_Roles_GetAllRoles("SGI"));
+                //esto solamente devuelve los roles
+                //var rolesSGI = db.aspnet_Roles_GetAllRoles("SGI").ToList();
                 var rolesSGI = db.aspnet_Roles_GetAllRoles("SGI").ToList();
+
+                var tareasSGI = (from usr in db.aspnet_Users
+                                 from usu in usr.SGI_PerfilesUsuarios
+                                 select usu.nombre_perfil).ToList();
+                // devuelvo la combinacion de roles y perfiles, sin repetidos
+                var combinedList = rolesSGI.Union(tareasSGI).ToList();
 
                 db.Dispose();
 
-                return new ResponseRoles { roles = rolesSGI, statusCode = 200 };
+                return new ResponseRoles { roles = combinedList, statusCode = 200 };
             }
             catch (Exception ex)
             {
@@ -46,6 +59,32 @@ namespace SGI.WebServices
             }
         }
 
+        [WebMethod]
+        [HttpGet]
+        [Route("ConsultaPerfilesTareas")]
+        [BasicAuthFilter]
+        public ResponsePerfiles ConsultaPerfilesTareas()
+        {
+            try
+            {
+                DGHP_Entities db = new DGHP_Entities();
+                /*
+                var tareasSGI = (from profile in db.SGI_Profiles
+                                 select profile.Nombres
+                                 ).ToList();
+                */
+                var tareasSGI = (from usr in db.aspnet_Users
+                                 from usu in usr.SGI_PerfilesUsuarios
+                                 select usu.nombre_perfil).ToList();
+                db.Dispose();
+
+                return new ResponsePerfiles { perfiles = tareasSGI, statusCode = 200 };
+            }
+            catch (Exception ex)
+            {
+                return new ResponsePerfiles { perfiles = new List<string>(), statusCode = 500 };
+            }
+        }
 
     }
 
