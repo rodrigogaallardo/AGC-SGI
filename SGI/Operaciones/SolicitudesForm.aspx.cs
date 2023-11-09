@@ -195,6 +195,9 @@ namespace SGI.Operaciones
             Transf_Solicitudes transf_Solicitudes = new Transf_Solicitudes();
             CPadron_Solicitudes cPadron_Solicitudes = new CPadron_Solicitudes();
             DGHP_Entities context = new DGHP_Entities();
+
+            Guid userid = Functions.GetUserId();
+
             if (tipo == "S")
             {
                 sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);

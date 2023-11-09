@@ -3,6 +3,7 @@ using SGI.GestionTramite.Controls;
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Transactions;
 using System.Web.UI;
@@ -633,6 +634,12 @@ namespace SGI.GestionTramite.Tareas
                             {
                                 db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
                             }
+                        }
+                        else if (chbLibrarUso.Checked == false && sol.FechaLibrado != null)
+                        {
+                            sol.FechaLibrado = null;
+                            db.SSIT_Solicitudes.AddOrUpdate(sol);
+                            db.SaveChanges();
                         }
 
                         string mensaje_envio_mail = "";
