@@ -1,9 +1,11 @@
-﻿using SGI.WebServices;
+﻿using SGI.Model;
+using SGI.WebServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -43,8 +45,11 @@ namespace SGI.GestionTramite.Controls
         {
             try
             {
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 byte[] Pdf = new byte[0];
                 string FileName = string.Empty;
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file,string.Empty, url);
                 if (id_file > 0)
                 {
                     try
@@ -72,6 +77,7 @@ namespace SGI.GestionTramite.Controls
                     Response.Clear();
                     Response.Write("No es posible encontrar el archivo");
                 }
+
             }
             catch (Exception)
             {

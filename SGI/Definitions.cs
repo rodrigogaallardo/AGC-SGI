@@ -18,6 +18,8 @@ using System.Web.UI.WebControls;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using System.IO.Pipes;
+using System.Threading;
+using System.Globalization;
 
 namespace SGI
 {
@@ -1046,7 +1048,31 @@ namespace SGI
     }
     public class Functions
     {
+        public static void InsertarMovimientoUsuario(Guid userId, DateTime fechaIngreso, int? id_file, string datosAdicionales, string url)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
+            var db = new DGHP_Entities();
+            var cmd = db.Database.Connection.CreateCommand();
+            cmd.CommandText = string.Format("EXEC SGI_Insertar_Movimiento_Usuario '{0}', '{1}', {2}, '{3}','{4}'", userId, fechaIngreso, id_file == null ? "NULL" : id_file.ToString(), datosAdicionales,url);
+            cmd.CommandTimeout = 1000;
 
+            try
+            {
+                db.Database.Connection.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Database.Connection.Close();
+                cmd.Dispose();
+                db.Dispose();
+            }
+        }
         public static void CargarAutocompleteCalles(Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles)
         {
             DGHP_Entities db = new DGHP_Entities();
