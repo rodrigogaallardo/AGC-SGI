@@ -3393,7 +3393,7 @@ namespace SGI.Model
             }
 
             string obsAnt = string.Empty;
-            if (dsDispo.Tables["SolAnt"].Rows.Count > 0 && !isRechazo)
+            if (dsDispo.Tables["SolAnt"].Rows.Count > 0 && isRechazo)
             {
                 row = dsDispo.Tables["SolAnt"].Rows[0];
                 DateTime dAnt = Convert.ToDateTime(Convert.ToString(row["fechaDispo"]));
