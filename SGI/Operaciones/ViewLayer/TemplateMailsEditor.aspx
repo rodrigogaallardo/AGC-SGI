@@ -5,11 +5,9 @@
     <script>
 
         function GetTemplate(template) {
-            alert(document.getElementsByName('editor')[0].innerHTML);
             document.getElementsByName('editor')[0].innerHTML = template;
         }
         function SaveTemplate() {
-            //alert(document.getElementsByName('editor')[0].innerHTML);
             var hdSaveTemplate = document.getElementById('<%= hdSaveTemplate.ClientID %>');
             hdSaveTemplate.value = document.getElementsByName('editor')[0].innerHTML;
         }

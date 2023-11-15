@@ -852,7 +852,6 @@
     <Content Include="Operaciones\AgregarArchivo.aspx" />
     <Content Include="Operaciones\SolicitudesForm.aspx" />
     <Content Include="Operaciones\TareasForm.aspx" />
-    <Content Include="Operaciones\ViewLayer\Borrar.aspx" />
     <Content Include="Operaciones\ViewLayer\NotificacionGenerica.aspx" />
     <Content Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx" />
     <Content Include="Operaciones\ViewLayer\TemplateMailsEditor.aspx" />
@@ -4652,12 +4651,6 @@
     </Compile>
     <Compile Include="Operaciones\TareasForm.aspx.designer.cs">
       <DependentUpon>TareasForm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Operaciones\ViewLayer\Borrar.aspx.cs">
-      <DependentUpon>Borrar.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Operaciones\ViewLayer\Borrar.aspx.designer.cs">
-      <DependentUpon>Borrar.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\ViewLayer\NotificacionGenerica.aspx.cs">
       <DependentUpon>NotificacionGenerica.aspx</DependentUpon>
