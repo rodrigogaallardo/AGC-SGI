@@ -136,7 +136,14 @@ namespace SGI.GestionTramite.Controls
                     }
 
                     lblTextEncomienda.Text = "Nro. Encomienda";
-                    lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_dl.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_dl.Value).ToString();
+                    if (enc.TipoTramite.id_tipotramite == (int)Constants.TipoDeTramite.Ampliacion_Unificacion)
+                    {
+                        lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_amp.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_amp.Value).ToString();
+                    }
+                    else
+                    {
+                        lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_dl.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_dl.Value).ToString();
+                    }
                     lblEncomienda.Text = encomienda_desc;
                     lblUbicacion.Text = objResult + ". - Plantas a Habilitar: " + CargarPlantasHabilitar(enc.id_encomienda);
                     if (objsol.FechaLibrado != null)
