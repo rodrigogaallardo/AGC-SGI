@@ -516,6 +516,7 @@ namespace SGI
                    from ed in zr.DefaultIfEmpty()
                    where tramite_tareas.UsuarioAsignado_tramitetarea == userid_asignado
                    && tramite_tareas.FechaCierre_tramitetarea == null
+                   && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                    //&& !tareasNoReasignable.Contains(tramite_tareas.id_tarea)
                    select new clsItemReasignar
                    {
