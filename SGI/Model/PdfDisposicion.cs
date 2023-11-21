@@ -254,8 +254,8 @@ namespace SGI.Model
                         id_encomienda_anterior = 0,
                         NroExpediente = ""
                     }
-
-                ).ToList();
+                   
+                ).Distinct().ToList();
 
 
             DataTable dtEncomienda = ds.Tables["Encomienda"];
