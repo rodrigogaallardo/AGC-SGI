@@ -72,7 +72,8 @@ namespace SGI.GestionTramite.Tareas
             this.TramiteTarea = id_tramitetarea;
             this.id_tarea = ttHAB.SGI_Tramites_Tareas.id_tarea;
             this.id_circuito = ttHAB.SGI_Tramites_Tareas.ENG_Tareas.id_circuito;
-
+            SSIT_Solicitudes sol = new SSIT_Solicitudes();
+            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
             SGI_Tarea_Revision_Gerente gerente = Buscar_Tarea(id_tramitetarea);
 
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
@@ -148,7 +149,7 @@ namespace SGI.GestionTramite.Tareas
                 else
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.GERENTE"), "\n\n\n", "\n\n", "no se");
                 
-                chbLibrarUso.Checked = false;
+                chbLibrarUso.Checked = (sol.FechaLibrado != null);
             }
             if (!string.IsNullOrEmpty(UcObservacionesLibrarUso.Text))
             {
@@ -156,8 +157,7 @@ namespace SGI.GestionTramite.Tareas
             }
             pnl_Librar_Uso.Visible = false;
 
-            SSIT_Solicitudes sol = new SSIT_Solicitudes();
-            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
+            
 
             var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
                     && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();

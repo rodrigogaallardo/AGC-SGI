@@ -71,7 +71,7 @@ namespace SGI.GestionTramite.Tareas
                 this.db.Dispose();
                 throw new Exception(string.Format("No se encontro en la tabla SGI_tramites_tareas un registro coincidente con el id = {0}", id_tramitetarea));
             }
-
+            
 
             //Se debe establecer siempre el estado de controles antes del load de los controles
             //----
@@ -136,7 +136,8 @@ namespace SGI.GestionTramite.Tareas
                                                  tramite_tarea.ENG_Tareas.ENG_Circuitos.nombre_grupo != Constants.grupoCircuito.SSPA;
 
             var ssit_Sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == this._id_solicitud);
-
+            SSIT_Solicitudes sol = new SSIT_Solicitudes();
+            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
             bool isConPlanos = false;
             isConPlanos = ssit_Sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.ConPlanos;
 
@@ -170,7 +171,7 @@ namespace SGI.GestionTramite.Tareas
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.SUBGERENTE"), "\n\n\n", "\n\n", "se");
                 else
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.SUBGERENTE"), "\n\n\n", "\n\n", "no se");
-                chbLibrarUso.Checked = false;
+                chbLibrarUso.Checked = (sol.FechaLibrado != null);
             }
             if (!string.IsNullOrEmpty(UcObservacionesLibrarUso.Text))
             {
@@ -178,8 +179,7 @@ namespace SGI.GestionTramite.Tareas
             }
             pnl_Librar_Uso.Visible = false;
 
-            SSIT_Solicitudes sol = new SSIT_Solicitudes();
-            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
+            
 
             var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
                     && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
