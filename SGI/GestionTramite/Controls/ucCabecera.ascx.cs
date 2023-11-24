@@ -64,7 +64,7 @@ namespace SGI.GestionTramite.Controls
             db.Database.CommandTimeout = 300;
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null,string.Empty,url);
 
-
+            
 
             if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
             {
@@ -135,14 +135,17 @@ namespace SGI.GestionTramite.Controls
                         lblDistritosEspeciales.Text = DistritoEspecial;
                     }
 
+                    var dl = enc.Encomienda_DatosLocal.FirstOrDefault();
                     lblTextEncomienda.Text = "Nro. Encomienda";
-                    if (enc.TipoTramite.id_tipotramite == (int)Constants.TipoDeTramite.Ampliacion_Unificacion)
+                    if (dl != null)
                     {
-                        lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_amp.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_amp.Value).ToString();
+                        lblSuperficieTotal.Text = string.Format("{0:###,###,##0.00} m2.", dl.superficie_cubierta_dl + dl.superficie_descubierta_dl);
+                        if (dl.ampliacion_superficie.HasValue && dl.ampliacion_superficie.Value)
+                            lblSuperficieTotal.Text = string.Format("{0:###,###,##0.00} m2.", dl.superficie_cubierta_amp + dl.superficie_descubierta_amp);
                     }
                     else
                     {
-                        lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_dl.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_dl.Value).ToString();
+                        lblSuperficieTotal.Text = string.Format("{0:###,###,##0.00} m2.", 0);
                     }
                     lblEncomienda.Text = encomienda_desc;
                     lblUbicacion.Text = objResult + ". - Plantas a Habilitar: " + CargarPlantasHabilitar(enc.id_encomienda);
@@ -335,8 +338,17 @@ namespace SGI.GestionTramite.Controls
 
                             lblDistritosEspeciales.Text = DistritoEspecial;
                         }
-
-                        lblSuperficieTotal.Text = (enc.Encomienda_DatosLocal.First().superficie_cubierta_dl.Value + enc.Encomienda_DatosLocal.First().superficie_descubierta_dl.Value).ToString();
+                        var dl = enc.Encomienda_DatosLocal.FirstOrDefault();
+                        if (dl != null)
+                        {
+                            lblSuperficieTotal.Text = string.Format("{0:###,###,##0.00} m2.", dl.superficie_cubierta_dl + dl.superficie_descubierta_dl);
+                            if (dl.ampliacion_superficie.HasValue && dl.ampliacion_superficie.Value)
+                                lblSuperficieTotal.Text = string.Format("{0:###,###,##0.00} m2.", dl.superficie_cubierta_amp + dl.superficie_descubierta_amp);
+                        }
+                        else
+                        {
+                            lblSuperficieTotal.Text = string.Format("{0:###,###,##0.00} m2.", 0);
+                        }
                     }
                     lblSolicitud.Text = objsol.id_solicitud.ToString();
                     lblEstado.Text = objsol.DescripcionEstadoSolicitud;
