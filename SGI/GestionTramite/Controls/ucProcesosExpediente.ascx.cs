@@ -195,7 +195,7 @@ namespace SGI.GestionTramite.Controls
 
         public List<ProcesoExpediente> lstProcesos { get; set; }
 
-        protected virtual void grdProcesosExpediente_Click(object sender, CommandEventArgs e)
+        protected async virtual void grdProcesosExpediente_Click(object sender, CommandEventArgs e)
         {
 
             Expediente procesoExpediente = null;
@@ -222,7 +222,7 @@ namespace SGI.GestionTramite.Controls
 
                 procesoExpediente = new Expediente(userid, Constants.ApplicationName);
 
-                procesoExpediente.Procesar(id_generar_expediente_proc, id_tramitetarea);
+                await procesoExpediente.Procesar(id_generar_expediente_proc, id_tramitetarea);
 
                 int id_proceso_ejecutado = procesoExpediente.proceso.id_proceso;
                 int id_devolucion_ee_ejecutado = procesoExpediente.proceso.id_devolucion_ee;
