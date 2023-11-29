@@ -3191,7 +3191,7 @@ namespace SGI.Model
             string disposicion_html = str_archivo;
             string lblObservacion = "";
             var transmision = db.Transf_Solicitudes.Where(x => x.id_solicitud == id_solicitud).FirstOrDefault();
-
+            int id_estado_transmision = transmision.id_estado;
             dsImpresionDisposicion dsDispo = Transmisiones_GenerarDataSetDisposicion(id_solicitud, id_tramitetarea, expediente);
 
             bool isRechazo = Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Aprobado;
@@ -3393,7 +3393,9 @@ namespace SGI.Model
             }
 
             string obsAnt = string.Empty;
-            if (dsDispo.Tables["SolAnt"].Rows.Count > 0 && isRechazo)
+            if (dsDispo.Tables["SolAnt"].Rows.Count > 0 
+                    && (isRechazo 
+                    && ((int)Constants.ENG_ResultadoTarea.Rechazado == id_estado_transmision)) )
             {
                 row = dsDispo.Tables["SolAnt"].Rows[0];
                 DateTime dAnt = Convert.ToDateTime(Convert.ToString(row["fechaDispo"]));
