@@ -63,16 +63,17 @@ namespace SGI.GestionTramite.Controls
                 if (tipo_tramite == Constants.PagosTipoTramite.CAA)
                 {
 
-                    SGI.Webservices.ws_interface_AGC.ws_Interface_AGC servicio = new SGI.Webservices.ws_interface_AGC.ws_Interface_AGC();
-                    SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_BUI = new SGI.Webservices.ws_interface_AGC.wsResultado();
-                    servicio.Url = this.Url_Interface_AGC;
-                    var lstBUIsCAA = servicio.Get_BUIs_Pagos(this.User_Interface_AGC, this.Password_Interface_AGC, new int[] { id_pago }, ref ws_resultado_BUI).ToList();
-                    servicio.Dispose();
+                    //SGI.Webservices.ws_interface_AGC.ws_Interface_AGC servicio = new SGI.Webservices.ws_interface_AGC.ws_Interface_AGC();
+                    //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_BUI = new SGI.Webservices.ws_interface_AGC.wsResultado();
+                    //servicio.Url = this.Url_Interface_AGC;
+                    //BUBoletaUnica[] lstBUIsCAA = servicio.Get_BUIs_Pagos(this.User_Interface_AGC, this.Password_Interface_AGC, new int[] { id_pago }, ref ws_resultado_BUI).ToList();
+                    BUBoletaUnica[] lstBUIsCAA = null;
+                    //servicio.Dispose();
 
-                    if (ws_resultado_BUI.ErrorCode != 0)
-                    {
-                        throw new Exception("CAA - " + ws_resultado_BUI.ErrorDescription);
-                    }
+                    //if (ws_resultado_BUI.ErrorCode != 0)
+                    //{
+                    //    throw new Exception("CAA - " + ws_resultado_BUI.ErrorDescription);
+                    //}
 
                     strEstadoPago = (from bui in lstBUIsCAA
                                      where bui.IdPago == id_pago
@@ -369,13 +370,14 @@ namespace SGI.GestionTramite.Controls
 
             }
 
-            ws_Interface_AGC servicio = new ws_Interface_AGC();
-            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
-            int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            //int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+            int[] l = null;
 
             lstPagos = (from bu in db.wsPagos_BoletaUnica
                         join pag in db.wsPagos on bu.id_pago equals pag.id_pago
@@ -516,13 +518,14 @@ namespace SGI.GestionTramite.Controls
 
             }
 
-            ws_Interface_AGC servicio = new ws_Interface_AGC();
-            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
-            int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            //int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+            int[] l = null;
 
             lstPagos = (from bu in db.wsPagos_BoletaUnica
                         join pag in db.wsPagos on bu.id_pago equals pag.id_pago

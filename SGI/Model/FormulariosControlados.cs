@@ -1,15 +1,17 @@
-﻿using RestSharp;
+﻿using ExternalService.Class;
+using RestSharp;
 using SGI.Webservices.ws_interface_AGC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace SGI.Model
 {
     public class FormulariosControlados
     {
-        public static string getFormulario(string nombre_formulario, int id_solicitud)
+        public async static Task<string> getFormulario(string nombre_formulario, int id_solicitud)
         {
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
             serviceEE.Url = SGI.Parametros.GetParam_ValorChar("SGI.Url.Service.ExpedienteElectronico");
@@ -18,7 +20,7 @@ namespace SGI.Model
             string formulario_json=serviceEE.getConfiguracionFFCC(username_servicio_EE, pass_servicio_EE, nombre_formulario);
             
             //cargo el objeto generico (con todos los datos de los formularios)
-            ffcc_DTO ffcc = cargaGenerica(id_solicitud);
+            ffcc_DTO ffcc = await cargaGenerica(id_solicitud);
             var lista = SimpleJson.DeserializeObject<List<nodoDTO>>(formulario_json);
 
             List<nodoDTO_R> lista_a_enviar = new List<nodoDTO_R>();
@@ -162,7 +164,7 @@ namespace SGI.Model
             return "";
         }
 
-        private static ffcc_DTO cargaGenerica(int id_solicitud)
+        private async static Task<ffcc_DTO> cargaGenerica(int id_solicitud)
         {
             DGHP_Entities db = new DGHP_Entities();
             var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud 
@@ -272,22 +274,30 @@ namespace SGI.Model
                 usuario = ""
             };
 
-            ws_Interface_AGC servicio = new ws_Interface_AGC();
-            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
             List<int> ids = new List<int>();
             ids.Add(enc.id_encomienda);
-            DtoCAA[] listCaa = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, ids.ToArray(), ref ws_resultado_CAA);
-            if (listCaa.Length > 0)
+            //DtoCAA[] listCaa = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, ids.ToArray(), ref ws_resultado_CAA);
+            List<GetCAAsByEncomiendasResponse> listCaa = await GetCAAsByEncomiendas(ids.ToArray());
+            if (listCaa.Count() > 0)
             {
-                string anio = Convert.ToString(listCaa[0].FechaIngreso.Year);
-                q.nro_certificado = listCaa[0].cod_tipocertificado + ": TRW-" + listCaa[0].id_caa + "-APRA-" + anio;
+                string anio = Convert.ToString(listCaa[0].fechaIngreso.Year);
+                q.nro_certificado = listCaa[0].id_tipocertificado + ": TRW-" + listCaa[0].id_solicitud + "-APRA-" + anio;
             }
             db.Dispose();
             return q;
+        }
+
+        private async static Task<List<GetCAAsByEncomiendasResponse>> GetCAAsByEncomiendas(int[] lst_id_Encomiendas)
+        {
+            ExternalService.ApraSrvRest apraSrvRest = new ExternalService.ApraSrvRest();
+            List<GetCAAsByEncomiendasResponse> lstCaa = await apraSrvRest.GetCAAsByEncomiendas(lst_id_Encomiendas.ToList());
+            return lstCaa;
         }
     }
 
