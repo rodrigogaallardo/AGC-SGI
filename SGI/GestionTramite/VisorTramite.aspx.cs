@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -88,7 +89,7 @@ namespace SGI.GestionTramite
             }
         }
 
-        private void CargarDatosTramite(int id_solicitud)
+        private async Task CargarDatosTramite(int id_solicitud)
         {
             using (var db = new DGHP_Entities())
             {
@@ -110,7 +111,7 @@ namespace SGI.GestionTramite
                         estadosSolPres.Contains(h.cod_estado_nuevo)).Select(h => h.fecha_modificacion).OrderByDescending(h => h).FirstOrDefault();
 
                         ucListaRubros.LoadData(sol, ultimaSolicitudPresentada);
-                        ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
+                        await ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
 
                     }
                     else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
@@ -123,7 +124,7 @@ namespace SGI.GestionTramite
                     }
                     else
                     {
-                        ucListaDocumentos.LoadData(id_grupotramite, id_solicitud);
+                        await ucListaDocumentos.LoadData(id_grupotramite, id_solicitud);
                         ucListaRubros.LoadData(id_solicitud);
                     }
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Ejecutiva" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Ejecutiva.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Ejecutiva" %>
+﻿<%@ Page Title="Tarea: Ejecutiva" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Ejecutiva.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Ejecutiva" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

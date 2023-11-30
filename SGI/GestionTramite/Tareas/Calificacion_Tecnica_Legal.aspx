@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Calificación Técnica y Legal" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Calificacion_Tecnica_Legal.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Calificacion_Tecnica_Legal" %>
+﻿<%@ Page Title="Tarea: Calificación Técnica y Legal" Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Calificacion_Tecnica_Legal.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Calificacion_Tecnica_Legal" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SGI.WebServices;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite.Tareas.CPadron
 {
@@ -87,7 +88,7 @@ namespace SGI.GestionTramite.Tareas.CPadron
             CargarDatosTramite(this.id_tramitetarea);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
             Guid userid = Functions.GetUserId();
             this.db = new DGHP_Entities();
@@ -492,14 +493,14 @@ namespace SGI.GestionTramite.Tareas.CPadron
             FinalizarEntity();
         }
 
-        protected void ucDocumentoAdjunto_GuardarDocumentoAdjuntoClick(object sender, ucDocumentoAdjuntoEventsArgs e)
+        protected async Task ucDocumentoAdjunto_GuardarDocumentoAdjuntoClick(object sender, ucDocumentoAdjuntoEventsArgs e)
         {
-            ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.CP, this.id_solicitud);
+            await ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.CP, this.id_solicitud);
         }
 
-        protected void ucDocumentoAdjunto_EliminarDocumentoAdjuntoClick(object sender, ucDocumentoAdjuntoEventsArgs e)
+        protected async Task ucDocumentoAdjunto_EliminarDocumentoAdjuntoClick(object sender, ucDocumentoAdjuntoEventsArgs e)
         {
-            ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.CP, this.id_solicitud);
+            await ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.CP, this.id_solicitud);
         }
 
         private void SubirPDFInforme(int id_cpadron, int id_tramitetarea, string observacion, int id_tipoinforme)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web.UI;
 using SGI.GestionTramite.Controls;
@@ -13,18 +14,18 @@ namespace SGI.GestionTramite.Tareas
 
         //private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Revision_Director;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async Task Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
 
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
             }
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -57,7 +58,7 @@ namespace SGI.GestionTramite.Tareas
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
             ucListaRubros.LoadData(this.id_solicitud);
             ucTramitesRelacionados.LoadData(id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud); 
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud); 
             ucResultadoTarea.LoadData(id_tramitetarea, false);
             ucListaResultadoTareasAnteriores.LoadData(id_grupotramite, this.id_solicitud, id_tramitetarea);
 

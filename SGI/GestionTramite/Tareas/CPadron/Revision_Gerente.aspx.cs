@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -65,12 +66,12 @@ namespace SGI.GestionTramite.Tareas.CPadron
             base.OnUnload(e);
         }
 
-        protected void btnCargarDatos_Click(object sender, EventArgs e)
+        protected async Task btnCargarDatos_Click(object sender, EventArgs e)
         {
-            CargarDatosTramite(this.id_tramitetarea);
+            await CargarDatosTramite(this.id_tramitetarea);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
             Guid userid = Functions.GetUserId();
 
@@ -94,7 +95,7 @@ namespace SGI.GestionTramite.Tareas.CPadron
             this.id_solicitud = ttCP.id_cpadron;
 
             ucCabecera.LoadData(id_grupotramite, id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             Tabs_Tramite.editar = false;
             Tabs_Tramite.LoadData(this.id_solicitud,0, 1);
 

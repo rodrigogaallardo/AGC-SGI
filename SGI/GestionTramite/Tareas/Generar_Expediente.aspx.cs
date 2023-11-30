@@ -5,6 +5,7 @@ using System.Web.UI;
 using SGI.GestionTramite.Controls;
 using SGI.Model;
 using System.Web.Security;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite.Tareas
 {
@@ -14,7 +15,7 @@ namespace SGI.GestionTramite.Tareas
 
         //private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Generar_Expediente;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async Task Page_Load(object sender, EventArgs e)
         {
 
             if (!IsPostBack)
@@ -24,7 +25,7 @@ namespace SGI.GestionTramite.Tareas
                     id_tramitetarea = (Page.RouteData.Values["id"] != null ? Convert.ToInt32(Page.RouteData.Values["id"]) : 0);
 
                 if (id_tramitetarea > 0)
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
 
             }
 
@@ -39,7 +40,7 @@ namespace SGI.GestionTramite.Tareas
         }
 
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -111,7 +112,7 @@ namespace SGI.GestionTramite.Tareas
                 ucResultadoTarea.ddlProximaTarea_Enabled = Functions.EsForzarTarasSade() || !ucProcesosExpediente.Existen_procesos_pendientes;
                 ucResultadoTarea.ddlResultado_Enabled = Functions.EsForzarTarasSade() || !ucProcesosExpediente.Existen_procesos_pendientes;
             }
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             if (id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.ConPlanos && !ucProcesosExpediente.Existen_procesos_pendientes)
             {
                 ucProcesosSADE.cargarDatosProcesos(tramite_tarea.id_tramitetarea, IsEditable);
@@ -394,7 +395,7 @@ namespace SGI.GestionTramite.Tareas
             }
         }
 
-        protected void ucProcesosExpediente_ProcesoItem_Finalizado(object sender, ucProcesosExpediente.ResultadoProcesoExpediente e)
+        protected async Task ucProcesosExpediente_ProcesoItem_Finalizado(object sender, ucProcesosExpediente.ResultadoProcesoExpediente e)
         {
 
             if (e.id_proceso_ejecutado == (int)Constants.EE_Procesos.FirmarDocumento ||
@@ -402,7 +403,7 @@ namespace SGI.GestionTramite.Tareas
             {
                 // cuando termina procesar la firma del documento se vuelven a cargar
                 // los documentos adjuntos para que muestre el pdf de caratula
-                ucListaDocumentos.LoadData(this.id_solicitud);
+                await ucListaDocumentos.LoadData(this.id_solicitud);
             }
 
         }

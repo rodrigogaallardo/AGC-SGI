@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Rechazo en SADE" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Rechazo_En_SADE.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Rechazo_En_SADE" %>
+﻿<%@ Page Title="Tarea: Rechazo en SADE" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Rechazo_En_SADE.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Rechazo_En_SADE" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
