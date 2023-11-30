@@ -56,17 +56,17 @@ namespace SGI.GestionTramite.Controls
             }
         }
 
-        public void LoadData(int id_solicitud)
+        public async Task LoadData(int id_solicitud)
         {
-            LoadData((int)Constants.GruposDeTramite.HAB, id_solicitud);
+            await LoadData((int)Constants.GruposDeTramite.HAB, id_solicitud);
         }
 
-        public void LoadData(int id_grupotramite, int id_solicitud)
+        public async Task LoadData(int id_grupotramite, int id_solicitud)
         {
-            LoadData(id_grupotramite, id_solicitud, false, 0);
+            await LoadData(id_grupotramite, id_solicitud, false, 0);
         }
 
-        public async void LoadData(SSIT_Solicitudes solicitud, DateTime? ultimaPresentacion)
+        public async Task LoadData(SSIT_Solicitudes solicitud, DateTime? ultimaPresentacion)
         {
             using (var db = new DGHP_Entities())
             {
@@ -256,23 +256,27 @@ namespace SGI.GestionTramite.Controls
                     //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
                     //DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, idEncomiendasPresentadas.ToArray(), ref ws_resultado_CAA);
                     List<GetCAAsByEncomiendasResponse> l = await GetCAAsByEncomiendas(idEncomiendasPresentadas.ToArray());
-                    var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
-                    foreach (var caa in List_CAA)
+                    if(l != null && l.Count > 0)
                     {
-                        if (caa.createDate <= ultimaPresentacion)
+                        var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
+                        foreach (var caa in List_CAA)
                         {
-                            var item = new itemDocumentov1
+                            if (caa.createDate <= ultimaPresentacion)
                             {
-                                nombre = caa.tipotramite + "-" + caa.id_solicitud,
-                                id_file = caa.certificado.idFile,
-                                id_solicitud = caa.id_solicitud,
-                                Fecha = caa.createDate,
-                                UserName = ""
-                            };
-                            item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
-                            archivos.Add(item);
+                                var item = new itemDocumentov1
+                                {
+                                    nombre = caa.tipotramite + "-" + caa.id_solicitud,
+                                    id_file = caa.certificado.idFile,
+                                    id_solicitud = caa.id_solicitud,
+                                    Fecha = caa.createDate,
+                                    UserName = ""
+                                };
+                                item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
+                                archivos.Add(item);
+                            }
                         }
                     }
+                    
 
 
                     //Agrego el Nº GEDO si es que existe para cada documento.
@@ -523,7 +527,7 @@ namespace SGI.GestionTramite.Controls
             }
         }
 
-        public void LoadData(int id_grupotramite, int id_solicitud, bool visibleEliminar, int id_tipodocsis_a_eliminar)
+        public async Task LoadData(int id_grupotramite, int id_solicitud, bool visibleEliminar, int id_tipodocsis_a_eliminar)
         {
             this.visibleEliminar = visibleEliminar;
             this.id_tipodocsis = id_tipodocsis_a_eliminar;
@@ -544,7 +548,7 @@ namespace SGI.GestionTramite.Controls
                         var ultimaSolicitudPresentada = sol?.SSIT_Solicitudes_HistorialEstados.Where(h =>
                             estadosSolPres.Contains(h.cod_estado_nuevo)).Select(h => h.fecha_modificacion).OrderByDescending(h => h).FirstOrDefault();
 
-                        LoadData(sol, ultimaSolicitudPresentada);
+                        await LoadData(sol, ultimaSolicitudPresentada);
                         break;
                     case (int)Constants.GruposDeTramite.TR:
                         var trf = db.Transf_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);

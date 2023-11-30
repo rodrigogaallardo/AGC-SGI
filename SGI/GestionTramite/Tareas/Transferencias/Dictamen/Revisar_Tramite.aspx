@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revisar Tramitre" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revisar_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Dictamen.Revisar_Tramite" %>
+﻿<%@ Page Title="Tarea: Revisar Tramitre" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revisar_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Dictamen.Revisar_Tramite" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

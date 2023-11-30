@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: SGO Gestión Documental" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Gestion_Documental.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Gestion_Documental" %>
+﻿<%@ Page Title="Tarea: SGO Gestión Documental" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Gestion_Documental.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Gestion_Documental" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Dictamen - Revision" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Dictamen.Revision" %>
+﻿<%@ Page Title="Tarea: Dictamen - Revision" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Dictamen.Revision" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

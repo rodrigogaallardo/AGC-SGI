@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Asignar Calificador" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Asignar_Calificador.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Asignar_Calificador" %>
+﻿<%@ Page Title="Tarea: Asignar Calificador" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Asignar_Calificador.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Asignar_Calificador" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

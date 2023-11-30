@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revision Gerente" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Gerente.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Dictamen.Revision_Gerente" %>
+﻿<%@ Page Title="Tarea: Revision Gerente" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Gerente.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Dictamen.Revision_Gerente" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Generar Ticket Liza" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Generar_Ticket_Liza.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Generar_Ticket_Liza" %>
+﻿<%@ Page Title="Tarea: Generar Ticket Liza" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Generar_Ticket_Liza.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Generar_Ticket_Liza" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
