@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,14 +18,14 @@ namespace SGI.GestionTramite
 {
     public partial class VisorTramite : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int id_solicitud = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 ComprobarSolicitud(id_solicitud);
                 if (id_solicitud > 0)
-                    CargarDatosTramite(id_solicitud);
+                    await CargarDatosTramite(id_solicitud);
                 if (id_solicitud < 300000)
                     ucPagos.Visible = false;
                 else
@@ -50,8 +51,8 @@ namespace SGI.GestionTramite
                                 #endregion
 
                                 #region APRA
-                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = ucPagos.PagosAPRAList(id_solicitud);
-                                if (lstPagosAPRA.Count > 0)
+                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = await ucPagos.PagosAPRAList(id_solicitud);
+                            if (lstPagosAPRA != null && lstPagosAPRA.Count > 0)
                                     flagAPRA = true;
                                 else
                                     flagAPRA = false;
@@ -78,6 +79,7 @@ namespace SGI.GestionTramite
                     #endregion
                 }
             }
+
         }
 
         private void ComprobarSolicitud(int id_solicitud)
@@ -88,7 +90,7 @@ namespace SGI.GestionTramite
             }
         }
 
-        private void CargarDatosTramite(int id_solicitud)
+        private async Task CargarDatosTramite(int id_solicitud)
         {
             using (var db = new DGHP_Entities())
             {
@@ -110,7 +112,7 @@ namespace SGI.GestionTramite
                         estadosSolPres.Contains(h.cod_estado_nuevo)).Select(h => h.fecha_modificacion).OrderByDescending(h => h).FirstOrDefault();
 
                         ucListaRubros.LoadData(sol, ultimaSolicitudPresentada);
-                        ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
+                        await ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
 
                     }
                     else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
@@ -123,7 +125,7 @@ namespace SGI.GestionTramite
                     }
                     else
                     {
-                        ucListaDocumentos.LoadData(id_grupotramite, id_solicitud);
+                        await ucListaDocumentos.LoadData(id_grupotramite, id_solicitud);
                         ucListaRubros.LoadData(id_solicitud);
                     }
 
@@ -132,7 +134,7 @@ namespace SGI.GestionTramite
                     ucTramitesRelacionados.LoadData(id_solicitud);
                     ucListaTareas.LoadData(id_grupotramite, id_solicitud);
                     ucNotificaciones.LoadData(id_solicitud);
-                    ucPagos.LoadData(id_solicitud);
+                    await ucPagos.LoadData(id_solicitud);
 
                 }
                 catch (Exception ex)

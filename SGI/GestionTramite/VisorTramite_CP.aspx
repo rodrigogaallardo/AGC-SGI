@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Visualización del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VisorTramite_CP.aspx.cs" Inherits="SGI.GestionTramite.VisorTramite_CP" %>
+﻿<%@ Page Title="Visualización del trámite" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VisorTramite_CP.aspx.cs" Inherits="SGI.GestionTramite.VisorTramite_CP" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

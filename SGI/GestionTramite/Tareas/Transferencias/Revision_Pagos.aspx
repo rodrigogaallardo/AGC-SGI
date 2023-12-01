@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revisión de Pagos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Pagos.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Revision_Pagos" %>
+﻿<%@ Page Title="Tarea: Revisión de Pagos" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Pagos.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Revision_Pagos" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

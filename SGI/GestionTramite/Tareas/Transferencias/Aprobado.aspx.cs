@@ -3,6 +3,7 @@ using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -16,7 +17,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
 
         #region cargar inicial
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
@@ -25,7 +26,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
                 if (id_tramitetarea > 0)
                 {
                     this.id_tramitetarea = id_tramitetarea;
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
                 }
             }
         }
@@ -36,7 +37,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             base.OnUnload(e);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -74,7 +75,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
 
             ucListaObservacionesAnteriores.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
             ucObservacionesTarea.Text = (pvh != null) ? pvh.Observaciones : "";
             ucProcesosSADE.cargarDatosProcesos(tramite_tarea.id_tramitetarea, IsEditable);

@@ -3,6 +3,7 @@ using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -16,7 +17,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
 
         //private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Revision_Pagos;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
@@ -25,7 +26,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
                 if (id_tramitetarea > 0)
                 {
                     IniciarEntity();
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
                 }
 
             }
@@ -37,7 +38,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             base.OnUnload(e);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -65,7 +66,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             SGI_Tarea_Revision_Pagos pagos = Buscar_Tarea(id_tramitetarea);
 
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
             ucObservacionesTarea.Text = (pagos != null) ? pagos.Observaciones : "";
             cargarBoletas(id_solicitud);

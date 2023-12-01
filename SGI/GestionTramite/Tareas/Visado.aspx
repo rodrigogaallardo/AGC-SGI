@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Visado" Language="C#" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="Visado.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Visado" %>
+﻿<%@ Page Title="Tarea: Visado" Language="C#" Async="true" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="Visado.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Visado" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

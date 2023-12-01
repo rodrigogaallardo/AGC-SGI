@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Verificación AVH" Language="C#" MasterPageFile="~/Site.Master"  AutoEventWireup    ="true" CodeBehind="Verificacion_AVH.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Verificacion_AVH" %>
+﻿<%@ Page Title="Tarea: Verificación AVH" Language="C#" Async="true" MasterPageFile="~/Site.Master"  AutoEventWireup    ="true" CodeBehind="Verificacion_AVH.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Verificacion_AVH" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

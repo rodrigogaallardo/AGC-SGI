@@ -267,7 +267,7 @@ namespace SGI
         }
 
         [WebMethod]
-        public bool GenerarPDF(string userName, string clave, string sistema, int id_solicitud, int id_tipodocsis)
+        public async Task<bool> GenerarPDF(string userName, string clave, string sistema, int id_solicitud, int id_tipodocsis)
         {
             bool generada = false;
 
@@ -348,7 +348,7 @@ namespace SGI
 
                     string nro_expediente = sol.NroExpedienteSade;
 
-                    documento = Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, nro_expediente, false);
+                    documento = await Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, nro_expediente, false);
 
                     id_file = SGI.WebServices.ws_FilesRest.subirArchivo("Plancheta.pdf", documento);
 
@@ -439,7 +439,7 @@ namespace SGI
         }
 
         [WebMethod]
-        public List<ProcesoExpediente> ProcesarTareaExpediente(Guid userid, string clave, string sistema, int id_solicitud, int id_tramite_tarea, int id_generar_expediente_proc)
+        public async Task<List<ProcesoExpediente>> ProcesarTareaExpediente(Guid userid, string clave, string sistema, int id_solicitud, int id_tramite_tarea, int id_generar_expediente_proc)
         {
 
             List<ProcesoExpediente> lstProcesos = null;
@@ -456,7 +456,7 @@ namespace SGI
 
                 procesoExpediente = new Expediente(userid, Constants.ApplicationName);
 
-                procesoExpediente.Procesar(id_generar_expediente_proc, id_tramite_tarea);
+                await procesoExpediente.Procesar(id_generar_expediente_proc, id_tramite_tarea);
 
                 lstProcesos = procesoExpediente.GetProcesos_porTramiteTarea(id_tramite_tarea);
 

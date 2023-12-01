@@ -11,9 +11,23 @@ using System.Web.UI;
 using System.Net;
 using System.Data.Entity.Core.Objects;
 using SGI.WebServices;
+using System.Threading.Tasks;
 
 namespace SGI.Model
 {
+    public class GetDocumentoReturn
+    {
+        public byte[] documento { get; set; }
+        public string mensajeError { get; set; }
+        public bool forzar_procesado { get; set; }
+        public bool guardar_documento { get; set; }
+    }
+
+    public class GenerarPdf_Plancheta_HabilitacionReturn
+    {
+        public int retorno { get; set; }
+        public byte[] documento { get; set; }
+    }
 
     public class dtoSGI_SADE_Procesos
     {
@@ -935,7 +949,7 @@ namespace SGI.Model
 
         #endregion 
 
-        public int Procesar(int id_generar_expediente_proc, int id_tramite_tarea)
+        public async Task<int> Procesar(int id_generar_expediente_proc, int id_tramite_tarea)
         {
 
             this.proceso =this.db.SGI_Tarea_Generar_Expediente_Procesos.Where(
@@ -1742,7 +1756,7 @@ namespace SGI.Model
         private byte[] documento { get; set; }
         private string motivoDocumento { get; set; }
 
-        private void ProcesarDocumento()
+        private async void ProcesarDocumento()
         {
             if (this.proceso.id_paquete == 0 ) // no hay paquete que englobe al registro
                 return;
@@ -1753,10 +1767,6 @@ namespace SGI.Model
             if (this.proceso.id_devolucion_ee != -1)  // ya fue procesado
                 return;
 
-            byte[] documento = null;
-
-            bool forzar_procesado = false;
-            bool guardar_documento = true;
             string username_SADE = "";
             string acronimo_SADE = "";
             string formato_archivo = "";
@@ -1779,29 +1789,29 @@ namespace SGI.Model
 
 
             string mensajeError_GetDocumento = "";
-            GetDocumento(ref documento, ref mensajeError_GetDocumento, ref forzar_procesado, ref guardar_documento);
+            GetDocumentoReturn getdocu = await GetDocumento();
 
-            if (documento == null || documento.Length < 500 || ! string.IsNullOrEmpty(mensajeError_GetDocumento) )
+            if (getdocu.documento == null || getdocu.documento.Length < 500 || ! string.IsNullOrEmpty(mensajeError_GetDocumento) )
             {
                 if ( ! string.IsNullOrEmpty(mensajeError_GetDocumento) ) 
                     this.proceso.resultado_ee = mensajeError_GetDocumento;
                 else
-                    this.proceso.resultado_ee = (documento==null ? "":System.Text.ASCIIEncoding.ASCII.GetString(documento) );
+                    this.proceso.resultado_ee = (getdocu.documento == null ? "":System.Text.ASCIIEncoding.ASCII.GetString(getdocu.documento) );
                 this.proceso.realizado = false;
-                documento = null;
+                getdocu.documento = null;
             }
 
 
-            if (documento != null)
+            if (getdocu.documento != null)
             {
 
                 if (formato_archivo != "pdf")
                 {
-                    WS_SubirDocumentoEmbebido(ref documento, string.Format("file-", this.proceso.nro_tramite), acronimo_SADE, string.Format("archivo - ", this.proceso.nro_tramite));
+                    getdocu.documento = await WS_SubirDocumentoEmbebido(getdocu.documento, string.Format("file-", this.proceso.nro_tramite), acronimo_SADE, string.Format("archivo - ", this.proceso.nro_tramite));
                 }
                 else
                 {
-                    WS_SubirDocumento(ref documento, username_SADE, acronimo_SADE, formato_archivo);
+                    getdocu.documento = await WS_SubirDocumento(getdocu.documento, username_SADE, acronimo_SADE, formato_archivo);
                 }
                 try
                 {
@@ -1810,7 +1820,7 @@ namespace SGI.Model
                     {
                         string arch = Constants.PathTemporal + "documento-proceso-" + this.proceso.id_generar_expediente_proc + "-id_tramitetarea-" + this.proceso.id_tramitetarea + ".pdf"; ;
 
-                        File.WriteAllBytes(arch, documento);
+                        File.WriteAllBytes(arch, getdocu.documento);
                     }
 
                 }
@@ -1857,19 +1867,20 @@ namespace SGI.Model
 
         }
 
-        private void GetDocumento(ref byte[] documento, ref string mensajeError, ref bool forzar_procesado, ref bool guardar_documento)
+        private async Task<GetDocumentoReturn> GetDocumento()
         {
-            guardar_documento = true;
-            mensajeError = "";
+            GetDocumentoReturn ret = new GetDocumentoReturn();
+            ret.guardar_documento = true;
+            ret.mensajeError = "";
             int id_solicitud = this.db.SGI_Tramites_Tareas_HAB.FirstOrDefault(x=>x.id_tramitetarea == this.proceso.id_tramitetarea).id_solicitud;
             int id_file = (int)this.proceso.nro_tramite;
             string descripcion = this.proceso.descripcion_tramite;
             
             int id_tramitetarea = (int)this.proceso.id_tramitetarea;
             int id_certificado = 0;
-            forzar_procesado = false; // flag para que se comporte de otra forma desde fuera de esta funcion
+            ret.forzar_procesado = false; // flag para que se comporte de otra forma desde fuera de esta funcion
 
-            documento  = null;
+            ret.documento = null;
 
             //IniciarEntityFiles();
 
@@ -1882,18 +1893,18 @@ namespace SGI.Model
                 string createUser = this.db.SSIT_Solicitudes.Where(x => x.id_solicitud == id_file).Select(x => x.CreateUser).FirstOrDefault().ToString(); ;
                 string url = Functions.GetUrlSSIT();
                 url = url + "Reportes/ImprimirSolicitud.aspx?id=" + id_file + "&user=" + createUser;
-                documento = Functions.GetBytesFromUrl(url);
+                ret.documento = Functions.GetBytesFromUrl(url);
             }
             else if (this.proceso.id_proceso == (int)Constants.SGI_Procesos_EE.SUBIR_DOCUMENTO)
             {
-                documento = ws_FilesRest.DownloadFile(id_file);
+                ret.documento = ws_FilesRest.DownloadFile(id_file);
             }
 
             #region buscar apra
 
             if (descripcion.StartsWith("certificado de aptitud ambiental".ToLower()))
             {
-                documento = ws_FilesRest.DownloadFile(id_file);
+                ret.documento = ws_FilesRest.DownloadFile(id_file);
             }
 
             #endregion
@@ -1903,7 +1914,7 @@ namespace SGI.Model
 
             if (descripcion.StartsWith("disposición a la firma".ToLower()))
             {
-                documento = this.dbFiles.Certificados.Where(x => x.id_certificado == id_file).Select(x => x.Certificado).FirstOrDefault();
+                ret.documento = this.dbFiles.Certificados.Where(x => x.id_certificado == id_file).Select(x => x.Certificado).FirstOrDefault();
             }
 
             #endregion
@@ -1928,14 +1939,15 @@ namespace SGI.Model
                 {
                     try
                     {
-                        id_certificado = GenerarPdf_Plancheta_Habilitacion(this.userid, id_tramitetarea, this.proceso.id_paquete, ref documento);
+                        GenerarPdf_Plancheta_HabilitacionReturn pdfplanhab = await GenerarPdf_Plancheta_Habilitacion(this.userid, id_tramitetarea, this.proceso.id_paquete);
+                        id_certificado = pdfplanhab.retorno;
                         this.proceso.nro_tramite = id_certificado;
                         this.proceso.descripcion_tramite = "Certificado de habilitación Nro. " + id_certificado;
                     }
                     catch (ExpedienteException ex)  // no existe caratula
                     {
                         documento = null;
-                        mensajeError = ex.Message;
+                        ret.mensajeError = ex.Message;
                     }
                     catch (Exception ex)
                     {
@@ -1946,7 +1958,7 @@ namespace SGI.Model
                 }
                 else
                 {
-                    documento = ws_FilesRest.DownloadFile(q.id_file);
+                    ret.documento = ws_FilesRest.DownloadFile(q.id_file);
                     id_certificado = q.id_solicitud;
                     this.proceso.nro_tramite = id_certificado;
                     this.proceso.descripcion_tramite = "Certificado de habilitación Nro. " + id_certificado;
@@ -1963,8 +1975,8 @@ namespace SGI.Model
                 
                 try
                 {
-                    documento = ws_FilesRest.DownloadFile(id_file);
-
+                    ret.documento = ws_FilesRest.DownloadFile(id_file);
+                    
                     if (documento.Length == 0)
                         throw new Exception("No se pudo obtener el archivo del plano.");
 
@@ -1975,10 +1987,11 @@ namespace SGI.Model
                     LogError.Write(ex);
                     this.proceso.resultado_ee = ex.Message;
                     this.proceso.realizado = false;
-                    documento = null;
+                    ret.documento = null;
                 }
             }
             #endregion
+            return ret;
         }
         #endregion 
 
@@ -2084,7 +2097,7 @@ namespace SGI.Model
             string html_dispo = "";
             try
             {
-                html_dispo = GenerarDisposicionHtml(this.proceso.id_paquete, userid, ref  documento, this.proceso.id_generar_expediente_proc);
+                html_dispo = GenerarDisposicionHtml(this.proceso.id_paquete, userid, ref documento, this.proceso.id_generar_expediente_proc);
                 if (documento == null || documento.Length < 500)
                 {
                     this.proceso.resultado_ee = (documento == null )? "":System.Text.ASCIIEncoding.ASCII.GetString(documento);
@@ -2786,7 +2799,7 @@ namespace SGI.Model
             }
         }
 
-        private void WS_SubirDocumento(ref byte[] documento, string username_SADE, string acronimoSADE, string formato_archivo)
+        private async Task<byte[]> WS_SubirDocumento(byte[] documento, string username_SADE, string acronimoSADE, string formato_archivo)
         {
 
             ws_ExpedienteElectronico.ws_ExpedienteElectronico service = null;
@@ -2842,6 +2855,7 @@ namespace SGI.Model
                 this.proceso.resultado_ee = "Error en Subir_Documento de ws_ExpedienteElectronico. " + ex.Message;
                 this.proceso.realizado = false;
             }
+            return documento;
         }
 
         private void WS_SubirDocumento_ConAcro(ref byte[] documento, string username_SADE, string acronimoSADE, string tipoArchivo)
@@ -2873,7 +2887,7 @@ namespace SGI.Model
             }
         }
 
-        private void WS_SubirDocumentoEmbebido(ref byte[] documento, string nombreArchivo, string acronimoSADE, string detalle)
+        private async Task<byte[]> WS_SubirDocumentoEmbebido (byte[] documento, string nombreArchivo, string acronimoSADE, string detalle)
         {
 
             ws_ExpedienteElectronico.ws_ExpedienteElectronico service = null;
@@ -2899,6 +2913,7 @@ namespace SGI.Model
                 this.proceso.resultado_ee = "Error en Subir_Documentos_Embebidos de ws_ExpedienteElectronico. " + ex.Message;
                 this.proceso.realizado = false;
             }
+            return documento;
         }
 
         private void WS_BloquearExpediente()
@@ -3224,7 +3239,7 @@ namespace SGI.Model
         }
 
         
-        private void ProcesarPlanos()
+        private async void ProcesarPlanos()
         {
             if (this.proceso.id_paquete == 0) // no hay paquete que englobe al registro
                 return;
@@ -3262,7 +3277,7 @@ namespace SGI.Model
             catch (Exception) { formato_archivo = "pdf"; }
 
 
-            GetDocumento(ref documento, ref mensajeError_GetDocumento, ref forzar_procesado, ref guardar_documento);
+            GetDocumentoReturn getdocu = await GetDocumento();
 
             if (documento == null || documento.Length < 500 || !string.IsNullOrEmpty(mensajeError_GetDocumento))
             {
@@ -3291,7 +3306,7 @@ namespace SGI.Model
                                  }).FirstOrDefault();
 
                 string detalle= datosPlano.requiere_detalle.Value? datosPlano.detalle:datosPlano.nombre;
-                WS_SubirDocumentoEmbebido(ref documento, datosPlano.nombre_archivo, datosPlano.acronimo_SADE, detalle);
+                documento = await WS_SubirDocumentoEmbebido(documento, datosPlano.nombre_archivo, datosPlano.acronimo_SADE, detalle);
 
                 try
                 {
@@ -3881,17 +3896,17 @@ namespace SGI.Model
             return ms.ToArray();
         }
         
-        public int GenerarPdf_Plancheta_Habilitacion(Guid userId, int id_tramitetarea, int id_paquete, ref byte[] documento)
+        public async Task<GenerarPdf_Plancheta_HabilitacionReturn> GenerarPdf_Plancheta_Habilitacion(Guid userId, int id_tramitetarea, int id_paquete)
         {
+            GenerarPdf_Plancheta_HabilitacionReturn ret = new GenerarPdf_Plancheta_HabilitacionReturn();
 
-
-            int id_certificado = 0;
-            documento = null;
+            ret.retorno = 0;
+            ret.documento = null;
 
             if (id_paquete == 0)
-                return id_certificado;
+                return ret;
 
-            Expediente expeNuevo = new Expediente(userid, Constants.ApplicationName);
+            Expediente expeNuevo = new Expediente(userId, Constants.ApplicationName);
             this.ds_getInfoPaquete = (ws_ExpedienteElectronico.dsInfoPaquete)expeNuevo.GetInfoPaquete(id_paquete);
             expeNuevo.Dispose();
 
@@ -3920,18 +3935,18 @@ namespace SGI.Model
 
             string expediente_actuacion = this.datos_caratula_nro_expediente; // GetExpediente();
 
-            documento = Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, expediente_actuacion, false);
+            ret.documento = await Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, expediente_actuacion, false);
 
             using (TransactionScope Tran = new TransactionScope())
             {
 
                 try
                 {
-                    id_certificado = ws_FilesRest.subirArchivo("Plancheta.pdf", documento);
+                    ret.retorno = ws_FilesRest.subirArchivo("Plancheta.pdf", ret.documento);
 
                     int id_tipodocsis = (int)Constants.TiposDeDocumentosSistema.PLANCHETA_HABILITACION;
                     ObjectParameter param_id_docadjunto = new ObjectParameter("id_docadjunto", typeof(int));
-                    db.SSIT_DocumentosAdjuntos_Add(id_solicitud, 0, "", id_tipodocsis, true, id_certificado, "Plancheta.pdf", userid, param_id_docadjunto);
+                    db.SSIT_DocumentosAdjuntos_Add(id_solicitud, 0, "", id_tipodocsis, true, ret.retorno, "Plancheta.pdf", userId, param_id_docadjunto);
 
                     Tran.Complete();
                     Tran.Dispose();
@@ -3944,7 +3959,7 @@ namespace SGI.Model
                 }
             }
 
-            return id_certificado;
+            return ret;
         }
 
 

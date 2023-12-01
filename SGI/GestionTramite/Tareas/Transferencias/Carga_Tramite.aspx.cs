@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SGI.WebServices;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite.Tareas.Transferencias
 {
@@ -84,12 +85,12 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             base.OnUnload(e);
         }
 
-        protected void btnCargarDatos_Click(object sender, EventArgs e)
+        protected async Task btnCargarDatos_Click(object sender, EventArgs e)
         {
-            CargarDatosTramite(this.id_tramitetarea);
+            await CargarDatosTramite(this.id_tramitetarea);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
             Guid userid = Functions.GetUserId();
             this.db = new DGHP_Entities();
@@ -136,7 +137,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
            // SGI_Tramites_Tareas_CPADRON ttCP = db.SGI_Tramites_Tareas_CPADRON.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
             //this.id_solicitud = ttCP.id_cpadron;
             ucCabecera.LoadData((int)Constants.GruposDeTramite.TR, this.id_solicitud);
-            ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.TR, this.id_solicitud);
+            await ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.TR, this.id_solicitud);
             ucDocumentoAdjunto.LoadData((int)Constants.GruposDeTramite.TR, this.id_solicitud, id_tramitetarea);
                         
 

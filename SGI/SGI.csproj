@@ -5473,6 +5473,19 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="WebServices\ApraSrvRest.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebServices\Class\AsociarAnexoTecnicoResponse.cs" />
+    <Compile Include="WebServices\Class\GenerarCAAAutomaticoResponse.cs" />
+    <Compile Include="WebServices\Class\GenerarCAAAutoResponse.cs" />
+    <Compile Include="WebServices\Class\GetBUIsCAAResponse.cs" />
+    <Compile Include="WebServices\Class\GetBUIsPagosResponse.cs" />
+    <Compile Include="WebServices\Class\GetCAAResponse.cs" />
+    <Compile Include="WebServices\Class\GetCAAsByEncomiendasResponse.cs" />
+    <Compile Include="WebServices\Class\GetIdPagosCAAByEncomiendasResponse.cs" />
+    <Compile Include="WebServices\Class\LoginResponse.cs" />
+    <Compile Include="WebServices\Class\ValidarCodigoSeguridadResponse.cs" />
     <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\Servicios.asmx.cs">
       <DependentUpon>Servicios.asmx</DependentUpon>
