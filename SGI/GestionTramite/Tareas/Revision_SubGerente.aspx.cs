@@ -17,7 +17,7 @@ namespace SGI.GestionTramite.Tareas
 
         //private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Revision_SubGerente;
 
-        protected async Task Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             UcObservacionesLibrarUso.Enabled = true;
             if (!IsPostBack)

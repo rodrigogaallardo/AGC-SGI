@@ -14,7 +14,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias.Dictamen
     public partial class Realizar_Dictamen : System.Web.UI.Page
     {
         #region cargar inicial
-        protected async Task Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {

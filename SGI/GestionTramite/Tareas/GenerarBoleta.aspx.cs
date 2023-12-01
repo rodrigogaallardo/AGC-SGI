@@ -15,7 +15,7 @@ namespace SGI.GestionTramite.Tareas
 
         #region cargar inicial
 
-        protected async Task Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "script_inicial", "inicializar_controles();", true);
 

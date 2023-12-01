@@ -114,6 +114,20 @@ namespace SGI.GestionTramite.Tareas
             base.OnUnload(e);
         }
 
+        protected async void btnCargarDatos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await CargarDatosTramite(this.id_tramitetarea);
+                this.EjecutarScript(updCargaInicial, "finalizarCarga();");
+            }
+            catch (Exception ex)
+            {
+                lblErrorCargaInicial.Text = ex.Message;
+                pnlErrorCargaInicial.Visible = true;
+            }
+        }
+
         private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
@@ -432,27 +446,14 @@ namespace SGI.GestionTramite.Tareas
 
         #endregion
 
-        protected void ucProcesosSADE_FinalizadoEnSADE(object sender, EventArgs e)
+        protected async void ucProcesosSADE_FinalizadoEnSADE(object sender, EventArgs e)
         {
             // Cuando se cierra el modal de procesos si no hay pendientes en SADE se dispara esta accion
             ucResultadoTarea.btnFinalizar_Enabled = true;
-            ucListaDocumentos.LoadData(this.id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(this.id_grupotramite, this.id_solicitud);
             //ucResultadoTarea_FinalizarTareaClick(sender, new ucResultadoTareaEventsArgs());
         }
 
-        protected void btnCargarDatos_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                CargarDatosTramite(this.id_tramitetarea);
-                this.EjecutarScript(updCargaInicial, "finalizarCarga();");
-            }
-            catch (Exception ex)
-            {
-                lblErrorCargaInicial.Text = ex.Message;
-                pnlErrorCargaInicial.Visible = true;
-            }
-        }
 
         protected void btnCargarProcesos_Click(object sender, EventArgs e)
         {

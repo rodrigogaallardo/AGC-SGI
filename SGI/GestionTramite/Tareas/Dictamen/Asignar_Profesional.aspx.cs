@@ -15,7 +15,7 @@ namespace SGI.GestionTramite.Tareas.Dictamen
     {
         #region cargar inicial
 
-        protected async Task Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
