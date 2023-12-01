@@ -305,7 +305,7 @@ namespace SGI.ABM.Ubicaciones
                          where cal.Codigo_calle == codCalle
                          && (cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle) <= nroPuerta
                          && (cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle) >= nroPuerta
-                         select cal).SingleOrDefault();
+                         select cal).FirstOrDefault();
 
                 if (c != null)
                     return c.NombreOficial_calle;
@@ -562,7 +562,7 @@ namespace SGI.ABM.Ubicaciones
                               join est in db.Ubicaciones_Estados on op.id_estado equals est.id_estado
                               where ac.Descripcion.Contains("Subdivisión") && est.Descripcion.Contains("En Proceso")
                               && op.CreateUser == userid && ubiOperacionesDet.id_ubicacion == id_ubi_padre
-                              select ubiOperacionesDet).SingleOrDefault();
+                              select ubiOperacionesDet).FirstOrDefault();
 
                 // Devuelvo el id de la operacion
                 if (op_det != null)
@@ -590,7 +590,7 @@ namespace SGI.ABM.Ubicaciones
                               where op.id_operacion == id_opercion && op.CreateUser == userid
                               && ac.Descripcion.Contains("Subdiv") && est.Descripcion.Contains("En Proceso")
                               && ubiOperacionesDet.id_ubicacion != null && ubiOperacionesDet.id_ubicacion_temp == null
-                              select ubiOperacionesDet).SingleOrDefault();
+                              select ubiOperacionesDet).FirstOrDefault();
 
                 // Devuelvo el id de la operacion
                 if (op_det != null)
@@ -676,13 +676,13 @@ namespace SGI.ABM.Ubicaciones
                 if (id_ubi != 0)
                 {
                     op_det.id_ubicacion = id_ubi;
-                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion == id_ubi).SingleOrDefault();
+                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion == id_ubi).FirstOrDefault();
                 }
 
                 if (id_ubi_temp != 0)
                 {
                     op_det.id_ubicacion_temp = id_ubi_temp;
-                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion_temp == id_ubi_temp).SingleOrDefault();
+                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion_temp == id_ubi_temp).FirstOrDefault();
                 }
 
                 if (detalle != "")
@@ -707,7 +707,7 @@ namespace SGI.ABM.Ubicaciones
         {
             using (var ctx = new DGHP_Entities())
             {
-                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).SingleOrDefault();
+                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).FirstOrDefault();
                 if (op != null)
                     op.id_estado = 2; // Confirmada
                 return ctx.SaveChanges() != 0;
@@ -721,7 +721,7 @@ namespace SGI.ABM.Ubicaciones
                 // Verificamos si ya esta registrada la ubicacion 
                 if (id_op != 0)
                 {
-                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_op).SingleOrDefault();
+                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_op).FirstOrDefault();
                     if (op != null)
                         return op.id_ubicacion != null ? (int)op.id_ubicacion : 0;
                 }
@@ -736,7 +736,7 @@ namespace SGI.ABM.Ubicaciones
                 // Actualizamos el id_ubicacion de la operación 
                 if (id_operacion != 0)
                 {
-                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_operacion).SingleOrDefault();
+                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_operacion).FirstOrDefault();
                     if (op != null)
                         op.id_ubicacion = id_ubicacion;
 
@@ -755,7 +755,7 @@ namespace SGI.ABM.Ubicaciones
             using (var ctx = new DGHP_Entities())
             {
                 // Buscamos la operacion para anularla
-                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).SingleOrDefault();
+                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).FirstOrDefault();
                 if (op != null)
                 {
                     // Buscamos si tiene ubicaciones temporales 

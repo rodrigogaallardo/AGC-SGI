@@ -29,20 +29,20 @@
     <table class="table table-condensed" style="width: 100%">
         <tr>
             <td colspan="8" style="text-align: center">
-                <h4>DIRECCI&Oacute;N GENERAL DE HABILITACIONES Y PERMISOS</h4>
+                <h4>DIRECCIÓN GENERAL DE HABILITACIONES Y PERMISOS</h4>
             </td>
         </tr>
     </table>
     <br />
     <table class="table table-condensed">
         <tr>
-            <td colspan="8">C. EXPEDIENTE N&#186:
+            <td colspan="8">C. EXPEDIENTE N°:
                <asp:Label ID="lblNroExpediente" runat="server"></asp:Label>
             </td>
         </tr>
 
         <tr>
-            <td colspan="8">SOLICITUD N&#186:
+            <td colspan="8">SOLICITUD N°:
                 <asp:Label ID="lblNroSolicitud" runat="server"></asp:Label>
             </td>
         </tr>
@@ -99,7 +99,7 @@
         <tr>
             <td colspan="8">
                 <div>
-                    Tr&aacute;mite
+                    Trámite
                     <asp:Label ID="Label3" runat="server"></asp:Label>:
                 </div>
             </td>

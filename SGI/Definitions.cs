@@ -1048,7 +1048,7 @@ namespace SGI
     }
     public class Functions
     {
-        public static void InsertarMovimientoUsuario(Guid userId, DateTime fechaIngreso, int? id_file, string url)
+        public static void InsertarMovimientoUsuario(Guid userId, DateTime fechaIngreso, int? id_file, string datosAdicionales, string url)
         {
             //TODO: a la espera de pedro termine el 1755 porque esto se rompe
             //Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");

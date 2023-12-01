@@ -73,7 +73,8 @@ namespace SGI.GestionTramite.Tareas
             this.id_solicitud = ttHAB.id_solicitud;
             this.TramiteTarea = id_tramitetarea;
             int id_circuito = ttHAB.SGI_Tramites_Tareas.ENG_Tareas.id_circuito;
-
+            SSIT_Solicitudes sol = new SSIT_Solicitudes();
+            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
             SGI_Tarea_Calificar calificar = Buscar_Tarea(id_tramitetarea);
 
             ucListaObservacionesAnteriores.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
@@ -139,7 +140,7 @@ namespace SGI.GestionTramite.Tareas
                 ucObservacionContribuyente.Text = "";
                 ucObservacionesInternas.Text = "";
                 UcObservacionesLibrarUso.Text = ObservacionAnteriores.Buscar_ObservacionLibradoUso((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
-                chbLibrarUso.Checked = false;
+                chbLibrarUso.Checked = (sol.FechaLibrado != null);
             }
             if (!string.IsNullOrEmpty(UcObservacionesLibrarUso.Text))
             {
@@ -150,8 +151,7 @@ namespace SGI.GestionTramite.Tareas
             // Si tiene Normativa y el calificador aprobo el trámite y es cualquier tareas de circuito 2 se debe generar el Qr
             if (tipo_tarea == Constants.ENG_Tipos_Tareas.Calificar || tipo_tarea == Constants.ENG_Tipos_Tareas.Calificar2)
             {
-                SSIT_Solicitudes sol = new SSIT_Solicitudes();
-                sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
+                
 
                 var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
                         && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
@@ -614,23 +614,6 @@ namespace SGI.GestionTramite.Tareas
                                 try
                                 {
                                     db.SSIT_Solicitudes_Set_FechaLibrado(id_solicitud);
-                                    var cmd = db.Database.Connection.CreateCommand();
-                                    cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 1, userid);
-                                    cmd.CommandTimeout = 120;
-                                    try
-                                    {
-                                        db.Database.Connection.Open();
-                                        cmd.ExecuteNonQuery();
-                                    }
-                                    catch (Exception exe)
-                                    {
-                                        throw exe;
-                                    }
-                                    finally
-                                    {
-                                        db.Database.Connection.Close();
-                                        cmd.Dispose();
-                                    }
                                 }
                                 catch (Exception ex)
                                 {
@@ -658,23 +641,6 @@ namespace SGI.GestionTramite.Tareas
                             sol.FechaLibrado = null;
                             db.SSIT_Solicitudes.AddOrUpdate(sol);
                             db.SaveChanges();
-                            var cmd = db.Database.Connection.CreateCommand();
-                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", id_solicitud, 0, userid);
-                            cmd.CommandTimeout = 120;
-                            try
-                            {
-                                db.Database.Connection.Open();
-                                cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception exe)
-                            {
-                                throw exe;
-                            }
-                            finally
-                            {
-                                db.Database.Connection.Close();
-                                cmd.Dispose();
-                            }
                         }
 
                         string mensaje_envio_mail = "";

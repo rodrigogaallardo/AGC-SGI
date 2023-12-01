@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using SGI.GestionTramite.Controls;
 using SGI.Model;
 using SGI.Seguridad;
 using Syncfusion.DocIO.DLS;
@@ -30,9 +31,6 @@ namespace SGI.Operaciones
             if (usu == null)
                 FormsAuthentication.RedirectToLoginPage();
             #endregion
-
-
-
 
 
             string idSolicitudStr = (Request.QueryString["idSolicitud"] == null) ? "" : Request.QueryString["idSolicitud"].ToString();
@@ -197,26 +195,39 @@ namespace SGI.Operaciones
             DGHP_Entities context = new DGHP_Entities();
 
             Guid userid = Functions.GetUserId();
-            bool estoyDesLibrando = false;
-            bool estoyLibrando = false;
 
             if (tipo == "S")
             {
                 sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
                 sSIT_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
 
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Observado)
+                {
+                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
+                }
+
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Aprobada)
+                {
+                    Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+                if (sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Rechazada)
+                {
+                    Mailer.MailMessages.SendMail_RechazoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Caduco)
+                {
+                    Mailer.MailMessages.SendMail_Caducidad_v2(idSolicitud, DateTime.Now);
+                }
+
                 if (chkFecLibrado.Checked)
                 {
-                    if (sSIT_Solicitudes.FechaLibrado != null)
-                        estoyDesLibrando = true;
                     sSIT_Solicitudes.FechaLibrado = null;
                 }
                 else
                 {
                     if (calFechaLibrado.SelectedDate != null)
                     {
-                        if (sSIT_Solicitudes.FechaLibrado != calFechaLibrado.SelectedDate)
-                            estoyLibrando = true;
                         sSIT_Solicitudes.FechaLibrado = calFechaLibrado.SelectedDate;
                     }
                 }
@@ -227,47 +238,6 @@ namespace SGI.Operaciones
                     {
                         context.SSIT_Solicitudes.AddOrUpdate(sSIT_Solicitudes);
                         context.SaveChanges();
-                        dbContextTransaction.Commit();
-                        if (estoyDesLibrando)
-                        {
-                            var cmd = context.Database.Connection.CreateCommand();
-                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", idSolicitud, 0, userid);
-                            cmd.CommandTimeout = 120;
-                            try
-                            {
-                                context.Database.Connection.Open();
-                                cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception exe)
-                            {
-                                throw exe;
-                            }
-                            finally
-                            {
-                                context.Database.Connection.Close();
-                                cmd.Dispose();
-                            }
-                        }
-                        if (estoyLibrando)
-                        {
-                            var cmd = context.Database.Connection.CreateCommand();
-                            cmd.CommandText = string.Format("EXEC SSIT_Solicitudes_Historial_LibradoUso_INSERT {0} {0} '{0}'", idSolicitud, -1, userid);
-                            cmd.CommandTimeout = 120;
-                            try
-                            {
-                                context.Database.Connection.Open();
-                                cmd.ExecuteNonQuery();
-                            }
-                            catch (Exception exe)
-                            {
-                                throw exe;
-                            }
-                            finally
-                            {
-                                context.Database.Connection.Close();
-                                cmd.Dispose();
-                            }
-                        }
                         dbContextTransaction.Commit();
 
                     }
@@ -286,6 +256,26 @@ namespace SGI.Operaciones
             {
                 transf_Solicitudes = CargarTransf_SolicitudesByIdSolicitud(idSolicitud);
                 transf_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Observado)
+                {
+                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
+                }
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Observado_PVH)
+                {
+                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
+                }
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Aprobada)
+                {
+                    Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Rechazada)
+                {
+                    Mailer.MailMessages.SendMail_RechazoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
                 using (var dbContextTransaction = context.Database.BeginTransaction())
                 {
                     try

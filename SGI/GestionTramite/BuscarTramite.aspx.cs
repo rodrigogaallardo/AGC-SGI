@@ -7,7 +7,9 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -157,6 +159,9 @@ namespace SGI
                 busca = hdUltBtn.Value;
                 //busca = hdMyControl.Value;
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
                 switch (busca)
                 {
                     case "porTramite":
@@ -183,6 +188,7 @@ namespace SGI
                         ScriptManager.RegisterStartupScript(updPnlFiltroBuscar_tramite, updPnlFiltroBuscar_tramite.GetType(),
                             "inicializar_controles0", "inicializar_controles0();", true);
                         hdUltBtn.Value = "porTramite";
+                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now,null,string.Empty, url);
                         //hdMyControl.Value = "porTramite";
                         break;
                 }
@@ -1171,6 +1177,8 @@ namespace SGI
 
         private void guardarFiltro()
         {
+
+
             FiltrosBusqueda filtros = new FiltrosBusqueda()
             {
                 id_solicitud = txtNroSolicitud.Text,
@@ -1224,7 +1232,12 @@ namespace SGI
                 filtrosInsertar.CreateUser = userid;
                 filtrosInsertar.botonAccion = hdUltBtn.Value;
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 DGHP_Entities db = new DGHP_Entities();
+                db.Database.CommandTimeout = 300;
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, jsonString, url);
+
                 db.SGI_FiltrosBusqueda.Add(filtrosInsertar);
                 db.SaveChanges();
 

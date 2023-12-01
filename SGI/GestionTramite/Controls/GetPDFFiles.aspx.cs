@@ -49,7 +49,7 @@ namespace SGI.GestionTramite.Controls
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 byte[] Pdf = new byte[0];
                 string FileName = string.Empty;
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file, url);
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file,string.Empty, url);
                 if (id_file > 0)
                 {
                     try

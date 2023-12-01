@@ -1,3 +1,4 @@
+using System.Web.Http;
 using System.Web.Routing;
 using Microsoft.AspNet.FriendlyUrls;
 
@@ -40,7 +41,7 @@ namespace SGI
             routes.MapPageRoute("ImprimirInspeccion_Route", "DescargarInforme/{id_inspeccion}", "~/Reportes/ASRInformeTecnico.aspx");
             routes.MapPageRoute("ImprimirInspeccionIFCI_Route", "DescargarInformeIFCI/{id_inspeccion}", "~/Reportes/IFCIInformeTecnico.aspx");
             routes.MapPageRoute("ImprimirInspeccionRIT_Route", "DescargarInformeRIT/{id_inspeccion}", "~/Reportes/RITInformeTecnico.aspx");
-            
+
         }
     }
 }

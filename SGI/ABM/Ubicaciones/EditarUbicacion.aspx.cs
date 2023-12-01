@@ -259,7 +259,7 @@ namespace SGI.ABM.Ubicaciones
                          where cal.Codigo_calle == codCalle
                          && (cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle) <= nroPuerta
                          && (cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle) >= nroPuerta
-                         select cal).SingleOrDefault();
+                         select cal).FirstOrDefault();
 
                 if (c != null)
                     return c.NombreOficial_calle;
@@ -955,6 +955,7 @@ namespace SGI.ABM.Ubicaciones
                 using (var context = new DGHP_Entities())
                 {
                     var entity = context.Ubicaciones.Where(x => x.id_ubicacion == this.idUbicacion).FirstOrDefault();
+                    /* Se comenta porque estaba borrando las T en objeto Territorial
                     if (Shared.esUbicacionEspecialConObjetoTerritorial(entity.id_ubicacion))
                     {
                         if ("T" == txtManzana.Text.Substring(0, 1).ToUpper())
@@ -966,10 +967,11 @@ namespace SGI.ABM.Ubicaciones
                             txtParcela.Text = txtParcela.Text.Substring(0, txtParcela.Text.Length - 1);
                         }
                     }
+                    */
                     actualizarUbi = entity != null
                                         && entity.Seccion.ToString() == txtSeccion.Text.Trim()
-                                        && entity.Manzana == txtManzana.Text.Trim()
-                                        && entity.Parcela == txtParcela.Text.Trim();
+                                        && entity.Manzana.ToString() == txtManzana.Text.Trim()
+                                        && entity.Parcela.ToString() == txtParcela.Text.Trim();
                 }
 
                 if (actualizarUbi)
