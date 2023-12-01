@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Dictamen - Asignar Profesional" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Asignar_Profesional.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Dictamen.Asignar_Profesional" %>
+﻿<%@ Page Title="Tarea: Dictamen - Asignar Profesional" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Asignar_Profesional.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Dictamen.Asignar_Profesional" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
