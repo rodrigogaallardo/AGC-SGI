@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -45,7 +46,7 @@ namespace SGI.GestionTramite
             }
 
         }
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
@@ -60,16 +61,16 @@ namespace SGI.GestionTramite
                 if (!string.IsNullOrEmpty(strID))
                 {
                     int id_cpadron = Convert.ToInt32(strID);
-                    CargarDatosTramite(id_cpadron);
+                    await CargarDatosTramite(id_cpadron);
                 }
             }
 
         }
 
-        private void CargarDatosTramite(int id_cpadron)
+        private async Task CargarDatosTramite(int id_cpadron)
         {
             ucCabecera.LoadData((int)Constants.GruposDeTramite.CP, id_cpadron);
-            ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.CP, id_cpadron);
+            await ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.CP, id_cpadron);
             ucListaTareas.LoadData((int)Constants.GruposDeTramite.CP, id_cpadron);
             //cargo las observaciones
             DGHP_Entities db = new DGHP_Entities();

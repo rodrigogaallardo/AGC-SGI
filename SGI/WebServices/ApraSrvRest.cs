@@ -298,7 +298,7 @@ namespace ExternalService
             }
         }
 
-        public async Task<List<int>> GetIdPagosCAAsbyEncomiendas(List<int> IdEncomiendaList)
+        public async Task<int[]> GetIdPagosCAAsbyEncomiendas(List<int> IdEncomiendaList)
         {
             try
             {
@@ -321,8 +321,8 @@ namespace ExternalService
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         string content = response.Content;
-                        List<int> getCAAByEncomiendasResponseList = new List<int>();
-                        getCAAByEncomiendasResponseList = JsonConvert.DeserializeObject<List<int>>(content);
+                        //List<int> getCAAByEncomiendasResponseList = new List<int>();
+                        int[] getCAAByEncomiendasResponseList = JsonConvert.DeserializeObject<int[]>(content);
                         //return JsonConvert.SerializeObject(content);
                         return getCAAByEncomiendasResponseList;
                     }

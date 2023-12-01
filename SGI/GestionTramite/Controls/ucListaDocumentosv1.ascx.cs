@@ -442,23 +442,27 @@ namespace SGI.GestionTramite.Controls
                             //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
                             //DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, idEncomiendasPresentadas.ToArray(), ref ws_resultado_CAA);
                             List<GetCAAsByEncomiendasResponse> l = await GetCAAsByEncomiendas(idEncomiendasPresentadas.ToArray());
-                            var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
-                            foreach (var caa in List_CAA)
+                            if(l != null && l.Count > 0)
                             {
-                                if (caa.createDate <= ultimaPresentacion)
+                                var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
+                                foreach (var caa in List_CAA)
                                 {
-                                    var item = new itemDocumentov1
+                                    if (caa.createDate <= ultimaPresentacion)
                                     {
-                                        nombre = caa.tipotramite + "-" + caa.id_solicitud,
-                                        id_file = caa.certificado.idFile,
-                                        id_solicitud = caa.id_solicitud,
-                                        Fecha = caa.createDate,
-                                        UserName = ""
-                                    };
-                                    item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
-                                    archivos.Add(item);
+                                        var item = new itemDocumentov1
+                                        {
+                                            nombre = caa.tipotramite + "-" + caa.id_solicitud,
+                                            id_file = caa.certificado.idFile,
+                                            id_solicitud = caa.id_solicitud,
+                                            Fecha = caa.createDate,
+                                            UserName = ""
+                                        };
+                                        item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
+                                        archivos.Add(item);
+                                    }
                                 }
                             }
+                            
 
                             //Agrego el Nº GEDO si es que existe para cada documento.
                             foreach (var item in archivos)
