@@ -241,7 +241,9 @@ namespace SGI.ABM
                              Id_rubro = rubrosCur.IdRubro,
                              Cod_rubro = rubrosCur.Codigo,
                              Desc_rubro = rubrosCur.Nombre,
-                             Cir_rubro = egc.nom_grupo_circuito
+                             Cir_rubro = egc.nom_grupo_circuito,
+                             SoloApra = rubrosCur.SoloAPRA
+
                          });
 
                 if (txtCodigoDescripcionoPalabraClave.Text.Trim().Length > 0)

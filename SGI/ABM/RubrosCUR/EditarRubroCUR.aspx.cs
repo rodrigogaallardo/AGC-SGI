@@ -111,6 +111,7 @@ namespace SGI.ABM.RubrosCUR
                             rubroCur.IdTipoExpediente = Convert.ToInt16(ddlTipoTramite.SelectedItem.Value);
                             rubroCur.IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value);
                             rubroCur.LibrarUso = ChkLibrado.Checked;
+                            rubroCur.SoloAPRA = ChkSoloApra.Checked;
                             rubroCur.ZonaMixtura1 = txtZonaMixtura1.Text;
                             rubroCur.ZonaMixtura2 = txtZonaMixtura2.Text;
                             rubroCur.ZonaMixtura3 = txtZonaMixtura3.Text;
