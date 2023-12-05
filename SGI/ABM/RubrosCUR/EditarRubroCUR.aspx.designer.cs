@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGI.ABM.RubrosCUR
-{
-
-
-    public partial class EditarRubroCur
-    {
-
+namespace SGI.ABM.RubrosCUR {
+    
+    
+    public partial class EditarRubroCur {
+        
         /// <summary>
         /// hid_DecimalSeparator control.
         /// </summary>
@@ -22,7 +20,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_DecimalSeparator;
-
+        
         /// <summary>
         /// hid_rol_edicion control.
         /// </summary>
@@ -31,7 +29,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_rol_edicion;
-
+        
         /// <summary>
         /// hid_id_rubhistcam control.
         /// </summary>
@@ -40,7 +38,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_rubhistcam;
-
+        
         /// <summary>
         /// pnlDatosRubro control.
         /// </summary>
@@ -49,7 +47,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlDatosRubro;
-
+        
         /// <summary>
         /// updEditarRubro control.
         /// </summary>
@@ -58,7 +56,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updEditarRubro;
-
+        
         /// <summary>
         /// lblCodRubro control.
         /// </summary>
@@ -67,7 +65,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCodRubro;
-
+        
         /// <summary>
         /// txtCodRubro control.
         /// </summary>
@@ -76,7 +74,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCodRubro;
-
+        
         /// <summary>
         /// ReqtxtCodRubro control.
         /// </summary>
@@ -85,7 +83,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqtxtCodRubro;
-
+        
         /// <summary>
         /// lblDescRubro control.
         /// </summary>
@@ -94,7 +92,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDescRubro;
-
+        
         /// <summary>
         /// txtDescRubro control.
         /// </summary>
@@ -103,7 +101,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDescRubro;
-
+        
         /// <summary>
         /// ReqtxtDescRubro control.
         /// </summary>
@@ -112,7 +110,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqtxtDescRubro;
-
+        
         /// <summary>
         /// lblBusqueda control.
         /// </summary>
@@ -121,7 +119,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBusqueda;
-
+        
         /// <summary>
         /// txtBusqueda control.
         /// </summary>
@@ -130,7 +128,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBusqueda;
-
+        
         /// <summary>
         /// lblTooTip control.
         /// </summary>
@@ -139,7 +137,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTooTip;
-
+        
         /// <summary>
         /// txtToolTip control.
         /// </summary>
@@ -148,7 +146,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtToolTip;
-
+        
         /// <summary>
         /// lblFechaVigenciaHasta control.
         /// </summary>
@@ -157,7 +155,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFechaVigenciaHasta;
-
+        
         /// <summary>
         /// txtFechaVigenciaHasta control.
         /// </summary>
@@ -166,7 +164,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFechaVigenciaHasta;
-
+        
         /// <summary>
         /// rev_txtFechaVigenciaHasta control.
         /// </summary>
@@ -175,7 +173,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaVigenciaHasta;
-
+        
         /// <summary>
         /// lblTipoActividad control.
         /// </summary>
@@ -184,7 +182,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTipoActividad;
-
+        
         /// <summary>
         /// pnlTipoActividad control.
         /// </summary>
@@ -193,7 +191,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlTipoActividad;
-
+        
         /// <summary>
         /// ddlTipoActividad control.
         /// </summary>
@@ -202,7 +200,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTipoActividad;
-
+        
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -211,7 +209,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-
+        
         /// <summary>
         /// lblTipoTramite control.
         /// </summary>
@@ -220,7 +218,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTipoTramite;
-
+        
         /// <summary>
         /// pnlTipoTramite control.
         /// </summary>
@@ -229,7 +227,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlTipoTramite;
-
+        
         /// <summary>
         /// ddlTipoTramite control.
         /// </summary>
@@ -238,7 +236,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTipoTramite;
-
+        
         /// <summary>
         /// Label20 control.
         /// </summary>
@@ -247,7 +245,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label20;
-
+        
         /// <summary>
         /// pnlCircuito control.
         /// </summary>
@@ -256,7 +254,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlCircuito;
-
+        
         /// <summary>
         /// ddlCircuito control.
         /// </summary>
@@ -265,7 +263,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCircuito;
-
+        
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -274,7 +272,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-
+        
         /// <summary>
         /// Label21 control.
         /// </summary>
@@ -283,7 +281,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label21;
-
+        
         /// <summary>
         /// ChkLibrado control.
         /// </summary>
@@ -292,7 +290,25 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ChkLibrado;
-
+        
+        /// <summary>
+        /// Control Label50.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label50;
+        
+        /// <summary>
+        /// Control ChkSoloApra.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ChkSoloApra;
+        
         /// <summary>
         /// Label15 control.
         /// </summary>
@@ -319,7 +335,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label8;
-
+        
         /// <summary>
         /// chkAsistentes350 control.
         /// </summary>
@@ -328,7 +344,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkAsistentes350;
-
+        
         /// <summary>
         /// Label14 control.
         /// </summary>
@@ -337,7 +353,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label14;
-
+        
         /// <summary>
         /// chkSinBanioPCD control.
         /// </summary>
@@ -346,7 +362,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkSinBanioPCD;
-
+        
         /// <summary>
         /// Label1 control.
         /// </summary>
@@ -355,7 +371,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-
+        
         /// <summary>
         /// txtZonaMixtura1 control.
         /// </summary>
@@ -364,7 +380,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtZonaMixtura1;
-
+        
         /// <summary>
         /// RequiredFieldValidatortxtZonaMixtura control.
         /// </summary>
@@ -373,7 +389,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtZonaMixtura;
-
+        
         /// <summary>
         /// Label2 control.
         /// </summary>
@@ -382,7 +398,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label2;
-
+        
         /// <summary>
         /// txtZonaMixtura2 control.
         /// </summary>
@@ -391,7 +407,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtZonaMixtura2;
-
+        
         /// <summary>
         /// RequiredFieldValidatortxtZonaMixtura2 control.
         /// </summary>
@@ -400,7 +416,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtZonaMixtura2;
-
+        
         /// <summary>
         /// Label3 control.
         /// </summary>
@@ -409,7 +425,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label3;
-
+        
         /// <summary>
         /// txtZonaMixtura3 control.
         /// </summary>
@@ -418,7 +434,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtZonaMixtura3;
-
+        
         /// <summary>
         /// RequiredFieldValidatortxtZonaMixtura3 control.
         /// </summary>
@@ -427,7 +443,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtZonaMixtura3;
-
+        
         /// <summary>
         /// Label4 control.
         /// </summary>
@@ -436,7 +452,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label4;
-
+        
         /// <summary>
         /// txtZonaMixtura4 control.
         /// </summary>
@@ -445,7 +461,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtZonaMixtura4;
-
+        
         /// <summary>
         /// RequiredFieldValidatortxtZonaMixtura4 control.
         /// </summary>
@@ -454,7 +470,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtZonaMixtura4;
-
+        
         /// <summary>
         /// Label5 control.
         /// </summary>
@@ -463,7 +479,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label5;
-
+        
         /// <summary>
         /// Panel1 control.
         /// </summary>
@@ -472,7 +488,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel1;
-
+        
         /// <summary>
         /// ddlEstacionamiento control.
         /// </summary>
@@ -481,7 +497,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEstacionamiento;
-
+        
         /// <summary>
         /// lblEstacionamientoInfo control.
         /// </summary>
@@ -490,7 +506,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEstacionamientoInfo;
-
+        
         /// <summary>
         /// lblEstacionamientoDesc control.
         /// </summary>
@@ -499,7 +515,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEstacionamientoDesc;
-
+        
         /// <summary>
         /// Label6 control.
         /// </summary>
@@ -508,7 +524,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label6;
-
+        
         /// <summary>
         /// Panel2 control.
         /// </summary>
@@ -517,7 +533,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel2;
-
+        
         /// <summary>
         /// ddlRubrosBicicleta control.
         /// </summary>
@@ -526,7 +542,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlRubrosBicicleta;
-
+        
         /// <summary>
         /// lblBicicletaInfo control.
         /// </summary>
@@ -535,7 +551,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBicicletaInfo;
-
+        
         /// <summary>
         /// lblBicicletaDesc control.
         /// </summary>
@@ -544,7 +560,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBicicletaDesc;
-
+        
         /// <summary>
         /// Label7 control.
         /// </summary>
@@ -553,7 +569,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label7;
-
+        
         /// <summary>
         /// Panel3 control.
         /// </summary>
@@ -562,7 +578,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel3;
-
+        
         /// <summary>
         /// ddlCyD control.
         /// </summary>
@@ -571,7 +587,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCyD;
-
+        
         /// <summary>
         /// lblCyDInfo control.
         /// </summary>
@@ -580,7 +596,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCyDInfo;
-
+        
         /// <summary>
         /// lblCyD control.
         /// </summary>
@@ -589,7 +605,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCyD;
-
+        
         /// <summary>
         /// lblCondicionesIncendioHead control.
         /// </summary>
@@ -598,7 +614,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCondicionesIncendioHead;
-
+        
         /// <summary>
         /// Panel4 control.
         /// </summary>
@@ -607,7 +623,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel4;
-
+        
         /// <summary>
         /// ddlCondicionesIncendio control.
         /// </summary>
@@ -616,7 +632,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCondicionesIncendio;
-
+        
         /// <summary>
         /// lblCondicionesIncendioTitle control.
         /// </summary>
@@ -625,7 +641,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCondicionesIncendioTitle;
-
+        
         /// <summary>
         /// lblCondicionesIncendio control.
         /// </summary>
@@ -634,7 +650,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCondicionesIncendio;
-
+        
         /// <summary>
         /// Label10 control.
         /// </summary>
@@ -643,7 +659,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label10;
-
+        
         /// <summary>
         /// pnlGrdDocReq control.
         /// </summary>
@@ -652,7 +668,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel pnlGrdDocReq;
-
+        
         /// <summary>
         /// hidIdDeletedDocReq control.
         /// </summary>
@@ -661,7 +677,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidIdDeletedDocReq;
-
+        
         /// <summary>
         /// grdDocReq control.
         /// </summary>
@@ -670,7 +686,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdDocReq;
-
+        
         /// <summary>
         /// pnlAccionesAgregarDocReq control.
         /// </summary>
@@ -679,7 +695,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAccionesAgregarDocReq;
-
+        
         /// <summary>
         /// lnkBtnAccionesAgregarDocReq control.
         /// </summary>
@@ -688,7 +704,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkBtnAccionesAgregarDocReq;
-
+        
         /// <summary>
         /// pnlAgregarDocReqEdit control.
         /// </summary>
@@ -697,7 +713,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAgregarDocReqEdit;
-
+        
         /// <summary>
         /// hid_id_rubtdocreq control.
         /// </summary>
@@ -706,7 +722,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_rubtdocreq;
-
+        
         /// <summary>
         /// ddlEditTipoDocReq control.
         /// </summary>
@@ -715,7 +731,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEditTipoDocReq;
-
+        
         /// <summary>
         /// cv_ddlEditTipoDocReq control.
         /// </summary>
@@ -724,7 +740,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CompareValidator cv_ddlEditTipoDocReq;
-
+        
         /// <summary>
         /// ddlEditObligatorio control.
         /// </summary>
@@ -733,7 +749,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEditObligatorio;
-
+        
         /// <summary>
         /// cv_ddlEditObligatorio control.
         /// </summary>
@@ -742,7 +758,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CompareValidator cv_ddlEditObligatorio;
-
+        
         /// <summary>
         /// updPnlAgregarDocReq control.
         /// </summary>
@@ -751,7 +767,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlAgregarDocReq;
-
+        
         /// <summary>
         /// btnGuardarDocReq control.
         /// </summary>
@@ -760,7 +776,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardarDocReq;
-
+        
         /// <summary>
         /// btnCancelarDocReq control.
         /// </summary>
@@ -769,7 +785,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelarDocReq;
-
+        
         /// <summary>
         /// pnlDocReqEliminada control.
         /// </summary>
@@ -778,7 +794,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlDocReqEliminada;
-
+        
         /// <summary>
         /// Label11 control.
         /// </summary>
@@ -787,7 +803,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label11;
-
+        
         /// <summary>
         /// grdDocReqEliminada control.
         /// </summary>
@@ -796,7 +812,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdDocReqEliminada;
-
+        
         /// <summary>
         /// Label12 control.
         /// </summary>
@@ -805,7 +821,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label12;
-
+        
         /// <summary>
         /// pnlGrdInfoRelevante control.
         /// </summary>
@@ -814,7 +830,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel pnlGrdInfoRelevante;
-
+        
         /// <summary>
         /// grdInfoRelevante control.
         /// </summary>
@@ -823,7 +839,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdInfoRelevante;
-
+        
         /// <summary>
         /// pnlAccionesAgregarInfoRelevante control.
         /// </summary>
@@ -832,7 +848,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAccionesAgregarInfoRelevante;
-
+        
         /// <summary>
         /// lnkBtnAccionesAgregarInfoRelevante control.
         /// </summary>
@@ -841,7 +857,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkBtnAccionesAgregarInfoRelevante;
-
+        
         /// <summary>
         /// pnlAgregarInfoRelevanteEdit control.
         /// </summary>
@@ -850,7 +866,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAgregarInfoRelevanteEdit;
-
+        
         /// <summary>
         /// txtEditDescripInfoRelevante control.
         /// </summary>
@@ -859,7 +875,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEditDescripInfoRelevante;
-
+        
         /// <summary>
         /// updPnlAgregarInfoRelevante control.
         /// </summary>
@@ -868,7 +884,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlAgregarInfoRelevante;
-
+        
         /// <summary>
         /// btnGuardarInfoRelevante control.
         /// </summary>
@@ -877,7 +893,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardarInfoRelevante;
-
+        
         /// <summary>
         /// btnCancelarInfoRelevante control.
         /// </summary>
@@ -886,7 +902,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelarInfoRelevante;
-
+        
         /// <summary>
         /// pnlInfoRelevanteEliminada control.
         /// </summary>
@@ -895,7 +911,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlInfoRelevanteEliminada;
-
+        
         /// <summary>
         /// Label13 control.
         /// </summary>
@@ -904,7 +920,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label13;
-
+        
         /// <summary>
         /// grdInfoRelevanteEliminada control.
         /// </summary>
@@ -913,7 +929,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdInfoRelevanteEliminada;
-
+        
         /// <summary>
         /// Label23 control.
         /// </summary>
@@ -922,7 +938,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label23;
-
+        
         /// <summary>
         /// pnlGrdConfIncendio control.
         /// </summary>
@@ -931,7 +947,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel pnlGrdConfIncendio;
-
+        
         /// <summary>
         /// grdConfIncendio control.
         /// </summary>
@@ -940,7 +956,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdConfIncendio;
-
+        
         /// <summary>
         /// pnlAccionesAgregarConfIncendio control.
         /// </summary>
@@ -949,7 +965,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAccionesAgregarConfIncendio;
-
+        
         /// <summary>
         /// lnkBtnAccionesAgregarConfIncendio control.
         /// </summary>
@@ -958,7 +974,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkBtnAccionesAgregarConfIncendio;
-
+        
         /// <summary>
         /// pnlAgregarConfIncendioEdit control.
         /// </summary>
@@ -967,7 +983,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAgregarConfIncendioEdit;
-
+        
         /// <summary>
         /// ddlRiesgo control.
         /// </summary>
@@ -976,7 +992,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlRiesgo;
-
+        
         /// <summary>
         /// txtDesde control.
         /// </summary>
@@ -985,7 +1001,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDesde;
-
+        
         /// <summary>
         /// txtHasta control.
         /// </summary>
@@ -994,7 +1010,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtHasta;
-
+        
         /// <summary>
         /// updPnlAgregarConfIncendio control.
         /// </summary>
@@ -1003,7 +1019,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updPnlAgregarConfIncendio;
-
+        
         /// <summary>
         /// btnGuardarConfIncendio control.
         /// </summary>
@@ -1012,7 +1028,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardarConfIncendio;
-
+        
         /// <summary>
         /// btnCancelarConfIncendio control.
         /// </summary>
@@ -1021,7 +1037,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelarConfIncendio;
-
+        
         /// <summary>
         /// pnlConfIncendioEliminada control.
         /// </summary>
@@ -1030,7 +1046,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlConfIncendioEliminada;
-
+        
         /// <summary>
         /// Label24 control.
         /// </summary>
@@ -1039,7 +1055,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label24;
-
+        
         /// <summary>
         /// grdConfIncendioEliminada control.
         /// </summary>
@@ -1048,7 +1064,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdConfIncendioEliminada;
-
+        
         /// <summary>
         /// Label9 control.
         /// </summary>
@@ -1057,7 +1073,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label9;
-
+        
         /// <summary>
         /// txtObservaciones control.
         /// </summary>
@@ -1066,7 +1082,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtObservaciones;
-
+        
         /// <summary>
         /// btnGuardarRubroCN control.
         /// </summary>
@@ -1075,7 +1091,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardarRubroCN;
-
+        
         /// <summary>
         /// btnCancelar control.
         /// </summary>
@@ -1084,7 +1100,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelar;
-
+        
         /// <summary>
         /// updmpeInfo control.
         /// </summary>
@@ -1093,7 +1109,7 @@ namespace SGI.ABM.RubrosCUR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updmpeInfo;
-
+        
         /// <summary>
         /// lblError control.
         /// </summary>

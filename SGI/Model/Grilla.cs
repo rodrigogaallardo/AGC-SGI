@@ -1090,6 +1090,7 @@ namespace SGI.Model
         public string Cod_rubro { get; set; }
         public string Desc_rubro { get; set; }
         public string Cir_rubro { get; set; }
+        public bool SoloApra { get; set; }
     }
 
     public partial class clsItemHistorialRubroCur

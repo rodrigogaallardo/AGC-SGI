@@ -271,6 +271,7 @@ namespace SGI.Controls
                         IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value),
                         LibrarUso = ChkLibrado.Checked,
                         CondicionExpress = ChkExpress.Checked,
+                        SoloAPRA = ChkSoloApra.Checked,
                         ZonaMixtura1 = txtZonaMixtura1.Text,
                         ZonaMixtura2 = txtZonaMixtura2.Text,
                         ZonaMixtura3 = txtZonaMixtura3.Text,
