@@ -5447,7 +5447,6 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\Servicios.asmx.cs">
       <DependentUpon>Servicios.asmx</DependentUpon>
       <SubType>Component</SubType>

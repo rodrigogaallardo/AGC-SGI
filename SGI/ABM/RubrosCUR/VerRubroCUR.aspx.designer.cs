@@ -220,6 +220,7 @@ namespace SGI.ABM
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label21;
+        protected global::System.Web.UI.WebControls.Label Label50;
 
         /// <summary>
         /// Control ChkLibrado.
@@ -229,6 +230,7 @@ namespace SGI.ABM
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ChkLibrado;
+        protected global::System.Web.UI.WebControls.CheckBox ChkSoloApra;
 
         /// <summary>
         /// Control Label8.

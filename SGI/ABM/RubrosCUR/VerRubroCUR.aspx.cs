@@ -50,6 +50,7 @@ namespace SGI.ABM
                     ddlCondicionesIncendio.SelectedValue = Convert.ToString(q.idCondicionIncendio ?? 0);
                     //
                     ChkLibrado.Checked = q.LibrarUso;
+                    ChkSoloApra.Checked = q.SoloAPRA;
                     txtZonaMixtura1.Text = q.ZonaMixtura1;
                     txtZonaMixtura2.Text = q.ZonaMixtura2;
                     txtZonaMixtura3.Text = q.ZonaMixtura3;

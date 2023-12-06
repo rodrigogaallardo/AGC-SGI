@@ -270,6 +270,7 @@ namespace SGI.Controls
                         IdTipoExpediente = Convert.ToInt16(ddlTipoTramite.SelectedItem.Value),
                         IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value),
                         LibrarUso = ChkLibrado.Checked,
+                        SoloAPRA = ChkSoloApra.Checked,
                         ZonaMixtura1 = txtZonaMixtura1.Text,
                         ZonaMixtura2 = txtZonaMixtura2.Text,
                         ZonaMixtura3 = txtZonaMixtura3.Text,
