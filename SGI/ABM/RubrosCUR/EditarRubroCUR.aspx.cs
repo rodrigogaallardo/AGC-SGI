@@ -64,6 +64,7 @@ namespace SGI.ABM.RubrosCUR
                     //
                     ChkLibrado.Checked = q.LibrarUso;
                     ChkExpress.Checked = q.CondicionExpress;
+                    ChkSoloApra.Checked = q.SoloAPRA;
                     txtZonaMixtura1.Text = q.ZonaMixtura1;
                     txtZonaMixtura2.Text = q.ZonaMixtura2;
                     txtZonaMixtura3.Text = q.ZonaMixtura3;
