@@ -282,6 +282,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                     <div class="control-group">
+                                        <label class="control-label">Observaciones del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" Width="550px" TextMode="MultiLine"></asp:TextBox>
+                                        </div>
+                                    </div>
                                     <asp:UpdatePanel ID="updBotonesGuardar" runat="server" >
                                         <ContentTemplate>
                                             <div class="form-horizontal">

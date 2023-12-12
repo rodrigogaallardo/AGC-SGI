@@ -236,6 +236,7 @@ namespace SGI.ABM
                 txtNroOperadorReq.Text = Convert.ToString(dato.nroOperador);
                 txtObservacionesReq.Text = dato.observaciones;
                 txtMotivo.Text = dato.MotivoLevantamiento;
+                
             }
             db.Dispose();
         }
@@ -307,6 +308,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 string userName = Membership.GetUser().ProviderName;
 
                 int idPersonaInhibida = Convert.ToInt32(hid_id_personainhibidaReq.Value);
@@ -350,9 +352,16 @@ namespace SGI.ABM
                     try
                     {
                         if (idPersonaInhibida == 0)
+                        { 
                             db.PersonasInhibidas_insert(idTipoDocPersonaInhibida, nroDocumentoPersonaInhibida, nroOrdenPersonaInhibida, cuitPersonaInhibida, nomapePersonaInhibida, fechaRegistroPersonaInhibida, fechaVencimientoPersonaInhibida, autos, juzgado, secretaria, estado, fechabajaPersonaInhibida, operadorPersonaInhibida, observacionesPersonaInhibida, userName, motivo, idTipoPersona);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                        }
                         else
+                        {
                             db.PersonasInhibidas_update(idPersonaInhibida, idTipoDocPersonaInhibida, nroDocumentoPersonaInhibida, nroOrdenPersonaInhibida, cuitPersonaInhibida, nomapePersonaInhibida, fechaRegistroPersonaInhibida, fechaVencimientoPersonaInhibida, autos, juzgado, secretaria, estado, fechabajaPersonaInhibida, operadorPersonaInhibida, observacionesPersonaInhibida, userName, motivo, idTipoPersona);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+
+                        }
 
                         Tran.Complete();
                     }

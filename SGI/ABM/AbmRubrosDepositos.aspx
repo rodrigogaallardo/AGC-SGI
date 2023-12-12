@@ -340,6 +340,12 @@
                                             <asp:DropDownList ID="ddlCondicionIncendio" runat="server" ValidationGroup="guardar" CssClass="checkboxlist" Width="400px"></asp:DropDownList>                                        
                                         </div>
                                     </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Observaciones del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="350px" TextMode="MultiLine"></asp:TextBox>
+                                        </div>
+                                    </div>
 
                                     <%--Guardar / Cancelar--%>
                                     <asp:UpdatePanel ID="updBotonesGuardar" runat="server" >

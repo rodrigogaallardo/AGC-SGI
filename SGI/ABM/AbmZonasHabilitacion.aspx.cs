@@ -176,6 +176,9 @@ namespace SGI.ABM
                     try
                     {
                         db.Rubros_EliminarRubrosZonasHabilitaciones(idZona, userid);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -204,6 +207,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idZona = Convert.ToInt32(hid_id_ZonaReq.Value);
                 string codigo = txtCodigoZonaReq.Text.Trim();
@@ -216,9 +220,15 @@ namespace SGI.ABM
                     try
                     {
                         if (idZona == 0)
-                            db.Rubros_GuardarRubrosZonasHabilitaciones(codigo,nombre,userid);
+                        {
+                            db.Rubros_GuardarRubrosZonasHabilitaciones(codigo, nombre, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
-                            db.Rubros_ActualizarRubrosZonasHabilitaciones(idZona,codigo, nombre,userid);
+                        {
+                            db.Rubros_ActualizarRubrosZonasHabilitaciones(idZona, codigo, nombre, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)

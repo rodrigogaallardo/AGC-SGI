@@ -2,6 +2,7 @@
 
 <asp:HiddenField ID="hid_lNot_collapse" runat="server" Value="false"/>
 
+
 <div class="accordion-group widget-box">
     <div class="accordion-heading">
         <a id="btnUpDownNot" data-parent="#collapse-group" href="#collapseNoti" 
@@ -14,6 +15,7 @@
         </a>
 
     </div>
+
 
     <div class="accordion-body collapse in" id="collapseNoti">
         <div class="widget-content">
@@ -113,6 +115,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {

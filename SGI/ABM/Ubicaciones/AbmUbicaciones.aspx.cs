@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Drawing;
+using System.Web.Security;
 
 namespace SGI.ABM.Partidas
 {
@@ -1372,6 +1373,11 @@ namespace SGI.ABM.Partidas
                 DataTable dt = dtUbicacionesCargadas();
 
                 dt.Rows.RemoveAt(row.RowIndex);
+
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
 
                 grdUbicaciones.DataSource = dt;
                 grdUbicaciones.DataBind();

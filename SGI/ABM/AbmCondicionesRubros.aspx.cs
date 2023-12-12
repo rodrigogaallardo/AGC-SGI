@@ -179,6 +179,9 @@ namespace SGI.ABM
                     try
                     {
                         db.Rubros_EliminarRubrosCondiciones(idCondicion, userid);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -207,6 +210,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idCondicion = Convert.ToInt32(hid_id_condReq.Value);
                 string codigo = txtCodigoCondicionReq.Text.Trim();
@@ -220,9 +224,17 @@ namespace SGI.ABM
                     try
                     {
                         if (idCondicion == 0)
-                            db.Rubros_GuardarRubrosCondiciones(codigo,nombre,supMinima,supMaxima,userid);
+                        {
+                            db.Rubros_GuardarRubrosCondiciones(codigo, nombre, supMinima, supMaxima, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
-                            db.Rubros_ActualizarRubrosCondiciones(idCondicion,codigo, nombre, supMinima, supMaxima,userid);
+                        {
+                            db.Rubros_ActualizarRubrosCondiciones(idCondicion, codigo, nombre, supMinima, supMaxima, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
+                            
+
                         Tran.Complete();
                     }
                     catch (Exception ex)

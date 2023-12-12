@@ -851,7 +851,11 @@ namespace SGI.ABM
                 db.Ubicaciones_Inhibiciones_delete(id_ubicinhibida, null, userid, txtMotivoEliminarLevantamiento.Text);
 
             Buscador();
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
             updPnlUbicacionesInhibidas.Update();
+
         }
 
         protected void lnkPDF_Click(object sender, EventArgs e)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -480,6 +481,9 @@ namespace SGI.Operaciones
                     {
                         entities.SGI_Tramites_Tareas.Remove(tramiteTarea);
                         entities.SaveChanges();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+
                     }
                     catch (Exception ex)
                     {
@@ -491,6 +495,7 @@ namespace SGI.Operaciones
 
 
                     }
+
                 }
 
                 gridView.EditIndex = -1;
@@ -565,6 +570,26 @@ namespace SGI.Operaciones
                 id_circuito = tareasDeLaSolicitud.LastOrDefault().ENG_Tareas.ENG_Circuitos.id_circuito;
             }
             Response.Redirect("~/Operaciones/TareasForm.aspx?idTramiteTarea=0" + "&idSolicitud=" + idSolicitud + "&hAB_tRANSF=" + hAB_tRANSF + "&id_circuito=" + id_circuito);
+        }
+
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
         }
     }
 }

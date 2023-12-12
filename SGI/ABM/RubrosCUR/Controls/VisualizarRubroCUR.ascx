@@ -1,4 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="VisualizarRubroCUR.ascx.cs" Inherits="SGI.Controls.VisualizarRubroCUR" %>
+
+
 <style type="text/css">
     .col1 {
         width: 150px;
@@ -351,6 +353,14 @@
                     </td>
                     <td class="col2">
                         <asp:TextBox ID="txtObservaciones" runat="server" MaxLength="6" Width="90%" TextMode="MultiLine"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <asp:Label ID="Label11" runat="server" Text="Observaciones del Solicitante:"></asp:Label>
+                    </td>
+                    <td class="col2">
+                        <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" MaxLength="6" Width="90%" TextMode="MultiLine"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>

@@ -1084,7 +1084,25 @@ namespace SGI.ABM.RubrosCUR {
         protected global::System.Web.UI.WebControls.TextBox txtObservaciones;
         
         /// <summary>
-        /// btnGuardarRubroCN control.
+        /// Control Label15.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label15;
+
+        /// <summary>
+        /// Control txtObservacionesSolicitante.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitante;
+
+        /// <summary>
+        /// Control btnGuardarRubroCN.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.

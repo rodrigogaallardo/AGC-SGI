@@ -270,6 +270,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 LinkButton lnkEditar = (LinkButton)sender;
                 int idDeposito = int.Parse(lnkEditar.CommandArgument);
                 db = new DGHP_Entities();
@@ -278,6 +279,8 @@ namespace SGI.ABM
                     try
                     {
                         db.SGI_Deposito_EliminarVigencia(idDeposito);
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -302,8 +305,12 @@ namespace SGI.ABM
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             db = new DGHP_Entities();
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
             try
             {
+
                 int idDeposito = Convert.ToInt32(hid_id_deposito.Value);
                 string codigo = txtCodigoDeposito2.Text.Trim();
                 string descripcion = txtDescripcion.Text.Trim();
@@ -321,9 +328,15 @@ namespace SGI.ABM
                     try
                     {
                         if (idDeposito == 0)
+                        {
                             db.SGI_Deposito_Insertar(codigo, descripcion, id_categoria, grado_molestia, zona_mixtura1, zona_mixtura2, zona_mixtura3, zona_mixtura4, id_condicion_incendio);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                        }
                         else
+                        {
                             db.SGI_Deposito_ActualizarInformacion(idDeposito, descripcion, id_categoria, grado_molestia, zona_mixtura1, zona_mixtura1, zona_mixtura3, zona_mixtura4, id_condicion_incendio, vigencia);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)

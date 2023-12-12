@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -310,17 +311,24 @@ namespace SGI.Operaciones
             SGI_Tramites_Tareas_HAB sgi_Tramites_Tareas_HAB = new SGI_Tramites_Tareas_HAB();
             SGI_Tramites_Tareas_TRANSF sgi_Tramites_Tareas_TRANSF = new SGI_Tramites_Tareas_TRANSF();
             DGHP_Entities context = new DGHP_Entities();
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
 
             int idTramiteTarea = int.Parse(hdidTramiteTarea.Value);
 
             if (idTramiteTarea == 0)
             {
+
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
                 tramiteTarea.id_tramitetarea = context.SGI_Tramites_Tareas.Max(x => x.id_tramitetarea) + 1;
                 tramiteTarea.id_proxima_tarea = null;
                 tramiteTarea.CreateUser = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
             }
             else
             {
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+
                 tramiteTarea.id_tramitetarea = idTramiteTarea;
                 if (chkproxima_tarea.Checked)
                     tramiteTarea.id_proxima_tarea = null;

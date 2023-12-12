@@ -12,6 +12,7 @@ using SGI.Model;
 using SGI.DataLayer.Models;
 using SGI.BusinessLogicLayer.Constants;
 using SGI.GestionTramite.Controls;
+using System.Web;
 
 namespace SGI
 {

@@ -219,6 +219,9 @@ namespace SGI.ABM
                     try
                     {
                         db.Zonas_Planeamiento_delete(idZonaPlaneamiento, userid);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -247,6 +250,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idZonaPlaneamiento = Convert.ToInt32(hid_id_condReq.Value);
                 string codigoZona = txtCodigoZonaReq.Text.Trim();
@@ -258,9 +262,15 @@ namespace SGI.ABM
                     try
                     {
                         if (idZonaPlaneamiento == 0)
+                        {
                             db.Zonas_Planeamiento_insert(codigoZona, nombreZona, userid, codigoZonaHabilitacion);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
+                        {
                             db.Zonas_Planeamiento_update(idZonaPlaneamiento, codigoZona, nombreZona, userid, Convert.ToInt32(txtEditIdPlanHabil.Value), codigoZonaHabilitacion);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)

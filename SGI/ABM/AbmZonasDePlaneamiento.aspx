@@ -311,6 +311,13 @@
                                      </fieldset>
                                     </div>
 
+                                    <div class="control-group" style="padding-top: 50px;">
+                                        <label class="control-label">Observaciones del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" Width="500px" TextMode="MultiLine"></asp:TextBox>
+                                        </div>
+                                    </div>
+
                                      
                                     <asp:UpdatePanel ID="updBotonesGuardar" runat="server" >
                                         <ContentTemplate>

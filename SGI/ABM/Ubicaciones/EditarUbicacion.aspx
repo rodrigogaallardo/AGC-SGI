@@ -350,6 +350,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="form-horizontal">
+                                                <div class="control-group">
+                                                    <label class="control-label">Observaciones del Solicitante:</label>
+                                                    <div class="controls">
+                                                        <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" TextMode="MultiLine" ></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </fieldset>
                                     </div>
                                 </div>

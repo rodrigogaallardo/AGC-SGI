@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -259,7 +260,10 @@ namespace SGI.Controls
                 Page.Validate();
                 if (Page.IsValid)
                 {
+                    Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                    string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                     var nuevoRubroCur = new RubrosCN
+
                     {
                         Codigo = txtCodRubro.Text.Trim(),
                         Keywords = txtToolTip.Text.TrimEnd(),
@@ -294,6 +298,7 @@ namespace SGI.Controls
                         db.SaveChanges();
                         Response.Redirect("~/ABM/RubrosCUR/AbmRubrosCUR.aspx");
                     }
+                    Functions.InsertarMovimientoUsuario(userId,DateTime.Now,null,string.Empty,url,txtObservacionesSolicitantes.Text,"I");
                 }
             }
             catch (Exception ex)

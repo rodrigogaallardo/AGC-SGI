@@ -672,6 +672,15 @@ namespace SGI.ABM
         protected global::System.Web.UI.WebControls.DropDownList ddlEstados;
 
         /// <summary>
+        /// Control txtObservacionesSolicitantes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitantes;
+
+        /// <summary>
         /// Control txtObservacionesEst.
         /// </summary>
         /// <remarks>
@@ -886,6 +895,15 @@ namespace SGI.ABM
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlHoriEstadosHori;
+
+        /// <summary>
+        /// Control txtObservacionesSolicitante.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitante;
 
         /// <summary>
         /// Control ObserEditHP.
