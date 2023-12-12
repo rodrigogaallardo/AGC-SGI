@@ -536,6 +536,15 @@
                                             </asp:TextBox>
                                         </div>
                                     </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Observación del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" 
+                                                TextMode="MultiLine" MaxLength="1000" Height="100px" Width="550px"
+                                               >
+                                            </asp:TextBox>
+                                        </div>
+                                    </div>
                                     <asp:Panel ID="pnlBajaLogica" runat="server" Visible="false"> 
                                         <div id="divBaja" class="control-group">
                                             <label class="col-sm-3 control-label">Baja Lógica:</label>

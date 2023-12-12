@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -119,6 +120,8 @@ namespace SGI.GestionTramite.Controls
                             ftx.Calles_Eliminadas.AddOrUpdate(entity);
                             ftx.Calles.Remove(calle);
                             ftx.SaveChanges();
+                            string script = "$('#frmEliminarLog').modal('show');";
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                         }
                         LoadData(id_calle);
                         tran.Commit();
@@ -394,6 +397,25 @@ namespace SGI.GestionTramite.Controls
                 }
 
             }
+        }
+
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
         }
 
     }

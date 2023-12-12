@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -194,9 +195,9 @@ namespace SGI.Operaciones
             SSIT_Solicitudes sSIT_Solicitudes = new SSIT_Solicitudes();
             Transf_Solicitudes transf_Solicitudes = new Transf_Solicitudes();
             CPadron_Solicitudes cPadron_Solicitudes = new CPadron_Solicitudes();
-            DGHP_Entities context = new DGHP_Entities();
-
+            DGHP_Entities context = new DGHP_Entities();           
             Guid userid = Functions.GetUserId();
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
             if (tipo == "S")
             {
@@ -275,6 +276,7 @@ namespace SGI.Operaciones
                     }
                 }
             }
+            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
 
             Response.Redirect("~/Operaciones/SolicitudesIndex.aspx?idSolicitud=" + hdidSolicitud.Value);
 

@@ -467,6 +467,9 @@ namespace SGI.GestionTramite
                 var lst = GetDocumentosCargados();
                 var item_eliminar = lst.FirstOrDefault(x => x.rowid == rowid);
                 lst.Remove(item_eliminar);
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
                 gridAgregados_db.DataSource = lst;
                 gridAgregados_db.DataBind();
                 updpnlGrillaDoc.Update();
@@ -630,6 +633,9 @@ namespace SGI.GestionTramite
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             db = new DGHP_Entities();
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
 
             int aux = 0;
             int idTipoTramite = 0;
@@ -655,8 +661,6 @@ namespace SGI.GestionTramite
                         (tr != null && tr.id_estado == (int)Constants.Solicitud_Estados.BajaAdm) ||
                         (cp != null && cp.id_estado == (int)Constants.Solicitud_Estados.BajaAdm))
                         throw new Exception("El trámite ya fue dada de baja.");
-
-                    Guid userid = Functions.GetUserId();
 
                     List<SGI_Tramites_Tareas> tareas = (from tt in db.SGI_Tramites_Tareas
                                                         join th in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals th.id_tramitetarea
@@ -900,6 +904,8 @@ namespace SGI.GestionTramite
                             }
                         }
                     }
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+
                 }
 
                 catch (Exception ex)

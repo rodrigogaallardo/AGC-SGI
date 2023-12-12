@@ -303,7 +303,7 @@ namespace SGI.ABM
         private void CargarDatos(int id_datos)
         {
 
-            db = new DGHP_Entities();
+            db = new DGHP_Entities();           
 
             var dato = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == id_datos);
             if (dato != null)
@@ -370,6 +370,9 @@ namespace SGI.ABM
                     try
                     {
                         db.TiposDeDocumentosRequeridos_delete(idTipoDocReq, userid);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -395,9 +398,11 @@ namespace SGI.ABM
         {
 
             db = new DGHP_Entities();
+
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idTipoDocReq = Convert.ToInt32(hid_id_tipoDocReq.Value);
                 string nombre = txtNombreDocReq.Text.Trim();
@@ -419,9 +424,17 @@ namespace SGI.ABM
                     try
                     {
                         if (idTipoDocReq == 0)
+                        {
                             db.TiposDeDocumentosRequeridos_insert(nombre, observ, userid, requiereDetalle, visible_en_SSIT, visible_en_SGI, visible_en_AT, visible_en_OBS, verificar_firma, tamano, formato, acronimo);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+
+                        }
                         else
+                        {
                             db.TiposDeDocumentosRequeridos_update(idTipoDocReq, nombre, observ, baja, userid, requiereDetalle, visible_en_SSIT, visible_en_SGI, visible_en_AT, visible_en_OBS, verificar_firma, tamano, formato, acronimo);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -430,6 +443,7 @@ namespace SGI.ABM
                         throw ex;
                     }
                 }
+
 
                 grdResultados.DataBind();
                 CargarComboDocumentos();

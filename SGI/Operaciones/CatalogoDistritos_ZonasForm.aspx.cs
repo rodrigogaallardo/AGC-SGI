@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -167,8 +168,8 @@ namespace SGI.Operaciones
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-
-
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
             Ubicaciones_CatalogoDistritos_Zonas ubicaciones_CatalogoDistritos_Zonas = new Ubicaciones_CatalogoDistritos_Zonas();
 
@@ -192,11 +193,12 @@ namespace SGI.Operaciones
             if (IdZona == 0)
             {
                 ubicaciones_CatalogoDistritos_Zonas.IdZona = context.Ubicaciones_CatalogoDistritos_Zonas.Max(x => x.IdZona) + 1;
-
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
             }
             else
             {
                 ubicaciones_CatalogoDistritos_Zonas.IdZona = IdZona;
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
 
             }
             ubicaciones_CatalogoDistritos_Zonas.IdDistrito = int.Parse(ddlCatalogoDistritos.SelectedValue);

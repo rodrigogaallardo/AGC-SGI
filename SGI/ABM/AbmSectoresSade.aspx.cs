@@ -178,6 +178,9 @@ namespace SGI.ABM
                     try
                     {
                         db.SectoresSADE_EliminarSector(idSector, userid);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -206,6 +209,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idSector = Convert.ToInt32(hid_id_SectorReq.Value);
                 string codigo = txtCodigoSectorReq.Text.Trim();
@@ -220,9 +224,15 @@ namespace SGI.ABM
                     {
                         
                         if (idSector == 0)
-                            db.SectoresSADE_GuardarSector(codigo, Nombre,reparticion, userid);
+                        {
+                            db.SectoresSADE_GuardarSector(codigo, Nombre, reparticion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
-                            db.SectoresSADE_ActualizarSector(idSector, codigo, Nombre,reparticion, userid);
+                        {
+                            db.SectoresSADE_ActualizarSector(idSector, codigo, Nombre, reparticion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)

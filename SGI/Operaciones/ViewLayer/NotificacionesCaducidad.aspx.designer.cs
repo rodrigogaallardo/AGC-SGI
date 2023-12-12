@@ -15,6 +15,24 @@ namespace SGI
     {
 
         /// <summary>
+        /// Control hid_valor_boton.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_valor_boton;
+
+        /// <summary>
+        /// Control hid_observaciones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_observaciones;
+
+        /// <summary>
         /// Control txtNroSolicitud.
         /// </summary>
         /// <remarks>

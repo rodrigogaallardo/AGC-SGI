@@ -158,6 +158,9 @@ namespace SGI.ABM
                     try
                     {
                         db.Clanae_delete(idClanae);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -186,6 +189,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int id = Convert.ToInt32(hid_id_req.Value);
                 string codigo = txtCodigoReq.Text.Trim();
@@ -197,9 +201,15 @@ namespace SGI.ABM
                     {
 
                         if (id == 0)
-                            db.Clanae_insert(codigo, descripcion,  userid);
+                        {
+                            db.Clanae_insert(codigo, descripcion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                        }
                         else
+                        {
                             db.Clanae_update(id, codigo, descripcion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)

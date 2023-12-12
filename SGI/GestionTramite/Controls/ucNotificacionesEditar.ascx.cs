@@ -1,6 +1,8 @@
 ﻿using SGI.Model;
 using System;
 using System.Linq;
+using System.Web.Security;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -277,6 +279,8 @@ namespace SGI.GestionTramite.Controls
                             }
                             LoadData(id_solicitud);
                             tran.Commit();
+                            string script = "$('#frmEliminarLog').modal('show');";
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                         }
                         catch (Exception ex)
                         {
@@ -311,6 +315,8 @@ namespace SGI.GestionTramite.Controls
                             }
                             LoadData(id_solicitud);
                             tran.Commit();
+                            string script = "$('#frmEliminarLog').modal('show');";
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                         }
                         catch (Exception ex)
                         {

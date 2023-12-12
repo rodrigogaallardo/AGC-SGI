@@ -690,6 +690,10 @@ namespace SGI.ABM
             }
             Buscador();
             updPnlUbicacionesClausuradas.Update();
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
             //Session["Tipo"] = tipo;
             //Session["id_ubicinhibida"] = id_ubicinhibida;
             //Eliminar();

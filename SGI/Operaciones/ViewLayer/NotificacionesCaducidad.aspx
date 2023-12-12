@@ -34,6 +34,10 @@
         <h1><%: Title %>.</h1>
     </hgroup>
 
+    
+    <asp:HiddenField ID="hid_valor_boton" runat="server" />
+    <asp:HiddenField ID="hid_observaciones" runat="server" />
+
     <%--Nro de Solicitud--%>
     <div style="display: flex;">
         <div class="control-group">
@@ -186,7 +190,9 @@
         </div>
     </div>
 
-        <uc1:ucNotificacionesEditar runat="server" ID="ucNotificacionesEditar" />
+    
+
+    <uc1:ucNotificacionesEditar runat="server" ID="ucNotificacionesEditar" />
 
     <script>
 

@@ -823,6 +823,14 @@
                             </tr>
                             <tr>
                                 <td class="col1">
+                                    <asp:Label ID="Label15" runat="server" Text="Observaciones del Solicitante:"></asp:Label>
+                                </td>
+                                <td class="col2">
+                                    <asp:TextBox ID="txtObservacionesSolicitante" runat="server" MaxLength="6" Width="90%" TextMode="MultiLine"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col1">
                                     <asp:LinkButton ID="btnGuardarRubroCN" runat="server" Style="margin-left: 10px" CssClass="btn btn-primary"
                                         ValidationGroup="CrearRubro" OnClick="btnGuardarRubroCN_Click">
                                 <i class="icon-white icon-pencil"></i>

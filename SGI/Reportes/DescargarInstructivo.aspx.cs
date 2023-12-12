@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Transactions;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -31,6 +32,9 @@ namespace SGI.Reportes
 
         private void enviarFlujo()
         {
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
             int id_Instructivo = (Request.QueryString["id"] == null) ? 0 : Convert.ToInt32(Request.QueryString["id"]);
             if (id_Instructivo == 0)
                 id_Instructivo = (Page.RouteData.Values["id"] != null) ? Convert.ToInt32(Page.RouteData.Values["id"]) : 0;
@@ -73,6 +77,7 @@ namespace SGI.Reportes
 
             //arch = obj.nombre_archivo.Replace(' ', '_');
 
+            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, f.id_file, string.Empty, url, null, null);
             arch = "Instructivo_" + obj.id_file + "." + "pdf";
             Response.Clear();
             Response.Buffer = true;//false;

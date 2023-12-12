@@ -210,7 +210,12 @@
                                             <asp:DropDownList ID="ddlEstado" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList>
                                         </div>
                                     </div>
-                                   
+                                    <div class="control-group">
+                                        <label class="control-label">Observaciones del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" Width="450px" TextMode="MultiLine"></asp:TextBox>
+                                        </div>
+                                    </div>
                                    
                                     <asp:UpdatePanel ID="updBotonesGuardar" runat="server" >
                                         <ContentTemplate>

@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using SGI.Model;
 using System.Transactions;
+using System.Security.Policy;
 
 namespace SGI.ABM
 {
@@ -269,6 +270,9 @@ namespace SGI.ABM
                     try
                     {
                         db.SectoresSADE_EliminarSectorTarea(idSectorTarea, userid);
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -297,6 +301,8 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
 
                 int idSectorTarea = Convert.ToInt32(hid_id_SectorTareaReq.Value);
                 int idSector = 0;
@@ -314,9 +320,15 @@ namespace SGI.ABM
                     try
                     {
                         if (idSectorTarea == 0)
+                        {
                             db.SectoresSADE_GuardarSectorTarea(idSector, idTOrigen, idTDestino, idEstado, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
+                        {
                             db.SectoresSADE_ActualizarSectorTarea(idSectorTarea, idSector, idTOrigen, idTDestino, idEstado, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)
