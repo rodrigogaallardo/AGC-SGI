@@ -1029,10 +1029,6 @@ namespace SGI.ABM
                 dt.Rows.RemoveAt(row.RowIndex);
                 grdUbicaciones.DataSource = dt;
                 grdUbicaciones.DataBind();
-                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
             }
             catch (Exception ex)
             {

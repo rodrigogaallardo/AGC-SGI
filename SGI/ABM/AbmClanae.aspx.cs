@@ -158,10 +158,10 @@ namespace SGI.ABM
                     try
                     {
                         db.Clanae_delete(idClanae);
-                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, string.Empty, "D");
 
                         Tran.Complete();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -478,6 +478,25 @@ namespace SGI.ABM
                     "mostrarMensaje", "mostrarMensaje('" + mensaje + "','" + titulo + "')", true);
         }
         #endregion
+
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionEliminar.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
+        }
 
     }
 }
