@@ -1142,9 +1142,6 @@ namespace SGI.ABM.Partidas
         }
 
 
-
-
-
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
 
@@ -1373,10 +1370,6 @@ namespace SGI.ABM.Partidas
                 DataTable dt = dtUbicacionesCargadas();
 
                 dt.Rows.RemoveAt(row.RowIndex);
-
-                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
 
 
                 grdUbicaciones.DataSource = dt;
