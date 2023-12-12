@@ -357,7 +357,7 @@
                 </tr>
                 <tr>
                     <td class="col1">
-                        <asp:Label ID="Label11" runat="server" Text="Observaciones del Solicitante:"></asp:Label>
+                        <asp:Label ID="LabelObservacionesSolicitantes" runat="server" Text="Observaciones del Solicitante:"></asp:Label>
                     </td>
                     <td class="col2">
                         <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" MaxLength="6" Width="90%" TextMode="MultiLine"></asp:TextBox>
