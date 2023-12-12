@@ -94,12 +94,12 @@ namespace SGI.WebServices
                 request.AddHeader("Token", guid.ToString());
 
                 response = clientrest.Execute(request);
-
-                LogError.Write(new Exception(">>>>>>>>>>>>>>DESCARGAR ARCHIVO>>>>>>>>>>>>>>"));
-                LogError.Write(new Exception("CLIENT: " + Funciones.GetDataFromClient(clientrest)));
-                LogError.Write(new Exception("REQUEST: " + Funciones.GetDataFromRequest(request)));
-                LogError.Write(new Exception("RESPONSE: " + Funciones.GetDataFromResponse(response)));
-                LogError.Write(new Exception("<<<<<<<<<<<<<<DESCARGAR ARCHIVO<<<<<<<<<<<<<<"));
+                //El error de descarga de arhivos ya fue solucionado, por lo tanto ya no sirve este log
+                //LogError.Write(new Exception(">>>>>>>>>>>>>>DESCARGAR ARCHIVO>>>>>>>>>>>>>>"));
+                //LogError.Write(new Exception("CLIENT: " + Funciones.GetDataFromClient(clientrest)));
+                //LogError.Write(new Exception("REQUEST: " + Funciones.GetDataFromRequest(request)));
+                //LogError.Write(new Exception("RESPONSE: " + Funciones.GetDataFromResponse(response)));
+                //LogError.Write(new Exception("<<<<<<<<<<<<<<DESCARGAR ARCHIVO<<<<<<<<<<<<<<"));
                 if (response.StatusCode != HttpStatusCode.OK)
                     throw new Exception("No se ha podido descargar el file en el servicio ");
    
@@ -149,8 +149,9 @@ namespace SGI.WebServices
             //fileExtension = response.Headers.First(p => p.Name.Equals("Content-Disposition")).Value.ToString().Replace("attachment; filename=", "");
             //fileExtension = Path.GetExtension(fileExtension);
             fileExtension = response.Headers.First(p => p.Name.Equals("Filename")).Value.ToString();
-            if (response.ContentLength <= 0)
-                LogError.Write(new Exception("RESPONSE error red: " + Funciones.GetDataFromResponse(response)));
+            // Ya solucionamos el error de descarga de archivos
+            //if (response.ContentLength <= 0)
+            //    LogError.Write(new Exception("RESPONSE error red: " + Funciones.GetDataFromResponse(response)));
             return response.RawBytes;
         }
         /// <summary>
