@@ -736,6 +736,7 @@
     <Content Include="Errores\Error3051.aspx" />
     <Content Include="GestionTramite\Controls\ucDatosContacto.ascx" />
     <Content Include="GestionTramite\Controls\ucPlanoIncendio.ascx" />
+    <Content Include="Operaciones\ConsultaMovimientos.aspx" />
     <Content Include="Operaciones\FeriadosIndex.aspx" />
     <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
@@ -2203,6 +2204,13 @@
     </Compile>
     <Compile Include="Model\SSIT_Solicitudes_AvisoRechazo.cs">
       <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\ConsultaMovimientos.aspx.cs">
+      <DependentUpon>ConsultaMovimientos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ConsultaMovimientos.aspx.designer.cs">
+      <DependentUpon>ConsultaMovimientos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
       <DependentUpon>FeriadosIndex.aspx</DependentUpon>

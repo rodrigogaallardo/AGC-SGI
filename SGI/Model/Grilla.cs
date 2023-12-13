@@ -717,6 +717,19 @@ namespace SGI.Model
         public int Calle_AlturaDerechaFin { get; set; }
         public string Calle_Tipo { get; set; }
     }
+    //hjacer uno aca para la grilla de auditoria
+    public partial class clsItemGrillaBuscarMovimientos
+    {
+        public string Mov_Id { get; set; }
+        public string Mov_Usuario { get; set; }
+        public string Mov_Username { get; set; }
+        public DateTime Mov_FechaLog { get; set; }
+        public string Mov_TipoMov { get; set; }
+        public string Mov_DescripcionMov { get; set; }
+        public string Mov_Observacion  { get; set; }
+
+
+    }
     public partial class clsItemGrillaDatosServerMail
     {
         public string Mail_Email { get; set; }
