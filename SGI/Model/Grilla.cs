@@ -720,13 +720,12 @@ namespace SGI.Model
     //hjacer uno aca para la grilla de auditoria
     public partial class clsItemGrillaBuscarMovimientos
     {
-        public string Mov_Id { get; set; }
-        public string Mov_Usuario { get; set; }
-        public string Mov_Username { get; set; }
-        public DateTime Mov_FechaLog { get; set; }
-        public string Mov_TipoMov { get; set; }
-        public string Mov_DescripcionMov { get; set; }
-        public string Mov_Observacion  { get; set; }
+        public string id { get; set; }
+        public string usuario { get; set; }
+        public DateTime FechaIngreso { get; set; }
+        public string TipoMovimiento { get; set; }
+        public string URL { get; set; }
+        public string Observacion_Solicitante { get; set; }
 
 
     }

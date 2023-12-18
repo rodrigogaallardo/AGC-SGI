@@ -2193,6 +2193,9 @@
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SGI_Log_MovimientosUsuario.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SGI_Tarea_Transicion_Enviar_DGFYCO.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>

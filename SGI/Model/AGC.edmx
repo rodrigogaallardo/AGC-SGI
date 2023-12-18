@@ -2419,6 +2419,19 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="SGI_Log_MovimientosUsuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario" Type="uniqueidentifier" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="id_file" Type="int" />
+          <Property Name="datosAdicionales" Type="nvarchar(max)" />
+          <Property Name="URL" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Observacion_Solicitante" Type="nvarchar(max)" />
+          <Property Name="TipoMovimiento" Type="nvarchar" MaxLength="1" />
+        </EntityType>
         <EntityType Name="SGI_Menues">
           <Key>
             <PropertyRef Name="id_menu" />
@@ -17310,6 +17323,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SGI_FiltrosBusqueda" EntityType="Self.SGI_FiltrosBusqueda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_LIZA_Procesos" EntityType="Self.SGI_LIZA_Procesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_LIZA_Ticket" EntityType="Self.SGI_LIZA_Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Log_MovimientosUsuario" EntityType="Self.SGI_Log_MovimientosUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Menues" EntityType="Self.SGI_Menues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Perfiles" EntityType="Self.SGI_Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Procesos_EE" EntityType="Self.SGI_Procesos_EE" Schema="dbo" store:Type="Tables" />
@@ -17558,6 +17572,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [RubrosCN_Historial].[Asistentes350] AS [Asistentes350], 
     [RubrosCN_Historial].[SinBanioPCD] AS [SinBanioPCD], 
     [RubrosCN_Historial].[CondicionExpress] AS [CondicionExpress]
+	[RubrosCN_Historial].[SinBanioPCD] AS [SinBanioPCD]
     FROM [dbo].[RubrosCN_Historial] AS [RubrosCN_Historial]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="SSIT_Solicitudes_Encomienda" EntityType="Self.SSIT_Solicitudes_Encomienda" store:Type="Tables" store:Schema="dbo">
@@ -28465,6 +28480,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
+          <EntitySet Name="SGI_Log_MovimientosUsuario" EntityType="DGHP_Model.SGI_Log_MovimientosUsuario" />
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -43357,6 +43373,19 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SGI_Log_MovimientosUsuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario" Type="Guid" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+          <Property Name="id_file" Type="Int32" />
+          <Property Name="datosAdicionales" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Observacion_Solicitante" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipoMovimiento" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -51220,6 +51249,20 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
                 <ScalarProperty Name="descripcion_tipoplanoincendio" ColumnName="descripcion_tipoplanoincendio" />
                 <ScalarProperty Name="nombre_tipoplanoincendio" ColumnName="nombre_tipoplanoincendio" />
                 <ScalarProperty Name="id_tipoplanoincendio" ColumnName="id_tipoplanoincendio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SGI_Log_MovimientosUsuario">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Log_MovimientosUsuario">
+              <MappingFragment StoreEntitySet="SGI_Log_MovimientosUsuario">
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="Observacion_Solicitante" ColumnName="Observacion_Solicitante" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="datosAdicionales" ColumnName="datosAdicionales" />
+                <ScalarProperty Name="id_file" ColumnName="id_file" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
