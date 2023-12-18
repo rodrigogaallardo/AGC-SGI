@@ -105,14 +105,15 @@ namespace SGI
                         join us in db.aspnet_Users on ss.usuario equals us.UserId into userGroup
                         from user in userGroup.DefaultIfEmpty()
                         where (usuario == null || user.LoweredUserName == usuario)
-                              && (tipoMovimientoString == null || ss.TipoMovimiento == tipoMovimientoString)
-                              && (fechaDesde == null || ss.FechaIngreso >= fechaDesde)
-                              && (fechaHasta == null || ss.FechaIngreso <= fechaHasta)
-                              && (
-                                    (observacion == "Todos")
-                                    || (observacion == "Si" && ss.Observacion_Solicitante != null && ss.Observacion_Solicitante != "")
-                                    || (observacion == "No" && (ss.Observacion_Solicitante == null || ss.Observacion_Solicitante == ""))
-                                 )
+                            && (tipoMovimientoString == null || ss.TipoMovimiento == tipoMovimientoString)
+                            && (fechaDesde == null || ss.FechaIngreso >= fechaDesde)
+                            && (fechaHasta == null || ss.FechaIngreso <= fechaHasta)
+                            && (
+                                (observacion == "Todos")
+                                || (observacion == "Si" && ss.Observacion_Solicitante != null && ss.Observacion_Solicitante != "")
+                                || (observacion == "No" && (ss.Observacion_Solicitante == null || ss.Observacion_Solicitante == ""))
+                            )
+                        orderby user.LoweredUserName ascending // Order by username in ascending order
                         select new clsItemGrillaBuscarMovimientos
                         {
                             id = ss.id.ToString(),
