@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Cambiar Titulo" MasterPageFile="~/Site.Master" Language="C#" AutoEventWireup="true" CodeBehind="Tarea_Plantilla.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Tarea_Plantilla" %>
+﻿<%@ Page Title="Cambiar Titulo" MasterPageFile="~/Site.Master" Async="true" Language="C#" AutoEventWireup="true" CodeBehind="Tarea_Plantilla.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Tarea_Plantilla" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

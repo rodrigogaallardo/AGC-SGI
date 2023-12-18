@@ -1109,6 +1109,7 @@ namespace SGI.Model
         public string TipoExpediente { get; set; }
         public string GrupoCircuito { get; set; }
         public bool LibrarUso { get; set; }
+        public bool CondicionExpress { get; set; }
         public string ZonaMixtura1 { get; set; }
         public string ZonaMixtura2 { get; set; }
         public string ZonaMixtura3 { get; set; }

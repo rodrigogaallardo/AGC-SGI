@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Enviar a Procuración" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Enviar_Procuracion.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Enviar_Procuracion" %>
+﻿<%@ Page Title="Tarea: Enviar a Procuración" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Enviar_Procuracion.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Enviar_Procuracion" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

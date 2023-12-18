@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Validar Zonificación" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Validar_Zonificacion.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Validar_Zonificacion" %>
+﻿<%@ Page Title="Tarea: Validar Zonificación" Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Validar_Zonificacion.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Validar_Zonificacion" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

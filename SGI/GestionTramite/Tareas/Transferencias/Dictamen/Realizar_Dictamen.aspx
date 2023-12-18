@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Realizar_Dictamen.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Dictamen.Realizar_Dictamen" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" Async="true" AutoEventWireup="true" CodeBehind="Realizar_Dictamen.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Dictamen.Realizar_Dictamen" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

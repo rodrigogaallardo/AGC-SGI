@@ -63,6 +63,7 @@ namespace SGI.ABM.RubrosCUR
                     ddlCondicionesIncendio.SelectedValue = Convert.ToString(q.idCondicionIncendio ?? 0);
                     //
                     ChkLibrado.Checked = q.LibrarUso;
+                    ChkExpress.Checked = q.CondicionExpress;
                     ChkSoloApra.Checked = q.SoloAPRA;
                     txtZonaMixtura1.Text = q.ZonaMixtura1;
                     txtZonaMixtura2.Text = q.ZonaMixtura2;
@@ -112,6 +113,7 @@ namespace SGI.ABM.RubrosCUR
                             rubroCur.IdTipoExpediente = Convert.ToInt16(ddlTipoTramite.SelectedItem.Value);
                             rubroCur.IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value);
                             rubroCur.LibrarUso = ChkLibrado.Checked;
+                            rubroCur.CondicionExpress = ChkExpress.Checked;
                             rubroCur.SoloAPRA = ChkSoloApra.Checked;
                             rubroCur.ZonaMixtura1 = txtZonaMixtura1.Text;
                             rubroCur.ZonaMixtura2 = txtZonaMixtura2.Text;

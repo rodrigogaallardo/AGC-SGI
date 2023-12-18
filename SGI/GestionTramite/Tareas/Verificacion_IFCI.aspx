@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Verificación IFCI" Language="C#" MasterPageFile="~/Site.Master"  AutoEventWireup    ="true" CodeBehind="Verificacion_IFCI.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Verificacion_IFCI" %>
+﻿<%@ Page Title="Tarea: Verificación IFCI" Language="C#" Async="true" MasterPageFile="~/Site.Master"  AutoEventWireup    ="true" CodeBehind="Verificacion_IFCI.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Verificacion_IFCI" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

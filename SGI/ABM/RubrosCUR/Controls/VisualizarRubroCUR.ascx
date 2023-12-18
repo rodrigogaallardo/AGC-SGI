@@ -179,6 +179,16 @@
                         <asp:CheckBox ID="ChkLibrado" runat="server" />
                     </td>
                 </tr>
+
+                <tr>
+                    <td class="col1">
+                        <asp:Label ID="Label11" runat="server" Text="Condicion Express:"></asp:Label>
+                    </td>
+                    <td class="col2">
+                        <asp:CheckBox ID="ChkExpress" runat="server" />
+                    </td>
+                </tr>
+
                 <tr>
                     <td class="col1">
                         <asp:Label ID="Label50" runat="server" Text="Solo Apra:"></asp:Label>
