@@ -167,6 +167,7 @@ namespace SGI
 
         protected void btnBuscar_OnClick(object sender, EventArgs e)
         {
+            grdBuscarMovimientos.PageIndex = 0;
             LoadData();
         }
 
