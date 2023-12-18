@@ -210,7 +210,6 @@
 
         $(document).ready(function () {
             inicializar_controles();
-            inicializar_autocomplete();
         });
 
 
@@ -219,11 +218,6 @@
             return false;
         }
 
-        function inicializar_autocomplete() {
-            $("#<%: ddlUsuario.ClientID %>").select2({
-                      minimumInputLength: 3
-                  });
-              }
 
         function inicializar_fecha() {
             var fechaDesde = $('#<%=txtFechaDesde.ClientID%>');

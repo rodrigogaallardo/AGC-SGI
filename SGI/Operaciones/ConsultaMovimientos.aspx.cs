@@ -19,6 +19,7 @@ using System.Security.Policy;
 using System.Threading;
 using System.Data.SqlClient;
 using DocumentFormat.OpenXml.Spreadsheet;
+using SGI.Seguridad;
 
 namespace SGI
 {
@@ -28,7 +29,7 @@ namespace SGI
         {
             if (!IsPostBack)
             {
-                cargarUsuarios();
+                CargarTodosLosUsuarios();
             }
         }
 
@@ -66,6 +67,8 @@ namespace SGI
 
             var observacion = ddlObservacionSolicitante.SelectedValue.ToString();
 
+            Guid usuarioGuid = Guid.Empty;
+
             DateTime? fechaDesde;
 
             DateTime? fechaHasta;
@@ -75,7 +78,10 @@ namespace SGI
             {
                 usuario = null;
             }
-
+            else
+            {
+                usuarioGuid = Guid.Parse(usuario);   
+            }
             if (fechaDesdeString != "")
             {
                 fechaDesde = DateTime.Parse(fechaDesdeString);
@@ -104,7 +110,7 @@ namespace SGI
             var query = from ss in db.SGI_Log_MovimientosUsuario
                         join us in db.aspnet_Users on ss.usuario equals us.UserId into userGroup
                         from user in userGroup.DefaultIfEmpty()
-                        where (usuario == null || user.LoweredUserName == usuario)
+                        where (usuario == null || user.UserId == usuarioGuid)
                             && (tipoMovimientoString == null || ss.TipoMovimiento == tipoMovimientoString)
                             && (fechaDesde == null || ss.FechaIngreso >= fechaDesde)
                             && (fechaHasta == null || ss.FechaIngreso <= fechaHasta)
@@ -135,36 +141,27 @@ namespace SGI
             updPnlMovimientos.Update();
             updPnlMovimientos.Visible = true;
         }
-        private void cargarUsuarios()
+
+        public void CargarTodosLosUsuarios()
         {
             Guid applicationId = new Guid("5BC28D51-C240-4D79-87B4-27D554686CE3");
 
-            IniciarEntity();
+            DGHP_Entities db = new DGHP_Entities();
 
-            var query = (from u in db.aspnet_Users
-                         join us in db.Usuario on u.UserName equals us.UserName
-                         join memb in db.aspnet_Membership on u.UserId equals memb.UserId
-                         where memb.ApplicationId == applicationId
-                            && memb.IsApproved
-                            && !memb.IsLockedOut
-                         select new
-                         {
-                             userid = u.UserId,
-                             username = u.UserName
-                         });
-
-
-        var usuarios = query.ToList();
+            var usuarios = (from usu in db.aspnet_Users
+                                    join profile in db.SGI_Profiles on usu.UserId equals profile.userid
+                                    where usu.ApplicationId == applicationId
+                                    && usu.SGI_PerfilesUsuarios.Where(x => x.ENG_Rel_Perfiles_Tareas.Count() > 0).Count() > 0
+                                    && usu.aspnet_Membership.IsApproved
+                                    orderby (usu.UserName)
+                                    select usu).ToList();
 
             ddlUsuario.DataValueField = "userid";
             ddlUsuario.DataTextField = "username";
             ddlUsuario.DataSource = usuarios;
             ddlUsuario.DataBind();
-
-
             ddlUsuario.Items.Insert(0, "");
         }
-
         protected void btnBuscar_OnClick(object sender, EventArgs e)
         {
             grdBuscarMovimientos.PageIndex = 0;
@@ -173,15 +170,15 @@ namespace SGI
 
         public void btnLimpiar_OnClick(object sender, EventArgs e)
         {
-            ddlUsuario.SelectedValue = string.Empty;
+            ddlUsuario.SelectedValue = "";
 
-            txtFechaDesde.Text = string.Empty;
+            txtFechaDesde.Text = "";
 
-            txtFechaHasta.Text = string.Empty;
+            txtFechaHasta.Text = "";
 
-            ddlTipoMov.SelectedValue = string.Empty;
+            ddlTipoMov.SelectedValue = "";
 
-            ddlObservacionSolicitante.SelectedValue = string.Empty;
+            ddlObservacionSolicitante.SelectedValue = "";
 
             updPnlMovimientos.Visible = false;
             updPnlMovimientos.Update();
