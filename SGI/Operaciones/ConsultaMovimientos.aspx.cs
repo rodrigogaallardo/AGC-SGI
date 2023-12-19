@@ -82,6 +82,7 @@ namespace SGI
             {
                 usuarioGuid = Guid.Parse(usuario);   
             }
+
             if (fechaDesdeString != "")
             {
                 fechaDesde = DateTime.Parse(fechaDesdeString);
@@ -91,9 +92,9 @@ namespace SGI
                 fechaDesde = null;
             }
 
-            if (fechaHastaString != "")
+            if (DateTime.TryParse(fechaHastaString, out DateTime fechaHastaValue))
             {
-                fechaHasta = DateTime.Parse(fechaHastaString);
+                fechaHasta = fechaHastaValue.Date.Add(new TimeSpan(23, 59, 0));
             }
             else
             {
