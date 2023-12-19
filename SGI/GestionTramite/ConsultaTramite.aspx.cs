@@ -1623,7 +1623,8 @@ namespace SGI.GestionTramite
                 totalRowCount = (int)cantResultados.Value;
 
                 var q = (from sol in resultados
-                         join gc in db.ENG_Grupos_Circuitos on sol.id_grupo_circuito equals gc.id_grupo_circuito
+                         join gc in db.ENG_Grupos_Circuitos on sol.id_grupo_circuito equals gc.id_grupo_circuito into gcGroup
+                         from gc in gcGroup.DefaultIfEmpty()
                          orderby sol.id_solicitud
                          select new
                          {
@@ -1633,7 +1634,7 @@ namespace SGI.GestionTramite
 
                 tramites = q.Select(item => new clsItemConsultaTramite
                 {
-                    cod_grupotramite = item.GrupoCircuito.cod_grupo_circuito,
+                    cod_grupotramite = item.GrupoCircuito !=null ? item.GrupoCircuito.cod_grupo_circuito : string.Empty,
                     id_solicitud = item.Solicitud.id_solicitud,
                     id_aux = item.Solicitud.id_encomienda ?? 0,
                     FechaInicio = item.Solicitud.FechaInicio,
@@ -1648,7 +1649,7 @@ namespace SGI.GestionTramite
                     TareaActual = item.Solicitud.TareaActual,
                     FechaCreacionTareaActual = item.Solicitud.FechaCreacionTareaActual,
                     FechaAsignacionTareaActual = item.Solicitud.FechaAsignacionTareaActual,
-                    GrupoCircuito = item.GrupoCircuito.nom_grupo_circuito,
+                    GrupoCircuito = item.GrupoCircuito != null ? item.GrupoCircuito.nom_grupo_circuito : string.Empty,
                     Superficie = item.Solicitud.Superficie ?? 0.00m,
                     id_estado = item.Solicitud.id_estado,
                     Estado = item.Solicitud.Estado,
