@@ -17572,7 +17572,6 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [RubrosCN_Historial].[Asistentes350] AS [Asistentes350], 
     [RubrosCN_Historial].[SinBanioPCD] AS [SinBanioPCD], 
     [RubrosCN_Historial].[CondicionExpress] AS [CondicionExpress]
-	[RubrosCN_Historial].[SinBanioPCD] AS [SinBanioPCD]
     FROM [dbo].[RubrosCN_Historial] AS [RubrosCN_Historial]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="SSIT_Solicitudes_Encomienda" EntityType="Self.SSIT_Solicitudes_Encomienda" store:Type="Tables" store:Schema="dbo">
