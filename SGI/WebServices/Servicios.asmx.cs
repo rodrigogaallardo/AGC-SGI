@@ -62,9 +62,9 @@ namespace SGI
 
                     item.userid = empleado.userid.ToString().ToUpper();
                     item.nombres_apellido = empleado.Nombres + " " + empleado.Apellido;
-                    
+
                     // Cantidad de trámites asignados sin resolver que tiene el empleado.
-                    int cantTramitesAsignados = db.SGI_Tramites_Tareas.Count(x => x.UsuarioAsignado_tramitetarea == empleado.userid && !x.FechaCierre_tramitetarea.HasValue);
+                    int cantTramitesAsignados = db.SGI_Tramites_Tareas.Count(x => x.UsuarioAsignado_tramitetarea == empleado.userid && x.FechaCierre_tramitetarea == null);
                     if (cantTramitesAsignados == 0)
                         item.tramites = "Sin trámites pendientes";
                     else if (cantTramitesAsignados == 1)
