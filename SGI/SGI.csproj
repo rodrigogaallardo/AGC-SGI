@@ -5461,7 +5461,6 @@
     <Compile Include="WebServices\Class\GetIdPagosCAAByEncomiendasResponse.cs" />
     <Compile Include="WebServices\Class\LoginResponse.cs" />
     <Compile Include="WebServices\Class\ValidarCodigoSeguridadResponse.cs" />
-    <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\Servicios.asmx.cs">
       <DependentUpon>Servicios.asmx</DependentUpon>
       <SubType>Component</SubType>
