@@ -611,6 +611,7 @@ namespace SGI
             //Ampliaciones Simples v2 - ampliaciones y redistribuciones
             SSP2_Asignacion_al_Calificador_Subgerente = 1116,
             SSP2_Asignacion_al_Calificador_Gerente = 1117,
+            SSP2_Calificar_Tramite = 1118,
             SSP2_Generar_Expediente = 1122
         }
 
