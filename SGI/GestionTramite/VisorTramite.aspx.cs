@@ -167,7 +167,7 @@ namespace SGI.GestionTramite
         /// </summary>
         private bool CheckIsCAAGenerated(int id_solicitud)
         {
-            bool localhost = false;
+            bool localhost = true;
             //Buscar encomiendas y agregarlas a la lista
             Functions.GetParametroChar("SSIT.URL");
             string Usuario = ConfigurationManager.AppSettings["UsuarioApraAgc"];
