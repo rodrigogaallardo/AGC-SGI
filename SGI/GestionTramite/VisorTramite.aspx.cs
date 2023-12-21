@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using Elmah;
 using ExcelLibrary.BinaryFileFormat;
+using ExternalService.Class;
 using SGI.Model;
 using Syncfusion.JavaScript.DataVisualization.DiagramEnums;
 using System;
@@ -10,14 +11,25 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Security;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SGI.InsertarCaas;
 using static SGI.Constants;
 
 namespace SGI.GestionTramite
 {
     public partial class VisorTramite : System.Web.UI.Page
     {
+        private enum TipoCertificadoCAA
+        {
+            sre = 16,
+            sreCC = 17,
+            sc = 18,
+            cre = 19,
+            DDJJ = 120   //TODO: Insertar nueva fila en la base de datos
+        }
         protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -90,7 +102,7 @@ namespace SGI.GestionTramite
             }
         }
 
-        private async Task CargarDatosTramite(int id_solicitud)
+        private async System.Threading.Tasks.Task CargarDatosTramite(int id_solicitud)
         {
             using (var db = new DGHP_Entities())
             {
@@ -112,6 +124,7 @@ namespace SGI.GestionTramite
                         estadosSolPres.Contains(h.cod_estado_nuevo)).Select(h => h.fecha_modificacion).OrderByDescending(h => h).FirstOrDefault();
 
                         ucListaRubros.LoadData(sol, ultimaSolicitudPresentada);
+                        CheckIsCAAGenerated(sol.id_solicitud);
                         await ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
 
                     }
@@ -148,6 +161,25 @@ namespace SGI.GestionTramite
             }
         }
 
+        /// <summary>
+        /// Revisa si ya existen CAA generadados en SIPSA
+        /// de ser asi los asigna y los guarda en AGC_Files
+        /// </summary>
+        private bool CheckIsCAAGenerated(int id_solicitud)
+        {
+            bool localhost = false;
+            //Buscar encomiendas y agregarlas a la lista
+            Functions.GetParametroChar("SSIT.URL");
+            string Usuario = ConfigurationManager.AppSettings["UsuarioApraAgc"];
+            string Password = ConfigurationManager.AppSettings["PasswordApraAgc"];
+            WSssit wSssit = new WSssit();
+            if (localhost)
+                wSssit.Url = "http://localhost:56469/WSssit.asmx";
+            else
+                wSssit.Url = Parametros.GetParam_ValorChar("SSIT.Url") + "WSssit.asmx";
+            wSssit.InsertarCAA_DocAdjuntosAsync(Usuario, Password, id_solicitud);
+            return false;//por ahora lo dejo asi sin manero de errores ni nada porque son las 2am
+        }
     }
 
 

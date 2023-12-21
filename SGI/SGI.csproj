@@ -1230,6 +1230,10 @@
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\Datepicker_es.js" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\ej\web\ej.web.all.min.intellisense.js" />
     <None Include="Scripts\ej\web\ej.web.all-vsdoc.js" />
     <Content Include="Scripts\ej\common\ej.core.min.js" />
@@ -1549,6 +1553,14 @@
     <Content Include="Seguridad\Perfiles.aspx" />
     <Content Include="Seguridad\Usuarios.aspx" />
     <Content Include="ViewSwitcher.ascx" />
+    <Content Include="Web References\InsertarCaas\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\InsertarCaas\TaskOfBoolean.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\InsertarCaas\WSssit.disco" />
     <Content Include="WebServices\Servicios.asmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -4664,6 +4676,11 @@
     <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.designer.cs">
       <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\BajaSolicitud.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -5448,6 +5465,11 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Web References\InsertarCaas\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WebServices\ApraSrvRest.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -5513,6 +5535,7 @@
     <Content Include="Tramite\Web.config" />
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
+    <None Include="Web References\InsertarCaas\WSssit.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -5635,6 +5658,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\quill.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:56469/WSssit.asmx%3fop=InsertarCAA_DocAdjuntos">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InsertarCaas\</RelPath>
+      <UpdateFromURL>http://localhost:56469/WSssit.asmx%3fop=InsertarCAA_DocAdjuntos</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SGI_InsertarCaas_WSssit</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
