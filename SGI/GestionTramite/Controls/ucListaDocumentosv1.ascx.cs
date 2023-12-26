@@ -12,6 +12,7 @@ namespace SGI.GestionTramite.Controls
 {
     public class itemDocumentov1
     {
+        internal int id_tipoDocReq;
         public int id_doc_adj { get; set; }
         public string nombre { get; set; }
         public int id_file { get; set; }
