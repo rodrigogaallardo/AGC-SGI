@@ -2928,8 +2928,8 @@ namespace SGI.GestionTramite.Controls
                         }
                         else if (id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
                         {
-                            //Parece que aca estaba el bug que borraba los EE de las transferencias
-                            //db.SGI_Transf_Nro_Expediente_Sade_Actualizar(id_solicitud, row.resultado);
+                            if (proceso.realizado_en_SADE)
+                                db.SGI_Transf_Nro_Expediente_Sade_Actualizar(id_solicitud, row.resultado);
                             var tra = db.Transf_Solicitudes.Where(x => x.id_solicitud == id_solicitud).First();
                             if (tra.idTAD != null)
                             {
