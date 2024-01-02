@@ -284,7 +284,7 @@ namespace SGI.Model
             ids.Add(enc.id_encomienda);
             //DtoCAA[] listCaa = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, ids.ToArray(), ref ws_resultado_CAA);
             List<GetCAAsByEncomiendasResponse> listCaa = await GetCAAsByEncomiendas(ids.ToArray());
-            if (listCaa.Count() > 0)
+            if (listCaa != null && listCaa.Count() > 0)
             {
                 string anio = Convert.ToString(listCaa[0].fechaIngreso.Year);
                 q.nro_certificado = listCaa[0].id_tipocertificado + ": TRW-" + listCaa[0].id_solicitud + "-APRA-" + anio;

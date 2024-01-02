@@ -153,22 +153,26 @@ namespace SGI.GestionTramite.Controls
                     //DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, lstEncomiendas.ToArray(), ref ws_resultado_CAA);
                     List<GetCAAsByEncomiendasResponse> list = await GetCAAsByEncomiendas(lstEncomiendas.ToArray());
                     //var List_CAA = list.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.documentos.Any());
-                    var List_CAA = list.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
-                    foreach (var caa in List_CAA)
+                    if(list != null && list.Count() > 0)
                     {
-                        var item = new itemDocumentoSSIT();
-                        //item.nombre = caa.desccorta_tipotramite + "-" + caa.id_caa;
-                        item.nombre = caa.tipotramite + "-" + caa.id_solicitud;
-                        //item.id_file = caa.Documentos[0].id_file;
-                        item.id_file = caa.certificado.idFile;
-                        //item.id_solicitud = caa.id_caa;
-                        item.id_solicitud = caa.id_solicitud;
-                        item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
-                        //item.Fecha = caa.CreateDate;
-                        item.Fecha = caa.createDate;
-                        item.UserName = "";
-                        archivos.Add(item);
+                        var List_CAA = list.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
+                        foreach (var caa in List_CAA)
+                        {
+                            var item = new itemDocumentoSSIT();
+                            //item.nombre = caa.desccorta_tipotramite + "-" + caa.id_caa;
+                            item.nombre = caa.tipotramite + "-" + caa.id_solicitud;
+                            //item.id_file = caa.Documentos[0].id_file;
+                            item.id_file = caa.certificado.idFile;
+                            //item.id_solicitud = caa.id_caa;
+                            item.id_solicitud = caa.id_solicitud;
+                            item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
+                            //item.Fecha = caa.CreateDate;
+                            item.Fecha = caa.createDate;
+                            item.UserName = "";
+                            archivos.Add(item);
+                        }
                     }
+                    
                     grdDocumentosAdjuntos.DataSource = archivos.OrderBy(x => x.Fecha).ToList();
                     grdDocumentosAdjuntos.DataBind();
                 }
