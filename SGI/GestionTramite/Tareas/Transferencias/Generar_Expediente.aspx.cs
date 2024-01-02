@@ -79,7 +79,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             base.OnUnload(e);
         }
 
-        protected async Task btnCargarDatos_Click(object sender, EventArgs e)
+        protected async void btnCargarDatos_Click(object sender, EventArgs e)
         {
 
             try
@@ -298,7 +298,10 @@ namespace SGI.GestionTramite.Tareas.Transferencias
         {
             // Cuando se cierra el modal de procesos si no hay pendientes en SADE se dispara esta accion
             ucResultadoTarea.btnFinalizar_Enabled = true;
-            ucListaDocumentos.LoadData(this.id_grupotramite, this.id_solicitud);
+            Task.Run(async () =>
+            {
+                await ucListaDocumentos.LoadData(this.id_grupotramite, this.id_solicitud);
+            }).Wait();
             //ucResultadoTarea_FinalizarTareaClick(sender, new ucResultadoTareaEventsArgs());
         }
  
