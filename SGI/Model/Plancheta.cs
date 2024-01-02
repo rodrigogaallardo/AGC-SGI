@@ -169,7 +169,7 @@ namespace SGI.Model
             row["id_solicitud"] = id_solicitud;
             row["nro_expediente"] = nro_expediente;
             row["calificador"] = q_calif != null ? q_calif.Apellido + ", " + q_calif.Nombres : "";
-            if (listCaa.Count() > 0)
+            if (listCaa != null && listCaa.Count() > 0)
             {
                 string anio = Convert.ToString(listCaa[0].fechaIngreso.Year);
                 row["nro_cert_ap_amb"] = listCaa[0].id_tipocertificado + ": TRW-" + listCaa[0].id_solicitud + "-APRA-" + anio;
