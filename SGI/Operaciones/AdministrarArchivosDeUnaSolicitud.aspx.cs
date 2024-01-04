@@ -260,6 +260,37 @@ namespace SGI.Operaciones
             gridViewArchivosTransf.EditIndex = -1;
             btnBuscarSolicitud_Click(sender, e);
         }
+        protected void lnkSubirDocSadeSolic_Command(object sender, EventArgs e)
+        {
+            using (var ctx = new DGHP_Entities())
+            {
+                using (var tran = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        LinkButton lnkDocSadeSolic = (LinkButton)sender;
+                        int id_docadjunto = Convert.ToInt32(lnkDocSadeSolic.CommandArgument);
+                        int id_file = Convert.ToInt32(lnkDocSadeSolic.CommandName);
+                        using (var ftx = new AGC_FilesEntities())
+                        {
+                            Files file = (from f in ftx.Files
+                                          where f.id_file == id_file
+                                          select f).FirstOrDefault();
+                        }
+                        ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError.Write(ex, "Error en transaccion. SSIT_DocumentosAdjuntos_Del-AdministrarArchivosDeUnaSolicitud-gridViewArchivosSolic_RowSubirSade");
+                        throw ex;
+                    }
+                }
+            }
+            gridViewArchivosSolic.EditIndex = -1;
+            btnBuscarSolicitud_Click(sender, e);
+        }
+
         protected void btnAgregarArchivo_Click(object sender, EventArgs e)
         {
             Session["LastID"] = txtBuscarSolicitud.Text;

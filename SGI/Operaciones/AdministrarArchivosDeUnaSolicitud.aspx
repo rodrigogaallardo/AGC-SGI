@@ -25,17 +25,26 @@
     <hgroup class="title">
         <h1><%= Title %>.</h1>
     </hgroup>
-
+   <div>
     <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por N&uacute;mero de Solicitud</label>
+        <label class="control-label" for="txtBuscarSolicitud">Buscar por Número de Solicitud</label>
         <div class="controls">
             <asp:TextBox id="txtBuscarSolicitud" runat="server" CssClass="controls"/>
         </div>
+        <div class="control-group">
+            <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
+        </div>
+        <div class="control-group pull-right">
+            <label class="control-label" for="txtBuscarSolicitud">Expediente Electronico</label>
+            <label class="control-label" for="txtEstado">Estado</label>
+            <label class="control-label" for="txtUsuario">Usuario</label>
+            <label class="control-label" for="txtReparticion">Reparticion</label>
+            <label class="control-label" for="txtSector">Sector</label>
+        </div>
     </div>
 
-    <div class="control-group">
-        <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
-    </div>
+    
+</div>
 
     <hr/>
 
@@ -162,6 +171,20 @@
                                                 Width="70px">
                                             <i class="icon icon-trash"></i> 
                                             <span class="text">Eliminar</span></a>
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <asp:LinkButton HeaderText="Subir SADE"
+                                            ID="lnkDocSadeSolic" runat="server"
+                                            CommandArgument='<%# Eval("id_docadjunto") %>'
+                                            CommandName='<%# Eval("id_file") %>'
+                                            OnClientClick="javascript:return tda_confirm_upload();"
+                                            OnCommand="lnkSubirDocSadeSolic_Command"
+                                            Width="70px">
+                                        <i class="icon icon-upload"></i> 
+                                        <span class="text">Subir SADE</span></a>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -397,6 +420,16 @@
             return confirm('¿Esta seguro que desea eliminar este Registro?');
         }
 
+
+        function showResultado() {
+            $("#box_resultado").show("slow");
+        }
+    </script>
+
+    <script type="text/javascript">
+        function tda_confirm_upload() {
+            return confirm('¿Esta seguro que desea subir y relacionar este Documento con el Expediente Electronico?');
+        }
 
         function showResultado() {
             $("#box_resultado").show("slow");
