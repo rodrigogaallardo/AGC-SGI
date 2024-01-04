@@ -85,7 +85,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             base.OnUnload(e);
         }
 
-        protected async Task btnCargarDatos_Click(object sender, EventArgs e)
+        protected async void btnCargarDatos_Click(object sender, EventArgs e)
         {
             await CargarDatosTramite(this.id_tramitetarea);
         }
