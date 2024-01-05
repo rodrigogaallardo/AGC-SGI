@@ -618,13 +618,13 @@ namespace SGI.Controls
         protected global::System.Web.UI.WebControls.TextBox txtObservaciones;
 
         /// <summary>
-        /// Control Label11.
+        /// Control lblObservacionesSolicitantes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label11;
+        protected global::System.Web.UI.WebControls.Label lblObservacionesSolicitantes;
 
         /// <summary>
         /// Control txtObservacionesSolicitantes.
