@@ -1090,6 +1090,7 @@ namespace SGI.Model
         public string Cod_rubro { get; set; }
         public string Desc_rubro { get; set; }
         public string Cir_rubro { get; set; }
+        public bool SoloApra { get; set; }
     }
 
     public partial class clsItemHistorialRubroCur
@@ -1108,6 +1109,7 @@ namespace SGI.Model
         public string TipoExpediente { get; set; }
         public string GrupoCircuito { get; set; }
         public bool LibrarUso { get; set; }
+        public bool CondicionExpress { get; set; }
         public string ZonaMixtura1 { get; set; }
         public string ZonaMixtura2 { get; set; }
         public string ZonaMixtura3 { get; set; }

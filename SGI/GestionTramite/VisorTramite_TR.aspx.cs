@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -29,12 +30,12 @@ namespace SGI.GestionTramite
             }
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 ComprobarSolicitud();
-                CargarDatosTramite(id_solicitud);
+                await CargarDatosTramite(id_solicitud);
                 #region ASOSA BOLETA 0
                 using (var db = new DGHP_Entities())
                 {
@@ -57,8 +58,8 @@ namespace SGI.GestionTramite
                             #endregion
 
                             #region APRA
-                            List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = ucPagos.PagosAPRAList(id_solicitud);
-                            if (lstPagosAPRA.Count > 0)
+                            List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = await ucPagos.PagosAPRAList(id_solicitud);
+                            if (lstPagosAPRA != null && lstPagosAPRA.Count > 0)
                                 flagAPRA = true;
                             else
                                 flagAPRA = false;
@@ -121,17 +122,17 @@ namespace SGI.GestionTramite
             }
         }
 
-        private void CargarDatosTramite(int id_solicitud)
+        private async Task CargarDatosTramite(int id_solicitud)
         {
             try
             {
                 ucCabecera.LoadData((int)Constants.GruposDeTramite.TR, id_solicitud);
-                ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.TR, id_solicitud);               
+                await ucListaDocumentos.LoadData((int)Constants.GruposDeTramite.TR, id_solicitud);          
                 ucListaTareas.LoadData((int)Constants.GruposDeTramite.TR, id_solicitud);
                 ucListaRubros.LoadData(id_solicitud);
                 ucTramitesRelacionados.LoadData(id_solicitud);
                 ucNotificaciones.LoadData(id_solicitud);
-                ucPagos.LoadData(id_solicitud);
+                await ucPagos.LoadData(id_solicitud);
             }
             catch (Exception ex)
             {

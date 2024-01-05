@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Resultado de Inspección" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Resultado_Inspector.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Resultado_Inspector" %>
+﻿<%@ Page Title="Tarea: Resultado de Inspección" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Resultado_Inspector.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Resultado_Inspector" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

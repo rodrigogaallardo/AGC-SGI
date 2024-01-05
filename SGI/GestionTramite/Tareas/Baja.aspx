@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Baja" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Baja.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Baja" %>
+﻿<%@ Page Title="Tarea: Baja" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Baja.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Baja" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

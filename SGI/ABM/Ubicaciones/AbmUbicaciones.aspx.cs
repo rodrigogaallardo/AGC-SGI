@@ -231,7 +231,7 @@ namespace SGI.ABM.Partidas
                          where cal.Codigo_calle == codCalle
                          && (cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle) <= nroPuerta
                          && (cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle) >= nroPuerta
-                         select cal).SingleOrDefault();
+                         select cal).FirstOrDefault();
 
                 if (c != null)
                     return c.NombreOficial_calle;
@@ -1708,7 +1708,7 @@ namespace SGI.ABM.Partidas
                 {
                     var opds = GetUbicacionesOpDet(op.id_operacion);
                     // Obviamos las ubicaciones hermanas
-                    var o = opds.Where(a => a.id_ubicacion == id_ubicacion).SingleOrDefault();
+                    var o = opds.Where(a => a.id_ubicacion == id_ubicacion).FirstOrDefault();
                     if (o.id_ubicacion_temp != null)
                         continue;
 
@@ -1774,7 +1774,7 @@ namespace SGI.ABM.Partidas
                 {
                     var opds = GetUbicacionesOpDet(op.id_operacion);
                     // Obviamos las ubicaciones hermanas
-                    var o = opds.Where(a => a.id_ubicacion == id_ubicacion).SingleOrDefault();
+                    var o = opds.Where(a => a.id_ubicacion == id_ubicacion).FirstOrDefault();
                     if (o.id_ubicacion_temp == null)
                         continue;
 
@@ -1873,7 +1873,7 @@ namespace SGI.ABM.Partidas
         {
             using (var ctx = new DGHP_Entities())
             {
-                var accion = ctx.Ubicaciones_Acciones.Where(a => a.id_accion == id_accion).SingleOrDefault();
+                var accion = ctx.Ubicaciones_Acciones.Where(a => a.id_accion == id_accion).FirstOrDefault();
 
                 return accion != null ? accion.Descripcion : "";
             }
@@ -1888,7 +1888,7 @@ namespace SGI.ABM.Partidas
         {
             using (var ctx = new DGHP_Entities())
             {
-                var est = ctx.Ubicaciones_Estados.Where(a => a.id_estado == id_estado).SingleOrDefault();
+                var est = ctx.Ubicaciones_Estados.Where(a => a.id_estado == id_estado).FirstOrDefault();
 
                 return est != null ? est.Descripcion : "";
             }

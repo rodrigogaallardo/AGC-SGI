@@ -2,29 +2,44 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using Elmah;
 using ExcelLibrary.BinaryFileFormat;
+using ExternalService.Class;
 using SGI.Model;
 using Syncfusion.JavaScript.DataVisualization.DiagramEnums;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Security;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SGI.InsertarCaas;
 using static SGI.Constants;
+using SGI.GestionTramite.Controls;
+using ws_solicitudes;
 
 namespace SGI.GestionTramite
 {
     public partial class VisorTramite : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        private enum TipoCertificadoCAA
+        {
+            sre = 16,
+            sreCC = 17,
+            sc = 18,
+            cre = 19,
+            DDJJ = 120   //TODO: Insertar nueva fila en la base de datos
+        }
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 int id_solicitud = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 ComprobarSolicitud(id_solicitud);
                 if (id_solicitud > 0)
-                    CargarDatosTramite(id_solicitud);
+                    await CargarDatosTramite(id_solicitud);
                 if (id_solicitud < 300000)
                     ucPagos.Visible = false;
                 else
@@ -50,8 +65,8 @@ namespace SGI.GestionTramite
                                 #endregion
 
                                 #region APRA
-                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = ucPagos.PagosAPRAList(id_solicitud);
-                                if (lstPagosAPRA.Count > 0)
+                                List<SGI.GestionTramite.Controls.ucPagos.clsItemGrillaPagos> lstPagosAPRA = await ucPagos.PagosAPRAList(id_solicitud);
+                            if (lstPagosAPRA != null && lstPagosAPRA.Count > 0)
                                     flagAPRA = true;
                                 else
                                     flagAPRA = false;
@@ -78,6 +93,7 @@ namespace SGI.GestionTramite
                     #endregion
                 }
             }
+
         }
 
         private void ComprobarSolicitud(int id_solicitud)
@@ -88,7 +104,7 @@ namespace SGI.GestionTramite
             }
         }
 
-        private void CargarDatosTramite(int id_solicitud)
+        private async System.Threading.Tasks.Task CargarDatosTramite(int id_solicitud)
         {
             using (var db = new DGHP_Entities())
             {
@@ -110,7 +126,8 @@ namespace SGI.GestionTramite
                         estadosSolPres.Contains(h.cod_estado_nuevo)).Select(h => h.fecha_modificacion).OrderByDescending(h => h).FirstOrDefault();
 
                         ucListaRubros.LoadData(sol, ultimaSolicitudPresentada);
-                        ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
+                        await CheckIsCAAGenerated(sol.id_solicitud);
+                        await ucListaDocumentos.LoadData(sol, ultimaSolicitudPresentada);
 
                     }
                     else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
@@ -123,7 +140,7 @@ namespace SGI.GestionTramite
                     }
                     else
                     {
-                        ucListaDocumentos.LoadData(id_grupotramite, id_solicitud);
+                        await ucListaDocumentos.LoadData(id_grupotramite, id_solicitud);
                         ucListaRubros.LoadData(id_solicitud);
                     }
 
@@ -132,7 +149,7 @@ namespace SGI.GestionTramite
                     ucTramitesRelacionados.LoadData(id_solicitud);
                     ucListaTareas.LoadData(id_grupotramite, id_solicitud);
                     ucNotificaciones.LoadData(id_solicitud);
-                    ucPagos.LoadData(id_solicitud);
+                    await ucPagos.LoadData(id_solicitud);
 
                 }
                 catch (Exception ex)
@@ -146,6 +163,71 @@ namespace SGI.GestionTramite
             }
         }
 
+        /// <summary>
+        /// Revisa si ya existen CAA generadados en SIPSA
+        /// de ser asi los asigna y los guarda en AGC_Files
+        /// </summary>
+        private async Task<bool> CheckIsCAAGenerated(int id_solicitud)
+        {
+            bool localhost = false;
+            //Buscar encomiendas y agregarlas a la lista
+            Functions.GetParametroChar("SSIT.URL");
+            string Usuario = ConfigurationManager.AppSettings["UsuarioApraAgc"];
+            string Password = ConfigurationManager.AppSettings["PasswordApraAgc"];
+            WSssit wSssit = new WSssit();
+            if (localhost)
+                wSssit.Url = "http://localhost:56469/WSssit.asmx";
+            else
+                wSssit.Url = Parametros.GetParam_ValorChar("SSIT.Url") + "WSssit.asmx";
+            wSssit.InsertarCAA_DocAdjuntosAsync(Usuario, Password, id_solicitud);
+
+            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
+
+            var startTime = DateTime.Now;
+
+            while ((DateTime.Now - startTime).TotalSeconds <= 60)
+            {
+                using (var db = new DGHP_Entities())
+                {
+                    IQueryable<int> idEncomiendasPresentadas = null;
+                    db.Database.CommandTimeout = 300;
+                    var ultimaPresentacion = DateTime.Now;
+                    if (ultimaPresentacion != null)
+                    {
+                        idEncomiendasPresentadas = (from rel in db.Encomienda_SSIT_Solicitudes
+                                                    join enc in db.Encomienda on rel.id_encomienda equals enc.id_encomienda
+                                                    join hist in db.Encomienda_HistorialEstados on enc.id_encomienda equals hist.id_encomienda
+                                                    where rel.id_solicitud == id_solicitud
+                                                      && (enc.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo || enc.id_estado == (int)Constants.Encomienda_Estados.Vencida)
+                                                       && hist.fecha_modificacion <= ultimaPresentacion
+                                                    orderby enc.id_encomienda descending
+                                                    select enc.id_encomienda);
+                    }
+
+                    var archivos = (from encdoc in db.Encomienda_DocumentosAdjuntos
+                                    where idEncomiendasPresentadas.Contains(encdoc.id_encomienda)
+                                    select new itemDocumentov1
+                                    {
+                                        id_doc_adj = encdoc.id_docadjunto,
+                                        nombre = (encdoc.id_tdocreq != 0 ? encdoc.TiposDeDocumentosRequeridos.nombre_tdocreq : encdoc.TiposDeDocumentosSistema.nombre_tipodocsis) + "-" + encdoc.id_encomienda,
+                                        id_file = encdoc.id_file,
+                                        id_tipodocsis = encdoc.id_tipodocsis,
+                                        id_solicitud = encdoc.id_encomienda,
+                                    }
+                    ).ToList();
+
+                    if (archivos.Any(x => x.id_tipodocsis == 4))
+                    {
+                        return true;
+                    }
+                }
+
+                // Esperar 3 segundos antes de verificar la condición de nuevo
+                await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(3));
+            }
+
+            return false;
+        }
     }
 
 

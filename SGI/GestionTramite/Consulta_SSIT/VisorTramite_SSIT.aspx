@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Visualización del trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VisorTramite_SSIT.aspx.cs" Inherits="SGI.GestionTramite.Consulta_SSIT.VisorTramite_SSIT" %>
+﻿<%@ Page Title="Visualización del trámite" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VisorTramite_SSIT.aspx.cs" Inherits="SGI.GestionTramite.Consulta_SSIT.VisorTramite_SSIT" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">

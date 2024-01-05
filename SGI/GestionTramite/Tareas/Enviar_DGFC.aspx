@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Enviar a DGFyC" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Enviar_DGFC.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Enviar_DGFC" %>
+﻿<%@ Page Title="Tarea: Enviar a DGFyC" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Enviar_DGFC.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Enviar_DGFC" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

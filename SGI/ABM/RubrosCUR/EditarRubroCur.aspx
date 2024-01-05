@@ -208,9 +208,28 @@
                                     <asp:Label ID="Label21" runat="server" Text="Librado al Uso:"></asp:Label>
                                 </td>
                                 <td class="col2">
-                                    <asp:CheckBox ID="ChkLibrado" runat="server" />
+                                    <asp:CheckBox ID="ChkLibrado" runat="server"  />
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="col1">
+                                    <asp:Label ID="Label50" runat="server" Text="Solo Apra:"></asp:Label>
+                                </td>
+                                <td class="col2">
+                                    <asp:CheckBox ID="ChkSoloApra" runat="server" Enabled="false" />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="col1">
+                                    <asp:Label ID="Label15" runat="server" Text="Condicion Express:"></asp:Label>
+                                </td>
+                                <td class="col2">
+                                    <asp:CheckBox ID="ChkExpress" runat="server" />
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td class="col1">
                                     <asp:Label ID="Label8" runat="server" Text="Asistentes 350:"></asp:Label>

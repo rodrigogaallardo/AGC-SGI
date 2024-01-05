@@ -43,7 +43,7 @@ namespace SGI.Reportes
             Response.Flush();
         }
 
-        private void ImprimirCertificado()
+        private async void ImprimirCertificado()
         {
             string strID = (Request.QueryString["id"] == null) ? "" : Request.QueryString["id"].ToString();
 
@@ -73,7 +73,7 @@ namespace SGI.Reportes
 
             string expediente_actuacion = "XXXXXXXXXXXXX";// this.datos_caratula_nro_expediente; // GetExpediente();
 
-            byte[] documento = Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, expediente_actuacion, false);
+            byte[] documento = await Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, expediente_actuacion, false);
 
             try
             {

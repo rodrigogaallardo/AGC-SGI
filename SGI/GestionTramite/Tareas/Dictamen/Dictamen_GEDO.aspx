@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Dictamen GEDO" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dictamen_GEDO.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Dictamen.Dictamen_GEDO" %>
+﻿<%@ Page Title="Tarea: Dictamen GEDO" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dictamen_GEDO.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Dictamen.Dictamen_GEDO" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

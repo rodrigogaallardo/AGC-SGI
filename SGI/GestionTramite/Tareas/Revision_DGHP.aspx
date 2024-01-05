@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revisión DGHyP" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_DGHP.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Revision_DGHP" %>
+﻿<%@ Page Title="Tarea: Revisión DGHyP" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_DGHP.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Revision_DGHP" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

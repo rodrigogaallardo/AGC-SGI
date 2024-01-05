@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using SGI.GestionTramite.Controls;
 using SGI.Model;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite.Tareas
 {
@@ -14,7 +15,7 @@ namespace SGI.GestionTramite.Tareas
     {
         #region cargar inicial
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(),
@@ -24,7 +25,7 @@ namespace SGI.GestionTramite.Tareas
             {
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
             }
             
             if (!ucProcesosSADE.isEmptyGrid())
@@ -32,7 +33,7 @@ namespace SGI.GestionTramite.Tareas
 
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -72,7 +73,7 @@ namespace SGI.GestionTramite.Tareas
             }
 
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
 
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, false);
             ucSGI_DocumentoAdjunto.LoadData(id_grupotramite, this._id_solicitud, id_tramitetarea);

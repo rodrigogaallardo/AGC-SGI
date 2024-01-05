@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Aprobado" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Aprobado.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Aprobado" %>
+﻿<%@ Page Title="Tarea: Aprobado" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Aprobado.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Aprobado" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

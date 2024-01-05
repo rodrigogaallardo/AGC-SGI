@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://tempuri.org/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="generarDocInicioTramite">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_solicitud" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="generarDocInicioTramiteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="generarDocInicioTramiteResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="enviarEncuesta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_solicitud" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="enviarEncuestaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="enviarEncuestaResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarCAA_DocAdjuntos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_solicitud" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertarCAA_DocAdjuntosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertarCAA_DocAdjuntosResult" type="tns:TaskOfBoolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TaskOfBoolean">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Task" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Task" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="generarDocInicioTramiteSoapIn">
+    <wsdl:part name="parameters" element="tns:generarDocInicioTramite" />
+  </wsdl:message>
+  <wsdl:message name="generarDocInicioTramiteSoapOut">
+    <wsdl:part name="parameters" element="tns:generarDocInicioTramiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="enviarEncuestaSoapIn">
+    <wsdl:part name="parameters" element="tns:enviarEncuesta" />
+  </wsdl:message>
+  <wsdl:message name="enviarEncuestaSoapOut">
+    <wsdl:part name="parameters" element="tns:enviarEncuestaResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertarCAA_DocAdjuntosSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertarCAA_DocAdjuntos" />
+  </wsdl:message>
+  <wsdl:message name="InsertarCAA_DocAdjuntosSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertarCAA_DocAdjuntosResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSssitSoap">
+    <wsdl:operation name="generarDocInicioTramite">
+      <wsdl:input message="tns:generarDocInicioTramiteSoapIn" />
+      <wsdl:output message="tns:generarDocInicioTramiteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="enviarEncuesta">
+      <wsdl:input message="tns:enviarEncuestaSoapIn" />
+      <wsdl:output message="tns:enviarEncuestaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertarCAA_DocAdjuntos">
+      <wsdl:input message="tns:InsertarCAA_DocAdjuntosSoapIn" />
+      <wsdl:output message="tns:InsertarCAA_DocAdjuntosSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSssitSoap" type="tns:WSssitSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="generarDocInicioTramite">
+      <soap:operation soapAction="http://tempuri.org/generarDocInicioTramite" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="enviarEncuesta">
+      <soap:operation soapAction="http://tempuri.org/enviarEncuesta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarCAA_DocAdjuntos">
+      <soap:operation soapAction="http://tempuri.org/InsertarCAA_DocAdjuntos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSssitSoap12" type="tns:WSssitSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="generarDocInicioTramite">
+      <soap12:operation soapAction="http://tempuri.org/generarDocInicioTramite" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="enviarEncuesta">
+      <soap12:operation soapAction="http://tempuri.org/enviarEncuesta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertarCAA_DocAdjuntos">
+      <soap12:operation soapAction="http://tempuri.org/InsertarCAA_DocAdjuntos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSssit">
+    <wsdl:port name="WSssitSoap" binding="tns:WSssitSoap">
+      <soap:address location="http://localhost:56469/WSssit.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSssitSoap12" binding="tns:WSssitSoap12">
+      <soap12:address location="http://localhost:56469/WSssit.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

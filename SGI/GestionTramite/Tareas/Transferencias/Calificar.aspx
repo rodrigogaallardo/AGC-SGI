@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Calificar Trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Calificar.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Calificar" %>
+﻿<%@ Page Title="Tarea: Calificar Trámite" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Calificar.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Calificar" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

@@ -231,6 +231,10 @@
                                             NavigateUrl='<%#"~/ABM/RubrosCUR/HistorialRubroCur.aspx?Id=" + Eval("Id_rubro") %>'>
                                             <i class="imoon imoon-file" style="font-size:medium;margin-right:5px;margin-left:5px"></i>
                                         </asp:HyperLink>
+                                       
+                                             <asp:CheckBox ToolTip="Ver SoloApra" ID="ChkSoloApra" runat="server" Enabled="false" style="font-size: medium; margin-right: 5px; margin-left: 5px"
+                                             Checked='<%# Eval("SoloApra") %>' />
+                                        
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

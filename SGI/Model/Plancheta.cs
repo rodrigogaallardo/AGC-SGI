@@ -11,13 +11,15 @@ using SGI.WebServices;
 using SGI.Webservices.ws_interface_AGC;
 
 using ThoughtWorks.QRCode.Codec;
+using ExternalService.Class;
+using System.Threading.Tasks;
 
 namespace SGI.Model
 {
     public class Plancheta
     {
         #region habilitaciones
-        public static byte[] GenerarPdfPlanchetahabilitacion(int id_solicitud, int id_tramitetarea, int id_encomienda, string nro_expediente, bool impresionDePrueba)
+        public async static Task<byte[]> GenerarPdfPlanchetahabilitacion(int id_solicitud, int id_tramitetarea, int id_encomienda, string nro_expediente, bool impresionDePrueba)
         {
             byte[] documento = null;
 
@@ -25,7 +27,7 @@ namespace SGI.Model
 
             Stream msPdfDisposicion = null;
 
-            dsImpresionPlanchetaHabilitacion dsPlancheta = GenerarDataSetPlanchetahabilitacion(id_encomienda, id_solicitud, id_tramitetarea, nro_expediente, impresionDePrueba);
+            dsImpresionPlanchetaHabilitacion dsPlancheta = await GenerarDataSetPlanchetahabilitacion(id_encomienda, id_solicitud, id_tramitetarea, nro_expediente, impresionDePrueba);
 
 
             CrystalDecisions.Web.CrystalReportSource CrystalReportSource1 = new CrystalDecisions.Web.CrystalReportSource();
@@ -66,7 +68,7 @@ namespace SGI.Model
             return documento;
         }
 
-        public static dsImpresionPlanchetaHabilitacion GenerarDataSetPlanchetahabilitacion(int id_encomienda, int id_solicitud, int id_tramitetarea, string nro_expediente, bool impresionDePrueba)
+        public async static Task<dsImpresionPlanchetaHabilitacion> GenerarDataSetPlanchetahabilitacion(int id_encomienda, int id_solicitud, int id_tramitetarea, string nro_expediente, bool impresionDePrueba)
         {
             dsImpresionPlanchetaHabilitacion ds = new dsImpresionPlanchetaHabilitacion();
 
@@ -148,15 +150,15 @@ namespace SGI.Model
 
                 ).FirstOrDefault();
 
-            ws_Interface_AGC servicio = new ws_Interface_AGC();
-            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
             List<int> ids = new List<int>();
             ids.Add(id_encomienda);
-            DtoCAA[] listCaa = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, ids.ToArray(), ref ws_resultado_CAA);
+            List<GetCAAsByEncomiendasResponse> listCaa = await GetCAAsByEncomiendas(ids.ToArray());
 
             //-- -------------------------
             //-- Datos encomienda, tabla 0
@@ -167,10 +169,10 @@ namespace SGI.Model
             row["id_solicitud"] = id_solicitud;
             row["nro_expediente"] = nro_expediente;
             row["calificador"] = q_calif != null ? q_calif.Apellido + ", " + q_calif.Nombres : "";
-            if (listCaa.Length > 0)
+            if (listCaa != null && listCaa.Count() > 0)
             {
-                string anio = Convert.ToString(listCaa[0].FechaIngreso.Year);
-                row["nro_cert_ap_amb"] = listCaa[0].cod_tipocertificado + ": TRW-" + listCaa[0].id_caa + "-APRA-" + anio;
+                string anio = Convert.ToString(listCaa[0].fechaIngreso.Year);
+                row["nro_cert_ap_amb"] = listCaa[0].id_tipocertificado + ": TRW-" + listCaa[0].id_solicitud + "-APRA-" + anio;
             }
             else
                 row["nro_cert_ap_amb"] = "";
@@ -2158,6 +2160,13 @@ namespace SGI.Model
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
             imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
             return ms.ToArray();
+        }
+
+        private static async Task<List<GetCAAsByEncomiendasResponse>> GetCAAsByEncomiendas(int[] lst_id_Encomiendas)
+        {
+            ExternalService.ApraSrvRest apraSrvRest = new ExternalService.ApraSrvRest();
+            List<GetCAAsByEncomiendasResponse> lstCaa = await apraSrvRest.GetCAAsByEncomiendas(lst_id_Encomiendas.ToList());
+            return lstCaa;
         }
     }
 }
