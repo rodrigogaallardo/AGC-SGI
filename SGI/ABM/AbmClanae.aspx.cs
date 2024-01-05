@@ -158,7 +158,10 @@ namespace SGI.ABM
                     try
                     {
                         db.Clanae_delete(idClanae);
+
                         Tran.Complete();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -186,6 +189,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int id = Convert.ToInt32(hid_id_req.Value);
                 string codigo = txtCodigoReq.Text.Trim();
@@ -197,9 +201,15 @@ namespace SGI.ABM
                     {
 
                         if (id == 0)
-                            db.Clanae_insert(codigo, descripcion,  userid);
+                        {
+                            db.Clanae_insert(codigo, descripcion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                        }
                         else
+                        {
                             db.Clanae_update(id, codigo, descripcion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -468,6 +478,25 @@ namespace SGI.ABM
                     "mostrarMensaje", "mostrarMensaje('" + mensaje + "','" + titulo + "')", true);
         }
         #endregion
+
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionEliminar.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
+        }
 
     }
 }

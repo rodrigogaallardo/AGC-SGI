@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Drawing;
+using System.Web.Security;
 
 namespace SGI.ABM.Partidas
 {
@@ -1141,9 +1142,6 @@ namespace SGI.ABM.Partidas
         }
 
 
-
-
-
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
 
@@ -1372,6 +1370,7 @@ namespace SGI.ABM.Partidas
                 DataTable dt = dtUbicacionesCargadas();
 
                 dt.Rows.RemoveAt(row.RowIndex);
+
 
                 grdUbicaciones.DataSource = dt;
                 grdUbicaciones.DataBind();

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -82,8 +83,8 @@ namespace SGI.Operaciones
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-
-
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
             Ubicaciones_GruposDistritos ubicaciones_GruposDistritos = new Ubicaciones_GruposDistritos();
             
@@ -95,11 +96,13 @@ namespace SGI.Operaciones
 
             if (IdGrupoDistrito == 0)
             {
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
                 ubicaciones_GruposDistritos.IdGrupoDistrito = context.Ubicaciones_GruposDistritos.Max(x => x.IdGrupoDistrito) + 1;
                 
             }
             else
             {
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
                 ubicaciones_GruposDistritos.IdGrupoDistrito = IdGrupoDistrito;
                 
             }

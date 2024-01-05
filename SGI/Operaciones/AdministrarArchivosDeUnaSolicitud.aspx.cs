@@ -1,10 +1,13 @@
-﻿using RestSharp;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using RestSharp;
 using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Security.Policy;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -53,6 +56,23 @@ namespace SGI.Operaciones
             }
             updResultados.Update();
             EjecutarScript(updResultados, "showResultado();");
+        }
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
         }
         public List<SSIT_DocumentosAdjuntos> CargarSolicitudConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
@@ -172,6 +192,7 @@ namespace SGI.Operaciones
                 {
                     try
                     {
+
                         LinkButton lnkEliminar = (LinkButton)sender;
                         int id_docadjunto = Convert.ToInt32(lnkEliminar.CommandArgument);
                         int id_file = Convert.ToInt32(lnkEliminar.CommandName);
@@ -183,8 +204,13 @@ namespace SGI.Operaciones
                             ftx.Files.Remove(file);
                             ftx.SaveChanges();
                         }
+
                         ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
                         tran.Commit();
+
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+
                     }
                     catch (Exception ex)
                     {
@@ -192,6 +218,7 @@ namespace SGI.Operaciones
                         throw ex;
                     }
                 }
+
             }
             gridViewArchivosSolic.EditIndex = -1;
             btnBuscarSolicitud_Click(sender, e);
@@ -218,6 +245,9 @@ namespace SGI.Operaciones
                         }
                         ctx.Transf_DocumentosAdjuntos_Eliminar(id_docadjunto);
                         tran.Commit();
+
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -225,6 +255,7 @@ namespace SGI.Operaciones
                         throw ex;
                     }
                 }
+
             }
             gridViewArchivosTransf.EditIndex = -1;
             btnBuscarSolicitud_Click(sender, e);
@@ -357,7 +388,7 @@ namespace SGI.Operaciones
                 }
                 // busca el boton por el texto para marcarlo como seleccionado
                 string btnText = Convert.ToString(grid.PageIndex + 1);
-                foreach (Control ctl in fila.Cells[0].FindControl("pnlpagerSolic").Controls)
+                foreach (System.Web.UI.Control ctl in fila.Cells[0].FindControl("pnlpagerSolic").Controls)
                 {
                     if (ctl is LinkButton)
                     {
@@ -451,7 +482,7 @@ namespace SGI.Operaciones
                 }
                 // busca el boton por el texto para marcarlo como seleccionado
                 string btnText = Convert.ToString(grid.PageIndex + 1);
-                foreach (Control ctl in fila.Cells[0].FindControl("pnlpagerTransf").Controls)
+                foreach (System.Web.UI.Control ctl in fila.Cells[0].FindControl("pnlpagerTransf").Controls)
                 {
                     if (ctl is LinkButton)
                     {

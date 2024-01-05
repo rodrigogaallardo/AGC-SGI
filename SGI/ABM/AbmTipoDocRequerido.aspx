@@ -165,6 +165,8 @@
 
     <div id="page_content" style="display:none">
 
+        <asp:HiddenField ID="hid_valor_boton" runat="server" />
+        <asp:HiddenField ID="hid_observaciones" runat="server" />
         <%--Busqueda de Tipo Doc Requeridos--%>
         <div id="box_busqueda" >
             <asp:HiddenField ID="hdnTamanioMaximo" runat="server" />
@@ -536,6 +538,15 @@
                                             </asp:TextBox>
                                         </div>
                                     </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Observación del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" 
+                                                TextMode="MultiLine" MaxLength="1000" Height="100px" Width="550px"
+                                               >
+                                            </asp:TextBox>
+                                        </div>
+                                    </div>
                                     <asp:Panel ID="pnlBajaLogica" runat="server" Visible="false"> 
                                         <div id="divBaja" class="control-group">
                                             <label class="col-sm-3 control-label">Baja Lógica:</label>
@@ -621,5 +632,30 @@
         </div>
     </div>
     <!-- /.modal -->
+    <%--Modal Eliminar Log--%>
+    <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Observaciones del Solicitante:</label>
+                        <div class="controls">
+                            <asp:TextBox ID="txtObservacionesSolicitanteEliminar" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+
+                <%-- Botones --%>
+                <div class="modal-footer" style="text-align: left;">
+                    <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                    <asp:Button ID="Button1" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>
 

@@ -106,13 +106,39 @@
             </Columns>
         </asp:GridView>
       <hr />
-     <asp:HiddenField  ID ="hdidSolicitud" runat="server"/>
-     <asp:HiddenField  ID ="hdHAB_TRANSF" runat="server"/>
+    <asp:HiddenField ID="hdidSolicitud" runat="server" />
+    <asp:HiddenField ID="hdHAB_TRANSF" runat="server" />
+    <asp:HiddenField ID="hid_valor_boton" runat="server" />
+    <asp:HiddenField ID="hid_observaciones" runat="server" />
     
       <div class="control-group">
         <asp:Button id="btnNuevo" Enabled="false" runat="server" Text="Nueva Tarea-Tramite" OnClick="btnNuevo_Click" CssClass="btn btn-primary"/>
     </div>
 
+<%-- Modal Observacion Solicitante--%>
+    <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Observaciones del Solicitante:</label>
+                        <div class="controls">
+                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+
+                <%-- Botones --%>
+                <div class="modal-footer" style="text-align: left;">
+                    <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 
 </asp:Content>
 

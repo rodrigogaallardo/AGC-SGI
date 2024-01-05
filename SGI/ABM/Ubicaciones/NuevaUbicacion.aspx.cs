@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -737,6 +738,9 @@ namespace SGI.ABM.Partidas
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             ValidarPuertas();
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
         }
 
         protected void btnContinuar(object sender, EventArgs e)

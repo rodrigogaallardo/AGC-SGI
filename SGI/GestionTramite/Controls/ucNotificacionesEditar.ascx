@@ -2,6 +2,7 @@
 
 <asp:HiddenField ID="hid_lNot_collapse" runat="server" Value="false"/>
 
+
 <div class="accordion-group widget-box">
     <div class="accordion-heading">
         <a id="btnUpDownNot" data-parent="#collapse-group" href="#collapseNoti" 
@@ -14,6 +15,7 @@
         </a>
 
     </div>
+
 
     <div class="accordion-body collapse in" id="collapseNoti">
         <div class="widget-content">
@@ -110,6 +112,31 @@
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </asp:Panel>
+        </div>
+    </div>
+</div>
+
+<%--Modal Eliminar Log--%>
+<div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Observaciones del Solicitante:</label>
+                    <div class="controls">
+                        <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                    </div>
+                </div>
+            </div>
+
+            <%-- Botones --%>
+            <div class="modal-footer" style="text-align: left;">
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+            </div>
         </div>
     </div>
 </div>

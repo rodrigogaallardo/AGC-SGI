@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using SGI.Model;
 using System.Transactions;
+using System.Security.Policy;
 
 namespace SGI.ABM
 {
@@ -269,7 +270,10 @@ namespace SGI.ABM
                     try
                     {
                         db.SectoresSADE_EliminarSectorTarea(idSectorTarea, userid);
+
                         Tran.Complete();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -297,6 +301,8 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
 
                 int idSectorTarea = Convert.ToInt32(hid_id_SectorTareaReq.Value);
                 int idSector = 0;
@@ -314,9 +320,15 @@ namespace SGI.ABM
                     try
                     {
                         if (idSectorTarea == 0)
+                        {
                             db.SectoresSADE_GuardarSectorTarea(idSector, idTOrigen, idTDestino, idEstado, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
+                        {
                             db.SectoresSADE_ActualizarSectorTarea(idSectorTarea, idSector, idTOrigen, idTDestino, idEstado, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -343,5 +355,24 @@ namespace SGI.ABM
             }
 
         }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
+        }
+
     }
 }

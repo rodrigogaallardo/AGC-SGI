@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace SGI.ABM {
-    
-    
-    public partial class AbmConfiguracionSectoresTareas {
-        
+namespace SGI.ABM
+{
+
+
+    public partial class AbmConfiguracionSectoresTareas
+    {
+
         /// <summary>
         /// Control pnlBotonDefault.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlBotonDefault;
-        
+
         /// <summary>
         /// Control updpnlBuscar.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updpnlBuscar;
-        
+
         /// <summary>
         /// Control btnCargarDatos.
         /// </summary>
@@ -38,7 +40,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCargarDatos;
-        
+
         /// <summary>
         /// Control Panel1.
         /// </summary>
@@ -47,7 +49,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel1;
-        
+
         /// <summary>
         /// Control ddlTareaOrigenB.
         /// </summary>
@@ -56,7 +58,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTareaOrigenB;
-        
+
         /// <summary>
         /// Control ddlTareaDestinoB.
         /// </summary>
@@ -65,7 +67,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTareaDestinoB;
-        
+
         /// <summary>
         /// Control ddlSectorB.
         /// </summary>
@@ -74,7 +76,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSectorB;
-        
+
         /// <summary>
         /// Control ddlEstadoB.
         /// </summary>
@@ -83,7 +85,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEstadoB;
-        
+
         /// <summary>
         /// Control UpdatePanel1.
         /// </summary>
@@ -92,7 +94,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// Control UpdateProgress2.
         /// </summary>
@@ -101,7 +103,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress2;
-        
+
         /// <summary>
         /// Control btnBuscar.
         /// </summary>
@@ -110,7 +112,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnBuscar;
-        
+
         /// <summary>
         /// Control btnNuevoPase.
         /// </summary>
@@ -119,7 +121,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnNuevoPase;
-        
+
         /// <summary>
         /// Control updResultados.
         /// </summary>
@@ -128,7 +130,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updResultados;
-        
+
         /// <summary>
         /// Control pnlCantidadRegistros.
         /// </summary>
@@ -137,7 +139,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlCantidadRegistros;
-        
+
         /// <summary>
         /// Control lblCantidadRegistros.
         /// </summary>
@@ -146,7 +148,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCantidadRegistros;
-        
+
         /// <summary>
         /// Control grdResultados.
         /// </summary>
@@ -155,7 +157,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdResultados;
-        
+
         /// <summary>
         /// Control updDatos.
         /// </summary>
@@ -164,7 +166,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updDatos;
-        
+
         /// <summary>
         /// Control hid_id_SectorTareaReq.
         /// </summary>
@@ -173,7 +175,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hid_id_SectorTareaReq;
-        
+
         /// <summary>
         /// Control pnlDatos.
         /// </summary>
@@ -182,7 +184,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlDatos;
-        
+
         /// <summary>
         /// Control ddlTareaOrigen.
         /// </summary>
@@ -191,7 +193,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTareaOrigen;
-        
+
         /// <summary>
         /// Control ddlTareaDestino.
         /// </summary>
@@ -200,7 +202,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTareaDestino;
-        
+
         /// <summary>
         /// Control ddlSector.
         /// </summary>
@@ -209,7 +211,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSector;
-        
+
         /// <summary>
         /// Control ddlEstado.
         /// </summary>
@@ -218,7 +220,16 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEstado;
-        
+
+        /// <summary>
+        /// Control txtObservacionesSolicitantes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitantes;
+
         /// <summary>
         /// Control updBotonesGuardar.
         /// </summary>
@@ -227,7 +238,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updBotonesGuardar;
-        
+
         /// <summary>
         /// Control btnGuardar.
         /// </summary>
@@ -236,7 +247,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnGuardar;
-        
+
         /// <summary>
         /// Control btnCancelar.
         /// </summary>
@@ -245,7 +256,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancelar;
-        
+
         /// <summary>
         /// Control UpdateProgress1.
         /// </summary>
@@ -254,7 +265,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress1;
-        
+
         /// <summary>
         /// Control updmpeInfo.
         /// </summary>
@@ -263,7 +274,7 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updmpeInfo;
-        
+
         /// <summary>
         /// Control lblError.
         /// </summary>
@@ -272,5 +283,32 @@ namespace SGI.ABM {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// Control txtObservacionesSolicitante.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitante;
+
+        /// <summary>
+        /// Control btnAceptar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptar;
+
+        /// <summary>
+        /// Control Button1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }

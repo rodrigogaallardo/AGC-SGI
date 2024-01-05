@@ -66,7 +66,12 @@
        <asp:TextBox  ID="txtReferencia" CssClass="input-xlarge" Width="300px" TextMode="MultiLine" Height="100px" runat="server"> </asp:TextBox>
         </div>
     </div>
-    
+    <div class="control-group" style="padding-top:20px;">
+        <label class="control-label">Observaciones del Solicitante:</label>
+        <div class="controls">
+            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="350px" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
    
   
 
