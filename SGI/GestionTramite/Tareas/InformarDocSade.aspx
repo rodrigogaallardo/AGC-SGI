@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Informar Documentos a SADE" Language="C#" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="InformarDocSade.aspx.cs" Inherits="SGI.GestionTramite.Tareas.InformarDocSade" %>
+﻿<%@ Page Title="Tarea: Informar Documentos a SADE" Language="C#" Async="true" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="InformarDocSade.aspx.cs" Inherits="SGI.GestionTramite.Tareas.InformarDocSade" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
