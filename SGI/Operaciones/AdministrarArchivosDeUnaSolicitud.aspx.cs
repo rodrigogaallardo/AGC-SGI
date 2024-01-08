@@ -305,17 +305,19 @@ namespace SGI.Operaciones
                              select solicitudes).FirstOrDefault();
                         if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
                         {
-                            ExpedienteE = "TODO AOI";
+                            ExpedienteE = string.Empty;
                             //TODO: Obtener id_paquete luego armar un
                             // endpoint en pasarela que reciba el paquete  
                             // y con eso devuelva todos los datos de EE
                             // Esto seria para las solicitudes que no 
                             //finalizaron Generar Expediente
+                            //consultaExpedienteResponseDetallado ExpedienteElectronico = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
                         }
                         else
-                            ExpedienteE = Solicitud.NroExpediente;
+                            ExpedienteE = Solicitud.NroExpedienteSade;
                         //Request a pasarela con el EE
                         consultaExpedienteResponseDetallado ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
+                        //TODO Setear labels con datos ExpedienteElectronico
                         loadUsersFromSector(ExpedienteElectronico);
                     }
                     catch
@@ -335,13 +337,13 @@ namespace SGI.Operaciones
                 if(ExpedienteElectronico.sectorDestino.IsNullOrWhiteSpace())
                 {
                     DGHP_Entities db = new DGHP_Entities();
-                    var profile = (from pro in db.SGI_Profiles
+                    var usuarios = (from pro in db.SGI_Profiles
                                    join mem in db.aspnet_Membership on pro.userid equals mem.UserId
                                    where pro.Sector_SADE.ToUpper() == ExpedienteElectronico.sectorDestino.Trim().ToUpper()
                                     && !mem.IsLockedOut && pro.UserName_SADE.Length > 0
                                    select pro).ToList();
                     
-                    if (profile == null || profile.Count() == 0)
+                    if (usuarios == null || usuarios.Count() == 0)
                     {
                         Exception solEx = new Exception($"Expediente {ExpedienteElectronico.codigoEE}, No se encontraron usuarios del sector {ExpedienteElectronico.sectorDestino} en la base de datos. Error.");
                         LogError.Write(solEx);
