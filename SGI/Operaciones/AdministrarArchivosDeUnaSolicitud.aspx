@@ -26,24 +26,38 @@
         <h1><%= Title %>.</h1>
     </hgroup>
    <div>
-    <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por Número de Solicitud</label>
-        <div class="controls">
-            <asp:TextBox id="txtBuscarSolicitud" runat="server" CssClass="controls"/>
-        </div>
-        <div class="control-group">
-            <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
-        </div>
-        <div class="control-group pull-right">
-            <label class="control-label" for="txtBuscarSolicitud">Expediente Electronico</label>
-            <label class="control-label" for="txtEstado">Estado</label>
-            <label class="control-label" for="txtUsuario">Usuario</label>
-            <label class="control-label" for="txtReparticion">Reparticion</label>
-            <label class="control-label" for="txtSector">Sector</label>
-        </div>
-    </div>
-
-    
+       <div class="row-fluid">
+          <div class="span3">
+            <label class="control-label" for="txtBuscarSolicitud">Buscar por Número de Solicitud</label><br />
+              <div class="controls">
+                        <asp:TextBox id="txtBuscarSolicitud" runat="server" CssClass="controls"/>
+               </div>
+              <div class="control-group">
+                   <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
+               </div>
+          </div>
+           <div class="span3">
+                   <label class="control-label" for="txtBuscarSolicitud">Usuario Documentos</label>
+                    <div class="controls">
+                         <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
+                    </div>
+                         
+           </div>
+           <div class="span6">
+                <label class="control-label" for="txtExpedienteElectronico">Expediente Electronico</label>
+                <label class="control-label" for="txtEstado">Estado</label>
+                <label class="control-label" for="txtUsuario">Usuario</label>
+                <label class="control-label" for="txtReparticion">Reparticion</label>
+                <label class="control-label" for="txtSector">Sector</label>
+                <br />
+                <label class="control-label" for="txtExpedienteElectronicoValor">EX-2023-47518639-   -GCABA-DGHP</label>
+                <label class="control-label" for="txtEstadoValor">Iniciación</label>
+                <label class="control-label" for="txtUsuarioValor">GJZILIO</label>
+                <label class="control-label" for="txtReparticionValor">DGHP</label>
+                <label class="control-label" for="txtSectorValor">302</label>
+           </div>
+          
+       </div>
 </div>
 
     <hr/>
