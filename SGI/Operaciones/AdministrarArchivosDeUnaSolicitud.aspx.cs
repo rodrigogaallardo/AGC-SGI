@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿using Microsoft.Ajax.Utilities;
 using RestSharp;
 using SGI.Model;
 using System;
@@ -11,11 +11,61 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ws_ExpedienteElectronico;
 
 namespace SGI.Operaciones
 {
     public partial class AdministrarArchivosDeUnaSolicitud : BasePage
     {
+        private string _sistema_SADE;
+        private string sistema_SADE
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_sistema_SADE))
+                {
+                    _sistema_SADE = "SGI";
+                }
+                return _sistema_SADE;
+            }
+        }
+        private string _url_servicio_EE;
+        private string url_servicio_EE
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_url_servicio_EE))
+                {
+                    _url_servicio_EE = Parametros.GetParam_ValorChar("SGI.Url.Service.ExpedienteElectronico");
+                }
+                return _url_servicio_EE;
+            }
+        }
+        private string _username_servicio_EE;
+        private string username_servicio_EE
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_username_servicio_EE))
+                {
+                    _username_servicio_EE = Parametros.GetParam_ValorChar("SGI.UserName.Service.ExpedienteElectronico");
+                }
+                return _username_servicio_EE;
+            }
+        }
+        private string _pass_servicio_EE;
+        private string pass_servicio_EE
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_pass_servicio_EE))
+                {
+                    _pass_servicio_EE = Parametros.GetParam_ValorChar("SGI.Pwd.Service.ExpedienteElectronico");
+                }
+                return _pass_servicio_EE;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             MembershipUser usu = Membership.GetUser();
@@ -54,6 +104,7 @@ namespace SGI.Operaciones
                     gridViewArchivosSolic.DataBind();
                 }
             }
+            fillInfoSade(idSolicitud, couldParse);
             updResultados.Update();
             EjecutarScript(updResultados, "showResultado();");
         }
@@ -260,6 +311,81 @@ namespace SGI.Operaciones
             gridViewArchivosTransf.EditIndex = -1;
             btnBuscarSolicitud_Click(sender, e);
         }
+
+        private void fillInfoSade(int idSolicitud, bool couldParse)
+        {
+            string ExpedienteE = string.Empty;
+            ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
+            serviceEE.Url = this.url_servicio_EE;
+            if (!couldParse)
+            {
+                Exception exS = new Exception("La solicitud ingresada no se pudo convertir en un entero");
+                LogError.Write(exS);
+                throw exS;
+            }
+            using (var ctx = new DGHP_Entities())
+            {
+                using (var tran = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        SSIT_Solicitudes Solicitud =
+                            (from solicitudes in ctx.SSIT_Solicitudes
+                             where solicitudes.id_solicitud == idSolicitud
+                             select solicitudes).FirstOrDefault();
+                        if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
+                        {
+                            ExpedienteE = "TODO AOI";
+                            //TODO: Obtener id_paquete luego armar un
+                            // endpoint en pasarela que reciba el paquete  
+                            // y con eso devuelva todos los datos de EE
+                            // Esto seria para las solicitudes que no 
+                            //finalizaron Generar Expediente
+                        }
+                        else
+                            ExpedienteE = Solicitud.NroExpediente;
+                        //Request a pasarela con el EE
+                        consultaExpedienteResponseDetallado ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
+                        loadUsersFromSector(ExpedienteElectronico);
+                    }
+                    catch
+                    (Exception ex)
+                    {
+                        LogError.Write(ex);
+                        throw (ex);
+                    }
+                }
+            }
+        }
+
+        private void loadUsersFromSector(consultaExpedienteResponseDetallado ExpedienteElectronico)
+        {
+            if(ExpedienteElectronico != null)
+            {
+                if(ExpedienteElectronico.sectorDestino.IsNullOrWhiteSpace())
+                {
+                    DGHP_Entities db = new DGHP_Entities();
+                    var profile = (from pro in db.SGI_Profiles
+                                   join mem in db.aspnet_Membership on pro.userid equals mem.UserId
+                                   where pro.Sector_SADE.ToUpper() == ExpedienteElectronico.sectorDestino.Trim().ToUpper()
+                                    && !mem.IsLockedOut && pro.UserName_SADE.Length > 0
+                                   select pro).ToList();
+                    
+                    if (profile == null || profile.Count() == 0)
+                    {
+                        Exception solEx = new Exception($"Expediente {ExpedienteElectronico.codigoEE}, No se encontraron usuarios del sector {ExpedienteElectronico.sectorDestino} en la base de datos. Error.");
+                        LogError.Write(solEx);
+                        throw solEx;
+                    }
+                    else
+                    {
+                        //TODO: Agregar estos datos al dropdownlist
+                    }
+                    db.Dispose();
+                }
+            }
+        }
+
         protected void lnkSubirDocSadeSolic_Command(object sender, EventArgs e)
         {
             using (var ctx = new DGHP_Entities())
@@ -271,12 +397,14 @@ namespace SGI.Operaciones
                         LinkButton lnkDocSadeSolic = (LinkButton)sender;
                         int id_docadjunto = Convert.ToInt32(lnkDocSadeSolic.CommandArgument);
                         int id_file = Convert.ToInt32(lnkDocSadeSolic.CommandName);
+                        /*
                         using (var ftx = new AGC_FilesEntities())
                         {
                             Files file = (from f in ftx.Files
                                           where f.id_file == id_file
                                           select f).FirstOrDefault();
                         }
+                        */
                         //ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
                         //tran.Commit();
                     }
