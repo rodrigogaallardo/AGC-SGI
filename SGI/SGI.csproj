@@ -1561,6 +1561,56 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\InsertarCaas\WSssit.disco" />
+    <Content Include="Web References\ws_ExpedienteElectronico\archivoEmbebidoResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\clsConsultaExpedienteBidireccional.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\clsResultConsultaActividad.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultaExpedienteResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultaExpedienteResponseDetallado.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultarDocumentoDTO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultaUsuarioResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\documentosVinculadosResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\dsInfoPaquete.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\dsResultadoFirma.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\ExpedienteDetalladoDTO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\historialDeOperacionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\itemTrata.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\responseExternalConsultaDocumento.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\wsResultado.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\ws_ExpedienteElectronico\ws_ExpedienteElectronico.disco" />
     <Content Include="WebServices\Servicios.asmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -5470,6 +5520,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\ws_ExpedienteElectronico\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WebServices\ApraSrvRest.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -5535,6 +5590,9 @@
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Web References\InsertarCaas\WSssit.wsdl" />
+    <None Include="Web References\ws_ExpedienteElectronico\dsInfoPaquete.xsd" />
+    <None Include="Web References\ws_ExpedienteElectronico\dsResultadoFirma.xsd" />
+    <None Include="Web References\ws_ExpedienteElectronico\ws_ExpedienteElectronico.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -5662,6 +5720,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx%3fop=GetExpedienteByPaquete">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ws_ExpedienteElectronico\</RelPath>
+      <UpdateFromURL>http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx%3fop=GetExpedienteByPaquete</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SGI_ws_ExpedienteElectronico_ws_ExpedienteElectronico</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost:56469/WSssit.asmx%3fop=InsertarCAA_DocAdjuntos">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\InsertarCaas\</RelPath>
