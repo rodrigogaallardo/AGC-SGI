@@ -316,6 +316,8 @@ namespace SGI.Operaciones
         {
             string ExpedienteE = string.Empty;
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
+            ws_ExpedienteElectronico.consultaExpedienteResponseDetallado ExpedienteElectronico;
+
             serviceEE.Url = this.url_servicio_EE;
             if (!couldParse)
             {
@@ -341,12 +343,14 @@ namespace SGI.Operaciones
                             // y con eso devuelva todos los datos de EE
                             // Esto seria para las solicitudes que no 
                             //finalizaron Generar Expediente
-                            //consultaExpedienteResponseDetallado ExpedienteElectronico = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
+                            int id_paquete = 2247429;
+                            ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
                         }
                         else
                             ExpedienteE = Solicitud.NroExpedienteSade;
+                        ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
                         //Request a pasarela con el EE
-                        consultaExpedienteResponseDetallado ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
+                        ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
                         //TODO Setear labels con datos ExpedienteElectronico
                         loadUsersFromSector(ExpedienteElectronico);
                     }
@@ -360,11 +364,11 @@ namespace SGI.Operaciones
             }
         }
 
-        private void loadUsersFromSector(consultaExpedienteResponseDetallado ExpedienteElectronico)
+        private void loadUsersFromSector(ws_ExpedienteElectronico.consultaExpedienteResponseDetallado ExpedienteElectronico)
         {
             if(ExpedienteElectronico != null)
             {
-                if(ExpedienteElectronico.sectorDestino.IsNullOrWhiteSpace())
+                if(!ExpedienteElectronico.sectorDestino.IsNullOrWhiteSpace())
                 {
                     DGHP_Entities db = new DGHP_Entities();
                     var usuarios = (from pro in db.SGI_Profiles

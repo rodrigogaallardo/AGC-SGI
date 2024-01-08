@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:mstns="http://tempuri.org/dsInfoPaquete.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns="http://tempuri.org/dsInfoPaquete.xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://tempuri.org/dsInfoPaquete.xsd" id="dsInfoPaquete" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element msdata:IsDataSet="true" msdata:UseCurrentLocale="true" name="dsInfoPaquete">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Caratula">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_caratula" type="xs:int" />
+              <xs:element minOccurs="0" name="generada" type="xs:boolean" />
+              <xs:element minOccurs="0" name="tipo_actuacion" type="xs:string" />
+              <xs:element minOccurs="0" name="anio_actuacion" type="xs:int" />
+              <xs:element minOccurs="0" name="nro_actuacion" type="xs:int" />
+              <xs:element minOccurs="0" name="reparticion_actuacion" type="xs:string" />
+              <xs:element minOccurs="0" name="reparticion_usuario" type="xs:string" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="id_transaccion" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Documentos">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_documento" type="xs:int" />
+              <xs:element minOccurs="0" name="subido" type="xs:boolean" />
+              <xs:element minOccurs="0" name="numeroGEDO" type="xs:string" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="identificacion_documento" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="id_transaccion" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Bloqueos">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_bloqueo" type="xs:int" />
+              <xs:element minOccurs="0" name="id_caratula" type="xs:int" />
+              <xs:element minOccurs="0" name="bloqueado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Desbloqueos">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_desbloqueo" type="xs:int" />
+              <xs:element minOccurs="0" name="id_caratula" type="xs:int" />
+              <xs:element minOccurs="0" name="desbloqueado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TareasAlaFirma">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_tarea_documento" type="xs:int" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="firmado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="firmado_numeroGEDO" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_subida" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="id_relacion" type="xs:int" />
+              <xs:element minOccurs="0" name="relacion_resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="relacion_subido" type="xs:boolean" />
+              <xs:element minOccurs="0" name="relacion_fecha_resultado" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="subido" type="xs:boolean" />
+              <xs:element minOccurs="0" name="firmado_resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_firmado" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Pases">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_pase" type="xs:int" />
+              <xs:element minOccurs="0" name="id_caratula" type="xs:int" />
+              <xs:element minOccurs="0" name="generado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RelacionesDocumentos">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_relacion" type="xs:int" />
+              <xs:element minOccurs="0" name="id_documento" type="xs:int" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="realizado" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RelacionesExpedientes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_relacion" type="xs:int" />
+              <xs:element msdata:Caption="id_documento" minOccurs="0" name="nro_expediente" type="xs:string" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="realizado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="nro_expediente_asociado" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Transacciones">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element msdata:Caption="id_pase" minOccurs="0" name="id_transaccion" type="xs:int" />
+              <xs:element msdata:Caption="generado" minOccurs="0" name="realizado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DesvinculacionesExpedientes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element msdata:Caption="id_relacion" minOccurs="0" name="id_desvincular" type="xs:int" />
+              <xs:element msdata:Caption="id_documento" minOccurs="0" name="nro_expediente" type="xs:string" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="realizado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="nro_expediente_asociado" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DocumentosExpedientesRelacionados">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id_relacion" type="xs:int" />
+              <xs:element minOccurs="0" name="nro_expediente" type="xs:string" />
+              <xs:element minOccurs="0" name="numero_GEDO" type="xs:string" />
+              <xs:element minOccurs="0" name="realizado" type="xs:boolean" />
+              <xs:element minOccurs="0" name="resultado" type="xs:string" />
+              <xs:element minOccurs="0" name="fecha_resultado" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

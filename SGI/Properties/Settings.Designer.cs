@@ -12,7 +12,7 @@ namespace SGI.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -30,6 +30,17 @@ namespace SGI.Properties {
         public string SGI_InsertarCaas_WSssit {
             get {
                 return ((string)(this["SGI_InsertarCaas_WSssit"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_Expediente" +
+            "Electronico.asmx")]
+        public string SGI_ws_ExpedienteElectronico_ws_ExpedienteElectronico {
+            get {
+                return ((string)(this["SGI_ws_ExpedienteElectronico_ws_ExpedienteElectronico"]));
             }
         }
     }

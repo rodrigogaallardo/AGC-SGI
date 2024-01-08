@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx?schema=dsResultadoFirma" filename="dsResultadoFirma.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx?schema=dsInfoPaquete" filename="dsInfoPaquete.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx?wsdl" filename="ws_ExpedienteElectronico.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx?disco" filename="ws_ExpedienteElectronico.disco" />
+  </Results>
+</DiscoveryClientResultsFile>
