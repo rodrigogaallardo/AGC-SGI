@@ -307,14 +307,14 @@ namespace SGI.Operaciones
                              select solicitudes).FirstOrDefault();
                         if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
                         {
-                            ExpedienteE = string.Empty;
-                            //TODO: Obtener id_paquete luego armar un
-                            // endpoint en pasarela que reciba el paquete  
-                            // y con eso devuelva todos los datos de EE
-                            // Esto seria para las solicitudes que no 
-                            //finalizaron Generar Expediente
-                            int id_paquete = 2247429;
-                            ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
+                            int id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
+                            if(id_paquete > 0)
+                                ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
+                            else
+                            {
+                                //Si no tiene id_paquete entonces me salgo pues obviamente no tiene EE
+                                return;
+                            }
                         }
                         else
                             ExpedienteE = Solicitud.NroExpedienteSade;
