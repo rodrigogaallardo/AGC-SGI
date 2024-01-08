@@ -108,11 +108,7 @@
                 </div>
             </div>
 
-            <%-- Botones --%>
-            <div class="modal-footer" style="text-align: left;">
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
-            </div>
+           
         </div>
     </div>
 </div>
