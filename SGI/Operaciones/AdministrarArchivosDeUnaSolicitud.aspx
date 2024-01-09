@@ -35,29 +35,28 @@
                    <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
                </div>
           </div>
-           <div class="span3">
-                   <label class="control-label" for="txtBuscarSolicitud">Usuario Documentos</label>
+            <asp:Panel ID="viewDropDownList" runat="server" class="span3" Visible="false">
+                    <label class="control-label" for="txtBuscarSolicitud">Usuario Documentos</label>
                     <div class="controls">
-                         <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
                     </div>
-                         
-           </div>
-           <div class="span6">
+            </asp:Panel>
+
+            <asp:Panel ID="viewValorExpediente" runat="server" class="span6" Visible="false">
                 <label class="control-label" for="txtExpedienteElectronico">Expediente Electronico</label>
                 <label class="control-label" for="txtEstado">Estado</label>
                 <label class="control-label" for="txtUsuario">Usuario</label>
                 <label class="control-label" for="txtReparticion">Reparticion</label>
                 <label class="control-label" for="txtSector">Sector</label>
                 <br />
-                <label class="control-label" for="txtExpedienteElectronicoValor">EX-2023-47518639-   -GCABA-DGHP</label>
-                <label class="control-label" for="txtEstadoValor">Iniciación</label>
-                <label class="control-label" for="txtUsuarioValor">GJZILIO</label>
-                <label class="control-label" for="txtReparticionValor">DGHP</label>
-                <label class="control-label" for="txtSectorValor">302</label>
-           </div>
-          
+                <asp:Label ID="txtExpedienteElectronicoValor" runat="server" CssClass="control-label"></asp:Label>
+                <asp:Label ID="txtEstadoValor" runat="server" CssClass="control-label"></asp:Label>
+                <asp:Label ID="txtUsuarioValor" runat="server" CssClass="control-label"></asp:Label>
+                <asp:Label ID="txtReparticionValor" runat="server" CssClass="control-label"></asp:Label>
+                <asp:Label ID="txtSectorValor" runat="server" CssClass="control-label"></asp:Label>
+            </asp:Panel>
        </div>
-</div>
+   </div>
 
     <hr/>
 
