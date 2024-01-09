@@ -79,6 +79,8 @@ namespace SGI.Operaciones
                 Session["LastID"] = null;
                 btnBuscarSolicitud_Click(sender, e);
             }
+            viewDropDownList.Visible = false;
+            viewValorExpediente.Visible = false;
         }
         protected void btnBuscarSolicitud_Click(object sender, EventArgs e)
         {
@@ -104,6 +106,8 @@ namespace SGI.Operaciones
                     gridViewArchivosSolic.DataBind();
                 }
             }
+            viewDropDownList.Visible = true;
+            viewValorExpediente.Visible = true;
             fillInfoSade(idSolicitud, couldParse);
             updResultados.Update();
             EjecutarScript(updResultados, "showResultado();");
@@ -351,7 +355,11 @@ namespace SGI.Operaciones
                         ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
                         //Request a pasarela con el EE
                         ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
-                        //TODO Setear labels con datos ExpedienteElectronico
+                        txtExpedienteElectronicoValor.Text = ExpedienteElectronico.codigoEE;
+                        txtEstadoValor.Text = ExpedienteElectronico.estado;
+                        txtUsuarioValor.Text = ExpedienteElectronico.usuarioCaratulador;
+                        txtReparticionValor.Text = ExpedienteElectronico.reparticionDestino;
+                        txtSectorValor.Text = ExpedienteElectronico.sectorDestino;
                         loadUsersFromSector(ExpedienteElectronico);
                     }
                     catch
@@ -385,7 +393,10 @@ namespace SGI.Operaciones
                     }
                     else
                     {
-                        //TODO: Agregar estos datos al dropdownlist
+                        ddlUsuario.DataSource = usuarios;
+                        ddlUsuario.DataTextField = "UserName_SADE";
+                        ddlUsuario.DataValueField = "userid";
+                        ddlUsuario.DataBind();
                     }
                     db.Dispose();
                 }
