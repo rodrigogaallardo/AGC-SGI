@@ -3,6 +3,7 @@
     MasterPageFile="~/Site.Master"
     Language="C#" 
     AutoEventWireup="true" 
+    async="true"
     CodeBehind="AdministrarArchivosDeUnaSolicitud.aspx.cs" 
     Inherits="SGI.Operaciones.AdministrarArchivosDeUnaSolicitud" 
 %>

@@ -1255,7 +1255,7 @@ namespace SGI
                          where tskr.nombre_tarea.Contains("Gene") && sol.id_solicitud == id_solicitud
                          select sade.id_paquete);
 
-            var result = transferencias.Union(habilitaciones);
+            id_paquete = transferencias.Union(habilitaciones).FirstOrDefault();
 
             return id_paquete;
         }
