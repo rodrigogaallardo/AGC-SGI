@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using RestSharp;
 using SGI.Model;
+using SGI.WebServices;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,12 +12,39 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Transactions;
 using ws_ExpedienteElectronico;
 
 namespace SGI.Operaciones
 {
     public partial class AdministrarArchivosDeUnaSolicitud : BasePage
     {
+        public int id_grupo_tramite
+        {
+            get
+            {
+                int ret = (ViewState["_grupo_tramite"] != null ? Convert.ToInt32(ViewState["_grupo_tramite"]) : 0);
+                return ret;
+            }
+            set
+            {
+                ViewState["_grupo_tramite"] = value;
+            }
+
+        }
+        private int _id_paquete;
+        public int IdPaquete
+        {
+            get
+            {
+                return _id_paquete;
+            }
+            set
+            {
+                _id_paquete = value;
+            }
+
+        }
         private string _sistema_SADE;
         private string sistema_SADE
         {
@@ -97,11 +125,14 @@ namespace SGI.Operaciones
                                                                       select trans.id_tipotramite).FirstOrDefault();
                 if (tipotramite == (int)Constants.TipoDeTramite.Transferencia)
                 {
+                    this.id_grupo_tramite = (int)Constants.GruposDeTramite.TR;
                     gridViewArchivosTransf.Visible = true;
                     gridViewArchivosTransf.DataBind();
                 }
                 else
                 {
+                    //aca estamos ignorando cpadron
+                    this.id_grupo_tramite = (int)Constants.GruposDeTramite.HAB;
                     gridViewArchivosSolic.Visible = true;
                     gridViewArchivosSolic.DataBind();
                 }
@@ -339,10 +370,11 @@ namespace SGI.Operaciones
                             (from solicitudes in ctx.SSIT_Solicitudes
                              where solicitudes.id_solicitud == idSolicitud
                              select solicitudes).FirstOrDefault();
+                        int id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
                         if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
                         {
-                            int id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
-                            if(id_paquete > 0)
+                            this.IdPaquete = id_paquete;
+                            if (id_paquete > 0)
                                 ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
                             else
                             {
@@ -384,8 +416,11 @@ namespace SGI.Operaciones
                                    where pro.Sector_SADE.ToUpper() == ExpedienteElectronico.sectorDestino.Trim().ToUpper()
                                     && !mem.IsLockedOut && pro.UserName_SADE.Length > 0
                                    select pro).ToList();
-                    
-                    if (usuarios == null || usuarios.Count() == 0)
+                    var distinctUsuarios = usuarios
+                            .GroupBy(pro => pro.UserName_SADE)
+                            .Select(g => g.First())
+                            .ToList();
+                    if (distinctUsuarios == null || distinctUsuarios.Count() == 0)
                     {
                         Exception solEx = new Exception($"Expediente {ExpedienteElectronico.codigoEE}, No se encontraron usuarios del sector {ExpedienteElectronico.sectorDestino} en la base de datos. Error.");
                         LogError.Write(solEx);
@@ -393,7 +428,7 @@ namespace SGI.Operaciones
                     }
                     else
                     {
-                        ddlUsuario.DataSource = usuarios;
+                        ddlUsuario.DataSource = distinctUsuarios;
                         ddlUsuario.DataTextField = "UserName_SADE";
                         ddlUsuario.DataValueField = "userid";
                         ddlUsuario.DataBind();
@@ -405,6 +440,7 @@ namespace SGI.Operaciones
 
         protected void lnkSubirDocSadeSolic_Command(object sender, EventArgs e)
         {
+            Guid userid_sgi = Functions.GetUserId();
             using (var ctx = new DGHP_Entities())
             {
                 using (var tran = ctx.Database.BeginTransaction())
@@ -414,16 +450,42 @@ namespace SGI.Operaciones
                         LinkButton lnkDocSadeSolic = (LinkButton)sender;
                         int id_docadjunto = Convert.ToInt32(lnkDocSadeSolic.CommandArgument);
                         int id_file = Convert.ToInt32(lnkDocSadeSolic.CommandName);
-                        /*
+                        int id_file_selected = 0;
+                        byte[] content_file = null;
+                        int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
+                        int id_tramitetarea_new = 0; // crear nueva tarea?
+                        int id_tarea_proc_new = 0; // crear un nuevo sgi_sade_proceso?
+                        string descTramite = "Esto probablemente no vaya";
+                        string nroExpediente = txtExpedienteElectronicoValor.Text;
+                        string usuario = ddlUsuario.SelectedValue;
+                        Guid userid_tarea = Guid.Parse(usuario);
                         using (var ftx = new AGC_FilesEntities())
                         {
                             Files file = (from f in ftx.Files
                                           where f.id_file == id_file
                                           select f).FirstOrDefault();
+                            if (file != null)
+                            {
+                                id_file_selected = file != null ? file.id_file : 0;
+                                content_file = file.content_file;
+                                //Crear SGI_SADE_Procesos con los datos del archivo, quiza
+                                //subirDocumento( idSolicitud, id_tramitetarea_new, this.id_grupo_tramite, nroExpediente,
+                                //                id_tarea_proc_new, this.id_paquete, id_file, descTramite, userid);
+                                subirDocumento( idSolicitud, this.id_grupo_tramite, content_file, nroExpediente, 
+                                                id_docadjunto,IdPaquete, id_file, descTramite, userid_tarea);
+                            }
+                            else
+                            {
+                                Exception exceptionFile = new Exception("El archivo no existe en la base de files.");
+                                LogError.Write(exceptionFile);
+                                throw exceptionFile;
+                            }
+                            
+                            
                         }
-                        */
-                        //ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
-                        //tran.Commit();
+                        
+                        
+                        tran.Commit();
                     }
                     catch (Exception ex)
                     {
@@ -671,5 +733,213 @@ namespace SGI.Operaciones
                 }
             }
         }
+
+        private ParametrosSADE GetParametrosSADE(Guid userId, int id_docadjunto)
+        {
+            //deberia recibir el tipo de solicitud (transf o hab) y buscar asi los tipos correspondientes
+            ParametrosSADE parametros = new ParametrosSADE();
+            DGHP_Entities db = new DGHP_Entities();
+            TiposDeDocumentosRequeridos tiposDeDocumentosRequeridos =
+                            (from tipoDocReq in db.TiposDeDocumentosRequeridos
+                             join ssit_docs in db.SSIT_DocumentosAdjuntos on tipoDocReq.id_tdocreq equals ssit_docs.id_tdocreq
+                             where ssit_docs.id_docadjunto == id_docadjunto
+                             select tipoDocReq).FirstOrDefault();
+            //TODO, adaptar para docs_transferencias y docs_encomiendas
+            parametros.Usuario_SADE = Functions.GetUsernameSADE(userId);
+            parametros.Acronimo_SADE = tiposDeDocumentosRequeridos.acronimo_SADE;
+            parametros.Tabla_Origen = ""; //de donde sale esto? no lo encuentro
+            parametros.formato_archivo = tiposDeDocumentosRequeridos.formato_archivo;
+            parametros.Ffcc_SADE = tiposDeDocumentosRequeridos.ffcc_SADE;
+
+            return parametros;
+        }
+
+        private async void subirDocumento(  int id_solicitud,int id_grupo_tramite, byte[] documento,
+                                            string nro_expediente,int id_docadjunto, int id_paquete,
+                                            int id_file, string descripcion_tramite, Guid userid)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            db.Database.CommandTimeout = 300;
+            AGC_FilesEntities dbFiles = new AGC_FilesEntities();
+            dbFiles.Database.CommandTimeout = 300;
+            bool realizado_en_pasarela = false;
+            string resultado_ee = "";
+            int id_devolucion_ee = -1;
+            bool huboError = false;
+
+            try
+            {
+
+                // Recupero los parámetros de la tarea de proceso
+                // ----------------------------------------------
+                //var proc = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
+                //TODO: una funcion que me arme los parametros
+
+                //if (proc.parametros_SADE != null)
+                //    parametros = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(proc.parametros_SADE);
+
+                ParametrosSADE parametros = GetParametrosSADE(userid, id_docadjunto);
+                id_paquete = 2205674;
+                string username_SADE = "";
+                string Tabla_Origen = "";
+                string Acronimo_SADE = "";
+                string formato_archivo = "";
+                string Ffcc_SADE = null;
+                string nombre_archivo = "";
+
+                try { username_SADE = parametros.Usuario_SADE; }
+                catch (Exception) 
+                {
+                    Exception exUserSade = new Exception("No se pudo conseguir el usuario de SADE");
+                    LogError.Write(exUserSade);
+                    throw exUserSade;
+                }
+
+                try { Tabla_Origen = parametros.Tabla_Origen; }
+                catch (Exception) { Tabla_Origen = ""; }
+
+                try { Acronimo_SADE = parametros.Acronimo_SADE; }
+                catch (Exception) { Acronimo_SADE = Functions.GetParametroCharEE("EE.acronimo.pdf.sin.firma"); }
+
+                try { formato_archivo = parametros.formato_archivo; }
+                catch (Exception) { formato_archivo = "pdf"; }
+
+                try { Ffcc_SADE = parametros.Ffcc_SADE; }
+                catch (Exception) { Ffcc_SADE = null; }
+
+                //Si id_file=-1 es la plancheta, esto lo saco ya que se sube en una tarea especifica
+                // *Se borro*
+
+                /* Certificado esto creo que no va
+                if (id_grupo_tramite == (int)Constants.GruposDeTramite.HAB ||
+                    id_grupo_tramite == (int)Constants.GruposDeTramite.TR ||
+                    id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
+                {
+                    if (Tabla_Origen == "Certificados")
+                    {
+                        var file = dbFiles.Certificados.FirstOrDefault(x => x.id_certificado == proc.id_origen_reg);
+                        if (file == null)
+                            throw new Exception("No se encontró el contenido del archivo en la base de Files.");
+
+                        documento = file.Certificado;
+
+                        if (documento.Length <= 1)
+                            throw new Exception("El documento se encuentra vacío.");
+                    }
+                    else
+                    {
+
+                        documento = ws_FilesRest.DownloadFile(id_file);
+                        if (documento == null)
+                            throw new Exception("No se encontró el contenido del archivo en la base de Files.");
+
+                        if (documento.Length <= 1)
+                            throw new Exception("El documento se encuentra vacío.");
+                    }
+                }
+                */
+                // Subir y relacionar documento en servicio
+                // ---------------------------------------
+                ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
+                //serviceEE.Url = this.url_servicio_EE;
+                serviceEE.Url = this.url_servicio_EE;
+                if (username_SADE.Length <= 0)
+                    throw new Exception("Su usuario no posee configurado el nombre de usuario del sistema SADE.");
+
+                try
+                {
+                    string identificacion_documento = string.Format("Nro. de trámite: {0}, Nro. de documento: {1}", id_solicitud, id_file);
+
+                    bool EnviarEmbebido = false;
+
+                    // identifica si es un pdf y si tiene los permisos correctos y si está firmado.
+                    try
+                    {
+                        using (var pdf = new iTextSharp.text.pdf.PdfReader(documento))
+                        {
+                            if (!pdf.IsOpenedWithFullPermissions || (serviceEE.isPdfFirmado(ref documento) && Acronimo_SADE == Functions.GetParametroCharEE("EE.acronimo.pdf.sin.firma")))
+                                EnviarEmbebido = true;
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        // si no es pdf va embebido siempre
+                        EnviarEmbebido = true;
+                    }
+
+                    if (Ffcc_SADE == null)
+                    {
+                        if (EnviarEmbebido)
+                        {
+                            var nom = db.SSIT_DocumentosAdjuntos.Where(x => x.id_file == id_file).FirstOrDefault();
+
+                            if (nom == null)
+                                nombre_archivo = identificacion_documento + ".txt";
+                            else
+                                nombre_archivo = nom.nombre_archivo;
+
+                            id_devolucion_ee = serviceEE.Subir_Documentos_Embebidos_ConAcroAndTipo(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
+                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", nombre_archivo);
+                        }
+                        else
+                            id_devolucion_ee = serviceEE.Subir_Documento_ConAcroAndTipo(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
+                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, false);
+                    }
+                    else
+                    {
+                        string formulario_json = await FormulariosControlados.getFormulario(Ffcc_SADE, id_solicitud);
+                        if (EnviarEmbebido)
+                            id_devolucion_ee = serviceEE.Subir_Documentos_Embebidos_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
+                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", identificacion_documento, formulario_json);
+                        else
+                            id_devolucion_ee = serviceEE.Subir_Documento_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
+                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, formulario_json);
+                    }
+                    realizado_en_pasarela = true;
+                }
+                catch (Exception ex)
+                {
+                    realizado_en_pasarela = false;
+                    id_devolucion_ee = -1;
+                    throw new Exception(ex.Message);
+                }
+                finally
+                {
+                    serviceEE.Dispose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Actualiza el resultado del servicio en la tabla de procesos.
+                // -----------------------------------------------------------
+                huboError = true;
+                string error = ex.Message;
+                //db.SGI_SADE_Procesos_update(id_tarea_proc, realizado_en_pasarela, string.Empty, id_devolucion_ee, error, userid);
+            }
+            finally
+            {
+                // Actualiza el resultado del servicio en la tabla de procesos.
+                // -----------------------------------------------------------
+                if (huboError)
+                    LogError.Write(new Exception("No se pudo subir el archivo a SADE"));
+                    //db.SGI_SADE_Procesos_update(id_tarea_proc, realizado_en_pasarela, string.Empty, id_devolucion_ee, resultado_ee, userid);
+
+                db.Dispose();
+                dbFiles.Dispose();
+            }
+
+        }
+        
+    }
+
+    internal class ParametrosSADE
+    {
+        public string Usuario_SADE { get; set; }
+        public string Tabla_Origen { get; set; }
+        public string Acronimo_SADE { get; set; }
+        public string formato_archivo { get; set; }
+        public string Ffcc_SADE { get; set; }
     }
 }
