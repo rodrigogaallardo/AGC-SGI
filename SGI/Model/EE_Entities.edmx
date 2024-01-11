@@ -54,6 +54,62 @@
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="UpdateUser" Type="uniqueidentifier" />
+          <Property Name="id_transaccion" Type="int" />
+        </EntityType>
+        <EntityType Name="wsEE_Documentos">
+          <Key>
+            <PropertyRef Name="id_documento" />
+          </Key>
+          <Property Name="id_documento" Type="int" Nullable="false" />
+          <Property Name="id_paquete" Type="int" Nullable="false" />
+          <Property Name="Documento" Type="varbinary(max)" Nullable="false" />
+          <Property Name="motivo_documento" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="sistema_documento" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="username_SADE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subido_SADE" Type="bit" Nullable="false" />
+          <Property Name="resultado_SADE" Type="nvarchar" MaxLength="1000" />
+          <Property Name="cantidad_intentos" Type="int" Nullable="false" />
+          <Property Name="numeroGEDO" Type="nvarchar" MaxLength="100" />
+          <Property Name="numeroEspecialGEDO" Type="nvarchar" MaxLength="100" />
+          <Property Name="urlArchivoGeneradoGEDO" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateUser" Type="uniqueidentifier" />
+          <Property Name="identificacion_documento" Type="nvarchar" MaxLength="100" />
+          <Property Name="acronimoTipoDocumento" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="embebido" Type="bit" Nullable="false" />
+          <Property Name="tipo_archivo" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="id_transaccion" Type="int" />
+          <Property Name="id_file" Type="int" />
+          <Property Name="listaUsuariosDestinatarios" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="wsEE_DocumentosRelacionados">
+          <Key>
+            <PropertyRef Name="id_relacion" />
+          </Key>
+          <Property Name="id_relacion" Type="int" Nullable="false" />
+          <Property Name="id_caratula" Type="int" Nullable="false" />
+          <Property Name="id_documento" Type="int" Nullable="false" />
+          <Property Name="sistema" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="username_SADE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="relacionado_SADE" Type="bit" Nullable="false" />
+          <Property Name="resultado_SADE" Type="nvarchar" MaxLength="2000" />
+          <Property Name="cantidad_intentos" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateUser" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="wsEE_Paquetes">
+          <Key>
+            <PropertyRef Name="id_paquete" />
+          </Key>
+          <Property Name="id_paquete" Type="int" Nullable="false" />
+          <Property Name="Estado_paquete" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" />
+          <Property Name="ExcluidoDeReintentos" Type="datetime" />
         </EntityType>
         <EntityType Name="wsEE_TareasDocumentos">
           <Key>
@@ -69,7 +125,7 @@
           <Property Name="username_SADE_emisor" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="id_firmantes" Type="int" />
           <Property Name="tarea_subida_SADE" Type="bit" Nullable="false" />
-          <Property Name="resultado_tarea_SADE" Type="nvarchar" MaxLength="300" />
+          <Property Name="resultado_tarea_SADE" Type="nvarchar" MaxLength="1000" />
           <Property Name="cantidad_intentos" Type="int" Nullable="false" />
           <Property Name="id_proceso" Type="nvarchar" MaxLength="100" />
           <Property Name="username_SADE_apoderado" Type="nvarchar" MaxLength="100" />
@@ -83,11 +139,81 @@
           <Property Name="UpdateUser" Type="uniqueidentifier" />
           <Property Name="username_SADE_receptor" Type="nvarchar" MaxLength="50" />
           <Property Name="acronimoTipoDocumento" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="fecha_subida_SADE" Type="datetime" />
+          <Property Name="fecha_firmado_SADE" Type="datetime" />
+          <Property Name="id_file" Type="int" />
         </EntityType>
+        <Association Name="FK_wsEE_Caratulas_wsEE_Paquetes">
+          <End Role="wsEE_Paquetes" Type="Self.wsEE_Paquetes" Multiplicity="1" />
+          <End Role="wsEE_Caratulas" Type="Self.wsEE_Caratulas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Paquetes">
+              <PropertyRef Name="id_paquete" />
+            </Principal>
+            <Dependent Role="wsEE_Caratulas">
+              <PropertyRef Name="id_paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wsEE_DocumentosRelacionados_wsEE_Caratulas">
+          <End Role="wsEE_Caratulas" Type="Self.wsEE_Caratulas" Multiplicity="1" />
+          <End Role="wsEE_DocumentosRelacionados" Type="Self.wsEE_DocumentosRelacionados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Caratulas">
+              <PropertyRef Name="id_caratula" />
+            </Principal>
+            <Dependent Role="wsEE_DocumentosRelacionados">
+              <PropertyRef Name="id_caratula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wsEE_DocumentosRelacionados_wsEE_Documentos">
+          <End Role="wsEE_Documentos" Type="Self.wsEE_Documentos" Multiplicity="1" />
+          <End Role="wsEE_DocumentosRelacionados" Type="Self.wsEE_DocumentosRelacionados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Documentos">
+              <PropertyRef Name="id_documento" />
+            </Principal>
+            <Dependent Role="wsEE_DocumentosRelacionados">
+              <PropertyRef Name="id_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wsEE_TareasDocumentos_wsEE_Paquetes">
+          <End Role="wsEE_Paquetes" Type="Self.wsEE_Paquetes" Multiplicity="1" />
+          <End Role="wsEE_TareasDocumentos" Type="Self.wsEE_TareasDocumentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Paquetes">
+              <PropertyRef Name="id_paquete" />
+            </Principal>
+            <Dependent Role="wsEE_TareasDocumentos">
+              <PropertyRef Name="id_paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SGIModelStoreContainer">
           <EntitySet Name="Parametros" EntityType="Self.Parametros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wsEE_Caratulas" EntityType="Self.wsEE_Caratulas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wsEE_Documentos" EntityType="Self.wsEE_Documentos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wsEE_DocumentosRelacionados" EntityType="Self.wsEE_DocumentosRelacionados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wsEE_Paquetes" EntityType="Self.wsEE_Paquetes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wsEE_TareasDocumentos" EntityType="Self.wsEE_TareasDocumentos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_wsEE_Caratulas_wsEE_Paquetes" Association="Self.FK_wsEE_Caratulas_wsEE_Paquetes">
+            <End Role="wsEE_Paquetes" EntitySet="wsEE_Paquetes" />
+            <End Role="wsEE_Caratulas" EntitySet="wsEE_Caratulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wsEE_DocumentosRelacionados_wsEE_Caratulas" Association="Self.FK_wsEE_DocumentosRelacionados_wsEE_Caratulas">
+            <End Role="wsEE_Caratulas" EntitySet="wsEE_Caratulas" />
+            <End Role="wsEE_DocumentosRelacionados" EntitySet="wsEE_DocumentosRelacionados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wsEE_DocumentosRelacionados_wsEE_Documentos" Association="Self.FK_wsEE_DocumentosRelacionados_wsEE_Documentos">
+            <End Role="wsEE_Documentos" EntitySet="wsEE_Documentos" />
+            <End Role="wsEE_DocumentosRelacionados" EntitySet="wsEE_DocumentosRelacionados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wsEE_TareasDocumentos_wsEE_Paquetes" Association="Self.FK_wsEE_TareasDocumentos_wsEE_Paquetes">
+            <End Role="wsEE_Paquetes" EntitySet="wsEE_Paquetes" />
+            <End Role="wsEE_TareasDocumentos" EntitySet="wsEE_TareasDocumentos" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -97,6 +223,25 @@
           <EntitySet Name="Parametros" EntityType="SGI.Model.Parametros" />
           <EntitySet Name="wsEE_Caratulas" EntityType="SGI.Model.wsEE_Caratulas" />
           <EntitySet Name="wsEE_TareasDocumentos" EntityType="SGI.Model.wsEE_TareasDocumentos" />
+          <EntitySet Name="wsEE_Documentos" EntityType="SGI.Model.wsEE_Documentos" />
+          <EntitySet Name="wsEE_DocumentosRelacionados" EntityType="SGI.Model.wsEE_DocumentosRelacionados" />
+          <EntitySet Name="wsEE_Paquetes" EntityType="SGI.Model.wsEE_Paquetes" />
+          <AssociationSet Name="FK_wsEE_Caratulas_wsEE_Paquetes" Association="SGI.Model.FK_wsEE_Caratulas_wsEE_Paquetes">
+            <End Role="wsEE_Paquetes" EntitySet="wsEE_Paquetes" />
+            <End Role="wsEE_Caratulas" EntitySet="wsEE_Caratulas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wsEE_DocumentosRelacionados_wsEE_Caratulas" Association="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Caratulas">
+            <End Role="wsEE_Caratulas" EntitySet="wsEE_Caratulas" />
+            <End Role="wsEE_DocumentosRelacionados" EntitySet="wsEE_DocumentosRelacionados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wsEE_DocumentosRelacionados_wsEE_Documentos" Association="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Documentos">
+            <End Role="wsEE_Documentos" EntitySet="wsEE_Documentos" />
+            <End Role="wsEE_DocumentosRelacionados" EntitySet="wsEE_DocumentosRelacionados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wsEE_TareasDocumentos_wsEE_Paquetes" Association="SGI.Model.FK_wsEE_TareasDocumentos_wsEE_Paquetes">
+            <End Role="wsEE_Paquetes" EntitySet="wsEE_Paquetes" />
+            <End Role="wsEE_TareasDocumentos" EntitySet="wsEE_TareasDocumentos" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Parametros">
           <Key>
@@ -147,6 +292,9 @@
           <Property Name="CreateUser" Type="Guid" Nullable="false" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateUser" Type="Guid" />
+          <Property Name="id_transaccion" Type="Int32" />
+          <NavigationProperty Name="wsEE_Paquetes" Relationship="SGI.Model.FK_wsEE_Caratulas_wsEE_Paquetes" FromRole="wsEE_Caratulas" ToRole="wsEE_Paquetes" />
+          <NavigationProperty Name="wsEE_DocumentosRelacionados" Relationship="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Caratulas" FromRole="wsEE_Caratulas" ToRole="wsEE_DocumentosRelacionados" />
         </EntityType>
         <EntityType Name="wsEE_TareasDocumentos">
           <Key>
@@ -162,7 +310,7 @@
           <Property Name="username_SADE_emisor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="id_firmantes" Type="Int32" />
           <Property Name="tarea_subida_SADE" Type="Boolean" Nullable="false" />
-          <Property Name="resultado_tarea_SADE" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="resultado_tarea_SADE" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="cantidad_intentos" Type="Int32" Nullable="false" />
           <Property Name="id_proceso" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="username_SADE_apoderado" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -176,7 +324,119 @@
           <Property Name="UpdateUser" Type="Guid" />
           <Property Name="username_SADE_receptor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="acronimoTipoDocumento" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_subida_SADE" Type="DateTime" Precision="3" />
+          <Property Name="fecha_firmado_SADE" Type="DateTime" Precision="3" />
+          <Property Name="id_file" Type="Int32" />
+          <NavigationProperty Name="wsEE_Paquetes" Relationship="SGI.Model.FK_wsEE_TareasDocumentos_wsEE_Paquetes" FromRole="wsEE_TareasDocumentos" ToRole="wsEE_Paquetes" />
         </EntityType>
+        <EntityType Name="wsEE_Documentos">
+          <Key>
+            <PropertyRef Name="id_documento" />
+          </Key>
+          <Property Name="id_documento" Type="Int32" Nullable="false" />
+          <Property Name="id_paquete" Type="Int32" Nullable="false" />
+          <Property Name="Documento" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="motivo_documento" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="sistema_documento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username_SADE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subido_SADE" Type="Boolean" Nullable="false" />
+          <Property Name="resultado_SADE" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad_intentos" Type="Int32" Nullable="false" />
+          <Property Name="numeroGEDO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="numeroEspecialGEDO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="urlArchivoGeneradoGEDO" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUser" Type="Guid" />
+          <Property Name="identificacion_documento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="acronimoTipoDocumento" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="embebido" Type="Boolean" Nullable="false" />
+          <Property Name="tipo_archivo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="id_transaccion" Type="Int32" />
+          <Property Name="id_file" Type="Int32" />
+          <Property Name="listaUsuariosDestinatarios" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="wsEE_DocumentosRelacionados" Relationship="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Documentos" FromRole="wsEE_Documentos" ToRole="wsEE_DocumentosRelacionados" />
+        </EntityType>
+        <EntityType Name="wsEE_DocumentosRelacionados">
+          <Key>
+            <PropertyRef Name="id_relacion" />
+          </Key>
+          <Property Name="id_relacion" Type="Int32" Nullable="false" />
+          <Property Name="id_caratula" Type="Int32" Nullable="false" />
+          <Property Name="id_documento" Type="Int32" Nullable="false" />
+          <Property Name="sistema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username_SADE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="relacionado_SADE" Type="Boolean" Nullable="false" />
+          <Property Name="resultado_SADE" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad_intentos" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateUser" Type="Guid" />
+          <NavigationProperty Name="wsEE_Caratulas" Relationship="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Caratulas" FromRole="wsEE_DocumentosRelacionados" ToRole="wsEE_Caratulas" />
+          <NavigationProperty Name="wsEE_Documentos" Relationship="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Documentos" FromRole="wsEE_DocumentosRelacionados" ToRole="wsEE_Documentos" />
+        </EntityType>
+        <EntityType Name="wsEE_Paquetes">
+          <Key>
+            <PropertyRef Name="id_paquete" />
+          </Key>
+          <Property Name="id_paquete" Type="Int32" Nullable="false" />
+          <Property Name="Estado_paquete" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" />
+          <Property Name="ExcluidoDeReintentos" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="wsEE_Caratulas" Relationship="SGI.Model.FK_wsEE_Caratulas_wsEE_Paquetes" FromRole="wsEE_Paquetes" ToRole="wsEE_Caratulas" />
+          <NavigationProperty Name="wsEE_TareasDocumentos" Relationship="SGI.Model.FK_wsEE_TareasDocumentos_wsEE_Paquetes" FromRole="wsEE_Paquetes" ToRole="wsEE_TareasDocumentos" />
+        </EntityType>
+        <Association Name="FK_wsEE_Caratulas_wsEE_Paquetes">
+          <End Type="SGI.Model.wsEE_Paquetes" Role="wsEE_Paquetes" Multiplicity="1" />
+          <End Type="SGI.Model.wsEE_Caratulas" Role="wsEE_Caratulas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Paquetes">
+              <PropertyRef Name="id_paquete" />
+            </Principal>
+            <Dependent Role="wsEE_Caratulas">
+              <PropertyRef Name="id_paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wsEE_DocumentosRelacionados_wsEE_Caratulas">
+          <End Type="SGI.Model.wsEE_Caratulas" Role="wsEE_Caratulas" Multiplicity="1" />
+          <End Type="SGI.Model.wsEE_DocumentosRelacionados" Role="wsEE_DocumentosRelacionados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Caratulas">
+              <PropertyRef Name="id_caratula" />
+            </Principal>
+            <Dependent Role="wsEE_DocumentosRelacionados">
+              <PropertyRef Name="id_caratula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wsEE_DocumentosRelacionados_wsEE_Documentos">
+          <End Type="SGI.Model.wsEE_Documentos" Role="wsEE_Documentos" Multiplicity="1" />
+          <End Type="SGI.Model.wsEE_DocumentosRelacionados" Role="wsEE_DocumentosRelacionados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Documentos">
+              <PropertyRef Name="id_documento" />
+            </Principal>
+            <Dependent Role="wsEE_DocumentosRelacionados">
+              <PropertyRef Name="id_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wsEE_TareasDocumentos_wsEE_Paquetes">
+          <End Type="SGI.Model.wsEE_Paquetes" Role="wsEE_Paquetes" Multiplicity="1" />
+          <End Type="SGI.Model.wsEE_TareasDocumentos" Role="wsEE_TareasDocumentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wsEE_Paquetes">
+              <PropertyRef Name="id_paquete" />
+            </Principal>
+            <Dependent Role="wsEE_TareasDocumentos">
+              <PropertyRef Name="id_paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -199,6 +459,7 @@
           <EntitySetMapping Name="wsEE_Caratulas">
             <EntityTypeMapping TypeName="SGI.Model.wsEE_Caratulas">
               <MappingFragment StoreEntitySet="wsEE_Caratulas">
+                <ScalarProperty Name="id_transaccion" ColumnName="id_transaccion" />
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
@@ -238,6 +499,9 @@
           <EntitySetMapping Name="wsEE_TareasDocumentos">
             <EntityTypeMapping TypeName="SGI.Model.wsEE_TareasDocumentos">
               <MappingFragment StoreEntitySet="wsEE_TareasDocumentos">
+                <ScalarProperty Name="id_file" ColumnName="id_file" />
+                <ScalarProperty Name="fecha_firmado_SADE" ColumnName="fecha_firmado_SADE" />
+                <ScalarProperty Name="fecha_subida_SADE" ColumnName="fecha_subida_SADE" />
                 <ScalarProperty Name="acronimoTipoDocumento" ColumnName="acronimoTipoDocumento" />
                 <ScalarProperty Name="username_SADE_receptor" ColumnName="username_SADE_receptor" />
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
@@ -262,6 +526,64 @@
                 <ScalarProperty Name="Documento" ColumnName="Documento" />
                 <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
                 <ScalarProperty Name="id_tarea_documento" ColumnName="id_tarea_documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wsEE_Documentos">
+            <EntityTypeMapping TypeName="SGI.Model.wsEE_Documentos">
+              <MappingFragment StoreEntitySet="wsEE_Documentos">
+                <ScalarProperty Name="listaUsuariosDestinatarios" ColumnName="listaUsuariosDestinatarios" />
+                <ScalarProperty Name="id_file" ColumnName="id_file" />
+                <ScalarProperty Name="id_transaccion" ColumnName="id_transaccion" />
+                <ScalarProperty Name="tipo_archivo" ColumnName="tipo_archivo" />
+                <ScalarProperty Name="embebido" ColumnName="embebido" />
+                <ScalarProperty Name="acronimoTipoDocumento" ColumnName="acronimoTipoDocumento" />
+                <ScalarProperty Name="identificacion_documento" ColumnName="identificacion_documento" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="urlArchivoGeneradoGEDO" ColumnName="urlArchivoGeneradoGEDO" />
+                <ScalarProperty Name="numeroEspecialGEDO" ColumnName="numeroEspecialGEDO" />
+                <ScalarProperty Name="numeroGEDO" ColumnName="numeroGEDO" />
+                <ScalarProperty Name="cantidad_intentos" ColumnName="cantidad_intentos" />
+                <ScalarProperty Name="resultado_SADE" ColumnName="resultado_SADE" />
+                <ScalarProperty Name="subido_SADE" ColumnName="subido_SADE" />
+                <ScalarProperty Name="username_SADE" ColumnName="username_SADE" />
+                <ScalarProperty Name="sistema_documento" ColumnName="sistema_documento" />
+                <ScalarProperty Name="motivo_documento" ColumnName="motivo_documento" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
+                <ScalarProperty Name="id_documento" ColumnName="id_documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wsEE_DocumentosRelacionados">
+            <EntityTypeMapping TypeName="SGI.Model.wsEE_DocumentosRelacionados">
+              <MappingFragment StoreEntitySet="wsEE_DocumentosRelacionados">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="cantidad_intentos" ColumnName="cantidad_intentos" />
+                <ScalarProperty Name="resultado_SADE" ColumnName="resultado_SADE" />
+                <ScalarProperty Name="relacionado_SADE" ColumnName="relacionado_SADE" />
+                <ScalarProperty Name="username_SADE" ColumnName="username_SADE" />
+                <ScalarProperty Name="sistema" ColumnName="sistema" />
+                <ScalarProperty Name="id_documento" ColumnName="id_documento" />
+                <ScalarProperty Name="id_caratula" ColumnName="id_caratula" />
+                <ScalarProperty Name="id_relacion" ColumnName="id_relacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wsEE_Paquetes">
+            <EntityTypeMapping TypeName="SGI.Model.wsEE_Paquetes">
+              <MappingFragment StoreEntitySet="wsEE_Paquetes">
+                <ScalarProperty Name="ExcluidoDeReintentos" ColumnName="ExcluidoDeReintentos" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Estado_paquete" ColumnName="Estado_paquete" />
+                <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

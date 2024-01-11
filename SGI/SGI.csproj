@@ -2241,6 +2241,15 @@
     <Compile Include="Model\SSIT_Solicitudes_AvisoRechazo.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\wsEE_Documentos.cs">
+      <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\wsEE_DocumentosRelacionados.cs">
+      <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\wsEE_Paquetes.cs">
+      <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
       <DependentUpon>FeriadosIndex.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3584,7 +3593,7 @@
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Parametros.cs">
-      <DependentUpon>AGC.tt</DependentUpon>
+      <DependentUpon>EE_Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Parametros_Bandeja_Rubro.cs">
       <DependentUpon>AGC.tt</DependentUpon>
@@ -4525,7 +4534,7 @@
       <DependentUpon>EE_Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\wsEE_TareasDocumentos.cs">
-      <DependentUpon>AGC.tt</DependentUpon>
+      <DependentUpon>EE_Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\wsEscribanos_ActaNotarial.cs">
       <DependentUpon>AGC.tt</DependentUpon>

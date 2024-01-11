@@ -7,6 +7,11 @@ namespace SGI.Model
     
     public partial class wsEE_Caratulas
     {
+        public wsEE_Caratulas()
+        {
+            this.wsEE_DocumentosRelacionados = new HashSet<wsEE_DocumentosRelacionados>();
+        }
+    
         public int id_caratula { get; set; }
         public int id_paquete { get; set; }
         public int tipo_persona_caratula { get; set; }
@@ -40,5 +45,9 @@ namespace SGI.Model
         public System.Guid CreateUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<System.Guid> UpdateUser { get; set; }
+        public Nullable<int> id_transaccion { get; set; }
+    
+        public virtual wsEE_Paquetes wsEE_Paquetes { get; set; }
+        public virtual ICollection<wsEE_DocumentosRelacionados> wsEE_DocumentosRelacionados { get; set; }
     }
 }

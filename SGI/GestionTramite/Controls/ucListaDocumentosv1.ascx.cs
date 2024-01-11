@@ -315,11 +315,24 @@ namespace SGI.GestionTramite.Controls
                                join ttt in db.SGI_Tramites_Tareas_TRANSF on ssp.id_tramitetarea equals ttt.id_tramitetarea
                                where ttt.id_solicitud == id_solicitud && ssp.id_file == id_file
                                select ssp).FirstOrDefault();
-
+                    
                     if (SgiSadeProceso != null)
                         numeroGedo = SgiSadeProceso.resultado_ee?.ToString();
                     else
+                    {
                         numeroGedo = "";
+                        
+                        using (var ee = new EE_Entities())
+                        {
+                            var documento = (from documentos in ee.wsEE_Documentos
+                                             where documentos.id_file == id_file
+                                             select documentos).FirstOrDefault();
+                            if(documento != null)
+                                numeroGedo = documento.numeroGEDO;
+                        }
+                        
+                    }
+                        
                 }
             }
             catch (Exception)

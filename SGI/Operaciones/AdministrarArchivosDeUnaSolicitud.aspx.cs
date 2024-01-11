@@ -722,6 +722,49 @@ namespace SGI.Operaciones
             }
         }
 
+        private string LoadNumeroGedo(int id_file, int id_solicitud)
+        {
+            string numeroGedo = "";
+            try
+            {
+                using (var db = new DGHP_Entities())
+                {
+                    db.Database.CommandTimeout = 300;
+                    var SgiSadeProceso = (from ssp in db.SGI_SADE_Procesos
+                                          join tth in db.SGI_Tramites_Tareas_HAB on ssp.id_tramitetarea equals tth.id_tramitetarea
+                                          where tth.id_solicitud == id_solicitud && ssp.id_file == id_file
+                                          select ssp).Union(
+                               from ssp in db.SGI_SADE_Procesos
+                               join ttt in db.SGI_Tramites_Tareas_TRANSF on ssp.id_tramitetarea equals ttt.id_tramitetarea
+                               where ttt.id_solicitud == id_solicitud && ssp.id_file == id_file
+                               select ssp).FirstOrDefault();
+
+                    if (SgiSadeProceso != null)
+                        numeroGedo = SgiSadeProceso.resultado_ee?.ToString();
+                    else
+                    {
+                        numeroGedo = "";
+
+                        using (var ee = new EE_Entities())
+                        {
+                            var documento = (from documentos in ee.wsEE_Documentos
+                                             where documentos.id_file == id_file
+                                             select documentos).FirstOrDefault();
+                            if (documento != null)
+                                numeroGedo = documento.numeroGEDO;
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                numeroGedo = "";
+            }
+            return numeroGedo;
+        }
+
         private ParametrosSADE GetParametrosSADE(Guid userId, int id_docadjunto, 
                                         string descripcion_tramite, int id_file)
         {
