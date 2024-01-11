@@ -5,6 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f30b0d6a419d4ceab40b30f74f2dc6e9" Name="Diagrama1" ZoomLevel="68" >
+        <EntityTypeShape EntityType="SGI.Model.wsEE_Documentos" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="SGI.Model.wsEE_DocumentosRelacionados" Width="1.5" PointX="3" PointY="2.125" />
+        <EntityTypeShape EntityType="SGI.Model.wsEE_Paquetes" Width="1.5" PointX="5.75" PointY="0.75" />
+        <AssociationConnector Association="SGI.Model.FK_wsEE_DocumentosRelacionados_wsEE_Documentos" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

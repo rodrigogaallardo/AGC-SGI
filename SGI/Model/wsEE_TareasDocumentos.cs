@@ -31,5 +31,10 @@ namespace SGI.Model
         public Nullable<System.Guid> UpdateUser { get; set; }
         public string username_SADE_receptor { get; set; }
         public string acronimoTipoDocumento { get; set; }
+        public Nullable<System.DateTime> fecha_subida_SADE { get; set; }
+        public Nullable<System.DateTime> fecha_firmado_SADE { get; set; }
+        public Nullable<int> id_file { get; set; }
+    
+        public virtual wsEE_Paquetes wsEE_Paquetes { get; set; }
     }
 }
