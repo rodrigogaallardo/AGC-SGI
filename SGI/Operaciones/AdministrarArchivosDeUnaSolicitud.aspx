@@ -171,7 +171,7 @@
                                         <asp:Label ID="labelUsuarioCreador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                <%--
                                 <asp:TemplateField HeaderText="Fecha de Modificacion">
                                     <ItemTemplate>
                                         <asp:Label ID="labelUpdateDate" runat="server" Text='<%# Bind("UpdateDate") %>'></asp:Label>
@@ -181,6 +181,12 @@
                                 <asp:TemplateField HeaderText="Usuario de Modificacion">
                                     <ItemTemplate>
                                         <asp:Label ID="labelUsuarioModificador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                --%>
+                                <asp:TemplateField HeaderText="nro de Gedo">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelNroDeGedo" runat="server" Text=''></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -228,11 +234,6 @@
                                         <i class="icon icon-upload"></i> 
                                         <span class="text">Subir SADE</span></a>
                                         </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Subir a SADE" ItemStyle-HorizontalAlign="Center">
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="labelSubidoSade" runat="server" Enabled=False Checked="false"></asp:CheckBox>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
@@ -344,7 +345,7 @@
                                         <asp:Label ID="labelUsuarioCreador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                <%--
                                 <asp:TemplateField HeaderText="Fecha de Modificacion">
                                     <ItemTemplate>
                                         <asp:Label ID="labelUpdateDate" runat="server" Text='<%# Bind("UpdateDate") %>'></asp:Label>
@@ -356,7 +357,7 @@
                                         <asp:Label ID="labelUsuarioModificador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                --%>
                                 <asp:TemplateField HeaderText="Nombre de Archivo">
                                     <ItemTemplate>
                                         <asp:Label ID="labelNombreArchivo" runat="server" Text='<%# Bind("nombre_archivo") %>'></asp:Label>
