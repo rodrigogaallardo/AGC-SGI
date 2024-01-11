@@ -21,7 +21,11 @@
     <script src="../Scripts/Funciones.js" type="text/javascript"></script>
     <script src="../Scripts/Datepicker_es.js" type="text/javascript"></script>
     <%: Styles.Render("~/Content/themes/base/css") %>
-
+    <style>
+    .custom-table {
+        background-color: rgb(249, 249, 249);
+        }
+    </style>
     <hgroup class="title">
         <h1><%= Title %>.</h1>
     </hgroup>
@@ -43,19 +47,42 @@
                     </div>
             </asp:Panel>
 
-            <asp:Panel ID="viewValorExpediente" runat="server" class="span6" Visible="false">
-                <label class="control-label" for="txtExpedienteElectronico">Expediente Electronico</label>
-                <label class="control-label" for="txtEstado">Estado</label>
-                <label class="control-label" for="txtUsuario">Usuario</label>
-                <label class="control-label" for="txtReparticion">Reparticion</label>
-                <label class="control-label" for="txtSector">Sector</label>
-                <br />
-                <asp:Label ID="txtExpedienteElectronicoValor" runat="server" CssClass="control-label"></asp:Label>
-                <asp:Label ID="txtEstadoValor" runat="server" CssClass="control-label"></asp:Label>
-                <asp:Label ID="txtUsuarioValor" runat="server" CssClass="control-label"></asp:Label>
-                <asp:Label ID="txtReparticionValor" runat="server" CssClass="control-label"></asp:Label>
-                <asp:Label ID="txtSectorValor" runat="server" CssClass="control-label"></asp:Label>
-            </asp:Panel>
+           <asp:Panel class="accordion" runat="server" id="myAccordion">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <asp:Label runat="server" class="accordion-toggle" data-toggle="collapse" data-parent="#myAccordion" href="#collapseExpedienteElectronicoData">
+                            Mostrar Detalles Expediente Electrónico <i class="icon-chevron-down"></i>
+                        </asp:Label>
+                    </div>
+                    <div id="collapseExpedienteElectronicoData" class="accordion-body collapse in">
+                                <asp:Panel ID="viewValorExpediente" runat="server" class="span6" Visible="false">
+                                    <table class="table table-bordered table-striped custom-table">
+                                        <tr>
+                                            <td style="width: 30%;"><label class="control-label" for="txtExpedienteElectronico">Expediente Electronico:</label></td>
+                                            <td><asp:Label ID="txtExpedienteElectronicoValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtEstado">Estado:</label></td>
+                                            <td><asp:Label ID="txtEstadoValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtUsuario">Usuario:</label></td>
+                                            <td><asp:Label ID="txtUsuarioValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtReparticion">Reparticion:</label></td>
+                                            <td><asp:Label ID="txtReparticionValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtSector">Sector:</label></td>
+                                            <td><asp:Label ID="txtSectorValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                    </table>
+                              </asp:Panel>
+                      </div>
+                 </div>
+             </asp:Panel>
+
        </div>
    </div>
 
@@ -197,6 +224,11 @@
                                         <i class="icon icon-upload"></i> 
                                         <span class="text">Subir SADE</span></a>
                                         </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Subir a SADE" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <asp:CheckBox ID="labelSubidoSade" runat="server" Enabled=False Checked="false"></asp:CheckBox>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
