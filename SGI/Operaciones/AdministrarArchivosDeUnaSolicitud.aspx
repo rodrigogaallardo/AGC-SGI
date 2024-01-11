@@ -44,6 +44,7 @@
                     <label class="control-label" for="txtBuscarSolicitud">Usuario Documentos</label>
                     <div class="controls">
                         <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
+                        <asp:HiddenField ID="hid_paquete" runat="server"/>
                     </div>
             </asp:Panel>
 
