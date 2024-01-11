@@ -223,19 +223,22 @@ namespace SGI.Operaciones
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 LinkButton lnkEliminar = (LinkButton)e.Row.FindControl("lnkEliminarDocSolic");
+                LinkButton lnkSubir = (LinkButton)e.Row.FindControl("lnkDocSadeSolic");
                 lnkEliminar.Visible = true;
-               
+                lnkSubir.Visible = true;
 
+                bool couldParse = int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
                 Label labelIdFile = (Label)e.Row.FindControl("labelIdFile");
                 int IdFile = int.Parse(labelIdFile.Text);
-                using (var ctx = new DGHP_Entities())
+                Label labelNroDeGedo = (Label)e.Row.FindControl("labelNroDeGedo");
+                string nroGedo = LoadNumeroGedo(IdFile, idSolicitud);
+                labelNroDeGedo.Text = nroGedo;
+                if (!nroGedo.IsNullOrWhiteSpace())
                 {
-                    SGI_SADE_Procesos sGI_SADE_Procesos = (from archivos in ctx.SGI_SADE_Procesos
-                                                           where archivos.id_file == IdFile
-                                                           select archivos).FirstOrDefault();
-                    if(sGI_SADE_Procesos!=null)
-                        lnkEliminar.Visible = false;
+                    lnkEliminar.Visible = false;
+                    lnkSubir.Visible = false;
                 }
+
             }
         }
 
@@ -396,7 +399,7 @@ namespace SGI.Operaciones
                     (Exception ex)
                     {
                         LogError.Write(ex);
-                        throw (ex);
+                        //throw (ex);
                     }
                 }
             }
@@ -827,8 +830,6 @@ namespace SGI.Operaciones
             db.Database.CommandTimeout = 300;
             AGC_FilesEntities dbFiles = new AGC_FilesEntities();
             dbFiles.Database.CommandTimeout = 300;
-            bool realizado_en_pasarela = false;
-            string resultado_ee = "";
             int id_devolucion_ee = -1;
             bool huboError = false;
 
@@ -930,12 +931,12 @@ namespace SGI.Operaciones
                             id_devolucion_ee = serviceEE.Subir_Documento_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
                                                     identificacion_documento, parametros.descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, formulario_json);
                     }
-                    realizado_en_pasarela = true;
+                    //TODO: Mostrar algun cartel o algo indicando que se generó
 
                 }
                 catch (Exception ex)
                 {
-                    realizado_en_pasarela = false;
+                    //TODO: Mostrar algun cartel o algo indicando que se NO se generó
                     id_devolucion_ee = -1;
                     throw new Exception(ex.Message);
                 }
