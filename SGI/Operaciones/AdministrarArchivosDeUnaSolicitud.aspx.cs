@@ -441,9 +441,7 @@ namespace SGI.Operaciones
                         int id_file_selected = 0;
                         byte[] content_file = null;
                         int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
-                        int id_tramitetarea_new = 0; // crear nueva tarea?
-                        int id_tarea_proc_new = 0; // crear un nuevo sgi_sade_proceso?
-                        string descTramite = $"Id Archivo {id_file}";
+                        string descTramite = $"Subido por modulo Id Archivo {id_file}";
                         string nroExpediente = txtExpedienteElectronicoValor.Text;
                         string usuario = ddlUsuario.SelectedValue;
                         Guid userid_tarea;
@@ -736,11 +734,6 @@ namespace SGI.Operaciones
                              join ssit_docs in db.SSIT_DocumentosAdjuntos on tipoDocReq.id_tdocreq equals ssit_docs.id_tdocreq
                              where ssit_docs.id_docadjunto == id_docadjunto
                              select tipoDocReq).FirstOrDefault();
-            TiposDeDocumentosSistema tiposDeDocumentosSistema =
-                (from tipoDocSis in db.TiposDeDocumentosSistema
-                 join tipoDocReq in db.TiposDeDocumentosRequeridos 
-                    on tipoDocSis.id_tipdocsis equals tiposDeDocumentosRequeridos.id_tipdocsis
-                 select tipoDocSis).FirstOrDefault();
             //TODO, adaptar para docs_transferencias y docs_encomiendas
             parametros.Usuario_SADE = Functions.GetUsernameSADE(userId);
             parametros.Acronimo_SADE = tiposDeDocumentosRequeridos.acronimo_SADE;
@@ -750,10 +743,7 @@ namespace SGI.Operaciones
             if (tiposDeDocumentosRequeridos.id_tdocreq > 0)
                 parametros.descripcion_tramite = $"{tiposDeDocumentosRequeridos.nombre_tdocreq} (id de archivo {id_file})";
             else
-                if (tiposDeDocumentosSistema != null)
-                parametros.descripcion_tramite = $"{tiposDeDocumentosSistema.nombre_tipodocsis} (id de archivo {id_file})";
-            else
-                parametros.descripcion_tramite = descripcion_tramite;
+                parametros.descripcion_tramite = $" (id de archivo {id_file})";
             return parametros;
         }
 
@@ -809,37 +799,7 @@ namespace SGI.Operaciones
                 try { Ffcc_SADE = parametros.Ffcc_SADE; }
                 catch (Exception) { Ffcc_SADE = null; }
 
-                //Si id_file=-1 es la plancheta, esto lo saco ya que se sube en una tarea especifica
-                // *Se borro*
-
-                /* Certificado esto creo que no va
-                if (id_grupo_tramite == (int)Constants.GruposDeTramite.HAB ||
-                    id_grupo_tramite == (int)Constants.GruposDeTramite.TR ||
-                    id_grupo_tramite == (int)Constants.GruposDeTramite.CP)
-                {
-                    if (Tabla_Origen == "Certificados")
-                    {
-                        var file = dbFiles.Certificados.FirstOrDefault(x => x.id_certificado == proc.id_origen_reg);
-                        if (file == null)
-                            throw new Exception("No se encontró el contenido del archivo en la base de Files.");
-
-                        documento = file.Certificado;
-
-                        if (documento.Length <= 1)
-                            throw new Exception("El documento se encuentra vacío.");
-                    }
-                    else
-                    {
-
-                        documento = ws_FilesRest.DownloadFile(id_file);
-                        if (documento == null)
-                            throw new Exception("No se encontró el contenido del archivo en la base de Files.");
-
-                        if (documento.Length <= 1)
-                            throw new Exception("El documento se encuentra vacío.");
-                    }
-                }
-                */
+                
                 // Subir y relacionar documento en servicio
                 // ---------------------------------------
                 ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
@@ -899,6 +859,7 @@ namespace SGI.Operaciones
                                                     identificacion_documento, parametros.descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, formulario_json);
                     }
                     realizado_en_pasarela = true;
+
                 }
                 catch (Exception ex)
                 {
