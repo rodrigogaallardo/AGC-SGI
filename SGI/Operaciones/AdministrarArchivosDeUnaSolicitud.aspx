@@ -56,7 +56,7 @@
                             Mostrar Detalles Expediente Electrónico <i class="icon-chevron-down"></i>
                         </asp:Label>
                     </div>
-                    <div id="collapseExpedienteElectronicoData" class="accordion-body collapse in">
+                    <div id="collapseExpedienteElectronicoData" class="accordion-body collapse">
                                 <asp:Panel ID="viewValorExpediente" runat="server" class="span6" Visible="false">
                                     <table class="table table-bordered table-striped custom-table">
                                         <tr>

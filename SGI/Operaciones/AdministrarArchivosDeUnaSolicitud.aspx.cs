@@ -378,6 +378,11 @@ namespace SGI.Operaciones
                             ExpedienteE = Solicitud.NroExpedienteSade;
                         //ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
                         //Request a pasarela con el EE
+                        txtExpedienteElectronicoValor.Text = "";
+                        txtEstadoValor.Text = "";
+                        txtUsuarioValor.Text = "";
+                        txtReparticionValor.Text = "";
+                        txtSectorValor.Text = "";
                         ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
                         if(ExpedienteElectronico != null)
                         {
