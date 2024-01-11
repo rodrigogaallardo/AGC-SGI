@@ -109,6 +109,7 @@ namespace SGI.Operaciones
             }
             viewDropDownList.Visible = false;
             viewValorExpediente.Visible = false;
+            myAccordion.Visible = false;
         }
         protected void btnBuscarSolicitud_Click(object sender, EventArgs e)
         {
@@ -139,6 +140,7 @@ namespace SGI.Operaciones
             }
             viewDropDownList.Visible = true;
             viewValorExpediente.Visible = true;
+            myAccordion.Visible = true;
             fillInfoSade(idSolicitud, couldParse);
             updResultados.Update();
             EjecutarScript(updResultados, "showResultado();");
@@ -392,6 +394,7 @@ namespace SGI.Operaciones
                         txtUsuarioValor.Text = ExpedienteElectronico.usuarioCaratulador;
                         txtReparticionValor.Text = ExpedienteElectronico.reparticionDestino;
                         txtSectorValor.Text = ExpedienteElectronico.sectorDestino;
+                        
                         loadUsersFromSector(ExpedienteElectronico);
                     }
                     catch
