@@ -354,7 +354,7 @@ namespace SGI.Operaciones
                         }
                         else
                             ExpedienteE = Solicitud.NroExpedienteSade;
-                        ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
+                        //ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
                         //Request a pasarela con el EE
                         ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
                         txtExpedienteElectronicoValor.Text = ExpedienteElectronico.codigoEE;
@@ -378,6 +378,24 @@ namespace SGI.Operaciones
         {
             if(ExpedienteElectronico != null)
             {
+                if(!ExpedienteElectronico.usuarioDestino.IsNullOrWhiteSpace())
+                {
+                    DGHP_Entities db = new DGHP_Entities();
+                    var usuarios = (from pro in db.SGI_Profiles
+                                    join mem in db.aspnet_Membership on pro.userid equals mem.UserId
+                                    where pro.UserName_SADE.ToUpper() == ExpedienteElectronico.usuarioDestino.Trim().ToUpper()
+                                     && !mem.IsLockedOut && pro.UserName_SADE.Length > 0
+                                    select pro).ToList();
+                    var distinctUsuarios = usuarios
+                            .GroupBy(pro => pro.UserName_SADE)
+                            .Select(g => g.First())
+                            .ToList();
+                    ddlUsuario.DataSource = distinctUsuarios;
+                    ddlUsuario.DataTextField = "UserName_SADE";
+                    ddlUsuario.DataValueField = "userid";
+                    ddlUsuario.DataBind();
+                }
+                else
                 if(!ExpedienteElectronico.sectorDestino.IsNullOrWhiteSpace())
                 {
                     DGHP_Entities db = new DGHP_Entities();
@@ -425,10 +443,13 @@ namespace SGI.Operaciones
                         int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
                         int id_tramitetarea_new = 0; // crear nueva tarea?
                         int id_tarea_proc_new = 0; // crear un nuevo sgi_sade_proceso?
-                        string descTramite = "Esto probablemente no vaya";
+                        string descTramite = $"Id Archivo {id_file}";
                         string nroExpediente = txtExpedienteElectronicoValor.Text;
                         string usuario = ddlUsuario.SelectedValue;
-                        Guid userid_tarea = Guid.Parse(usuario);
+                        Guid userid_tarea;
+                        bool parseado = Guid.TryParse(usuario, out userid_tarea);
+                        if (!parseado)
+                            throw new Exception("Usuario SADE invalido");
                         using (var ftx = new AGC_FilesEntities())
                         {
                             Files file = (from f in ftx.Files
@@ -704,7 +725,8 @@ namespace SGI.Operaciones
             }
         }
 
-        private ParametrosSADE GetParametrosSADE(Guid userId, int id_docadjunto)
+        private ParametrosSADE GetParametrosSADE(Guid userId, int id_docadjunto, 
+                                        string descripcion_tramite, int id_file)
         {
             //deberia recibir el tipo de solicitud (transf o hab) y buscar asi los tipos correspondientes
             ParametrosSADE parametros = new ParametrosSADE();
@@ -714,13 +736,24 @@ namespace SGI.Operaciones
                              join ssit_docs in db.SSIT_DocumentosAdjuntos on tipoDocReq.id_tdocreq equals ssit_docs.id_tdocreq
                              where ssit_docs.id_docadjunto == id_docadjunto
                              select tipoDocReq).FirstOrDefault();
+            TiposDeDocumentosSistema tiposDeDocumentosSistema =
+                (from tipoDocSis in db.TiposDeDocumentosSistema
+                 join tipoDocReq in db.TiposDeDocumentosRequeridos 
+                    on tipoDocSis.id_tipdocsis equals tiposDeDocumentosRequeridos.id_tipdocsis
+                 select tipoDocSis).FirstOrDefault();
             //TODO, adaptar para docs_transferencias y docs_encomiendas
             parametros.Usuario_SADE = Functions.GetUsernameSADE(userId);
             parametros.Acronimo_SADE = tiposDeDocumentosRequeridos.acronimo_SADE;
             parametros.Tabla_Origen = ""; //de donde sale esto? no lo encuentro
             parametros.formato_archivo = tiposDeDocumentosRequeridos.formato_archivo;
             parametros.Ffcc_SADE = tiposDeDocumentosRequeridos.ffcc_SADE;
-
+            if (tiposDeDocumentosRequeridos.id_tdocreq > 0)
+                parametros.descripcion_tramite = $"{tiposDeDocumentosRequeridos.nombre_tdocreq} (id de archivo {id_file})";
+            else
+                if (tiposDeDocumentosSistema != null)
+                parametros.descripcion_tramite = $"{tiposDeDocumentosSistema.nombre_tipodocsis} (id de archivo {id_file})";
+            else
+                parametros.descripcion_tramite = descripcion_tramite;
             return parametros;
         }
 
@@ -748,15 +781,14 @@ namespace SGI.Operaciones
                 //if (proc.parametros_SADE != null)
                 //    parametros = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(proc.parametros_SADE);
 
-                ParametrosSADE parametros = GetParametrosSADE(userid, id_docadjunto);
-                id_paquete = 2205674;
+                ParametrosSADE parametros = GetParametrosSADE(userid, id_docadjunto, descripcion_tramite, id_file);
                 string username_SADE = "";
                 string Tabla_Origen = "";
                 string Acronimo_SADE = "";
                 string formato_archivo = "";
                 string Ffcc_SADE = null;
                 string nombre_archivo = "";
-
+                id_paquete = 2248810;
                 try { username_SADE = parametros.Usuario_SADE; }
                 catch (Exception) 
                 {
@@ -850,21 +882,21 @@ namespace SGI.Operaciones
                                 nombre_archivo = nom.nombre_archivo;
 
                             id_devolucion_ee = serviceEE.Subir_Documentos_Embebidos_ConAcroAndTipo(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
-                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", nombre_archivo);
+                                                    identificacion_documento, parametros.descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", nombre_archivo);
                         }
                         else
                             id_devolucion_ee = serviceEE.Subir_Documento_ConAcroAndTipo(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
-                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, false);
+                                                    identificacion_documento, parametros.descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, false);
                     }
                     else
                     {
                         string formulario_json = await FormulariosControlados.getFormulario(Ffcc_SADE, id_solicitud);
                         if (EnviarEmbebido)
                             id_devolucion_ee = serviceEE.Subir_Documentos_Embebidos_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
-                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", identificacion_documento, formulario_json);
+                                                    identificacion_documento, parametros.descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", identificacion_documento, formulario_json);
                         else
                             id_devolucion_ee = serviceEE.Subir_Documento_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
-                                                    identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, formulario_json);
+                                                    identificacion_documento, parametros.descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, formulario_json);
                     }
                     realizado_en_pasarela = true;
                 }
@@ -911,5 +943,6 @@ namespace SGI.Operaciones
         public string Acronimo_SADE { get; set; }
         public string formato_archivo { get; set; }
         public string Ffcc_SADE { get; set; }
+        public string descripcion_tramite { get; set; } //Esto no es un parametro pero lo meto aca por simplicidad
     }
 }
