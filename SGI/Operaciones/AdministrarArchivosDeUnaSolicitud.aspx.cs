@@ -32,19 +32,6 @@ namespace SGI.Operaciones
             }
 
         }
-        private int _id_paquete;
-        public int IdPaquete
-        {
-            get
-            {
-                return _id_paquete;
-            }
-            set
-            {
-                _id_paquete = value;
-            }
-
-        }
         private string _sistema_SADE;
         private string sistema_SADE
         {
@@ -373,9 +360,9 @@ namespace SGI.Operaciones
                              where solicitudes.id_solicitud == idSolicitud
                              select solicitudes).FirstOrDefault();
                         int id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
+                        hid_paquete.Value = Convert.ToString(id_paquete);
                         if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
                         {
-                            this.IdPaquete = id_paquete;
                             if (id_paquete > 0)
                                 ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
                             else
@@ -389,11 +376,19 @@ namespace SGI.Operaciones
                         //ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
                         //Request a pasarela con el EE
                         ExpedienteElectronico = serviceEE.consultarExpedienteDetallado(this.username_servicio_EE, this.pass_servicio_EE, ExpedienteE);
-                        txtExpedienteElectronicoValor.Text = ExpedienteElectronico.codigoEE;
-                        txtEstadoValor.Text = ExpedienteElectronico.estado;
-                        txtUsuarioValor.Text = ExpedienteElectronico.usuarioCaratulador;
-                        txtReparticionValor.Text = ExpedienteElectronico.reparticionDestino;
-                        txtSectorValor.Text = ExpedienteElectronico.sectorDestino;
+                        if(ExpedienteElectronico != null)
+                        {
+                            txtExpedienteElectronicoValor.Text = ExpedienteElectronico.codigoEE;
+                            txtEstadoValor.Text = ExpedienteElectronico.estado;
+                            txtUsuarioValor.Text = ExpedienteElectronico.usuarioCaratulador;
+                            txtReparticionValor.Text = ExpedienteElectronico.reparticionDestino;
+                            txtSectorValor.Text = ExpedienteElectronico.sectorDestino;
+                        }
+                        else
+                        {
+                            myAccordion.Visible = false;
+                        }
+                        
                         
                         loadUsersFromSector(ExpedienteElectronico);
                     }
@@ -477,6 +472,7 @@ namespace SGI.Operaciones
                         string descTramite = $"Subido por modulo Id Archivo {id_file}";
                         string nroExpediente = txtExpedienteElectronicoValor.Text;
                         string usuario = ddlUsuario.SelectedValue;
+                        int id_paquete = Convert.ToInt32(hid_paquete.Value);
                         Guid userid_tarea;
                         bool parseado = Guid.TryParse(usuario, out userid_tarea);
                         if (!parseado)
@@ -494,7 +490,7 @@ namespace SGI.Operaciones
                                 //subirDocumento( idSolicitud, id_tramitetarea_new, this.id_grupo_tramite, nroExpediente,
                                 //                id_tarea_proc_new, this.id_paquete, id_file, descTramite, userid);
                                 subirDocumento( idSolicitud, this.id_grupo_tramite, content_file, nroExpediente, 
-                                                id_docadjunto,IdPaquete, id_file, descTramite, userid_tarea);
+                                                id_docadjunto, id_paquete, id_file, descTramite, userid_tarea);
                             }
                             else
                             {
@@ -811,7 +807,7 @@ namespace SGI.Operaciones
                 string formato_archivo = "";
                 string Ffcc_SADE = null;
                 string nombre_archivo = "";
-                id_paquete = 2248810;
+                
                 try { username_SADE = parametros.Usuario_SADE; }
                 catch (Exception) 
                 {

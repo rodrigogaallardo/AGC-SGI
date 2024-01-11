@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace SGI.Operaciones {
-    
-    
-    public partial class AdministrarArchivosDeUnaSolicitud {
-        
+namespace SGI.Operaciones
+{
+
+
+    public partial class AdministrarArchivosDeUnaSolicitud
+    {
+
         /// <summary>
         /// Control txtBuscarSolicitud.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBuscarSolicitud;
-        
+
         /// <summary>
         /// Control btnBuscarSolicitud.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBuscarSolicitud;
-        
+
         /// <summary>
         /// Control viewDropDownList.
         /// </summary>
@@ -38,7 +40,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel viewDropDownList;
-        
+
         /// <summary>
         /// Control ddlUsuario.
         /// </summary>
@@ -47,7 +49,16 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUsuario;
-        
+
+        /// <summary>
+        /// Control hid_paquete.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_paquete;
+
         /// <summary>
         /// Control myAccordion.
         /// </summary>
@@ -56,7 +67,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel myAccordion;
-        
+
         /// <summary>
         /// Control viewValorExpediente.
         /// </summary>
@@ -65,7 +76,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel viewValorExpediente;
-        
+
         /// <summary>
         /// Control txtExpedienteElectronicoValor.
         /// </summary>
@@ -74,7 +85,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtExpedienteElectronicoValor;
-        
+
         /// <summary>
         /// Control txtEstadoValor.
         /// </summary>
@@ -83,7 +94,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtEstadoValor;
-        
+
         /// <summary>
         /// Control txtUsuarioValor.
         /// </summary>
@@ -92,7 +103,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtUsuarioValor;
-        
+
         /// <summary>
         /// Control txtReparticionValor.
         /// </summary>
@@ -101,7 +112,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtReparticionValor;
-        
+
         /// <summary>
         /// Control txtSectorValor.
         /// </summary>
@@ -110,7 +121,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtSectorValor;
-        
+
         /// <summary>
         /// Control updResultados.
         /// </summary>
@@ -119,7 +130,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updResultados;
-        
+
         /// <summary>
         /// Control pnlCantidadRegistros.
         /// </summary>
@@ -128,7 +139,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlCantidadRegistros;
-        
+
         /// <summary>
         /// Control lblCantRegistros.
         /// </summary>
@@ -137,7 +148,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCantRegistros;
-        
+
         /// <summary>
         /// Control gridViewArchivosSolic.
         /// </summary>
@@ -146,7 +157,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewArchivosSolic;
-        
+
         /// <summary>
         /// Control gridViewArchivosTransf.
         /// </summary>
@@ -155,7 +166,7 @@ namespace SGI.Operaciones {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewArchivosTransf;
-        
+
         /// <summary>
         /// Control txtObservacionesSolicitante.
         /// </summary>
