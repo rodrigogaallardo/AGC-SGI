@@ -31,14 +31,14 @@ namespace ExternalService
         private async Task<TokenResponse> LoginAsync()
         {
             TokenResponse tokenResponse;
-            var tokenResponseApplication = System.Web.HttpContext.Current.Application["TokenResponse"];
+            var tokenResponseApplication = System.Web.HttpContext.Current?.Application["TokenResponse"];
 
             if (tokenResponseApplication != null)
             {
                 try
                 {
                     tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(tokenResponseApplication.ToString());
-                    if (tokenResponse.expires.AddMinutes(-10) > DateTime.Now)
+                    if (tokenResponse.expires.ToLocalTime().AddMinutes(-10) > DateTime.Now)
                     {
                         return tokenResponse;
                     }
@@ -49,7 +49,7 @@ namespace ExternalService
                 }
 
             }
-
+            string result = "";
             string usuario = this.Usuario;
             string password = this.Password;
             string UrlApraAgc = this.UrlApraAgc;
@@ -81,16 +81,24 @@ namespace ExternalService
 
                 var response = await responseTask;
                 //var response = await client.PostAsync(url, data);
-                string result = await response.Content.ReadAsStringAsync();
-                System.Web.HttpContext.Current.Application["TokenResponse"] = result;
-                var borrar = System.Web.HttpContext.Current.Application["TokenResponse"];
+                result = await response.Content.ReadAsStringAsync();
+                if (System.Web.HttpContext.Current != null)
+                {
+                    System.Web.HttpContext.Current.Application["TokenResponse"] = result;
+                    var borrar = System.Web.HttpContext.Current.Application["TokenResponse"];
+                }
             }
             catch (Exception ex)
             {
                 return null;
             }
-            tokenResponseApplication = System.Web.HttpContext.Current.Application["TokenResponse"];
-            tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(tokenResponseApplication.ToString());
+            if (System.Web.HttpContext.Current != null)
+            {
+                tokenResponseApplication = System.Web.HttpContext.Current.Application["TokenResponse"];
+                tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(tokenResponseApplication.ToString());
+            }
+            else
+            { tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(result); }
 
             return tokenResponse;
         }
