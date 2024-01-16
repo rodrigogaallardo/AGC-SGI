@@ -228,17 +228,18 @@ namespace SGI.Operaciones
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 LinkButton lnkEliminar = (LinkButton)e.Row.FindControl("lnkEliminarDocTrans");
+                LinkButton lnkSubir = (LinkButton)e.Row.FindControl("lnkDocSadeSolic");
                 lnkEliminar.Visible = true;
-
+                bool couldParse = int.TryParse(txtBuscarSolicitud.Text, out int idTransferencia);
                 Label labelIdFile = (Label)e.Row.FindControl("labelIdFile");
                 int IdFile = int.Parse(labelIdFile.Text);
-                using (var ctx = new DGHP_Entities())
+                Label labelNroDeGedo = (Label)e.Row.FindControl("labelNroDeGedo");
+                string nroGedo = LoadNumeroGedo(IdFile, idTransferencia);
+                labelNroDeGedo.Text = nroGedo;
+                if (!nroGedo.IsNullOrWhiteSpace())
                 {
-                    SGI_SADE_Procesos sGI_SADE_Procesos = (from archivos in ctx.SGI_SADE_Procesos
-                                                           where archivos.id_file == IdFile
-                                                           select archivos).FirstOrDefault();
-                    if (sGI_SADE_Procesos != null)
-                        lnkEliminar.Visible = false;
+                    lnkEliminar.Visible = false;
+                    lnkSubir.Visible = false;
                 }
             }
         }
@@ -328,25 +329,51 @@ namespace SGI.Operaciones
                 {
                     try
                     {
-                        SSIT_Solicitudes Solicitud =
+                        int id_paquete = 0;
+                        if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.HAB)
+                        {
+                            SSIT_Solicitudes Solicitud =
                             (from solicitudes in ctx.SSIT_Solicitudes
                              where solicitudes.id_solicitud == idSolicitud
                              select solicitudes).FirstOrDefault();
-                        int id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
-                        hid_paquete.Value = Convert.ToString(id_paquete);
-                        if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
-                        {
-                            if (id_paquete > 0)
-                                ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
-                            else
+                            id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
+                            hid_paquete.Value = Convert.ToString(id_paquete);
+                            if (Solicitud.NroExpedienteSade.IsNullOrWhiteSpace())
                             {
-                                //Si no tiene id_paquete entonces me salgo pues obviamente no tiene EE
-                                return;
+                                if (id_paquete > 0)
+                                    ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
+                                else
+                                {
+                                    //Si no tiene id_paquete entonces me salgo pues obviamente no tiene EE
+                                    return;
+                                }
                             }
+                            else
+                                ExpedienteE = Solicitud.NroExpedienteSade;
                         }
                         else
-                            ExpedienteE = Solicitud.NroExpedienteSade;
-                        //ExpedienteE = "EX-2023-00134324-   -GCABA-AGC";
+                        {
+                            Transf_Solicitudes transferencia =
+                            (from transferencias in ctx.Transf_Solicitudes
+                             where transferencias.id_solicitud == idSolicitud
+                             select transferencias).FirstOrDefault();
+                            id_paquete = Functions.GetPaqueteFromSolicitud(idSolicitud);
+                            hid_paquete.Value = Convert.ToString(id_paquete);
+                            if (transferencia.NroExpedienteSade.IsNullOrWhiteSpace())
+                            {
+                                if (id_paquete > 0)
+                                    ExpedienteE = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
+                                else
+                                {
+                                    //Si no tiene id_paquete entonces me salgo pues obviamente no tiene EE
+                                    return;
+                                }
+                            }
+                            else
+                                ExpedienteE = transferencia.NroExpedienteSade;
+                        }
+                        
+                        
                         //Request a pasarela con el EE
                         txtExpedienteElectronicoValor.Text = "";
                         txtEstadoValor.Text = "";
@@ -464,9 +491,6 @@ namespace SGI.Operaciones
                             {
                                 id_file_selected = file != null ? file.id_file : 0;
                                 content_file = file.content_file;
-                                //Crear SGI_SADE_Procesos con los datos del archivo, quiza
-                                //subirDocumento( idSolicitud, id_tramitetarea_new, this.id_grupo_tramite, nroExpediente,
-                                //                id_tarea_proc_new, this.id_paquete, id_file, descTramite, userid);
                                 subirDocumento( idSolicitud, this.id_grupo_tramite, content_file, nroExpediente, 
                                                 id_docadjunto, id_paquete, id_file, descTramite, userid_tarea);
                             }
@@ -747,7 +771,7 @@ namespace SGI.Operaciones
                                where ttt.id_solicitud == id_solicitud && ssp.id_file == id_file
                                select ssp).FirstOrDefault();
 
-                    if (SgiSadeProceso != null)
+                    if (SgiSadeProceso != null && SgiSadeProceso.resultado_ee != null)
                         numeroGedo = SgiSadeProceso.resultado_ee?.ToString();
                     else
                     {
@@ -774,26 +798,48 @@ namespace SGI.Operaciones
         }
 
         private ParametrosSADE GetParametrosSADE(Guid userId, int id_docadjunto, 
-                                        string descripcion_tramite, int id_file)
+                                        string descripcion_tramite, int id_file, int id_grupo_tramite)
         {
             //deberia recibir el tipo de solicitud (transf o hab) y buscar asi los tipos correspondientes
             ParametrosSADE parametros = new ParametrosSADE();
             DGHP_Entities db = new DGHP_Entities();
-            TiposDeDocumentosRequeridos tiposDeDocumentosRequeridos =
+            TiposDeDocumentosRequeridos tiposDeDocumentosRequeridos = new TiposDeDocumentosRequeridos();
+            if(id_grupo_tramite == (int)Constants.GruposDeTramite.TR)
+            {
+                tiposDeDocumentosRequeridos =
+                            (from tipoDocReq in db.TiposDeDocumentosRequeridos
+                             join tf_docs in db.Transf_DocumentosAdjuntos on tipoDocReq.id_tdocreq equals tf_docs.id_tdocreq
+                             where tf_docs.id_docadjunto == id_docadjunto
+                             select tipoDocReq).FirstOrDefault();
+            }
+            else
+            {
+                tiposDeDocumentosRequeridos =
                             (from tipoDocReq in db.TiposDeDocumentosRequeridos
                              join ssit_docs in db.SSIT_DocumentosAdjuntos on tipoDocReq.id_tdocreq equals ssit_docs.id_tdocreq
                              where ssit_docs.id_docadjunto == id_docadjunto
                              select tipoDocReq).FirstOrDefault();
-            //TODO, adaptar para docs_transferencias y docs_encomiendas
+            }
+            
+            if(tiposDeDocumentosRequeridos == null)
+            {
+                tiposDeDocumentosRequeridos =
+                            (from tipoDocReq in db.TiposDeDocumentosRequeridos
+                             join enc_docs in db.Encomienda_DocumentosAdjuntos on tipoDocReq.id_tdocreq equals enc_docs.id_tdocreq
+                             where enc_docs.id_docadjunto == id_docadjunto
+                             select tipoDocReq).FirstOrDefault();
+
+            }    
+
             parametros.Usuario_SADE = Functions.GetUsernameSADE(userId);
             parametros.Acronimo_SADE = tiposDeDocumentosRequeridos.acronimo_SADE;
-            parametros.Tabla_Origen = ""; //de donde sale esto? no lo encuentro
+            parametros.Tabla_Origen = ""; 
             parametros.formato_archivo = tiposDeDocumentosRequeridos.formato_archivo;
             parametros.Ffcc_SADE = tiposDeDocumentosRequeridos.ffcc_SADE;
             if (tiposDeDocumentosRequeridos.id_tdocreq > 0)
-                parametros.descripcion_tramite = $"{tiposDeDocumentosRequeridos.nombre_tdocreq} (id de archivo {id_file})";
+                parametros.descripcion_tramite = $"Subido por modulo {tiposDeDocumentosRequeridos.nombre_tdocreq} (id de archivo {id_file})";
             else
-                parametros.descripcion_tramite = $" (id de archivo {id_file})";
+                parametros.descripcion_tramite = $"Subido por modulo (id de archivo {id_file})";
             return parametros;
         }
 
@@ -812,14 +858,8 @@ namespace SGI.Operaciones
             {
 
                 // Recupero los parámetros de la tarea de proceso
-                // ----------------------------------------------
-                //var proc = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
-                //TODO: una funcion que me arme los parametros
 
-                //if (proc.parametros_SADE != null)
-                //    parametros = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(proc.parametros_SADE);
-
-                ParametrosSADE parametros = GetParametrosSADE(userid, id_docadjunto, descripcion_tramite, id_file);
+                ParametrosSADE parametros = GetParametrosSADE(userid, id_docadjunto, descripcion_tramite, id_file, id_grupo_tramite);
                 string username_SADE = "";
                 string Tabla_Origen = "";
                 string Acronimo_SADE = "";
