@@ -358,6 +358,11 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 --%>
+                                <asp:TemplateField HeaderText="nro de Gedo">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelNroDeGedo" runat="server" Text=''></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Nombre de Archivo">
                                     <ItemTemplate>
                                         <asp:Label ID="labelNombreArchivo" runat="server" Text='<%# Bind("nombre_archivo") %>'></asp:Label>
@@ -375,6 +380,20 @@
                                             Width="70px">
                                             <i class="icon icon-trash"></i> 
                                             <span class="text">Eliminar</span></a>
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <asp:LinkButton HeaderText="Subir SADE"
+                                            ID="lnkDocSadeSolic" runat="server"
+                                            CommandArgument='<%# Eval("id_docadjunto") %>'
+                                            CommandName='<%# Eval("id_file") %>'
+                                            OnClientClick="javascript:return tda_confirm_upload();"
+                                            OnCommand="lnkSubirDocSadeSolic_Command"
+                                            Width="70px">
+                                        <i class="icon icon-upload"></i> 
+                                        <span class="text">Subir SADE</span></a>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
