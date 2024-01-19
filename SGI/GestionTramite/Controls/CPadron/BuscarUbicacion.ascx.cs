@@ -127,6 +127,7 @@ namespace SGI.GestionTramite.Controls.CPadron
             if (sm.IsInAsyncPostBack)
             {
                 ScriptManager.RegisterStartupScript(updBuscarUbicacion, updBuscarUbicacion.GetType(), "init_JS_updBuscarUbicacion", "init_JS_updBuscarUbicacion();", true);
+                Functions.CargarAutocompleteCalles(AutocompleteCalles);
 
             }
             if (!IsPostBack)
