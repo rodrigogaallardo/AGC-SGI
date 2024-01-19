@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Control e informe" async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"  CodeBehind="Carga_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Carga_Tramite" %>
+﻿<%@ Page Title="Tarea: Control e informe" Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"  CodeBehind="Carga_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Carga_Tramite" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
