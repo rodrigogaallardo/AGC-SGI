@@ -113,8 +113,35 @@
         <asp:Button ID="btnNuevo" Enabled="false" runat="server" Text="Nueva Subzonas" OnClick="btnNuevo_Click" CssClass="btn btn-primary" />
         <asp:Button ID="btnReturn" runat="server" Text="Volver al Indice" OnClick="btnReturn_Click" CssClass="btn btn-primary" />
     </div>
-     <asp:HiddenField ID="hdIdZona" runat="server" />
-     <asp:HiddenField ID="hdIdDistrito" runat="server" />
-     <asp:HiddenField ID="hdIdGrupoDistrito" runat="server" />
+    <asp:HiddenField ID="hdIdZona" runat="server" />
+    <asp:HiddenField ID="hdIdDistrito" runat="server" />
+    <asp:HiddenField ID="hdIdGrupoDistrito" runat="server" />
+    <asp:HiddenField ID="hid_valor_boton" runat="server" />
+    <asp:HiddenField ID="hid_observaciones" runat="server" />
+    
+   <%-- Modal Observacion Solicitante--%>
+    <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Observaciones del Solicitante:</label>
+                        <div class="controls">
+                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+
+                <%-- Botones --%>
+                <div class="modal-footer" style="text-align: left;">
+                    <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 

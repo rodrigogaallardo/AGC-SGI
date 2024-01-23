@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Data;
 using System.Web;
 using System.Collections;
+using System.Web.Security;
 
 namespace SGI.ABM
 {
@@ -1929,6 +1930,17 @@ namespace SGI.ABM
                 int.TryParse(hid_id_ubicacion.Value, out id_ubiUbi);
                 int.TryParse(this.txtNroSol.Text.Trim(), out id_ubiSol);
 
+                Guid userid = Functions.GetUserId();
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
+                if (id_ubiUbi == 0)
+                {
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                }
+                else
+                {
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                }
 
                 guardarSolicitud(id_estado_modif, id_ubiSol);
                 guardarZonasComplementarias(id_ubiSol, id_ubiUbi);
@@ -1937,7 +1949,8 @@ namespace SGI.ABM
 
                 db = new DGHP_Entities();
 
-                Guid userid = Functions.GetUserId();
+
+
                 if (this.estadoAprobada == id_estado_modif)
                     db.Ubicaciones_SolicitudCambio_ActualizarUbicaciones(id_ubiSol, userid);
 

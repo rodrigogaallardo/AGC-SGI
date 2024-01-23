@@ -783,6 +783,12 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
+                                            <label class="control-label">Observaciones del Solicitante:</label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" Width="550px" TextMode="MultiLine"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
                                             <label class="control-label" style="display: none">Observaciones:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtObservacionesEst" runat="server" TextMode="MultiLine" Rows="5" Width="96%" CssClass="form-control" Visible="false"></asp:TextBox>
@@ -1006,6 +1012,12 @@
                                                 <asp:DropDownList ID="ddlHoriEstadosHori" runat="server"
                                                     AutoPostBack="true" Width="350px">
                                                 </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Observaciones del Solicitante:</label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="12" Width="550px" TextMode="MultiLine"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div runat="server" id="ObserEditHP">

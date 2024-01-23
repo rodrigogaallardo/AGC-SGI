@@ -32,13 +32,13 @@ namespace SGI.Operaciones
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBuscarSolicitud;
 
-        /// <summary>
         /// Control viewDropDownList.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
+
         protected global::System.Web.UI.WebControls.Panel viewDropDownList;
 
         /// <summary>
@@ -48,6 +48,7 @@ namespace SGI.Operaciones
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
+
         protected global::System.Web.UI.WebControls.DropDownList ddlUsuario;
 
         /// <summary>
@@ -122,6 +123,7 @@ namespace SGI.Operaciones
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtSectorValor;
 
+
         /// <summary>
         /// Control updResultados.
         /// </summary>
@@ -166,6 +168,33 @@ namespace SGI.Operaciones
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewArchivosTransf;
+
+        /// <summary>
+        /// Control txtObservacionesSolicitante.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitante;
+
+        /// <summary>
+        /// Control btnAceptar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptar;
+
+        /// <summary>
+        /// Control btnCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelar;
 
         /// <summary>
         /// Control btnAgregarArchivo.

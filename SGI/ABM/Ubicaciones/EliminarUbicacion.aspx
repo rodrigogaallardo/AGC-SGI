@@ -20,6 +20,10 @@
     <%: Styles.Render("~/Content/themes/base/css") %>
 
     <%--ajax cargando ...--%>
+
+    <asp:HiddenField ID="hid_valor_boton" runat="server" />
+    <asp:HiddenField ID="hid_observaciones" runat="server" />
+
     <div id="Loading" style="text-align: center; padding-bottom: 20px; margin-top: 120px">
         <table border="0" style="border-collapse: separate; border-spacing: 5px; margin: auto">
             <tr>
@@ -135,7 +139,30 @@
         </div>
     </div>
 
+    <%--Modal Eliminar Log--%>
+           <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <h4 class="modal-title">Eliminar</h4>
+                       </div>
+                       <div class="modal-body">
+                           <div class="form-group">
+                               <label class="control-label">Observaciones del Solicitante:</label>
+                               <div class="controls">
+                                   <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                               </div>
+                           </div>
+                       </div>
 
+                       <%-- Botones --%>
+                       <div class="modal-footer" style="text-align: left;">
+                           <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                           <asp:Button ID="btnCancelarObservacion" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelarObservacion_Click" />
+                       </div>
+                   </div>
+               </div>
+           </div>
 
     <script type="text/javascript">
 

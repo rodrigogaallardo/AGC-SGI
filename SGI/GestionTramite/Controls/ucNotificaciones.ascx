@@ -91,6 +91,27 @@
         </div>
     </div>
 </div>
+
+<%--    Modal Observacion Solicitante--%>
+<div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Observaciones del Solicitante:</label>
+                    <div class="controls">
+                        <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 
     $(document).ready(function () {

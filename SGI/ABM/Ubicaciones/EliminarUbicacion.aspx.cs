@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -54,6 +55,7 @@ namespace SGI.ABM.Ubicaciones
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
+
             using (var context = new DGHP_Entities())
             {
                 var idUbicacion = Convert.ToInt32(Request.QueryString["Id"].ToString());
@@ -73,8 +75,29 @@ namespace SGI.ABM.Ubicaciones
                     context.Ubicaciones_PropiedadHorizontal_delete(id_partidahorizontal);
                 }
                 context.SaveChanges();
-                Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
+                string script = "$('#frmEliminarLog').modal('show');";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+
             }
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+            Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
+
+        }
+        protected void btnCancelarObservacion_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+            Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
+
         }
     }
 }

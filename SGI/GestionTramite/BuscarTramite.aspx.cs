@@ -188,7 +188,7 @@ namespace SGI
                         ScriptManager.RegisterStartupScript(updPnlFiltroBuscar_tramite, updPnlFiltroBuscar_tramite.GetType(),
                             "inicializar_controles0", "inicializar_controles0();", true);
                         hdUltBtn.Value = "porTramite";
-                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now,null,string.Empty, url);
+                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now,null,string.Empty, url,null,null);
                         //hdMyControl.Value = "porTramite";
                         break;
                 }
@@ -1236,7 +1236,7 @@ namespace SGI
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 DGHP_Entities db = new DGHP_Entities();
                 db.Database.CommandTimeout = 300;
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, jsonString, url);
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, jsonString, url,null, null);
 
                 db.SGI_FiltrosBusqueda.Add(filtrosInsertar);
                 db.SaveChanges();

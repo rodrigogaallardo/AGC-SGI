@@ -360,7 +360,14 @@
                                          </div>
                                     </fieldset>
                                    </div>
-                             
+
+                                    <div class="control-group" style="padding-top: 50px;">
+                                        <label class="control-label">Observaciones del Solicitante:</label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" Width="500px" TextMode="MultiLine"></asp:TextBox>
+                                        </div>
+                                    </div>
+
                                     <asp:UpdatePanel ID="updBotonesGuardar" runat="server" >
                                         <ContentTemplate>
                                             <div class="form-horizontal text-right">
@@ -434,6 +441,31 @@
         </div>
     </div>
     <!-- /.modal -->
+
+        <%--Modal Eliminar Log--%>
+    <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Observaciones del Solicitante:</label>
+                        <div class="controls">
+                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+
+                <%-- Botones --%>
+                <div class="modal-footer" style="text-align: left;">
+                    <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                    <asp:Button ID="btnCancelarObservacion" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 
 

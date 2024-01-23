@@ -6,6 +6,7 @@ using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -88,6 +89,8 @@ namespace SGI.Operaciones
                     {
                         entities.SGI_Feriados.Remove(sGI_Feriados);
                         entities.SaveChanges();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -131,6 +134,24 @@ namespace SGI.Operaciones
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
               Response.Redirect("~/Operaciones/FeriadosForm.aspx");
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
         }
     }
 }

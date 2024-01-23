@@ -1402,6 +1402,17 @@
                     </asp:TextBox>
                 </td>
             </tr>
+            <tr>
+                <td style="width:100px;vertical-align:text-top">
+                    <label>Observaciones del Solicitante:</label>
+                </td>
+                <td>
+                    <asp:TextBox ID="txtObservacionesSolicitante" runat="server" TextMode="MultiLine" 
+                        MaxLength="1000" Height="100px" Width="90%"
+                        >
+                    </asp:TextBox>
+                </td>
+            </tr>
     
         </table>
     </asp:Panel>

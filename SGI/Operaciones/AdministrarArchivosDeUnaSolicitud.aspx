@@ -20,6 +20,7 @@
     <script src="../Scripts/Select2-locales/select2_locale_es.js"></script>
     <script src="../Scripts/Funciones.js" type="text/javascript"></script>
     <script src="../Scripts/Datepicker_es.js" type="text/javascript"></script>
+
     <%: Styles.Render("~/Content/themes/base/css") %>
     <style>
     .custom-table {
@@ -90,6 +91,8 @@
     <hr/>
 
     <div id="box_resultado" style="display:none;">
+        <asp:HiddenField ID="hid_valor_boton" runat="server" />
+        <asp:HiddenField ID="hid_observaciones" runat="server" />
         <div class="widget-box">
             <asp:UpdatePanel ID="updResultados" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
@@ -369,12 +372,12 @@
                                 <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
                                     <ItemTemplate>
                                         <asp:LinkButton HeaderText="Eliminar"
-                                                ID="lnkEliminarDocTrans" runat="server" 
-                                                CommandArgument='<%# Eval("id_docadjunto") %>' 
-                                                CommandName ='<%# Eval("id_file") %>'
-                                                OnClientClick="javascript:return tda_confirm_del();"
-                                                OnCommand="lnkEliminarDocTrans_Command" 
-                                                Width="70px">
+                                            ID="lnkEliminarDocTrans" runat="server"
+                                            CommandArgument='<%# Eval("id_docadjunto") %>'
+                                            CommandName='<%# Eval("id_file") %>'
+                                            OnClientClick="javascript:return tda_confirm_del();"
+                                            OnCommand="lnkEliminarDocTrans_Command"
+                                            Width="70px">
                                             <i class="icon icon-trash"></i> 
                                             <span class="text">Eliminar</span></a>
                                         </asp:LinkButton>
@@ -445,6 +448,35 @@
 
         <hr/>
 
+        <%-- Modal Observacion Solicitante--%>
+        <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">Observaciones del Solicitante:</label>
+                            <div class="controls">
+                                <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%-- Botones --%>
+                    <div class="modal-footer" style="text-align: left;">
+                        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
         <div class="control-group">
             <asp:Button id="btnAgregarArchivo" runat="server" Text="Agregar" OnClick="btnAgregarArchivo_Click" CssClass="btn btn-primary"/>
         </div>
@@ -454,6 +486,7 @@
         function tda_confirm_del() {
             return confirm('¿Esta seguro que desea eliminar este Registro?');
         }
+
 
         function showResultado() {
             $("#box_resultado").show("slow");

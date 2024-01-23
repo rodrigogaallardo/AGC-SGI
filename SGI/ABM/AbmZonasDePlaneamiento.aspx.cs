@@ -219,7 +219,10 @@ namespace SGI.ABM
                     try
                     {
                         db.Zonas_Planeamiento_delete(idZonaPlaneamiento, userid);
+
                         Tran.Complete();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -247,6 +250,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idZonaPlaneamiento = Convert.ToInt32(hid_id_condReq.Value);
                 string codigoZona = txtCodigoZonaReq.Text.Trim();
@@ -258,9 +262,15 @@ namespace SGI.ABM
                     try
                     {
                         if (idZonaPlaneamiento == 0)
+                        {
                             db.Zonas_Planeamiento_insert(codigoZona, nombreZona, userid, codigoZonaHabilitacion);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
+                        {
                             db.Zonas_Planeamiento_update(idZonaPlaneamiento, codigoZona, nombreZona, userid, Convert.ToInt32(txtEditIdPlanHabil.Value), codigoZonaHabilitacion);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -571,6 +581,24 @@ namespace SGI.ABM
              ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(),
                      "mostrarMensaje", "mostrarMensaje('" + mensaje + "','" + titulo + "')", true);
          }
-         #endregion
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
+        }
+        #endregion
     }
 }
