@@ -5,5 +5,8 @@
     <Setting Name="SGI_InsertarCaas_WSssit" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost:56469/WSssit.asmx</Value>
     </Setting>
+    <Setting Name="SGI_ws_ExpedienteElectronico_ws_ExpedienteElectronico" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

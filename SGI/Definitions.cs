@@ -1234,6 +1234,32 @@ namespace SGI
             }
         }
 
+        public static int GetPaqueteFromSolicitud(int id_solicitud)
+        {
+            int id_paquete = 0;
+            DGHP_Entities db = new DGHP_Entities();
+
+            var transferencias = 
+                (from tt in db.SGI_Tramites_Tareas
+                         join sol in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals sol.id_tramitetarea
+                         join tskr in db.ENG_Tareas on tt.id_tarea equals tskr.id_tarea
+                         join sade in db.SGI_SADE_Procesos on tt.id_tramitetarea equals sade.id_tramitetarea
+                         where tskr.nombre_tarea.Contains("Gene") && sol.id_solicitud == id_solicitud
+                         select sade.id_paquete);
+
+            var habilitaciones = 
+                (from tt in db.SGI_Tramites_Tareas
+                         join sol in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals sol.id_tramitetarea
+                         join tskr in db.ENG_Tareas on tt.id_tarea equals tskr.id_tarea
+                         join sade in db.SGI_SADE_Procesos on tt.id_tramitetarea equals sade.id_tramitetarea
+                         where tskr.nombre_tarea.Contains("Gene") && sol.id_solicitud == id_solicitud
+                         select sade.id_paquete);
+
+            id_paquete = transferencias.Union(habilitaciones).FirstOrDefault();
+
+            return id_paquete;
+        }
+
         public static void ExportDataToPythonAndReceiveResults(string jsonData, string namedPipeName)
         {
             byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonData);
