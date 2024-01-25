@@ -57,12 +57,13 @@ namespace SGI.GestionTramite.Tareas
             //Se debe establecer siempre el estado de controles antes del load de los controles
             //----
             bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == id_tramitetarea) > 0;
+            bool hayProcesosPendientes = ucProcesosSADE.hayProcesosPendientesSADE(id_tramitetarea);
             bool IsEditable = Engine.CheckEditTarea(id_tramitetarea, userid);
             ucResultadoTarea.Enabled = IsEditable;
             ucObservacionesTarea.Enabled = IsEditable && !hayProcesosGenerados;
             ucObservacionPlancheta.Enabled = IsEditable && !hayProcesosGenerados;
             UcObservacionesContribuyente.Enabled = IsEditable && !hayProcesosGenerados;
-            ucSGI_DocumentoAdjunto.Enabled = IsEditable && !hayProcesosGenerados;
+            ucSGI_DocumentoAdjunto.Enabled = IsEditable && (!hayProcesosGenerados || !hayProcesosPendientes);
             ucObservaciones.Enabled = IsEditable && !hayProcesosGenerados;
             ucSGI_ListaPlanoVisado.Enabled = IsEditable && !hayProcesosGenerados;
             chbLibrarUso.Enabled = IsEditable && !hayProcesosGenerados;
