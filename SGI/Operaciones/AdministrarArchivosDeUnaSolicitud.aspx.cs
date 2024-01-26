@@ -16,6 +16,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Transactions;
 using ws_ExpedienteElectronico;
+using SGI.GestionTramite.Controls;
+using ws_solicitudes;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace SGI.Operaciones
 {
@@ -185,9 +188,10 @@ namespace SGI.Operaciones
                 return null;
             }
         }
-        public List<Transf_DocumentosAdjuntos> CargarTransferenciasConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
+        public List<itemDocumentoModulo> CargarTransferenciasConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
             totalRowCount = 0;
+            List<itemDocumentoModulo> documentos = new List<itemDocumentoModulo>();
             bool couldParse = int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
             if (couldParse)
             {
@@ -195,9 +199,58 @@ namespace SGI.Operaciones
                 IQueryable<Transf_DocumentosAdjuntos> archivosDeLaTransf = from archivos in entities.Transf_DocumentosAdjuntos
                                                                            where archivos.id_solicitud == idSolicitud
                                                                            select archivos;
+
+                IQueryable<Encomienda_Transf_Solicitudes> encomiendas = (from encomiendaTfSol in entities.Encomienda_Transf_Solicitudes
+                                                      where encomiendaTfSol.id_solicitud == idSolicitud
+                                                      select encomiendaTfSol);
+                IQueryable<Encomienda_DocumentosAdjuntos> archivosEncomiendaTransf = (
+                                                from archivos in entities.Encomienda_DocumentosAdjuntos
+                                                where encomiendas.Any(e => e.id_encomienda == archivos.id_encomienda)
+                                                select archivos);
+
                 btnAgregarArchivo.Enabled = true;
                 totalRowCount = archivosDeLaTransf.Count();
+                totalRowCount += archivosEncomiendaTransf.Count();
                 archivosDeLaTransf = archivosDeLaTransf.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows);
+                archivosEncomiendaTransf = archivosEncomiendaTransf.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows);
+                foreach (var archivo in archivosDeLaTransf)
+                {
+                    documentos.Add(new itemDocumentoModulo
+                    {
+                        id_doc_adj = archivo.id_docadjunto,
+                        id_docadjunto = archivo.id_docadjunto,
+                        nombre_archivo = archivo.nombre_archivo,
+                        id_file = archivo.id_file,
+                        id_solicitud = idSolicitud,
+                        TiposDeDocumentosRequeridos = archivo.TiposDeDocumentosRequeridos,
+                        TiposDeDocumentosSistema = archivo.TiposDeDocumentosSistema,
+                        nombre_tdocreq = archivo.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                        tdocreq_detalle = archivo.tdocreq_detalle,
+                        generadoxSistema = archivo.generadoxSistema,
+                        CreateDate = archivo.CreateDate,
+                        CreateUser = archivo.CreateUser,
+                        id_tipodocsis = archivo.TiposDeDocumentosRequeridos.id_tipdocsis
+                    });
+                }
+                foreach (var archivo in archivosEncomiendaTransf)
+                {
+                    documentos.Add(new itemDocumentoModulo
+                    {
+                        id_doc_adj = archivo.id_docadjunto,
+                        id_docadjunto = archivo.id_docadjunto,
+                        nombre_archivo = archivo.nombre_archivo,
+                        id_file = archivo.id_file,
+                        id_solicitud = idSolicitud,
+                        TiposDeDocumentosRequeridos = archivo.TiposDeDocumentosRequeridos,
+                        TiposDeDocumentosSistema = archivo.TiposDeDocumentosSistema,
+                        nombre_tdocreq = archivo.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                        tdocreq_detalle = archivo.tdocreq_detalle,
+                        generadoxSistema = archivo.generadoxSistema,
+                        CreateDate = archivo.CreateDate,
+                        CreateUser = archivo.CreateUser,
+                        id_tipodocsis = archivo.TiposDeDocumentosRequeridos.id_tipdocsis
+                    });
+                }
                 pnlCantidadRegistros.Visible = true;
                 if (totalRowCount > 1)
                 {
@@ -212,7 +265,7 @@ namespace SGI.Operaciones
                     pnlCantidadRegistros.Visible = false;
                 }
                 updResultados.Update();
-                return archivosDeLaTransf.ToList();
+                return documentos.ToList();
             }
             else
             {
@@ -785,6 +838,56 @@ namespace SGI.Operaciones
                 }
             }
         }
+        /*
+        private Encomienda_DocumentosAdjuntos LoadFilesEncomienda(int id_solicitud)
+        {
+            Encomienda_DocumentosAdjuntos archivos = new Encomienda_DocumentosAdjuntos();
+            try
+            {
+                using (var db = new DGHP_Entities())
+                {
+                    archivos = (//Encomienda_DocumentosAdjuntos
+                                    from doc in db.Transf_DocumentosAdjuntos
+                                    join user in db.Usuario on doc.CreateUser equals user.UserId into us
+                                    from u in us.DefaultIfEmpty()
+                                    join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
+                                    from p in pr.DefaultIfEmpty()
+                                    where doc.id_solicitud == id_solicitud //&& doc.CreateDate <= ultimaPresentacion
+                                    select new Encomienda_DocumentosAdjuntos
+                                    {
+                                        nombre = doc.tdocreq_detalle != null && doc.tdocreq_detalle != "" ?
+                                                doc.tdocreq_detalle : (doc.id_tdocreq != 0 ? doc.TiposDeDocumentosRequeridos.nombre_tdocreq : doc.TiposDeDocumentosSistema.nombre_tipodocsis),
+                                        id_file = doc.id_file,
+                                        id_solicitud = doc.id_solicitud,
+                                        url = null,
+                                        Fecha = doc.CreateDate,
+                                        UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : ""))
+                                    }).Union(
+                                    from doc in db.CPadron_DocumentosAdjuntos
+                                    join sol in db.Transf_Solicitudes on doc.id_cpadron equals sol.id_cpadron
+                                    join user in db.Usuario on doc.CreateUser equals user.UserId into us
+                                    from u in us.DefaultIfEmpty()
+                                    join prof in db.SGI_Profiles on doc.CreateUser equals prof.userid into pr
+                                    from p in pr.DefaultIfEmpty()
+                                    where sol.id_solicitud == id_solicitud //&& doc.id_tipodocsis == (int)Constants.TiposDeDocumentosSistema.INFORMES_CPADRON
+                                                                           //&& doc.CreateDate <= ultimaPresentacion
+                                    select new Encomienda_DocumentosAdjuntos
+                                    {
+                                        nombre = doc.id_tdocreq != 0 ? doc.TiposDeDocumentosRequeridos.nombre_tdocreq : doc.TiposDeDocumentosSistema.nombre_tipodocsis,
+                                        id_file = doc.id_file,
+                                        id_solicitud = doc.id_cpadron,
+                                        url = null,
+                                        Fecha = doc.CreateDate,
+                                        UserName = (u != null ? u.Apellido + ", " + u.Nombre : (p != null ? p.Apellido + ", " + p.Nombres : ""))
+                                    }).ToList();
+                }
+                return archivos;
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+        }*/
 
         private string LoadNumeroGedo(int id_file, int id_solicitud)
         {
