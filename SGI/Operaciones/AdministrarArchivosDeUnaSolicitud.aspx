@@ -294,7 +294,7 @@
                             <Columns>
                                 <asp:TemplateField Visible="false">
                                     <ItemTemplate>
-                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_docadjunto") %>'></asp:Label>
+                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_doc_adj") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
