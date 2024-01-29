@@ -44,6 +44,8 @@ namespace SGI.GestionTramite.Controls
         public bool generadoxSistema { get; set; }
         public System.DateTime CreateDate { get; set; }
         public System.Guid CreateUser { get; set; }
+        public Nullable<System.DateTime> fechaPresentado { get; set; }
+        public bool ExcluirSubidaSADE { get; set; }
         public virtual aspnet_Users aspnet_Users { get; set; }
         public virtual TiposDeDocumentosRequeridos TiposDeDocumentosRequeridos { get; set; }
         public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
