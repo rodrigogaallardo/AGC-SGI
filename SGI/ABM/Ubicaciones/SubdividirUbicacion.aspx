@@ -1383,12 +1383,19 @@
             $("#Req_MixturaSub").hide();
             $("#Req_CalleSub").hide();
 
-            if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
+           <%-- if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
                 $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
                 $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
                 $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
                 $("#Req_Seccion").css("display", "inline-block");
                 ret = false;
+            }--%>
+            if ($.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
+                $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
+                $("#Req_Seccion").css("display", "inline-block");
+                ret = false;
+            } else {
+                ret = true;
             }
 
             if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
