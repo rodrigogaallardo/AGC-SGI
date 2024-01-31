@@ -25,6 +25,32 @@ namespace SGI.GestionTramite.Controls
         public string numero_Gedo { get; set; }
     }
 
+    public class itemDocumentoModulo
+    {
+        internal int id_tipoDocReq;
+        public int id_docadjunto { get; set; }
+        public int id_doc_adj { get; set; }
+        public string nombre_archivo { get; set; }
+        public int id_file { get; set; }
+        public int id_solicitud { get; set; }
+        public string url { get; set; }
+        public DateTime Fecha { get; set; }
+        public string UserName { get; set; }
+        public int? id_tipodocsis { get; set; }
+        public string origen { get; set; }
+        public string numero_Gedo { get; set; }
+        public string nombre_tdocreq { get; set; }
+        public string tdocreq_detalle { get; set; }
+        public bool generadoxSistema { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public System.Guid CreateUser { get; set; }
+        public Nullable<System.DateTime> fechaPresentado { get; set; }
+        public bool ExcluirSubidaSADE { get; set; }
+        public virtual aspnet_Users aspnet_Users { get; set; }
+        public virtual TiposDeDocumentosRequeridos TiposDeDocumentosRequeridos { get; set; }
+        public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
+    }
+
     public partial class ucListaDocumentosv1 : System.Web.UI.UserControl
     {
         public delegate void EventHandlerEliminar(object sender, ucListaDocumentosv1EventsArgs e);

@@ -16,6 +16,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Transactions;
 using ws_ExpedienteElectronico;
+using SGI.GestionTramite.Controls;
+using ws_solicitudes;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace SGI.Operaciones
 {
@@ -151,19 +154,69 @@ namespace SGI.Operaciones
 
 
         }
-        public List<SSIT_DocumentosAdjuntos> CargarSolicitudConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
+        public List<itemDocumentoModulo> CargarSolicitudConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
             totalRowCount = 0;
             bool couldParse = int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
             if (couldParse)
             {
                 DGHP_Entities entities = new DGHP_Entities();
+                List<itemDocumentoModulo> documentos = new List<itemDocumentoModulo>();
                 IQueryable<SSIT_DocumentosAdjuntos> archivosDeLaSolicitud = from archivos in entities.SSIT_DocumentosAdjuntos
                                                                             where archivos.id_solicitud == idSolicitud
                                                                             select archivos;
+                IQueryable<Encomienda_SSIT_Solicitudes> encomiendas = (from encomiendaSol in entities.Encomienda_SSIT_Solicitudes
+                                                                         where encomiendaSol.id_solicitud == idSolicitud
+                                                                         select encomiendaSol);
+                IQueryable<Encomienda_DocumentosAdjuntos> archivosEncomiendaHabilitacion = (
+                                                from archivos in entities.Encomienda_DocumentosAdjuntos
+                                                where encomiendas.Any(e => e.id_encomienda == archivos.id_encomienda)
+                                                select archivos);
                 btnAgregarArchivo.Enabled = true;
                 totalRowCount = archivosDeLaSolicitud.Count();
-                archivosDeLaSolicitud = archivosDeLaSolicitud.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows);
+                totalRowCount += archivosEncomiendaHabilitacion.Count();
+                foreach (var archivo in archivosDeLaSolicitud)
+                {
+                    documentos.Add(new itemDocumentoModulo
+                    {
+                        id_doc_adj = archivo.id_docadjunto,
+                        id_docadjunto = archivo.id_docadjunto,
+                        nombre_archivo = archivo.nombre_archivo,
+                        id_file = archivo.id_file,
+                        id_solicitud = idSolicitud,
+                        TiposDeDocumentosRequeridos = archivo.TiposDeDocumentosRequeridos,
+                        TiposDeDocumentosSistema = archivo.TiposDeDocumentosSistema,
+                        nombre_tdocreq = archivo.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                        tdocreq_detalle = archivo.tdocreq_detalle,
+                        generadoxSistema = archivo.generadoxSistema,
+                        CreateDate = archivo.CreateDate,
+                        CreateUser = archivo.CreateUser,
+                        id_tipodocsis = archivo.TiposDeDocumentosRequeridos.id_tipdocsis,
+                        fechaPresentado = archivo.fechaPresentado,
+                        ExcluirSubidaSADE = archivo.ExcluirSubidaSADE
+                    });
+                }
+                foreach (var archivo in archivosEncomiendaHabilitacion)
+                {
+                    documentos.Add(new itemDocumentoModulo
+                    {
+                        id_doc_adj = archivo.id_docadjunto,
+                        id_docadjunto = archivo.id_docadjunto,
+                        nombre_archivo = archivo.nombre_archivo,
+                        id_file = archivo.id_file,
+                        id_solicitud = idSolicitud,
+                        TiposDeDocumentosRequeridos = archivo.TiposDeDocumentosRequeridos,
+                        TiposDeDocumentosSistema = archivo.TiposDeDocumentosSistema,
+                        nombre_tdocreq = archivo.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                        tdocreq_detalle = archivo.tdocreq_detalle,
+                        generadoxSistema = archivo.generadoxSistema,
+                        CreateDate = archivo.CreateDate,
+                        CreateUser = archivo.CreateUser,
+                        id_tipodocsis = archivo.TiposDeDocumentosRequeridos.id_tipdocsis,
+                        fechaPresentado = archivo.fechaPresentado,
+                        ExcluirSubidaSADE = false
+                    });
+                }
                 pnlCantidadRegistros.Visible = true;
                 if (totalRowCount > 1)
                 {
@@ -178,16 +231,18 @@ namespace SGI.Operaciones
                     pnlCantidadRegistros.Visible = false;
                 }
                 updResultados.Update();
-                return archivosDeLaSolicitud.ToList();
+                documentos = documentos.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows).ToList();
+                return documentos.ToList();
             }
             else
             {
                 return null;
             }
         }
-        public List<Transf_DocumentosAdjuntos> CargarTransferenciasConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
+        public List<itemDocumentoModulo> CargarTransferenciasConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
             totalRowCount = 0;
+            List<itemDocumentoModulo> documentos = new List<itemDocumentoModulo>();
             bool couldParse = int.TryParse(txtBuscarSolicitud.Text, out int idSolicitud);
             if (couldParse)
             {
@@ -195,9 +250,58 @@ namespace SGI.Operaciones
                 IQueryable<Transf_DocumentosAdjuntos> archivosDeLaTransf = from archivos in entities.Transf_DocumentosAdjuntos
                                                                            where archivos.id_solicitud == idSolicitud
                                                                            select archivos;
+
+                IQueryable<Encomienda_Transf_Solicitudes> encomiendas = (from encomiendaTfSol in entities.Encomienda_Transf_Solicitudes
+                                                      where encomiendaTfSol.id_solicitud == idSolicitud
+                                                      select encomiendaTfSol);
+                IQueryable<Encomienda_DocumentosAdjuntos> archivosEncomiendaTransf = (
+                                                from archivos in entities.Encomienda_DocumentosAdjuntos
+                                                where encomiendas.Any(e => e.id_encomienda == archivos.id_encomienda)
+                                                select archivos);
+
                 btnAgregarArchivo.Enabled = true;
                 totalRowCount = archivosDeLaTransf.Count();
-                archivosDeLaTransf = archivosDeLaTransf.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows);
+                totalRowCount += archivosEncomiendaTransf.Count();
+                foreach (var archivo in archivosEncomiendaTransf)
+                {
+                    documentos.Add(new itemDocumentoModulo
+                    {
+                        id_doc_adj = archivo.id_docadjunto,
+                        id_docadjunto = archivo.id_docadjunto,
+                        nombre_archivo = archivo.nombre_archivo,
+                        id_file = archivo.id_file,
+                        id_solicitud = idSolicitud,
+                        TiposDeDocumentosRequeridos = archivo.TiposDeDocumentosRequeridos,
+                        TiposDeDocumentosSistema = archivo.TiposDeDocumentosSistema,
+                        nombre_tdocreq = archivo.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                        tdocreq_detalle = archivo.tdocreq_detalle,
+                        generadoxSistema = archivo.generadoxSistema,
+                        CreateDate = archivo.CreateDate,
+                        CreateUser = archivo.CreateUser,
+                        //id_tipodocsis = archivo.TiposDeDocumentosRequeridos.id_tipdocsis,
+                        id_tipodocsis = archivo.id_tipodocsis
+                    });
+                }
+                foreach (var archivo in archivosDeLaTransf)
+                {
+                    documentos.Add(new itemDocumentoModulo
+                    {
+                        id_doc_adj = archivo.id_docadjunto,
+                        id_docadjunto = archivo.id_docadjunto,
+                        nombre_archivo = archivo.nombre_archivo,
+                        id_file = archivo.id_file,
+                        id_solicitud = idSolicitud,
+                        TiposDeDocumentosRequeridos = archivo.TiposDeDocumentosRequeridos,
+                        TiposDeDocumentosSistema = archivo.TiposDeDocumentosSistema,
+                        nombre_tdocreq = archivo.TiposDeDocumentosRequeridos.nombre_tdocreq,
+                        tdocreq_detalle = archivo.tdocreq_detalle,
+                        generadoxSistema = archivo.generadoxSistema,
+                        CreateDate = archivo.CreateDate,
+                        CreateUser = archivo.CreateUser,
+                        id_tipodocsis = archivo.TiposDeDocumentosRequeridos.id_tipdocsis
+                    });
+                }
+                
                 pnlCantidadRegistros.Visible = true;
                 if (totalRowCount > 1)
                 {
@@ -212,7 +316,8 @@ namespace SGI.Operaciones
                     pnlCantidadRegistros.Visible = false;
                 }
                 updResultados.Update();
-                return archivosDeLaTransf.ToList();
+                documentos = documentos.OrderBy(o => o.id_file).Skip(startRowIndex).Take(maximumRows).ToList();
+                return documentos.ToList();
             }
             else
             {
@@ -409,6 +514,7 @@ namespace SGI.Operaciones
                         //Request a pasarela con el EE
                         txtExpedienteElectronicoValor.Text = "";
                         txtEstadoValor.Text = "";
+                        txtUsuarioCaratuladorValor.Text = "";
                         txtUsuarioValor.Text = "";
                         txtReparticionValor.Text = "";
                         txtSectorValor.Text = "";
@@ -417,7 +523,8 @@ namespace SGI.Operaciones
                         {
                             txtExpedienteElectronicoValor.Text = ExpedienteElectronico.codigoEE;
                             txtEstadoValor.Text = ExpedienteElectronico.estado;
-                            txtUsuarioValor.Text = ExpedienteElectronico.usuarioCaratulador;
+                            txtUsuarioCaratuladorValor.Text = ExpedienteElectronico.usuarioCaratulador;
+                            txtUsuarioValor.Text = ExpedienteElectronico.usuarioDestino;
                             txtReparticionValor.Text = ExpedienteElectronico.reparticionDestino;
                             txtSectorValor.Text = ExpedienteElectronico.sectorDestino;
                         }

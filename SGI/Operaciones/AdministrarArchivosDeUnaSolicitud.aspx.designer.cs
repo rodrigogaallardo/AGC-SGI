@@ -32,13 +32,13 @@ namespace SGI.Operaciones
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBuscarSolicitud;
 
+        /// <summary>
         /// Control viewDropDownList.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-
         protected global::System.Web.UI.WebControls.Panel viewDropDownList;
 
         /// <summary>
@@ -48,7 +48,6 @@ namespace SGI.Operaciones
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-
         protected global::System.Web.UI.WebControls.DropDownList ddlUsuario;
 
         /// <summary>
@@ -97,6 +96,15 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.Label txtEstadoValor;
 
         /// <summary>
+        /// Control txtUsuarioCaratuladorValor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label txtUsuarioCaratuladorValor;
+
+        /// <summary>
         /// Control txtUsuarioValor.
         /// </summary>
         /// <remarks>
@@ -123,6 +131,23 @@ namespace SGI.Operaciones
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label txtSectorValor;
 
+        /// <summary>
+        /// Control hid_valor_boton.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_valor_boton;
+
+        /// <summary>
+        /// Control hid_observaciones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_observaciones;
 
         /// <summary>
         /// Control updResultados.

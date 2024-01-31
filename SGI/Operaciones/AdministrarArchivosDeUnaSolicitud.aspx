@@ -68,6 +68,10 @@
                                             <td><asp:Label ID="txtEstadoValor" runat="server" CssClass="control-label"></asp:Label></td>
                                         </tr>
                                         <tr>
+                                            <td><label class="control-label" for="txtUsuarioCaratulador">Usuario Caratulador:</label></td>
+                                            <td><asp:Label ID="txtUsuarioCaratuladorValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
                                             <td><label class="control-label" for="txtUsuario">Usuario:</label></td>
                                             <td><asp:Label ID="txtUsuarioValor" runat="server" CssClass="control-label"></asp:Label></td>
                                         </tr>
@@ -294,7 +298,7 @@
                             <Columns>
                                 <asp:TemplateField Visible="false">
                                     <ItemTemplate>
-                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_docadjunto") %>'></asp:Label>
+                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_doc_adj") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
