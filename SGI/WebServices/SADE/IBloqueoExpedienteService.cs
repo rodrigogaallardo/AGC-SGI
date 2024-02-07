@@ -35,7 +35,10 @@ namespace SGI.Webservices.SADE.bloqueo_expediente {
         
         /// <remarks/>
         public IBloqueoExpedienteService() {
-            this.Url = "http://sade-mule.hml.gcba.gob.ar/EEServices/bloqueo-expediente";
+            if(Functions.EsAmbienteDesa())
+                this.Url = "http://sade-mule.hml.gcba.gob.ar/EEServices/bloqueo-expediente";
+            else
+                this.Url = "http://sade-mule.gcba.gob.ar/EEServices/bloqueo-expediente";
         }
         
         /// <remarks/>
