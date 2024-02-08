@@ -13,7 +13,7 @@
 </asp:Content>
     
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container">
+    <div class="row-fluid" style="text-align: left;">
         <div class="form-container">
             <p class="lead">Solicitud</p>
             <label class="control-label" for="txtBuscarSolicitud">Buscar por Número de Solicitud</label><br />
@@ -77,57 +77,77 @@
                 </ItemTemplate>
             </asp:Repeater> 
             <asp:Button ID="AddTextBoxButton" runat="server" Text="Agregar" OnClick="AddTextBoxButton_Click" />-->
-        <div class="additional-options">
-            <div class="panel">
-                <asp:Panel ID="viewDropDownList" runat="server" class="span3" Visible="false">
-                        <label class="control-label" for="txtBuscarSolicitud">Usuario Documentos</label>
-                        <div class="controls">
-                            <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
-                            <asp:HiddenField ID="hid_paquete" runat="server"/>
-                            <asp:HiddenField ID="hid_ExpedienteElectronico" runat="server"/>
-                        </div>
-                    <div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <asp:RadioButton ID="rdoUser" runat="server" Text="Usuario" GroupName="RadialGroup"></asp:RadioButton>
-                            <asp:RadioButton ID="rdoGroup" runat="server" Text="Grupo" GroupName="RadialGroup"></asp:RadioButton>
-                            <asp:CheckBox ID="chkboxDesbloqueo" runat="server" Text="Grupo" />
-                            <div>
-                                <label for="textBoxDestino">Sector Destino:</label>
-                                <asp:TextBox ID="textBoxDestino" runat="server"></asp:TextBox>
-                            </div>
-                            <div>
-                                <label for="textBoxReparticionDestino">Reparticion Destino:</label>
-                                <asp:TextBox ID="textBoxReparticionDestino" runat="server"></asp:TextBox>
-                            </div>
-                            <div>
-                                <label for="textBoxEstadoSade">Estado SADE:</label>
-                                <asp:TextBox ID="textBoxEstadoSade" runat="server"></asp:TextBox>
-                            </div>
-                            <div>
-                                <label for="textBoxUserDestino">Usuario Destino:</label>
-                                <asp:TextBox ID="textBoxUsuarioDestino" runat="server"></asp:TextBox>
-                            </div>
-                        </div>
-                    </div>
-                </asp:Panel>
+        
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <asp:Button ID="btnEjecutarPaquete" runat="server" Text="Ejecutar Paquete" OnClick="btnProcesar_Click" CssClass="btn btn-small" />
+                <asp:Button ID="btnDesbloquear" runat="server" Text="Desbloquear" OnClick="btnDesbloquear_Click" CssClass="btn btn-small" />
+                <asp:Button ID="btnBloquear" runat="server" Text="Bloquear" OnClick="btnBloquear_Click" CssClass="btn btn-small" />
+                <asp:Button ID="btnCancel" runat="server" Text="Limpiar" OnClick="btnCancel_Click" CssClass="btn btn-small" />
             </div>
-        </div>
 
-        
 
+
+
+        <asp:Button ID="btnTogglePasesList" runat="server" Text="Toggle Drop Down List" CssClass="btn btn-small" OnClientClick="togglePasesList(); return false;" />
+
+        <asp:Panel ID="PanelPases" runat="server" class="span3" style="display: none;">
+            <label class="alert-danger"> Esta funcion esta en BETA, no usar sin soporte tecnico de BIWINI</label>
+            <div class="additional-options">
+                <div class="panel">
+                    <asp:Panel ID="viewDropDownList" runat="server" class="span3" Visible="false">
+                            <label class="control-label" for="txtBuscarSolicitud">Usuario SADE</label>
+                            <div class="controls">
+                                <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
+                                <asp:HiddenField ID="hid_paquete" runat="server"/>
+                                <asp:HiddenField ID="hid_ExpedienteElectronico" runat="server"/>
+                            </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <asp:RadioButton ID="rdoUser" runat="server" Text="Usuario" GroupName="RadialGroup"></asp:RadioButton>
+                                <asp:RadioButton ID="rdoGroup" runat="server" Text="Grupo" GroupName="RadialGroup"></asp:RadioButton>
+                                <asp:CheckBox ID="chkboxDesbloqueo" runat="server" Text="Grupo" />
+                                <div>
+                                    <label for="textBoxDestino">Sector Destino:</label>
+                                    <asp:TextBox ID="textBoxDestino" runat="server"></asp:TextBox>
+                                </div>
+                                <div>
+                                    <label for="textBoxReparticionDestino">Reparticion Destino:</label>
+                                    <asp:TextBox ID="textBoxReparticionDestino" runat="server"></asp:TextBox>
+                                </div>
+                                <div>
+                                    <label for="textBoxEstadoSade">Estado SADE:</label>
+                                    <asp:TextBox ID="textBoxEstadoSade" runat="server"></asp:TextBox>
+                                </div>
+                                <div>
+                                    <label for="textBoxUserDestino">Usuario Destino:</label>
+                                    <asp:TextBox ID="textBoxUsuarioDestino" runat="server"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                    </asp:Panel>
+                </div>
+                <asp:Button ID="btnRealizarPase" runat="server" Text="Realizar Pase" CssClass="btn btn-small" OnClick="btnPasear_Click" />
+            </div>
+        </asp:Panel>
+        
+    
         
     </div>
-    <div>
-        <asp:Button ID="btnRealizarPase" runat="server" Text="Realizar Pase" OnClick="btnPasear_Click" />
-        <asp:Button ID="btnEjecutarPaquete" runat="server" Text="Ejecutar Paquete" OnClick="btnProcesar_Click" />
-        <asp:Button ID="btnDesbloquear" runat="server" Text="Desbloquear" OnClick="btnDesbloquear_Click" />
-        <asp:Button ID="btnBloquear" runat="server" Text="Bloquear" OnClick="btnBloquear_Click" />
-        <asp:Button ID="btnCancel" runat="server" Text="Limpiar" OnClick="btnCancel_Click" />
+
+    <div class="result-container" style="margin-top: 20px; margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <asp:Label ID="lblResult" runat="server" Text="Resultado" CssClass="alert-success" ></asp:Label>
+        <asp:Label ID="lblError" runat="server" Text="Errores" Visible="false" CssClass="alert-error"></asp:Label>
     </div>
-    <div class="result-container">
-        <asp:Label ID="lblResult" runat="server" Text="Resultado"></asp:Label>
-        <asp:Label ID="lblError" runat="server" Text="Errores" Visible="false"></asp:Label>
-    </div>
+
+
+    <script type="text/javascript">
+        function togglePasesList() {
+            var dropDownList = document.getElementById('<%= PanelPases.ClientID %>');
+            if (dropDownList.style.display === "none") {
+                dropDownList.style.display = "block";
+            } else {
+                dropDownList.style.display = "none";
+            }
+        }
+    </script>
 </asp:Content>
-
-

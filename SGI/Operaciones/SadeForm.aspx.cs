@@ -252,12 +252,12 @@ namespace SGI.Operaciones
             string motivoDesc = $"Pase a: {selectedOption}, Sector: {textBoxSectorValue}, Reparticion: {textBoxReparticionDestinoValue}";
             string usuario_sade = ddlUsuario.SelectedValue;
             int id_pase = 0;
+            string Usuario_SADE = string.Empty;
 
             Guid userid_tarea;
             bool parseado = Guid.TryParse(usuario_sade, out userid_tarea);
-            if (!parseado)
-                throw new Exception("Usuario SADE invalido");
-            string Usuario_SADE = Functions.GetUsernameSADE(userid_tarea);
+            if (parseado)
+                Usuario_SADE = Functions.GetUsernameSADE(userid_tarea);
 
             lblResult.Text = motivoDesc;
             if(id_paquete > 0 && !string.IsNullOrEmpty(expedienteElectronico))
@@ -279,15 +279,31 @@ namespace SGI.Operaciones
                     }
                     else
                     {
-                        id_pase = serviceEE.PasarExpediente_aUsuario(this.username_servicio_EE, this.pass_servicio_EE,
-                            id_paquete, "Pase al usuario " + textBoxUsuarioDestinoValue, Usuario_SADE,
-                            textBoxUsuarioDestinoValue);
+                        if(!string.IsNullOrEmpty(Usuario_SADE))
+                            id_pase = serviceEE.PasarExpediente_aUsuario(this.username_servicio_EE, this.pass_servicio_EE,
+                                id_paquete, "Pase al usuario " + textBoxUsuarioDestinoValue, Usuario_SADE,
+                                textBoxUsuarioDestinoValue);
+                        else
+                        {
+                            id_pase = serviceEE.PasarExpediente_aUsuario(this.username_servicio_EE, this.pass_servicio_EE,
+                                id_paquete, "Pase al usuario " + textBoxUsuarioDestinoValue, Usuario_SADE,
+                                textBoxUsuarioDestinoValue);
+                        }
                     }
                     lblResult.Text = id_pase.ToString();
+                    if (EsPaseSector)
+                    {
+                        if(string.IsNullOrEmpty(textBoxEstadoSadeValue))
+                            lblResult.Text += $" Se generó el pase del expediente: {expedienteElectronico}, se envió al sector: {textBoxReparticionDestinoValue}-{textBoxSectorValue}";
+                        else
+                            lblResult.Text += $" Se generó el pase del expediente: {expedienteElectronico}, se envió al sector: {textBoxReparticionDestinoValue}-{textBoxSectorValue}, estado {textBoxEstadoSadeValue}";
+                    }
+                    else
+                        lblResult.Text += $" Se generó el pase del expediente: {expedienteElectronico}, se envió al usuario: {Usuario_SADE}";
                 }
                 catch (Exception ex)
                 {
-                    lblResult.Text = $"Paquete {id_paquete} -> {ex.Message}.";
+                    lblResult.Text = $"Hubo un error al realizar el pase de Expediente {id_paquete} -> {ex.Message}.";
                     ErroresEnSolicitud = true;
                 }
                 finally
@@ -295,7 +311,7 @@ namespace SGI.Operaciones
                     serviceEE.Dispose();
                 }
                 if (!ErroresEnSolicitud)
-                    lblResult.Text = $"Paquete {id_paquete} -> Paquete Ejecutado exitosamente.";
+                    lblResult.Text += $"\nPaquete {id_paquete} -> Paquete Ejecutado exitosamente.";
             }
             else
             {
