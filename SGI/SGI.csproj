@@ -839,6 +839,7 @@
     <Content Include="Operaciones\EditarCalle.aspx" />
     <Content Include="Operaciones\AgregarCalle.aspx" />
     <Content Include="Operaciones\AbmCalles.aspx" />
+    <Content Include="Operaciones\SadeForm.aspx" />
     <Content Include="Operaciones\SolicitudesIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
     <Content Include="Operaciones\DistritosIndex.aspx" />
@@ -4607,6 +4608,13 @@
     </Compile>
     <Compile Include="Operaciones\AbmCalles.aspx.designer.cs">
       <DependentUpon>AbmCalles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\SadeForm.aspx.cs">
+      <DependentUpon>SadeForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\SadeForm.aspx.designer.cs">
+      <DependentUpon>SadeForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\SolicitudesDto.cs" />
     <Compile Include="Operaciones\SolicitudesIndex.aspx.cs">
