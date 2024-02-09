@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ImprimirPreviewPlancheta.aspx.cs" Inherits="SGI.GestionTramite.Controls.ImprimirPreviewPlancheta" %>
+﻿<%@ Page Language="C#" async="true" AutoEventWireup="true" CodeBehind="ImprimirPreviewPlancheta.aspx.cs" Inherits="SGI.GestionTramite.Controls.ImprimirPreviewPlancheta" %>
 
 <!DOCTYPE html>
 
