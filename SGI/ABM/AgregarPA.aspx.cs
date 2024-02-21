@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.Security;
@@ -53,7 +54,7 @@ namespace SGI.ABM
             txtSolicitud.Text = "";
         }
 
-        protected void btnBuscar_Click(object sender, EventArgs e)
+        protected async void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -112,7 +113,7 @@ namespace SGI.ABM
                 id_tramite_tarea = query.id_tramitetarea;
 
                 ucCabecera.LoadData(id_grupotramite, id_solicitud);
-                ucListaDocumentos.LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
+                await ucListaDocumentos.LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
 
                 updResultados.Update();
 
@@ -314,7 +315,7 @@ namespace SGI.ABM
                 _id_tramite_tarea = value;
             }
         }
-        protected void btnComenzarCargaArchivo_Click(object sender, EventArgs e)
+        protected async void btnComenzarCargaArchivo_Click(object sender, EventArgs e)
         {
             UpdatePanel updPnlInputDatosArch = (UpdatePanel)btnComenzarCargaArchivo.Parent.Parent;
 
@@ -366,7 +367,7 @@ namespace SGI.ABM
                     }
                 }
 
-                ucListaDocumentos.LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
+                await ucListaDocumentos.LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
                 ucCabecera.LoadData(id_grupotramite, id_solicitud);                
                 updResultados.Update();
                
@@ -507,7 +508,7 @@ namespace SGI.ABM
 
         #endregion
 
-        protected void ucListaDocumentos_EliminarListaDocumentosv1Click(object sender, ucListaDocumentosv1EventsArgs e)
+        protected async void ucListaDocumentos_EliminarListaDocumentosv1Click(object sender, ucListaDocumentosv1EventsArgs e)
         {
             Guid userid = Functions.GetUserId();
             using (var ctx = new DGHP_Entities())
@@ -519,7 +520,7 @@ namespace SGI.ABM
                     sol.documentacionPA = false;
                     ctx.SaveChanges();
                 }
-                ucListaDocumentos.LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
+                await ucListaDocumentos .LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
                 ucCabecera.LoadData(id_grupotramite, id_solicitud);
                 updResultados.Update();
             }
