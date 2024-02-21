@@ -862,7 +862,7 @@
                                                 <ContentTemplate>
                                                     <div class="form-horizontal">
                                                         <div class="control-group">
-                                                            <div id="Val_PartidaNuevaSub" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
+                                                            <div id="Val_PartidaNuevaNva" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
                                                                 Revise las validaciones en pantalla.
                                                             </div>
                                                         </div>
@@ -1400,13 +1400,24 @@
             $("#Req_MixturaNva").hide();
             $("#Req_CalleNva").hide();
 
-            if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
+            <%--if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
             $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
             $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
-            $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
+            $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") 
+            {
             $("#Req_Seccion").css("display", "inline-block");
             ret = false;
-        }
+              }else {
+                ret = true;
+            }--%>
+
+            if ($.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
+                $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
+                $("#Req_Seccion").css("display", "inline-block");
+                ret = false;
+            } else {
+                ret = true;
+            }
 
         if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
             && $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "0") {
