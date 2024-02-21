@@ -1114,9 +1114,8 @@ namespace SGI
                     if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
                     {
                         itemDireccion = lstDireccionesENC.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
-                        var countObservaciones = (from tram in db.SGI_Tramites_Tareas
-                                                  join tar in db.SGI_Tramites_Tareas_HAB on tram.id_tramitetarea equals tar.id_tramitetarea
-                                                  join cali in db.SGI_Tarea_Calificar on tram.id_tramitetarea equals cali.id_tramitetarea
+                        var countObservaciones = (from tar in db.SGI_Tramites_Tareas_HAB
+                                                  join cali in db.SGI_Tarea_Calificar on tar.id_tramitetarea equals cali.id_tramitetarea
                                                   join grupo in db.SGI_Tarea_Calificar_ObsGrupo on cali.id_tramitetarea equals grupo.id_tramitetarea
                                                   join docs in db.SGI_Tarea_Calificar_ObsDocs on grupo.id_ObsGrupo equals docs.id_ObsGrupo
                                                   where listGrup.Contains(tar.id_solicitud) && tar.id_solicitud == row.id_solicitud
@@ -1167,10 +1166,8 @@ namespace SGI
                         {
 
 
-                            var countObservaciones = (from tram in db.SGI_Tramites_Tareas
-                                                      join tar in db.SGI_Tramites_Tareas_TRANSF on tram.id_tramitetarea equals tar.id_tramitetarea
-                                                      join cali in db.SGI_Tarea_Calificar on tram.id_tramitetarea equals cali.id_tramitetarea
-                                                      join grupo in db.SGI_Tarea_Calificar_ObsGrupo on cali.id_tramitetarea equals grupo.id_tramitetarea
+                            var countObservaciones = (from tar in db.SGI_Tramites_Tareas_TRANSF
+                                                      join grupo in db.SGI_Tarea_Calificar_ObsGrupo on tar.id_tramitetarea equals grupo.id_tramitetarea
                                                       join docs in db.SGI_Tarea_Calificar_ObsDocs on grupo.id_ObsGrupo equals docs.id_ObsGrupo
                                                       where listGrupTRN.Contains(tar.id_solicitud) && tar.id_solicitud == row.id_solicitud
                                                       select docs.Observacion_ObsDocs).Count();
