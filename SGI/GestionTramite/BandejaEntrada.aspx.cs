@@ -1089,21 +1089,6 @@ namespace SGI
                 if (arrSolicitudesTRNuevas.Length > 0)
                     lstDireccionesTR.AddRange(Shared.GetDireccionesTRNuevas(arrSolicitudesTRNuevas));
 
-                var listResult = (from r in resultados
-                                  select r.id_solicitud).ToList();
-
-
-                var listGrup = (from g in db.SGI_Tarea_Calificar_ObsGrupo
-                                join tt in db.SGI_Tramites_Tareas_HAB on g.id_tramitetarea equals tt.id_tramitetarea
-                                where listResult.Contains(tt.id_solicitud)
-                                select tt.id_solicitud).ToList();
-
-
-
-                var listGrupTRN = (from g in db.SGI_Tarea_Calificar_ObsGrupo
-                                   join tt in db.SGI_Tramites_Tareas_TRANSF on g.id_tramitetarea equals tt.id_tramitetarea
-                                   where listResult.Contains(tt.id_solicitud)
-                                   select tt.id_solicitud).ToList();
                 //------------------------------------------------------------------------
                 //Rellena la clase a devolver con los datos que faltaban (Direccion, dias transcurrido)
                 //------------------------------------------------------------------------
@@ -1115,10 +1100,9 @@ namespace SGI
                     {
                         itemDireccion = lstDireccionesENC.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
                         var countObservaciones = (from tar in db.SGI_Tramites_Tareas_HAB
-                                                  join cali in db.SGI_Tarea_Calificar on tar.id_tramitetarea equals cali.id_tramitetarea
-                                                  join grupo in db.SGI_Tarea_Calificar_ObsGrupo on cali.id_tramitetarea equals grupo.id_tramitetarea
+                                                  join grupo in db.SGI_Tarea_Calificar_ObsGrupo on tar.id_tramitetarea equals grupo.id_tramitetarea
                                                   join docs in db.SGI_Tarea_Calificar_ObsDocs on grupo.id_ObsGrupo equals docs.id_ObsGrupo
-                                                  where listGrup.Contains(tar.id_solicitud) && tar.id_solicitud == row.id_solicitud
+                                                  where tar.id_solicitud == row.id_solicitud
                                                   select docs.Observacion_ObsDocs).Count();
                         if (countObservaciones > 0)
                             row.cant_observaciones = countObservaciones;
@@ -1164,12 +1148,10 @@ namespace SGI
 
                         if (row.id_solicitud > nroTrReferencia)
                         {
-
-
                             var countObservaciones = (from tar in db.SGI_Tramites_Tareas_TRANSF
                                                       join grupo in db.SGI_Tarea_Calificar_ObsGrupo on tar.id_tramitetarea equals grupo.id_tramitetarea
                                                       join docs in db.SGI_Tarea_Calificar_ObsDocs on grupo.id_ObsGrupo equals docs.id_ObsGrupo
-                                                      where listGrupTRN.Contains(tar.id_solicitud) && tar.id_solicitud == row.id_solicitud
+                                                      where tar.id_solicitud == row.id_solicitud
                                                       select docs.Observacion_ObsDocs).Count();
 
                             if (countObservaciones > 0)
