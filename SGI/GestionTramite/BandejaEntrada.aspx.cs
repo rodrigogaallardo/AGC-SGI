@@ -1099,11 +1099,14 @@ namespace SGI
                     if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
                     {
                         itemDireccion = lstDireccionesENC.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
+                                                               
                         var countObservaciones = (from tar in db.SGI_Tramites_Tareas_HAB
-                                                  join grupo in db.SGI_Tarea_Calificar_ObsGrupo on tar.id_tramitetarea equals grupo.id_tramitetarea
-                                                  join docs in db.SGI_Tarea_Calificar_ObsDocs on grupo.id_ObsGrupo equals docs.id_ObsGrupo
+                                                  join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
+                                                  join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea 
                                                   where tar.id_solicitud == row.id_solicitud
-                                                  select docs.Observacion_ObsDocs).Count();
+                                                  && eng.nombre_tarea == "Corrección de la Solicitud"
+                                                  select eng.nombre_tarea).Count();
+
                         if (countObservaciones > 0)
                             row.cant_observaciones = countObservaciones;
                         var enc = db.Encomienda_SSIT_Solicitudes.Where(x => x.id_solicitud == row.id_solicitud &&
@@ -1149,10 +1152,11 @@ namespace SGI
                         if (row.id_solicitud > nroTrReferencia)
                         {
                             var countObservaciones = (from tar in db.SGI_Tramites_Tareas_TRANSF
-                                                      join grupo in db.SGI_Tarea_Calificar_ObsGrupo on tar.id_tramitetarea equals grupo.id_tramitetarea
-                                                      join docs in db.SGI_Tarea_Calificar_ObsDocs on grupo.id_ObsGrupo equals docs.id_ObsGrupo
+                                                      join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
+                                                      join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea
                                                       where tar.id_solicitud == row.id_solicitud
-                                                      select docs.Observacion_ObsDocs).Count();
+                                                      && eng.nombre_tarea == "Corrección de la Solicitud"
+                                                      select eng.nombre_tarea).Count();
 
                             if (countObservaciones > 0)
                                 row.cant_observaciones = countObservaciones;
