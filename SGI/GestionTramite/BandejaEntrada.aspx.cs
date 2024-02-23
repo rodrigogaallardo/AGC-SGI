@@ -1089,14 +1089,6 @@ namespace SGI
                 if (arrSolicitudesTRNuevas.Length > 0)
                     lstDireccionesTR.AddRange(Shared.GetDireccionesTRNuevas(arrSolicitudesTRNuevas));
 
-                var listGrup = (from g in db.SGI_Tarea_Calificar_ObsGrupo
-                                join tt in db.SGI_Tramites_Tareas_HAB on g.id_tramitetarea equals tt.id_tramitetarea
-                                select new { tt.id_solicitud }).ToList();
-
-                
-                var listGrupTRN = (from g in db.SGI_Tarea_Calificar_ObsGrupo
-                                   join tt in db.SGI_Tramites_Tareas_TRANSF on g.id_tramitetarea equals tt.id_tramitetarea
-                                   select new { tt.id_solicitud }).ToList();
                 //------------------------------------------------------------------------
                 //Rellena la clase a devolver con los datos que faltaban (Direccion, dias transcurrido)
                 //------------------------------------------------------------------------
@@ -1107,9 +1099,16 @@ namespace SGI
                     if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
                     {
                         itemDireccion = lstDireccionesENC.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
-                        int count = listGrup.Count(x => x.id_solicitud == row.id_solicitud);
-                        if (count > 0)
-                            row.cant_observaciones = count;
+                                                               
+                        var countObservaciones = (from tar in db.SGI_Tramites_Tareas_HAB
+                                                  join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
+                                                  join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea 
+                                                  where tar.id_solicitud == row.id_solicitud
+                                                  && eng.nombre_tarea == "Corrección de la Solicitud"
+                                                  select eng.nombre_tarea).Count();
+
+                        if (countObservaciones > 0)
+                            row.cant_observaciones = countObservaciones;
                         var enc = db.Encomienda_SSIT_Solicitudes.Where(x => x.id_solicitud == row.id_solicitud &&
                                    x.Encomienda.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).
                                    OrderByDescending(x => x.Encomienda.id_encomienda).Select(x => x.Encomienda).FirstOrDefault();
@@ -1152,11 +1151,15 @@ namespace SGI
 
                         if (row.id_solicitud > nroTrReferencia)
                         {
-                            
+                            var countObservaciones = (from tar in db.SGI_Tramites_Tareas_TRANSF
+                                                      join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
+                                                      join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea
+                                                      where tar.id_solicitud == row.id_solicitud
+                                                      && eng.nombre_tarea == "Corrección de la Solicitud"
+                                                      select eng.nombre_tarea).Count();
 
-                            int count = listGrupTRN.Count(x => x.id_solicitud == row.id_solicitud);
-                            if (count > 0)
-                                row.cant_observaciones = count;
+                            if (countObservaciones > 0)
+                                row.cant_observaciones = countObservaciones;
 
                             var enc = db.Encomienda_Transf_Solicitudes.Where(x => x.id_solicitud == row.id_solicitud &&
                                        x.Encomienda.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).
