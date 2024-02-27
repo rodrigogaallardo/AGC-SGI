@@ -2418,11 +2418,25 @@ namespace SGI.ABM.Ubicaciones
             {
                 try
                 {
-                    int existe = GetIdTempPendienteNroPartida(UbiNroPartida);
-                    if (existe > 0)
+                    int existeTemp = GetIdTempPendienteNroPartida(UbiNroPartida);
+                    if (existeTemp > 0)
                     {
                         txtNroPartida.Text = "";
                         throw new Exception("Ya existe una Ubicacion en proceso con el mismo Nro de PartidaMatriz");
+                    }
+
+                    using (var ctx = new DGHP_Entities()) 
+                    {
+                        var exist = (from ubic in ctx.Ubicaciones
+                                     where ubic.NroPartidaMatriz == UbiNroPartida
+                                     && ubic.baja_logica == false
+                                     select ubic.id_ubicacion);
+
+                        if(exist != null && exist.Count() > 0)
+                        {
+                            txtNroPartida.Text = "";
+                            throw new Exception("Ya existe una ubicacion con el mismo Nro de PartidaMatriz");
+                        }
                     }
                 }
                 catch (Exception ex)
