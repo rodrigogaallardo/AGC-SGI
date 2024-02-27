@@ -368,9 +368,9 @@ namespace SGI.ABM
                 }
 
                 await ucListaDocumentos.LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
-                ucCabecera.LoadData(id_grupotramite, id_solicitud);                
-                updResultados.Update();
-               
+                ucCabecera.LoadData(id_grupotramite, id_solicitud);
+                //updResultados.Update(); Se comento porque no deja generar cargas multiples - Ticket 2250
+
                 string mensaje = "El documento \"" + this.NombreArchivoOriginal + "\" se ha adjuntado correctamente.";
                 mensaje = System.Web.HttpUtility.HtmlEncode(mensaje);
                 string script = string.Format("tda_mostrar_mensaje('{0}','{1}');", mensaje, "Aviso");
@@ -522,7 +522,7 @@ namespace SGI.ABM
                 }
                 await ucListaDocumentos .LoadData(id_grupotramite, id_solicitud, true, (int)Constants.TiposDeDocumentosSistema.PRESENTACION_A_AGREGAR);
                 ucCabecera.LoadData(id_grupotramite, id_solicitud);
-                updResultados.Update();
+                //updResultados.Update(); Se comento porque no deja generar cargas multiples - Ticket 2250
             }
         }
  
