@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Agregar Presentacion a agregar" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AgregarPA.aspx.cs" Inherits="SGI.ABM.AgregarPA" %>
+﻿<%@ Page Title="Agregar Presentacion a agregar" Async="true"Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AgregarPA.aspx.cs" Inherits="SGI.ABM.AgregarPA" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
