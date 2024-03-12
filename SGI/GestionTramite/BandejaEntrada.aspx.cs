@@ -15,7 +15,7 @@ using System.IO;
 using System.Text;
 using SGI.Controls;
 using System.Data.Entity;
-
+using System.Data;
 
 namespace SGI
 {
@@ -260,7 +260,7 @@ namespace SGI
             ddlTarea.Items.FindByValue((string)ViewState["tarea"]).Selected = true;
             grdBandeja.DataBind();
             //updBandejaPropia.Update();
-        }
+        }        
         protected void ddlTareaAsignacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddlTareaAsignacion = (DropDownList)sender;
@@ -611,17 +611,17 @@ namespace SGI
                         nombre_resultado = (from tt in db.SGI_Tramites_Tareas
                                             join ttt in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals ttt.id_tramitetarea
                                             join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
-                                            where ttt.id_solicitud == sol.id_solicitud 
+                                            where ttt.id_solicitud == sol.id_solicitud
                                                && ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_HAB
                                                                           join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
                                                                           join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
-                                                                          where t2.id_solicitud == ttt.id_solicitud 
-                                                                          && t2.id_tramitetarea < tramite_tareas.id_tramitetarea 
+                                                                          where t2.id_solicitud == ttt.id_solicitud
+                                                                          && t2.id_tramitetarea < tramite_tareas.id_tramitetarea
                                                                           && new[] {"01", "10"}.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
                                                                           select t2.id_tramitetarea).Max()
                                             select r.nombre_resultado).FirstOrDefault()
 
-        }).Distinct();
+                    }).Distinct();
 
             #endregion
 
@@ -682,21 +682,21 @@ namespace SGI
                        nombre_resultado = (from tt in db.SGI_Tramites_Tareas
                                            join ttt in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals ttt.id_tramitetarea
                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
-                                           where ttt.id_cpadron == sol.id_cpadron 
+                                           where ttt.id_cpadron == sol.id_cpadron
                                               && ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_CPADRON
                                                                          join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
                                                                          join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
-                                                                         where t2.id_cpadron == ttt.id_cpadron 
-                                                                         && t2.id_tramitetarea < tramite_tareas.id_tramitetarea 
+                                                                         where t2.id_cpadron == ttt.id_cpadron
+                                                                         && t2.id_tramitetarea < tramite_tareas.id_tramitetarea
                                                                          && new[] {"01", "10"}.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
                                                                          select t2.id_tramitetarea).Max()
                                            select r.nombre_resultado).FirstOrDefault()
 
-        }).Distinct();
+                   }).Distinct();
             #endregion
 
 
-          
+
             // Bandeja de datos Transferencias
             #region "Consulta Transferencias"
 
@@ -757,12 +757,12 @@ namespace SGI
                        nombre_resultado = (from tt in db.SGI_Tramites_Tareas
                                            join ttt in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals ttt.id_tramitetarea
                                            join r in db.ENG_Resultados on tt.id_resultado equals r.id_resultado
-                                           where ttt.id_solicitud == sol.id_solicitud 
+                                           where ttt.id_solicitud == sol.id_solicitud
                                               && ttt.id_tramitetarea == (from t2 in db.SGI_Tramites_Tareas_TRANSF
                                                                          join tt2 in db.SGI_Tramites_Tareas on t2.id_tramitetarea equals tt2.id_tramitetarea
                                                                          join ta2 in db.ENG_Tareas on tt2.id_tarea equals ta2.id_tarea
-                                                                         where t2.id_solicitud == ttt.id_solicitud 
-                                                                         && t2.id_tramitetarea < tramite_tareas.id_tramitetarea 
+                                                                         where t2.id_solicitud == ttt.id_solicitud
+                                                                         && t2.id_tramitetarea < tramite_tareas.id_tramitetarea
                                                                          && new[] {"01", "10"}.Contains(ta2.cod_tarea.ToString().Substring(ta2.cod_tarea.ToString().Length - 2, 2))
                                                                          select t2.id_tramitetarea).Max()
                                            select r.nombre_resultado).FirstOrDefault()
@@ -810,7 +810,7 @@ namespace SGI
                                 cir.id_circuito,
                                 cir.cod_circuito
                             }).ToList().Distinct();
-
+            //query trae las tareas del usuario
             var qTarea = qTareaENC.Union(qTareaCP).Union(qTareaTR).ToList().Distinct();
 
             //cargar combos tipo de tramite
@@ -845,7 +845,6 @@ namespace SGI
             {
                 ddlTipoTramite.Items[0].Selected = true;
             }
-
             if (ddlTipoTramite.SelectedItem.Value != "0")
             {
                 int idTipoTramite = int.Parse(ddlTipoTramite.SelectedValue);
@@ -860,6 +859,7 @@ namespace SGI
                        select res);
             }
 
+
             List<ENG_Tareas> lstTareas = new List<ENG_Tareas>();
             var itarea = new ENG_Tareas();
             itarea.id_tarea = 0;
@@ -867,71 +867,151 @@ namespace SGI
             lstTareas.Add(itarea);
 
             var filtroTarea = qTarea;
-
             if (ddlTipoTramite.SelectedItem.Value != "0")
             {
                 filtroTarea = qTarea.Where(x => x.id_tipoTramite == Convert.ToInt32(ViewState["tipoTramite"].ToString())).ToList();
             }
-
-            foreach (var item in filtroTarea)
+            List<SGI_Perfiles> perfiles_usuario;
+            using (var transaction = db.Database.BeginTransaction(IsolationLevel.ReadCommitted))
             {
-                itarea = new ENG_Tareas();
-                itarea.id_tarea = item.id_tarea;
-
-                var grupo = db.ENG_Rel_Circuitos_TiposDeTramite.Where(x => x.id_circuito == item.id_circuito).FirstOrDefault();
-                if (grupo != null && grupo.id_grupo_circuito != null)
-                    itarea.nombre_tarea = grupo.ENG_Grupos_Circuitos.cod_grupo_circuito + " - " + item.nombre_tarea;
-                else
-                    itarea.nombre_tarea = item.cod_circuito + " - " + item.nombre_tarea;
-
-                itarea.id_circuito = item.id_circuito;
-                lstTareas.Add(itarea);
+                perfiles_usuario = db.aspnet_Users.FirstOrDefault(x => x.UserId == userid).SGI_PerfilesUsuarios.ToList();
+                transaction.Rollback();
             }
 
-            ddlTarea.DataSource = lstTareas;
-            ddlTarea.DataTextField = "nombre_tarea";
-            ddlTarea.DataValueField = "id_tarea";
-            ddlTarea.DataBind();
+            bool perfilEncontrado = false;
 
-            if (ViewState["tarea"] != null)
-            {
-                string t = ViewState["tarea"].ToString();
-                ddlTarea.Items.FindByValue(t).Selected = true;
+            foreach (var perfil in perfiles_usuario)
+            { 
+                if (perfil.nombre_perfil == "DGFyC_AVH" || perfil.nombre_perfil == "DGFyC_AVH_VERIFICACION" || perfil.nombre_perfil == "DGFyC_Rechazos")
+                {               
+                    perfilEncontrado = true;
+                    break;
+                }
+                
             }
-            else
+                if (perfilEncontrado)
             {
-                ddlTarea.Items[0].Selected = true;
-            }
+                var lisTarea = filtroTarea.GroupBy(x => new { x.nombre_tarea }).Select(group => new { id_tarea = group.First().id_tarea, nombre_tarea = group.Key.nombre_tarea }).OrderBy(x => x.nombre_tarea).ToList();
 
-            if (ddlTarea.SelectedItem.Value != "0")
-            {
-                if (ddlTipoTramite.SelectedItem.Value == "0")
+                foreach (var item in lisTarea)
                 {
-                    int id_tar = int.Parse(ddlTarea.SelectedValue);
-                    qENC = (from res in qENC
-                            where res.id_tarea == id_tar
-                            select res);
-                    qCP = (from res in qCP
-                           where res.id_tarea == id_tar
-                           select res);
-                    qTR = (from res in qTR
-                           where res.id_tarea == id_tar
-                           select res);
+                    itarea = new ENG_Tareas();
+                    itarea.id_tarea = item.id_tarea;
+                    itarea.nombre_tarea = item.nombre_tarea;
+                    lstTareas.Add(itarea);
+                }
+
+                ddlTarea.DataSource = lstTareas;
+                ddlTarea.DataTextField = "nombre_tarea";
+                ddlTarea.DataValueField = "id_tarea";
+                ddlTarea.DataBind();
+
+                //valor del combo de Tarea
+                if (ViewState["tarea"] != null)
+                {
+                    string t = ViewState["tarea"].ToString();
+                    ddlTarea.Items.FindByValue(t).Selected = true;
                 }
                 else
                 {
-                    int id_tar = int.Parse(ddlTarea.SelectedValue);
-                    qENC = (from res in qENC
-                            where res.id_tarea == id_tar
-                            select res);
-                    qCP = (from res in qCP
-                           where res.id_tarea == id_tar
-                           select res);
-                    qTR = (from res in qTR
-                           where res.id_tarea == id_tar
-                           select res);
+                    ddlTarea.Items[0].Selected = true;
+                }
+                //Aca ingresa la idea tarea
+                if (ddlTarea.SelectedItem.Value != "0")
+                {
+                    if (ddlTipoTramite.SelectedItem.Value == "0")
+                    {
+                        string nombre_tar = ddlTarea.SelectedItem.Text;
+                        qENC = (from res in qENC
+                                where res.nombre_tarea == nombre_tar
+                                select res);
+                        qCP = (from res in qCP
+                               where res.nombre_tarea == nombre_tar
+                               select res);
+                        qTR = (from res in qTR
+                               where res.nombre_tarea == nombre_tar
+                               select res);
+                    }
+                    else
+                    {
+                        string nombre_tar = ddlTarea.SelectedItem.Text;
+                        qENC = (from res in qENC
+                                where res.nombre_tarea == nombre_tar
+                                select res);
+                        qCP = (from res in qCP
+                               where res.nombre_tarea == nombre_tar
+                               select res);
+                        qTR = (from res in qTR
+                               where res.nombre_tarea == nombre_tar
+                               select res);
+                    }
+                }
+            }
+            else{
+                if (ddlTipoTramite.SelectedItem.Value != "0")
+                {
+                    filtroTarea = qTarea.Where(x => x.id_tipoTramite == Convert.ToInt32(ViewState["tipoTramite"].ToString())).ToList();
                 }
 
+                foreach (var item in filtroTarea)
+                {
+                    itarea = new ENG_Tareas();
+                    itarea.id_tarea = item.id_tarea;
+
+                    var grupo = db.ENG_Rel_Circuitos_TiposDeTramite.Where(x => x.id_circuito == item.id_circuito).FirstOrDefault();
+                    if (grupo != null && grupo.id_grupo_circuito != null)
+                        itarea.nombre_tarea = grupo.ENG_Grupos_Circuitos.cod_grupo_circuito + " - " + item.nombre_tarea;
+                    else
+                        itarea.nombre_tarea = item.cod_circuito + " - " + item.nombre_tarea;
+
+                    itarea.id_circuito = item.id_circuito;
+                    lstTareas.Add(itarea);
+                }
+
+                ddlTarea.DataSource = lstTareas;
+                ddlTarea.DataTextField = "nombre_tarea";
+                ddlTarea.DataValueField = "id_tarea";
+                ddlTarea.DataBind();
+
+                if (ViewState["tarea"] != null)
+                {
+                    string t = ViewState["tarea"].ToString();
+                    ddlTarea.Items.FindByValue(t).Selected = true;
+                }
+                else
+                {
+                    ddlTarea.Items[0].Selected = true;
+                }
+                if (ddlTarea.SelectedItem.Value != "0")
+                {
+                    if (ddlTipoTramite.SelectedItem.Value == "0")
+                    {
+                        int id_tar = int.Parse(ddlTarea.SelectedValue);
+                        qENC = (from res in qENC
+                                where res.id_tarea == id_tar
+                                select res);
+                        qCP = (from res in qCP
+                               where res.id_tarea == id_tar
+                               select res);
+                        qTR = (from res in qTR
+                               where res.id_tarea == id_tar
+                               select res);
+                    }
+                    else
+                    {
+                        int id_tar = int.Parse(ddlTarea.SelectedValue);
+                        qENC = (from res in qENC
+                                where res.id_tarea == id_tar
+                                select res);
+                        qCP = (from res in qCP
+                               where res.id_tarea == id_tar
+                               select res);
+                        qTR = (from res in qTR
+                               where res.id_tarea == id_tar
+                               select res);
+                    }
+
+                }
             }
 
             if (ViewState["asignado"] != null)
@@ -973,7 +1053,6 @@ namespace SGI
                 }
 
             }
-
 
             AddQueryFinal(qENC, ref qFinal);
             AddQueryFinal(qCP, ref qFinal);
