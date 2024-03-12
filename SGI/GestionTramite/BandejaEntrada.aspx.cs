@@ -1178,10 +1178,11 @@ namespace SGI
                     if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
                     {
                         itemDireccion = lstDireccionesENC.FirstOrDefault(x => x.id_solicitud == row.id_solicitud);
-                                                               
+
+
                         var countObservaciones = (from tar in db.SGI_Tramites_Tareas_HAB
                                                   join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
-                                                  join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea 
+                                                  join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea
                                                   where tar.id_solicitud == row.id_solicitud
                                                   && eng.nombre_tarea == "Corrección de la Solicitud"
                                                   select eng.nombre_tarea).Count();
