@@ -197,8 +197,35 @@ namespace SGI.GestionTramite.Tareas.Transferencias
                 if (!hayProcesosGenerados)
                 {
                     this.db.SGI_Tarea_Verificacion_DGFyC_GenerarProcesos(this.TramiteTarea, ucResultadoTarea.getIdProximaTarea(), userid);
-                    ucResultadoTarea.btnFinalizar_Enabled = false;
-                    ucProcesosSADE.cargarDatosProcesos(this.TramiteTarea, true);
+                    if (db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0)
+                    {
+                        ucResultadoTarea.btnFinalizar_Enabled = false;
+                        ucProcesosSADE.cargarDatosProcesos(this.TramiteTarea, true);
+                    }
+                    else
+                    {
+                        using (DbContextTransaction Tran = db.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                        {
+                            try
+                            {
+                                Guardar_tarea(this.TramiteTarea, ucObservacionesTarea.Text, userid);
+                                db.SaveChanges();
+                                id_tramitetarea_nuevo = ucResultadoTarea.FinalizarTarea();
+                                Tran.Commit();
+                                Tran.Dispose();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (Tran != null)
+                                    Tran.Dispose();
+                                LogError.Write(ex, "error en transaccion. pvd-ucResultadoTarea_FinalizarTareaClick");
+                                throw ex;
+                            }
+                            FinalizarEntity();
+                            Enviar_Mensaje("Se ha finalizado la tarea.", "");
+                            Redireccionar_VisorTramite();
+                        }
+                    }
                 }
                 else if (Functions.EsForzarTarasSade() || !ucProcesosSADE.hayProcesosPendientesSADE(this.TramiteTarea))
                 {
