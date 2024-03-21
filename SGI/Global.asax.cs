@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Optimization;
@@ -35,5 +36,31 @@ namespace SGI
         {
             // Código que se ejecuta cuando se inicia una nueva sesión
         }
+
+        public void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            Debug.WriteLine(Request.InputStream.CanRead, "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+            // Esto sirve para que cuando redirigen con el token autologuea
+            if (Request.Form["usuario_perfil"] != null)
+            {
+                string returnUrl = Request.Url.AbsoluteUri;
+
+                Account.AuthenticateMIAgc auth = new Account.AuthenticateMIAgc();
+                auth.ReadData();
+                if(auth.ReadData() != "ok")
+                {
+                    Response.StatusCode = 400; // Bad Request
+                    Response.Write(auth.ReadData());
+                    Response.End(); // Terminar la respuesta
+                }
+                else
+                {
+                    Response.Redirect(returnUrl);
+                }
+
+            }
+
+        }
+
     }
 }

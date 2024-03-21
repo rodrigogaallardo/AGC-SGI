@@ -380,6 +380,7 @@
         public DbSet<Calles_Eliminadas> Calles_Eliminadas { get; set; }
         public DbSet<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
         public DbSet<SGI_Tipos_Planos_Incendio> SGI_Tipos_Planos_Incendio { get; set; }
+        public DbSet<aspnet_token_usuario> aspnet_token_usuario { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
