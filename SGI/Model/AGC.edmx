@@ -3090,6 +3090,18 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="SGI_Tarea_Verificacion_DGFyC">
+          <Key>
+            <PropertyRef Name="id_verificacion_DGFyC" />
+          </Key>
+          <Property Name="id_verificacion_DGFyC" Type="int" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="int" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="2000" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="LastUpdateUser" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="SGI_Tarea_Verificacion_IFCI">
           <Key>
             <PropertyRef Name="id_verificacion_IFCI" />
@@ -12131,6 +12143,18 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Verificacion_DGFyC_SGI_Tramites_Tareas">
+          <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Role="SGI_Tarea_Verificacion_DGFyC" Type="Self.SGI_Tarea_Verificacion_DGFyC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Verificacion_DGFyC">
+              <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_wsEscribanos_ActaNotarial_Encomienda">
           <End Role="Encomienda" Type="Self.Encomienda" Multiplicity="1" />
           <End Role="wsEscribanos_ActaNotarial" Type="Self.wsEscribanos_ActaNotarial" Multiplicity="*" />
@@ -15622,6 +15646,17 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="id_proxima_tarea" Type="int" Mode="In" />
           <Parameter Name="userid" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="SGI_Tarea_Verificacion_DGFyC_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_verificacion_DGFyC" Type="int" Mode="In" />
+          <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
+          <Parameter Name="Observaciones" Type="nvarchar" Mode="In" />
+          <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="SGI_Tarea_Verificacion_DGFyC_GenerarProcesos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
+          <Parameter Name="id_proxima_tarea" Type="int" Mode="In" />
+          <Parameter Name="userid" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="SGI_Tarea_Visado_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_visado" Type="int" Mode="In" />
           <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
@@ -17361,6 +17396,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SGI_Tarea_Transicion_Enviar_DGFYCO" EntityType="Self.SGI_Tarea_Transicion_Enviar_DGFYCO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Validar_Zonificacion" EntityType="Self.SGI_Tarea_Validar_Zonificacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Verificacion_AVH" EntityType="Self.SGI_Tarea_Verificacion_AVH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Tarea_Verificacion_DGFyC" EntityType="Self.SGI_Tarea_Verificacion_DGFyC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Verificacion_IFCI" EntityType="Self.SGI_Tarea_Verificacion_IFCI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Visado" EntityType="Self.SGI_Tarea_Visado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tareas_Pases_Sectores" EntityType="Self.SGI_Tareas_Pases_Sectores" Schema="dbo" store:Type="Tables" />
@@ -17630,7 +17666,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
     [CAA_TiposDeCertificados].[nombre_tipocertificado] AS [nombre_tipocertificado], 
     [CAA_TiposDeCertificados].[descripcion_tipocertificado] AS [descripcion_tipocertificado], 
     [CAA_TiposDeCertificados].[id_ImactoAmbiental] AS [id_ImactoAmbiental], 
-    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos]
+    [CAA_TiposDeCertificados].[puntaje_para_peligrosos] AS [puntaje_para_peligrosos] 
     FROM [dbo].[CAA_TiposDeCertificados] AS [CAA_TiposDeCertificados]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Files" EntityType="Self.Files" store:Type="Views" store:Schema="dbo">
@@ -20030,6 +20066,10 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <AssociationSet Name="FK_Usuario_aspnet_Users" Association="Self.FK_Usuario_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Verificacion_DGFyC_SGI_Tramites_Tareas" Association="Self.FK_Verificacion_DGFyC_SGI_Tramites_Tareas">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Verificacion_DGFyC" EntitySet="SGI_Tarea_Verificacion_DGFyC" />
           </AssociationSet>
           <AssociationSet Name="FK_wsEscribanos_ActaNotarial_Encomienda" Association="Self.FK_wsEscribanos_ActaNotarial_Encomienda">
             <End Role="Encomienda" EntitySet="Encomienda" />
@@ -28465,6 +28505,22 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
+          <EntitySet Name="SGI_Tarea_Verificacion_DGFyC" EntityType="DGHP_Model.SGI_Tarea_Verificacion_DGFyC" />
+          <AssociationSet Name="FK_Verificacion_DGFyC_SGI_Tramites_Tareas" Association="DGHP_Model.FK_Verificacion_DGFyC_SGI_Tramites_Tareas">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Verificacion_DGFyC" EntitySet="SGI_Tarea_Verificacion_DGFyC" />
+          </AssociationSet>
+		  <FunctionImport Name="SGI_Tarea_Verificacion_DGFyC_Actualizar">
+            <Parameter Name="id_verificacion_DGFyC" Mode="In" Type="Int32" />
+            <Parameter Name="id_tramitetarea" Mode="In" Type="Int32" />
+            <Parameter Name="Observaciones" Mode="In" Type="String" />
+            <Parameter Name="userId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="SGI_Tarea_Verificacion_DGFyC_GenerarProcesos">
+            <Parameter Name="id_tramitetarea" Mode="In" Type="Int32" />
+            <Parameter Name="id_proxima_tarea" Mode="In" Type="Int32" />
+            <Parameter Name="userid" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -32002,6 +32058,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SGI_Tarea_Enviar_Procuracion" Relationship="DGHP_Model.FK_SGI_Tarea_Enviar_Procuracion_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Enviar_Procuracion" />
           <NavigationProperty Name="SGI_Tarea_Verificacion_IFCI" Relationship="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Verificacion_IFCI" />
           <NavigationProperty Name="SGI_Tarea_Transicion_Enviar_DGFYCO" Relationship="DGHP_Model.FK__SGI_Tarea__id_tr__0AE752FE" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Transicion_Enviar_DGFYCO" />
+          <NavigationProperty Name="SGI_Tarea_Verificacion_DGFyC" Relationship="DGHP_Model.FK_Verificacion_DGFyC_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Verificacion_DGFyC" />
         </EntityType>
         <Association Name="FK_SGI_Tramites_Tareas_aspnet_Users">
           <End Type="DGHP_Model.aspnet_Users" Multiplicity="0..1" Role="aspnet_Users" />
@@ -43357,6 +43414,31 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SGI_Tarea_Verificacion_DGFyC">
+          <Key>
+            <PropertyRef Name="id_verificacion_DGFyC" />
+          </Key>
+          <Property Name="id_verificacion_DGFyC" Type="Int32" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="Int32" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdateUser" Type="Guid" />
+          <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_Verificacion_DGFyC_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Verificacion_DGFyC" ToRole="SGI_Tramites_Tareas" />
+        </EntityType>
+        <Association Name="FK_Verificacion_DGFyC_SGI_Tramites_Tareas">
+          <End Type="DGHP_Model.SGI_Tramites_Tareas" Role="SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Type="DGHP_Model.SGI_Tarea_Verificacion_DGFyC" Role="SGI_Tarea_Verificacion_DGFyC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Verificacion_DGFyC">
+              <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -51223,7 +51305,21 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          
+          <EntitySetMapping Name="SGI_Tarea_Verificacion_DGFyC">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Verificacion_DGFyC">
+              <MappingFragment StoreEntitySet="SGI_Tarea_Verificacion_DGFyC">
+                <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="id_tramitetarea" ColumnName="id_tramitetarea" />
+                <ScalarProperty Name="id_verificacion_DGFyC" ColumnName="id_verificacion_DGFyC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_DGFyC_Actualizar" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_DGFyC_Actualizar" />
+          <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_DGFyC_GenerarProcesos" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_DGFyC_GenerarProcesos" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
