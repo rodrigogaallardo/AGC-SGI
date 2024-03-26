@@ -380,6 +380,7 @@
         public DbSet<Calles_Eliminadas> Calles_Eliminadas { get; set; }
         public DbSet<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
         public DbSet<SGI_Tipos_Planos_Incendio> SGI_Tipos_Planos_Incendio { get; set; }
+        public DbSet<SGI_Tarea_Verificacion_DGFyC> SGI_Tarea_Verificacion_DGFyC { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
@@ -20288,6 +20289,44 @@
                 new ObjectParameter("userid", typeof(System.Guid));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_IFCI_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
+        }
+
+        public virtual int SGI_Tarea_Verificacion_DGFyC_Actualizar(Nullable<int> id_verificacion_DGFyC, Nullable<int> id_tramitetarea, string observaciones, Nullable<System.Guid> userId)
+        {
+            var id_verificacion_DGFyCParameter = id_verificacion_DGFyC.HasValue ?
+                new ObjectParameter("id_verificacion_DGFyC", id_verificacion_DGFyC) :
+                new ObjectParameter("id_verificacion_DGFyC", typeof(int));
+
+            var id_tramitetareaParameter = id_tramitetarea.HasValue ?
+                new ObjectParameter("id_tramitetarea", id_tramitetarea) :
+                new ObjectParameter("id_tramitetarea", typeof(int));
+
+            var observacionesParameter = observaciones != null ?
+                new ObjectParameter("Observaciones", observaciones) :
+                new ObjectParameter("Observaciones", typeof(string));
+
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(System.Guid));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_DGFyC_Actualizar", id_verificacion_DGFyCParameter, id_tramitetareaParameter, observacionesParameter, userIdParameter);
+        }
+
+        public virtual int SGI_Tarea_Verificacion_DGFyC_GenerarProcesos(Nullable<int> id_tramitetarea, Nullable<int> id_proxima_tarea, Nullable<System.Guid> userid)
+        {
+            var id_tramitetareaParameter = id_tramitetarea.HasValue ?
+                new ObjectParameter("id_tramitetarea", id_tramitetarea) :
+                new ObjectParameter("id_tramitetarea", typeof(int));
+
+            var id_proxima_tareaParameter = id_proxima_tarea.HasValue ?
+                new ObjectParameter("id_proxima_tarea", id_proxima_tarea) :
+                new ObjectParameter("id_proxima_tarea", typeof(int));
+
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(System.Guid));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_DGFyC_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
         }
     }
 }
