@@ -562,9 +562,14 @@ namespace SGI
                     join tramite_tareas_HAB in db.SGI_Tramites_Tareas_HAB on tramite_tareas.id_tramitetarea equals tramite_tareas_HAB.id_tramitetarea
                     join tarea in db.ENG_Tareas on tramite_tareas.id_tarea equals tarea.id_tarea
                     join sol in db.SSIT_Solicitudes on tramite_tareas_HAB.id_solicitud equals sol.id_solicitud
-                    where perfiles.Contains(perfiles_tareas.id_perfil)
+                    where 
+
+                        ((perfiles.Contains(perfiles_tareas.id_perfil)                        
+                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null))
+                        ||
+                        (tramite_tareas.UsuarioAsignado_tramitetarea == userid))
+
                         && tramite_tareas.FechaCierre_tramitetarea == null
-                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
                         && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
                         && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                     // && enc.FechaEncomienda == (from en in db.Encomienda where en.Encomienda_SSIT_Solicitudes.FirstOrDefault().id_solicitud == sol.id_solicitud && en.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo select en.FechaEncomienda).Max()
@@ -634,12 +639,16 @@ namespace SGI
                    join sol in db.CPadron_Solicitudes on tramite_tareas_CP.id_cpadron equals sol.id_cpadron
                    join eDatos in db.CPadron_DatosLocal on sol.id_cpadron equals eDatos.id_cpadron into zr
                    from ed in zr.DefaultIfEmpty()
+                       
+                     
+                   where ((perfiles.Contains(perfiles_tareas.id_perfil)
+                    && (tramite_tareas.UsuarioAsignado_tramitetarea == null))
+                    ||
+                    (tramite_tareas.UsuarioAsignado_tramitetarea == userid))
 
-                   where perfiles.Contains(perfiles_tareas.id_perfil)
-                       && tramite_tareas.FechaCierre_tramitetarea == null
-                       && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                       && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
-                       && sol.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
+                    && tramite_tareas.FechaCierre_tramitetarea == null
+                    && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
+                    && sol.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
                    select new clsItemBandejaEntrada
                    {
                        cod_grupotramite = Constants.GruposDeTramite.CP.ToString(),
@@ -709,12 +718,16 @@ namespace SGI
                    join cpsol in db.CPadron_Solicitudes on sol.id_cpadron equals cpsol.id_cpadron
                    join eDatos in db.CPadron_DatosLocal on sol.id_cpadron equals eDatos.id_cpadron into zr
                    from ed in zr.DefaultIfEmpty()
+                   where 
+                       
+                       ((perfiles.Contains(perfiles_tareas.id_perfil)
+                        && (tramite_tareas.UsuarioAsignado_tramitetarea == null))
+                        ||
+                        (tramite_tareas.UsuarioAsignado_tramitetarea == userid))
 
-                   where perfiles.Contains(perfiles_tareas.id_perfil)
-                       && tramite_tareas.FechaCierre_tramitetarea == null
-                       && (tramite_tareas.UsuarioAsignado_tramitetarea == null || tramite_tareas.UsuarioAsignado_tramitetarea == @userid)
-                       && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
-                       && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
+                        && tramite_tareas.FechaCierre_tramitetarea == null
+                        && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
+                        && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                    select new clsItemBandejaEntrada
                    {
                        cod_grupotramite = Constants.GruposDeTramite.TR.ToString(),
@@ -1025,31 +1038,69 @@ namespace SGI
             }
 
             if (ddlAsignacion.SelectedItem.Value != "")
-            {
+            {                
                 bool asig = bool.Parse(ddlAsignacion.SelectedValue);
                 if (asig)
-                {
+                {                    
                     qENC = (from res in qENC
-                            where res.FechaAsignacion_tramtietarea != null
+                            join tramite_tareas in db.SGI_Tramites_Tareas on res.id_tarea equals tramite_tareas.id_tarea                            
+                            where
+                            tramite_tareas.UsuarioAsignado_tramitetarea == @userid
+                            &&
+                            res.FechaAsignacion_tramtietarea != null
                             select res);
                     qCP = (from res in qCP
-                           where res.FechaAsignacion_tramtietarea != null
+                           join tramite_tareas in db.SGI_Tramites_Tareas on res.id_tarea equals tramite_tareas.id_tarea
+                           where
+                           tramite_tareas.UsuarioAsignado_tramitetarea == @userid
+                           &&
+                           res.FechaAsignacion_tramtietarea != null
                            select res);
                     qTR = (from res in qTR
-                           where res.FechaAsignacion_tramtietarea != null
+                           join tramite_tareas in db.SGI_Tramites_Tareas on res.id_tarea equals tramite_tareas.id_tarea
+                           where
+                           tramite_tareas.UsuarioAsignado_tramitetarea == @userid
+                           &&
+                           res.FechaAsignacion_tramtietarea != null
                            select res);
                 }
                 else
                 {
-                    qENC = (from res in qENC
-                            where res.FechaAsignacion_tramtietarea == null
-                            select res);
+
+                    qENC = (
+                            from res in qENC
+                            join tramite_tareas in db.SGI_Tramites_Tareas on res.id_tarea equals tramite_tareas.id_tarea
+                            join perfiles_tareas in db.ENG_Rel_Perfiles_Tareas on res.id_tarea equals perfiles_tareas.id_tarea
+                            where
+                             perfiles.Contains(perfiles_tareas.id_perfil)
+                             && 
+                             tramite_tareas.UsuarioAsignado_tramitetarea == null 
+                             &&
+                             res.FechaAsignacion_tramtietarea == null                                                          
+                            select res                        
+                             );
                     qCP = (from res in qCP
-                           where res.FechaAsignacion_tramtietarea == null
-                           select res);
+                           join tramite_tareas in db.SGI_Tramites_Tareas on res.id_tarea equals tramite_tareas.id_tarea
+                           join perfiles_tareas in db.ENG_Rel_Perfiles_Tareas on res.id_tarea equals perfiles_tareas.id_tarea
+                           where
+                            perfiles.Contains(perfiles_tareas.id_perfil)
+                            &&
+                            tramite_tareas.UsuarioAsignado_tramitetarea == null
+                             &&
+                             res.FechaAsignacion_tramtietarea == null
+                           select res
+                             );
                     qTR = (from res in qTR
-                           where res.FechaAsignacion_tramtietarea == null
-                           select res);
+                           join tramite_tareas in db.SGI_Tramites_Tareas on res.id_tarea equals tramite_tareas.id_tarea
+                           join perfiles_tareas in db.ENG_Rel_Perfiles_Tareas on res.id_tarea equals perfiles_tareas.id_tarea
+                           where
+                            perfiles.Contains(perfiles_tareas.id_perfil)
+                            &&
+                            tramite_tareas.UsuarioAsignado_tramitetarea == null
+                             &&
+                             res.FechaAsignacion_tramtietarea == null
+                           select res
+                           );
                 }
 
             }
@@ -1833,6 +1884,31 @@ namespace SGI
             ViewState["tarea"] = null;
             grdBandeja.DataBind();
             //updBandejaPropia.Update();
+        }
+
+        protected void grdBandeja_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            Guid userid = Functions.GetUserId();
+            //perfiles usuario
+            var u = db.aspnet_Users.Where(s => s.UserId == userid).FirstOrDefault();
+            List<int> tareas = u.SGI_PerfilesUsuarios.Select(s => s.id_perfil).ToList();
+
+            var resultados = (from rel in db.ENG_Rel_Perfiles_Tareas
+                              where tareas.Contains(rel.id_perfil)
+                              select rel.id_tarea).ToList();
+
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Obtener el objeto de datos vinculado a la fila
+                clsItemBandejaEntrada item = (clsItemBandejaEntrada)e.Row.DataItem;
+                // Verificar la condición para cambiar el color de fondo
+                if (!resultados.Contains(item.id_tarea)) 
+                {
+                   e.Row.BackColor = System.Drawing.Color.IndianRed; 
+                }
+            }
         }
 
         /*
