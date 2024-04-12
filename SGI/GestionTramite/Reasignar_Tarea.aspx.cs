@@ -517,6 +517,7 @@ namespace SGI
                    where tramite_tareas.UsuarioAsignado_tramitetarea == userid_asignado
                    && tramite_tareas.FechaCierre_tramitetarea == null
                    && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
+                   && sol.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado
                    //&& !tareasNoReasignable.Contains(tramite_tareas.id_tarea)
                    select new clsItemReasignar
                    {
@@ -557,6 +558,7 @@ namespace SGI
                    where tramite_tareas.UsuarioAsignado_tramitetarea == userid_asignado
                    && tramite_tareas.FechaCierre_tramitetarea == null
                    && ((tarea.Asignable_tarea == false) || (tarea.Asignable_tarea == true && tramite_tareas.UsuarioAsignado_tramitetarea != null))
+                   && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                    //&& !tareasNoReasignable.Contains(tramite_tareas.id_tarea)
                    select new clsItemReasignar
                    {
@@ -801,6 +803,30 @@ namespace SGI
                 btnGuadarUsuario.Style.Add("display", "none");
             }
 
+        }
+
+        protected void grdTramites_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            DGHP_Entities db = new DGHP_Entities();
+            Guid userid_asignado = usuario_seleccionado;
+            //perfiles usuario
+            var u = db.aspnet_Users.Where(s => s.UserId == userid_asignado).FirstOrDefault();
+            List<int> tareas = u.SGI_PerfilesUsuarios.Select(s => s.id_perfil).ToList();
+
+            var resultados = (from rel in db.ENG_Rel_Perfiles_Tareas
+                              where tareas.Contains(rel.id_perfil)
+                              select rel.id_tarea).ToList();
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Obtener el objeto de datos vinculado a la fila
+                clsItemReasignar item = (clsItemReasignar)e.Row.DataItem;
+                // Verificar la condición para cambiar el color de fondo
+                if (!resultados.Contains(item.id_tarea))
+                {
+                    e.Row.BackColor = System.Drawing.Color.IndianRed; ; 
+                }
+            }
         }
     }
 
