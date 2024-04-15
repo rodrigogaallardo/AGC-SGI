@@ -20,6 +20,8 @@ using Newtonsoft.Json;
 using System.IO.Pipes;
 using System.Threading;
 using System.Globalization;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 
 namespace SGI
 {
@@ -1381,7 +1383,7 @@ namespace SGI
             }
             catch (Exception ex)
             {
-                throw new Exception("Error de exportacion: Intente nuevamente.");
+                throw new Exception("Error de exportacion: Intente nuevamente. " + ex);
             }
 
         }
@@ -2559,6 +2561,26 @@ namespace SGI
 
         }
 
+        public static bool isTransmisionCambioActividad(int id_solicitud)
+        {
+            bool ret = false;
+            DGHP_Entities db = new DGHP_Entities();
+            int? idSolicitudRef = (from t in db.Transf_Solicitudes where t.id_solicitud == id_solicitud select t.idSolicitudRef).FirstOrDefault();
+            if (idSolicitudRef != null)
+            {
+                bool? InformaModificacion = (from e in db.Encomienda
+                                             where e.id_encomienda == (from et in db.Encomienda_Transf_Solicitudes
+                                                                       join e2 in db.Encomienda on et.id_encomienda equals e2.id_encomienda
+                                                                       where et.id_solicitud == id_solicitud
+                                                                       && e2.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo
+                                                                       select e2.id_encomienda).Max()
+                                             select e.InformaModificacion).FirstOrDefault();
+                ret = (bool)(InformaModificacion);
+            }
+            db.Dispose();
+            return ret;
+        }
+
         public static bool IsSSPA(int id_tramitetarea)
         {
             try
@@ -2654,6 +2676,50 @@ namespace SGI
             return sMime;
         }
 
+        public static string ObtenerNombreArchivoCalificacionTecnicaLegal(int id_solicitud)
+        {
+            string ret = string.Empty;
+            DGHP_Entities db = new DGHP_Entities();
+            string extractedText = (from da in db.SGI_Tarea_Documentos_Adjuntos
+                                    join tt in db.SGI_Tramites_Tareas_TRANSF on da.id_tramitetarea equals tt.id_tramitetarea
+                                    where tt.id_solicitud == id_solicitud
+                                    && da.nombre_archivo.Substring(da.nombre_archivo.IndexOf("IF-"), 26).StartsWith("IF-")
+                                    && da.id_tdocreq == 81
+                                    select da.nombre_archivo.Substring(da.nombre_archivo.IndexOf("IF-"), 26)).Max();
+            ret = extractedText.Equals(string.Empty) ? ret : extractedText;
+            db.Dispose();
+            return ret;
+        }
+
+        public static void GuardarFileHTMLProvidencia(int idTramiteTarea, string ProvidenciaHTML, string textoProvidencia, int idTramiteTareaSiguiente)
+        {
+            if (textoProvidencia == string.Empty)
+                return;
+            try
+            {
+                DGHP_Entities db = new DGHP_Entities();
+                string tarea_actual = (from t in db.SGI_Tramites_Tareas where t.id_tramitetarea == idTramiteTarea select t).FirstOrDefault().ENG_Tareas.nombre_tarea;
+                string tarea_siguiente = (from t in db.SGI_Tramites_Tareas where t.id_tramitetarea == idTramiteTareaSiguiente select t).FirstOrDefault().ENG_Tareas.nombre_tarea;
+                string nombre_archivo = "Providencia " + tarea_actual + " a " + tarea_siguiente; 
+                textoProvidencia = HttpUtility.HtmlEncode(textoProvidencia);
+                textoProvidencia = textoProvidencia.Replace("\n", "\n <br/>");
+                ProvidenciaHTML = ProvidenciaHTML.Replace("@Texto", textoProvidencia);
+                //Syncfusion.HtmlConverter.HtmlToPdfConverter htmlConverter = new Syncfusion.HtmlConverter.HtmlToPdfConverter();
+                //Syncfusion.Pdf.PdfDocument doc = htmlConverter.Convert(ProvidenciaHTML);
+                //MemoryStream stream = new MemoryStream();
+                //doc.Save(stream);
+                //byte[] documento = stream.ToArray();
+                byte[] documento = Encoding.GetEncoding("ISO-8859-1").GetBytes(ProvidenciaHTML);
+                int id_file = WebServices.ws_FilesRest.subirArchivo(nombre_archivo + ".html", documento);
+                ObjectParameter id = new ObjectParameter("id_doc_adj", typeof(int));
+                db.SGI_Tarea_Documentos_Adjuntos_Agregar(idTramiteTarea, 101, nombre_archivo, id_file, nombre_archivo, GetUserId(), id);
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
     public class Usuario
     {

@@ -8,6 +8,8 @@
 <%@ Register Src="~/GestionTramite/Controls/ucProcesosSADEv1.ascx" TagPrefix="uc1" TagName="ucProcesosSADEv1" %>
 <%@ Register Src="~/GestionTramite/Controls/ucPreviewDocumentos.ascx" TagPrefix="uc1" TagName="ucPreviewDocumentos" %>
 <%@ Register Src="~/GestionTramite/Controls/Transferencias/ucTitulares.ascx" TagPrefix="uc1" TagName="ucTitulares" %>
+<%@ Register Src="~/GestionTramite/Controls/ucListaObservacionesAnteriores.ascx" TagPrefix="uc1" TagName="ucListaObservacionesAnteriores" %>
+<%@ Register Src="~/GestionTramite/Controls/ucListaObservacionesAnterioresv1.ascx" TagPrefix="uc1" TagName="ucListaObservacionesAnterioresv1" %>
 
 <asp:content id="Content3" contentplaceholderid="MainContent" runat="server">
 
@@ -29,6 +31,9 @@
         <div class="widget-content">
             <div style="padding: 20px">
                 <div style="width: 100%;">
+
+                    <uc1:ucListaObservacionesAnteriores ID="ucListaObservacionesAnteriores" runat="server" />
+                    <uc1:ucListaObservacionesAnterioresv1 ID="ucListaObservacionesAnterioresv1" runat="server" Collapse="true" />
 
                     <uc1:ucProcesosSADEv1 runat="server" ID="ucProcesosSADE" OnFinalizadoEnSADE="ucProcesosSADE_FinalizadoEnSADE" />
 
