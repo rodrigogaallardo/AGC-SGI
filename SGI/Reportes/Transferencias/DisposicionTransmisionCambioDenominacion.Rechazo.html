@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+    </title>
+</head>
+<body>
+    <webopt:BundleReference ID="BundleReference1" runat="server" Path="~/Content/css" />
+    <style type="text/css">
+        .celda_center {
+            text-align: center;
+        }
+
+        .celda_left {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        .table th, .table td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 0px solid #dddddd;
+        }
+    </style>
+
+    <table class="table table-condensed" style="width: 100%">
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <h4>DIRECCI&Oacute;N GENERAL DE HABILITACIONES Y PERMISOS</h4>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">C. EXPEDIENTE N&#186: @lblNroExpediente</td>
+        </tr>
+        <tr>
+            <td colspan="8">SOLICITUD N&#186: @lblNroSolicitud</td>
+        </tr>
+
+        <tr>
+            <td colspan="8" style="text-align: right">Buenos Aires, @lblDia</td>
+        </tr>
+        <tr>
+            <td colspan="8"><b>VISTO:</b></td>
+        </tr>
+        <tr>
+            <td colspan="8">La solicitud de S.G.I. Nº @lblNroSolicitud, el Expediente Electr&oacute;nico N° @lblNroExpediente, la Resoluci&oacute;n Nº150-AGC-2023, el Decreto 40/GCABA/2019, la Ley 6.101 y;</td>
+        </tr>
+    </table>
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">
+                <div><b>CONSIDERANDO:</b></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">
+                Que, por el expediente mencionado en el Visto, el Ciudadano Responsable Receptor, solicita Transmisi&oacute;n por Cambio de Denominaci&oacute;n en los t&eacute;rminos del Art&iacute;culo 36 del Anexo I de la Resoluci&oacute;n Nº150/AGC/2023;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">
+                Que, de conformidad con la documentaci&oacute;n presentada y del visado administrativo efectuado por el funcionario interviniente, surge que no se encuentran cumplidas las prescripciones establecidas en el Art&iacute;culo 36 del Anexo I de la Resoluci&oacute;n 150/AGC/2023;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">
+                Que, en tal sentido, la Subgerencia Operativa Transferencias, entendiendo que no se han cumplido todos los requisitos normativos, da intervenci&oacute;n a la Gerencia Operativa Habilitaciones Especiales que, compartiendo el criterio, remite las actuaciones a la Gerencia Operativa Dict&aacute;menes, para que se pronuncie en el marco de las competencias asignadas por Resoluci&oacute;n N° 247/AGC/17;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">
+                Que la Subgerencia Operativa Dict&aacute;menes IV, dependiente de la Direcci&oacute;n General Legal y T&eacute;cnica, mediante el Informe N° @CalifTecnicaLegalSADE considera que no existir&iacute;a &oacute;bice legal para la emisi&oacute;n del acto administrativo que disponga el rechazo de la transmisi&oacute;n solicitada;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: justify">
+                Que, en m&eacute;rito de lo expuesto, esta Direcci&oacute;n General de Habilitaciones y Permisos entiende que corresponde rechazar la Transmisi&oacute;n de Actividad Econ&oacute;mica por Cambio de Denominaci&oacute;n solicitada;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>Por ello y en uso de las facultades que le son propias;</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" style="text-align: center">
+                <div><b>EL DIRECTOR GENERAL DE HABILITACIONES Y PERMISOS</b></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div><b>DISPONE:</b></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    Art. 1&#186.- Rech&aacute;cese la Transmisi&oacute;n de Autorizaci&oacute;n de Actividad Econ&oacute;mica por Cambio de Denominaci&oacute;n solicitada conforme los requisitos establecidos por el Art&iacute;culo 36 del Anexo I de la Resoluci&oacute;n Nº150/AGC/2023, toda vez que no se encuentran cumplidos los requisitos exigidos por la normativa vigente, por lo dispuesto en el Art&iacute;culo 2 y de acuerdo a los datos que se consignan a continuaci&oacute;n:
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div style="background: #efefef">
+        <table class="table table-condensed">
+            <tr>
+                <td style="width: 10%">
+                    En favor del Ciudadano Responsable:
+                </td>
+                <td colspan="7">
+                    <table>
+                        @lblTirulares
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="2">
+                Secci&oacute;n: @lblSeccion
+            </td>
+            <td colspan="2">
+                Manzana: @lblManzana
+            </td>
+            <td colspan="2">
+                Parcela: @lblParcela
+            </td>
+            <td colspan="2">
+                Partida Matriz: @lblPartidaMatriz
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                Domicilio/s: <b>@lblDomicilio</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                @lblPH
+            </td>
+        </tr>
+    </table>
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="8">
+                Plantas a habilitar: @lblPlantashabilitar
+            </td>
+        </tr>
+    </table>
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="6">
+                Mixtura / Area especial: @lblZonaDeclarada
+            </td>
+            <td colspan="2">
+                Cantidad de Operarios: @lblCantOperarios
+            </td>
+        </tr>
+    </table>
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <td colspan="6">
+                    Superficie total a habilitar: @lblSuperficieTotal
+                </td>
+                <td colspan="2">
+                    Calificador: @lblCalificar
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <td>Código</td>
+                <td>Descripción</td>
+                <td>Tipo</td>
+                <td>Superficie</td>
+            </tr>
+            @lblRubros
+        </table>
+    </div>
+    <br />
+    <div>
+        @lblSubRubros
+    </div>
+    <br />
+    <div>
+        @lblDepositos
+    </div>
+    <br />
+    <table class="table table-condensed" style="width: 100%">
+        <tr>
+            <td colspan="8">
+                <div><b>Art. 2&#186.- Observaciones</b></div>
+                <div>@lblObservacion</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                <div>
+                    Art. 3&#186.- Notif&iacute;quese. Pase para su conocimiento a la Gerencia Operativa Planificaci&oacute;n y Gesti&oacute;n Operativa de la Direcci&oacute;n General de Habilitaciones y Permisos de esta AGC, rem&iacute;tase a la Gerencia Operativa Mesa de Ayuda y Atenci&oacute;n al Público, dese intervenci&oacute;n a la Direcci&oacute;n General de Fiscalizaci&oacute;n y Control a los fines de su competencia. Cumplido arch&iacute;vese.
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

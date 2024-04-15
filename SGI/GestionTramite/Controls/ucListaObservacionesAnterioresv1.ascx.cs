@@ -26,9 +26,12 @@ namespace SGI.GestionTramite.Controls
 
         public void LoadData(int id_grupotramite, int id_solicitud, int id_tramitetarea, int id_tarea)
         {
-
-            List<ObservacionAnterioresv1> lista_observ = ObservacionAnterioresv1.GetTareaObservacion(id_grupotramite,
-                                id_solicitud, id_tramitetarea, TramiteTareaAnteriores.Dependencias_Tarea_ObservacionesV1(id_tarea));
+            List<ObservacionAnterioresv1> lista_observ;
+            //if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
+            //    lista_observ = ObservacionAnterioresv1.GetTareaObservacionTransf(id_solicitud, id_tramitetarea);
+            //else
+            //    lista_observ = ObservacionAnterioresv1.GetTareaObservacion(id_grupotramite, id_solicitud, id_tramitetarea, TramiteTareaAnteriores.Dependencias_Tarea_ObservacionesV1(id_tarea));
+            lista_observ = ObservacionAnterioresv1.GetTareaObservacion(id_grupotramite, id_solicitud, id_tramitetarea, TramiteTareaAnteriores.Dependencias_Tarea_ObservacionesV1(id_tarea));
             grdObservTareasAnterioresv1.DataSource = lista_observ;
             grdObservTareasAnterioresv1.DataBind();
 
@@ -1484,6 +1487,60 @@ public class ObservacionAnterioresv1
                 db.Dispose();
 
             throw ex;
+        }
+        return tareaObserv;
+    }
+
+    public static List<ObservacionAnterioresv1> GetTareaObservacionTransf(int id_solicitud, int id_tramitetarea)
+    {
+        DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
+        List<ObservacionAnterioresv1> list_observ = null;
+        try
+        {
+            List<TramiteTareaAnteriores> lista_tramite = (from tt in db.SGI_Tramites_Tareas
+                                                          join tt_cp in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals tt_cp.id_tramitetarea
+                                                          join tarea in db.ENG_Tareas on tt.id_tarea equals tarea.id_tarea
+                                                          where tt_cp.id_solicitud == id_solicitud 
+                                                          && tt.id_tramitetarea < id_tramitetarea
+                                                          select new TramiteTareaAnteriores
+                                                          {
+                                                              id_tarea = tarea.id_tarea,
+                                                              Nombre_tarea = tarea.nombre_tarea,
+                                                              id_tramitetarea = tt.id_tramitetarea
+                                                          }).ToList().OrderByDescending(x => x.id_tramitetarea).ToList();
+            foreach (var item in lista_tramite)
+            {
+                if (list_observ == null)
+                    list_observ = new List<ObservacionAnterioresv1>();
+                ObservacionAnterioresv1 observ = GetTareaObservacionTr(item.id_tarea, item.id_tramitetarea);
+                if (observ != null)
+                    list_observ.Add(observ);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (db != null)
+                db.Dispose();
+            throw ex;
+        }
+        return list_observ;
+    }
+
+    public static ObservacionAnterioresv1 GetTareaObservacionTr(int id_tarea, int id_tramitetarea)
+    {
+        ObservacionAnterioresv1 tareaObserv = null;
+        DGHP_Entities db = new DGHP_Entities();
+        db.Database.CommandTimeout = 300;
+        var tarea = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
+        string cod_tarea = tarea.cod_tarea.ToString();
+        cod_tarea = cod_tarea.Substring(cod_tarea.Length - 2);
+        switch (cod_tarea)
+        {
+            case Constants.ENG_Tipos_Tareas_Transf.Asignacion_Calificador:
+                break;
+            default:
+                break;
         }
         return tareaObserv;
     }

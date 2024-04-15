@@ -79,6 +79,10 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
             ucTitulares.LoadData(this.id_solicitud);
             await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+
+            ucListaObservacionesAnteriores.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
+            ucListaObservacionesAnterioresv1.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
+
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
 
             ucPreviewDocumentos.Visible = true;
@@ -95,6 +99,12 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             ucProcesosSADE.id_grupo_tramite = (int)Constants.GruposDeTramite.TR;
             ucProcesosSADE.cargarDatosProcesos(tramite_tarea.id_tramitetarea, IsEditable);
             ucResultadoTarea.btnFinalizar_Enabled = !ucProcesosSADE.hayProcesosPendientesSADE(id_tramitetarea);
+
+            int.TryParse(Parametros.GetParam_ValorChar("NroTransmisionReferencia"), out int nroTrReferencia);
+            if (this.id_solicitud > nroTrReferencia)
+                ucListaObservacionesAnteriores.Visible = false;
+            else
+                ucListaObservacionesAnterioresv1.Visible = false;
         }
 
         private int _tramiteTarea = 0;

@@ -228,6 +228,7 @@ namespace SGI.GestionTramite.Controls
                 }
 
                 pnlTitulares.Visible = true;
+                pnlTitularesTransf.Visible = false;
                 var titulares = (from pf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
                                  where pf.id_solicitud == id_solicitud
                                  select new
@@ -241,6 +242,8 @@ namespace SGI.GestionTramite.Controls
                                      label = pj.Razon_Social
                                  }).ToList();
                 lblTitulares.Text = "";
+                lblCedentes.Text = string.Empty;
+                lblCesionarios.Text = string.Empty;
                 foreach (var tit in titulares)
                     lblTitulares.Text = lblTitulares.Text + tit.label + "; ";
                 pnlPresentacionAgreagr.Visible = objsol.documentacionPA != null ? objsol.documentacionPA.Value : false;
@@ -357,22 +360,40 @@ namespace SGI.GestionTramite.Controls
                     txtNroExpediente.Text = objsol.nro_expediente_anterior;
                     lblTipoTransm.Text = objsol.nom_tipotransmision;
 
-                    pnlTitulares.Visible = true;
-                    var titulares = (from pf in db.Transf_Titulares_Solicitud_PersonasFisicas
-                                     where pf.id_solicitud == id_solicitud
-                                     select new
-                                     {
-                                         label = pf.Apellido + ", " + pf.Nombres
-                                     }).Union(
-                                     from pj in db.Transf_Titulares_Solicitud_PersonasJuridicas
-                                     where pj.id_solicitud == id_solicitud
-                                     select new
-                                     {
-                                         label = pj.Razon_Social
-                                     }).ToList();
+                    pnlTitulares.Visible = false;
+                    pnlTitularesTransf.Visible = true;
+                    var cedentes = (from pf in db.Transf_Titulares_Solicitud_PersonasFisicas
+                                    where pf.id_solicitud == id_solicitud
+                                    select new
+                                    {
+                                        label = pf.Apellido + ", " + pf.Nombres
+                                    }).Union(
+                                    from pj in db.Transf_Titulares_Solicitud_PersonasJuridicas
+                                    where pj.id_solicitud == id_solicitud
+                                    select new
+                                    {
+                                        label = pj.Razon_Social
+                                    }).ToList();
+                    var cesionarios = (from pf in db.Transf_Titulares_PersonasFisicas
+                                       where pf.id_solicitud == id_solicitud
+                                       select new
+                                       {
+                                           label = pf.Apellido + ", " + pf.Nombres
+                                       }).Union(
+                                       from pj in db.Transf_Titulares_PersonasJuridicas
+                                       where pj.id_solicitud == id_solicitud
+                                       select new
+                                       {
+                                           label = pj.Razon_Social
+                                       }).ToList();
                     lblTitulares.Text = "";
-                    foreach (var tit in titulares)
-                        lblTitulares.Text = lblTitulares.Text + tit.label + "; ";
+                    lblCedentes.Text = string.Empty;
+                    lblCesionarios.Text = string.Empty;
+                    foreach (var tit in cedentes)
+                        lblCedentes.Text = lblCedentes.Text + tit.label + "; ";
+                    foreach (var tit in cesionarios)
+                        lblCesionarios.Text = lblCesionarios.Text + tit.label + "; ";
+
                     if (objsol.NroExpedienteSade != "")
                     {
                         lblExpediente.Visible = true;

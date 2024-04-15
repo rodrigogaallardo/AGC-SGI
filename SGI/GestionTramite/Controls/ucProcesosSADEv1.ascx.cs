@@ -566,7 +566,38 @@ namespace SGI.GestionTramite.Controls
                                                 }
                                                 else
                                                 {
-                                                    str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmision.html"));
+                                                    Transf_Solicitudes transf = db.Transf_Solicitudes.Where(x => x.id_solicitud == id_solicitud).FirstOrDefault();
+                                                    if (transf.idTipoTransmision == (int)Constants.TipoTransmision.Transmision_Transferencia)
+                                                    {
+                                                        str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionTransferencia.html"));
+                                                        if (Functions.isTransmisionCambioActividad(id_solicitud))
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionTransferencia.CambioActividad.html"));
+                                                        if (Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazado
+                                                            || Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazo_In_Limine)
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionTransferencia.Rechazo.html"));
+                                                    }
+                                                    else if (transf.idTipoTransmision == (int)Constants.TipoTransmision.Transmision_nominacion)
+                                                    {
+                                                        str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenomincacion.html"));
+                                                        if (Functions.isTransmisionCambioActividad(id_solicitud))
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenomincacion.CambioActividad.html"));
+                                                        if (Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazado
+                                                            || Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazo_In_Limine)
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenomincacion.Rechazo.html"));
+                                                    }
+                                                    else if (transf.idTipoTransmision == (int)Constants.TipoTransmision.Transmision_oficio_judicial)
+                                                    {
+                                                        str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionOficioJudicial.html"));
+                                                        if (Functions.isTransmisionCambioActividad(id_solicitud))
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionOficioJudicial.CambioActividad.html"));
+                                                        if (Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazado
+                                                            || Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazo_In_Limine)
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionOficioJudicial.Rechazo.html"));
+                                                    }
+                                                    else
+                                                    {
+                                                        str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmision.html"));
+                                                    }
                                                     html_dispo = PdfDisposicion.Transmision_GenerarHtml_Disposicion(id_solicitud, id_tramitetarea, NroExpediente, str_archivo);
                                                 }
 

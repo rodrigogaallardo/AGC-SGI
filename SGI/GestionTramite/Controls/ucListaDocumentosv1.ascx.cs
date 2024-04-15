@@ -413,10 +413,10 @@ namespace SGI.GestionTramite.Controls
                                                 id_tipodocsis = encdoc.id_tipodocsis
                                             }).Union(//SGI_Dcouemntos_adjuntos
                                             from docadj in db.SGI_Tarea_Documentos_Adjuntos
-                                            join tt_hab in db.SGI_Tramites_Tareas_HAB on docadj.id_tramitetarea equals tt_hab.id_tramitetarea
+                                            join ttt in db.SGI_Tramites_Tareas_TRANSF on docadj.id_tramitetarea equals ttt.id_tramitetarea
                                             join user in db.SGI_Profiles on docadj.CreateUser equals user.userid into us
                                             from u in us.DefaultIfEmpty()
-                                            where tt_hab.id_solicitud == solicitud.id_solicitud && docadj.CreateDate <= ultimaPresentacion
+                                            where ttt.id_solicitud == solicitud.id_solicitud //&& docadj.CreateDate <= ultimaPresentacion
                                             select new itemDocumentov1
                                             {
                                                 id_doc_adj = docadj.id_doc_adj,
@@ -434,7 +434,7 @@ namespace SGI.GestionTramite.Controls
                                                 join sol in db.Transf_Solicitudes on th.id_solicitud equals sol.id_solicitud
                                                 join file in db.Files on o.id_file equals file.id_file
                                                 join user in db.Usuario on sol.CreateUser equals user.UserId
-                                                where th.id_solicitud == solicitud.id_solicitud && o.id_file != null && file.CreateDate <= ultimaPresentacion
+                                                where th.id_solicitud == solicitud.id_solicitud && o.id_file != null //&& file.CreateDate <= ultimaPresentacion
                                                 select new itemDocumentov1
                                                 {
                                                     id_doc_adj = o.id_ObsDocs,

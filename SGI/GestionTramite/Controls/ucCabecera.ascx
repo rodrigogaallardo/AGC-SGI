@@ -136,6 +136,20 @@
                     </ul>
                 </div>
             </asp:Panel>
+            <asp:Panel ID="pnlTitularesTransf" runat="server" Visible="false">
+                <div style="width: 50%; float: left">
+                    <ul class="cabecera">
+                        <li>Cedente/s:<strong><asp:Label ID="lblCedentes" runat="server"></asp:Label></strong>
+                        </li>
+                    </ul>
+                </div>
+                <div style="width: 50%; float: left">
+                    <ul class="cabecera">
+                        <li>Cesionario/s:<strong><asp:Label ID="lblCesionarios" runat="server"></asp:Label></strong>
+                        </li>
+                    </ul>
+                </div>
+            </asp:Panel>
             <br style="clear: both" />
 
             <asp:Panel ID="pnlExpeSadeRelacionado" runat="server" Visible="false">
