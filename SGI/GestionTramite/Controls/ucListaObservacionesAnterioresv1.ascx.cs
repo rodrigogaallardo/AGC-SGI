@@ -2,11 +2,13 @@
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static SGI.Model.Engine;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -1532,15 +1534,582 @@ public class ObservacionAnterioresv1
         ObservacionAnterioresv1 tareaObserv = null;
         DGHP_Entities db = new DGHP_Entities();
         db.Database.CommandTimeout = 300;
-        var tarea = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
-        string cod_tarea = tarea.cod_tarea.ToString();
-        cod_tarea = cod_tarea.Substring(cod_tarea.Length - 2);
-        switch (cod_tarea)
+        using (DbContextTransaction tran = db.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted)) 
         {
-            case Constants.ENG_Tipos_Tareas_Transf.Asignacion_Calificador:
-                break;
-            default:
-                break;
+            var tarea = db.ENG_Tareas.Where(x => x.id_tarea == id_tarea).First();
+            string cod_tarea = tarea.cod_tarea.ToString();
+            cod_tarea = cod_tarea.Substring(cod_tarea.Length - 2);
+            switch (cod_tarea)
+            {
+                case Constants.ENG_Tipos_Tareas_Transf.Asignacion_Calificador:
+                    tareaObserv = (from stac in db.SGI_Tarea_Asignar_Calificador
+                                   join stt in db.SGI_Tramites_Tareas on stac.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stac.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stac.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stac.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stac.Observaciones)
+                                   orderby stac.id_asignar_calificador descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stac.id_asignar_calificador,
+                                       Observaciones = stac.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stac.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stac.LastUpdateDate.HasValue) ? (DateTime)stac.LastUpdateDate : stac.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Calificar:
+                case Constants.ENG_Tipos_Tareas_Transf.Calificar_2:
+                    var q_calif = (from stc in db.SGI_Tarea_Calificar
+                                   join stt in db.SGI_Tramites_Tareas on stc.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stc.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stc.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stc.id_tramitetarea == id_tramitetarea
+                                   && (!string.IsNullOrEmpty(stc.Observaciones) || !string.IsNullOrEmpty(stc.Observaciones_Internas) || !string.IsNullOrEmpty(stc.Observaciones_contribuyente))
+                                   orderby stc.id_calificar descending
+                                   select new
+                                   {
+                                       ID = stc.id_calificar,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       stc.Observaciones,
+                                       stc.Observaciones_Internas,
+                                       stc.Observaciones_contribuyente,
+                                       UsuarioApeNom = (stc.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stc.LastUpdateDate.HasValue) ? (DateTime)stc.LastUpdateDate : stc.CreateDate
+                                   }).FirstOrDefault();
+                    if (q_calif != null)
+                    {
+                        tareaObserv = new ObservacionAnterioresv1();
+                        tareaObserv.ID = q_calif.ID;
+                        tareaObserv.id_tarea = 0;
+                        tareaObserv.Nombre_tarea = q_calif.Nombre_tarea;
+                        tareaObserv.id_tramitetarea = id_tramitetarea;
+                        tareaObserv.Observaciones = "";
+                        tareaObserv.UsuarioApeNom = q_calif.UsuarioApeNom;
+                        tareaObserv.Fecha = q_calif.Fecha;
+                        if (!string.IsNullOrEmpty(q_calif.Observaciones))
+                            tareaObserv.Item.Add(new Items(q_calif.Observaciones + "<br/>", "Notas adicionales para la disposición:"));
+                        if (!string.IsNullOrEmpty(q_calif.Observaciones_Internas))
+                            tareaObserv.Item.Add(new Items(q_calif.Observaciones_Internas, "Observaciones internas:"));
+                        if (!string.IsNullOrEmpty(q_calif.Observaciones_contribuyente))
+                            tareaObserv.Item.Add(new Items(q_calif.Observaciones_contribuyente + "<br/>", "Observaciones al Contribuyente:"));
+                    }
+                    var lstObservCalif = (from stcod in db.SGI_Tarea_Calificar_ObsDocs
+                                          join tdr in db.TiposDeDocumentosRequeridos on stcod.id_tdocreq equals tdr.id_tdocreq
+                                          join stcog in db.SGI_Tarea_Calificar_ObsGrupo on stcod.id_ObsGrupo equals stcog.id_ObsGrupo
+                                          join fi in db.Files on stcod.id_file equals fi.id_file 
+                                          into flj
+                                          from f in flj.DefaultIfEmpty()
+                                          join vc in db.vis_Certificados on stcod.id_certificado equals vc.id_certificado 
+                                          into vclj
+                                          from cer in vclj.DefaultIfEmpty()
+                                          join stt in db.SGI_Tramites_Tareas on stcog.id_tramitetarea equals stt.id_tramitetarea
+                                          join stc in db.SGI_Tarea_Calificar on stt.id_tramitetarea equals stc.id_tramitetarea
+                                          join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                          join spua in db.SGI_Profiles on stc.CreateUser equals spua.userid
+                                          join spum in db.SGI_Profiles on stc.LastUpdateUser equals spum.userid
+                                          into splj
+                                          from sp in splj.DefaultIfEmpty()
+                                          where stt.id_tramitetarea == id_tramitetarea 
+                                          && stcod.Actual == false
+                                          select new
+                                          {
+                                              ID = stc.id_calificar,
+                                              Nombre_tarea = et.nombre_tarea,
+                                              UsuarioApeNom = (stc.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                              Fecha = (stc.LastUpdateDate.HasValue) ? (DateTime)stc.LastUpdateDate : stc.CreateDate,
+                                              stcod.id_ObsDocs,
+                                              stcod.id_ObsGrupo,
+                                              tdr.nombre_tdocreq,
+                                              stcod.id_tdocreq,
+                                              stcod.Observacion_ObsDocs,
+                                              stcod.Respaldo_ObsDocs,
+                                              stcod.id_file,
+                                              stcod.id_certificado,
+                                              Decido_no_subir = stcod.Decido_no_subir.Value
+                                          }).ToList();
+                    if (lstObservCalif.Count > 0)
+                    {
+                        string observ;
+                        foreach (var lObs in lstObservCalif)
+                        {
+                            if (tareaObserv == null)
+                            {
+                                tareaObserv = new ObservacionAnterioresv1();
+                                tareaObserv.ID = lObs.ID;
+                                tareaObserv.id_tarea = 0;
+                                tareaObserv.Nombre_tarea = lObs.Nombre_tarea;
+                                tareaObserv.id_tramitetarea = id_tramitetarea;
+                                tareaObserv.Observaciones = "";
+                                tareaObserv.UsuarioApeNom = lObs.UsuarioApeNom;
+                                tareaObserv.Fecha = lObs.Fecha;
+                            }
+                            observ = "<b>Tipo de Documento: </b>" + lObs.nombre_tdocreq + "<br/>";
+                            observ += "<b>Observación: </b>" + lObs.Observacion_ObsDocs + "<br/>";
+                            observ += "<b>Respaldo Normativo:</b>" + lObs.Respaldo_ObsDocs + "<br/>";
+                            string link = "";
+                            if (lObs.Decido_no_subir)
+                                link = "Decide NO subirlo";
+                            else
+                            {
+                                string url = lObs.id_file != null ?
+                                string.Format("../../GetPDF/{0}", HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.ASCII.GetBytes(lObs.id_file.ToString()))))
+                                : (lObs.id_certificado != 0 ? string.Format("../../ImprimirCertificado/{0}", lObs.id_certificado) : "");
+                                string nom = "Documento_Observacion" + (lObs.id_file != null ? lObs.id_file.ToString() : (lObs.id_certificado != 0 ? lObs.id_certificado.ToString() : "")) + ".pdf";
+                                link = "<a target=\"_blank\" style =\"padding - right: 10px\" href =\"" + url + "\"><span class=\"text\">" + nom + "</span></a>";
+                            }
+                            observ += "<b>Documento: </b>" + link;
+                            tareaObserv.Item.Add(new Items(observ, ""));
+                        }
+                    }
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Control_Informe:
+                    var q_carga = (from stct in db.SGI_Tarea_Carga_Tramite
+                                   join stt in db.SGI_Tramites_Tareas on stct.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stct.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stct.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stct.id_tramitetarea == id_tramitetarea
+                                   && (!string.IsNullOrEmpty(stct.Observaciones) || !string.IsNullOrEmpty(stct.observaciones_contribuyente))
+                                   orderby stct.id_carga_tramite descending
+                                   select new
+                                   {
+                                       ID = stct.id_carga_tramite,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       stct.Observaciones,
+                                       Observaciones_contribuyente = stct.observaciones_contribuyente,
+                                       UsuarioApeNom = (stct.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stct.LastUpdateDate.HasValue) ? (DateTime)stct.LastUpdateDate : stct.CreateDate
+                                   }).FirstOrDefault();
+                    if (q_carga != null)
+                    {
+                        tareaObserv = new ObservacionAnterioresv1();
+                        tareaObserv.ID = q_carga.ID;
+                        tareaObserv.id_tarea = 0;
+                        tareaObserv.Nombre_tarea = q_carga.Nombre_tarea;
+                        tareaObserv.id_tramitetarea = id_tramitetarea;
+                        tareaObserv.Observaciones = "";
+                        tareaObserv.UsuarioApeNom = q_carga.UsuarioApeNom;
+                        tareaObserv.Fecha = q_carga.Fecha;
+                        if (!string.IsNullOrEmpty(q_carga.Observaciones_contribuyente))
+                            tareaObserv.Item.Add(new Items(q_carga.Observaciones_contribuyente + "<br/>", "Observaciones al Contribuyente:"));
+                        if (!string.IsNullOrEmpty(q_carga.Observaciones))
+                            tareaObserv.Item.Add(new Items(q_carga.Observaciones, "Observaciones internas:"));
+                    }
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Consulta_Adicional_SGO:
+                case Constants.ENG_Tipos_Tareas_Transf.Consulta_Adicional_GO:
+                case Constants.ENG_Tipos_Tareas_Transf.Consulta_Adicional_Priv:
+                    var q_consadic = (from stca in db.SGI_Tarea_Consulta_Adicional
+                                      join stt in db.SGI_Tramites_Tareas on stca.id_tramitetarea equals stt.id_tramitetarea
+                                      join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                      join spua in db.SGI_Profiles on stca.CreateUser equals spua.userid
+                                      join spum in db.SGI_Profiles on stca.LastUpdateUser equals spum.userid
+                                      into splj
+                                      from sp in splj.DefaultIfEmpty()
+                                      where stca.id_tramitetarea == id_tramitetarea
+                                      && (!string.IsNullOrEmpty(stca.Observaciones) || !string.IsNullOrEmpty(stca.observacion_plancheta) || !string.IsNullOrEmpty(stca.observaciones_contribuyente))
+                                      orderby stca.id_consulta_adicional descending
+                                      select new
+                                      {
+                                          ID = stca.id_consulta_adicional,
+                                          stca.Observaciones,
+                                          stca.observacion_plancheta,
+                                          observacion_contribuyente = stca.observaciones_contribuyente,
+                                          Nombre_tarea = et.nombre_tarea,
+                                          UsuarioApeNom = (stca.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                          Fecha = (stca.LastUpdateDate.HasValue) ? (DateTime)stca.LastUpdateDate : stca.CreateDate
+                                      }).FirstOrDefault();
+                    if (q_consadic != null)
+                    {
+                        tareaObserv = new ObservacionAnterioresv1();
+                        tareaObserv.ID = q_consadic.ID;
+                        tareaObserv.id_tarea = 0;
+                        tareaObserv.Nombre_tarea = q_consadic.Nombre_tarea;
+                        tareaObserv.id_tramitetarea = id_tramitetarea;
+                        tareaObserv.Observaciones = "";
+                        tareaObserv.UsuarioApeNom = q_consadic.UsuarioApeNom;
+                        tareaObserv.Fecha = q_consadic.Fecha;
+                        if (!string.IsNullOrEmpty(q_consadic.Observaciones))
+                            tareaObserv.Item.Add(new Items(q_consadic.Observaciones + "<br/>", "Observaciones Internas:"));
+                        if (!string.IsNullOrEmpty(q_consadic.observacion_plancheta))
+                            tareaObserv.Item.Add(new Items(q_consadic.observacion_plancheta, "Notas adicionales para la disposición:"));
+                        if (!string.IsNullOrEmpty(q_consadic.observacion_contribuyente))
+                            tareaObserv.Item.Add(new Items(q_consadic.observacion_contribuyente + "<br/>", "Observaciones al Contribuyente:"));
+                    }
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Dictamen_Asignacion:
+                    tareaObserv = (from stdap in db.SGI_Tarea_Dictamen_Asignar_Profesional
+                                   join stt in db.SGI_Tramites_Tareas on stdap.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stdap.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stdap.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stdap.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stdap.Observaciones)
+                                   orderby stdap.id_Dictamen_Asignar_Profesional descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stdap.id_Dictamen_Asignar_Profesional,
+                                       Observaciones = stdap.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stdap.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stdap.LastUpdateDate.HasValue) ? (DateTime)stdap.LastUpdateDate : stdap.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Dictamen_Realizar:
+                    tareaObserv = (from stdrd in db.SGI_Tarea_Dictamen_Realizar_Dictamen
+                                   join stt in db.SGI_Tramites_Tareas on stdrd.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stdrd.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stdrd.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stdrd.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stdrd.Observaciones)
+                                   orderby stdrd.id_dictamen_realizar_dictamen descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stdrd.id_dictamen_realizar_dictamen,
+                                       Observaciones = stdrd.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stdrd.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stdrd.LastUpdateDate.HasValue) ? (DateTime)stdrd.LastUpdateDate : stdrd.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Dictamen_Revision:
+                case Constants.ENG_Tipos_Tareas_Transf.Consulta_Adicional:
+                    tareaObserv = (from stdrt in db.SGI_Tarea_Dictamen_Revisar_Tramite
+                                   join stt in db.SGI_Tramites_Tareas on stdrt.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stdrt.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stdrt.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stdrt.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stdrt.Observaciones)
+                                   orderby stdrt.id_Dictamen_Revisar_Tramite descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stdrt.id_Dictamen_Revisar_Tramite,
+                                       Observaciones = stdrt.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stdrt.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stdrt.LastUpdateDate.HasValue) ? (DateTime)stdrt.LastUpdateDate : stdrt.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Generar_Expediente:
+                    tareaObserv = (from stge in db.SGI_Tarea_Generar_Expediente
+                                   join stt in db.SGI_Tramites_Tareas on stge.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stge.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stge.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stge.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stge.Observaciones)
+                                   orderby stge.id_generar_expediente descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stge.id_generar_expediente,
+                                       Observaciones = stge.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stge.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stge.LastUpdateDate.HasValue) ? (DateTime)stge.LastUpdateDate : stge.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Revision_DGHyP:
+                case Constants.ENG_Tipos_Tareas_Transf.Revision_DGHyP_Caducidad:
+                    tareaObserv = (from strd in db.SGI_Tarea_Revision_DGHP
+                                   join stt in db.SGI_Tramites_Tareas on strd.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on strd.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on strd.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where strd.id_tramitetarea == id_tramitetarea
+                                   && (!string.IsNullOrEmpty(strd.observacion_plancheta) || !string.IsNullOrEmpty(strd.Observaciones))
+                                   orderby strd.id_revision_dghp descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = strd.id_revision_dghp,
+                                       Observaciones = strd.Observaciones,
+                                       NotasAdicionales = strd.observacion_plancheta,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (strd.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (strd.LastUpdateDate.HasValue) ? (DateTime)strd.LastUpdateDate : strd.CreateDate
+                                   }).FirstOrDefault();
+                    if (tareaObserv != null)
+                    {
+                        tareaObserv.Item.Add(new Items(tareaObserv.Observaciones + "<br/>", "Observaciones Internas:"));
+                        tareaObserv.Item.Add(new Items(tareaObserv.NotasAdicionales + "<br/>", "Notas adicionales para la disposición:"));
+                    }
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Revision_Firma_Disposicion:
+                    tareaObserv = (from stet in db.SGI_Tarea_Entregar_Tramite
+                                   join stt in db.SGI_Tramites_Tareas on stet.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stet.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stet.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stet.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stet.Observaciones)
+                                   orderby stet.id_entregar_tramite descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stet.id_entregar_tramite,
+                                       Observaciones = stet.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stet.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stet.LastUpdateDate.HasValue) ? (DateTime)stet.LastUpdateDate : stet.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Revision_Gerente:
+                case Constants.ENG_Tipos_Tareas_Transf.Revision_Gerente_CP:
+                    var q_gerente = (from strg in db.SGI_Tarea_Revision_Gerente
+                                     join stt in db.SGI_Tramites_Tareas on strg.id_tramitetarea equals stt.id_tramitetarea
+                                     join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                     join spua in db.SGI_Profiles on strg.CreateUser equals spua.userid
+                                     join spum in db.SGI_Profiles on strg.LastUpdateUser equals spum.userid
+                                     into splj
+                                     from sp in splj.DefaultIfEmpty()
+                                     where strg.id_tramitetarea == id_tramitetarea
+                                     && (!string.IsNullOrEmpty(strg.Observaciones) || !string.IsNullOrEmpty(strg.observacion_plancheta) || !string.IsNullOrEmpty(strg.observaciones_contribuyente))
+                                     orderby strg.id_revision_gerente descending
+                                     select new
+                                     {
+                                         ID = strg.id_revision_gerente,
+                                         strg.Observaciones,
+                                         strg.observacion_plancheta,
+                                         observacion_contribuyente = strg.observaciones_contribuyente,
+                                         Nombre_tarea = et.nombre_tarea,
+                                         UsuarioApeNom = (strg.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                         Fecha = (strg.LastUpdateDate.HasValue) ? (DateTime)strg.LastUpdateDate : strg.CreateDate
+                                     }).FirstOrDefault();
+                    if (q_gerente != null)
+                    {
+                        tareaObserv = new ObservacionAnterioresv1();
+                        tareaObserv.ID = q_gerente.ID;
+                        tareaObserv.id_tarea = 0;
+                        tareaObserv.Nombre_tarea = q_gerente.Nombre_tarea;
+                        tareaObserv.id_tramitetarea = id_tramitetarea;
+                        tareaObserv.Observaciones = "";
+                        tareaObserv.UsuarioApeNom = q_gerente.UsuarioApeNom;
+                        tareaObserv.Fecha = q_gerente.Fecha;
+                        if (!string.IsNullOrEmpty(q_gerente.Observaciones))
+                            tareaObserv.Item.Add(new Items(q_gerente.Observaciones + "<br/>", "Observaciones Internas:"));
+                        if (!string.IsNullOrEmpty(q_gerente.observacion_plancheta))
+                            tareaObserv.Item.Add(new Items(q_gerente.observacion_plancheta, "Notas adicionales para la disposición:"));
+                        if (!string.IsNullOrEmpty(q_gerente.observacion_contribuyente))
+                            tareaObserv.Item.Add(new Items(q_gerente.observacion_contribuyente + "<br/>", "Observaciones al Contribuyente:"));
+                    }
+                    var lstObservGer = (from stcod in db.SGI_Tarea_Calificar_ObsDocs
+                                        join tdr in db.TiposDeDocumentosRequeridos on stcod.id_tdocreq equals tdr.id_tdocreq
+                                        join stcog in db.SGI_Tarea_Calificar_ObsGrupo on stcod.id_ObsGrupo equals stcog.id_ObsGrupo
+                                        join f in db.Files on stcod.id_file equals f.id_file
+                                        into flj
+                                        from file in flj.DefaultIfEmpty()
+                                        join stt in db.SGI_Tramites_Tareas on stcog.id_tramitetarea equals stt.id_tramitetarea
+                                        join strg in db.SGI_Tarea_Revision_Gerente on stt.id_tramitetarea equals strg.id_tramitetarea
+                                        join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                        join spua in db.SGI_Profiles on strg.CreateUser equals spua.userid
+                                        join spum in db.SGI_Profiles on strg.LastUpdateUser equals spum.userid
+                                        into splj
+                                        from sp in splj.DefaultIfEmpty()
+                                        where stt.id_tramitetarea == id_tramitetarea
+                                        && stcod.Actual == false
+                                        orderby strg.id_revision_gerente, stcod.id_ObsGrupo, stcod.id_ObsDocs
+                                        select new
+                                        {
+                                            ID = strg.id_revision_gerente,
+                                            Nombre_tarea = et.nombre_tarea,
+                                            UsuarioApeNom = (strg.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                            Fecha = (strg.LastUpdateDate.HasValue) ? (DateTime)strg.LastUpdateDate : strg.CreateDate,
+                                            stcod.id_ObsDocs,
+                                            stcod.id_ObsGrupo,
+                                            tdr.nombre_tdocreq,
+                                            stcod.id_tdocreq,
+                                            stcod.Observacion_ObsDocs,
+                                            stcod.Respaldo_ObsDocs,
+                                            stcod.id_file,
+                                            stcod.id_certificado,
+                                            Decido_no_subir = stcod.Decido_no_subir.Value
+                                        }).ToList();
+                    if (lstObservGer.Count > 0)
+                    {
+                        string observ;
+                        foreach (var lObs in lstObservGer)
+                        {
+                            if (tareaObserv == null)
+                            {
+                                tareaObserv = new ObservacionAnterioresv1();
+                                tareaObserv.ID = lObs.ID;
+                                tareaObserv.id_tarea = 0;
+                                tareaObserv.Nombre_tarea = lObs.Nombre_tarea;
+                                tareaObserv.id_tramitetarea = id_tramitetarea;
+                                tareaObserv.Observaciones = "";
+                                tareaObserv.UsuarioApeNom = lObs.UsuarioApeNom;
+                                tareaObserv.Fecha = lObs.Fecha;
+                            }
+                            observ = "<b>Tipo de Documento:</b>" + lObs.nombre_tdocreq + "<br/>";
+                            observ += "<b>Observación:</b>" + lObs.Observacion_ObsDocs + "<br/>";
+                            observ += "<b>Respaldo Normativo:</b>" + lObs.Respaldo_ObsDocs + "<br/>";
+                            string link = "";
+                            if (lObs.Decido_no_subir)
+                                link = "Decide NO subirlo";
+                            else
+                            {
+                                string url = lObs.id_file != null ?
+                                string.Format("../../GetPDF/{0}", HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.ASCII.GetBytes(lObs.id_file.ToString()))))
+                                : (lObs.id_certificado != 0 ? string.Format("../../ImprimirCertificado/{0}", lObs.id_certificado) : "");
+                                string nom = "documento_" + (lObs.id_file != null ? lObs.id_file.ToString() : (lObs.id_certificado != 0 ? lObs.id_certificado.ToString() : "")) + ".pdf";
+                                link = "<a target=\"_blank\" style =\"padding - right: 10px\" href =\"" + url + "\"><span class=\"text\">" + nom + "</span></a>";
+                            }
+                            observ += "<b>Documento: </b>" + link;
+                            tareaObserv.Item.Add(new Items(observ, ""));
+                        }
+                    }
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Revision_SubGerente:
+                    var q_subgerente = (from strsg in db.SGI_Tarea_Revision_SubGerente
+                                        join stt in db.SGI_Tramites_Tareas on strsg.id_tramitetarea equals stt.id_tramitetarea
+                                        join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                        join spua in db.SGI_Profiles on strsg.CreateUser equals spua.userid
+                                        join spum in db.SGI_Profiles on strsg.LastUpdateUser equals spum.userid
+                                        into splj
+                                        from sp in splj.DefaultIfEmpty()
+                                        where strsg.id_tramitetarea == id_tramitetarea
+                                        && (!string.IsNullOrEmpty(strsg.Observaciones) || !string.IsNullOrEmpty(strsg.observacion_plancheta) || !string.IsNullOrEmpty(strsg.observaciones_contribuyente))
+                                        orderby strsg.id_revision_subGerente descending
+                                        select new
+                                        {
+                                            ID = strsg.id_revision_subGerente,
+                                            strsg.Observaciones,
+                                            strsg.observacion_plancheta,
+                                            observacion_contribuyente = strsg.observaciones_contribuyente,
+                                            Nombre_tarea = et.nombre_tarea,
+                                            UsuarioApeNom = (strsg.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                            Fecha = (strsg.LastUpdateDate.HasValue) ? (DateTime)strsg.LastUpdateDate : strsg.CreateDate
+                                        }).FirstOrDefault();
+                    if (q_subgerente != null)
+                    {
+                        tareaObserv = new ObservacionAnterioresv1();
+                        tareaObserv.ID = q_subgerente.ID;
+                        tareaObserv.id_tarea = 0;
+                        tareaObserv.Nombre_tarea = q_subgerente.Nombre_tarea;
+                        tareaObserv.id_tramitetarea = id_tramitetarea;
+                        tareaObserv.Observaciones = "";
+                        tareaObserv.UsuarioApeNom = q_subgerente.UsuarioApeNom;
+                        tareaObserv.Fecha = q_subgerente.Fecha;
+                        if (!string.IsNullOrEmpty(q_subgerente.Observaciones))
+                            tareaObserv.Item.Add(new Items(q_subgerente.Observaciones + "<br/>", "Observaciones Internas:"));
+                        if (!string.IsNullOrEmpty(q_subgerente.observacion_plancheta))
+                            tareaObserv.Item.Add(new Items(q_subgerente.observacion_plancheta, "Notas adicionales para la disposición:"));
+                        if (!string.IsNullOrEmpty(q_subgerente.observacion_contribuyente))
+                            tareaObserv.Item.Add(new Items(q_subgerente.observacion_contribuyente + "<br/>", "Observaciones al Contribuyente:"));
+                    }
+                    var lstObservSubGer = (from stcod in db.SGI_Tarea_Calificar_ObsDocs
+                                           join tdr in db.TiposDeDocumentosRequeridos on stcod.id_tdocreq equals tdr.id_tdocreq
+                                           join stcog in db.SGI_Tarea_Calificar_ObsGrupo on stcod.id_ObsGrupo equals stcog.id_ObsGrupo
+                                           join f in db.Files on stcod.id_file equals f.id_file
+                                           into flj
+                                           from file in flj.DefaultIfEmpty()
+                                           join stt in db.SGI_Tramites_Tareas on stcog.id_tramitetarea equals stt.id_tramitetarea
+                                           join strsg in db.SGI_Tarea_Revision_SubGerente on stt.id_tramitetarea equals strsg.id_tramitetarea
+                                           join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                           join spua in db.SGI_Profiles on strsg.CreateUser equals spua.userid
+                                           join spum in db.SGI_Profiles on strsg.LastUpdateUser equals spum.userid
+                                           into splj
+                                           from sp in splj.DefaultIfEmpty()
+                                           where stt.id_tramitetarea == id_tramitetarea
+                                           && stcod.Actual == false
+                                           orderby strsg.id_revision_subGerente, stcod.id_ObsGrupo, stcod.id_ObsDocs
+                                           select new
+                                           {
+                                               ID = strsg.id_revision_subGerente,
+                                               Nombre_tarea = et.nombre_tarea,
+                                               UsuarioApeNom = (strsg.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                               Fecha = (strsg.LastUpdateDate.HasValue) ? (DateTime)strsg.LastUpdateDate : strsg.CreateDate,
+                                               stcod.id_ObsDocs,
+                                               stcod.id_ObsGrupo,
+                                               tdr.nombre_tdocreq,
+                                               stcod.id_tdocreq,
+                                               stcod.Observacion_ObsDocs,
+                                               stcod.Respaldo_ObsDocs,
+                                               stcod.id_file,
+                                               stcod.id_certificado,
+                                               Decido_no_subir = stcod.Decido_no_subir.Value
+                                           }).ToList();
+                    if (lstObservSubGer.Count > 0)
+                    {
+                        string observ;
+                        foreach (var lObs in lstObservSubGer)
+                        {
+                            if (tareaObserv == null)
+                            {
+                                tareaObserv = new ObservacionAnterioresv1();
+                                tareaObserv.ID = lObs.ID;
+                                tareaObserv.id_tarea = 0;
+                                tareaObserv.Nombre_tarea = lObs.Nombre_tarea;
+                                tareaObserv.id_tramitetarea = id_tramitetarea;
+                                tareaObserv.Observaciones = "";
+                                tareaObserv.UsuarioApeNom = lObs.UsuarioApeNom;
+                                tareaObserv.Fecha = lObs.Fecha;
+                            }
+                            observ = "<b>Tipo de Documento:</b>" + lObs.nombre_tdocreq + "<br/>";
+                            observ += "<b>Observación:</b>" + lObs.Observacion_ObsDocs + "<br/>";
+                            observ += "<b>Respaldo Normativo:</b>" + lObs.Respaldo_ObsDocs + "<br/>";
+                            string link = "";
+                            if (lObs.Decido_no_subir)
+                                link = "Decide NO subirlo";
+                            else
+                            {
+                                string url = lObs.id_file != null ?
+                                string.Format("../../GetPDF/{0}", HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.ASCII.GetBytes(lObs.id_file.ToString()))))
+                                : (lObs.id_certificado != 0 ? string.Format("../../ImprimirCertificado/{0}", lObs.id_certificado) : "");
+                                string nom = "documento_" + (lObs.id_file != null ? lObs.id_file.ToString() : (lObs.id_certificado != 0 ? lObs.id_certificado.ToString() : "")) + ".pdf";
+                                link = "<a target=\"_blank\" style =\"padding - right: 10px\" href =\"" + url + "\"><span class=\"text\">" + nom + "</span></a>";
+                            }
+                            observ += "<b>Documento: </b>" + link;
+                            tareaObserv.Item.Add(new Items(observ, ""));
+                        }
+                    }
+                    break;
+                case Constants.ENG_Tipos_Tareas_Transf.Verificacion_AVH:
+                    tareaObserv = (from stva in db.SGI_Tarea_Verificacion_AVH
+                                   join stt in db.SGI_Tramites_Tareas on stva.id_tramitetarea equals stt.id_tramitetarea
+                                   join et in db.ENG_Tareas on stt.id_tarea equals et.id_tarea
+                                   join spua in db.SGI_Profiles on stva.CreateUser equals spua.userid
+                                   join spum in db.SGI_Profiles on stva.LastUpdateUser equals spum.userid
+                                   into splj
+                                   from sp in splj.DefaultIfEmpty()
+                                   where stva.id_tramitetarea == id_tramitetarea
+                                   && !string.IsNullOrEmpty(stva.Observaciones)
+                                   orderby stva.id_verificacion_AVH descending
+                                   select new ObservacionAnterioresv1
+                                   {
+                                       ID = stva.id_verificacion_AVH,
+                                       Observaciones = stva.Observaciones,
+                                       Nombre_tarea = et.nombre_tarea,
+                                       UsuarioApeNom = (stva.LastUpdateUser.HasValue) ? sp.Apellido + ", " + sp.Nombres : spua.Apellido + ", " + spua.Nombres,
+                                       Fecha = (stva.LastUpdateDate.HasValue) ? (DateTime)stva.LastUpdateDate : stva.CreateDate
+                                   }).FirstOrDefault();
+                    break;
+                default:
+                    break;
+            }
+            tran.Commit();
+            tran.Dispose();
         }
         return tareaObserv;
     }

@@ -261,6 +261,13 @@ namespace SGI
             public const string Visado = "47";
             public const string Revision_Gerente_CP = "33";
             public const string Control_Informe = "21";
+            public const string Calificar_2 = "70";
+            public const string Consulta_Adicional_SGO = "74";
+            public const string Consulta_Adicional_GO = "75";
+            public const string Consulta_Adicional_Priv = "76";
+            public const string Dictamen_Asignacion = "40";
+            public const string Consulta_Adicional = "36";
+            public const string Revision_DGHyP_Caducidad = "17";
         }
 
         public enum ENG_Tareas
