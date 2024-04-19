@@ -300,7 +300,8 @@ namespace SGI.GestionTramite.Controls
                                       sol.CPadron_Solicitudes.nro_expediente_anterior,
                                       sol.NroExpedienteSade,
                                       sol.CreateDate,
-                                      sol.TiposdeTransmision.nom_tipotransmision
+                                      sol.TiposdeTransmision.nom_tipotransmision,
+                                      sol.FechaLibrado
                                   }).FirstOrDefault();
 
                     var enc = (from en in db.Encomienda
@@ -398,6 +399,20 @@ namespace SGI.GestionTramite.Controls
                     {
                         lblExpediente.Visible = true;
                         lblExpediente.Text = objsol.NroExpedienteSade;
+                    }
+
+
+                    if (objsol.FechaLibrado != null)
+                    {
+                        lblLibradoUso.Text = "<b>" + objsol.FechaLibrado.ToString() + "</b>";
+                    }
+                    else if (objsol.FechaLibrado == null && enc.AcogeBeneficios == true)
+                    {
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO, YA QUE SE ACOGE A LOS BENEFICIOS DE LA DI-2023-2-GCABA-UERESGP.</b></font>";
+                    }
+                    else
+                    {
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO.</b></font>";
                     }
                 }
                 else
