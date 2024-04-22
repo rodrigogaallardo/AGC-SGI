@@ -578,12 +578,12 @@ namespace SGI.GestionTramite.Controls
                                                     }
                                                     else if (transf.idTipoTransmision == (int)Constants.TipoTransmision.Transmision_nominacion)
                                                     {
-                                                        str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenomincacion.html"));
+                                                        str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenominacion.html"));
                                                         if (Functions.isTransmisionCambioActividad(id_solicitud))
-                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenomincacion.CambioActividad.html"));
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenominacion.CambioActividad.html"));
                                                         if (Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazado
                                                             || Functions.isResultadoDispoTransmision(id_solicitud) == (int)Constants.ENG_ResultadoTarea.Rechazo_In_Limine)
-                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenomincacion.Rechazo.html"));
+                                                            str_archivo = File.ReadAllText(Server.MapPath(@"~\Reportes\Transferencias\DisposicionTransmisionCambioDenominacion.Rechazo.html"));
                                                     }
                                                     else if (transf.idTipoTransmision == (int)Constants.TipoTransmision.Transmision_oficio_judicial)
                                                     {
