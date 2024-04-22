@@ -10,6 +10,8 @@ namespace SGI.Model
         public EE_Entities()
             : base("name=EE_Entities")
         {
+            base.Database.CommandTimeout = 360;
+            base.Database.ExecuteSqlCommand("SET TRANSACTION ISOLATION LEVEL READ COMMITTED;");
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

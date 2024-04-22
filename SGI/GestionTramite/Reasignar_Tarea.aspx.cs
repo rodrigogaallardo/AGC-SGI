@@ -61,7 +61,7 @@ namespace SGI
         private List<Servicios.clsEquipoTrabajo> getEquipoTrabajo(Guid userid)
         {
             List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
-            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }))
+            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
             {
                 try
                 {
@@ -131,7 +131,7 @@ namespace SGI
         {
             List<Servicios.clsEquipoTrabajo> lstEquipoTrabajo = new List<Servicios.clsEquipoTrabajo>();
 
-            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }))
+            using (var txn = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
             {
                 try
                 {
