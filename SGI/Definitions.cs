@@ -2693,7 +2693,7 @@ namespace SGI
                                     && da.nombre_archivo.Substring(da.nombre_archivo.IndexOf("IF-"), 26).StartsWith("IF-")
                                     && da.id_tdocreq == 81
                                     select da.nombre_archivo.Substring(da.nombre_archivo.IndexOf("IF-"), 26)).Max();
-            ret = extractedText.Equals(string.Empty) ? ret : extractedText;
+            ret = extractedText == null ? ret : extractedText;
             db.Dispose();
             return ret;
         }
