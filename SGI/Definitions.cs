@@ -199,6 +199,7 @@ namespace SGI
             public const string Revision_DGHyP_Caducidad = "17";
             public const string Primer_Gestion_Documental = "62"; //Reconsideración
             public const string Gestion_Documental = "58";//Reconsideración
+            public const string Verificacion_DGFYC = "38";
 
 
         }
