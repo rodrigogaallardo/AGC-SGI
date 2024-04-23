@@ -537,7 +537,11 @@ namespace SGI.GestionTramite.Tareas
                 {
                     sinProceso = true;
                 }
-                if (!sinProceso && !hayProcesosGenerados)
+                bool EsProximaTareaVerificacionDGFYC = false;
+                int idproxtarea = ucResultadoTarea.getIdProximaTarea();
+                var proxtarea = db.ENG_Tareas.FirstOrDefault(x => x.id_tarea == idproxtarea);
+                EsProximaTareaVerificacionDGFYC = proxtarea.id_tipo_tarea == Convert.ToInt32(Constants.ENG_Tipos_Tareas.Verificacion_DGFYC);
+                if (!sinProceso && !hayProcesosGenerados && !EsProximaTareaVerificacionDGFYC)
                 {
                     if (this.id_tarea == id_tarea_ger)
                         db.SGI_Tarea_Revision_Gerente_GenerarProcesos(this.TramiteTarea, ucResultadoTarea.getIdProximaTarea(), userid);
