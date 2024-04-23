@@ -1256,7 +1256,7 @@ namespace SGI.ABM
 
                         if (!actualizar)
                             continue;
-                        context.Database.CommandTimeout = 0;
+                        context.Database.CommandTimeout = 300;
                         using (var dbContextTransaction = context.Database.BeginTransaction())
                         {
                             try
