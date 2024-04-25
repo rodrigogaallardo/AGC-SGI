@@ -1,4 +1,6 @@
-﻿using SGI.Model;
+﻿using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
+using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -738,9 +740,6 @@ namespace SGI.ABM.Partidas
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             ValidarPuertas();
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
         }
 
         protected void btnContinuar(object sender, EventArgs e)
@@ -936,6 +935,10 @@ namespace SGI.ABM.Partidas
                         return;
                     }
                 }
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                Model.Ubicaciones obj = context.Ubicaciones.FirstOrDefault(u => u.id_ubicacion == int.Parse(hid_id_ubicacion.Value));
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "I", 1026);
                 if (result)
                 {
                     Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");

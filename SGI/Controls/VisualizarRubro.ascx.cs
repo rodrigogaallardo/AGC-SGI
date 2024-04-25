@@ -1,4 +1,6 @@
-﻿using SGI.Model;
+﻿using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
+using SGI.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1900,14 +1902,15 @@ namespace SGI.Controls
 
                 Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-
                 if (id_rubro == 0)
                 {
-                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                    Rubros obj = db.Rubros.FirstOrDefault(x => x.id_rubro == id_rubro);
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "I", 2010);
                 }
                 else
                 {
-                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "M");
+                    Rubros obj = db.Rubros.FirstOrDefault(x => x.id_rubro == id_rubro);
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "U", 2010);
                 }
 
                 this.EjecutarScript(updGuardar, "showBusqueda();");

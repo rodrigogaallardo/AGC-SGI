@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Newtonsoft.Json;
 using SGI.Model;
 using System;
 using System.Collections.Generic;
@@ -122,6 +123,7 @@ namespace SGI.GestionTramite.Controls
                             ftx.SaveChanges();
                             string script = "$('#frmEliminarLog').modal('show');";
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                            hid_id_object.Value = id_calle.ToString();
                         }
                         LoadData(id_calle);
                         tran.Commit();
@@ -404,18 +406,18 @@ namespace SGI.GestionTramite.Controls
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 3112);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 3113);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
 
     }

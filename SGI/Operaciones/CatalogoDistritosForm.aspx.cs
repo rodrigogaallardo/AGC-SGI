@@ -1,6 +1,7 @@
 ﻿    using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using SGI.Model;
 using SGI.Seguridad;
 using Syncfusion.DocIO.DLS;
@@ -145,13 +146,11 @@ namespace SGI.Operaciones
             {
                 ubicaciones_CatalogoDistritos.IdDistrito = context.Ubicaciones_CatalogoDistritos.Max(x => x.IdDistrito) + 1;
                 ubicaciones_CatalogoDistritos.IdGrupoDistrito = int.Parse(ddlGrupoDistricto.SelectedValue);
-                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
             }
             else
             {
                 ubicaciones_CatalogoDistritos.IdDistrito = IdGrupoDistrito;
                 ubicaciones_CatalogoDistritos.IdGrupoDistrito = int.Parse(hdIdGrupoDistrito.Value);
-                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
 
             }
 
@@ -185,8 +184,11 @@ namespace SGI.Operaciones
                 {
 
                     context.Ubicaciones_CatalogoDistritos.AddOrUpdate(ubicaciones_CatalogoDistritos);
-                   
 
+                    if (int.Parse(hdIdDistrito.Value) == 0)
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(ubicaciones_CatalogoDistritos), url, txtObservacionesSolicitante.Text, "I", 4014);
+                    else
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(ubicaciones_CatalogoDistritos), url, txtObservacionesSolicitante.Text, "U", 4014);
                     context.SaveChanges();
                     dbContextTransaction.Commit();
 

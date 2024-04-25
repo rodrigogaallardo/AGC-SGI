@@ -9,6 +9,9 @@ using System.Web.Security;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
+using ExternalService.Class;
 
 namespace SGI.ABM.RubrosCUR
 {
@@ -142,9 +145,8 @@ namespace SGI.ABM.RubrosCUR
                             SaveConfIncendio(rubroCur, db);
                             db.SaveChanges();
                             dbContextTransaction.Commit();
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(rubroCur), url, txtObservacionesSolicitante.Text, "U", 1023);
                         }
-
-                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
                     }
                     catch (Exception ex)
                     {
