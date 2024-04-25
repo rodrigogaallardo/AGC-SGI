@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revisión Gerente" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Gerente.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Revision_Gerente" %>
+﻿<%@ Page Title="Tarea: Consulta Adicional" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Consulta_Adicional.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Consulta_Adicional" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
@@ -16,7 +16,6 @@
 
 <asp:content id="Content1" contentplaceholderid="HeadContent" runat="server">
     <script type="text/javascript">
-
         function mostrarMensaje(texto, titulo) {
             $.gritter.add({
                 title: titulo,
@@ -25,23 +24,18 @@
                 sticky: false
             });
         }
-
     </script>
 </asp:content>
 <asp:content id="Content2" contentplaceholderid="FeaturedContent" runat="server">
 </asp:content>
 <asp:content id="Content3" contentplaceholderid="MainContent" runat="server">
-
     <%: Scripts.Render("~/bundles/Unicorn") %>
-
     <uc1:ucCabecera runat="server" ID="ucCabecera" />
     <uc1:ucTitulares runat="server" id="ucTitulares" />
     <uc1:ucListaDocumentos runat="server" ID="ucListaDocumentos" />
     <uc1:ucPreviewDocumentos runat="server" id="ucPreviewDocumentos" />
-  
     <asp:HiddenField ID="hid_id_solicitud" runat="server" Value="0" />
     <asp:HiddenField ID="hid_id_tramitetarea" runat="server"  Value="0"/>
-
     <div class="widget-box">
         <div class="widget-title">
             <span class="icon"><i class="icon-list-alt"></i></span>
@@ -50,52 +44,29 @@
         <div class="widget-content">
             <div style="padding: 20px">
                 <div style="width: 100%;">
-
                     <div>
                     </div>
-
                     <uc1:ucSGI_ListaDocumentoAdjuntoAnteriores runat="server" ID="ucSGI_ListaDocumentoAdjuntoAnteriores" Collapse="true" />
                     <uc1:ucDocumentoAdjunto runat="server" ID="ucDocumentoAdjunto" />
-
                     <uc1:ucListaObservacionesAnteriores ID="ucListaObservacionesAnteriores" runat="server" />
                     <uc1:ucListaObservacionesAnterioresv1 ID="ucListaObservacionesAnterioresv1" runat="server" Collapse="true" />
-
                     <uc1:ucListaResultadoTareasAnteriores ID="ucListaResultadoTareasAnteriores" runat="server" Collapse="true" Titulo="Resultado Tarea Anterior" />
-
                     <uc1:ucObservacionesTarea runat="server" ID="ucObservacionesTarea" 
                         LabelObservacion="Observaciones internas"/>
-
                     <uc1:ucObservacionesTarea runat="server" id="ucObservacionPlancheta" 
                         LabelObservacion="Observaciones para plancheta"/>
-
                     <uc1:ucObservacionesTarea runat="server" id="UcObservacionesContribuyente" 
                         LabelObservacion="Observaciones para Contribuyente"/>
-
                     <uc1:ucObservacionesTarea runat="server" id="ucObservacionProvidencia" 
                         LabelObservacion="Providencia"/>
-
-                    <asp:UpdatePanel ID="updGuardarProvidenciaHTML" runat="server">
-                        <ContentTemplate>
-                            <div class="control-group">
-                                <label class="control-label">Guardar Providencia como Archivo HTML:</label>
-                                <asp:CheckBox ID="chbGuardarProvidenciaHTML" runat="server" Checked="false" />
-                            </div>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-
                     <uc1:ucObservacionesTareav1 runat="server" id="ucObservaciones"/>
-
                     <uc1:ucResultadoTarea runat="server" ID="ucResultadoTarea"
                         OnGuardarClick="ucResultadoTarea_GuardarClick"
                         OnCerrarClick="ucResultadoTarea_CerrarClick"
                         OnResultadoSelectedIndexChanged="ucResultadoTarea_ResultadoSelectedIndexChanged" 
                         OnFinalizarTareaClick="ucResultadoTarea_FinalizarTareaClick" />
-
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </asp:content>

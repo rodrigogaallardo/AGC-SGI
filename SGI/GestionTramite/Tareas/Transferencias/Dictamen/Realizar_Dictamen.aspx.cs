@@ -2,6 +2,7 @@
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -244,8 +245,13 @@ namespace SGI.GestionTramite.Tareas.Transferencias.Dictamen
 
                 bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0;
 
+                SGI_Tramites_Tareas_TRANSF tramite_tarea = db.SGI_Tramites_Tareas_TRANSF.FirstOrDefault(x => x.id_tramitetarea == TramiteTarea);
+                bool existeCaratua = (from ttt in db.SGI_Tramites_Tareas_TRANSF
+                                      join ssp in db.SGI_SADE_Procesos on ttt.id_tramitetarea equals ssp.id_tramitetarea
+                                      where ttt.id_solicitud == tramite_tarea.id_solicitud && ssp.id_proceso == 2
+                                      select ssp).Any();
                 
-                if (!hayProcesosGenerados)
+                if (!hayProcesosGenerados && existeCaratua)
                 {
                     db.SGI_Transmisiones_GenerarProcesos_SADE_Dictamen(this.TramiteTarea, userid);
                     ucResultadoTarea.btnFinalizar_Enabled = false;

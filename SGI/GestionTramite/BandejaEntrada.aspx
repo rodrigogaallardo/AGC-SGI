@@ -66,7 +66,7 @@
                             <asp:ListItem Value="false">Sin asignar</asp:ListItem>
                             <asp:ListItem Value="true">Asignadas</asp:ListItem>
                         </asp:DropDownList>
-                    </div>
+                    </div>                   
                     <div id="bandejaFilterAsignacion" runat="server" style="display: table-cell; vertical-align: middle;">
                         <asp:Label ID="lblTareaAsignacion" runat="server" 
                             Text="Tarea" Style="padding-right: 5px; padding-left: 0px; font-size: small; vertical-align: middle;"></asp:Label>
@@ -86,20 +86,20 @@
                             </ContentTemplate>
                         </asp:UpdatePanel>
 
-                    </div>
+                    </div>                     
                 </div>
             </div>
         </asp:Panel>
 
         <asp:HiddenField ID="hid_userid" runat="server" />
 
-        <div id="BandejaPropia" runat="server" class="widget-content">
+        <div id="BandejaPropia" runat="server" class="widget-content">            
 
             <asp:UpdatePanel ID="updBandejaPropia" runat="server">
                 <ContentTemplate>
                     <div style="display: inline-block">
                         <h5>Lista de trámites</h5>
-                    </div>
+                    </div>                   
                     <div style="display: inline-block">
                         (<span class="badge"><asp:Label ID="lblCantTramitesBandejaPropia" runat="server"></asp:Label></span>
                         <span class="badge" style="background-color: #ffb300"><asp:Label ID="lblCantSadeContinuar" style="color: #000000; " runat="server"></asp:Label></span>
@@ -118,11 +118,18 @@
                         </div>
 
                     </div>
+                     <div style="margin-top: 10px;">
+                        <p style="font-size: small;">
+                            <span style="background-color: red; width: 10px; height: 10px; display: inline-block; margin-right: 5px;"></span>
+                            Las solicitudes que aparecen en color rojo, no se encuentran habilitadas para su Usuario, ya que no cuenta con los permisos necesarios.
+                        </p>
+                    </div>
                     <asp:GridView ID="grdBandeja" runat="server" AutoGenerateColumns="false"
-                        GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
+                        GridLines="None" CssClass="table table-bordered table-hover with-check"
                         DataKeyNames="id_solicitud,url_tareaTramite,cod_grupotramite" AllowPaging="true" PageSize="30"
                         ItemType="SGI.Model.clsItemBandejaEntrada" SelectMethod="GetTramitesBandeja" AllowSorting="true"
-                        OnDataBound="grdBandeja_DataBound">
+                        OnDataBound="grdBandeja_DataBound"
+                        OnRowDataBound="grdBandeja_RowDataBound">
                         <SortedAscendingHeaderStyle CssClass="GridAscendingHeaderStyle" />
                         <SortedDescendingHeaderStyle CssClass="GridDescendingHeaderStyle" />
 
