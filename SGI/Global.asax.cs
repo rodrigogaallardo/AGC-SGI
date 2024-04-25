@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using SGI;
+using SGI.App_Start;
 
 namespace SGI
 {
@@ -18,6 +20,8 @@ namespace SGI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //AuthConfig.RegisterOpenAuth();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+
         }
 
         void Application_End(object sender, EventArgs e)

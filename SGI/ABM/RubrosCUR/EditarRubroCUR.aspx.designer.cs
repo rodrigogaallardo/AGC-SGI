@@ -292,25 +292,11 @@ namespace SGI.ABM.RubrosCUR {
         protected global::System.Web.UI.WebControls.CheckBox ChkLibrado;
         
         /// <summary>
-        /// Control Label50.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label50;
-        
-        /// <summary>
-        /// Control ChkSoloApra.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox ChkSoloApra;
-        
-        /// <summary>
+
         /// Label15 control.
+
+        /// Control Label50.
+
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
@@ -333,6 +319,55 @@ namespace SGI.ABM.RubrosCUR {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label50;
+        
+        /// <summary>
+
+        /// chkAsistentes350 control.
+
+        /// Control ChkSoloApra.
+
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ChkSoloApra;
+        
+        /// <summary>
+        /// Label15 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label15;
+
+        /// <summary>
+
+        /// Label14 control.
+
+        /// ChkExpress control.
+
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ChkExpress;
+
+        /// <summary>
+
+        /// chkSinBanioPCD control.
+
+        /// Label8 control.
+
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label8;
         
@@ -360,6 +395,7 @@ namespace SGI.ABM.RubrosCUR {
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
+
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkSinBanioPCD;
         
@@ -1067,6 +1103,7 @@ namespace SGI.ABM.RubrosCUR {
         
         /// <summary>
         /// Label9 control.
+
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
@@ -1085,24 +1122,31 @@ namespace SGI.ABM.RubrosCUR {
         
         /// <summary>
         /// Control lblObservacionesSolicitante.
+
         /// </summary>
         /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblObservacionesSolicitante;
 
         /// <summary>
+
+        /// txtObservaciones control.
+
         /// Control txtObservacionesSolicitante.
+
         /// </summary>
         /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitante;
 
         /// <summary>
+
         /// Control btnGuardarRubroCN.
+
         /// btnGuardarRubroCN control.
         /// </summary>
         /// <remarks>

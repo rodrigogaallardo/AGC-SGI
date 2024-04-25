@@ -66,7 +66,9 @@ namespace SGI.ABM.RubrosCUR
                     //
                     ChkLibrado.Checked = q.LibrarUso;
                     ChkExpress.Checked = q.CondicionExpress;
+
                     ChkSoloApra.Checked = q.SoloAPRA;
+
                     txtZonaMixtura1.Text = q.ZonaMixtura1;
                     txtZonaMixtura2.Text = q.ZonaMixtura2;
                     txtZonaMixtura3.Text = q.ZonaMixtura3;
@@ -120,7 +122,9 @@ namespace SGI.ABM.RubrosCUR
                             rubroCur.IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value);
                             rubroCur.LibrarUso = ChkLibrado.Checked;
                             rubroCur.CondicionExpress = ChkExpress.Checked;
+
                             rubroCur.SoloAPRA = ChkSoloApra.Checked;
+
                             rubroCur.ZonaMixtura1 = txtZonaMixtura1.Text;
                             rubroCur.ZonaMixtura2 = txtZonaMixtura2.Text;
                             rubroCur.ZonaMixtura3 = txtZonaMixtura3.Text;

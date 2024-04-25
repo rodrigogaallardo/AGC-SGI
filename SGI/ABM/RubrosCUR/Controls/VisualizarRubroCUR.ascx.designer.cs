@@ -638,20 +638,28 @@ namespace SGI.Controls
         protected global::System.Web.UI.WebControls.TextBox txtObservaciones;
 
         /// <summary>
+
+        /// btnCrearRubroCN control.
+
         /// Control lblObservacionesSolicitantes.
+
         /// </summary>
         /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblObservacionesSolicitantes;
 
         /// <summary>
+
+        /// btnCancelar control.
+
         /// Control txtObservacionesSolicitantes.
+
         /// </summary>
         /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitantes;
 
