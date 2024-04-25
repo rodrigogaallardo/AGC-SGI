@@ -715,6 +715,7 @@
     <Content Include="GestionTramite\Tareas\Transferencias\Consulta_Adicional.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Verificacion_DGFyC.aspx" />
     <Content Include="GestionTramite\Tareas\Verificacion_DGFyC.aspx" />
+    <Content Include="Operaciones\ConsultaMovimientos.aspx" />
     <Content Include="Operaciones\FeriadosIndex.aspx" />
     <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
@@ -2266,6 +2267,9 @@
     <Compile Include="Model\SGI_Tarea_Consulta_Adicional.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\SGI_Log_MovimientosUsuario.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SGI_Tarea_Transicion_Enviar_DGFYCO.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -2289,6 +2293,13 @@
     </Compile>
     <Compile Include="Model\wsEE_Paquetes.cs">
       <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\ConsultaMovimientos.aspx.cs">
+      <DependentUpon>ConsultaMovimientos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ConsultaMovimientos.aspx.designer.cs">
+      <DependentUpon>ConsultaMovimientos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
       <DependentUpon>FeriadosIndex.aspx</DependentUpon>

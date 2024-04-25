@@ -383,6 +383,7 @@
         public DbSet<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
         public DbSet<SGI_Tipos_Planos_Incendio> SGI_Tipos_Planos_Incendio { get; set; }
         public DbSet<SGI_Tarea_Verificacion_DGFyC> SGI_Tarea_Verificacion_DGFyC { get; set; }
+        public DbSet<SGI_Log_MovimientosUsuario> SGI_Log_MovimientosUsuario { get; set; }
         public DbSet<SGI_Tarea_Consulta_Adicional> SGI_Tarea_Consulta_Adicional { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
