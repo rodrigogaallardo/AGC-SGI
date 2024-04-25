@@ -1126,5 +1126,14 @@ namespace SGI.Model
         public bool? SinBanioPCD { get; set; }
     }
 
-
+    public partial class clsItemGrillaBuscarMovimientos
+    {
+        public string id { get; set; }
+        public string usuario { get; set; }
+        public DateTime FechaIngreso { get; set; }
+        public string TipoMovimiento { get; set; }
+        public string URL { get; set; }
+        //public string DatosAdicionales { get; set; }
+        public string Observacion_Solicitante { get; set; }
+    }
 }
