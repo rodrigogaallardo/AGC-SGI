@@ -117,7 +117,12 @@
         </td>
     </tr>
 </table>
-
+    <div class="control-group" style="padding-top: 100px;">
+        <label class="control-label">Observaciones del Solicitante:</label>
+        <div class="controls">
+            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Height="100px" Width="400px" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
     
     <%--modal de Errores--%>
     <div id="frmError" class="modal fade">

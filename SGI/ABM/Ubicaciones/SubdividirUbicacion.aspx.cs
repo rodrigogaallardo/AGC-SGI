@@ -1,12 +1,13 @@
 ﻿using SGI.Model;
+using SGI.WebServices;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Drawing;
 
 namespace SGI.ABM.Ubicaciones
 {
@@ -304,7 +305,7 @@ namespace SGI.ABM.Ubicaciones
                          where cal.Codigo_calle == codCalle
                          && (cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle) <= nroPuerta
                          && (cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle) >= nroPuerta
-                         select cal).SingleOrDefault();
+                         select cal).FirstOrDefault();
 
                 if (c != null)
                     return c.NombreOficial_calle;
@@ -561,7 +562,7 @@ namespace SGI.ABM.Ubicaciones
                               join est in db.Ubicaciones_Estados on op.id_estado equals est.id_estado
                               where ac.Descripcion.Contains("Subdivisión") && est.Descripcion.Contains("En Proceso")
                               && op.CreateUser == userid && ubiOperacionesDet.id_ubicacion == id_ubi_padre
-                              select ubiOperacionesDet).SingleOrDefault();
+                              select ubiOperacionesDet).FirstOrDefault();
 
                 // Devuelvo el id de la operacion
                 if (op_det != null)
@@ -589,7 +590,7 @@ namespace SGI.ABM.Ubicaciones
                               where op.id_operacion == id_opercion && op.CreateUser == userid
                               && ac.Descripcion.Contains("Subdiv") && est.Descripcion.Contains("En Proceso")
                               && ubiOperacionesDet.id_ubicacion != null && ubiOperacionesDet.id_ubicacion_temp == null
-                              select ubiOperacionesDet).SingleOrDefault();
+                              select ubiOperacionesDet).FirstOrDefault();
 
                 // Devuelvo el id de la operacion
                 if (op_det != null)
@@ -675,13 +676,13 @@ namespace SGI.ABM.Ubicaciones
                 if (id_ubi != 0)
                 {
                     op_det.id_ubicacion = id_ubi;
-                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion == id_ubi).SingleOrDefault();
+                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion == id_ubi).FirstOrDefault();
                 }
 
                 if (id_ubi_temp != 0)
                 {
                     op_det.id_ubicacion_temp = id_ubi_temp;
-                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion_temp == id_ubi_temp).SingleOrDefault();
+                    op_existe = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_operacion == id_ope && o.id_ubicacion_temp == id_ubi_temp).FirstOrDefault();
                 }
 
                 if (detalle != "")
@@ -706,7 +707,7 @@ namespace SGI.ABM.Ubicaciones
         {
             using (var ctx = new DGHP_Entities())
             {
-                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).SingleOrDefault();
+                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).FirstOrDefault();
                 if (op != null)
                     op.id_estado = 2; // Confirmada
                 return ctx.SaveChanges() != 0;
@@ -720,7 +721,7 @@ namespace SGI.ABM.Ubicaciones
                 // Verificamos si ya esta registrada la ubicacion 
                 if (id_op != 0)
                 {
-                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_op).SingleOrDefault();
+                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_op).FirstOrDefault();
                     if (op != null)
                         return op.id_ubicacion != null ? (int)op.id_ubicacion : 0;
                 }
@@ -735,7 +736,7 @@ namespace SGI.ABM.Ubicaciones
                 // Actualizamos el id_ubicacion de la operación 
                 if (id_operacion != 0)
                 {
-                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_operacion).SingleOrDefault();
+                    var op = ctx.Ubicaciones_Operaciones_Detalle.Where(o => o.id_ubicacion_temp == id_temp && o.id_operacion == id_operacion).FirstOrDefault();
                     if (op != null)
                         op.id_ubicacion = id_ubicacion;
 
@@ -754,7 +755,7 @@ namespace SGI.ABM.Ubicaciones
             using (var ctx = new DGHP_Entities())
             {
                 // Buscamos la operacion para anularla
-                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).SingleOrDefault();
+                var op = ctx.Ubicaciones_Operaciones.Where(o => o.id_operacion == id_op).FirstOrDefault();
                 if (op != null)
                 {
                     // Buscamos si tiene ubicaciones temporales 
@@ -787,7 +788,50 @@ namespace SGI.ABM.Ubicaciones
             {
                 var ubi = ctx.Ubicaciones.Where(u => u.id_ubicacion == id_ubi).SingleOrDefault();
                 if (ubi != null)
+                {
                     ubi.baja_logica = true;
+
+                    //Comunico las bajas a Fachadas
+                    string User = Parametros.GetParam_ValorChar("User.Ley257");
+                    string Pass = Parametros.GetParam_ValorChar("Pass.Ley257");
+                    string URL = Parametros.GetParam_ValorChar("URL.Ley257");
+                    var ActionLogin = Parametros.GetParam_ValorChar("Action.Login.Ley257");
+                    var ActionDarBajaUbicacion = Parametros.GetParam_ValorChar("Action.DarBajaUbicacion.Ley257");
+
+                    if (!string.IsNullOrEmpty(ActionDarBajaUbicacion))
+                    {
+                        ws_Ley257 serv = new ws_Ley257();
+                        var tokenResponse = serv.Token(URL, ActionLogin, User, Pass);
+
+                        if (tokenResponse.IsSuccess)
+                        {
+                            var token = (Ley257Token)tokenResponse.Result;
+                            var data = new Ley257RequestDarBajaUbicacion
+                            {
+                                Seccion = (int)ubi.Seccion,
+                                Manzana = ubi.Manzana,
+                                Parcela = ubi.Parcela,
+                                UbicacionID = ubi.id_ubicacion
+                            };
+
+                            // Llamo al método DarBajaUbicacion
+                            var darBajaResponse = serv.DarBajaUbicacion(token.AccessToken, URL, ActionDarBajaUbicacion, data);
+
+                            if (darBajaResponse.IsSuccess)
+                            {
+                                string Message = darBajaResponse.Message;
+                            }
+                            else
+                            {
+                                string errorMessage = darBajaResponse.Message;
+                            }
+                        }
+                        else
+                        {
+                            string errorMessage = tokenResponse.Message;
+                        }
+                    }
+                }
 
                 return ctx.SaveChanges() != 0;
             }
@@ -1799,7 +1843,7 @@ namespace SGI.ABM.Ubicaciones
 
             //if (id_op != 0 && !AnularOperacion(id_op))
             if (!AnularOperacion(id_op))
-                    throw new Exception("Error al anular la operación. Intente nuevamente.");
+                throw new Exception("Error al anular la operación. Intente nuevamente.");
             else
                 Session["id_operacion"] = 0; // Liberamos la operación
 
@@ -2374,11 +2418,25 @@ namespace SGI.ABM.Ubicaciones
             {
                 try
                 {
-                    int existe = GetIdTempPendienteNroPartida(UbiNroPartida);
-                    if (existe > 0)
+                    int existeTemp = GetIdTempPendienteNroPartida(UbiNroPartida);
+                    if (existeTemp > 0)
                     {
                         txtNroPartida.Text = "";
                         throw new Exception("Ya existe una Ubicacion en proceso con el mismo Nro de PartidaMatriz");
+                    }
+
+                    using (var ctx = new DGHP_Entities()) 
+                    {
+                        var exist = (from ubic in ctx.Ubicaciones
+                                     where ubic.NroPartidaMatriz == UbiNroPartida
+                                     && ubic.baja_logica == false
+                                     select ubic.id_ubicacion);
+
+                        if(exist != null && exist.Count() > 0)
+                        {
+                            txtNroPartida.Text = "";
+                            throw new Exception("Ya existe una ubicacion con el mismo Nro de PartidaMatriz");
+                        }
                     }
                 }
                 catch (Exception ex)

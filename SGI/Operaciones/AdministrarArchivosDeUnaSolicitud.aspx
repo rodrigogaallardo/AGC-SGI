@@ -3,6 +3,7 @@
     MasterPageFile="~/Site.Master"
     Language="C#" 
     AutoEventWireup="true" 
+    async="true"
     CodeBehind="AdministrarArchivosDeUnaSolicitud.aspx.cs" 
     Inherits="SGI.Operaciones.AdministrarArchivosDeUnaSolicitud" 
 %>
@@ -19,26 +20,83 @@
     <script src="../Scripts/Select2-locales/select2_locale_es.js"></script>
     <script src="../Scripts/Funciones.js" type="text/javascript"></script>
     <script src="../Scripts/Datepicker_es.js" type="text/javascript"></script>
-    <%: Styles.Render("~/Content/themes/base/css") %>
 
+    <%: Styles.Render("~/Content/themes/base/css") %>
+    <style>
+    .custom-table {
+        background-color: rgb(249, 249, 249);
+        }
+    </style>
     <hgroup class="title">
         <h1><%= Title %>.</h1>
     </hgroup>
+   <div>
+       <div class="row-fluid">
+          <div class="span3">
+            <label class="control-label" for="txtBuscarSolicitud">Buscar por Número de Solicitud</label><br />
+              <div class="controls">
+                        <asp:TextBox id="txtBuscarSolicitud" runat="server" CssClass="controls"/>
+               </div>
+              <div class="control-group">
+                   <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
+               </div>
+          </div>
+            <asp:Panel ID="viewDropDownList" runat="server" class="span3" Visible="false">
+                    <label class="control-label" for="txtBuscarSolicitud">Usuario Documentos</label>
+                    <div class="controls">
+                        <asp:DropDownList ID="ddlUsuario" runat="server" Width="150px"></asp:DropDownList>
+                        <asp:HiddenField ID="hid_paquete" runat="server"/>
+                    </div>
+            </asp:Panel>
 
-    <div class="control-group">
-        <label class="control-label" for="txtBuscarSolicitud">Buscar por N&uacute;mero de Solicitud</label>
-        <div class="controls">
-            <asp:TextBox id="txtBuscarSolicitud" runat="server" CssClass="controls"/>
-        </div>
-    </div>
+           <asp:Panel class="accordion" runat="server" id="myAccordion">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <asp:Label runat="server" class="accordion-toggle" data-toggle="collapse" data-parent="#myAccordion" href="#collapseExpedienteElectronicoData">
+                            Mostrar Detalles Expediente Electrónico <i class="icon-chevron-down"></i>
+                        </asp:Label>
+                    </div>
+                    <div id="collapseExpedienteElectronicoData" class="accordion-body collapse">
+                                <asp:Panel ID="viewValorExpediente" runat="server" class="span6" Visible="false">
+                                    <table class="table table-bordered table-striped custom-table">
+                                        <tr>
+                                            <td style="width: 30%;"><label class="control-label" for="txtExpedienteElectronico">Expediente Electronico:</label></td>
+                                            <td><asp:Label ID="txtExpedienteElectronicoValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtEstado">Estado:</label></td>
+                                            <td><asp:Label ID="txtEstadoValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtUsuarioCaratulador">Usuario Caratulador:</label></td>
+                                            <td><asp:Label ID="txtUsuarioCaratuladorValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtUsuario">Usuario:</label></td>
+                                            <td><asp:Label ID="txtUsuarioValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtReparticion">Reparticion:</label></td>
+                                            <td><asp:Label ID="txtReparticionValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="control-label" for="txtSector">Sector:</label></td>
+                                            <td><asp:Label ID="txtSectorValor" runat="server" CssClass="control-label"></asp:Label></td>
+                                        </tr>
+                                    </table>
+                              </asp:Panel>
+                      </div>
+                 </div>
+             </asp:Panel>
 
-    <div class="control-group">
-        <asp:Button id="btnBuscarSolicitud" runat="server" Text="Buscar" OnClick="btnBuscarSolicitud_Click" CssClass="btn btn-primary"/>
-    </div>
+       </div>
+   </div>
 
     <hr/>
 
     <div id="box_resultado" style="display:none;">
+        <asp:HiddenField ID="hid_valor_boton" runat="server" />
+        <asp:HiddenField ID="hid_observaciones" runat="server" />
         <div class="widget-box">
             <asp:UpdatePanel ID="updResultados" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
@@ -117,7 +175,7 @@
                                         <asp:Label ID="labelUsuarioCreador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                <%--
                                 <asp:TemplateField HeaderText="Fecha de Modificacion">
                                     <ItemTemplate>
                                         <asp:Label ID="labelUpdateDate" runat="server" Text='<%# Bind("UpdateDate") %>'></asp:Label>
@@ -127,6 +185,12 @@
                                 <asp:TemplateField HeaderText="Usuario de Modificacion">
                                     <ItemTemplate>
                                         <asp:Label ID="labelUsuarioModificador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                --%>
+                                <asp:TemplateField HeaderText="nro de Gedo">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelNroDeGedo" runat="server" Text=''></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -159,6 +223,20 @@
                                                 Width="70px">
                                             <i class="icon icon-trash"></i> 
                                             <span class="text">Eliminar</span></a>
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <asp:LinkButton HeaderText="Subir SADE"
+                                            ID="lnkDocSadeSolic" runat="server"
+                                            CommandArgument='<%# Eval("id_docadjunto") %>'
+                                            CommandName='<%# Eval("id_file") %>'
+                                            OnClientClick="javascript:return tda_confirm_upload();"
+                                            OnCommand="lnkSubirDocSadeSolic_Command"
+                                            Width="70px">
+                                        <i class="icon icon-upload"></i> 
+                                        <span class="text">Subir SADE</span></a>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -220,7 +298,7 @@
                             <Columns>
                                 <asp:TemplateField Visible="false">
                                     <ItemTemplate>
-                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_docadjunto") %>'></asp:Label>
+                                        <asp:Label ID="labelIdDocAdjunto" runat="server" Text='<%# Bind("id_doc_adj") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -271,7 +349,7 @@
                                         <asp:Label ID="labelUsuarioCreador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                <%--
                                 <asp:TemplateField HeaderText="Fecha de Modificacion">
                                     <ItemTemplate>
                                         <asp:Label ID="labelUpdateDate" runat="server" Text='<%# Bind("UpdateDate") %>'></asp:Label>
@@ -283,7 +361,12 @@
                                         <asp:Label ID="labelUsuarioModificador" runat="server" Text='<%# Bind("aspnet_Users.UserName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                --%>
+                                <asp:TemplateField HeaderText="nro de Gedo">
+                                    <ItemTemplate>
+                                        <asp:Label ID="labelNroDeGedo" runat="server" Text=''></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Nombre de Archivo">
                                     <ItemTemplate>
                                         <asp:Label ID="labelNombreArchivo" runat="server" Text='<%# Bind("nombre_archivo") %>'></asp:Label>
@@ -293,14 +376,28 @@
                                 <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
                                     <ItemTemplate>
                                         <asp:LinkButton HeaderText="Eliminar"
-                                                ID="lnkEliminarDocTrans" runat="server" 
-                                                CommandArgument='<%# Eval("id_docadjunto") %>' 
-                                                CommandName ='<%# Eval("id_file") %>'
-                                                OnClientClick="javascript:return tda_confirm_del();"
-                                                OnCommand="lnkEliminarDocTrans_Command" 
-                                                Width="70px">
+                                            ID="lnkEliminarDocTrans" runat="server"
+                                            CommandArgument='<%# Eval("id_docadjunto") %>'
+                                            CommandName='<%# Eval("id_file") %>'
+                                            OnClientClick="javascript:return tda_confirm_del();"
+                                            OnCommand="lnkEliminarDocTrans_Command"
+                                            Width="70px">
                                             <i class="icon icon-trash"></i> 
                                             <span class="text">Eliminar</span></a>
+                                        </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ItemStyle-Height="24px" ItemStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <asp:LinkButton HeaderText="Subir SADE"
+                                            ID="lnkDocSadeSolic" runat="server"
+                                            CommandArgument='<%# Eval("id_docadjunto") %>'
+                                            CommandName='<%# Eval("id_file") %>'
+                                            OnClientClick="javascript:return tda_confirm_upload();"
+                                            OnCommand="lnkSubirDocSadeSolic_Command"
+                                            Width="70px">
+                                        <i class="icon icon-upload"></i> 
+                                        <span class="text">Subir SADE</span></a>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -355,6 +452,35 @@
 
         <hr/>
 
+        <%-- Modal Observacion Solicitante--%>
+        <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">Observaciones del Solicitante:</label>
+                            <div class="controls">
+                                <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%-- Botones --%>
+                    <div class="modal-footer" style="text-align: left;">
+                        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
         <div class="control-group">
             <asp:Button id="btnAgregarArchivo" runat="server" Text="Agregar" OnClick="btnAgregarArchivo_Click" CssClass="btn btn-primary"/>
         </div>
@@ -363,6 +489,17 @@
     <script type="text/javascript">
         function tda_confirm_del() {
             return confirm('¿Esta seguro que desea eliminar este Registro?');
+        }
+
+
+        function showResultado() {
+            $("#box_resultado").show("slow");
+        }
+    </script>
+
+    <script type="text/javascript">
+        function tda_confirm_upload() {
+            return confirm('¿Esta seguro que desea subir y relacionar este Documento con el Expediente Electronico?');
         }
 
         function showResultado() {

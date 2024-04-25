@@ -47,8 +47,13 @@
         </div>
         <div style="width: 500px; display: inline-block; vertical-align:top; margin-top: 5px;" >
             <asp:TextBox ID="txtDescripcion" TextMode="MultiLine" onkeypress="return this.value.length<100"  Rows="3" MaxLength="100"    runat="server" style=" vertical-align:top;"></asp:TextBox>
+        </div>     
+    </div>
+    <div class="control-group" style="padding-top: 20px;">
+        <label class="control-label">Observaciones del Solicitante:</label>
+        <div class="controls">
+            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="350px" TextMode="MultiLine"></asp:TextBox>
         </div>
-        
     </div>
 
 

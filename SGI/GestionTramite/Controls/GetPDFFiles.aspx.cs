@@ -1,9 +1,11 @@
-﻿using SGI.WebServices;
+﻿using SGI.Model;
+using SGI.WebServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -43,13 +45,16 @@ namespace SGI.GestionTramite.Controls
         {
             try
             {
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 byte[] Pdf = new byte[0];
                 string FileName = string.Empty;
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file,string.Empty, url,null,null);
                 if (id_file > 0)
                 {
                     try
                     {
-                        Pdf = ws_FilesRest.descargarArchivo(id_file, out FileName);
+                        Pdf = ws_FilesRest.descargarArchivo_new(id_file, out FileName);
                     }
                     catch { }
                 }
@@ -61,7 +66,7 @@ namespace SGI.GestionTramite.Controls
                     Response.ContentType = Functions.GetMimeTypeByFileName(FileName);
                     Response.ContentEncoding = Encoding.UTF8;
                     Response.AddHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", FileName));
-                    Response.AddHeader("Content-Length", Pdf.Length.ToString());
+                    //Response.AddHeader("Content-Length", Pdf.Length.ToString());
                     Response.AddHeader("Connection", "keep-alive");
                     Response.AddHeader("Accept-Encoding", "identity");
                     Response.OutputStream.Write(Pdf, 0, Pdf.Length);
@@ -72,6 +77,7 @@ namespace SGI.GestionTramite.Controls
                     Response.Clear();
                     Response.Write("No es posible encontrar el archivo");
                 }
+
             }
             catch (Exception)
             {

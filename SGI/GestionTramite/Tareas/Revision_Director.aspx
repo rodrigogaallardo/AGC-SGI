@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revisión Director" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Director.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Revision_Director" %>
+﻿<%@ Page Title="Tarea: Revisión Director" Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Director.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Revision_Director" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

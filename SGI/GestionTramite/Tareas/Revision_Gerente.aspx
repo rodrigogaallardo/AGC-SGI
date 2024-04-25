@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Revisión Gerente" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Gerente.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Revision_Gerente" %>
+﻿<%@ Page Title="Tarea: Revisión Gerente" Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Revision_Gerente.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Revision_Gerente" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>
@@ -82,12 +82,16 @@
 
                     <uc1:ucObservacionesTareav1 runat="server" id="ucObservaciones"/>
 
-                    <asp:Panel ID="pnl_Librar_Uso" runat="server" Visible="false">
-                        <div class="control-group">
-                            <label class="control-label">Librar Uso:</label>
-                                <asp:CheckBox ID="chbLibrarUso" runat="server" Checked="false" />
-                        </div>
-                    </asp:Panel>
+                    <asp:UpdatePanel ID="pnl_Librar_Uso" runat="server" Visible="false">
+                        <ContentTemplate>
+                            <div class="control-group">
+                                <label class="control-label">Librar Uso:</label>
+                                <asp:CheckBox ID="chbLibrarUso" runat="server" Checked="false" AutoPostBack="true" OnCheckedChanged="ChbLibrarUso_CheckedChanged" />
+                            </div>
+                            <uc1:ucObservacionesTarea runat="server" ID="UcObservacionesLibrarUso" UpdateMode="Conditional"
+                                LabelObservacion="Observaciones adicionales al Librado al Uso para la Oblea:" Enabled="true" />
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
 
                     <asp:UpdatePanel ID="updFinalizarTarea" runat="server">
                         <ContentTemplate>

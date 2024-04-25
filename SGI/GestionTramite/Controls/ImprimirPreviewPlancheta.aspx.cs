@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -18,7 +19,11 @@ namespace SGI.GestionTramite.Controls
                 try
                 {
                     IniciarEntity();
-                    ImprimirCertificado();
+                    Task.Run(async () =>
+                    {
+                        await ImprimirCertificado();
+                    }).Wait();
+                    
                     FinalizarEntity();
                 }
                 catch (Exception ex)
@@ -42,7 +47,7 @@ namespace SGI.GestionTramite.Controls
             Response.Flush();
         }
 
-        private void ImprimirCertificado()
+        private async Task ImprimirCertificado()
         {
             string strID = (Request.QueryString["id_solicitud"] == null) ? "" : Request.QueryString["id_solicitud"].ToString();
 
@@ -70,7 +75,7 @@ namespace SGI.GestionTramite.Controls
 
             string expediente_actuacion = "XXXXXXXXXXXXX";// this.datos_caratula_nro_expediente; // GetExpediente();
 
-            byte[] documento = Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, expediente_actuacion, true);
+            byte[] documento = await Plancheta.GenerarPdfPlanchetahabilitacion(id_solicitud, id_tramitetarea, enc.id_encomienda, expediente_actuacion, true);
 
             try
             {

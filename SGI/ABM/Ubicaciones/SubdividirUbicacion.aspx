@@ -325,15 +325,15 @@
                                                                             <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
                                                                                 CssClass="control-label">Búsqueda de Calle:</asp:Label>
                                                                             <div class="controls">
-                                                                               <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server"  FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
-                                                                           </div>
+                                                                                <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false" OnValueSelect="AutocompleteCalles_ValueSelect" />
+                                                                            </div>
                                                                         </div>
                                                                         <div class="control-group">
                                                                             <asp:Label ID="lblUbiNroPuerta" runat="server" AssociatedControlID="txtUbiNroPuerta"
                                                                                 CssClass="control-label">Nro. Puerta:</asp:Label>
                                                                             <div class="controls">
                                                                                 <asp:TextBox ID="txtUbiNroPuerta" runat="server" MaxLength="10" Width="50px"
-                                                                                     CssClass="input-xlarge">
+                                                                                    CssClass="input-xlarge">
                                                                                 </asp:TextBox>
                                                                             </div>
                                                                         </div>
@@ -362,7 +362,7 @@
                                                                             <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
                                                                                 Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
                                                                             <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                                                <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                                                <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
                                                                             </div>
                                                                             <asp:Label ID="lblUbiParcela" runat="server" AssociatedControlID="txtUbiParcela"
                                                                                 Text="Parcela:" class="control-label" Style="padding-top: 0"></asp:Label>
@@ -449,7 +449,7 @@
                                                             </ProgressTemplate>
                                                         </asp:UpdateProgress>
                                                     </div>
-                                                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn btn-primary" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" OnClientClick="return validarBuscar();" AutoPostBack ="true">
+                                                    <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn btn-primary" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" OnClientClick="return validarBuscar();" AutoPostBack="true">
                                                         <i class="icon-white icon-search"></i>
                                                         <span class="text">Buscar</span>
                                                     </asp:LinkButton>
@@ -919,7 +919,7 @@
                                 <div class="control-group">
                                     <label class="control-label">Calle:</label>
                                     <div class="controls">
-                                       <ej:Autocomplete ID="AutocompleteCallesSub" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false"  OnValueSelect="AutocompleteCallesSub_ValueSelect"/>
+                                        <ej:Autocomplete ID="AutocompleteCallesSub" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false" OnValueSelect="AutocompleteCallesSub_ValueSelect" />
                                         <div id="Req_txtCalleSub" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
                                             Debe ingresar el nombre de la calle.
                                         </div>
@@ -1047,7 +1047,7 @@
         function init_Js_updUbiAgregarUbicacion() {
             $("#<%: txtUbiNroPuerta.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '99999' });
 
-           
+
 
             $("#<%: txtUbiNroPuerta.ClientID %>").on("keyup", function () {
                 $("#Req_txtNroPuertaParametro").hide();
@@ -1059,7 +1059,7 @@
         function init_Js_updAgregarCalleSub() {
             $("#<%: txtNroPuertaSub.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '99999' });
 
-           
+
 
             $("#<%: txtNroPuertaSub.ClientID %>").on("keyup", function () {
                 $("#Req_txtNroPuertaParametro").hide();
@@ -1329,7 +1329,7 @@
         }
 
         function init_Js_updpnlBuscar() {
-           
+
             $("#Val_CallePuerta").hide();
             $("#Val_TipoSubtipo").hide();
             $("#ValFields").hide();
@@ -1349,17 +1349,17 @@
             $("#Req_txtNroPuertaSubParametro").hide();
 
             if ($.trim($("#<%: AutocompleteCallesSub.ClientID %> ").val()).length == 0) {
-            $("#Req_txtCalleSub").css("display", "inline-block");
-            ret = false;
-        }
-        else {
-            calle = $("#<%= AutocompleteCallesSub.ClientID %> :selected").text().split('[');
-            Nroinicio = parseInt(calle[1].split(' - ')[0]);
-            Nrofinal = parseInt(((calle[1].split(' - ')[1]).split(']')[0]));
-            Nropuerta = parseInt($.trim($("#<%: txtNroPuertaSub.ClientID %>").val()));
-        }
+                $("#Req_txtCalleSub").css("display", "inline-block");
+                ret = false;
+            }
+            else {
+                calle = $("#<%= AutocompleteCallesSub.ClientID %> :selected").text().split('[');
+                Nroinicio = parseInt(calle[1].split(' - ')[0]);
+                Nrofinal = parseInt(((calle[1].split(' - ')[1]).split(']')[0]));
+                Nropuerta = parseInt($.trim($("#<%: txtNroPuertaSub.ClientID %>").val()));
+            }
 
-        if ($.trim($("#<%: txtNroPuertaSub.ClientID %>").val()).length == 0) {
+            if ($.trim($("#<%: txtNroPuertaSub.ClientID %>").val()).length == 0) {
                 $("#Req_txtNroPuertaSub").css("display", "inline-block");
                 ret = false;
             }
@@ -1383,16 +1383,23 @@
             $("#Req_MixturaSub").hide();
             $("#Req_CalleSub").hide();
 
-            if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
-            $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
+           <%-- if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
+                $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
                 $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
                 $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
-            $("#Req_Seccion").css("display", "inline-block");
-            ret = false;
-        }
+                $("#Req_Seccion").css("display", "inline-block");
+                ret = false;
+            }--%>
+            if ($.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
+                $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
+                $("#Req_Seccion").css("display", "inline-block");
+                ret = false;
+            } else {
+                ret = true;
+            }
 
-        if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
-            && $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "0") {
+            if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
+                && $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "0") {
                 $("#Req_Subtipo").css("display", "inline-block");
                 ret = false;
             }

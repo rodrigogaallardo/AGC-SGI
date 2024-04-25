@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Web.Security;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -64,6 +66,9 @@ namespace SGI.ABM.RubrosCUR
                     //
                     ChkLibrado.Checked = q.LibrarUso;
                     ChkExpress.Checked = q.CondicionExpress;
+
+                    ChkSoloApra.Checked = q.SoloAPRA;
+
                     txtZonaMixtura1.Text = q.ZonaMixtura1;
                     txtZonaMixtura2.Text = q.ZonaMixtura2;
                     txtZonaMixtura3.Text = q.ZonaMixtura3;
@@ -98,7 +103,11 @@ namespace SGI.ABM.RubrosCUR
                 {
                     try
                     {
+
                         Page.Validate();
+                        Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
                         if (Page.IsValid)
                         {
                             var rubroCur = db.RubrosCN.Where(r => r.IdRubro == IdRubro).First();
@@ -113,6 +122,9 @@ namespace SGI.ABM.RubrosCUR
                             rubroCur.IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value);
                             rubroCur.LibrarUso = ChkLibrado.Checked;
                             rubroCur.CondicionExpress = ChkExpress.Checked;
+
+                            rubroCur.SoloAPRA = ChkSoloApra.Checked;
+
                             rubroCur.ZonaMixtura1 = txtZonaMixtura1.Text;
                             rubroCur.ZonaMixtura2 = txtZonaMixtura2.Text;
                             rubroCur.ZonaMixtura3 = txtZonaMixtura3.Text;
@@ -135,6 +147,8 @@ namespace SGI.ABM.RubrosCUR
                             db.SaveChanges();
                             dbContextTransaction.Commit();
                         }
+
+                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
                     }
                     catch (Exception ex)
                     {

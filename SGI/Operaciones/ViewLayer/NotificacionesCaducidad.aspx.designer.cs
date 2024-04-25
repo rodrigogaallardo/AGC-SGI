@@ -15,6 +15,24 @@ namespace SGI
     {
 
         /// <summary>
+        /// Control hid_valor_boton.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_valor_boton;
+
+        /// <summary>
+        /// Control hid_observaciones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hid_observaciones;
+
+        /// <summary>
         /// Control txtNroSolicitud.
         /// </summary>
         /// <remarks>
@@ -87,6 +105,42 @@ namespace SGI
         protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
 
         /// <summary>
+        /// Control pnlResultadoBuscar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlResultadoBuscar;
+
+        /// <summary>
+        /// Control updPnlNotificaciones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updPnlNotificaciones;
+
+        /// <summary>
+        /// Control hfMailID.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfMailID;
+
+        /// <summary>
+        /// Control grdBuscarNotis.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdBuscarNotis;
+
+        /// <summary>
         /// Control updResultados.
         /// </summary>
         /// <remarks>
@@ -141,12 +195,30 @@ namespace SGI
         protected global::System.Web.UI.WebControls.Label lblRectificada;
 
         /// <summary>
-        /// Control ucNotificacionesEditar.
+        /// Control txtObservacionesSolicitante.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucNotificacionesEditar ucNotificacionesEditar;
+        protected global::System.Web.UI.WebControls.TextBox txtObservacionesSolicitante;
+
+        /// <summary>
+        /// Control btnAceptar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptar;
+
+        /// <summary>
+        /// Control btnCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelar;
     }
 }

@@ -89,7 +89,6 @@
 
 
     <div class="control-group">
-
         <div style="width: 250px; display: inline-block; margin-top: 5px;">
             <div class="control-group">
                 <div style="width: 250px; display: inline-block; margin-top: 5px;">
@@ -107,33 +106,28 @@
         </div>
 
         <div style="width: 550px; display: inline-block; margin-top: 5px;">
-
-
             <div class="control-group" style="margin-top: 0px;">
-
                 <div style="width: 250px; display: inline-block; margin-top: 0px;">
                     <asp:Label class="control-label" Style="font-family: sans-serif; font-size: 14px;" ID="Label4" Text="ID ProximaTarea" runat="server"></asp:Label>
                     <asp:CheckBox ID="chkproxima_tarea" Text="No Establecer" AutoPostBack="true" runat="server" OnCheckedChanged="chkproxima_tarea_CheckedChanged" />
                 </div>
-
             </div>
             <div class="control-group" style="margin-top: 0px;">
-
                 <div style="width: 250px; display: inline-block; margin-top: 0px;">
                     <asp:DropDownList ID="ddlproxima_tarea" runat="server" AutoPostBack="false"
                         DataTextField="nombre_Tarea" DataValueField="id_Tarea">
                     </asp:DropDownList>
                 </div>
             </div>
-
         </div>
-
-
-
-
     </div>
 
-
+    <div class="control-group">
+        <label class="control-label">Observaciones del Solicitante:</label>
+        <div class="controls">
+            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="350px" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
 
 
 

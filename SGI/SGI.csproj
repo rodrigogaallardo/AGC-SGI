@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -96,6 +97,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.WebForms.1.1.3\lib\net45\Microsoft.AspNet.Web.Optimization.WebForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -178,9 +180,11 @@
     <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
+
     <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
+
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
@@ -862,6 +866,7 @@
     <Content Include="Operaciones\EditarCalle.aspx" />
     <Content Include="Operaciones\AgregarCalle.aspx" />
     <Content Include="Operaciones\AbmCalles.aspx" />
+    <Content Include="Operaciones\SadeForm.aspx" />
     <Content Include="Operaciones\SolicitudesIndex.aspx" />
     <Content Include="Operaciones\CatalogoDistritosForm.aspx" />
     <Content Include="Operaciones\DistritosIndex.aspx" />
@@ -1253,6 +1258,10 @@
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\Datepicker_es.js" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\ej\web\ej.web.all.min.intellisense.js" />
     <None Include="Scripts\ej\web\ej.web.all-vsdoc.js" />
     <Content Include="Scripts\ej\common\ej.core.min.js" />
@@ -1572,6 +1581,64 @@
     <Content Include="Seguridad\Perfiles.aspx" />
     <Content Include="Seguridad\Usuarios.aspx" />
     <Content Include="ViewSwitcher.ascx" />
+    <Content Include="Web References\InsertarCaas\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\InsertarCaas\TaskOfBoolean.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\InsertarCaas\WSssit.disco" />
+    <Content Include="Web References\ws_ExpedienteElectronico\archivoEmbebidoResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\clsConsultaExpedienteBidireccional.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\clsResultConsultaActividad.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultaExpedienteResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultaExpedienteResponseDetallado.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultarDocumentoDTO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\consultaUsuarioResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\documentosVinculadosResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\dsInfoPaquete.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\dsResultadoFirma.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\ExpedienteDetalladoDTO.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\historialDeOperacionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\itemTrata.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\responseExternalConsultaDocumento.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\ws_ExpedienteElectronico\wsResultado.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\ws_ExpedienteElectronico\ws_ExpedienteElectronico.disco" />
     <Content Include="WebServices\Servicios.asmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1836,6 +1903,8 @@
     <Compile Include="Account\ActivateUser.aspx.designer.cs">
       <DependentUpon>ActivateUser.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Account\AuthenticateMIAgc.cs" />
+    <Compile Include="Account\LoginMiagc.cs" />
     <Compile Include="App_Components\LogError.cs" />
     <Compile Include="App_Data\dsObservaciones.cs">
       <DependentUpon>dsObservaciones.xsd</DependentUpon>
@@ -2187,6 +2256,10 @@
     <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.designer.cs">
       <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Model\aspnet_token_usuario.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Ley257DTO.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -2201,6 +2274,15 @@
     </Compile>
     <Compile Include="Model\SSIT_Solicitudes_AvisoRechazo.cs">
       <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\wsEE_Documentos.cs">
+      <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\wsEE_DocumentosRelacionados.cs">
+      <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\wsEE_Paquetes.cs">
+      <DependentUpon>EE_Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
       <DependentUpon>FeriadosIndex.aspx</DependentUpon>
@@ -4560,6 +4642,13 @@
     <Compile Include="Operaciones\AbmCalles.aspx.designer.cs">
       <DependentUpon>AbmCalles.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Operaciones\SadeForm.aspx.cs">
+      <DependentUpon>SadeForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\SadeForm.aspx.designer.cs">
+      <DependentUpon>SadeForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Operaciones\SolicitudesDto.cs" />
     <Compile Include="Operaciones\SolicitudesIndex.aspx.cs">
       <DependentUpon>SolicitudesIndex.aspx</DependentUpon>
@@ -4686,6 +4775,11 @@
     </Compile>
     <Compile Include="Operaciones\ViewLayer\NotificacionesCaducidad.aspx.designer.cs">
       <DependentUpon>NotificacionesCaducidad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Reportes\BajaSolicitud.cs">
       <AutoGen>True</AutoGen>
@@ -5132,8 +5226,8 @@
       <DependentUpon>VisorTramite.aspx</DependentUpon>
     </Compile>
     <Compile Include="Mailer\MailAprobacionDG.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>MailAprobacionDG.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mailer\MailAprobacionDG.aspx.designer.cs">
       <DependentUpon>MailAprobacionDG.aspx</DependentUpon>
@@ -5161,8 +5255,8 @@
     </Compile>
     <Compile Include="Mailer\MailMessages.cs" />
     <Compile Include="Mailer\MailPagoPendiente.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>MailPagoPendiente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mailer\MailPagoPendiente.aspx.designer.cs">
       <DependentUpon>MailPagoPendiente.aspx</DependentUpon>
@@ -5471,6 +5565,29 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Web References\InsertarCaas\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\ws_ExpedienteElectronico\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebServices\ApraSrvRest.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebServices\Class\AsociarAnexoTecnicoResponse.cs" />
+    <Compile Include="WebServices\Class\GenerarCAAAutomaticoResponse.cs" />
+    <Compile Include="WebServices\Class\GenerarCAAAutoResponse.cs" />
+    <Compile Include="WebServices\Class\GetBUIsCAAResponse.cs" />
+    <Compile Include="WebServices\Class\GetBUIsPagosResponse.cs" />
+    <Compile Include="WebServices\Class\GetCAAResponse.cs" />
+    <Compile Include="WebServices\Class\GetCAAsByEncomiendasResponse.cs" />
+    <Compile Include="WebServices\Class\GetIdPagosCAAByEncomiendasResponse.cs" />
+    <Compile Include="WebServices\Class\LoginResponse.cs" />
+    <Compile Include="WebServices\Class\ValidarCodigoSeguridadResponse.cs" />
     <Compile Include="WebServices\Servicios.asmx.cs">
       <DependentUpon>Servicios.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -5499,6 +5616,7 @@
     <Compile Include="WebServices\ws_DGFYCOInformesTecnicos.cs" />
     <Compile Include="WebServices\ws_ExpedienteElectronico.cs" />
     <Compile Include="WebServices\ws_GP.cs" />
+    <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\ws_MailsRest.cs" />
     <Compile Include="WebServices\ws_MiAGC_Controller.cs" />
     <Compile Include="WebServices\ws_PagosRest.cs" />
@@ -5512,6 +5630,7 @@
   <ItemGroup>
     <Folder Include="Content\bootstrap2\" />
     <Folder Include="Dashboard\Files\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
@@ -5522,6 +5641,10 @@
     <Content Include="Tramite\Web.config" />
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
+    <None Include="Web References\InsertarCaas\WSssit.wsdl" />
+    <None Include="Web References\ws_ExpedienteElectronico\dsInfoPaquete.xsd" />
+    <None Include="Web References\ws_ExpedienteElectronico\dsResultadoFirma.xsd" />
+    <None Include="Web References\ws_ExpedienteElectronico\ws_ExpedienteElectronico.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -5644,6 +5767,33 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\quill.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx%3fop=GetExpedienteByPaquete">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ws_ExpedienteElectronico\</RelPath>
+      <UpdateFromURL>http://dghpsh.agcontrol.gob.ar/preprod/webservices.agcontrol.gob.ar/ws_ExpedienteElectronico.asmx%3fop=GetExpedienteByPaquete</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SGI_ws_ExpedienteElectronico_ws_ExpedienteElectronico</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost:56469/WSssit.asmx%3fop=InsertarCAA_DocAdjuntos">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InsertarCaas\</RelPath>
+      <UpdateFromURL>http://localhost:56469/WSssit.asmx%3fop=InsertarCAA_DocAdjuntos</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SGI_InsertarCaas_WSssit</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -61,10 +62,13 @@ namespace SGI.Operaciones
                 return;
             }
 
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
+            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
 
             DGHP_Entities context = new DGHP_Entities();
-
+            
             SGI_Feriados sGI_Feriados = new SGI_Feriados();
 
 

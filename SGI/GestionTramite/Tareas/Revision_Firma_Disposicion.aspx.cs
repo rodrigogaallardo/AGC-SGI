@@ -3,6 +3,7 @@ using SGI.Model;
 using SGI.WebServices;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web.Security;
 using System.Web.UI;
@@ -15,7 +16,7 @@ namespace SGI.GestionTramite.Tareas
 
         #region cargar inicial
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
 
             IniciarEntity();
@@ -26,7 +27,7 @@ namespace SGI.GestionTramite.Tareas
                 {
                     int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                     if (id_tramitetarea > 0)
-                        CargarDatosTramite(id_tramitetarea);
+                        await CargarDatosTramite(id_tramitetarea);
                 }
                 catch (Exception ex)
                 {
@@ -42,7 +43,7 @@ namespace SGI.GestionTramite.Tareas
             base.OnUnload(e);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -69,7 +70,7 @@ namespace SGI.GestionTramite.Tareas
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
             ucListaRubros.LoadData(this.id_solicitud);
             ucTramitesRelacionados.LoadData(this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
             ucListaObservacionesAnt.LoadData(id_grupotramite, this.id_solicitud, tramite_tarea.id_tramitetarea, tramite_tarea.id_tarea);
             ucSGI_ListaDocumentoAdjuntoAnt.LoadData(id_grupotramite, this.id_solicitud, this._tramiteTarea);

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Entregar Trámite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Entregar_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Entregar_Tramite" %>
+﻿<%@ Page Title="Tarea: Entregar Trámite" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Entregar_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Entregar_Tramite" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

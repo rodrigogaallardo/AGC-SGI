@@ -10,10 +10,8 @@ namespace SGI.Model
         /*Dado dos fechas, retorna la cantidad de dias habiales entre las mismas*/
         public static int GetBusinessDays(DateTime start, DateTime end)
         {
-            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0);
-            end = new DateTime(end.Year, end.Month, end.Day, 0, 0, 0);
             int count = 0;
-            while (DateTime.Compare(start, end) < 0)
+            while ((end - start).TotalMinutes > 1440)
             {
                 if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
                     count++;

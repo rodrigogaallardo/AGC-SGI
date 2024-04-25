@@ -114,8 +114,8 @@
                                 <div class="row-fluid">
                                     <label class="span2">Calle:</label>
                                     <div class="span7">
-                                      <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains"  EnablePersistence="true"/>
-                                       <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
+                                        <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="true" />
+                                        <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
                                         <asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
                                             Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
@@ -159,7 +159,7 @@
                                                 <span class="text">Buscar</span>
                                             </asp:LinkButton>
 
-                                            <asp:LinkButton ID="btnCerrar2" runat="server" CssClass="btn btn-danger" data-dismiss="modal" >
+                                            <asp:LinkButton ID="btnCerrar2" runat="server" CssClass="btn btn-danger" data-dismiss="modal">
                                                 <i class="imoon-white imoon-close"></i>
                                                 <span class="text">Cerrar</span>
                                             </asp:LinkButton>
@@ -195,7 +195,7 @@
                                     <td>Manzana:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtManzana" runat="server" Width="90px" MaxLength="4" Style="text-transform: uppercase" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtManzana" runat="server" Width="90px" MaxLength="6" Style="text-transform: uppercase" CssClass="form-control"></asp:TextBox>
                                     </td>
                                     <td>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="Debe ingresar la Manzana."
@@ -632,7 +632,7 @@
                                         </div>
                                         <div class="form-group">
                                             <asp:Button ID="btnModificarUbicacion" runat="server" CssClass="btn btn-primary" Text="Modificar Ubicaci&oacute;n"
-                                                Width="160px" OnClick="btnModificarUbicacion_Click" OnClientClick="return validarIngresarUbicacion();" Visible="false"/>
+                                                Width="160px" OnClick="btnModificarUbicacion_Click" OnClientClick="return validarIngresarUbicacion();" Visible="false" />
                                         </div>
                                         <div class="form-group">
                                             <asp:UpdateProgress ID="UpdateProgress5" AssociatedUpdatePanelID="updPanelBotones"
@@ -744,7 +744,7 @@
                 }
             });
 
-           
+
 
 
             try {
@@ -799,32 +799,32 @@
 
             if (value) {
                 $("#<%: btnIngresarUbicacion.ClientID %>").click();
+            }
+            return value;
         }
-        return value;
-    }
 
 
-    function validarIngresarUbicacion() {
+        function validarIngresarUbicacion() {
 
-        var ret = true;
+            var ret = true;
 
-        // Si no confirmo se valida, si ya confirmo no se valida.
-        if (!vconfirm) {
-            $(".BuscarUbicacion-pnlPartidasHorizontales").each(function (index, item) {
+            // Si no confirmo se valida, si ya confirmo no se valida.
+            if (!vconfirm) {
+                $(".BuscarUbicacion-pnlPartidasHorizontales").each(function (index, item) {
 
-                // Si el panel de partidas horizontales está visible
-                if ($(item).css("display") == "block") {
-                    //Si la cantidad de partidas horizontales seleccionadas es (0 cero).
-                    if ($(item).find("input:checked").length == 0) {
-                        ret = false;
-                        showfrmConfirmarNoPH();
-                        ret = false;
+                    // Si el panel de partidas horizontales está visible
+                    if ($(item).css("display") == "block") {
+                        //Si la cantidad de partidas horizontales seleccionadas es (0 cero).
+                        if ($(item).find("input:checked").length == 0) {
+                            ret = false;
+                            showfrmConfirmarNoPH();
+                            ret = false;
+                        }
                     }
-                }
-            });
+                });
+            }
+            return ret;
         }
-        return ret;
-    }
 
 
     </script>

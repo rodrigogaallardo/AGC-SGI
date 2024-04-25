@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using SGI.GestionTramite.Controls;
 using SGI.Model;
 using SGI.Seguridad;
 using Syncfusion.DocIO.DLS;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -30,9 +32,6 @@ namespace SGI.Operaciones
             if (usu == null)
                 FormsAuthentication.RedirectToLoginPage();
             #endregion
-
-
-
 
 
             string idSolicitudStr = (Request.QueryString["idSolicitud"] == null) ? "" : Request.QueryString["idSolicitud"].ToString();
@@ -194,11 +193,33 @@ namespace SGI.Operaciones
             SSIT_Solicitudes sSIT_Solicitudes = new SSIT_Solicitudes();
             Transf_Solicitudes transf_Solicitudes = new Transf_Solicitudes();
             CPadron_Solicitudes cPadron_Solicitudes = new CPadron_Solicitudes();
-            DGHP_Entities context = new DGHP_Entities();
+            DGHP_Entities context = new DGHP_Entities();           
+            Guid userid = Functions.GetUserId();
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
             if (tipo == "S")
             {
                 sSIT_Solicitudes = CargarSSIT_SolicitudesByIdSolicitud(idSolicitud);
                 sSIT_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
+
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Observado)
+                {
+                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
+                }
+
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Aprobada)
+                {
+                    Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+                if (sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Rechazada)
+                {
+                    Mailer.MailMessages.SendMail_RechazoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+
+                if(sSIT_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Caduco)
+                {
+                    Mailer.MailMessages.SendMail_Caducidad_v2(idSolicitud, DateTime.Now);
+                }
 
                 if (chkFecLibrado.Checked)
                 {
@@ -236,6 +257,26 @@ namespace SGI.Operaciones
             {
                 transf_Solicitudes = CargarTransf_SolicitudesByIdSolicitud(idSolicitud);
                 transf_Solicitudes.id_estado = int.Parse(ddlTipoEstado.SelectedValue);
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Observado)
+                {
+                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
+                }
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Observado_PVH)
+                {
+                    Mailer.MailMessages.SendMail_ObservacionSolicitud1_v2(idSolicitud);
+                }
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Aprobada)
+                {
+                    Mailer.MailMessages.SendMail_AprobadoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
+
+                if (transf_Solicitudes.id_estado == (int)Constants.Solicitud_Estados.Rechazada)
+                {
+                    Mailer.MailMessages.SendMail_RechazoSolicitud_v2(idSolicitud, DateTime.Now);
+                }
                 using (var dbContextTransaction = context.Database.BeginTransaction())
                 {
                     try
@@ -272,6 +313,7 @@ namespace SGI.Operaciones
                     }
                 }
             }
+            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
 
             Response.Redirect("~/Operaciones/SolicitudesIndex.aspx?idSolicitud=" + hdidSolicitud.Value);
 

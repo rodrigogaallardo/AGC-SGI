@@ -1,15 +1,18 @@
-﻿using SGI.Model;
+﻿using ExternalService.Class;
+using SGI.Model;
 using SGI.Webservices.ws_interface_AGC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 
 namespace SGI.GestionTramite.Controls
 {
     public class itemDocumentov1
     {
+        internal int id_tipoDocReq;
         public int id_doc_adj { get; set; }
         public string nombre { get; set; }
         public int id_file { get; set; }
@@ -20,6 +23,32 @@ namespace SGI.GestionTramite.Controls
         public int id_tipodocsis { get; set; }
         public string origen { get; set; }
         public string numero_Gedo { get; set; }
+    }
+
+    public class itemDocumentoModulo
+    {
+        internal int id_tipoDocReq;
+        public int id_docadjunto { get; set; }
+        public int id_doc_adj { get; set; }
+        public string nombre_archivo { get; set; }
+        public int id_file { get; set; }
+        public int id_solicitud { get; set; }
+        public string url { get; set; }
+        public DateTime Fecha { get; set; }
+        public string UserName { get; set; }
+        public int? id_tipodocsis { get; set; }
+        public string origen { get; set; }
+        public string numero_Gedo { get; set; }
+        public string nombre_tdocreq { get; set; }
+        public string tdocreq_detalle { get; set; }
+        public bool generadoxSistema { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public System.Guid CreateUser { get; set; }
+        public Nullable<System.DateTime> fechaPresentado { get; set; }
+        public bool ExcluirSubidaSADE { get; set; }
+        public virtual aspnet_Users aspnet_Users { get; set; }
+        public virtual TiposDeDocumentosRequeridos TiposDeDocumentosRequeridos { get; set; }
+        public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
     }
 
     public partial class ucListaDocumentosv1 : System.Web.UI.UserControl
@@ -54,17 +83,17 @@ namespace SGI.GestionTramite.Controls
             }
         }
 
-        public void LoadData(int id_solicitud)
+        public async Task LoadData(int id_solicitud)
         {
-            LoadData((int)Constants.GruposDeTramite.HAB, id_solicitud);
+            await LoadData((int)Constants.GruposDeTramite.HAB, id_solicitud);
         }
 
-        public void LoadData(int id_grupotramite, int id_solicitud)
+        public async Task LoadData(int id_grupotramite, int id_solicitud)
         {
-            LoadData(id_grupotramite, id_solicitud, false, 0);
+            await LoadData(id_grupotramite, id_solicitud, false, 0);
         }
 
-        public void LoadData(SSIT_Solicitudes solicitud, DateTime? ultimaPresentacion)
+        public async Task LoadData(SSIT_Solicitudes solicitud, DateTime? ultimaPresentacion)
         {
             using (var db = new DGHP_Entities())
             {
@@ -246,30 +275,35 @@ namespace SGI.GestionTramite.Controls
 
                     // Llena los CAAs de acuerdo a las encomiendas vinculadas a la solicitud.
                     // ---------------------------------------------------------------------
-                    ws_Interface_AGC servicio = new ws_Interface_AGC();
-                    SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+                    //ws_Interface_AGC servicio = new ws_Interface_AGC();
+                    //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-                    servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-                    string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-                    string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
-                    DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, idEncomiendasPresentadas.ToArray(), ref ws_resultado_CAA);
-                    var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.Documentos.Any());
-                    foreach (var caa in List_CAA)
+                    //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+                    //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+                    //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+                    //DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, idEncomiendasPresentadas.ToArray(), ref ws_resultado_CAA);
+                    List<GetCAAsByEncomiendasResponse> l = await GetCAAsByEncomiendas(idEncomiendasPresentadas.ToArray());
+                    if(l != null && l.Count > 0)
                     {
-                        if (caa.CreateDate <= ultimaPresentacion)
+                        var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
+                        foreach (var caa in List_CAA)
                         {
-                            var item = new itemDocumentov1
+                            if (caa.createDate <= ultimaPresentacion)
                             {
-                                nombre = caa.desccorta_tipotramite + "-" + caa.id_caa,
-                                id_file = caa.Documentos[0].id_file,
-                                id_solicitud = caa.id_caa,
-                                Fecha = caa.CreateDate,
-                                UserName = ""
-                            };
-                            item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
-                            archivos.Add(item);
+                                var item = new itemDocumentov1
+                                {
+                                    nombre = caa.tipotramite + "-" + caa.id_solicitud,
+                                    id_file = caa.certificado.idFile,
+                                    id_solicitud = caa.id_solicitud,
+                                    Fecha = caa.createDate,
+                                    UserName = ""
+                                };
+                                item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
+                                archivos.Add(item);
+                            }
                         }
                     }
+                    
 
 
                     //Agrego el Nº GEDO si es que existe para cada documento.
@@ -307,11 +341,24 @@ namespace SGI.GestionTramite.Controls
                                join ttt in db.SGI_Tramites_Tareas_TRANSF on ssp.id_tramitetarea equals ttt.id_tramitetarea
                                where ttt.id_solicitud == id_solicitud && ssp.id_file == id_file
                                select ssp).FirstOrDefault();
-
+                    
                     if (SgiSadeProceso != null)
                         numeroGedo = SgiSadeProceso.resultado_ee?.ToString();
                     else
+                    {
                         numeroGedo = "";
+                        
+                        using (var ee = new EE_Entities())
+                        {
+                            var documento = (from documentos in ee.wsEE_Documentos
+                                             where documentos.id_file == id_file
+                                             select documentos).FirstOrDefault();
+                            if(documento != null)
+                                numeroGedo = documento.numeroGEDO;
+                        }
+                        
+                    }
+                        
                 }
             }
             catch (Exception)
@@ -321,7 +368,7 @@ namespace SGI.GestionTramite.Controls
             return numeroGedo;
         }
 
-        public void LoadData(Transf_Solicitudes solicitud, DateTime? ultimaPresentacion)
+        public async void LoadData(Transf_Solicitudes solicitud, DateTime? ultimaPresentacion)
         {
             using (var db = new DGHP_Entities())
             {
@@ -427,30 +474,35 @@ namespace SGI.GestionTramite.Controls
 
                             // Llena los CAAs de acuerdo a las encomiendas vinculadas a la solicitud.
                             // ---------------------------------------------------------------------
-                            ws_Interface_AGC servicio = new ws_Interface_AGC();
-                            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+                            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+                            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-                            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-                            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-                            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
-                            DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, idEncomiendasPresentadas.ToArray(), ref ws_resultado_CAA);
-                            var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.Documentos.Any());
-                            foreach (var caa in List_CAA)
+                            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+                            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+                            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+                            //DtoCAA[] l = servicio.Get_CAAs_by_Encomiendas(username_servicio, password_servicio, idEncomiendasPresentadas.ToArray(), ref ws_resultado_CAA);
+                            List<GetCAAsByEncomiendasResponse> l = await GetCAAsByEncomiendas(idEncomiendasPresentadas.ToArray());
+                            if(l != null && l.Count > 0)
                             {
-                                if (caa.CreateDate <= ultimaPresentacion)
+                                var List_CAA = l.ToList().Where(x => x.id_estado != (int)Constants.CAA_Estados.Anulado && x.certificado != null);
+                                foreach (var caa in List_CAA)
                                 {
-                                    var item = new itemDocumentov1
+                                    if (caa.createDate <= ultimaPresentacion)
                                     {
-                                        nombre = caa.desccorta_tipotramite + "-" + caa.id_caa,
-                                        id_file = caa.Documentos[0].id_file,
-                                        id_solicitud = caa.id_caa,
-                                        Fecha = caa.CreateDate,
-                                        UserName = ""
-                                    };
-                                    item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
-                                    archivos.Add(item);
+                                        var item = new itemDocumentov1
+                                        {
+                                            nombre = caa.tipotramite + "-" + caa.id_solicitud,
+                                            id_file = caa.certificado.idFile,
+                                            id_solicitud = caa.id_solicitud,
+                                            Fecha = caa.createDate,
+                                            UserName = ""
+                                        };
+                                        item.url = string.Format("~/GetPDFFiles/{0}", Functions.ConvertToBase64(item.id_file.ToString()));
+                                        archivos.Add(item);
+                                    }
                                 }
                             }
+                            
 
                             //Agrego el Nº GEDO si es que existe para cada documento.
                             foreach (var item in archivos)
@@ -519,7 +571,7 @@ namespace SGI.GestionTramite.Controls
             }
         }
 
-        public void LoadData(int id_grupotramite, int id_solicitud, bool visibleEliminar, int id_tipodocsis_a_eliminar)
+        public async Task LoadData(int id_grupotramite, int id_solicitud, bool visibleEliminar, int id_tipodocsis_a_eliminar)
         {
             this.visibleEliminar = visibleEliminar;
             this.id_tipodocsis = id_tipodocsis_a_eliminar;
@@ -540,7 +592,7 @@ namespace SGI.GestionTramite.Controls
                         var ultimaSolicitudPresentada = sol?.SSIT_Solicitudes_HistorialEstados.Where(h =>
                             estadosSolPres.Contains(h.cod_estado_nuevo)).Select(h => h.fecha_modificacion).OrderByDescending(h => h).FirstOrDefault();
 
-                        LoadData(sol, ultimaSolicitudPresentada);
+                        await LoadData(sol, ultimaSolicitudPresentada);
                         break;
                     case (int)Constants.GruposDeTramite.TR:
                         var trf = db.Transf_Solicitudes.FirstOrDefault(x => x.id_solicitud == id_solicitud);
@@ -632,6 +684,12 @@ namespace SGI.GestionTramite.Controls
                     }
                 }
             }
+        }
+        private async Task<List<GetCAAsByEncomiendasResponse>> GetCAAsByEncomiendas(int[] lst_id_Encomiendas)
+        {
+            ExternalService.ApraSrvRest apraSrvRest = new ExternalService.ApraSrvRest();
+            List<GetCAAsByEncomiendasResponse> lstCaa = await apraSrvRest.GetCAAsByEncomiendas(lst_id_Encomiendas.ToList());
+            return lstCaa;
         }
     }
 }

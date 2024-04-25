@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using SGI.GestionTramite.Controls;
 using SGI.Model;
-using SGI.GestionTramite.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Collections.Generic;
-using System.Web;
 
 
 namespace SGI.GestionTramite.Tareas
@@ -16,16 +17,16 @@ namespace SGI.GestionTramite.Tareas
 
         #region cargar inicial
 
-       // private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Validar_Zonificacion;
+        // private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Validar_Zonificacion;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
 
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
 
             }
         }
@@ -57,7 +58,7 @@ namespace SGI.GestionTramite.Tareas
 
         #endregion
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -69,7 +70,7 @@ namespace SGI.GestionTramite.Tareas
             if (tramite_tarea == null)
             {
                 this.db.Dispose();
-                throw new Exception(string.Format("No se encontro en la tabla SGI_tramites_tareas un registro coincidente con el id = {0}",id_tramitetarea));
+                throw new Exception(string.Format("No se encontro en la tabla SGI_tramites_tareas un registro coincidente con el id = {0}", id_tramitetarea));
             }
 
             //Se debe establecer siempre el estado de controles antes del load de los controles
@@ -89,7 +90,7 @@ namespace SGI.GestionTramite.Tareas
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
             ucListaRubros.LoadData(this.id_solicitud);
             ucTramitesRelacionados.LoadData(this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
             ucSGI_ListaDocumentoAdjuntoAnteriores.LoadData(id_grupotramite, this.id_solicitud, this.TramiteTarea);
             ucDocumentoAdjunto.LoadData(id_grupotramite, this.id_solicitud, id_tramitetarea);
@@ -118,7 +119,7 @@ namespace SGI.GestionTramite.Tareas
                 && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
 
 
-            List<ENC_Ubicacion> lista_ubi = 
+            List<ENC_Ubicacion> lista_ubi =
                 (
                     from zona_pla in db.Zonas_Planeamiento
                     join enc_ubi in db.Encomienda_Ubicaciones on enc.id_encomienda equals enc_ubi.id_encomienda
@@ -300,7 +301,7 @@ namespace SGI.GestionTramite.Tareas
 
         private void Redireccionar_VisorTramite()
         {
-            int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);string url = Shared.getRedireccionURL(this.id_solicitud, id_tramitetarea);
+            int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0); string url = Shared.getRedireccionURL(this.id_solicitud, id_tramitetarea);
             Response.Redirect(url, false);
         }
 
@@ -339,7 +340,7 @@ namespace SGI.GestionTramite.Tareas
 
                 using (TransactionScope Tran = new TransactionScope())
                 {
- 
+
                     try
                     {
                         Guardar_tarea(this.TramiteTarea, ucObservacionesTarea.Text, userid);
@@ -380,10 +381,10 @@ namespace SGI.GestionTramite.Tareas
 
         protected void ucResultadoTarea_FinalizarTareaClick(object sender, ucResultadoTareaEventsArgs e)
         {
-            
+
             // Al finalizar esta tarea lo que se hace luego de que el motor cree la tarea nueva es asignarsela
             // al mismo usuario que tuvo la misma tarea la ultima vez
-            
+
             try
             {
                 Guid userid = Functions.GetUserId();
@@ -472,7 +473,8 @@ public class ENC_Ubicacion : Encomienda_Ubicaciones
         public string Piso { get; set; }
         public string Depto { get; set; }
         public string UnidadFuncional { get; set; }
-        public string DescripcionCompleta {
+        public string DescripcionCompleta
+        {
             get
             {
                 string desc = "";
@@ -504,8 +506,8 @@ public class ENC_Ubicacion : Encomienda_Ubicaciones
         DGHP_Entities db = new DGHP_Entities();
         List<Puerta> puertas =
             (
-            //from enc_ubi in db.Encomienda_Ubicaciones
-            //join enc_ubi_puerta in db.Encomienda_Ubicaciones_Puertas on enc_ubi.id_encomiendaubicacion equals enc_ubi_puerta.id_encomiendaubicacion
+                //from enc_ubi in db.Encomienda_Ubicaciones
+                //join enc_ubi_puerta in db.Encomienda_Ubicaciones_Puertas on enc_ubi.id_encomiendaubicacion equals enc_ubi_puerta.id_encomiendaubicacion
                 from enc_ubi_puerta in db.Encomienda_Ubicaciones_Puertas
                 where enc_ubi_puerta.id_encomiendaubicacion == this.id_encomiendaubicacion
                 orderby enc_ubi_puerta.id_encomiendapuerta

@@ -16,6 +16,7 @@ using Syncfusion.DocIO.DLS;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using static System.Net.WebRequestMethods;
+using System.Web;
 
 namespace SGI
 {
@@ -72,6 +73,9 @@ namespace SGI
         protected void btnAgregar_OnClick(object sender, EventArgs e)
         {
             var context = new DGHP_Entities();
+            Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
 
             #region Validaciones
             if (string.IsNullOrEmpty(ddlTipoCalle.Text))
@@ -217,7 +221,7 @@ namespace SGI
                             CreateDate = DateTime.Now,
                             CreateUser = Functions.GetUserId().ToString()
                         };
-
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
                         context.Calles.AddOrUpdate(entity);
                         context.SaveChanges();
                         dbContext.Commit();

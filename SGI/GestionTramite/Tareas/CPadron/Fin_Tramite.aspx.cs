@@ -3,6 +3,7 @@ using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -62,12 +63,12 @@ namespace SGI.GestionTramite.Tareas.CPadron
             base.OnUnload(e);
         }
 
-        protected void btnCargarDatos_Click(object sender, EventArgs e)
+        protected async Task btnCargarDatos_Click(object sender, EventArgs e)
         {
-            CargarDatosTramite(this.id_cpadrontarea);
+            await CargarDatosTramite(this.id_cpadrontarea);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -96,7 +97,7 @@ namespace SGI.GestionTramite.Tareas.CPadron
             SGI_Tarea_Fin_Tramite fin = Buscar_Tarea(id_cpadrontarea);
 
             ucCabecera.LoadData(id_grupotramite, id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             Tabs_Tramite.editar = false;
             Tabs_Tramite.LoadData(this.id_solicitud,0, 1);
             ucResultadoTarea.LoadData(id_grupotramite, id_cpadrontarea, true);

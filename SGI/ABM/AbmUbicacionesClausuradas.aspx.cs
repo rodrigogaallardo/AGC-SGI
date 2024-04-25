@@ -690,6 +690,9 @@ namespace SGI.ABM
             }
             Buscador();
             updPnlUbicacionesClausuradas.Update();
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+
             //Session["Tipo"] = tipo;
             //Session["id_ubicinhibida"] = id_ubicinhibida;
             //Eliminar();
@@ -923,6 +926,24 @@ namespace SGI.ABM
         {
             Response.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value = e.Key;
             return;
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
+
         }
     }
 }

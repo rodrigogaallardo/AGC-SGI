@@ -208,7 +208,26 @@
                                     <asp:Label ID="Label21" runat="server" Text="Librado al Uso:"></asp:Label>
                                 </td>
                                 <td class="col2">
-                                    <asp:CheckBox ID="ChkLibrado" runat="server" />
+                                    <asp:CheckBox ID="ChkLibrado" runat="server"  />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="col1">
+                                    <asp:Label ID="Label15" runat="server" Text="Condicion Express:"></asp:Label>
+                                </td>
+                                <td class="col2">
+                                    <asp:CheckBox ID="ChkExpress" runat="server" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="col1">
+                                    <asp:Label ID="Label50" runat="server" Text="Solo Apra:"></asp:Label>
+                                </td>
+                                <td class="col2">
+                                    <asp:CheckBox ID="ChkSoloApra" runat="server" Enabled="false" />
                                 </td>
                             </tr>
 
@@ -830,6 +849,14 @@
                                 </td>
                                 <td class="col2">
                                     <asp:TextBox ID="txtObservaciones" runat="server" MaxLength="6" Width="90%" TextMode="MultiLine"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col1">
+                                    <asp:Label ID="lblObservacionesSolicitante" runat="server" Text="Observaciones del Solicitante:"></asp:Label>
+                                </td>
+                                <td class="col2">
+                                    <asp:TextBox ID="txtObservacionesSolicitante" runat="server" MaxLength="6" Width="90%" TextMode="MultiLine"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>

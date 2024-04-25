@@ -60,6 +60,15 @@
           <Property Name="LoweredRoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="aspnet_token_usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="aspnet_Users">
           <Key>
             <PropertyRef Name="UserId" />
@@ -2594,6 +2603,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="Observaciones_Internas" Type="nvarchar" MaxLength="2000" />
           <Property Name="Observaciones_Providencia" Type="nvarchar" MaxLength="2000" />
           <Property Name="Librar_Uso" Type="bit" Nullable="false" />
+          <Property Name="Observaciones_LibradoUso" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Calificar_ObsDocs">
           <Key>
@@ -3014,6 +3024,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="observacion_providencia" Type="nvarchar" MaxLength="2000" />
           <Property Name="observaciones_contribuyente" Type="nvarchar(max)" />
           <Property Name="Librar_Uso" Type="bit" Nullable="false" />
+          <Property Name="Observaciones_LibradoUso" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Revision_Pagos">
           <Key>
@@ -3042,6 +3053,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="observacion_providencia" Type="nvarchar" MaxLength="2000" />
           <Property Name="observaciones_contribuyente" Type="nvarchar(max)" />
           <Property Name="Librar_Uso" Type="bit" Nullable="false" />
+          <Property Name="Observaciones_LibradoUso" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Revision_Tecnica_Legal">
           <Key>
@@ -15157,6 +15169,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="Observaciones_contribuyente" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Observaciones_Internas" Type="nvarchar" Mode="In" />
           <Parameter Name="Observaciones_Providencia" Type="nvarchar" Mode="In" />
+          <Parameter Name="Observaciones_LibradoUso" Type="nvarchar" Mode="In" />
           <Parameter Name="Librar_Uso" Type="bit" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
         </Function>
@@ -15543,6 +15556,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="observacion_plancheta" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="observacion_providencia" Type="nvarchar" Mode="In" />
           <Parameter Name="observaciones_contribuyente" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Observaciones_LibradoUso" Type="nvarchar" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="Librar_Uso" Type="bit" Mode="In" />
         </Function>
@@ -15570,6 +15584,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="observacion_plancheta" Type="nvarchar" Mode="In" />
           <Parameter Name="observacion_providencia" Type="nvarchar" Mode="In" />
           <Parameter Name="observaciones_contribuyente" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Observaciones_LibradoUso" Type="nvarchar" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="Librar_Uso" Type="bit" Mode="In" />
         </Function>
@@ -17144,6 +17159,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="aspnet_token_usuario" EntityType="Self.aspnet_token_usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Barrios" EntityType="Self.Barrios" Schema="dbo" store:Type="Tables" />
@@ -20279,6 +20295,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="observacion_plancheta" Mode="In" Type="String" />
             <Parameter Name="observacion_providencia" Mode="In" Type="String" />
             <Parameter Name="observaciones_contribuyente" Mode="In" Type="String" />
+            <Parameter Name="Observaciones_LibradoUso" Mode="In" Type="String" />
             <Parameter Name="userId" Mode="In" Type="Guid" />
             <Parameter Name="Librar_Uso" Mode="In" Type="Boolean" />
           </FunctionImport>
@@ -20289,6 +20306,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="observacion_plancheta" Mode="In" Type="String" />
             <Parameter Name="observacion_providencia" Mode="In" Type="String" />
             <Parameter Name="observaciones_contribuyente" Mode="In" Type="String" />
+            <Parameter Name="Observaciones_LibradoUso" Mode="In" Type="String" />
             <Parameter Name="userId" Mode="In" Type="Guid" />
             <Parameter Name="Librar_Uso" Mode="In" Type="Boolean" />
           </FunctionImport>
@@ -22724,6 +22742,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="Observaciones_contribuyente" Mode="In" Type="String" />
             <Parameter Name="Observaciones_Internas" Mode="In" Type="String" />
             <Parameter Name="Observaciones_Providencia" Mode="In" Type="String" />
+            <Parameter Name="Observaciones_LibradoUso" Mode="In" Type="String" />
             <Parameter Name="Librar_Uso" Mode="In" Type="Boolean" />
             <Parameter Name="userId" Mode="In" Type="Guid" />
           </FunctionImport>
@@ -28456,6 +28475,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
             <End Role="SGI_Tarea_Transicion_Enviar_DGFYCO" EntitySet="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           </AssociationSet>
+          <EntitySet Name="aspnet_token_usuario" EntityType="DGHP_Model.aspnet_token_usuario" />
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -29405,6 +29425,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="String" Name="observaciones_contribuyente" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Revision_Gerente_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Revision_Gerente" ToRole="SGI_Tramites_Tareas" />
           <Property Name="Librar_Uso" Type="Boolean" Nullable="false" />
+          <Property Name="Observaciones_LibradoUso" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Revision_SubGerente">
           <Key>
@@ -29422,6 +29443,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="String" Name="observaciones_contribuyente" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Revision_SubGerente_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Revision_SubGerente" ToRole="SGI_Tramites_Tareas" />
           <Property Name="Librar_Uso" Type="Boolean" Nullable="false" />
+          <Property Name="Observaciones_LibradoUso" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Generar_Expediente_Procesos">
           <Key>
@@ -30211,7 +30233,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_estado_pago" Nullable="true" />
           <Property Type="Int32" Name="id_empasc" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Nombre_calle" Nullable="true" MaxLength="150" />
           <Property Type="Int32" Name="NroPuerta" Nullable="true" />
@@ -31106,7 +31128,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         </EntityType>
         <ComplexType Name="IFCIExportarConsultaGeneral_Result">
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -31128,7 +31150,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         <ComplexType Name="ASRExportarElevadoresInspecciones_Result">
           <Property Type="Int32" Name="id_dgubicacion" Nullable="false" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -31149,7 +31171,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         <ComplexType Name="ASRExportarElevadoresGeneral_Result">
           <Property Type="Int32" Name="id_dgubicacion" Nullable="false" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -31839,7 +31861,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
         </EntityType>
         <ComplexType Name="IFCIExportarConsultaGeneralExtendida_Result">
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="Dado_baja" Nullable="true" MaxLength="2" />
@@ -35006,6 +35028,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Name="Observaciones_Providencia" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="Librar_Uso" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Calificar_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Calificar" ToRole="SGI_Tramites_Tareas" />
+          <Property Name="Observaciones_LibradoUso" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_SGI_Tarea_Calificar_SGI_Tramites_Tareas">
           <End Type="DGHP_Model.SGI_Tramites_Tareas" Role="SGI_Tramites_Tareas" Multiplicity="1" />
@@ -35845,7 +35868,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_dgubicacion" Nullable="true" />
           <Property Type="Int32" Name="anio_vigencia" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="Int32" Name="NroPartidaMatriz" Nullable="true" />
           <Property Type="Int32" Name="NroRegistro_empasc" Nullable="true" />
@@ -35866,7 +35889,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_subtipoubicacion" Nullable="true" />
           <Property Type="Int32" Name="pdamatriz" Nullable="true" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="PartidasHorizontales" Nullable="false" MaxLength="25" />
@@ -36132,7 +36155,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_PartidaMatriz" Nullable="false" />
           <Property Type="Int32" Name="NroPartidaMatriz" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="Decimal" Name="Superficie" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Int32" Name="NroLocales" Nullable="false" />
@@ -36154,7 +36177,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_subtipoubicacion" Nullable="true" />
           <Property Type="Int32" Name="pdamatriz" Nullable="true" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="PartidasHorizontales" Nullable="false" MaxLength="25" />
@@ -36164,7 +36187,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="264" />
           <Property Type="Int32" Name="PdaMatriz" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="Int32" Name="CALLE1_F" Nullable="true" />
           <Property Type="String" Name="CALLENOM1" Nullable="true" MaxLength="200" />
@@ -36531,7 +36554,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="CodCalle" Nullable="false" />
           <Property Type="String" Name="NroPuerta" Nullable="true" MaxLength="30" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="Piso" Nullable="true" MaxLength="10" />
@@ -36691,7 +36714,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="IdTipoSector" Nullable="true" />
           <Property Type="String" Name="NombreTipoSector" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="seccion" Nullable="true" />
-          <Property Type="String" Name="manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="LEY_449" Nullable="true" MaxLength="15" />
           <Property Type="String" Name="LEY_449_2" Nullable="true" MaxLength="15" />
@@ -36807,7 +36830,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_ubicacion" Nullable="false" />
           <Property Type="Int32" Name="NroPartidaMatriz" Nullable="true" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="puerta" Nullable="false" MaxLength="162" />
         </ComplexType>
@@ -37002,7 +37025,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Property Type="Int32" Name="id_cpadron" Nullable="false" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="Int32" Name="Seccion" Nullable="true" />
-          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="Manzana" Nullable="true" MaxLength="6" />
           <Property Type="String" Name="Parcela" Nullable="true" MaxLength="4" />
           <Property Type="DateTime" Name="FechaAprobacion" Nullable="true" Precision="16" />
         </ComplexType>
@@ -43345,6 +43368,15 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="aspnet_token_usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioId" Type="Guid" Nullable="false" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -43969,6 +44001,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="SGI_Tarea_Revision_Gerente">
             <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Revision_Gerente">
               <MappingFragment StoreEntitySet="SGI_Tarea_Revision_Gerente">
+                <ScalarProperty Name="Observaciones_LibradoUso" ColumnName="Observaciones_LibradoUso" />
                 <ScalarProperty Name="Librar_Uso" ColumnName="Librar_Uso" />
                 <ScalarProperty Name="observaciones_contribuyente" ColumnName="observaciones_contribuyente" />
                 <ScalarProperty Name="observacion_providencia" ColumnName="observacion_providencia" />
@@ -43986,6 +44019,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="SGI_Tarea_Revision_SubGerente">
             <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Revision_SubGerente">
               <MappingFragment StoreEntitySet="SGI_Tarea_Revision_SubGerente">
+                <ScalarProperty Name="Observaciones_LibradoUso" ColumnName="Observaciones_LibradoUso" />
                 <ScalarProperty Name="Librar_Uso" ColumnName="Librar_Uso" />
                 <ScalarProperty Name="observaciones_contribuyente" ColumnName="observaciones_contribuyente" />
                 <ScalarProperty Name="observacion_providencia" ColumnName="observacion_providencia" />
@@ -46519,6 +46553,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="SGI_Tarea_Calificar">
             <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Calificar">
               <MappingFragment StoreEntitySet="SGI_Tarea_Calificar">
+                <ScalarProperty Name="Observaciones_LibradoUso" ColumnName="Observaciones_LibradoUso" />
                 <ScalarProperty Name="Librar_Uso" ColumnName="Librar_Uso" />
                 <ScalarProperty Name="Observaciones_Providencia" ColumnName="Observaciones_Providencia" />
                 <ScalarProperty Name="Observaciones_Internas" ColumnName="Observaciones_Internas" />
@@ -51205,6 +51240,16 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
                 <ScalarProperty Name="descripcion_tipoplanoincendio" ColumnName="descripcion_tipoplanoincendio" />
                 <ScalarProperty Name="nombre_tipoplanoincendio" ColumnName="nombre_tipoplanoincendio" />
                 <ScalarProperty Name="id_tipoplanoincendio" ColumnName="id_tipoplanoincendio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="aspnet_token_usuario">
+            <EntityTypeMapping TypeName="DGHP_Model.aspnet_token_usuario">
+              <MappingFragment StoreEntitySet="aspnet_token_usuario">
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

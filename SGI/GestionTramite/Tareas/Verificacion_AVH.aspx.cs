@@ -3,6 +3,7 @@ using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -14,14 +15,14 @@ namespace SGI.GestionTramite.Tareas
     {
         #region cargar inicial
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
 
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
-                    CargarDatosTramite(id_tramitetarea);
+                    await CargarDatosTramite(id_tramitetarea);
 
             }
         }
@@ -32,7 +33,7 @@ namespace SGI.GestionTramite.Tareas
             base.OnUnload(e);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -76,7 +77,7 @@ namespace SGI.GestionTramite.Tareas
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
             ucListaRubros.LoadData(this.id_solicitud);
             ucTramitesRelacionados.LoadData(this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
             ucObservacionesTarea.Text = (pvh != null) ? pvh.Observaciones : "";
 
@@ -229,18 +230,38 @@ namespace SGI.GestionTramite.Tareas
 
         private void Validar_Finalizar()
         {
-            var list_doc_adj =
-                (
-                    from adj in db.SGI_Tarea_Documentos_Adjuntos
-                    where adj.id_tramitetarea == this.TramiteTarea
-                    && adj.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Informe_AVH
-                    select new
-                    {
-                        adj
-                    }
-                );
-            if (list_doc_adj.Count() == 0)
-                throw new Exception("Debe subir el Informe de AVH.");
+
+            var cantResultado = (from cant in db.SGI_Tramites_Tareas
+                                 where cant.id_tarea == this.id_tarea
+                                 && id_tarea == this.TramiteTarea
+                                 select new
+                                 {
+                                   resultados = db.ENG_Tareas
+                                  .Where(t => t.nombre_tarea.Contains("Enviar a DGFyC"))
+                                  .Select(t => t.id_tarea)
+                                 }
+                                 ).Count();
+            if (cantResultado > 0)
+            {
+
+            }
+            else
+            {
+                var list_doc_adj =
+                    (
+                        from adj in db.SGI_Tarea_Documentos_Adjuntos
+                        where adj.id_tramitetarea == this.TramiteTarea
+                        && adj.id_tdocreq == (int)Constants.TiposDeDocumentosRequeridos.Informe_AVH
+                        select new
+                        {
+                            adj
+                        }
+                    );
+
+                if (list_doc_adj.Count() == 0)
+                    throw new Exception("Debe subir el Informe de AVH.");
+            }
+
         }
 
     

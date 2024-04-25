@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web.UI;
 using SGI.GestionTramite.Controls;
@@ -15,15 +17,15 @@ namespace SGI.GestionTramite.Tareas
 
         //private Constants.ENG_Tareas tarea_pagina = Constants.ENG_Tareas.SSP_Revision_SubGerente;
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
+            UcObservacionesLibrarUso.Enabled = true;
             if (!IsPostBack)
             {
-
                 int id_tramitetarea = (Request.QueryString["id"] != null ? Convert.ToInt32(Request.QueryString["id"]) : 0);
                 if (id_tramitetarea > 0)
-                    CargarDatosTramite(id_tramitetarea);
-
+                    await CargarDatosTramite(id_tramitetarea);
+                chbLibrarUso.CheckedChanged += ChbLibrarUso_CheckedChanged;
             }
         }
 
@@ -54,7 +56,7 @@ namespace SGI.GestionTramite.Tareas
 
         #endregion
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -70,7 +72,7 @@ namespace SGI.GestionTramite.Tareas
                 this.db.Dispose();
                 throw new Exception(string.Format("No se encontro en la tabla SGI_tramites_tareas un registro coincidente con el id = {0}", id_tramitetarea));
             }
-
+            
 
             //Se debe establecer siempre el estado de controles antes del load de los controles
             //----
@@ -98,7 +100,7 @@ namespace SGI.GestionTramite.Tareas
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
             ucListaRubros.LoadData(this.id_solicitud);
             ucTramitesRelacionados.LoadData(id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             bool mostarRespaldo = id_circuito == (int)Constants.ENG_Circuitos.AMP_ESCU_HP ||
                 id_circuito == (int)Constants.ENG_Circuitos.RU_ESCU_HP ||
                 id_circuito == (int)Constants.ENG_Circuitos.ESCU_HP ||
@@ -135,7 +137,8 @@ namespace SGI.GestionTramite.Tareas
                                                  tramite_tarea.ENG_Tareas.ENG_Circuitos.nombre_grupo != Constants.grupoCircuito.SSPA;
 
             var ssit_Sol = db.SSIT_Solicitudes.FirstOrDefault(x => x.id_solicitud == this._id_solicitud);
-
+            SSIT_Solicitudes sol = new SSIT_Solicitudes();
+            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
             bool isConPlanos = false;
             isConPlanos = ssit_Sol.id_subtipoexpediente == (int)Constants.SubtipoDeExpediente.ConPlanos;
 
@@ -156,23 +159,28 @@ namespace SGI.GestionTramite.Tareas
                 UcObservacionesContribuyente.Text = subGenrente.observaciones_contribuyente;
                 ucObservacionPlancheta.Text = subGenrente.observacion_plancheta;
                 ucObservacionProvidencia.Text = subGenrente.observacion_providencia;
+                UcObservacionesLibrarUso.Text = subGenrente.Observaciones_LibradoUso;
                 chbLibrarUso.Checked = subGenrente.Librar_Uso;
             }
             else
             {
                 ucObservacionesTarea.Text = "";
                 UcObservacionesContribuyente.Text = "";
+                UcObservacionesLibrarUso.Text = ObservacionAnteriores.Buscar_ObservacionLibradoUso((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
                 ucObservacionPlancheta.Text = ObservacionAnteriores.Buscar_ObservacionPlancheta((int)Constants.GruposDeTramite.HAB, id_solicitud, id_tramitetarea);
                 if (Functions.isAprobado(this.id_solicitud))
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.SUBGERENTE"), "\n\n\n", "\n\n", "se");
                 else
                     ucObservacionProvidencia.Text = string.Format(Parametros.GetParam_ValorChar("PROVIDENCIA.SUBGERENTE"), "\n\n\n", "\n\n", "no se");
-                chbLibrarUso.Checked = false;
+                chbLibrarUso.Checked = (sol.FechaLibrado != null);
+            }
+            if (!string.IsNullOrEmpty(UcObservacionesLibrarUso.Text))
+            {
+                UcObservacionesLibrarUso.Enabled = false;
             }
             pnl_Librar_Uso.Visible = false;
 
-            SSIT_Solicitudes sol = new SSIT_Solicitudes();
-            sol = db.SSIT_Solicitudes.Where(x => x.id_solicitud == this.id_solicitud).FirstOrDefault();
+            
 
             var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == id_solicitud
                     && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
@@ -196,7 +204,10 @@ namespace SGI.GestionTramite.Tareas
                 pnl_Librar_Uso.Visible = true;
             }
             var fechalibrado = sol.FechaLibrado;
-            if (fechalibrado != null)
+            var estaLibrado = false;
+            if (subGenrente != null)
+                estaLibrado = subGenrente.Librar_Uso;
+            if (fechalibrado != null || estaLibrado)
             {
                 librado = true;
             }
@@ -222,6 +233,15 @@ namespace SGI.GestionTramite.Tareas
             }
             this.db.Dispose();
 
+        }
+
+        protected void ChbLibrarUso_CheckedChanged(object sender, EventArgs e)
+        {
+            UcObservacionesLibrarUso.Enabled = chbLibrarUso.Checked;
+            if (!chbLibrarUso.Checked)
+            {
+                UcObservacionesLibrarUso.Text = "";
+            }
         }
 
         private int _tramiteTarea = 0;
@@ -305,7 +325,7 @@ namespace SGI.GestionTramite.Tareas
         {
         }
 
-        private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observacion_plancheta, string observacion_providencia, string observacion_contribuyente, bool librar_uso, Guid userId)
+        private void Guardar_tarea(bool finalizar, int id_solicitud, int id_tramite_tarea, string observacion, string observacion_plancheta, string observacion_providencia, string observacion_contribuyente, string observaciones_LibradoUso, bool librar_uso, Guid userId)
         {
 
             SGI_Tarea_Revision_SubGerente subGenrente = Buscar_Tarea(id_tramite_tarea);
@@ -314,7 +334,7 @@ namespace SGI.GestionTramite.Tareas
             if (subGenrente != null)
                 id_revision_subGerente = subGenrente.id_revision_subGerente;
 
-            db.SGI_Tarea_Revision_SubGerente_Actualizar(id_revision_subGerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, userId, librar_uso);
+            db.SGI_Tarea_Revision_SubGerente_Actualizar(id_revision_subGerente, id_tramite_tarea, observacion, observacion_plancheta, observacion_providencia, observacion_contribuyente, observaciones_LibradoUso, userId, librar_uso);
             if (finalizar && !string.IsNullOrEmpty(observacion_contribuyente))
                 db.SSIT_Solicitudes_AgregarObservaciones(id_solicitud, observacion_contribuyente, userId);
 
@@ -336,7 +356,7 @@ namespace SGI.GestionTramite.Tareas
 
                     try
                     {
-                        Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), chbLibrarUso.Checked, userid);
+                        Guardar_tarea(false, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), UcObservacionesLibrarUso.Text.Trim(), chbLibrarUso.Checked, userid);
 
                         db.SaveChanges();
 
@@ -462,7 +482,7 @@ namespace SGI.GestionTramite.Tareas
 
                 Validar_Finalizar();
 
-                Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), chbLibrarUso.Checked, userid);
+                Guardar_tarea(true, this.id_solicitud, this.TramiteTarea, ucObservacionesTarea.Text.Trim(), ucObservacionPlancheta.Text.Trim(), ucObservacionProvidencia.Text.Trim(), UcObservacionesContribuyente.Text.Trim(), UcObservacionesLibrarUso.Text.Trim(), chbLibrarUso.Checked, userid);
                 db.SaveChanges();
 
                 bool hayProcesosGenerados = db.SGI_SADE_Procesos.Count(x => x.id_tramitetarea == TramiteTarea) > 0;
@@ -523,6 +543,12 @@ namespace SGI.GestionTramite.Tareas
                                 {
                                     db.SSIT_Solicitudes_ActualizarEstado(this.id_solicitud, (int)Constants.Solicitud_Estados.En_trámite, userid, sol.NroExpediente, sol.telefono);
                                 }
+                            }
+                            else if (chbLibrarUso.Checked == false && sol.FechaLibrado != null)
+                            {
+                                sol.FechaLibrado = null;
+                                db.SSIT_Solicitudes.AddOrUpdate(sol);
+                                db.SaveChanges();
                             }
 
                             Tran.Complete();

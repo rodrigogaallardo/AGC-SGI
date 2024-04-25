@@ -1898,6 +1898,18 @@ namespace SGI.Controls
                     lblCantResultados.Text = q.OrderBy(x => x.EsAnterior).ThenBy(x => x.cod_rubro).ToList().Count.ToString();
                 }
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
+                if (id_rubro == 0)
+                {
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                }
+                else
+                {
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "M");
+                }
+
                 this.EjecutarScript(updGuardar, "showBusqueda();");
             }
             catch (Exception ex)

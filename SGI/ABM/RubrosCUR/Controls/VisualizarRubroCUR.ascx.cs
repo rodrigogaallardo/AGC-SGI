@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -259,7 +260,10 @@ namespace SGI.Controls
                 Page.Validate();
                 if (Page.IsValid)
                 {
+                    Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                    string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                     var nuevoRubroCur = new RubrosCN
+
                     {
                         Codigo = txtCodRubro.Text.Trim(),
                         Keywords = txtToolTip.Text.TrimEnd(),
@@ -271,6 +275,9 @@ namespace SGI.Controls
                         IdGrupoCircuito = Convert.ToInt16(ddlCircuito.SelectedItem.Value),
                         LibrarUso = ChkLibrado.Checked,
                         CondicionExpress = ChkExpress.Checked,
+
+                        SoloAPRA = ChkSoloApra.Checked,
+
                         ZonaMixtura1 = txtZonaMixtura1.Text,
                         ZonaMixtura2 = txtZonaMixtura2.Text,
                         ZonaMixtura3 = txtZonaMixtura3.Text,
@@ -293,6 +300,7 @@ namespace SGI.Controls
                         db.SaveChanges();
                         Response.Redirect("~/ABM/RubrosCUR/AbmRubrosCUR.aspx");
                     }
+                    Functions.InsertarMovimientoUsuario(userId,DateTime.Now,null,string.Empty,url,txtObservacionesSolicitantes.Text,"I");
                 }
             }
             catch (Exception ex)

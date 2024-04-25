@@ -59,7 +59,12 @@
         </div>
     </div>
 
-
+    <div class="control-group">
+        <label class="control-label">Observaciones del Solicitante:</label>
+        <div class="controls">
+            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="350px" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
 
 
 

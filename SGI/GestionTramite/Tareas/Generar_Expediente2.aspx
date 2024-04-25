@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Generar Expediente" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Generar_Expediente2.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Generar_Expediente2" %>
+﻿<%@ Page Title="Tarea: Generar Expediente" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Generar_Expediente2.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Generar_Expediente2" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

@@ -13,6 +13,7 @@ using System.IO;
 using SGI.WebServices;
 using System.Data;
 using SGI.StaticClassNameSpace;
+using System.Web.Services.Description;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -350,7 +351,7 @@ namespace SGI.GestionTramite.Controls
             db.Dispose();
         }
 
-        protected void btnProcesarItemExpediente_Click(object sender, EventArgs e)
+        protected async void btnProcesarItemExpediente_Click(object sender, EventArgs e)
         {
 
 
@@ -367,6 +368,8 @@ namespace SGI.GestionTramite.Controls
             {
                 DGHP_Entities db = new DGHP_Entities();
                 db.Database.CommandTimeout = 300;
+                ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
+            serviceEE.Url = this.url_servicio_EE;
                 int id_caratula = 0;
                 var aux = db.SGI_SADE_Procesos.FirstOrDefault(x => x.id_tarea_proc == id_tarea_proc);
                 SGI_SADE_Procesos tp = new SGI_SADE_Procesos();
@@ -519,7 +522,7 @@ namespace SGI.GestionTramite.Controls
                         case (int)Constants.SGI_Procesos_EE.GEN_TAREA_A_LA_FIRMA:
                             if (validarProcesosRealizadosEnSADE(tp.id_tarea_proc, tp.id_tramitetarea))
                             {
-                                string NroExpediente = obtenerNroExpediente(tp.id_paquete);
+                                string NroExpediente = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, tp.id_paquete);
                                 if (NroExpediente.Length > 0 )
                                 {
                                     if (!tp.realizado_en_pasarela)
@@ -1311,7 +1314,7 @@ namespace SGI.GestionTramite.Controls
             db.Dispose();
         }
 
-        private void subirDocumento(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
+        private async void subirDocumento(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
             db.Database.CommandTimeout = 300;
@@ -1364,7 +1367,7 @@ namespace SGI.GestionTramite.Controls
                         var enc = db.Encomienda.Where(x => x.Encomienda_SSIT_Solicitudes.Select(y => y.id_solicitud).FirstOrDefault() == this.id_solicitud
                             && x.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).OrderByDescending(x => x.id_encomienda).FirstOrDefault();
                         
-                        documento = Plancheta.GenerarPdfPlanchetahabilitacion(this.id_solicitud, id_tramitetarea, enc.id_encomienda, nro_expediente, false);
+                        documento = await Plancheta.GenerarPdfPlanchetahabilitacion(this.id_solicitud, id_tramitetarea, enc.id_encomienda, nro_expediente, false);
 
                         id_file = ws_FilesRest.subirArchivo("Plancheta.pdf", documento);
 
@@ -1493,7 +1496,7 @@ namespace SGI.GestionTramite.Controls
                     }
                     else
                     {
-                        string formulario_json = FormulariosControlados.getFormulario(Ffcc_SADE, this.id_solicitud);
+                        string formulario_json = await FormulariosControlados.getFormulario(Ffcc_SADE, this.id_solicitud);
                         if (EnviarEmbebido)
                             id_devolucion_ee = serviceEE.Subir_Documentos_Embebidos_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
                                                     identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, "txt", identificacion_documento, formulario_json);
@@ -1536,7 +1539,7 @@ namespace SGI.GestionTramite.Controls
 
         }
 
-        private void subirObservaciones(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
+        private async void subirObservaciones(int id_tarea_proc, int id_paquete, int id_file, string descripcion_tramite, Guid userid)
         {
             DGHP_Entities db = new DGHP_Entities();
             db.Database.CommandTimeout = 300;
@@ -1644,7 +1647,7 @@ namespace SGI.GestionTramite.Controls
                     }
                     else
                     {
-                        string formulario_json = FormulariosControlados.getFormulario(Ffcc_SADE, this.id_solicitud);
+                        string formulario_json = await FormulariosControlados.getFormulario(Ffcc_SADE, this.id_solicitud);
                         id_devolucion_ee = serviceEE.Subir_Documento_ConAcroAndTipo_ffcc(this.username_servicio_EE, this.pass_servicio_EE, id_paquete, documento,
                                                 identificacion_documento, descripcion_tramite, this.sistema_SADE, username_SADE, Acronimo_SADE, formato_archivo, formulario_json);
                     }
@@ -1878,7 +1881,6 @@ namespace SGI.GestionTramite.Controls
         {
             DGHP_Entities db = new DGHP_Entities();
             db.Database.CommandTimeout = 300;
-
             bool realizado_en_pasarela = false;
             string resultado_ee = "";
             int id_devolucion_ee = -1;
@@ -2791,8 +2793,8 @@ namespace SGI.GestionTramite.Controls
             }
 
         }
-
-        public string obtenerNroExpediente(int id_paquete)
+        //Deprecada, era muy lenta
+        public string obtenerNroExpedienteOLD(int id_paquete)
         {
             ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
             serviceEE.Url = this.url_servicio_EE;
@@ -2804,6 +2806,17 @@ namespace SGI.GestionTramite.Controls
             {
                 NroExpediente = row.resultado;
             }
+
+            return NroExpediente;
+        }
+
+        public string obtenerNroExpediente(int id_paquete)
+        {
+            ws_ExpedienteElectronico.ws_ExpedienteElectronico serviceEE = new ws_ExpedienteElectronico.ws_ExpedienteElectronico();
+            serviceEE.Url = this.url_servicio_EE;
+            string NroExpediente = "";
+
+            NroExpediente = serviceEE.GetExpedienteByPaquete(this.username_servicio_EE, this.pass_servicio_EE, id_paquete);
 
             return NroExpediente;
         }

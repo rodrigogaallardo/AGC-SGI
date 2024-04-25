@@ -95,8 +95,9 @@ namespace SGI.ABM.Ubicaciones
 
                 if (u.id_subtipoubicacion != null)
                 {
-                    int idSub = (int)u.SubTiposDeUbicacion.id_tipoubicacion;
-                    if (Shared.esUbicacionEspecialConObjetoTerritorial(u.id_subtipoubicacion))
+                    int idSubTipoUbic = (int)u.SubTiposDeUbicacion.id_subtipoubicacion;
+                    int idTipoUbic = (int)u.SubTiposDeUbicacion.id_tipoubicacion;
+                    if (Shared.esUbicacionEspecialConObjetoTerritorial(idTipoUbic))
                     {
                         //txtManzana.Text = 'T' + txtManzana.Text;
                         //txtParcela.Text = txtParcela.Text + 't';
@@ -105,9 +106,8 @@ namespace SGI.ABM.Ubicaciones
                         txtParcela.Text = txtParcela.Text;
                     }
 
-                    ddlUbiSubTipoUbicacion.Items.FindByText(db.SubTiposDeUbicacion.Where(x => x.id_subtipoubicacion == idSub).Select(x => x.descripcion_subtipoubicacion).First()).Selected = true;
-                    int idUb = db.SubTiposDeUbicacion.Where(x => x.id_subtipoubicacion == idSub).Select(x => x.id_tipoubicacion).First();
-                    ddlbiTipoUbicacion.Items.FindByText(db.TiposDeUbicacion.Where(x => x.id_tipoubicacion == idUb).Select(x => x.descripcion_tipoubicacion).First()).Selected = true;
+                    ddlUbiSubTipoUbicacion.Items.FindByText(db.SubTiposDeUbicacion.Where(x => x.id_subtipoubicacion == idSubTipoUbic).Select(x => x.descripcion_subtipoubicacion).First()).Selected = true;
+                    ddlbiTipoUbicacion.Items.FindByText(db.TiposDeUbicacion.Where(x => x.id_tipoubicacion == idTipoUbic).Select(x => x.descripcion_tipoubicacion).First()).Selected = true;
                 }
 
                 chbEdificioProtegido.Checked = u.EsUbicacionProtegida;
@@ -206,7 +206,7 @@ namespace SGI.ABM.Ubicaciones
                          where cal.Codigo_calle == codCalle
                          && (cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle) <= nroPuerta
                          && (cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle) >= nroPuerta
-                         select cal).SingleOrDefault();
+                         select cal).FirstOrDefault();
 
                 if (c != null)
                     return c.NombreOficial_calle;

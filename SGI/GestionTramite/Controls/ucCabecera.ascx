@@ -46,8 +46,7 @@
                 <div style="width: 55%; float: left">
                     <ul class="cabecera" style="padding-left: 10px">
                         <li>Ubicación:<strong><asp:Label ID="lblUbicacion" runat="server"></asp:Label></strong></li>
-                        <li>Superficie total:<strong><asp:Label ID="lblSuperficieTotal" runat="server"></asp:Label>
-                            m2</strong></li>
+                        <li>Superficie total:<strong><asp:Label ID="lblSuperficieTotal" runat="server"></asp:Label></strong></li>
                     </ul>
                 </div>
             </asp:Panel>

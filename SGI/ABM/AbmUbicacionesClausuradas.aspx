@@ -8,12 +8,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    
+
     <%: Styles.Render("~/Content/themes/base/css") %>
     <%: Scripts.Render("~/bundles/select2") %>
     <%: Styles.Render("~/bundles/Select2Css") %>
     <%: Scripts.Render("~/bundles/autoNumeric") %>
-  
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -26,45 +26,45 @@
                 title: titulo,
                 text: texto,
                 image: '<%: ResolveUrl("~/Content/img/info32.png") %>',
-            sticky: false
-        });
-    }
+                sticky: false
+            });
+        }
 
         function inicializar_controles() {
             inicializar_autocomplete();
             inicializar_fechas();
             $("#<%: txtUbiNroPuerta.ClientID%>").autoNumeric({ aSep: '', mDec: '0', vMax: '999999' });
         }
-      
+
         function inicializar_fechas() {
             var FechaAlta = $('#<%=txtFechaAlta.ClientID%>');
             var es_readonly = $(FechaAlta).attr("readonly");
             if (!($(FechaAlta).is('[disabled]') || $(FechaAlta).is('[readonly]'))) {
                 $(FechaAlta).datepicker(
-                {
-                    closeText: 'Cerrar', prevText: '&#x3c;Ant', nextText: 'Sig&#x3e;', currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm', dateFormat: 'dd/mm/yy', firstDay: 0, isRTL: false, showMonthAfterYear: false, yearSuffix: ''
-                }
+                    {
+                        closeText: 'Cerrar', prevText: '&#x3c;Ant', nextText: 'Sig&#x3e;', currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm', dateFormat: 'dd/mm/yy', firstDay: 0, isRTL: false, showMonthAfterYear: false, yearSuffix: ''
+                    }
                 );
             }
             var FechaBaja = $('#<%=txtFechaBaja.ClientID%>');
             var es_readonly = $(FechaBaja).attr("readonly");
             if (!($(FechaBaja).is('[disabled]') || $(FechaBaja).is('[readonly]'))) {
                 $(FechaBaja).datepicker(
-                {
-                    closeText: 'Cerrar', prevText: '&#x3c;Ant', nextText: 'Sig&#x3e;', currentText: 'Hoy',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-                    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-                    weekHeader: 'Sm', dateFormat: 'dd/mm/yy', firstDay: 0, isRTL: false, showMonthAfterYear: false, yearSuffix: ''
-                }
+                    {
+                        closeText: 'Cerrar', prevText: '&#x3c;Ant', nextText: 'Sig&#x3e;', currentText: 'Hoy',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+                        weekHeader: 'Sm', dateFormat: 'dd/mm/yy', firstDay: 0, isRTL: false, showMonthAfterYear: false, yearSuffix: ''
+                    }
                 );
             }
         }
@@ -142,360 +142,360 @@
 
         }
     </script>
-    
-    <div id="box_busqueda" >
-    <asp:Panel ID="pnlBotonDefault" runat="server" DefaultButton="btnBuscar" >
-        
-    <div class="accordion-group widget-box" >
 
-            <%-- titulo collapsible buscar ubicacion --%>
-            <div class="accordion-heading">
-                <a id="bt_ubicacion_btnUpDown" data-parent="#collapse-group" href="#collapse_bt_ubicacion"
-                    data-toggle="collapse" onclick="bt_btnUpDown_collapse_click(this)">
+    <div id="box_busqueda">
+        <asp:Panel ID="pnlBotonDefault" runat="server" DefaultButton="btnBuscar">
 
-                    <%--                <asp:HiddenField ID="hid_bt_ubicacion_collapse" runat="server" Value="false"/>
+            <div class="accordion-group widget-box">
+
+                <%-- titulo collapsible buscar ubicacion --%>
+                <div class="accordion-heading">
+                    <a id="bt_ubicacion_btnUpDown" data-parent="#collapse-group" href="#collapse_bt_ubicacion"
+                        data-toggle="collapse" onclick="bt_btnUpDown_collapse_click(this)">
+
+                        <%--                <asp:HiddenField ID="hid_bt_ubicacion_collapse" runat="server" Value="false"/>
                     <asp:HiddenField ID="hid_bt_ubicacion_visible" runat="server" Value="false"/>--%>
 
-                    <div class="widget-title">
-                        <span class="icon" style="margin-left:4px"><i class="imoon-map-marker"></i></span>
-                        <h5>
-                            <asp:Label ID="Label1" runat="server" Text="Ubicaciones con iregularidades"></asp:Label></h5>
-                        <span class="btn-right"><i class="imoon-chevron-up"></i></span>   
-                    </div>
-                </a>
-            </div>
+                        <div class="widget-title">
+                            <span class="icon" style="margin-left: 4px"><i class="imoon-map-marker"></i></span>
+                            <h5>
+                                <asp:Label ID="Label1" runat="server" Text="Ubicaciones con iregularidades"></asp:Label></h5>
+                            <span class="btn-right"><i class="imoon-chevron-up"></i></span>
+                        </div>
+                    </a>
+                </div>
 
-            <%-- controles collapsible buscar por ubicacion --%>
-            <div class="accordion-body collapse in" id="collapse_bt_ubicacion">
-                <div class="widget-content">
-
-                    <%--tipos de busquedad por ubicacion--%>
+                <%-- controles collapsible buscar por ubicacion --%>
+                <div class="accordion-body collapse in" id="collapse_bt_ubicacion">
                     <div class="widget-content">
 
-                        <div class="btn-group" data-toggle="buttons-radio" style="display: table-cell;">
-                            <button id="btnBuscarPorPartida" type="button" class="btn active" onclick="switchear_buscar_ubicacion(1);">Por Partida</button>
-                            <button id="btnBuscarPorDom" type="button" class="btn" onclick="switchear_buscar_ubicacion(2);">Por Domicilio</button>
-                            <button id="btnBuscarPorSMP" type="button" class="btn" onclick="switchear_buscar_ubicacion(3);">Por SMP</button>
-                            <button id="btnBuscarPorUbiEspecial" type="button" class="btn" onclick="switchear_buscar_ubicacion(4);">Por Ubicaciones Especiales</button>
+                        <%--tipos de busquedad por ubicacion--%>
+                        <div class="widget-content">
+
+                            <div class="btn-group" data-toggle="buttons-radio" style="display: table-cell;">
+                                <button id="btnBuscarPorPartida" type="button" class="btn active" onclick="switchear_buscar_ubicacion(1);">Por Partida</button>
+                                <button id="btnBuscarPorDom" type="button" class="btn" onclick="switchear_buscar_ubicacion(2);">Por Domicilio</button>
+                                <button id="btnBuscarPorSMP" type="button" class="btn" onclick="switchear_buscar_ubicacion(3);">Por SMP</button>
+                                <button id="btnBuscarPorUbiEspecial" type="button" class="btn" onclick="switchear_buscar_ubicacion(4);">Por Ubicaciones Especiales</button>
+                            </div>
+
                         </div>
 
-                    </div>
 
+                        <%--buscar por numero de partida--%>
+                        <div id="buscar_ubi_por_partida" class="widget-content">
 
-                    <%--buscar por numero de partida--%>
-                    <div id="buscar_ubi_por_partida" class="widget-content">
+                            <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_partida" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
 
-                        <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_partida" runat="server" UpdateMode="Conditional">
-                            <ContentTemplate>
+                                    <div class="form-horizontal">
 
-                                <div class="form-horizontal">
+                                        <fieldset>
 
-                                    <fieldset>
+                                            <div class="control-group">
+                                                <asp:Label ID="lblUbiPartidaMatriz" runat="server" AssociatedControlID="rbtnUbiPartidaMatriz"
+                                                    CssClass="control-label">Tipo de Partida:</asp:Label>
+                                                <div class="controls">
+                                                    <div class="form-inline">
+                                                        <asp:RadioButton ID="rbtnUbiPartidaMatriz" runat="server"
+                                                            Text="Matriz" GroupName="TipoDePartida" Checked="true" />
+                                                        <asp:RadioButton ID="rbtnUbiPartidaHoriz" runat="server" Style="padding-left: 5px"
+                                                            Text="Horizontal" GroupName="TipoDePartida" />
+                                                    </div>
+                                                </div>
 
-                                        <div class="control-group">
-                                            <asp:Label ID="lblUbiPartidaMatriz" runat="server" AssociatedControlID="rbtnUbiPartidaMatriz"
-                                                CssClass="control-label">Tipo de Partida:</asp:Label>
-                                            <div class="controls">
-                                                <div class="form-inline">
-                                                    <asp:RadioButton ID="rbtnUbiPartidaMatriz" runat="server"
-                                                        Text="Matriz" GroupName="TipoDePartida" Checked="true" />
-                                                    <asp:RadioButton ID="rbtnUbiPartidaHoriz" runat="server" Style="padding-left: 5px"
-                                                        Text="Horizontal" GroupName="TipoDePartida" />
+                                            </div>
+
+                                            <div class="control-group">
+                                                <asp:Label ID="lblUbiNroPartida" runat="server" AssociatedControlID="txtUbiNroPartida"
+                                                    CssClass="control-label">Nro. Partida:</asp:Label>
+                                                <div class="controls">
+                                                    <asp:TextBox ID="txtUbiNroPartida" runat="server" MaxLength="10" Width="100px"
+                                                        CssClass="input-xlarge"></asp:TextBox>
                                                 </div>
                                             </div>
 
-                                        </div>
 
-                                        <div class="control-group">
-                                            <asp:Label ID="lblUbiNroPartida" runat="server" AssociatedControlID="txtUbiNroPartida"
-                                                CssClass="control-label">Nro. Partida:</asp:Label>
-                                            <div class="controls">
-                                                <asp:TextBox ID="txtUbiNroPartida" runat="server" MaxLength="10" Width="100px"
-                                                    CssClass="input-xlarge"></asp:TextBox>
-                                            </div>
-                                        </div>
+                                        </fieldset>
 
+                                    </div>
 
-                                    </fieldset>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
 
-                                </div>
+                        </div>
 
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-
-                    </div>
-
-                    <%--buscar por nombre de calle--%>
-                    <div id="buscar_ubi_por_dom" class="widget-content" style="display: none">
-                        <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_dom" runat="server" UpdateMode="Conditional">
-                            <ContentTemplate>
-                                <div class="form-horizontal">
-                                    <fieldset>
-                                        <div class="control-group">
-                                            <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
-                                                CssClass="control-label">Búsqueda de Calle:</asp:Label>
-                                            <div class="controls">
-                                                <div class="clearfix">
-                                                    <div class="pull-left">
-                                                     <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains"  EnablePersistence="false"  OnValueSelect="AutocompleteCalles_ValueSelect"/>
-                                                        <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
+                        <%--buscar por nombre de calle--%>
+                        <div id="buscar_ubi_por_dom" class="widget-content" style="display: none">
+                            <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_dom" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <div class="form-horizontal">
+                                        <fieldset>
+                                            <div class="control-group">
+                                                <asp:Label ID="lblUbiCalle" runat="server" AssociatedControlID="AutocompleteCalles"
+                                                    CssClass="control-label">Búsqueda de Calle:</asp:Label>
+                                                <div class="controls">
+                                                    <div class="clearfix">
+                                                        <div class="pull-left">
+                                                            <ej:Autocomplete ID="AutocompleteCalles" MinCharacter="3" DataTextField="NombreOficial_calle" DataUniqueKeyField="Codigo_calle" Width="500px" runat="server" FilterType="Contains" EnablePersistence="false" OnValueSelect="AutocompleteCalles_ValueSelect" />
+                                                            <span style="font-size: 8pt">Debe ingresar un mínimo de 3 letras y el sistema le mostrará
                                                                 las calles posibles.</span>
-                                                        <%--<asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
+                                                            <%--<asp:RequiredFieldValidator ID="ReqCalle" runat="server" ErrorMessage="Debe seleccionar una de las calles de la lista desplegable."
                                                             Display="Dynamic" ControlToValidate="AutocompleteCalles" ValidationGroup="Buscar2"
                                                             CssClass="field-validation-error"></asp:RequiredFieldValidator>--%>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="control-group">
+                                                <asp:Label ID="lblUbiNroPuerta" runat="server" AssociatedControlID="txtUbiNroPuerta"
+                                                    CssClass="control-label">Nro. Puerta:</asp:Label>
+                                                <div class="controls">
+                                                    <asp:TextBox ID="txtUbiNroPuerta" runat="server" MaxLength="10" Width="50px"
+                                                        CssClass="input-xlarge"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+
+                        </div>
+
+
+                        <%--buscar por seccion, manzana, parcela--%>
+                        <div id="buscar_ubi_por_smp" class="widget-content" style="display: none">
+
+                            <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_smp" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+
+                                    <div class="form-horizontal">
+
+                                        <fieldset>
+
+                                            <div class="control-group">
+
+                                                <asp:Label ID="lblUbiSeccion" runat="server" AssociatedControlID="txtUbiManzana"
+                                                    Text="Sección:" class="control-label" Style="padding-top: 0"></asp:Label>
+                                                <div class="control-label" style="margin-left: -75px; margin-top: -20px">
+                                                    <asp:TextBox ID="txtUbiSeccion" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                </div>
+
+
+                                                <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
+                                                    Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
+                                                <div class="control-label" style="margin-left: -65px; margin-top: -20px">
+                                                    <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
+                                                </div>
+
+
+                                                <asp:Label ID="lblUbiParcela" runat="server" AssociatedControlID="txtUbiParcela"
+                                                    Text="Parcela:" class="control-label" Style="padding-top: 0"></asp:Label>
+                                                <div class="control-label" style="margin-left: -65px; margin-top: -20px">
+                                                    <asp:TextBox ID="txtUbiParcela" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+
+
+                                    </div>
+
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+
+                        </div>
+
+                        <%--buscar por tipo subtipo ubicacion--%>
+                        <div id="buscar_ubi_por_especial" class="widget-content" style="display: none">
+
+                            <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_especial" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+
+                                    <div class="form-horizontal">
+
                                         <div class="control-group">
-                                            <asp:Label ID="lblUbiNroPuerta" runat="server" AssociatedControlID="txtUbiNroPuerta"
-                                                CssClass="control-label">Nro. Puerta:</asp:Label>
+                                            <label for="ddlbiTipoUbicacion" class="control-label">Tipo de Ubicación:</label>
                                             <div class="controls">
-                                                <asp:TextBox ID="txtUbiNroPuerta" runat="server" MaxLength="10" Width="50px"
-                                                    CssClass="input-xlarge"></asp:TextBox>
+
+                                                <asp:DropDownList ID="ddlbiTipoUbicacion" runat="server"
+                                                    OnSelectedIndexChanged="ddlbiTipoUbicacion_SelectedIndexChanged"
+                                                    AutoPostBack="true" Width="350px">
+                                                </asp:DropDownList>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-
-                    </div>
-
-
-                    <%--buscar por seccion, manzana, parcela--%>
-                    <div id="buscar_ubi_por_smp" class="widget-content" style="display: none">
-
-                        <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_smp" runat="server" UpdateMode="Conditional">
-                            <ContentTemplate>
-
-                                <div class="form-horizontal">
-
-                                    <fieldset>
 
                                         <div class="control-group">
+                                            <label for="ddlUbiSubTipoUbicacion" class="control-label">Subtipo de Ubicación:</label>
+                                            <div class="controls">
 
-                                            <asp:Label ID="lblUbiSeccion" runat="server" AssociatedControlID="txtUbiManzana"
-                                                Text="Sección:" class="control-label" Style="padding-top: 0"></asp:Label>
-                                            <div class="control-label" style="margin-left: -75px; margin-top: -20px">
-                                                <asp:TextBox ID="txtUbiSeccion" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
-                                            </div>
-
-
-                                            <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
-                                                Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
-                                            <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
-                                            </div>
-
-
-                                            <asp:Label ID="lblUbiParcela" runat="server" AssociatedControlID="txtUbiParcela"
-                                                Text="Parcela:" class="control-label" Style="padding-top: 0"></asp:Label>
-                                            <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                <asp:TextBox ID="txtUbiParcela" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                <asp:DropDownList ID="ddlUbiSubTipoUbicacion" runat="server"
+                                                    Width="350px">
+                                                </asp:DropDownList>
                                             </div>
                                         </div>
-                                    </fieldset>
 
+                                    </div>
 
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
 
-                                </div>
-
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-
+                        </div>
                     </div>
-
-                    <%--buscar por tipo subtipo ubicacion--%>
-                    <div id="buscar_ubi_por_especial" class="widget-content" style="display: none">
-
-                        <asp:UpdatePanel ID="updPnlFiltroBuscar_ubi_especial" runat="server" UpdateMode="Conditional">
-                            <ContentTemplate>
-
-                                <div class="form-horizontal">
-
-                                    <div class="control-group">
-                                        <label for="ddlbiTipoUbicacion" class="control-label">Tipo de Ubicación:</label>
-                                        <div class="controls">
-
-                                            <asp:DropDownList ID="ddlbiTipoUbicacion" runat="server"
-                                                OnSelectedIndexChanged="ddlbiTipoUbicacion_SelectedIndexChanged"
-                                                AutoPostBack="true" Width="350px">
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label for="ddlUbiSubTipoUbicacion" class="control-label">Subtipo de Ubicación:</label>
-                                        <div class="controls">
-
-                                            <asp:DropDownList ID="ddlUbiSubTipoUbicacion" runat="server"
-                                                Width="350px">
-                                            </asp:DropDownList>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
 
                 </div>
+
             </div>
 
-        </div>
-
-    </div>
 
 
+            <asp:UpdatePanel ID="btn_BuscarTramite" runat="server" style="margin-top: 10px" UpdateMode="Conditional">
+                <ContentTemplate>
 
-    <asp:UpdatePanel ID="btn_BuscarTramite" runat="server" style="margin-top:10px" UpdateMode="Conditional" >
-        <ContentTemplate>
+                    <div class="pull-right">
 
-                <div class="pull-right">
-                    
-                <div class="control-group inline-block">
-                    <asp:UpdateProgress ID="updPrgss_BuscarTramite" AssociatedUpdatePanelID="btn_BuscarTramite" runat="server" DisplayAfter="0"  >
-                    <ProgressTemplate>
-                        <img src="../Content/img/app/Loading24x24.gif" alt="" />
-                    </ProgressTemplate>
-                </asp:UpdateProgress>
-                </div>
+                        <div class="control-group inline-block">
+                            <asp:UpdateProgress ID="updPrgss_BuscarTramite" AssociatedUpdatePanelID="btn_BuscarTramite" runat="server" DisplayAfter="0">
+                                <ProgressTemplate>
+                                    <img src="../Content/img/app/Loading24x24.gif" alt="" />
+                                </ProgressTemplate>
+                            </asp:UpdateProgress>
+                        </div>
 
-                <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" AutoPostBack="true">
+                        <asp:LinkButton ID="btnBuscar" runat="server" CssClass="btn  btn-inverse" ValidationGroup="buscar" OnClick="btnBuscar_OnClick" AutoPostBack="true">
                     <i class="icon-white icon-search"></i>
                     <span class="text">Buscar</span>
-                    </asp:LinkButton>
+                        </asp:LinkButton>
 
-                <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn" OnClick="btnLimpiar_Click">
+                        <asp:LinkButton ID="btnLimpiar" runat="server" CssClass="btn" OnClick="btnLimpiar_Click">
                     <i class="icon-refresh"></i>
                     <span class="text">Limpiar</span>
-                </asp:LinkButton>
+                        </asp:LinkButton>
 
 
-                </div>
-                <asp:Panel ID="PanelBoton" runat="server" Visible="true" CssClass="control-group" style="margin-bottom:0px">
-                    <span class="btn btn-primary " onclick="showfrmAgregarUbicacion();">
-                <i class="imoon imoon-plus"></i>
-                <span class="text">Agregar Ubicaci&oacute;n</span>
-            </span>
-                </asp:Panel>
-            </ContentTemplate>
-    </asp:UpdatePanel>
+                    </div>
+                    <asp:Panel ID="PanelBoton" runat="server" Visible="true" CssClass="control-group" Style="margin-bottom: 0px">
+                        <span class="btn btn-primary " onclick="showfrmAgregarUbicacion();">
+                            <i class="imoon imoon-plus"></i>
+                            <span class="text">Agregar Ubicaci&oacute;n</span>
+                        </span>
+                    </asp:Panel>
+                </ContentTemplate>
+            </asp:UpdatePanel>
 
-    </asp:Panel>
+        </asp:Panel>
     </div>
 
-    <div id="box_resultado" class="widget-box" style="display:none;">
-         <asp:UpdatePanel ID="updPnlUbicacionesClausuradas" runat="server" class="mleft10 mright10 mtop10" UpdateMode="Conditional">
-                    <ContentTemplate>
-                        
-            <asp:Panel ID="pnlResultadoBuscar" runat="server">
+    <div id="box_resultado" class="widget-box" style="display: none;">
+        <asp:UpdatePanel ID="updPnlUbicacionesClausuradas" runat="server" class="mleft10 mright10 mtop10" UpdateMode="Conditional">
+            <ContentTemplate>
 
-                <asp:Panel ID="pnlCantRegistros" runat="server" Visible="false">
+                <asp:Panel ID="pnlResultadoBuscar" runat="server">
 
-                    <div style="display: inline-block;margin-left:10px">
-                        
-                        <h5>
-                            <asp:Label ID="lblUbicClausuradas" runat="server" Text="Ubicaciones con iregularidades"></asp:Label></h5>
-                    </div>
-                    <div style="display: inline-block">
-                        (<span class="badge"><asp:Label ID="lblCantRegistros" runat="server" ></asp:Label></span>
-                        )
-                    </div>
+                    <asp:Panel ID="pnlCantRegistros" runat="server" Visible="false">
 
-                </asp:Panel>
-                        <asp:GridView ID="grdUbicacionesClausuradas" runat="server" 
-                            AutoGenerateColumns="false" 
-                            GridLines="None" 
-                            CssClass="table table-bordered table-striped table-hover with-check"
-                            ItemType="SGI.Model.clsItemGrillaUbicacionesClausuradas" 
-                            AllowPaging="true" 
-                            PageSize="30" 
-                            OnRowDataBound="grdUbicacionesClausuradas_RowDataBound"
-                            OnPageIndexChanging="grdResultados_PageIndexChanging"
-                            OnDataBound="grdResultados_DataBound">
-                            <Columns>
-                                <asp:BoundField DataField="Tipo" HeaderText="Tipo" />
-                                <asp:BoundField DataField="NroPartidaMatriz" HeaderText="N° Partida Matriz/Horizontal" ItemStyle-Width="100px" />
-                                <asp:BoundField DataField="Seccion" HeaderText="Sección" />
-                                <asp:BoundField DataField="Manzana" HeaderText="Manzana" />
-                                <asp:BoundField DataField="Parcela" HeaderText="Parcela" />
-                                <asp:BoundField DataField="domicilio" HeaderText="Domicilio" />
-                                <asp:BoundField DataField="motivo" HeaderText="Motivo" />
-                                <asp:BoundField DataField="fecha_alta_clausura" HeaderText="Fecha alta de Clausura" />
-                                <asp:BoundField DataField="fecha_baja_clausura" HeaderText="Fecha baja de Clausura" />
-                                <asp:TemplateField HeaderText="Acciones" ItemStyle-CssClass="text-center" ItemStyle-Width="3px">
-                                            <ItemTemplate>
-                                                 <asp:LinkButton ID="lnkModificar" runat="server" CssClass="" ToolTip="Editar" data-toggle="tooltip"
-                                                     CommandArgument='<%#Eval("id_ubicclausura")+","+Eval("Tipo")%>' OnClick="lnkModificar_Click">
+                        <div style="display: inline-block; margin-left: 10px">
+
+                            <h5>
+                                <asp:Label ID="lblUbicClausuradas" runat="server" Text="Ubicaciones con iregularidades"></asp:Label></h5>
+                        </div>
+                        <div style="display: inline-block">
+                            (<span class="badge"><asp:Label ID="lblCantRegistros" runat="server"></asp:Label></span>
+                            )
+                        </div>
+
+                    </asp:Panel>
+                    <asp:GridView ID="grdUbicacionesClausuradas" runat="server"
+                        AutoGenerateColumns="false"
+                        GridLines="None"
+                        CssClass="table table-bordered table-striped table-hover with-check"
+                        ItemType="SGI.Model.clsItemGrillaUbicacionesClausuradas"
+                        AllowPaging="true"
+                        PageSize="30"
+                        OnRowDataBound="grdUbicacionesClausuradas_RowDataBound"
+                        OnPageIndexChanging="grdResultados_PageIndexChanging"
+                        OnDataBound="grdResultados_DataBound">
+                        <Columns>
+                            <asp:BoundField DataField="Tipo" HeaderText="Tipo" />
+                            <asp:BoundField DataField="NroPartidaMatriz" HeaderText="N° Partida Matriz/Horizontal" ItemStyle-Width="100px" />
+                            <asp:BoundField DataField="Seccion" HeaderText="Sección" />
+                            <asp:BoundField DataField="Manzana" HeaderText="Manzana" />
+                            <asp:BoundField DataField="Parcela" HeaderText="Parcela" />
+                            <asp:BoundField DataField="domicilio" HeaderText="Domicilio" />
+                            <asp:BoundField DataField="motivo" HeaderText="Motivo" />
+                            <asp:BoundField DataField="fecha_alta_clausura" HeaderText="Fecha alta de Clausura" />
+                            <asp:BoundField DataField="fecha_baja_clausura" HeaderText="Fecha baja de Clausura" />
+                            <asp:TemplateField HeaderText="Acciones" ItemStyle-CssClass="text-center" ItemStyle-Width="3px">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lnkModificar" runat="server" CssClass="" ToolTip="Editar" data-toggle="tooltip"
+                                        CommandArgument='<%#Eval("id_ubicclausura")+","+Eval("Tipo")%>' OnClick="lnkModificar_Click">
                                             <span class="icon" style="color:#337AB7"><i class="icon-edit"></i></span>
-                                        </asp:LinkButton>
+                                    </asp:LinkButton>
 
-                                                <asp:LinkButton ID="lnkEliminar" runat="server" CssClass="" ToolTip="Eliminar" data-toggle="tooltip"
-                                                    CommandArgument='<%#Eval("id_ubicclausura")+","+Eval("Tipo")%>' OnClick="lnkEliminar_Click">
+                                    <asp:LinkButton ID="lnkEliminar" runat="server" CssClass="" ToolTip="Eliminar" data-toggle="tooltip"
+                                        CommandArgument='<%#Eval("id_ubicclausura")+","+Eval("Tipo")%>' OnClick="lnkEliminar_Click">
                                             <span class="icon" style="color:#337AB7"><i class="icon-remove"></i></span>
-                                        </asp:LinkButton>
-                                               
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                    </asp:LinkButton>
 
-                            </Columns>
-                            <PagerTemplate>
-                                <asp:Panel ID="pnlPager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
-                                        <asp:Button ID="cmdAnterior" runat="server" Text="<<" OnClick="cmdAnterior_Click"
-                                            CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage1" runat="server" Text="1" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage2" runat="server" Text="2" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage3" runat="server" Text="3" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage4" runat="server" Text="4" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage5" runat="server" Text="5" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage6" runat="server" Text="6" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage7" runat="server" Text="7" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage8" runat="server" Text="8" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage9" runat="server" Text="9" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage10" runat="server" Text="10" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage11" runat="server" Text="11" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
-                                        <asp:Button ID="cmdPage12" runat="server" Text="12" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage13" runat="server" Text="13" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage14" runat="server" Text="14" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage15" runat="server" Text="15" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage16" runat="server" Text="16" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage17" runat="server" Text="17" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage18" runat="server" Text="18" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdPage19" runat="server" Text="19" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
-                                        <asp:Button ID="cmdSiguiente" runat="server" Text=">>" OnClick="cmdSiguiente_Click"
-                                            CssClass="btn btn-sm btn-default"  />
-                                    </asp:Panel>
-                                </PagerTemplate>
+                                </ItemTemplate>
+                            </asp:TemplateField>
 
-                                <EmptyDataTemplate>
+                        </Columns>
+                        <PagerTemplate>
+                            <asp:Panel ID="pnlPager" runat="server" Style="padding: 10px; text-align: center; border-top: solid 1px #e1e1e1">
+                                <asp:Button ID="cmdAnterior" runat="server" Text="<<" OnClick="cmdAnterior_Click"
+                                    CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage1" runat="server" Text="1" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage2" runat="server" Text="2" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage3" runat="server" Text="3" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage4" runat="server" Text="4" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage5" runat="server" Text="5" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage6" runat="server" Text="6" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage7" runat="server" Text="7" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage8" runat="server" Text="8" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage9" runat="server" Text="9" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage10" runat="server" Text="10" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage11" runat="server" Text="11" OnClick="cmdPage" CssClass="btn btn-sm btn-default" />
+                                <asp:Button ID="cmdPage12" runat="server" Text="12" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage13" runat="server" Text="13" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage14" runat="server" Text="14" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage15" runat="server" Text="15" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage16" runat="server" Text="16" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage17" runat="server" Text="17" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage18" runat="server" Text="18" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdPage19" runat="server" Text="19" OnClick="cmdPage" CssClass="btn btn-xs btn-default" />
+                                <asp:Button ID="cmdSiguiente" runat="server" Text=">>" OnClick="cmdSiguiente_Click"
+                                    CssClass="btn btn-sm btn-default" />
+                            </asp:Panel>
+                        </PagerTemplate>
 
-                                    <div>
+                        <EmptyDataTemplate>
 
-                                        <img src="<%: ResolveUrl("~/Content/img/app/NoRecords.png") %>" />
-                                        <span class="mleft20">No se encontraron registros.</span>
+                            <div>
 
-                                    </div>
+                                <img src="<%: ResolveUrl("~/Content/img/app/NoRecords.png") %>" />
+                                <span class="mleft20">No se encontraron registros.</span>
 
-                                </EmptyDataTemplate>
-                        </asp:GridView>
-            </asp:Panel>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-        </div>
+                            </div>
+
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </asp:Panel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
 
 
     <asp:UpdatePanel ID="updhidden" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
             <asp:HiddenField ID="hid_accion" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />
-            <asp:HiddenField ID="hid_ID_ubic" runat="server"  EnableViewState="true" ViewStateMode="Enabled"  ClientIDMode="Static"  />
-            <asp:HiddenField ID="hid_ID_ubicclausura" runat="server"  EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static"  />
-            <asp:HiddenField ID="hid_ID_tipo" runat="server"  EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static"  />
-            <asp:HiddenField ID="hid_IDs_horizontal" runat="server"  EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static"  />
+            <asp:HiddenField ID="hid_ID_ubic" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />
+            <asp:HiddenField ID="hid_ID_ubicclausura" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />
+            <asp:HiddenField ID="hid_ID_tipo" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />
+            <asp:HiddenField ID="hid_IDs_horizontal" runat="server" EnableViewState="true" ViewStateMode="Enabled" ClientIDMode="Static" />
         </ContentTemplate>
     </asp:UpdatePanel>
-    
+
     <%-- Modal Datos Ubicación --%>
     <asp:UpdatePanel ID="updPnlDatosUbic" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
@@ -562,7 +562,7 @@
                                 </div>
                             </div>
                             <div class="pull-right mright20 mbottom20">
-                                <asp:LinkButton ID="btnGuardar" runat="server" CssClass="btn btn-inverse" OnClick="btnGuardar_Click" OnClientClick="hidefrmDatosUbicacion();" >
+                                <asp:LinkButton ID="btnGuardar" runat="server" CssClass="btn btn-inverse" OnClick="btnGuardar_Click" OnClientClick="hidefrmDatosUbicacion();">
                         <span class="text">Guardar</span>
                                 </asp:LinkButton>
                             </div>
@@ -629,7 +629,30 @@
         </div>
     </div>
     <!-- /.modal -->
+    <%--Modal Eliminar Log--%>
+    <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Observaciones del Solicitante:</label>
+                        <div class="controls">
+                            <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="10" Width="95%" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
 
+                <%-- Botones --%>
+                <div class="modal-footer" style="text-align: left;">
+                    <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-success" OnClick="btnAceptar_Click" />
+                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" OnClick="btnCancelar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
 
         function hidefrmAgregarUbicacion() {

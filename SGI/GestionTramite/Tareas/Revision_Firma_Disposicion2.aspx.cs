@@ -3,6 +3,7 @@ using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.UI;
@@ -113,7 +114,21 @@ namespace SGI.GestionTramite.Tareas
             base.OnUnload(e);
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        protected async void btnCargarDatos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await CargarDatosTramite(this.id_tramitetarea);
+                this.EjecutarScript(updCargaInicial, "finalizarCarga();");
+            }
+            catch (Exception ex)
+            {
+                lblErrorCargaInicial.Text = ex.Message;
+                pnlErrorCargaInicial.Visible = true;
+            }
+        }
+
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
 
             Guid userid = Functions.GetUserId();
@@ -141,7 +156,7 @@ namespace SGI.GestionTramite.Tareas
             int id_tarea = ttHAB.SGI_Tramites_Tareas.id_tarea;
 
             ucCabecera.LoadData(id_grupotramite, this.id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
             ucPreviewDocumentos.Visible = true;
             ucPreviewDocumentos.LoadData(this.id_solicitud);
@@ -431,27 +446,14 @@ namespace SGI.GestionTramite.Tareas
 
         #endregion
 
-        protected void ucProcesosSADE_FinalizadoEnSADE(object sender, EventArgs e)
+        protected async void ucProcesosSADE_FinalizadoEnSADE(object sender, EventArgs e)
         {
             // Cuando se cierra el modal de procesos si no hay pendientes en SADE se dispara esta accion
             ucResultadoTarea.btnFinalizar_Enabled = true;
-            ucListaDocumentos.LoadData(this.id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(this.id_grupotramite, this.id_solicitud);
             //ucResultadoTarea_FinalizarTareaClick(sender, new ucResultadoTareaEventsArgs());
         }
 
-        protected void btnCargarDatos_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                CargarDatosTramite(this.id_tramitetarea);
-                this.EjecutarScript(updCargaInicial, "finalizarCarga();");
-            }
-            catch (Exception ex)
-            {
-                lblErrorCargaInicial.Text = ex.Message;
-                pnlErrorCargaInicial.Visible = true;
-            }
-        }
 
         protected void btnCargarProcesos_Click(object sender, EventArgs e)
         {

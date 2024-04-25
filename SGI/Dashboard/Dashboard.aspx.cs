@@ -166,6 +166,7 @@ namespace SGI.Dashboard
                         tareas_calificar.Add((int)Constants.ENG_Tareas.SSP_Calificar_Nuevo);
                         tareas_calificar.Add((int)Constants.ENG_Tareas.SSP2_Asignacion_al_Calificador_Subgerente);
                         tareas_calificar.Add((int)Constants.ENG_Tareas.SSP2_Asignacion_al_Calificador_Gerente);
+                        tareas_calificar.Add((int)Constants.ENG_Tareas.SSP2_Calificar_Tramite);
                         break;
 
                     case "ESPAR":

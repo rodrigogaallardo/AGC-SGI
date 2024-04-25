@@ -362,7 +362,7 @@
                                                                             <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
                                                                                 Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
                                                                             <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                                                <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                                                <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
                                                                             </div>
                                                                             <asp:Label ID="lblUbiParcela" runat="server" AssociatedControlID="txtUbiParcela"
                                                                                 Text="Parcela:" class="control-label" Style="padding-top: 0"></asp:Label>
@@ -862,7 +862,7 @@
                                                 <ContentTemplate>
                                                     <div class="form-horizontal">
                                                         <div class="control-group">
-                                                            <div id="Val_PartidaNuevaSub" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
+                                                            <div id="Val_PartidaNuevaNva" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
                                                                 Revise las validaciones en pantalla.
                                                             </div>
                                                         </div>
@@ -1175,15 +1175,15 @@
             }
 
             if ($("#MainContent_txtUbiNroPartida").val().length == 0 &&
-                 $("#MainContent_ddlUbiCalle").val().length == 0 &&
-                 $("#MainContent_txtUbiNroPuerta").val() == 0 &&
-                 $("#MainContent_txtUbiSeccion").val() == 0 &&
-                 $("#MainContent_txtUbiManzana").val() == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_ddlUbiTipoUbicacion").val() == 0
-                ) {
+                $("#MainContent_ddlUbiCalle").val().length == 0 &&
+                $("#MainContent_txtUbiNroPuerta").val() == 0 &&
+                $("#MainContent_txtUbiSeccion").val() == 0 &&
+                $("#MainContent_txtUbiManzana").val() == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_ddlUbiTipoUbicacion").val() == 0
+            ) {
                 $("#ValFields").css("display", "inline-block");
                 ret = false;
             }
@@ -1223,149 +1223,149 @@
                 $("#MainContent_divPhDadaDBaja").show();
                 $("#<%: ddlBaja.ClientID %>").attr('selected', 'selected');
             }
-    }
-
-    function switchear_buscar_ubicacion(btn) {
-
-        if (btn == 1) {
-            $("#buscar_ubi_por_partida").show();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").addClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-
         }
-        else if (btn == 2) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").show();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
 
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").addClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
+        function switchear_buscar_ubicacion(btn) {
+
+            if (btn == 1) {
+                $("#buscar_ubi_por_partida").show();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").addClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+
+            }
+            else if (btn == 2) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").show();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").addClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+            }
+            else if (btn == 3) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").show();
+                $("#buscar_ubi_por_especial").hide();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").addClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+            }
+            else if (btn == 4) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").show();
+
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").addClass("active");
+            }
         }
-        else if (btn == 3) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").show();
-            $("#buscar_ubi_por_especial").hide();
 
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").addClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
+        function showResultado() {
+            $("#box_resultado").show("slow");
         }
-        else if (btn == 4) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").show();
 
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").addClass("active");
+        function hideResultado() {
+            $("#box_resultado").hide("slow");
+            $("#boxActivas").hide("slow");
         }
-    }
 
-    function showResultado() {
-        $("#box_resultado").show("slow");
-    }
-
-    function hideResultado() {
-        $("#box_resultado").hide("slow");
-        $("#boxActivas").hide("slow");
-    }
-
-    function showDatos() {
-        $("#boxActivas").hide("slow");
-        $("#filtros").hide("slow");
-        $("#box_datos").show("slow");
-    }
-
-    function showActivas() {
-        $("#box_resultado").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#boxActivas").show("slow");
-        $("#filtros").show("slow");
-    }
-
-    function newBusqueda() {
-        $("#boxActivas").hide("slow");
-        $("#box_resultado").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#filtros").show("slow");
-    }
-
-    function showBusqueda() {
-        $("#boxActivas").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#filtros").show("slow");
-    }
-
-    function showfrmError() {
-        $("#frmError").modal("show");
-        return false;
-    }
-
-    function finalizarCarga() {
-        $("#Loading").hide();
-        $("#page_content").show();
-        return false;
-    }
-
-    function validarGuardar() {
-        var ret = true;
-        hideSummary();
-
-        $("#Req_txtCalle1").hide();
-        $("#Req_txtNroPuerta1").hide();
-
-
-        if (ret) {
-            ocultarBotonesGuardar();
+        function showDatos() {
+            $("#boxActivas").hide("slow");
+            $("#filtros").hide("slow");
+            $("#box_datos").show("slow");
         }
-        else {
-            $("#ValSummary").css("display", "inline-block");
 
+        function showActivas() {
+            $("#box_resultado").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#boxActivas").show("slow");
+            $("#filtros").show("slow");
         }
-        return ret;
-    }
 
-    function ocultarBotonesGuardar() {
-        $("#pnlBotonesGuardar").hide();
-        return false;
-    }
+        function newBusqueda() {
+            $("#boxActivas").hide("slow");
+            $("#box_resultado").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#filtros").show("slow");
+        }
 
-    function init_Js_updpnlBuscar() {
-        $("#<%: ddlUbiCalle.ClientID %>").select2({
-            allowClear: true
-        });
-        $("#Val_CallePuerta").hide();
-        $("#Val_TipoSubtipo").hide();
-        $("#ValFields").hide();
+        function showBusqueda() {
+            $("#boxActivas").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#filtros").show("slow");
+        }
 
-        return false;
-    }
+        function showfrmError() {
+            $("#frmError").modal("show");
+            return false;
+        }
 
-    function validarGuardarCalleNva() {
-        var ret = true;
-        var calle;
-        var Nroinicio;
-        var Nrofinal;
-        var Nropuerta;
+        function finalizarCarga() {
+            $("#Loading").hide();
+            $("#page_content").show();
+            return false;
+        }
 
-        $("#Req_txtCalleNva").hide();
-        $("#Req_txtNroPuertaNva").hide();
-        $("#Req_txtNroPuertaNvaParametro").hide();
+        function validarGuardar() {
+            var ret = true;
+            hideSummary();
 
-        if ($.trim($("#<%: ddlCalleNva.ClientID %> ").val()).length == 0) {
+            $("#Req_txtCalle1").hide();
+            $("#Req_txtNroPuerta1").hide();
+
+
+            if (ret) {
+                ocultarBotonesGuardar();
+            }
+            else {
+                $("#ValSummary").css("display", "inline-block");
+
+            }
+            return ret;
+        }
+
+        function ocultarBotonesGuardar() {
+            $("#pnlBotonesGuardar").hide();
+            return false;
+        }
+
+        function init_Js_updpnlBuscar() {
+            $("#<%: ddlUbiCalle.ClientID %>").select2({
+                allowClear: true
+            });
+            $("#Val_CallePuerta").hide();
+            $("#Val_TipoSubtipo").hide();
+            $("#ValFields").hide();
+
+            return false;
+        }
+
+        function validarGuardarCalleNva() {
+            var ret = true;
+            var calle;
+            var Nroinicio;
+            var Nrofinal;
+            var Nropuerta;
+
+            $("#Req_txtCalleNva").hide();
+            $("#Req_txtNroPuertaNva").hide();
+            $("#Req_txtNroPuertaNvaParametro").hide();
+
+            if ($.trim($("#<%: ddlCalleNva.ClientID %> ").val()).length == 0) {
             $("#Req_txtCalleNva").css("display", "inline-block");
             ret = false;
         }
@@ -1377,48 +1377,59 @@
         }
 
         if ($.trim($("#<%: txtNroPuertaNva.ClientID %>").val()).length == 0) {
-            $("#Req_txtNroPuertaNva").css("display", "inline-block");
-            ret = false;
-        }
-        if (Nropuerta >= Nrofinal || Nropuerta <= Nroinicio) {
-            $("#Req_txtNroPuertaSubParametro").css("display", "inline-block");
-            ret = false;
-        }
-        if (ret) {
-            $("#updBotonesGuardarCalleNva").hide();
-        }
-        return ret;
-    }
-
-    function validarGuardarNuevaPartida() {
-        var ret = true;
-
-        $("#Val_PartidaNuevaNva").hide();
-        $("#Req_Seccion").hide();
-        $("#Req_Subtipo").hide();
-        $("#Req_DistritoNva").hide();
-        $("#Req_MixturaNva").hide();
-        $("#Req_CalleNva").hide();
-
-        if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
-                $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
-                    $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
-                    $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
-                $("#Req_Seccion").css("display", "inline-block");
+                $("#Req_txtNroPuertaNva").css("display", "inline-block");
                 ret = false;
             }
+            if (Nropuerta >= Nrofinal || Nropuerta <= Nroinicio) {
+                $("#Req_txtNroPuertaSubParametro").css("display", "inline-block");
+                ret = false;
+            }
+            if (ret) {
+                $("#updBotonesGuardarCalleNva").hide();
+            }
+            return ret;
+        }
 
-            if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
+        function validarGuardarNuevaPartida() {
+            var ret = true;
+
+            $("#Val_PartidaNuevaNva").hide();
+            $("#Req_Seccion").hide();
+            $("#Req_Subtipo").hide();
+            $("#Req_DistritoNva").hide();
+            $("#Req_MixturaNva").hide();
+            $("#Req_CalleNva").hide();
+
+            <%--if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 &&
+            $.trim($("#<%: txtManzana.ClientID %>").val()).length == 0 &&
+            $.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
+            $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") 
+            {
+            $("#Req_Seccion").css("display", "inline-block");
+            ret = false;
+              }else {
+                ret = true;
+            }--%>
+
+            if ($.trim($("#<%: txtParcela.ClientID %>").val()).length == 0 &&
+                $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "1") {
+                $("#Req_Seccion").css("display", "inline-block");
+                ret = false;
+            } else {
+                ret = true;
+            }
+
+        if ($.trim($("#<%: ddlUbiSubTipoUbicacionABM.ClientID %> ").val()).length == 0
             && $("#<%: hid_tipo_reqSMP.ClientID %>").val() == "0") {
                 $("#Req_Subtipo").css("display", "inline-block");
                 ret = false;
             }
 
-        //var rowCountdp = $("[id*=grdCalleNva] tr").length;
-        //if (rowCountdp < 2) {
-        //    $("#Req_CalleNva").css("display", "inline-block");
-        //    ret = false;
-        //}
+            //var rowCountdp = $("[id*=grdCalleNva] tr").length;
+            //if (rowCountdp < 2) {
+            //    $("#Req_CalleNva").css("display", "inline-block");
+            //    ret = false;
+            //}
 
             var rowCountdp = $("[id*=grdMixturas] tr").length;
             if (rowCountdp < 2) {
@@ -1426,11 +1437,11 @@
                 ret = false;
             }
 
-        //var rowCountd = $("[id*=grdDistritos] tr").length;
-        //if (rowCountd < 2) {
-        //    $("#Req_DistritoNva").css("display", "inline-block");
-        //    ret = false;
-        //}
+            //var rowCountd = $("[id*=grdDistritos] tr").length;
+            //if (rowCountd < 2) {
+            //    $("#Req_DistritoNva").css("display", "inline-block");
+            //    ret = false;
+            //}
 
             if (!ret) {
                 $("#Val_PartidaNuevaNva").css("display", "inline-block");

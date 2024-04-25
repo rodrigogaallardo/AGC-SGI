@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tarea: Fin de Tramite" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Fin_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Fin_Tramite" %>
+﻿<%@ Page Title="Tarea: Fin de Tramite" Language="C#" Async="true" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Fin_Tramite.aspx.cs" Inherits="SGI.GestionTramite.Tareas.Transferencias.Fin_Tramite" %>
 
 <%@ Register Src="~/GestionTramite/Controls/ucCabecera.ascx" TagPrefix="uc1" TagName="ucCabecera" %>
 <%@ Register Src="~/GestionTramite/Controls/ucListaDocumentosv1.ascx" TagPrefix="uc1" TagName="ucListaDocumentos" %>

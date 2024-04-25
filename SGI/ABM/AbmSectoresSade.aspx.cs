@@ -178,7 +178,10 @@ namespace SGI.ABM
                     try
                     {
                         db.SectoresSADE_EliminarSector(idSector, userid);
+
                         Tran.Complete();
+                        string script = "$('#frmEliminarLog').modal('show');";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
                     }
                     catch (Exception ex)
                     {
@@ -206,6 +209,7 @@ namespace SGI.ABM
             try
             {
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
                 int idSector = Convert.ToInt32(hid_id_SectorReq.Value);
                 string codigo = txtCodigoSectorReq.Text.Trim();
@@ -220,9 +224,15 @@ namespace SGI.ABM
                     {
                         
                         if (idSector == 0)
-                            db.SectoresSADE_GuardarSector(codigo, Nombre,reparticion, userid);
+                        {
+                            db.SectoresSADE_GuardarSector(codigo, Nombre, reparticion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                        }
                         else
-                            db.SectoresSADE_ActualizarSector(idSector, codigo, Nombre,reparticion, userid);
+                        {
+                            db.SectoresSADE_ActualizarSector(idSector, codigo, Nombre, reparticion, userid);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                        }
                         Tran.Complete();
                     }
                     catch (Exception ex)
@@ -248,6 +258,24 @@ namespace SGI.ABM
             {
                 db.Dispose();
             }
+
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
+
+        }
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+
 
         }
     }

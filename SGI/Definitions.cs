@@ -1,24 +1,25 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Packaging;
+using iTextSharp.text.pdf;
+using SGI.Model;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.Entity.SqlServer;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SGI.Model;
-using System.Linq;
-using Elmah;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
-
-using System.Reflection;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using System.Data;
-using iTextSharp.text.pdf;
-using System.Text;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using System.IO.Pipes;
+using System.Threading;
+using System.Globalization;
 
 namespace SGI
 {
@@ -610,6 +611,7 @@ namespace SGI
             //Ampliaciones Simples v2 - ampliaciones y redistribuciones
             SSP2_Asignacion_al_Calificador_Subgerente = 1116,
             SSP2_Asignacion_al_Calificador_Gerente = 1117,
+            SSP2_Calificar_Tramite = 1118,
             SSP2_Generar_Expediente = 1122
         }
 
@@ -1047,7 +1049,31 @@ namespace SGI
     }
     public class Functions
     {
+        public static void InsertarMovimientoUsuario(Guid userId, DateTime fechaIngreso, int? id_file, string datosAdicionales, string url, string observacionesSolicitante, string tipoMovimiento)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
+            var db = new DGHP_Entities();
+            var cmd = db.Database.Connection.CreateCommand();
+            cmd.CommandText = string.Format("EXEC SGI_Insertar_Movimiento_Usuario '{0}', '{1}', {2}, '{3}','{4}','{5}','{6}'", userId, fechaIngreso, id_file == null ? "NULL" : id_file.ToString(), datosAdicionales,url, observacionesSolicitante, tipoMovimiento);
+            cmd.CommandTimeout = 1000;
 
+            try
+            {
+                db.Database.Connection.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                db.Database.Connection.Close();
+                cmd.Dispose();
+                db.Dispose();
+            }
+        }
         public static void CargarAutocompleteCalles(Syncfusion.JavaScript.Web.Autocomplete AutocompleteCalles)
         {
             DGHP_Entities db = new DGHP_Entities();
@@ -1205,6 +1231,124 @@ namespace SGI
                 DateTime fechaCreacion = System.IO.File.GetCreationTime(arch);
                 if (fechaCreacion < DateTime.Now.AddDays(-3))
                     System.IO.File.Delete(arch);
+            }
+        }
+
+        public static int GetPaqueteFromSolicitud(int id_solicitud)
+        {
+            int id_paquete = 0;
+            DGHP_Entities db = new DGHP_Entities();
+
+            var transferencias = 
+                (from tt in db.SGI_Tramites_Tareas
+                         join sol in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals sol.id_tramitetarea
+                         join tskr in db.ENG_Tareas on tt.id_tarea equals tskr.id_tarea
+                         join sade in db.SGI_SADE_Procesos on tt.id_tramitetarea equals sade.id_tramitetarea
+                         where tskr.nombre_tarea.Contains("Gene") && sol.id_solicitud == id_solicitud
+                         select sade.id_paquete);
+
+            var habilitaciones = 
+                (from tt in db.SGI_Tramites_Tareas
+                         join sol in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals sol.id_tramitetarea
+                         join tskr in db.ENG_Tareas on tt.id_tarea equals tskr.id_tarea
+                         join sade in db.SGI_SADE_Procesos on tt.id_tramitetarea equals sade.id_tramitetarea
+                         where tskr.nombre_tarea.Contains("Gene") && sol.id_solicitud == id_solicitud
+                         select sade.id_paquete);
+
+            id_paquete = transferencias.Union(habilitaciones).FirstOrDefault();
+
+            return id_paquete;
+        }
+
+        public static void ExportDataToPythonAndReceiveResults(string jsonData, string namedPipeName)
+        {
+            byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonData);
+            //separo a nuestro querido jason en pedacitos para que no explote el pipe
+            int chunkSize = 63670000; // 63.67 MB
+            int totalChunks = (int)Math.Ceiling((double)jsonBytes.Length / chunkSize);
+            
+            // Create a Named Pipe client
+            using (NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", namedPipeName, PipeDirection.InOut, PipeOptions.None))
+            {
+                // Connect to the Python Named Pipe server
+                pipeClient.Connect();
+                string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+                string FileName = string.Format("log_pipe_{0}.txt", fechaAct);
+                string path = @"C:\Temporal\";
+                string logFilePath = Path.Combine($"{path}", $"{FileName}");
+
+                using (StreamWriter sw = File.AppendText(logFilePath))
+                {
+                    sw.WriteLine("Connected to the Python Named Pipe server.");
+                }
+                // Send the total number of chunks to the python server
+                byte[] totalChunksBytes = BitConverter.GetBytes(totalChunks);
+                pipeClient.Write(totalChunksBytes, 0, totalChunksBytes.Length);
+
+                // Send the JSON data chunks to the server
+                for (int chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++)
+                {
+                    int startIndex = chunkIndex * chunkSize;
+                    int remainingBytes = jsonBytes.Length - startIndex;
+                    int bytesToSend = Math.Min(chunkSize, remainingBytes);
+                    byte[] chunkBytes = new byte[bytesToSend];
+                    Buffer.BlockCopy(jsonBytes, startIndex, chunkBytes, 0, bytesToSend);
+                    pipeClient.Write(chunkBytes, 0, chunkBytes.Length);
+                }
+
+                // Wait for the Python server to process the data and send the response
+                byte[] responseBytes = new byte[chunkSize];
+                using (MemoryStream responseStream = new MemoryStream())
+                {
+                    byte[] buffer = new byte[chunkSize];
+                    int bytesRead;
+                    do
+                    {
+                        bytesRead = pipeClient.Read(buffer, 0, buffer.Length);
+                        responseStream.Write(buffer, 0, bytesRead);
+                    } while (bytesRead > 0);
+
+                    // Convert the response to a string
+                    string response = Encoding.UTF8.GetString(responseStream.ToArray());
+
+                    // Close the Named Pipe client
+                    pipeClient.Close();
+                }
+            }
+        }
+
+
+        public static void RunPythonExecutable(string path, string arguments, string jsonData, string namedPipeName)
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = path,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            process.StartInfo = startInfo;
+            process.Start();
+
+
+            ExportDataToPythonAndReceiveResults(jsonData, namedPipeName);
+            process.WaitForExit();
+            string error = process.StandardError.ReadToEnd();
+            int exitCode = process.ExitCode;
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                string fechaAct = DateTime.Now.ToString("yyyy-MM-dd-HH-mm");
+                string FileName = string.Format("log_python_error_{0}.txt", fechaAct);
+                string path_err = @"C:\Temporal\";
+                string logFilePath = Path.Combine($"{path_err}", $"{FileName}");
+
+                using (StreamWriter sw = File.AppendText(logFilePath))
+                {
+                    sw.WriteLine("Error al ejecutar el python" + error);
+                }
             }
         }
 

@@ -13,6 +13,7 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static SGI.Constants;
@@ -143,6 +144,11 @@ namespace SGI.Operaciones
                         }
                     }
                 }
+                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, id_file, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+
                 int id_tdocrec = Convert.ToInt32(dropDownListEditTipoDeDocumentoRequerido.SelectedItem.Value);
                 string tdocrec_detalle = txtTdocRecDetalle.Text;
                 int id_tipodocsis = Convert.ToInt32(dropDownListEditTipoDeDocumentoSistema.SelectedItem.Value);

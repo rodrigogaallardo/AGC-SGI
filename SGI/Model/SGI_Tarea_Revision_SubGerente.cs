@@ -18,6 +18,7 @@ namespace SGI.Model
         public string observacion_providencia { get; set; }
         public string observaciones_contribuyente { get; set; }
         public bool Librar_Uso { get; set; }
+        public string Observaciones_LibradoUso { get; set; }
     
         public virtual SGI_Tramites_Tareas SGI_Tramites_Tareas { get; set; }
     }

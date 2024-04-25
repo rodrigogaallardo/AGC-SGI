@@ -192,7 +192,7 @@ namespace SGI.GestionTramite.Tareas
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnl_Librar_Uso;
+        protected global::System.Web.UI.UpdatePanel pnl_Librar_Uso;
 
         /// <summary>
         /// Control chbLibrarUso.
@@ -202,6 +202,15 @@ namespace SGI.GestionTramite.Tareas
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chbLibrarUso;
+
+        /// <summary>
+        /// Control UcObservacionesLibrarUso.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::SGI.GestionTramite.Controls.ucObservacionesTarea UcObservacionesLibrarUso;
 
         /// <summary>
         /// Control ucResultadoTarea.

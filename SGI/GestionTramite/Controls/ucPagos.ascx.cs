@@ -12,7 +12,8 @@ using System.Web;
 using iTextSharp.text.pdf;
 using SGI.Model;
 using SGI.Webservices.ws_interface_AGC;
-
+using ExternalService.Class;
+using System.Threading.Tasks;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -35,14 +36,14 @@ namespace SGI.GestionTramite.Controls
 
         }
 
-        public void LoadData(int id_solicitud)
+        public async Task LoadData(int id_solicitud)
         {
             this.id_solicitud = id_solicitud;
 
             if (id_solicitud > 0)
             {
                 CargarPagosAGC(id_solicitud);
-                CargarPagosAPRA(id_solicitud);
+                await CargarPagosAPRA(id_solicitud);
             }
         }
 
@@ -63,16 +64,17 @@ namespace SGI.GestionTramite.Controls
                 if (tipo_tramite == Constants.PagosTipoTramite.CAA)
                 {
 
-                    SGI.Webservices.ws_interface_AGC.ws_Interface_AGC servicio = new SGI.Webservices.ws_interface_AGC.ws_Interface_AGC();
-                    SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_BUI = new SGI.Webservices.ws_interface_AGC.wsResultado();
-                    servicio.Url = this.Url_Interface_AGC;
-                    var lstBUIsCAA = servicio.Get_BUIs_Pagos(this.User_Interface_AGC, this.Password_Interface_AGC, new int[] { id_pago }, ref ws_resultado_BUI).ToList();
-                    servicio.Dispose();
+                    //SGI.Webservices.ws_interface_AGC.ws_Interface_AGC servicio = new SGI.Webservices.ws_interface_AGC.ws_Interface_AGC();
+                    //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_BUI = new SGI.Webservices.ws_interface_AGC.wsResultado();
+                    //servicio.Url = this.Url_Interface_AGC;
+                    //BUBoletaUnica[] lstBUIsCAA = servicio.Get_BUIs_Pagos(this.User_Interface_AGC, this.Password_Interface_AGC, new int[] { id_pago }, ref ws_resultado_BUI).ToList();
+                    BUBoletaUnica[] lstBUIsCAA = null;
+                    //servicio.Dispose();
 
-                    if (ws_resultado_BUI.ErrorCode != 0)
-                    {
-                        throw new Exception("CAA - " + ws_resultado_BUI.ErrorDescription);
-                    }
+                    //if (ws_resultado_BUI.ErrorCode != 0)
+                    //{
+                    //    throw new Exception("CAA - " + ws_resultado_BUI.ErrorDescription);
+                    //}
 
                     strEstadoPago = (from bui in lstBUIsCAA
                                      where bui.IdPago == id_pago
@@ -332,7 +334,7 @@ namespace SGI.GestionTramite.Controls
 
         }
 
-        public void CargarPagosAPRA(int id_solicitud)
+        public async Task CargarPagosAPRA(int id_solicitud)
         {
             List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
             List<int> lstEncomiendasRelacionadas = new List<int>();
@@ -369,28 +371,33 @@ namespace SGI.GestionTramite.Controls
 
             }
 
-            ws_Interface_AGC servicio = new ws_Interface_AGC();
-            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
-            int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
-
-            lstPagos = (from bu in db.wsPagos_BoletaUnica
-                        join pag in db.wsPagos on bu.id_pago equals pag.id_pago
-                        join est in db.wsPagos_BoletaUnica_Estados on bu.EstadoPago_BU equals est.id_estadopago
-                        where l.Contains(bu.id_pago)
-                        select new clsItemGrillaPagos
-                        {
-                            //.id_solicitud = caa.id_caa,
-                            id_pago = bu.id_pago,
-                            id_medio_pago = 0,
-                            monto_pago = bu.Monto_BU,
-                            CreateDate = pag.CreateDate,
-                            estado = est.nom_estadopago,
-                            desc_medio_pago = "Boleta única" // (p.id_medio_pago == 0 ? "Boleta única" : "Pago electrónico")
-                        }).ToList();
+            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            //int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+            int[] l = await GetIdPagosCAAsbyEncomiendas(lstEncomiendasRelacionadas.ToArray());
+            //int[] l = ;
+            if (l != null && l.Count() > 0)
+            {
+                lstPagos = (from bu in db.wsPagos_BoletaUnica
+                            join pag in db.wsPagos on bu.id_pago equals pag.id_pago
+                            join est in db.wsPagos_BoletaUnica_Estados on bu.EstadoPago_BU equals est.id_estadopago
+                            where l.Contains(bu.id_pago)
+                            select new clsItemGrillaPagos
+                            {
+                                //.id_solicitud = caa.id_caa,
+                                id_pago = bu.id_pago,
+                                id_medio_pago = 0,
+                                monto_pago = bu.Monto_BU,
+                                CreateDate = pag.CreateDate,
+                                estado = est.nom_estadopago,
+                                desc_medio_pago = "Boleta única" // (p.id_medio_pago == 0 ? "Boleta única" : "Pago electrónico")
+                            }).ToList();
+            }
+                
 
             //pnlPagosGeneradosBUI.Visible = (lstPagos.Count > 0);
             grdPagosGeneradosBUI_APRA.DataSource = lstPagos;
@@ -479,7 +486,7 @@ namespace SGI.GestionTramite.Controls
 
         }
 
-        public List<clsItemGrillaPagos> PagosAPRAList(int id_solicitud)
+        public async Task<List<clsItemGrillaPagos>> PagosAPRAList(int id_solicitud)
         {
             List<clsItemGrillaPagos> lstPagos = new List<clsItemGrillaPagos>();
             List<int> lstEncomiendasRelacionadas = new List<int>();
@@ -516,29 +523,43 @@ namespace SGI.GestionTramite.Controls
 
             }
 
-            ws_Interface_AGC servicio = new ws_Interface_AGC();
-            SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
+            //ws_Interface_AGC servicio = new ws_Interface_AGC();
+            //SGI.Webservices.ws_interface_AGC.wsResultado ws_resultado_CAA = new SGI.Webservices.ws_interface_AGC.wsResultado();
 
-            servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
-            string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
-            string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
-            int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
-
-            lstPagos = (from bu in db.wsPagos_BoletaUnica
-                        join pag in db.wsPagos on bu.id_pago equals pag.id_pago
-                        join est in db.wsPagos_BoletaUnica_Estados on bu.EstadoPago_BU equals est.id_estadopago
-                        where l.Contains(bu.id_pago)
-                        select new clsItemGrillaPagos
-                        {
-                            //.id_solicitud = caa.id_caa,
-                            id_pago = bu.id_pago,
-                            id_medio_pago = 0,
-                            monto_pago = bu.Monto_BU,
-                            CreateDate = pag.CreateDate,
-                            estado = est.nom_estadopago,
-                            desc_medio_pago = "Boleta única" // (p.id_medio_pago == 0 ? "Boleta única" : "Pago electrónico")
-                        }).ToList();
+            //servicio.Url = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC");
+            //string username_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.User");
+            //string password_servicio = Functions.GetParametroChar("SIPSA.Url.Webservice.ws_Interface_AGC.Password");
+            //int[] l = servicio.Get_IdPagosCAA_by_Encomiendas(username_servicio, password_servicio, lstEncomiendasRelacionadas.ToArray(), ref ws_resultado_CAA);
+            int[] l = await GetIdPagosCAAsbyEncomiendas(lstEncomiendasRelacionadas.ToArray());
+            //int[] l = ;
+            if (l != null && l.Count() > 0)
+            {
+                lstPagos = (from bu in db.wsPagos_BoletaUnica
+                            join pag in db.wsPagos on bu.id_pago equals pag.id_pago
+                            join est in db.wsPagos_BoletaUnica_Estados on bu.EstadoPago_BU equals est.id_estadopago
+                            where l.Contains(bu.id_pago)
+                            select new clsItemGrillaPagos
+                            {
+                                //.id_solicitud = caa.id_caa,
+                                id_pago = bu.id_pago,
+                                id_medio_pago = 0,
+                                monto_pago = bu.Monto_BU,
+                                CreateDate = pag.CreateDate,
+                                estado = est.nom_estadopago,
+                                desc_medio_pago = "Boleta única" // (p.id_medio_pago == 0 ? "Boleta única" : "Pago electrónico")
+                            }).ToList();
+            }
+            else
+                return null;
+            
             return lstPagos;
+        }
+
+        private async Task<int[]> GetIdPagosCAAsbyEncomiendas(int[] lst_id_Encomiendas)
+        {
+            ExternalService.ApraSrvRest apraSrvRest = new ExternalService.ApraSrvRest();
+            int[] lstCaa = await apraSrvRest.GetIdPagosCAAsbyEncomiendas(lst_id_Encomiendas.ToList());
+            return lstCaa;
         }
     }
 

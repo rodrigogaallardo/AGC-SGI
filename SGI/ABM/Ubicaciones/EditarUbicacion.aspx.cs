@@ -1,10 +1,12 @@
 ﻿using SGI.Model;
+using SGI.WebServices;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -258,7 +260,7 @@ namespace SGI.ABM.Ubicaciones
                          where cal.Codigo_calle == codCalle
                          && (cal.AlturaIzquierdaInicio_calle <= cal.AlturaDerechaInicio_calle ? cal.AlturaIzquierdaInicio_calle : cal.AlturaDerechaInicio_calle) <= nroPuerta
                          && (cal.AlturaDerechaFin_calle >= cal.AlturaIzquierdaFin_calle ? cal.AlturaDerechaFin_calle : cal.AlturaIzquierdaFin_calle) >= nroPuerta
-                         select cal).SingleOrDefault();
+                         select cal).FirstOrDefault();
 
                 if (c != null)
                     return c.NombreOficial_calle;
@@ -938,7 +940,10 @@ namespace SGI.ABM.Ubicaciones
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            ValidarPuertas();            
+            ValidarPuertas();
+            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
         }
 
         protected void btnContinuar(object sender, EventArgs e)
@@ -946,14 +951,15 @@ namespace SGI.ABM.Ubicaciones
             Continuar_Guardar();
         }
 
-        private void Continuar_Guardar ()
-        { 
+        private void Continuar_Guardar()
+        {
             bool actualizarUbi = false;
             try
             {
                 using (var context = new DGHP_Entities())
                 {
                     var entity = context.Ubicaciones.Where(x => x.id_ubicacion == this.idUbicacion).FirstOrDefault();
+                    /* Se comenta porque estaba borrando las T en objeto Territorial
                     if (Shared.esUbicacionEspecialConObjetoTerritorial(entity.id_ubicacion))
                     {
                         if ("T" == txtManzana.Text.Substring(0, 1).ToUpper())
@@ -965,10 +971,11 @@ namespace SGI.ABM.Ubicaciones
                             txtParcela.Text = txtParcela.Text.Substring(0, txtParcela.Text.Length - 1);
                         }
                     }
+                    */
                     actualizarUbi = entity != null
                                         && entity.Seccion.ToString() == txtSeccion.Text.Trim()
-                                        && entity.Manzana == txtManzana.Text.Trim()
-                                        && entity.Parcela == txtParcela.Text.Trim();
+                                        && entity.Manzana.ToString() == txtManzana.Text.Trim()
+                                        && entity.Parcela.ToString() == txtParcela.Text.Trim();
                 }
 
                 if (actualizarUbi)
@@ -1210,6 +1217,11 @@ namespace SGI.ABM.Ubicaciones
 
                 #region Ubicacion
                 bool Baja_Logica = entity.baja_logica;
+                //modifico
+                bool comunicoBajaFachadas = false;
+                if (Baja_Logica == false && this.rbtnBajaSi.Checked == true)
+                    comunicoBajaFachadas = true;
+                //
                 if (this.rbtnBajaSi.Checked == true && this.rbtnBajaNo.Checked == false)
                     entity.baja_logica = true;
                 if (this.rbtnBajaNo.Checked == true && this.rbtnBajaSi.Checked == false)
@@ -1290,7 +1302,7 @@ namespace SGI.ABM.Ubicaciones
                 #endregion
                 //Actualizar
                 List<Ubicaciones_Puertas> listaPuertas = CrearListaPuertas(entity.id_ubicacion, grdUbicaciones, listaPuertasInicial);
-                               
+
                 foreach (var item in listaPuertasInicial)
                 {
                     if (!listaPuertas.Where(p => p.codigo_calle == item.codigo_calle && p.NroPuerta_ubic == item.NroPuerta_ubic).Any())
@@ -1331,6 +1343,52 @@ namespace SGI.ABM.Ubicaciones
                         context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         dbContextTransaction.Commit();
+
+                        var User = Parametros.GetParam_ValorChar("User.Ley257");
+                        string Pass = Parametros.GetParam_ValorChar("Pass.Ley257");
+                        string URL = Parametros.GetParam_ValorChar("URL.Ley257");
+                        var ActionLogin = Parametros.GetParam_ValorChar("Action.Login.Ley257");
+                        var ActionDarBajaUbicacion = Parametros.GetParam_ValorChar("Action.DarBajaUbicacion.Ley257");
+                        if (string.IsNullOrEmpty(ActionDarBajaUbicacion))
+                        {
+                            comunicoBajaFachadas = false;
+                        }
+
+                        if (comunicoBajaFachadas)
+                        {
+                            ws_Ley257 serv = new ws_Ley257();
+                            var tokenResponse = serv.Token(URL, ActionLogin, User, Pass);
+
+                            if (tokenResponse.IsSuccess)
+                            {
+                                var token = (Ley257Token)tokenResponse.Result;
+                                var data = new Ley257RequestDarBajaUbicacion
+                                {
+                                    Seccion = (int)entity.Seccion,
+                                    Manzana = entity.Manzana,
+                                    Parcela = entity.Parcela,
+                                    UbicacionID = entity.id_ubicacion
+                                };
+
+                                // Llamo al método DarBajaUbicacion
+                                var darBajaResponse = serv.DarBajaUbicacion(token.AccessToken, URL, ActionDarBajaUbicacion, data);
+
+                                if (darBajaResponse.IsSuccess)
+                                {
+                                    string Message = darBajaResponse.Message;
+                                }
+                                else
+                                {
+                                    string errorMessage = darBajaResponse.Message;
+                                }
+                            }
+                            else
+                            {
+                                string errorMessage = tokenResponse.Message;
+                            }
+
+                        }
+
                         dbContextTransaction.Dispose();
                     }
                     catch (Exception ex)
@@ -1338,7 +1396,7 @@ namespace SGI.ABM.Ubicaciones
                         dbContextTransaction.Rollback();
                         throw ex;
                     }
-                }               
+                }
             }
             return true;
         }
@@ -1424,7 +1482,7 @@ namespace SGI.ABM.Ubicaciones
 
                             entity.Ubicaciones_Distritos.Add(dis);
                         }
-                        
+
                         // Guardamos todos los cambios
                         context.SaveChanges();
                         dbContextTransaction.Commit();
@@ -1439,9 +1497,9 @@ namespace SGI.ABM.Ubicaciones
                         }
                         catch (Exception)
                         {
-                            
+
                         }
-                        
+
                         throw ex;
                     }
                 }

@@ -3,6 +3,7 @@ using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -78,12 +79,12 @@ namespace SGI.GestionTramite.Tareas
             base.OnUnload(e);
         }
 
-        protected void btnCargarDatos_Click(object sender, EventArgs e)
+        protected async void btnCargarDatos_Click(object sender, EventArgs e)
         {
 
             try
             {
-                CargarDatosTramite(this.id_tramitetarea);
+                await CargarDatosTramite(this.id_tramitetarea);
                 this.EjecutarScript(updCargaInicial, "finalizarCarga();");
 
             }
@@ -97,7 +98,7 @@ namespace SGI.GestionTramite.Tareas
 
         }
 
-        private void CargarDatosTramite(int id_tramitetarea)
+        private async Task CargarDatosTramite(int id_tramitetarea)
         {
             Guid userid = Functions.GetUserId();
 
@@ -122,7 +123,7 @@ namespace SGI.GestionTramite.Tareas
             this.id_solicitud = id_solicitud;
             this.id_grupotramite = id_grupotramite;
             ucCabecera.LoadData(id_grupotramite, id_solicitud);
-            ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
+            await ucListaDocumentos.LoadData(id_grupotramite, this.id_solicitud);
 
             ucResultadoTarea.LoadData(id_grupotramite, id_tramitetarea, true);
 

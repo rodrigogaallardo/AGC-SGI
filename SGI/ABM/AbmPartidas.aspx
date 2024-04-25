@@ -168,7 +168,7 @@
                                                     <asp:Label ID="lblUbiManzana" runat="server" AssociatedControlID="txtUbiManzana"
                                                         Text="Manzana:" class="control-label" Style="padding-top: 0"></asp:Label>
                                                     <div class="control-label" style="margin-left: -65px; margin-top: -20px">
-                                                        <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="4" Width="50px"></asp:TextBox>
+                                                        <asp:TextBox ID="txtUbiManzana" runat="server" MaxLength="6" Width="50px"></asp:TextBox>
                                                     </div>
 
 
@@ -783,6 +783,12 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
+                                            <label class="control-label">Observaciones del Solicitante:</label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtObservacionesSolicitantes" runat="server" CssClass="form-control" Columns="12" Width="550px" TextMode="MultiLine"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
                                             <label class="control-label" style="display: none">Observaciones:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtObservacionesEst" runat="server" TextMode="MultiLine" Rows="5" Width="96%" CssClass="form-control" Visible="false"></asp:TextBox>
@@ -1008,6 +1014,12 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Observaciones del Solicitante:</label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtObservacionesSolicitante" runat="server" CssClass="form-control" Columns="12" Width="550px" TextMode="MultiLine"></asp:TextBox>
+                                            </div>
+                                        </div>
                                         <div runat="server" id="ObserEditHP">
                                             <div class="control-group">
                                                 <label class="control-label">Observaciones:</label>
@@ -1016,47 +1028,47 @@
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                                <asp:UpdatePanel ID="updHoriBotonesGuardar" runat="server">
-                                    <ContentTemplate>
-                                        <div class="form-horizontal">
-                                            <div class="control-group">
-                                                <div id="Div5" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
-                                                    Revise las validaciones en pantalla.
+                                    </div>
+                                    <asp:UpdatePanel ID="updHoriBotonesGuardar" runat="server">
+                                        <ContentTemplate>
+                                            <div class="form-horizontal">
+                                                <div class="control-group">
+                                                    <div id="Div5" class="alert alert-small alert-danger mbottom0 mtop5" style="display: none;">
+                                                        Revise las validaciones en pantalla.
+                                                    </div>
                                                 </div>
-                                            </div>
 
 
-                                            <div id="pnlBotonesGuardarHori" class="control-groupp">
-                                                <div class="controls">
+                                                <div id="pnlBotonesGuardarHori" class="control-groupp">
+                                                    <div class="controls">
 
-                                                    <asp:LinkButton ID="btnHoriGuardar" runat="server" CssClass="btn btn-primary" OnClick="btnHoriGuardar_Click" OnClientClick="return validarGuardarHori();">
+                                                        <asp:LinkButton ID="btnHoriGuardar" runat="server" CssClass="btn btn-primary" OnClick="btnHoriGuardar_Click" OnClientClick="return validarGuardarHori();">
                                                             <i class="imoon imoon-save"></i>
                                                             <span class="text">Guardar</span>
-                                                    </asp:LinkButton>
+                                                        </asp:LinkButton>
 
-                                                    <asp:LinkButton ID="btnHoriCancelar" runat="server" CssClass="btn btn-default" OnClientClick="return showBusqueda();" OnClick="btnCancelar_Click">
+                                                        <asp:LinkButton ID="btnHoriCancelar" runat="server" CssClass="btn btn-default" OnClientClick="return showBusqueda();" OnClick="btnCancelar_Click">
                                                             <i class="imoon-blocked"></i>
                                                             <span class="text">Cancelar</span>
-                                                    </asp:LinkButton>
-                                                    <asp:LinkButton ID="btnHoriNuevaBusqueda" runat="server" CssClass="btn btn-default" OnClick="btnLimpiar_OnClick" OnClientClick="return showBusqueda();">
+                                                        </asp:LinkButton>
+                                                        <asp:LinkButton ID="btnHoriNuevaBusqueda" runat="server" CssClass="btn btn-default" OnClick="btnLimpiar_OnClick" OnClientClick="return showBusqueda();">
                                                             <i class="icon-refresh"></i>
                                                             <span class="text">Nueva Búsqueda</span>
-                                                    </asp:LinkButton>
+                                                        </asp:LinkButton>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <asp:UpdateProgress ID="UpdateProgress3" runat="server" DisplayAfter="50" AssociatedUpdatePanelID="updHoriBotonesGuardar">
+                                                        <ProgressTemplate>
+                                                            <img src="<%: ResolveUrl("~/Content/img/app/Loading24x24.gif") %>" style="margin-left: 10px" alt="loading" />
+                                                            Guardando...
+                                                        </ProgressTemplate>
+                                                    </asp:UpdateProgress>
                                                 </div>
                                             </div>
-                                            <div class="control-group">
-                                                <asp:UpdateProgress ID="UpdateProgress3" runat="server" DisplayAfter="50" AssociatedUpdatePanelID="updHoriBotonesGuardar">
-                                                    <ProgressTemplate>
-                                                        <img src="<%: ResolveUrl("~/Content/img/app/Loading24x24.gif") %>" style="margin-left: 10px" alt="loading" />
-                                                        Guardando...
-                                                    </ProgressTemplate>
-                                                </asp:UpdateProgress>
-                                            </div>
-                                        </div>
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </div>
                             </div>
                         </asp:Panel>
                     </ContentTemplate>
@@ -1551,15 +1563,15 @@
 
 
             if ($("#MainContent_txtUbiNroPartida").val().length == 0 &&
-                 $("#MainContent_ddlUbiCalle").val().length == 0 &&
-                 $("#MainContent_txtUbiNroPuerta").val() == 0 &&
-                 $("#MainContent_txtUbiSeccion").val() == 0 &&
-                 $("#MainContent_txtUbiManzana").val() == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_txtUbiParcela").val().length == 0 &&
-                 $("#MainContent_ddlbiTipoUbicacion").val() == 0
-                ) {
+                $("#MainContent_ddlUbiCalle").val().length == 0 &&
+                $("#MainContent_txtUbiNroPuerta").val() == 0 &&
+                $("#MainContent_txtUbiSeccion").val() == 0 &&
+                $("#MainContent_txtUbiManzana").val() == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_txtUbiParcela").val().length == 0 &&
+                $("#MainContent_ddlbiTipoUbicacion").val() == 0
+            ) {
                 $("#ValFields").css("display", "inline-block");
                 ret = false;
             }
@@ -1602,205 +1614,205 @@
                 $("#MainContent_divPhDadaDBaja").show();
                 $("#<%: ddlBaja.ClientID %>").attr('selected', 'selected');
             }
-    }
-
-    function switchear_buscar_ubicacion(btn) {
-
-        if (btn == 1) {
-            $("#buscar_ubi_por_partida").show();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").addClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-
-        }
-        else if (btn == 2) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").show();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").addClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-        }
-        else if (btn == 3) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").show();
-            $("#buscar_ubi_por_especial").hide();
-
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").addClass("active");
-            $("#btnBuscarPorUbiEspecial").removeClass("active");
-        }
-        else if (btn == 4) {
-            $("#buscar_ubi_por_partida").hide();
-            $("#buscar_ubi_por_dom").hide();
-            $("#buscar_ubi_por_smp").hide();
-            $("#buscar_ubi_por_especial").show();
-
-            $("#btnBuscarPorPartida").removeClass("active");
-            $("#btnBuscarPorDom").removeClass("active");
-            $("#btnBuscarPorSMP").removeClass("active");
-            $("#btnBuscarPorUbiEspecial").addClass("active");
         }
 
+        function switchear_buscar_ubicacion(btn) {
 
-    }
-    function showResultado() {
-        $("#box_resultado").show("slow");
-    }
-    function hideResultado() {
-        $("#box_resultado").hide("slow");
-        $("#boxActivas").hide("slow");
+            if (btn == 1) {
+                $("#buscar_ubi_por_partida").show();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
 
-    }
+                $("#btnBuscarPorPartida").addClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
 
-    function showDatos() {
-        $("#box_datos_horizon").hide("slow");
-        $("#boxActivas").hide("slow");
-        $("#filtros").hide("slow");
-        $("#box_datos").show("slow");
-    }
-    function showDatosHorizon() {
-        $("#box_datos").hide("slow");
-        $("#boxActivas").hide("slow");
-        $("#filtros").hide("slow");
-        $("#box_datos_horizon").show("slow");
-    }
-    function showActivas() {
-        $("#box_resultado").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#box_datos_horizon").hide("slow");
-        $("#boxActivas").show("slow");
-        $("#filtros").show("slow");
+            }
+            else if (btn == 2) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").show();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").hide();
 
-    }
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").addClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+            }
+            else if (btn == 3) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").show();
+                $("#buscar_ubi_por_especial").hide();
 
-    function newBusqueda() {
-        $("#boxActivas").hide("slow");
-        $("#box_resultado").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#box_datos_horizon").hide("slow");
-        $("#filtros").show("slow");
-    }
-    function showBusqueda() {
-        $("#boxActivas").hide("slow");
-        $("#box_datos").hide("slow");
-        $("#box_datos_horizon").hide("slow");
-        $("#filtros").show("slow");
-    }
-    function showfrmError() {
-        $("#frmError").modal("show");
-        return false;
-    }
-    function finalizarCarga() {
-        $("#Loading").hide();
-        $("#page_content").show();
-        return false;
-    }
-    function validarGuardarNuevaPartida() {
-        var ret = true;
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").addClass("active");
+                $("#btnBuscarPorUbiEspecial").removeClass("active");
+            }
+            else if (btn == 4) {
+                $("#buscar_ubi_por_partida").hide();
+                $("#buscar_ubi_por_dom").hide();
+                $("#buscar_ubi_por_smp").hide();
+                $("#buscar_ubi_por_especial").show();
 
-        $("#Val_PartidaNueva").hide();
-        $("#Req_Seccion").hide();
-        $("#Req_UbiZona").hide();
-        $("#Req_Ubicaciones").hide();
+                $("#btnBuscarPorPartida").removeClass("active");
+                $("#btnBuscarPorDom").removeClass("active");
+                $("#btnBuscarPorSMP").removeClass("active");
+                $("#btnBuscarPorUbiEspecial").addClass("active");
+            }
 
-        var rowCount = $("[id*=grdUbicaciones] tr").length;
 
-        if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 && $("#<%: hid_id_tipo_ubicacion.ClientID %>").val() == "0") {
+        }
+        function showResultado() {
+            $("#box_resultado").show("slow");
+        }
+        function hideResultado() {
+            $("#box_resultado").hide("slow");
+            $("#boxActivas").hide("slow");
+
+        }
+
+        function showDatos() {
+            $("#box_datos_horizon").hide("slow");
+            $("#boxActivas").hide("slow");
+            $("#filtros").hide("slow");
+            $("#box_datos").show("slow");
+        }
+        function showDatosHorizon() {
+            $("#box_datos").hide("slow");
+            $("#boxActivas").hide("slow");
+            $("#filtros").hide("slow");
+            $("#box_datos_horizon").show("slow");
+        }
+        function showActivas() {
+            $("#box_resultado").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#box_datos_horizon").hide("slow");
+            $("#boxActivas").show("slow");
+            $("#filtros").show("slow");
+
+        }
+
+        function newBusqueda() {
+            $("#boxActivas").hide("slow");
+            $("#box_resultado").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#box_datos_horizon").hide("slow");
+            $("#filtros").show("slow");
+        }
+        function showBusqueda() {
+            $("#boxActivas").hide("slow");
+            $("#box_datos").hide("slow");
+            $("#box_datos_horizon").hide("slow");
+            $("#filtros").show("slow");
+        }
+        function showfrmError() {
+            $("#frmError").modal("show");
+            return false;
+        }
+        function finalizarCarga() {
+            $("#Loading").hide();
+            $("#page_content").show();
+            return false;
+        }
+        function validarGuardarNuevaPartida() {
+            var ret = true;
+
+            $("#Val_PartidaNueva").hide();
+            $("#Req_Seccion").hide();
+            $("#Req_UbiZona").hide();
+            $("#Req_Ubicaciones").hide();
+
+            var rowCount = $("[id*=grdUbicaciones] tr").length;
+
+            if ($.trim($("#<%: txtSeccion.ClientID %>").val()).length == 0 && $("#<%: hid_id_tipo_ubicacion.ClientID %>").val() == "0") {
             $("#Req_Seccion").css("display", "inline-block");
             ret = false;
         }
         if ($("#<%: ddlZona1.ClientID %> :selected").val() == null || $("#<%: ddlZona1.ClientID %> :selected").val() < 0) {
-            $("#Req_UbiZona").css("display", "inline-block");
-            ret = false;
+                $("#Req_UbiZona").css("display", "inline-block");
+                ret = false;
+            }
+
+            //if (rowCount < 2)
+            //{
+            //    $("#Req_Ubicaciones").css("display", "inline-block");
+            //    ret = false;
+            //}
+
+            if (ret) {
+                ocultarBotonesGuardar();
+            }
+            else {
+                $("#Val_PartidaNueva").css("display", "inline-block");
+
+            }
+            return ret;
         }
 
-        //if (rowCount < 2)
-        //{
-        //    $("#Req_Ubicaciones").css("display", "inline-block");
-        //    ret = false;
-        //}
+        function validarGuardar() {
+            var ret = true;
+            hideSummary();
 
-        if (ret) {
-            ocultarBotonesGuardar();
+            $("#Req_txtCalle1").hide();
+            $("#Req_txtNroPuerta1").hide();
+
+
+            if (ret) {
+                ocultarBotonesGuardar();
+            }
+            else {
+                $("#ValSummary").css("display", "inline-block");
+
+            }
+            return ret;
         }
-        else {
-            $("#Val_PartidaNueva").css("display", "inline-block");
+        function validarGuardarHori() {
+            var ret = true;
+            hideSummary();
 
+            // $("#Req_txtCalle1").hide();
+            // $("#Req_txtNroPuerta1").hide();
+
+
+            if (ret) {
+                ocultarBotonesGuardarHori();
+            }
+            else {
+                $("#ValSummary").css("display", "inline-block");
+
+            }
+            return ret;
         }
-        return ret;
-    }
-
-    function validarGuardar() {
-        var ret = true;
-        hideSummary();
-
-        $("#Req_txtCalle1").hide();
-        $("#Req_txtNroPuerta1").hide();
-
-
-        if (ret) {
-            ocultarBotonesGuardar();
+        function ocultarBotonesGuardar() {
+            $("#pnlBotonesGuardar").hide();
+            return false;
         }
-        else {
-            $("#ValSummary").css("display", "inline-block");
-
+        function ocultarBotonesGuardarHori() {
+            $("#pnlBotonesGuardarHori").hide();
+            return false;
         }
-        return ret;
-    }
-    function validarGuardarHori() {
-        var ret = true;
-        hideSummary();
+        function init_Js_updDatos() {
 
-        // $("#Req_txtCalle1").hide();
-        // $("#Req_txtNroPuerta1").hide();
-
-
-        if (ret) {
-            ocultarBotonesGuardarHori();
-        }
-        else {
-            $("#ValSummary").css("display", "inline-block");
-
-        }
-        return ret;
-    }
-    function ocultarBotonesGuardar() {
-        $("#pnlBotonesGuardar").hide();
-        return false;
-    }
-    function ocultarBotonesGuardarHori() {
-        $("#pnlBotonesGuardarHori").hide();
-        return false;
-    }
-    function init_Js_updDatos() {
-
-        $("#<%: txtNroPartida.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '9999999' });
+            $("#<%: txtNroPartida.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '9999999' });
         $("#<%: txtSeccion.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '99999' });
 
 
         $("#<%: txtSeccion.ClientID %>").on("keyup", function () {
-            $("#Req_Seccion").hide();
-            hideSummary();
-        });
+                $("#Req_Seccion").hide();
+                hideSummary();
+            });
 
-    }
-    function init_Js_updDatosHori() {
+        }
+        function init_Js_updDatosHori() {
 
-        $("#<%: txtHoriNroPartidaHor.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '9999999' });
+            $("#<%: txtHoriNroPartidaHor.ClientID %>").autoNumeric({ aSep: '', mDec: '0', vMax: '9999999' });
 
 
-    }
+        }
 
     </script>
 </asp:Content>
