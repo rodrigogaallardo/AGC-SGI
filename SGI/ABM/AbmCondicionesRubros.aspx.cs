@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using SGI.Model;
 using System.Transactions;
+using Newtonsoft.Json;
 
 namespace SGI.ABM
 {
@@ -183,6 +184,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                        hid_id_object.Value = idCondicion.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -225,13 +227,15 @@ namespace SGI.ABM
                     {
                         if (idCondicion == 0)
                         {
-                            db.Rubros_GuardarRubrosCondiciones(codigo, nombre, supMinima, supMaxima, userid);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                            idCondicion = db.Rubros_GuardarRubrosCondiciones(codigo, nombre, supMinima, supMaxima, userid);
+                            RubrosCondiciones obj = db.RubrosCondiciones.FirstOrDefault(x => x.id_condicion == idCondicion);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "I", 1011);
                         }
                         else
                         {
                             db.Rubros_ActualizarRubrosCondiciones(idCondicion, codigo, nombre, supMinima, supMaxima, userid);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                            RubrosCondiciones obj = db.RubrosCondiciones.FirstOrDefault(x => x.id_condicion == idCondicion);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "U", 1011);
                         }
                             
 
@@ -529,18 +533,18 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            RubrosCondiciones obj = db.RubrosCondiciones.FirstOrDefault(x => x.id_condicion == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1011);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            RubrosCondiciones obj = db.RubrosCondiciones.FirstOrDefault(x => x.id_condicion == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1011);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using SGI.Model;
+﻿using Newtonsoft.Json;
+using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,7 @@ namespace SGI.ABM.Ubicaciones
                 context.SaveChanges();
                 string script = "$('#frmEliminarLog').modal('show');";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                hid_id_object.Value = idUbicacion.ToString();
 
             }
         }
@@ -85,8 +87,11 @@ namespace SGI.ABM.Ubicaciones
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            DGHP_Entities db = new DGHP_Entities();
+            Model.Ubicaciones obj = db.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == int.Parse(hid_id_object.Value));
+            db.Dispose();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1025);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
             Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
 
         }
@@ -94,8 +99,11 @@ namespace SGI.ABM.Ubicaciones
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            DGHP_Entities db = new DGHP_Entities();
+            Model.Ubicaciones obj = db.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == int.Parse(hid_id_object.Value));
+            db.Dispose();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1025);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
             Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
 
         }

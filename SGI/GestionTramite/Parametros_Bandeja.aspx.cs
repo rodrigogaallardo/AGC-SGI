@@ -1,4 +1,5 @@
-﻿using SGI.Model;
+﻿using Newtonsoft.Json;
+using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -144,7 +145,8 @@ namespace SGI.GestionTramite
                 db.Eliminar_Parametros_Bandeja_Rubro(idParam);
                 Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+                Parametros_Bandeja_Rubro obj = db.Parametros_Bandeja_Rubro.FirstOrDefault(x => x.id_param == idParam);
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 3012);
 
                 CargarFiltro();
             }

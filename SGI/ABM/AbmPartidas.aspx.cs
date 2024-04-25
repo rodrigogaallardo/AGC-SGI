@@ -9,6 +9,7 @@ using System.Data;
 using System.Web;
 using System.Collections;
 using System.Web.Security;
+using Newtonsoft.Json;
 
 namespace SGI.ABM
 {
@@ -1935,11 +1936,13 @@ namespace SGI.ABM
 
                 if (id_ubiUbi == 0)
                 {
-                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                    Model.Ubicaciones obj = db.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == id_ubiUbi);
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "I", 1013);
                 }
                 else
                 {
-                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                    Model.Ubicaciones obj = db.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == id_ubiUbi);
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "U", 1013);
                 }
 
                 guardarSolicitud(id_estado_modif, id_ubiSol);

@@ -158,10 +158,6 @@ namespace SGI
 
                 busca = hdUltBtn.Value;
                 //busca = hdMyControl.Value;
-
-                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-
                 switch (busca)
                 {
                     case "porTramite":
@@ -188,11 +184,13 @@ namespace SGI
                         ScriptManager.RegisterStartupScript(updPnlFiltroBuscar_tramite, updPnlFiltroBuscar_tramite.GetType(),
                             "inicializar_controles0", "inicializar_controles0();", true);
                         hdUltBtn.Value = "porTramite";
-                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now,null,string.Empty, url,null,null);
                         //hdMyControl.Value = "porTramite";
                         break;
                 }
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString(); 
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, jsonString, url, null, "C", 3011);
             }
 
 
@@ -1232,11 +1230,11 @@ namespace SGI
                 filtrosInsertar.CreateUser = userid;
                 filtrosInsertar.botonAccion = hdUltBtn.Value;
 
-                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 DGHP_Entities db = new DGHP_Entities();
                 db.Database.CommandTimeout = 300;
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, jsonString, url,null, null);
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, jsonString, url, null, "C", 3011);
 
                 db.SGI_FiltrosBusqueda.Add(filtrosInsertar);
                 db.SaveChanges();

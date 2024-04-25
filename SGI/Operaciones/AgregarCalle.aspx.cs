@@ -15,6 +15,7 @@ using SGI.GestionTramite.Controls;
 using Syncfusion.DocIO.DLS;
 using System.Data.Entity;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace SGI
 {
@@ -265,7 +266,7 @@ namespace SGI
                                 CreateUser = Functions.GetUserId().ToString()
                             };
 
-                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(entity), url, txtObservacionesSolicitante.Text, "I", 4013);
                             context.Calles.Add(entity);
                             context.SaveChanges();
                             dbContext.Commit();

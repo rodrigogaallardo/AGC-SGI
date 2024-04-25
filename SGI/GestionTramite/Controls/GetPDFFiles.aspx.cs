@@ -49,7 +49,6 @@ namespace SGI.GestionTramite.Controls
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                 byte[] Pdf = new byte[0];
                 string FileName = string.Empty;
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file,string.Empty, url,null,null);
                 if (id_file > 0)
                 {
                     try
@@ -58,7 +57,7 @@ namespace SGI.GestionTramite.Controls
                     }
                     catch { }
                 }
-
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, id_file, FileName, url, null, "C", 3110);
                 if (Pdf != null && Pdf.Length > 0)
                 {
                     Response.Clear();

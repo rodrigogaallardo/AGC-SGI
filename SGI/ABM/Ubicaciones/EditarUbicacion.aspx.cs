@@ -1,4 +1,5 @@
-﻿using SGI.Model;
+﻿using Newtonsoft.Json;
+using SGI.Model;
 using SGI.WebServices;
 using System;
 using System.Collections.Generic;
@@ -941,9 +942,6 @@ namespace SGI.ABM.Ubicaciones
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             ValidarPuertas();
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
         }
 
         protected void btnContinuar(object sender, EventArgs e)
@@ -1017,6 +1015,14 @@ namespace SGI.ABM.Ubicaciones
                     Session["id_operacion"] = 0;
                     Session["id_ubi_tmp"] = 0;
                     Session["id_ubi_nva"] = 0;
+                }
+                using (var context = new DGHP_Entities())
+                {
+                    Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                    string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                    Model.Ubicaciones obj = context.Ubicaciones.FirstOrDefault(u => u.id_ubicacion == this.idUbicacion);
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "U", 1024);
+                    context.Dispose();
                 }
             }
             catch (Exception ex)

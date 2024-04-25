@@ -74,6 +74,15 @@
                     <uc1:ucObservacionesTarea runat="server" id="ucObservacionProvidencia" 
                         LabelObservacion="Providencia"/>
 
+                    <asp:UpdatePanel ID="updGuardarProvidenciaHTML" runat="server">
+                        <ContentTemplate>
+                            <div class="control-group">
+                                <label class="control-label">Guardar Providencia como Archivo HTML:</label>
+                                <asp:CheckBox ID="chbGuardarProvidenciaHTML" runat="server" Checked="false" />
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
                     <uc1:ucObservacionesTareav1 runat="server" id="ucObservaciones"/>
 
                     <uc1:ucResultadoTarea runat="server" ID="ucResultadoTarea"

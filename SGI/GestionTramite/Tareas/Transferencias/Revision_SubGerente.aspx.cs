@@ -2,6 +2,7 @@
 using SGI.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -83,6 +84,7 @@ namespace SGI.GestionTramite.Tareas.Transferencias
             ucObservacionPlancheta.Enabled = IsEditable;
             ucDocumentoAdjunto.Enabled = IsEditable;
             ucObservaciones.Enabled = IsEditable;
+            chbGuardarProvidenciaHTML.Enabled = IsEditable;
 
             int id_grupotramite = (int)Constants.GruposDeTramite.TR;
             SGI_Tramites_Tareas_TRANSF ttTR = db.SGI_Tramites_Tareas_TRANSF.FirstOrDefault(x => x.id_tramitetarea == id_tramitetarea);
@@ -335,6 +337,10 @@ namespace SGI.GestionTramite.Tareas.Transferencias
                     }
 
                 }
+
+                if (chbGuardarProvidenciaHTML.Checked)
+                    Functions.GuardarFileHTMLProvidencia(this.TramiteTarea, File.ReadAllText(Server.MapPath(@"~\Reportes\Providencia.html")), ucObservacionProvidencia.Text, id_tramitetarea_nuevo);
+                
                 db.Dispose();
 
                 string mensaje_envio_mail = "";

@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using SGI.Model;
 using System.Transactions;
+using Newtonsoft.Json;
+using ExcelLibrary.BinaryFileFormat;
 
 namespace SGI.ABM
 {
@@ -180,6 +182,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                        hid_id_object.Value = idZona.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -221,13 +224,15 @@ namespace SGI.ABM
                     {
                         if (idZona == 0)
                         {
-                            db.Rubros_GuardarRubrosZonasHabilitaciones(codigo, nombre, userid);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                            idZona = db.Rubros_GuardarRubrosZonasHabilitaciones(codigo, nombre, userid);
+                            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == idZona);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "I", 1021);
                         }
                         else
                         {
                             db.Rubros_ActualizarRubrosZonasHabilitaciones(idZona, codigo, nombre, userid);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == idZona);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "U", 1021);
                         }
                         Tran.Complete();
                     }
@@ -262,18 +267,18 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1021);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1021);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
     }
 }

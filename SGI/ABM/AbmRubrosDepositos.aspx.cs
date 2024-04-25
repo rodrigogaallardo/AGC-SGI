@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using SGI.Model;
 using System.Web.Security;
 using System.Transactions;
+using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
 
 
 
@@ -283,6 +285,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                        hid_id_object.Value = idDeposito.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -330,13 +333,15 @@ namespace SGI.ABM
                     {
                         if (idDeposito == 0)
                         {
-                            db.SGI_Deposito_Insertar(codigo, descripcion, id_categoria, grado_molestia, zona_mixtura1, zona_mixtura2, zona_mixtura3, zona_mixtura4, id_condicion_incendio);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                            idDeposito = db.SGI_Deposito_Insertar(codigo, descripcion, id_categoria, grado_molestia, zona_mixtura1, zona_mixtura2, zona_mixtura3, zona_mixtura4, id_condicion_incendio);
+                            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == idDeposito);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "I", 1015);
                         }
                         else
                         {
                             db.SGI_Deposito_ActualizarInformacion(idDeposito, descripcion, id_categoria, grado_molestia, zona_mixtura1, zona_mixtura1, zona_mixtura3, zona_mixtura4, id_condicion_incendio, vigencia);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == idDeposito);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "U", 1015);
                         }
                         Tran.Complete();
                     }
@@ -366,18 +371,18 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1015);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionEliminar.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1015);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
 
     }

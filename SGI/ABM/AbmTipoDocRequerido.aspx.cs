@@ -9,6 +9,7 @@ using SGI.Model;
 using System.Transactions;
 using System.Web.Configuration;
 using System.Configuration;
+using Newtonsoft.Json;
 
 namespace SGI.ABM
 {
@@ -374,6 +375,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                        hid_id_object.Value = idTipoDocReq.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -425,14 +427,16 @@ namespace SGI.ABM
                     {
                         if (idTipoDocReq == 0)
                         {
-                            db.TiposDeDocumentosRequeridos_insert(nombre, observ, userid, requiereDetalle, visible_en_SSIT, visible_en_SGI, visible_en_AT, visible_en_OBS, verificar_firma, tamano, formato, acronimo);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                            idTipoDocReq = db.TiposDeDocumentosRequeridos_insert(nombre, observ, userid, requiereDetalle, visible_en_SSIT, visible_en_SGI, visible_en_AT, visible_en_OBS, verificar_firma, tamano, formato, acronimo);
+                            TiposDeDocumentosRequeridos obj = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == idTipoDocReq);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "I", 1017);
 
                         }
                         else
                         {
                             db.TiposDeDocumentosRequeridos_update(idTipoDocReq, nombre, observ, baja, userid, requiereDetalle, visible_en_SSIT, visible_en_SGI, visible_en_AT, visible_en_OBS, verificar_firma, tamano, formato, acronimo);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                            TiposDeDocumentosRequeridos obj = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == idTipoDocReq);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "U", 1017);
 
                         }
                         Tran.Complete();
@@ -616,18 +620,18 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            TiposDeDocumentosRequeridos obj = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitanteEliminar.Text, "D", 1017);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitanteEliminar.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            TiposDeDocumentosRequeridos obj = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1017);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
 
         #endregion

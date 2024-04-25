@@ -13,6 +13,7 @@ using SGI.DataLayer.Models;
 using SGI.BusinessLogicLayer.Constants;
 using SGI.GestionTramite.Controls;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace SGI
 {
@@ -465,6 +466,7 @@ namespace SGI
                             tran.Commit();
                             string script = "$('#frmEliminarLog').modal('show');";
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                            hid_id_object.Value = mailIdInt.ToString();
                         }
                         catch (Exception ex)
                         {
@@ -501,6 +503,7 @@ namespace SGI
                             tran.Commit();
                             string script = "$('#frmEliminarLog').modal('show');";
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                            hid_id_object.Value = mailIdInt.ToString();
                         }
                         catch (Exception ex)
                         {
@@ -515,18 +518,22 @@ namespace SGI
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            DGHP_Entities db = new DGHP_Entities();
+            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == int.Parse(hid_id_object.Value));
+            db.Dispose();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4027);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            DGHP_Entities db = new DGHP_Entities();
+            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == int.Parse(hid_id_object.Value));
+            db.Dispose();
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4027);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
         #endregion
     }
