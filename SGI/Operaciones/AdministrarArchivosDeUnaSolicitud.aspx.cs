@@ -19,6 +19,8 @@ using ws_ExpedienteElectronico;
 using SGI.GestionTramite.Controls;
 using ws_solicitudes;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Newtonsoft.Json;
+using ExcelLibrary.BinaryFileFormat;
 
 namespace SGI.Operaciones
 {
@@ -141,18 +143,34 @@ namespace SGI.Operaciones
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            DGHP_Entities db = new DGHP_Entities();
+            SSIT_DocumentosAdjuntos objs;
+            Transf_DocumentosAdjuntos objt;
+            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
+            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
+            if (objs != null)
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objs), url, txtObservacionesSolicitante.Text, "D", 4010);
+            if (objt != null)
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objt), url, txtObservacionesSolicitante.Text, "D", 4010);
+            db.Dispose();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            DGHP_Entities db = new DGHP_Entities();
+            SSIT_DocumentosAdjuntos objs;
+            Transf_DocumentosAdjuntos objt;
+            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
+            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
+            if (objs != null)
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objs), url, string.Empty, "D", 4010);
+            if (objt != null)
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objt), url, string.Empty, "D", 4010);
+            db.Dispose();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
         public List<itemDocumentoModulo> CargarSolicitudConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
@@ -396,7 +414,8 @@ namespace SGI.Operaciones
 
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-
+                        hid_id_object.Value = id_docadjunto.ToString();
+                        hid_id_object_file.Value = id_file.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -434,6 +453,8 @@ namespace SGI.Operaciones
 
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                        hid_id_object.Value = id_docadjunto.ToString();
+                        hid_id_object_file.Value = id_file.ToString();
                     }
                     catch (Exception ex)
                     {

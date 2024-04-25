@@ -1,4 +1,6 @@
-﻿using SGI.Model;
+﻿using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
+using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -296,9 +298,9 @@ namespace SGI.Controls
                     {
                         db.RubrosCN.Add(nuevoRubroCur);
                         db.SaveChanges();
+                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(nuevoRubroCur), url, txtObservacionesSolicitantes.Text, "I", 1022);
                         Response.Redirect("~/ABM/RubrosCUR/AbmRubrosCUR.aspx");
                     }
-                    Functions.InsertarMovimientoUsuario(userId,DateTime.Now,null,string.Empty,url,txtObservacionesSolicitantes.Text,"I");
                 }
             }
             catch (Exception ex)

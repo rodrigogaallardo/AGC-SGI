@@ -147,7 +147,7 @@ namespace SGI.Operaciones
                 Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
-                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, id_file, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, id_file, fileName, url, txtObservacionesSolicitante.Text, "I", 4012);
 
                 int id_tdocrec = Convert.ToInt32(dropDownListEditTipoDeDocumentoRequerido.SelectedItem.Value);
                 string tdocrec_detalle = txtTdocRecDetalle.Text;

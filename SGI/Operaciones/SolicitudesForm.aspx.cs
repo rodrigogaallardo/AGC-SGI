@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using SGI.GestionTramite.Controls;
 using SGI.Model;
 using SGI.Seguridad;
@@ -240,7 +241,7 @@ namespace SGI.Operaciones
                         context.SSIT_Solicitudes.AddOrUpdate(sSIT_Solicitudes);
                         context.SaveChanges();
                         dbContextTransaction.Commit();
-
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(sSIT_Solicitudes), url, txtObservacionesSolicitante.Text, "U", 4025);
                     }
                     catch (Exception ex)
                     {
@@ -284,7 +285,7 @@ namespace SGI.Operaciones
                         context.Transf_Solicitudes.AddOrUpdate(transf_Solicitudes);
                         context.SaveChanges();
                         dbContextTransaction.Commit();
-
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(transf_Solicitudes), url, txtObservacionesSolicitante.Text, "U", 4025);
                     }
                     catch (Exception ex)
                     {
@@ -304,7 +305,7 @@ namespace SGI.Operaciones
                         context.CPadron_Solicitudes.AddOrUpdate(cPadron_Solicitudes);
                         context.SaveChanges();
                         dbContextTransaction.Commit();
-
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(cPadron_Solicitudes), url, txtObservacionesSolicitante.Text, "U", 4025);
                     }
                     catch (Exception ex)
                     {
@@ -313,7 +314,6 @@ namespace SGI.Operaciones
                     }
                 }
             }
-            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
 
             Response.Redirect("~/Operaciones/SolicitudesIndex.aspx?idSolicitud=" + hdidSolicitud.Value);
 

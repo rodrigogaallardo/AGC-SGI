@@ -77,7 +77,7 @@ namespace SGI.Reportes
 
             //arch = obj.nombre_archivo.Replace(' ', '_');
 
-            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, f.id_file, string.Empty, url, null, null);
+            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, f.id_file, "Instructivo_" + obj.id_file + "." + "pdf", url, null, "C", 5010);
             arch = "Instructivo_" + obj.id_file + "." + "pdf";
             Response.Clear();
             Response.Buffer = true;//false;

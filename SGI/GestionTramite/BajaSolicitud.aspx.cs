@@ -1,4 +1,5 @@
-﻿using SGI.GestionTramite.Controls;
+﻿using Newtonsoft.Json;
+using SGI.GestionTramite.Controls;
 using SGI.Model;
 using SGI.WebServices;
 using System;
@@ -469,7 +470,7 @@ namespace SGI.GestionTramite
                 lst.Remove(item_eliminar);
                 Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
                 string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(item_eliminar), url, string.Empty, "D", 3010);
                 gridAgregados_db.DataSource = lst;
                 gridAgregados_db.DataBind();
                 updpnlGrillaDoc.Update();
@@ -904,7 +905,8 @@ namespace SGI.GestionTramite
                             }
                         }
                     }
-                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                    var obj = sol != null ? sol.id_solicitud : tr != null ? tr.id_solicitud : cp != null ? cp.id_cpadron : 0;
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "I", 3010);
 
                 }
 

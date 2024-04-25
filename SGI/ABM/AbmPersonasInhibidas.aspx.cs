@@ -10,6 +10,8 @@ using System.Transactions;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Data.Entity.SqlServer;
+using ExcelLibrary.BinaryFileFormat;
+using Newtonsoft.Json;
 
 namespace SGI.ABM
 {
@@ -352,14 +354,16 @@ namespace SGI.ABM
                     try
                     {
                         if (idPersonaInhibida == 0)
-                        { 
-                            db.PersonasInhibidas_insert(idTipoDocPersonaInhibida, nroDocumentoPersonaInhibida, nroOrdenPersonaInhibida, cuitPersonaInhibida, nomapePersonaInhibida, fechaRegistroPersonaInhibida, fechaVencimientoPersonaInhibida, autos, juzgado, secretaria, estado, fechabajaPersonaInhibida, operadorPersonaInhibida, observacionesPersonaInhibida, userName, motivo, idTipoPersona);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
+                        {
+                            idPersonaInhibida = db.PersonasInhibidas_insert(idTipoDocPersonaInhibida, nroDocumentoPersonaInhibida, nroOrdenPersonaInhibida, cuitPersonaInhibida, nomapePersonaInhibida, fechaRegistroPersonaInhibida, fechaVencimientoPersonaInhibida, autos, juzgado, secretaria, estado, fechabajaPersonaInhibida, operadorPersonaInhibida, observacionesPersonaInhibida, userName, motivo, idTipoPersona);
+                            PersonasInhibidas obj = db.PersonasInhibidas.FirstOrDefault(x => x.id_personainhibida == idPersonaInhibida);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "I", 1014);
                         }
                         else
                         {
                             db.PersonasInhibidas_update(idPersonaInhibida, idTipoDocPersonaInhibida, nroDocumentoPersonaInhibida, nroOrdenPersonaInhibida, cuitPersonaInhibida, nomapePersonaInhibida, fechaRegistroPersonaInhibida, fechaVencimientoPersonaInhibida, autos, juzgado, secretaria, estado, fechabajaPersonaInhibida, operadorPersonaInhibida, observacionesPersonaInhibida, userName, motivo, idTipoPersona);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                            PersonasInhibidas obj = db.PersonasInhibidas.FirstOrDefault(x => x.id_personainhibida == idPersonaInhibida);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "U", 1014);
 
                         }
 

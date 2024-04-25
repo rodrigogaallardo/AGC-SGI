@@ -1,4 +1,5 @@
-﻿using SGI.Model;
+﻿using Newtonsoft.Json;
+using SGI.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -58,13 +59,8 @@ namespace SGI.GestionTramite.Controls
         {
             int nroSolReferencia = 0;
             int.TryParse(ConfigurationManager.AppSettings["NroSolicitudReferencia"], out nroSolReferencia);
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            db.Database.CommandTimeout = 300;
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, null, null);
-
-            
+            db.Database.CommandTimeout = 300;           
 
             if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
             {
@@ -249,6 +245,9 @@ namespace SGI.GestionTramite.Controls
                 pnlPresentacionAgreagr.Visible = objsol.documentacionPA != null ? objsol.documentacionPA.Value : false;
                 lblPresentacionAgreagr.Text = "Si";
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objsol), url, null, "C", 3111);
             }
             else if (id_grupotramite == (int)Constants.GruposDeTramite.CP)
             {
@@ -275,6 +274,9 @@ namespace SGI.GestionTramite.Controls
                 txtNroExpediente.Text = objsol.nro_expediente_anterior;
                 lblFecha.Text = objsol.CreateDate.ToString("dd/MM/yyyy");
 
+                Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objsol), url, null, "C", 3111);
             }
             else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
             {
@@ -401,7 +403,6 @@ namespace SGI.GestionTramite.Controls
                         lblExpediente.Text = objsol.NroExpedienteSade;
                     }
 
-
                     if (objsol.FechaLibrado != null)
                     {
                         lblLibradoUso.Text = "<b>" + objsol.FechaLibrado.ToString() + "</b>";
@@ -414,6 +415,10 @@ namespace SGI.GestionTramite.Controls
                     {
                         lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO.</b></font>";
                     }
+                    
+                    Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                    string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objsol), url, null, "C", 3111);
                 }
                 else
                 {
@@ -446,9 +451,12 @@ namespace SGI.GestionTramite.Controls
                         lblExpediente.Visible = true;
                         lblExpediente.Text = objsol.NroExpedienteSade;
                     }
+                    Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                    string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                    Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objsol), url, null, "C", 3111);
                 }
-                db.Dispose();
             }
+            db.Dispose();
         }
 
         private string GetMixDistritoZonaySubZonaBySolicitud(int id_solicitud)

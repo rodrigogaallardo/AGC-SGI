@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using SGI.Model;
 using SGI.Seguridad;
 using Syncfusion.DocIO.DLS;
@@ -65,7 +66,6 @@ namespace SGI.Operaciones
             Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
 
-            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
 
             DGHP_Entities context = new DGHP_Entities();
             
@@ -104,7 +104,7 @@ namespace SGI.Operaciones
 
                     context.SaveChanges();
                     dbContextTransaction.Commit();
-
+                    Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(sGI_Feriados), url, txtObservacionesSolicitante.Text, "I", 4021);
                 }
                 catch (Exception ex)
                 {

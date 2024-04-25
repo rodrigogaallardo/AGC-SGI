@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using SGI.Model;
 using SGI.Seguridad;
 using Syncfusion.DocIO.DLS;
@@ -319,16 +320,12 @@ namespace SGI.Operaciones
 
             if (idTramiteTarea == 0)
             {
-
-                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "I");
                 tramiteTarea.id_tramitetarea = context.SGI_Tramites_Tareas.Max(x => x.id_tramitetarea) + 1;
                 tramiteTarea.id_proxima_tarea = null;
                 tramiteTarea.CreateUser = Guid.Parse(Membership.GetUser().ProviderUserKey.ToString());
             }
             else
             {
-                Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
-
                 tramiteTarea.id_tramitetarea = idTramiteTarea;
                 if (chkproxima_tarea.Checked)
                     tramiteTarea.id_proxima_tarea = null;
@@ -409,7 +406,11 @@ namespace SGI.Operaciones
                     }
                     #endregion
                     context.SaveChanges();
-                    dbContextTransaction.Commit();
+                    dbContextTransaction.Commit(); 
+                    if (int.Parse(hdidTramiteTarea.Value) == 0)
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(tramiteTarea), url, txtObservacionesSolicitante.Text, "I", 4026);
+                    else
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(tramiteTarea), url, txtObservacionesSolicitante.Text, "U", 4026);
                 }
                 catch (Exception ex)
                 {

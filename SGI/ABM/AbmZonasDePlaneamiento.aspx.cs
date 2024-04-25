@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using SGI.Model;
 using System.Transactions;
+using Newtonsoft.Json;
 
 namespace SGI.ABM
 {
@@ -223,6 +224,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+                        hid_id_object.Value = idZonaPlaneamiento.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -263,13 +265,15 @@ namespace SGI.ABM
                     {
                         if (idZonaPlaneamiento == 0)
                         {
-                            db.Zonas_Planeamiento_insert(codigoZona, nombreZona, userid, codigoZonaHabilitacion);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "I");
+                            idZonaPlaneamiento = db.Zonas_Planeamiento_insert(codigoZona, nombreZona, userid, codigoZonaHabilitacion);
+                            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == idZonaPlaneamiento);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "I", 1020);
                         }
                         else
                         {
                             db.Zonas_Planeamiento_update(idZonaPlaneamiento, codigoZona, nombreZona, userid, Convert.ToInt32(txtEditIdPlanHabil.Value), codigoZonaHabilitacion);
-                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitantes.Text, "U");
+                            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == idZonaPlaneamiento);
+                            Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitantes.Text, "U", 1020);
                         }
                         Tran.Complete();
                     }
@@ -586,18 +590,18 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1020);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "D");
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == int.Parse(hid_id_object.Value));
+            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1020);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, string.Empty, url, string.Empty, "D");
-
-
         }
         #endregion
     }

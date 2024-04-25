@@ -17,6 +17,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using static System.Net.WebRequestMethods;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace SGI
 {
@@ -221,7 +222,7 @@ namespace SGI
                             CreateDate = DateTime.Now,
                             CreateUser = Functions.GetUserId().ToString()
                         };
-                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, string.Empty, url, txtObservacionesSolicitante.Text, "U");
+                        Functions.InsertarMovimientoUsuario(userid, DateTime.Now, null, JsonConvert.SerializeObject(entity), url, txtObservacionesSolicitante.Text, "U", 4020);
                         context.Calles.AddOrUpdate(entity);
                         context.SaveChanges();
                         dbContext.Commit();
