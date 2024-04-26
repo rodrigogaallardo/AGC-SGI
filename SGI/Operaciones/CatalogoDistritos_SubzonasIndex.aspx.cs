@@ -18,6 +18,13 @@ namespace SGI.Operaciones
     {
         public static string IdDistritoRequest;
         public static string IdZonaRequest;
+
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -69,7 +76,7 @@ namespace SGI.Operaciones
                         entities.SaveChanges();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = IdSubZona.ToString();
+                        id_object = IdSubZona.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -234,7 +241,8 @@ namespace SGI.Operaciones
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            Ubicaciones_CatalogoDistritos_Subzonas obj = db.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Ubicaciones_CatalogoDistritos_Subzonas obj = db.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == value);
             db.Dispose();
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4017);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
@@ -245,7 +253,8 @@ namespace SGI.Operaciones
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            Ubicaciones_CatalogoDistritos_Subzonas obj = db.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Ubicaciones_CatalogoDistritos_Subzonas obj = db.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == value);
             db.Dispose();
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4017);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);

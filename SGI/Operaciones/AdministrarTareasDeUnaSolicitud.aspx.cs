@@ -18,6 +18,13 @@ namespace SGI.Operaciones
 {
     public partial class AdministrarTareasDeUnaSolicitud : System.Web.UI.Page
     {
+
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             #region RedirectToLoginPage
@@ -485,7 +492,7 @@ namespace SGI.Operaciones
                         entities.SaveChanges();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = tramiteTarea.ToString();
+                        id_object = tramiteTarea.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -580,7 +587,8 @@ namespace SGI.Operaciones
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            SGI_Tramites_Tareas obj = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            SGI_Tramites_Tareas obj = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == value);
             db.Dispose();
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4011);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
@@ -591,7 +599,8 @@ namespace SGI.Operaciones
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            SGI_Tramites_Tareas obj = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            SGI_Tramites_Tareas obj = db.SGI_Tramites_Tareas.FirstOrDefault(x => x.id_tramitetarea == value);
             db.Dispose();
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4011);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);

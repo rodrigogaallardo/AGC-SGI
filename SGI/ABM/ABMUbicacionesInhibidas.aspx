@@ -779,7 +779,6 @@
     <div id="frmEliminarLog" class="modal fade" style="max-width: 400px;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <asp:HiddenField ID="hid_id_object" runat="server"/>
                 <div class="modal-header">
                     <h4 class="modal-title">Eliminar</h4>
                 </div>

@@ -195,24 +195,6 @@ namespace SGI.Operaciones
         protected global::System.Web.UI.WebControls.GridView gridViewArchivosTransf;
 
         /// <summary>
-        /// hid_id_object control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_id_object;
-
-        /// <summary>
-        /// hid_id_object_file control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hid_id_object_file;
-
-        /// <summary>
         /// txtObservacionesSolicitante control.
         /// </summary>
         /// <remarks>

@@ -16,6 +16,12 @@ namespace SGI.ABM
     {
         DGHP_Entities db = null;
 
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         #region load de pagina
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -182,7 +188,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = idZona.ToString();
+                        id_object = idZona.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -267,7 +273,8 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1021);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
 
@@ -276,7 +283,8 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Zonas_Habilitaciones obj = db.Zonas_Habilitaciones.FirstOrDefault(x => x.id_zonahabilitaciones == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1021);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
         }
