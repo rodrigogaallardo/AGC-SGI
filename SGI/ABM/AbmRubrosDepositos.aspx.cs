@@ -18,6 +18,12 @@ namespace SGI.ABM
     {
         DGHP_Entities db = null;
 
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             ScriptManager sm = ScriptManager.GetCurrent(this);
@@ -285,7 +291,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = idDeposito.ToString();
+                        id_object = idDeposito.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -371,7 +377,8 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1015);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
 
@@ -380,7 +387,8 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1015);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
         }

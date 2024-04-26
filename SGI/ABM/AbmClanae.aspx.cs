@@ -16,6 +16,12 @@ namespace SGI.ABM
     {
         DGHP_Entities db = null;
 
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         #region load de pagina
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -164,7 +170,7 @@ namespace SGI.ABM
                         Tran.Complete();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = idClanae.ToString();
+                        id_object = idClanae.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -489,7 +495,8 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Clanae obj = db.Clanae.FirstOrDefault(x => x.id_clanae == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Clanae obj = db.Clanae.FirstOrDefault(x => x.id_clanae == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1010);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
 
@@ -498,7 +505,8 @@ namespace SGI.ABM
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Clanae obj = db.Clanae.FirstOrDefault(x => x.id_clanae == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Clanae obj = db.Clanae.FirstOrDefault(x => x.id_clanae == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1010);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
         }

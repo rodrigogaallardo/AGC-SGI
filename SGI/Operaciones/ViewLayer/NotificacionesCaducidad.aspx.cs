@@ -19,6 +19,12 @@ namespace SGI
 {
     public partial class NotificacionesCaducidad : BasePage
     {
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         #region CargaInicial
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -466,7 +472,7 @@ namespace SGI
                             tran.Commit();
                             string script = "$('#frmEliminarLog').modal('show');";
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                            hid_id_object.Value = mailIdInt.ToString();
+                            id_object = mailIdInt.ToString();
                         }
                         catch (Exception ex)
                         {
@@ -503,7 +509,7 @@ namespace SGI
                             tran.Commit();
                             string script = "$('#frmEliminarLog').modal('show');";
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                            hid_id_object.Value = mailIdInt.ToString();
+                            id_object = mailIdInt.ToString();
                         }
                         catch (Exception ex)
                         {
@@ -519,7 +525,8 @@ namespace SGI
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == value);
             db.Dispose();
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4027);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
@@ -530,7 +537,8 @@ namespace SGI
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
             DGHP_Entities db = new DGHP_Entities();
-            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == value);
             db.Dispose();
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4027);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);

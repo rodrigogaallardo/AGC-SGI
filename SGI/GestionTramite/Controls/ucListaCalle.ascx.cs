@@ -14,6 +14,13 @@ namespace SGI.GestionTramite.Controls
 {
     public partial class ucListaCalle : System.Web.UI.UserControl
     {
+
+        private string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
         }
@@ -123,7 +130,7 @@ namespace SGI.GestionTramite.Controls
                             ftx.SaveChanges();
                             string script = "$('#frmEliminarLog').modal('show');";
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                            hid_id_object.Value = id_calle.ToString();
+                            id_object = id_calle.ToString();
                         }
                         LoadData(id_calle);
                         tran.Commit();
@@ -406,7 +413,8 @@ namespace SGI.GestionTramite.Controls
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 3112);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
 
@@ -415,7 +423,8 @@ namespace SGI.GestionTramite.Controls
         {
             Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
             string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == int.Parse(hid_id_object.Value));
+            int value = int.Parse(id_object);
+            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == value);
             Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 3113);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
         }

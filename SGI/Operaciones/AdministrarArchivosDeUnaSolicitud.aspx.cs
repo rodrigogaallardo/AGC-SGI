@@ -88,6 +88,18 @@ namespace SGI.Operaciones
             }
         }
 
+        public string id_object
+        {
+            get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
+            set { ViewState["_id_object"] = value; }
+        }
+
+        private string id_object_file
+        {
+            get { return ViewState["_id_object_file"] != null ? ViewState["_id_object_file"].ToString() : string.Empty; }
+            set { ViewState["_id_object_file"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             MembershipUser usu = Membership.GetUser();
@@ -146,14 +158,17 @@ namespace SGI.Operaciones
             DGHP_Entities db = new DGHP_Entities();
             SSIT_DocumentosAdjuntos objs;
             Transf_DocumentosAdjuntos objt;
-            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
-            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
+            int value = int.Parse(id_object);
+            int value_file = int.Parse(id_object_file);
+            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
+            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
             if (objs != null)
                 Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objs), url, txtObservacionesSolicitante.Text, "D", 4010);
             if (objt != null)
                 Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objt), url, txtObservacionesSolicitante.Text, "D", 4010);
             db.Dispose();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            btnBuscarSolicitud_Click(sender, e);
 
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -163,14 +178,17 @@ namespace SGI.Operaciones
             DGHP_Entities db = new DGHP_Entities();
             SSIT_DocumentosAdjuntos objs;
             Transf_DocumentosAdjuntos objt;
-            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
-            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == int.Parse(hid_id_object.Value) && x.id_file == int.Parse(hid_id_object_file.Value));
+            int value = int.Parse(id_object);
+            int value_file = int.Parse(id_object_file);
+            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
+            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
             if (objs != null)
                 Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objs), url, string.Empty, "D", 4010);
             if (objt != null)
                 Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objt), url, string.Empty, "D", 4010);
             db.Dispose();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            btnBuscarSolicitud_Click(sender, e);
         }
         public List<itemDocumentoModulo> CargarSolicitudConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
@@ -411,11 +429,10 @@ namespace SGI.Operaciones
 
                         ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
                         tran.Commit();
-
+                        id_object = id_docadjunto.ToString();
+                        id_object_file = id_file.ToString();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = id_docadjunto.ToString();
-                        hid_id_object_file.Value = id_file.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -426,7 +443,6 @@ namespace SGI.Operaciones
 
             }
             gridViewArchivosSolic.EditIndex = -1;
-            btnBuscarSolicitud_Click(sender, e);
         }
 
         protected void lnkEliminarDocTrans_Command(object sender, EventArgs e)
@@ -450,11 +466,10 @@ namespace SGI.Operaciones
                         }
                         ctx.Transf_DocumentosAdjuntos_Eliminar(id_docadjunto);
                         tran.Commit();
-
+                        id_object = id_docadjunto.ToString();
+                        id_object_file = id_file.ToString();
                         string script = "$('#frmEliminarLog').modal('show');";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        hid_id_object.Value = id_docadjunto.ToString();
-                        hid_id_object_file.Value = id_file.ToString();
                     }
                     catch (Exception ex)
                     {
@@ -465,7 +480,6 @@ namespace SGI.Operaciones
 
             }
             gridViewArchivosTransf.EditIndex = -1;
-            btnBuscarSolicitud_Click(sender, e);
         }
 
         private void fillInfoSade(int idSolicitud, bool couldParse)
