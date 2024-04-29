@@ -39,7 +39,7 @@ namespace SGI.Account
 
                     usuario = userPerfil.Usuario;
                     DGHP_Entities db = new DGHP_Entities();
-                    usuario = (from u in db.SGI_Profiles where u.Cuit == usuario select u.aspnet_Users2.LoweredUserName).FirstOrDefault();
+                    usuario = (from u in db.SGI_Profiles where u.Cuit == usuario select u.aspnet_Users.LoweredUserName).FirstOrDefault();
                     
                     token = userPerfil.Token;
                     roles = userPerfil.Roles;
