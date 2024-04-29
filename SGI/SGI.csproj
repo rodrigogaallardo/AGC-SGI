@@ -5612,6 +5612,7 @@
     <Compile Include="WebServices\ws_GP.cs" />
     <Compile Include="WebServices\ws_Ley257.cs" />
     <Compile Include="WebServices\ws_MailsRest.cs" />
+    <Compile Include="WebServices\ws_MiAGC_Controller.cs" />
     <Compile Include="WebServices\ws_PagosRest.cs" />
     <Compile Include="WebServices\ws_FilesRest.cs" />
     <Compile Include="WebServices\ws_Interface_AGC.cs" />
