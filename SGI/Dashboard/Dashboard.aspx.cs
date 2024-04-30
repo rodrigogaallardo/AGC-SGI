@@ -410,35 +410,124 @@ namespace SGI.Dashboard
                 int[] tareas_calificar = getTareasCalificarPorUsuario();
 
                 db = new DGHP_Entities();
+                Guid userid = Functions.GetUserId();
+                var qEquipo =
+                       (
 
-                var tramites_asignados =
+                           from eq in db.ENG_EquipoDeTrabajo
+                           join usr in db.SGI_Profiles on eq.Userid equals usr.userid
+                           join mem in db.aspnet_Membership on usr.userid equals mem.UserId
+                           where eq.Userid_Responsable == userid
+                               && mem.IsApproved == true
+                           select
+                            usr.userid
+
+                       ).ToList();
+
+                var tramites_asignados_hab =
                     (
                         from tt in db.SGI_Tramites_Tareas
+                        join hab in db.SGI_Tramites_Tareas_HAB on tt.id_tramitetarea equals hab.id_tramitetarea
                         join per in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals per.userid
                         join t in db.ENG_Tareas on tt.id_tarea equals t.id_tarea
                         join tar in db.ENG_Tareas on tt.id_tarea equals tar.id_tarea
                         join cir in db.ENG_Circuitos on tar.id_circuito equals cir.id_circuito
-                        where tareas_calificar.Contains(tt.id_tarea) && tt.FechaCierre_tramitetarea == null
+                        join sol in db.SSIT_Solicitudes on hab.id_solicitud equals sol.id_solicitud
+                        where
+                        qEquipo.Contains(per.userid)
+                        && tt.FechaCierre_tramitetarea == null
+                        && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
                         group tt by new
                         {
-                            t.nombre_tarea,
                             tt.UsuarioAsignado_tramitetarea,
                             per.Apellido,
                             per.Nombres
                         } into grupo_tt
-                        orderby grupo_tt.Count() descending
+                        where grupo_tt.Any(tt => tareas_calificar.Contains(tt.id_tarea)) // Excluir los registros que no cumplan la condición
+                        
                         select new
                         {
-                            nombre_tarea = grupo_tt.Key.nombre_tarea,
                             userid = grupo_tt.Key.UsuarioAsignado_tramitetarea,
                             apellido = grupo_tt.Key.Apellido,
                             nombre = grupo_tt.Key.Nombres,
-                            cant = grupo_tt.Count()
+                            cant = grupo_tt.Count() // Sumar la cantidad de cada grupo
                         }
-                    ).ToList();
+                        ).OrderByDescending(r => r.cant).ToList();
+                
+                var tramites_asignados_Transf =
+                    (
+                        from tt in db.SGI_Tramites_Tareas
+                        join transf in db.SGI_Tramites_Tareas_TRANSF on tt.id_tramitetarea equals transf.id_tramitetarea
+                        join per in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals per.userid
+                        join t in db.ENG_Tareas on tt.id_tarea equals t.id_tarea
+                        join tar in db.ENG_Tareas on tt.id_tarea equals tar.id_tarea
+                        join cir in db.ENG_Circuitos on tar.id_circuito equals cir.id_circuito
+                        join sol in db.SSIT_Solicitudes on transf.id_solicitud equals sol.id_solicitud
+                        where
+                        qEquipo.Contains(per.userid)
+                        && tt.FechaCierre_tramitetarea == null
+                        && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
+                        group tt by new
+                        {
+                            tt.UsuarioAsignado_tramitetarea,
+                            per.Apellido,
+                            per.Nombres
+                        } into grupo_tt
+                        where grupo_tt.Any(tt => tareas_calificar.Contains(tt.id_tarea)) // Excluir los registros que no cumplan la condición
+                        select new
+                        {
+                            userid = grupo_tt.Key.UsuarioAsignado_tramitetarea,
+                            apellido = grupo_tt.Key.Apellido,
+                            nombre = grupo_tt.Key.Nombres,
+                            cant = grupo_tt.Count() // Sumar la cantidad de cada grupo
+                        }
+                        ).OrderByDescending(r => r.cant).ToList();
+                var tramites_asignados_cpadron =
+                    (
+                        from tt in db.SGI_Tramites_Tareas
+                        join cpn in db.SGI_Tramites_Tareas_CPADRON on tt.id_tramitetarea equals cpn.id_tramitetarea
+                        join per in db.SGI_Profiles on tt.UsuarioAsignado_tramitetarea equals per.userid
+                        join t in db.ENG_Tareas on tt.id_tarea equals t.id_tarea
+                        join tar in db.ENG_Tareas on tt.id_tarea equals tar.id_tarea
+                        join cir in db.ENG_Circuitos on tar.id_circuito equals cir.id_circuito
+                        join sol in db.SSIT_Solicitudes on cpn.id_cpadron equals sol.id_solicitud
+                        where
+                        qEquipo.Contains(per.userid)
+                        && tt.FechaCierre_tramitetarea == null
+                        && sol.id_estado != (int)Constants.Solicitud_Estados.Anulado
+                        group tt by new
+                        {
+                            tt.UsuarioAsignado_tramitetarea,
+                            per.Apellido,
+                            per.Nombres
+                        } into grupo_tt
+                        where grupo_tt.Any(tt => tareas_calificar.Contains(tt.id_tarea)) // Excluir los registros que no cumplan la condición
+                        select new
+                        {
+                            userid = grupo_tt.Key.UsuarioAsignado_tramitetarea,
+                            apellido = grupo_tt.Key.Apellido,
+                            nombre = grupo_tt.Key.Nombres,
+                            cant = grupo_tt.Count() // Sumar la cantidad de cada grupo
+                        }
+                        ).OrderByDescending(r => r.cant).ToList();
+
+                var tramites_asignados_totales = tramites_asignados_hab
+                                                .Concat(tramites_asignados_Transf)
+                                                .Concat(tramites_asignados_cpadron)
+                                                .GroupBy(t => new { t.userid, t.apellido, t.nombre }) // Agrupe por usuario
+                                                .Select(g => new
+                                                {
+                                                    userid = g.Key.userid,
+                                                    apellido = g.Key.apellido,
+                                                    nombre = g.Key.nombre,
+                                                    cant = g.Sum(item => item.cant) // Suma los conteos de cada grupo
+                                                })
+                                                .OrderByDescending(r => r.cant) // Ordenar por conteo descendente
+                                                .ToList();
+
 
                 data datos = null;
-                foreach (var item in tramites_asignados)
+                foreach (var item in tramites_asignados_totales)
                 {
                     datos = new data("", 0);
                     datos.label = item.apellido + ", " + item.nombre;

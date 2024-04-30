@@ -94,10 +94,16 @@
 
                     <div style="display: inline-block">
                         <h5>Lista de Tr&aacute;mites</h5>
-                    </div>
+                    </div>                    
                     <div style="display: inline-block">
                         (<span class="badge"><asp:Label ID="lblCantRegistros" runat="server"></asp:Label></span>
                         )
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <p style="font-size: small;">
+                            <span style="background-color: red; width: 10px; height: 10px; display: inline-block; margin-right: 5px;"></span>
+                            Las solicitudes que aparecen en color rojo, no se encuentran habilitadas para el Usuario, ya que no cuenta con los permisos necesarios.
+                        </p>
                     </div>
 
                 </asp:Panel>
@@ -113,8 +119,9 @@
                     <i class="icon-white icon-search"></i>
                 --%>
                 <asp:GridView ID="grdTramites" runat="server" AutoGenerateColumns="false"
-                    GridLines="None" CssClass="table table-bordered table-striped table-hover with-check"
-                    DataKeyNames="id_solicitud" ItemType="SGI.Model.clsItemReasignar">
+                    GridLines="None" CssClass="table table-bordered table-hover with-check "
+                    DataKeyNames="id_solicitud" ItemType="SGI.Model.clsItemReasignar"
+                    OnRowDataBound="grdTramites_RowDataBound">
 
 
                     <Columns>
