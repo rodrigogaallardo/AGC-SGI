@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Transf_Solicitudes
     {
         public Transf_Solicitudes()
@@ -53,37 +54,68 @@ namespace SGI.Model
         public string ZonaDeclarada { get; set; }
         public Nullable<int> idTipoTransmision { get; set; }
         public Nullable<int> idSolicitudRef { get; set; }
-    
+
+        [JsonIgnore]
         public virtual CPadron_Solicitudes CPadron_Solicitudes { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tramites_Tareas_TRANSF> SGI_Tramites_Tareas_TRANSF { get; set; }
+        [JsonIgnore]
         public virtual SubtipoExpediente SubtipoExpediente { get; set; }
+        [JsonIgnore]
         public virtual TipoEstadoSolicitud TipoEstadoSolicitud { get; set; }
+        [JsonIgnore]
         public virtual TipoExpediente TipoExpediente { get; set; }
+        [JsonIgnore]
         public virtual TipoTramite TipoTramite { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_DocumentosAdjuntos> Transf_DocumentosAdjuntos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Firmantes_PersonasFisicas> Transf_Firmantes_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Firmantes_PersonasJuridicas> Transf_Firmantes_PersonasJuridicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Solicitudes_Baja> Transf_Solicitudes_Baja { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Solicitudes_HistorialEstados> Transf_Solicitudes_HistorialEstados { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Solicitudes_Observaciones> Transf_Solicitudes_Observaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Titulares_PersonasFisicas> Transf_Titulares_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Titulares_PersonasJuridicas_PersonasFisicas> Transf_Titulares_PersonasJuridicas_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Titulares_PersonasJuridicas> Transf_Titulares_PersonasJuridicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_DatosLocal> Transf_DatosLocal { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Firmantes_Solicitud_PersonasFisicas> Transf_Firmantes_Solicitud_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Firmantes_Solicitud_PersonasJuridicas> Transf_Firmantes_Solicitud_PersonasJuridicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Normativas> Transf_Normativas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Plantas> Transf_Plantas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Rubros> Transf_Rubros { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Titulares_Solicitud_PersonasFisicas> Transf_Titulares_Solicitud_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Titulares_Solicitud_PersonasJuridicas_PersonasFisicas> Transf_Titulares_Solicitud_PersonasJuridicas_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Titulares_Solicitud_PersonasJuridicas> Transf_Titulares_Solicitud_PersonasJuridicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Ubicaciones> Transf_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_ConformacionLocal> Transf_ConformacionLocal { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_Transf_Solicitudes> Encomienda_Transf_Solicitudes { get; set; }
+        [JsonIgnore]
         public virtual TiposdeTransmision TiposdeTransmision { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Solicitudes_AvisoCaducidad> Transf_Solicitudes_AvisoCaducidad { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Solicitudes_Pagos> Transf_Solicitudes_Pagos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Origen> SSIT_Solicitudes_Origen { get; set; }
     }
 }

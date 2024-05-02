@@ -1,4 +1,5 @@
-﻿using ExtensionMethods;
+﻿using ExcelLibrary.BinaryFileFormat;
+using ExtensionMethods;
 using Newtonsoft.Json;
 using SGI.Model;
 using System;
@@ -152,43 +153,11 @@ namespace SGI.ABM
 
         protected void lnkEliminarSectorReq_Command(object sender, CommandEventArgs e)
         {
-            try
-            {
-                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
-
-                LinkButton lnkEditar = (LinkButton)sender;
-                int idClanae = int.Parse(lnkEditar.CommandArgument);
-
-                db = new DGHP_Entities();
-
-                using (TransactionScope Tran = new TransactionScope())
-                {
-                    try
-                    {
-                        db.Clanae_delete(idClanae);
-
-                        Tran.Complete();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = idClanae.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tran.Dispose();
-                        throw ex;
-                    }
-                }
-
-                Buscar();
-                updResultados.Update();
-                this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
-            }
-            catch (Exception ex)
-            {
-                LogError.Write(ex);
-                lblError.Text = Functions.GetErrorMessage(ex);
-                this.EjecutarScript(updResultados, "showfrmError();");
-            }
+            LinkButton lnkEditar = (LinkButton)sender;
+            int idClanae = int.Parse(lnkEditar.CommandArgument);
+            id_object = idClanae.ToString();
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -490,25 +459,44 @@ namespace SGI.ABM
         }
         #endregion
 
+        private void Eliminar()
+        {
+            int id_clanae = int.Parse(id_object);
+            using (var ctx = new DGHP_Entities())
+            {
+                using (var tran = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        Clanae obj = ctx.Clanae.FirstOrDefault(x => x.id_clanae == id_clanae);
+                        ctx.Clanae_delete(id_clanae);
+                        Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1010);
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError.Write(ex, "Error en transaccion.");
+                        throw ex;
+                    }
+                }
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Buscar();
+            updResultados.Update();
+            this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
+        }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            Clanae obj = db.Clanae.FirstOrDefault(x => x.id_clanae == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1010);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            Clanae obj = db.Clanae.FirstOrDefault(x => x.id_clanae == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1010);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            txtObservacionEliminar.Text = string.Empty;
+            this.Eliminar();
         }
 
     }

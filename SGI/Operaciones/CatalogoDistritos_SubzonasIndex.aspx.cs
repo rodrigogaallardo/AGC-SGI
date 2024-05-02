@@ -64,36 +64,15 @@ namespace SGI.Operaciones
         protected void btnRemove_Click(object sender, EventArgs e)
         {
             int IdSubZona = int.Parse(((Button)sender).ToolTip);
-            using (DGHP_Entities entities = new DGHP_Entities())
-            {
-                Ubicaciones_CatalogoDistritos_Subzonas ubicaciones_CatalogoDistritos_Subzonas = entities.Ubicaciones_CatalogoDistritos_Subzonas.Where(tarea => tarea.IdSubZona == IdSubZona).FirstOrDefault();
-
-                if (ubicaciones_CatalogoDistritos_Subzonas != null)
-                {
-                    try
-                    {
-                        entities.Ubicaciones_CatalogoDistritos_Subzonas.Remove(ubicaciones_CatalogoDistritos_Subzonas);
-                        entities.SaveChanges();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = IdSubZona.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        //ASOSA MENSAJE DE ERROR
-                        ScriptManager sm = ScriptManager.GetCurrent(this);
-                        string cadena = "No pudo borrarse el Registro por restricciones con otras tablas";
-                        string script = string.Format("alert('{0}');", cadena);
-                        ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
+            id_object = IdSubZona.ToString();
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
 
 
-                    }
-                }
+            
 
-                //  gridView.EditIndex = -1;
-                ddlGrupoDistricto.SelectedIndex = 0;
-                ddlGrupoDistricto_SelectedIndexChanged(null, null);
-            }
+            
+
         }
 
 
@@ -235,29 +214,55 @@ namespace SGI.Operaciones
             Response.Redirect("~/Operaciones/DistritosIndex.aspx");
         }
 
+        private void Eliminar()
+        {
+            int IdSubZona = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            Ubicaciones_CatalogoDistritos_Subzonas obj = ctx.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == IdSubZona);
+                            if (obj != null)
+                                ctx.Ubicaciones_CatalogoDistritos_Subzonas.Remove(obj);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4017);
+                            ctx.SaveChanges();
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ScriptManager sm = ScriptManager.GetCurrent(this);
+                string cadena = "No pudo borrarse el Registro por restricciones con otras tablas";
+                ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", string.Format("alert('{0}');", cadena), true);
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            ddlGrupoDistricto.SelectedIndex = 0;
+            ddlGrupoDistricto_SelectedIndexChanged(null, null);
+        }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Ubicaciones_CatalogoDistritos_Subzonas obj = db.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4017);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Ubicaciones_CatalogoDistritos_Subzonas obj = db.Ubicaciones_CatalogoDistritos_Subzonas.FirstOrDefault(x => x.IdSubZona == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4017);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
     }
 }

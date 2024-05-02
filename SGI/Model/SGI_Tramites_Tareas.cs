@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class SGI_Tramites_Tareas
     {
         public SGI_Tramites_Tareas()
@@ -73,63 +74,120 @@ namespace SGI.Model
         public Nullable<System.DateTime> FechaAsignacion_tramtietarea { get; set; }
         public Nullable<System.Guid> CreateUser { get; set; }
         public Nullable<int> id_proxima_tarea { get; set; }
-    
+
+        [JsonIgnore]
         public virtual aspnet_Users aspnet_Users { get; set; }
+        [JsonIgnore]
         public virtual ENG_Resultados ENG_Resultados { get; set; }
+        [JsonIgnore]
         public virtual ENG_Tareas ENG_Tareas { get; set; }
+        [JsonIgnore]
         public virtual ENG_Tareas ENG_Tareas1 { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_SADE_Procesos> SGI_SADE_Procesos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Solicitudes_Pagos> SGI_Solicitudes_Pagos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Aprobado> SGI_Tarea_Aprobado { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Asignar_Calificador> SGI_Tarea_Asignar_Calificador { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Asignar_Inspector> SGI_Tarea_Asignar_Inspector { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Calificacion_Tecnica_Legal> SGI_Tarea_Calificacion_Tecnica_Legal { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Carga_Tramite> SGI_Tarea_Carga_Tramite { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_Asignar_Profesional> SGI_Tarea_Dictamen_Asignar_Profesional { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_GEDO> SGI_Tarea_Dictamen_GEDO { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_Revisar_Tramite> SGI_Tarea_Dictamen_Revisar_Tramite { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_Revision_Gerente> SGI_Tarea_Dictamen_Revision_Gerente { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_Revision_SubGerente> SGI_Tarea_Dictamen_Revision_SubGerente { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Enviar_PVH> SGI_Tarea_Enviar_PVH { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Fin_Tramite> SGI_Tarea_Fin_Tramite { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Generar_Expediente> SGI_Tarea_Generar_Expediente { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Generar_Expediente_Procesos> SGI_Tarea_Generar_Expediente_Procesos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Pagos_log> SGI_Tarea_Pagos_log { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Rechazo_En_SADE> SGI_Tarea_Rechazo_En_SADE { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Resultado_Inspector> SGI_Tarea_Resultado_Inspector { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_Dictamenes> SGI_Tarea_Revision_Dictamenes { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_Director> SGI_Tarea_Revision_Director { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_Gerente> SGI_Tarea_Revision_Gerente { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_Pagos> SGI_Tarea_Revision_Pagos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_SubGerente> SGI_Tarea_Revision_SubGerente { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_Tecnica_Legal> SGI_Tarea_Revision_Tecnica_Legal { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Validar_Zonificacion> SGI_Tarea_Validar_Zonificacion { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Verificacion_AVH> SGI_Tarea_Verificacion_AVH { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tramites_Tareas_CPADRON> SGI_Tramites_Tareas_CPADRON { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tramites_Tareas_HAB> SGI_Tramites_Tareas_HAB { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tramites_Tareas_TRANSF> SGI_Tramites_Tareas_TRANSF { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Enviar_AVH> SGI_Tarea_Enviar_AVH { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Revision_DGHP> SGI_Tarea_Revision_DGHP { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_LIZA_Procesos> SGI_LIZA_Procesos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_LIZA_Ticket> SGI_LIZA_Ticket { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Generar_Ticket_Liza> SGI_Tarea_Generar_Ticket_Liza { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Obtener_Ticket_Liza> SGI_Tarea_Obtener_Ticket_Liza { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Calificar_ObsGrupo> SGI_Tarea_Calificar_ObsGrupo { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_Realizar_Dictamen> SGI_Tarea_Dictamen_Realizar_Dictamen { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Dictamen_Revision> SGI_Tarea_Dictamen_Revision { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Enviar_DGFC> SGI_Tarea_Enviar_DGFC { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Documentos_Adjuntos> SGI_Tarea_Documentos_Adjuntos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Calificar> SGI_Tarea_Calificar { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Entregar_Tramite> SGI_Tarea_Entregar_Tramite { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Informar_Doc_Sade> SGI_Tarea_Informar_Doc_Sade { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Visado> SGI_Tarea_Visado { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Ejecutiva> SGI_Tarea_Ejecutiva { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Ejecutiva_NumeroGedo> SGI_Tarea_Ejecutiva_NumeroGedo { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tramites_Tareas_Dispo_Considerando> SGI_Tramites_Tareas_Dispo_Considerando { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Gestion_Documental> SGI_Tarea_Gestion_Documental { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Enviar_Procuracion> SGI_Tarea_Enviar_Procuracion { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Verificacion_IFCI> SGI_Tarea_Verificacion_IFCI { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Verificacion_DGFyC> SGI_Tarea_Verificacion_DGFyC { get; set; }
     }
 }

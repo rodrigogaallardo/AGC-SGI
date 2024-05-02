@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Sectores_SADE
     {
         public Sectores_SADE()
@@ -20,9 +21,12 @@ namespace SGI.Model
         public System.Guid CreateUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<System.Guid> UpdateUser { get; set; }
-    
+
+        [JsonIgnore]
         public virtual aspnet_Users aspnet_Users { get; set; }
+        [JsonIgnore]
         public virtual aspnet_Users aspnet_Users1 { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tareas_Pases_Sectores> SGI_Tareas_Pases_Sectores { get; set; }
     }
 }

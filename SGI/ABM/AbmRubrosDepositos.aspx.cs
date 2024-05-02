@@ -275,42 +275,11 @@ namespace SGI.ABM
 
         protected void lnkEliminarDeposito_Command(object sender, CommandEventArgs e)
         {
-            try
-            {
-                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
-                string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-                LinkButton lnkEditar = (LinkButton)sender;
-                int idDeposito = int.Parse(lnkEditar.CommandArgument);
-                db = new DGHP_Entities();
-                using (TransactionScope Tran = new TransactionScope())
-                {
-                    try
-                    {
-                        db.SGI_Deposito_EliminarVigencia(idDeposito);
-
-                        Tran.Complete();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = idDeposito.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tran.Dispose();
-                        throw ex;
-                    }
-                }
-                BuscarDepositos();
-                updResultados.Update();
-                this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
-            }
-            catch (Exception ex)
-            {
-                LogError.Write(ex);
-                lblError.Text = Functions.GetErrorMessage(ex);
-                this.EjecutarScript(updResultados, "showfrmError();");
-            }
+            LinkButton lnkEditar = (LinkButton)sender;
+            id_object = lnkEditar.CommandArgument;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
-
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -373,24 +342,54 @@ namespace SGI.ABM
             }
         }
 
+        private void Eliminar()
+        {
+            int idDeposito = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            RubrosDepositosCN obj = ctx.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == idDeposito);
+                            ctx.SGI_Deposito_EliminarVigencia(idDeposito);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1015);
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                this.EjecutarScript(updResultados, "showfrmError();");
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            BuscarDepositos();
+            updResultados.Update();
+            this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionEliminar.Text, "D", 1015);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            RubrosDepositosCN obj = db.RubrosDepositosCN.FirstOrDefault(x => x.IdDeposito == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1015);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionEliminar.Text = string.Empty;
+            this.Eliminar();
         }
 
     }

@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Rubros
     {
         public Rubros()
@@ -49,16 +50,26 @@ namespace SGI.Model
         public Nullable<int> id_grupo_circuito { get; set; }
         public bool Librar_Uso { get; set; }
         public Nullable<int> id_clanae { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ENG_Grupos_Circuitos ENG_Grupos_Circuitos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Parametros_Bandeja_Rubro> Parametros_Bandeja_Rubro { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_CircuitoAtomatico_Zonas> Rubros_CircuitoAtomatico_Zonas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_InformacionRelevante> Rubros_InformacionRelevante { get; set; }
+        [JsonIgnore]
         public virtual RAL_Licencias RAL_Licencias { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_TiposDeDocumentosRequeridos> Rubros_TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_TiposDeDocumentosRequeridos_Zonas> Rubros_TiposDeDocumentosRequeridos_Zonas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_Config_Incendio> Rubros_Config_Incendio { get; set; }
+        [JsonIgnore]
         public virtual Clanae Clanae { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosCN_InformacionRelevante> RubrosCN_InformacionRelevante { get; set; }
     }
 }

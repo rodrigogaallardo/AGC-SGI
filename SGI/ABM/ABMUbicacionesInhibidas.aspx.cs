@@ -846,26 +846,9 @@ namespace SGI.ABM
 
         private void Eliminar(int id_ubicinhibida, string tipo)
         {
-            Guid userid = SGI.Functions.GetUserId();
-            DGHP_Entities db = new DGHP_Entities();
-
-            hid_accion.Value = "update";
-
-            updhidden.Update();
-
-            if (tipo == "PH")
-                db.Ubicaciones_PropiedadHorizontal_Inhibiciones_delete(id_ubicinhibida, null, userid, txtMotivoEliminarLevantamiento.Text);
-            else
-                db.Ubicaciones_Inhibiciones_delete(id_ubicinhibida, null, userid, txtMotivoEliminarLevantamiento.Text);
-
-
+            id_object = id_ubicinhibida.ToString();
             string script = "$('#frmEliminarLog').modal('show');";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-            id_object = id_ubicinhibida.ToString();
-            Buscador();
-
-            updPnlUbicacionesInhibidas.Update();
-
         }
 
         protected void lnkPDF_Click(object sender, EventArgs e)
@@ -921,46 +904,65 @@ namespace SGI.ABM
             return;
         }
 
+        private void Eliminar()
+        {
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            hid_accion.Value = "update";
+                            updhidden.Update();
+                            string id_Tipo = hid_ID_tipo.Value;
+                            int id_ubicinhibida = int.Parse(id_object);
+                            if (id_Tipo == "PH")
+                            {
+                                ctx.Ubicaciones_PropiedadHorizontal_Inhibiciones_delete(id_ubicinhibida, null, userId, txtMotivoEliminarLevantamiento.Text);
+                                Ubicaciones_PropiedadHorizontal_Inhibiciones obj = ctx.Ubicaciones_PropiedadHorizontal_Inhibiciones.FirstOrDefault(x => x.id_ubicphorinhibi == id_ubicinhibida);
+                                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1019);
+                            }
+                            else
+                            {
+                                ctx.Ubicaciones_Inhibiciones_delete(id_ubicinhibida, null, userId , txtMotivoEliminarLevantamiento.Text);
+                                Ubicaciones_Inhibiciones obj = ctx.Ubicaciones_Inhibiciones.FirstOrDefault(x => x.id_ubicinhibi == id_ubicinhibida);
+                                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1019);
+                            }
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                throw ex;
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Buscador();
+            updPnlUbicacionesInhibidas.Update();
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            string id_Tipo = hid_ID_tipo.Value;
-            int value = int.Parse(id_object);
-            if (id_Tipo == "PH")
-            {
-                Ubicaciones_PropiedadHorizontal_Inhibiciones obj = db.Ubicaciones_PropiedadHorizontal_Inhibiciones.FirstOrDefault(x => x.id_ubicphorinhibi == value);
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1019);
-            }
-            else
-            {
-                Ubicaciones_Inhibiciones obj = db.Ubicaciones_Inhibiciones.FirstOrDefault(x => x.id_ubicinhibi == value);
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1019);
-            }
-            db.Dispose();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            string id_Tipo = hid_ID_tipo.Value;
-            int value = int.Parse(id_object);
-            if (id_Tipo == "PH")
-            {
-                Ubicaciones_PropiedadHorizontal_Inhibiciones obj = db.Ubicaciones_PropiedadHorizontal_Inhibiciones.FirstOrDefault(x => x.id_ubicphorinhibi == value);
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1019);
-            }
-            else
-            {
-                Ubicaciones_Inhibiciones obj = db.Ubicaciones_Inhibiciones.FirstOrDefault(x => x.id_ubicinhibi == value);
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1019);
-            }
-            db.Dispose();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
     }
 }

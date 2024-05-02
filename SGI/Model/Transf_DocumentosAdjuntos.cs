@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Transf_DocumentosAdjuntos
     {
         public int id_docadjunto { get; set; }
@@ -20,10 +21,14 @@ namespace SGI.Model
         public Nullable<System.Guid> UpdateUser { get; set; }
         public string nombre_archivo { get; set; }
         public int id_agrupamiento { get; set; }
-    
+        
+        [JsonIgnore]
         public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
+        [JsonIgnore]
         public virtual TiposDeDocumentosRequeridos TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual Transf_Solicitudes Transf_Solicitudes { get; set; }
+        [JsonIgnore]
         public virtual aspnet_Users aspnet_Users { get; set; }
     }
 }

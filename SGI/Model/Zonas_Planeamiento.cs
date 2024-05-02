@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Zonas_Planeamiento
     {
         public Zonas_Planeamiento()
@@ -24,14 +25,22 @@ namespace SGI.Model
         public string DescripcionZonaPla { get; set; }
         public string CreateUser { get; set; }
         public System.DateTime CreateDate { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_ZonasComplementarias> Ubicaciones_ZonasComplementarias { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CPadron_Ubicaciones> CPadron_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Historial_Cambios> Ubicaciones_Historial_Cambios { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_ZonasComplementarias_Historial_Cambios> Ubicaciones_ZonasComplementarias_Historial_Cambios { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Ubicaciones> SSIT_Solicitudes_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_Ubicaciones> Encomienda_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Ubicaciones> Transf_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones> Ubicaciones { get; set; }
     }
 }

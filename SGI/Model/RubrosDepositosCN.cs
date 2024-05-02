@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class RubrosDepositosCN
     {
         public RubrosDepositosCN()
@@ -26,10 +27,14 @@ namespace SGI.Model
         public Nullable<int> idCondicionIncendio { get; set; }
         public Nullable<System.DateTime> VigenciaDesde { get; set; }
         public Nullable<System.DateTime> VigenciaHasta { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<Encomienda_RubrosCN_Deposito> Encomienda_RubrosCN_Deposito { get; set; }
+        [JsonIgnore]
         public virtual RubrosDepositosCategoriasCN RubrosDepositosCategoriasCN { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosDepositosCN_RangosSuperficie> RubrosDepositosCN_RangosSuperficie { get; set; }
+        [JsonIgnore]
         public virtual CondicionesIncendio CondicionesIncendio { get; set; }
     }
 }

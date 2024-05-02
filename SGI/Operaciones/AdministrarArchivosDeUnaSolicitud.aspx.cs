@@ -21,6 +21,8 @@ using ws_solicitudes;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Newtonsoft.Json;
 using ExcelLibrary.BinaryFileFormat;
+using DocumentFormat.OpenXml.Office2013.PowerPoint.Roaming;
+using System.Web.Providers.Entities;
 
 namespace SGI.Operaciones
 {
@@ -151,45 +153,56 @@ namespace SGI.Operaciones
             updResultados.Update();
             EjecutarScript(updResultados, "showResultado();");
         }
+
+        private void Eliminar()
+        {
+            int id_docadjunto = int.Parse(id_object);
+            int id_file = int.Parse(id_object_file);
+            using (var ctx = new DGHP_Entities())
+            {
+                using (var tran = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                        string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                        if (this.id_grupo_tramite == (int)Constants.GruposDeTramite.HAB)
+                        {
+                            SSIT_DocumentosAdjuntos obj = ctx.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == id_docadjunto && x.id_file == id_file);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4010);
+                            ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
+                        }
+                        else
+                        {
+                            Transf_DocumentosAdjuntos obj = ctx.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == id_docadjunto && x.id_file == id_file);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4010);
+                            ctx.Transf_DocumentosAdjuntos_Eliminar(id_docadjunto);
+                        }
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError.Write(ex, "Error en transaccion. SSIT_DocumentosAdjuntos_Del-AdministrarArchivosDeUnaSolicitud-gridViewArchivosSolic_RowDeleting");
+                        throw ex;
+                    }
+                }
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            SSIT_DocumentosAdjuntos objs;
-            Transf_DocumentosAdjuntos objt;
-            int value = int.Parse(id_object);
-            int value_file = int.Parse(id_object_file);
-            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
-            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
-            if (objs != null)
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objs), url, txtObservacionesSolicitante.Text, "D", 4010);
-            if (objt != null)
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objt), url, txtObservacionesSolicitante.Text, "D", 4010);
-            db.Dispose();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.Eliminar();
             btnBuscarSolicitud_Click(sender, e);
-
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            SSIT_DocumentosAdjuntos objs;
-            Transf_DocumentosAdjuntos objt;
-            int value = int.Parse(id_object);
-            int value_file = int.Parse(id_object_file);
-            objs = db.SSIT_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
-            objt = db.Transf_DocumentosAdjuntos.FirstOrDefault(x => x.id_docadjunto == value && x.id_file == value_file);
-            if (objs != null)
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objs), url, string.Empty, "D", 4010);
-            if (objt != null)
-                Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objt), url, string.Empty, "D", 4010);
-            db.Dispose();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
             btnBuscarSolicitud_Click(sender, e);
         }
+
         public List<itemDocumentoModulo> CargarSolicitudConArchivos(int startRowIndex, int maximumRows, out int totalRowCount)
         {
             totalRowCount = 0;
@@ -408,77 +421,21 @@ namespace SGI.Operaciones
 
         protected void lnkEliminarDocSolic_Command(object sender, EventArgs e)
         {
-            using (var ctx = new DGHP_Entities())
-            {
-                using (var tran = ctx.Database.BeginTransaction())
-                {
-                    try
-                    {
-
-                        LinkButton lnkEliminar = (LinkButton)sender;
-                        int id_docadjunto = Convert.ToInt32(lnkEliminar.CommandArgument);
-                        int id_file = Convert.ToInt32(lnkEliminar.CommandName);
-                        using (var ftx = new AGC_FilesEntities())
-                        {
-                            Files file = (from f in ftx.Files
-                                          where f.id_file == id_file
-                                          select f).FirstOrDefault();
-                            ftx.Files.Remove(file);
-                            ftx.SaveChanges();
-                        }
-
-                        ctx.SSIT_DocumentosAdjuntos_Del(id_docadjunto);
-                        tran.Commit();
-                        id_object = id_docadjunto.ToString();
-                        id_object_file = id_file.ToString();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogError.Write(ex, "Error en transaccion. SSIT_DocumentosAdjuntos_Del-AdministrarArchivosDeUnaSolicitud-gridViewArchivosSolic_RowDeleting");
-                        throw ex;
-                    }
-                }
-
-            }
+            LinkButton lnkEliminar = (LinkButton)sender;
+            id_object = lnkEliminar.CommandArgument;
+            id_object_file = lnkEliminar.CommandName;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
             gridViewArchivosSolic.EditIndex = -1;
         }
 
         protected void lnkEliminarDocTrans_Command(object sender, EventArgs e)
         {
-            using (var ctx = new DGHP_Entities())
-            {
-                using (var tran = ctx.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        LinkButton lnkEliminar = (LinkButton)sender;
-                        int id_docadjunto = Convert.ToInt32(lnkEliminar.CommandArgument);
-                        int id_file = Convert.ToInt32(lnkEliminar.CommandName);
-                        using (var ftx = new AGC_FilesEntities())
-                        {
-                            Files file = (from f in ftx.Files
-                                          where f.id_file == id_file
-                                          select f).FirstOrDefault();
-                            ftx.Files.Remove(file);
-                            ftx.SaveChanges();
-                        }
-                        ctx.Transf_DocumentosAdjuntos_Eliminar(id_docadjunto);
-                        tran.Commit();
-                        id_object = id_docadjunto.ToString();
-                        id_object_file = id_file.ToString();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogError.Write(ex, "Error en transaccion. Transf_DocumentosAdjuntos_Eliminar-AdministrarArchivosDeUnaSolicitud-gridViewArchivosSolic_RowDeleting");
-                        throw ex;
-                    }
-                }
-
-            }
+            LinkButton lnkEliminar = (LinkButton)sender;
+            id_object = lnkEliminar.CommandArgument;
+            id_object_file = lnkEliminar.CommandName;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
             gridViewArchivosTransf.EditIndex = -1;
         }
 

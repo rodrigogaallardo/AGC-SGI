@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Ubicaciones_PropiedadHorizontal_Inhibiciones
     {
         public int id_ubicphorinhibi { get; set; }
@@ -19,7 +20,8 @@ namespace SGI.Model
         public Nullable<System.Guid> LastUpdateUser { get; set; }
         public Nullable<System.DateTime> LastUpdateDate { get; set; }
         public string MotivoLevantamiento { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Ubicaciones_PropiedadHorizontal Ubicaciones_PropiedadHorizontal { get; set; }
     }
 }

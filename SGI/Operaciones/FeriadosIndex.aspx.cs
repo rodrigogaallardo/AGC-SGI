@@ -84,35 +84,9 @@ namespace SGI.Operaciones
 
         protected void btnRemove_Click(object sender, EventArgs e)
         {
-            int idFeriado = int.Parse(((Button)sender).ToolTip);
-            using (DGHP_Entities entities = new DGHP_Entities())
-            {
-                SGI_Feriados sGI_Feriados = entities.SGI_Feriados.Where(f => f.IdFeriado == idFeriado).FirstOrDefault();
-
-                if (sGI_Feriados != null)
-                {
-    
-                    try
-                    {
-                        entities.SGI_Feriados.Remove(sGI_Feriados);
-                        entities.SaveChanges();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = idFeriado.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        //ASOSA MENSAJE DE ERROR
-                        ScriptManager sm = ScriptManager.GetCurrent(this);
-                        string cadena = "No pudo borrarse el Feriado. Intente mas tarde";
-                        string script = string.Format("alert('{0}');", cadena);
-                        ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", script, true);
-                    }
-                }
-
-                gridView.EditIndex = -1;
-                this.CargarFeriados();
-            }
+            id_object = ((Button)sender).ToolTip;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
        
 
@@ -144,28 +118,54 @@ namespace SGI.Operaciones
               Response.Redirect("~/Operaciones/FeriadosForm.aspx");
         }
 
+        private void Eliminar()
+        {
+            int idFeriado = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            SGI_Feriados obj = ctx.SGI_Feriados.FirstOrDefault(x => x.IdFeriado == idFeriado);
+                            if (obj != null)
+                                ctx.SGI_Feriados.Remove(obj);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4022);
+                            ctx.SaveChanges();
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ScriptManager sm = ScriptManager.GetCurrent(this);
+                string cadena = "No pudo borrarse el Feriado. Intente mas tarde";
+                ScriptManager.RegisterStartupScript(this, typeof(System.Web.UI.Page), "alertScript", string.Format("alert('{0}');", cadena), true);
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            gridView.EditIndex = -1;
+            this.CargarFeriados();
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            SGI_Feriados obj = db.SGI_Feriados.FirstOrDefault(x => x.IdFeriado == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4022);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            SGI_Feriados obj = db.SGI_Feriados.FirstOrDefault(x => x.IdFeriado == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4022);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
     }
 }

@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class TiposDeDocumentosRequeridos
     {
         public TiposDeDocumentosRequeridos()
@@ -42,19 +43,32 @@ namespace SGI.Model
         public bool verificar_firma_digital { get; set; }
         public bool visible_en_AT { get; set; }
         public string ffcc_SADE { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<CPadron_DocumentosAdjuntos> CPadron_DocumentosAdjuntos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_DocumentosAdjuntos> Encomienda_DocumentosAdjuntos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rel_TiposDeDocumentosRequeridos_ENG_Tareas> Rel_TiposDeDocumentosRequeridos_ENG_Tareas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rel_TipoTramite_TiposDeDocumentosRequeridos> Rel_TipoTramite_TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_TiposDeDocumentosRequeridos> Rubros_TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Calificar_ObsDocs> SGI_Tarea_Calificar_ObsDocs { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tarea_Documentos_Adjuntos> SGI_Tarea_Documentos_Adjuntos { get; set; }
+        [JsonIgnore]
         public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_DocumentosAdjuntos> Transf_DocumentosAdjuntos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_TiposDeDocumentosRequeridos_Zonas> Rubros_TiposDeDocumentosRequeridos_Zonas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_Config_Incendio_TiposDeDocumentosRequeridos> Rubros_Config_Incendio_TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosCN_TiposDeDocumentosRequeridos> RubrosCN_TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
     }
 }

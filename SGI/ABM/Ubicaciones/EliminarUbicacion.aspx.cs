@@ -63,58 +63,66 @@ namespace SGI.ABM.Ubicaciones
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
+            id_object = Request.QueryString["Id"].ToString();
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+        }
 
-            using (var context = new DGHP_Entities())
+        private void Eliminar()
+        {
+            int idUbicacion = int.Parse(id_object);
+            try
             {
-                var idUbicacion = Convert.ToInt32(Request.QueryString["Id"].ToString());
-
-                var entity = context.Ubicaciones.Where(x => x.id_ubicacion == idUbicacion).Select(x => x).FirstOrDefault();
-                entity.baja_logica = true;
-                entity.Observaciones = txtObservaciones.Text;
-                entity.UpdateDate = DateTime.Now;
-                entity.UpdateUser = Functions.GetUserId();
-                context.Ubicaciones.Attach(entity);
-                context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-
-                var Ph = context.Ubicaciones_PropiedadHorizontal.Where(x => x.id_ubicacion == entity.id_ubicacion).Select(x => x.id_propiedadhorizontal).ToList();
-
-                foreach (var id_partidahorizontal in Ph)
+                using (var ctx = new DGHP_Entities())
                 {
-                    context.Ubicaciones_PropiedadHorizontal_delete(id_partidahorizontal);
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            var entity = ctx.Ubicaciones.Where(x => x.id_ubicacion == idUbicacion).Select(x => x).FirstOrDefault();
+                            entity.baja_logica = true;
+                            entity.Observaciones = txtObservaciones.Text;
+                            entity.UpdateDate = DateTime.Now;
+                            entity.UpdateUser = Functions.GetUserId();
+                            ctx.Ubicaciones.Attach(entity);
+                            ctx.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+                            var Ph = ctx.Ubicaciones_PropiedadHorizontal.Where(x => x.id_ubicacion == entity.id_ubicacion).Select(x => x.id_propiedadhorizontal).ToList();
+                            foreach (var id_partidahorizontal in Ph)
+                                ctx.Ubicaciones_PropiedadHorizontal_delete(id_partidahorizontal);
+                            Model.Ubicaciones obj = ctx.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == idUbicacion);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1025);
+                            ctx.SaveChanges();
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
                 }
-                context.SaveChanges();
-                string script = "$('#frmEliminarLog').modal('show');";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                id_object = idUbicacion.ToString();
-
             }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                throw ex;
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Model.Ubicaciones obj = db.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1025);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
-
+            this.Eliminar();
         }
         protected void btnCancelarObservacion_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Model.Ubicaciones obj = db.Ubicaciones.FirstOrDefault(x => x.id_ubicacion == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1025);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-            Response.Redirect("~/ABM/Ubicaciones/AbmUbicaciones.aspx");
-
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
     }
 }

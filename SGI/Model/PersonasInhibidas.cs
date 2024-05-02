@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class PersonasInhibidas
     {
         public int id_personainhibida { get; set; }
@@ -28,8 +29,10 @@ namespace SGI.Model
         public string LastUpdateUser { get; set; }
         public string MotivoLevantamiento { get; set; }
         public Nullable<int> id_tipopersona { get; set; }
-    
+
+        [JsonIgnore]
         public virtual TipoDocumentoPersonal TipoDocumentoPersonal { get; set; }
+        [JsonIgnore]
         public virtual TipoPersona TipoPersona { get; set; }
     }
 }

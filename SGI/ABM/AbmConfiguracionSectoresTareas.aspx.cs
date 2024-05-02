@@ -263,43 +263,10 @@ namespace SGI.ABM
 
         protected void lnkEliminarReq_Command(object sender, CommandEventArgs e)
         {
-            try
-            {
-                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
-
-                LinkButton lnkEditar = (LinkButton)sender;
-                int idSectorTarea = int.Parse(lnkEditar.CommandArgument);
-
-                db = new DGHP_Entities();
-
-                using (TransactionScope Tran = new TransactionScope())
-                {
-                    try
-                    {
-                        db.SectoresSADE_EliminarSectorTarea(idSectorTarea, userid);
-
-                        Tran.Complete();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = idSectorTarea.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tran.Dispose();
-                        throw ex;
-                    }
-                }
-
-                BuscarPases();
-                updResultados.Update();
-                this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
-            }
-            catch (Exception ex)
-            {
-                LogError.Write(ex);
-                lblError.Text = Functions.GetErrorMessage(ex);
-                this.EjecutarScript(updResultados, "showfrmError();");
-            }
+            LinkButton lnkEditar = (LinkButton)sender;
+            id_object = lnkEditar.CommandArgument;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -365,25 +332,54 @@ namespace SGI.ABM
             }
 
         }
+        private void Eliminar()
+        {
+            int idSectorTarea = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            SGI_Tareas_Pases_Sectores obj = ctx.SGI_Tareas_Pases_Sectores.FirstOrDefault(x => x.id_tarea_sector == idSectorTarea);
+                            ctx.SectoresSADE_EliminarSectorTarea(idSectorTarea, userId);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1012);
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                this.EjecutarScript(updResultados, "showfrmError();");
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            BuscarPases();
+            updResultados.Update();
+            this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
+        }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            SGI_Tareas_Pases_Sectores obj = db.SGI_Tareas_Pases_Sectores.FirstOrDefault(x => x.id_tarea_sector == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1012);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            SGI_Tareas_Pases_Sectores obj = db.SGI_Tareas_Pases_Sectores.FirstOrDefault(x => x.id_tarea_sector == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1012);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
 
     }

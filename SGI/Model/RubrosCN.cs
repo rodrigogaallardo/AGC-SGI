@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class RubrosCN
     {
         public RubrosCN()
@@ -48,22 +49,38 @@ namespace SGI.Model
         public bool SoloAPRA { get; set; }
         public Nullable<bool> SinBanioPCD { get; set; }
         public bool CondicionExpress { get; set; }
-    
+
+        [JsonIgnore]
         public virtual CondicionesIncendio CondicionesIncendio { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_RubrosCN> Encomienda_RubrosCN { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_RubrosCN_AT_Anterior> Encomienda_RubrosCN_AT_Anterior { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_RubrosCN_Deposito> Encomienda_RubrosCN_Deposito { get; set; }
+        [JsonIgnore]
         public virtual ENG_Grupos_Circuitos ENG_Grupos_Circuitos { get; set; }
+        [JsonIgnore]
         public virtual RubrosBicicletas RubrosBicicletas { get; set; }
+        [JsonIgnore]
         public virtual RubrosCargasyDescargas RubrosCargasyDescargas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosCN_Config_Incendio> RubrosCN_Config_Incendio { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosCN_InformacionRelevante> RubrosCN_InformacionRelevante { get; set; }
+        [JsonIgnore]
         public virtual RubrosEstacionamientos RubrosEstacionamientos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosCN_Subrubros> RubrosCN_Subrubros { get; set; }
+        [JsonIgnore]
         public virtual TipoActividad TipoActividad { get; set; }
+        [JsonIgnore]
         public virtual TipoExpediente TipoExpediente { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosCN_TiposDeDocumentosRequeridos> RubrosCN_TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_RubrosCN> SSIT_Solicitudes_RubrosCN { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CPadron_RubrosCN> CPadron_RubrosCN { get; set; }
     }
 }
