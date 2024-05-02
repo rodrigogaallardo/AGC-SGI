@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Ubicaciones_Clausuras
     {
         public int id_ubicclausura { get; set; }
@@ -16,7 +17,8 @@ namespace SGI.Model
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.Guid> LastUpdateUser { get; set; }
         public Nullable<System.DateTime> LastUpdateDate { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Ubicaciones Ubicaciones { get; set; }
     }
 }

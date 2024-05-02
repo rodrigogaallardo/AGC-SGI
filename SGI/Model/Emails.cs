@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Emails
     {
         public Emails()
@@ -32,12 +33,18 @@ namespace SGI.Model
         public string html { get; set; }
         public Nullable<System.DateTime> fecha_lectura { get; set; }
         public string Usuario { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Email_Estados Email_Estados { get; set; }
+        [JsonIgnore]
         public virtual Emails_Tipos Emails_Tipos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Notificaciones> SSIT_Solicitudes_Notificaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_AvisoCaducidad> SSIT_Solicitudes_AvisoCaducidad { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Solicitudes_AvisoCaducidad> Transf_Solicitudes_AvisoCaducidad { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
     }
 }

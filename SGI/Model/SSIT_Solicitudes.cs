@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class SSIT_Solicitudes
     {
         public SSIT_Solicitudes()
@@ -64,35 +65,65 @@ namespace SGI.Model
         public Nullable<int> idTAD { get; set; }
         public Nullable<bool> EximirCAA { get; set; }
         public Nullable<bool> EsECI { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<Encomienda_SSIT_Solicitudes> Encomienda_SSIT_Solicitudes { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Eximicion_CAA> Eximicion_CAA { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SGI_Tramites_Tareas_HAB> SGI_Tramites_Tareas_HAB { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Solicitud_planoVisado> Solicitud_planoVisado { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_AvisoCaducidad> SSIT_Solicitudes_AvisoCaducidad { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Baja> SSIT_Solicitudes_Baja { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Encomienda> SSIT_Solicitudes_Encomienda { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Firmantes_PersonasFisicas> SSIT_Solicitudes_Firmantes_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Firmantes_PersonasJuridicas> SSIT_Solicitudes_Firmantes_PersonasJuridicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_HistorialEstados> SSIT_Solicitudes_HistorialEstados { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Notificaciones> SSIT_Solicitudes_Notificaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Observaciones> SSIT_Solicitudes_Observaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Pagos> SSIT_Solicitudes_Pagos { get; set; }
+        [JsonIgnore]
         public virtual SubtipoExpediente SubtipoExpediente { get; set; }
+        [JsonIgnore]
         public virtual TipoEstadoSolicitud TipoEstadoSolicitud { get; set; }
+        [JsonIgnore]
         public virtual TipoExpediente TipoExpediente { get; set; }
+        [JsonIgnore]
         public virtual TipoTramite TipoTramite { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Titulares_PersonasFisicas> SSIT_Solicitudes_Titulares_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Titulares_PersonasJuridicas_PersonasFisicas> SSIT_Solicitudes_Titulares_PersonasJuridicas_PersonasFisicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Titulares_PersonasJuridicas> SSIT_Solicitudes_Titulares_PersonasJuridicas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Ubicaciones> SSIT_Solicitudes_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual SSIT_Permisos_DatosAdicionales SSIT_Permisos_DatosAdicionales { get; set; }
+        [JsonIgnore]
         public virtual SSIT_Solicitudes_DatosLocal SSIT_Solicitudes_DatosLocal { get; set; }
+        [JsonIgnore]
         public virtual SSIT_Solicitudes_Normativas SSIT_Solicitudes_Normativas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_RubrosCN> SSIT_Solicitudes_RubrosCN { get; set; }
+        [JsonIgnore]
         public virtual SSIT_Solicitudes_Origen SSIT_Solicitudes_Origen { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Origen> SSIT_Solicitudes_Origen1 { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
+        [JsonIgnore]
     }
 }

@@ -270,6 +270,7 @@ namespace SGI.ABM
 
 
         }
+
         protected void btnBuscar_OnClick(object sender, EventArgs e)
         {
             try
@@ -326,6 +327,7 @@ namespace SGI.ABM
                 this.EjecutarScript(upd, "hidefrmAgregarUbicacion();hidefrmDatosUbicacion();showfrmError();inicializar_controles();");
             }
         }
+
         public void Insert(string accion, string id_ubic, string ids_horizontal)
         {
             this.hid_accion.Value = "insert";
@@ -367,6 +369,7 @@ namespace SGI.ABM
                 this.EjecutarScript(updmpeInfo, "hidefrmAgregarUbicacion();hidefrmDatosUbicacion();showfrmError();inicializar_controles();");
             }
         }
+
         protected void Guardar(Guid userid, DGHP_Entities db)
         {
             try
@@ -451,6 +454,7 @@ namespace SGI.ABM
                 this.EjecutarScript(updmpeInfo, "hidefrmAgregarUbicacion();hidefrmDatosUbicacion();showfrmError();inicializar_controles();");
             }
         }
+
         private void CargarCalles()
         {
             Functions.CargarAutocompleteCalles(AutocompleteCalles);
@@ -472,6 +476,7 @@ namespace SGI.ABM
             ddlUbiSubTipoUbicacion.DataBind();
 
         }
+
         protected void ddlbiTipoUbicacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             int id_tipoubicacion = int.Parse(ddlbiTipoUbicacion.SelectedValue);
@@ -480,6 +485,7 @@ namespace SGI.ABM
             updPnlFiltroBuscar_ubi_especial.Update();
 
         }
+
         private void LimpiarHidden()
         {
             hid_accion.Value = null;
@@ -489,6 +495,7 @@ namespace SGI.ABM
             hid_IDs_horizontal.Value = null;
             updhidden.Update();
         }
+
         private void Limpiar()
         {
             txtMotivo.Text = "";
@@ -496,22 +503,6 @@ namespace SGI.ABM
             txtFechaBaja.Text = "";
 
             LimpiarHidden();
-
-            //if (Session["id_ubic"] != null)
-            //{ Session.Remove("id_ubic"); }
-
-            //if (Session["propHorizontales"] != null)
-            //{ Session.Remove("propHorizontales"); }
-
-            //if (Session["id_ubicclausura"] != null)
-            //{ Session.Remove("id_ubicclausura"); }
-
-            //if (Session["Modificar"] != null)
-            //{ Session.Remove("Modificar"); }
-
-            //if (Session["Tipo"] != null)
-            //{ Session.Remove("Tipo"); }
-
 
             txtUbiNroPartida.Text = "";
 
@@ -623,6 +614,7 @@ namespace SGI.ABM
                 this.hayFiltroPorUbicacion = true;
 
         }
+
         protected void lnkModificar_Click(object sender, EventArgs e)
         {
             DGHP_Entities db = new DGHP_Entities();
@@ -643,10 +635,6 @@ namespace SGI.ABM
 
             updhidden.Update();
 
-            //id_ubicclausura = Convert.ToInt32(((LinkButton)sender).CommandArgument.ToString());
-            //Session["Modificar"] = true;
-            //Session["Tipo"] = tipo;
-            //Session["id_ubicclausura"] = id_ubicclausura;
             if (tipo == 0)
             {
                 var q = db.Ubicaciones_Clausuras.Where(x => x.id_ubicclausura == id_ubicclausura).FirstOrDefault();
@@ -668,61 +656,11 @@ namespace SGI.ABM
 
         protected void lnkEliminar_Click(object sender, EventArgs e)
         {
-            Guid userid = SGI.Functions.GetUserId();
-            DGHP_Entities db = new DGHP_Entities();
-
             string valor = ((LinkButton)sender).CommandArgument.ToString();
-            int indx = valor.IndexOf(",");
-
-            hid_ID_tipo.Value = "0";
-            hid_ID_ubicclausura.Value = valor.Substring(0, indx);
-            hid_accion.Value = "update";
-
-            int tipo = 0;
-            int id_ubicclausura = Convert.ToInt32(valor.Substring(0, indx));
-            if (valor.Substring(indx + 1) == "PH")
-            {
-                tipo = 1;
-                hid_ID_tipo.Value = "1";
-            }
-            updhidden.Update();
-
-            if (tipo == 1)
-            {
-                db.SGI_Eliminar_Ubicacion_PropiedadHorizontal_Clausuras(id_ubicclausura);
-            }
-            else
-            {
-                //db.SGI_Eliminar_Ubicacion_Clausurada(id_ubicinhibida);
-                db.SGI_Eliminar_Ubicacion_Clausurada(id_ubicclausura);
-            }
-            Buscador();
-            updPnlUbicacionesClausuradas.Update();
+            id_object = valor;
             string script = "$('#frmEliminarLog').modal('show');";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-            id_object = id_ubicclausura.ToString();
-
-            //Session["Tipo"] = tipo;
-            //Session["id_ubicinhibida"] = id_ubicinhibida;
-            //Eliminar();
-
         }
-        //private void Eliminar()
-        //{
-        //    DGHP_Entities db = new DGHP_Entities();
-        //    int id_ubicclausura = (int)Session["id_ubicclausura"];
-
-        //    if ((int)Session["Tipo"] == 1)
-        //    {
-        //        db.SGI_Eliminar_Ubicacion_PropiedadHorizontal_Clausuras(id_ubicclausura);
-        //    }
-        //    else
-        //    {
-        //        db.SGI_Eliminar_Ubicacion_Clausurada(id_ubicclausura);
-        //    }
-        //    Buscador();
-        //    updPnlUbicacionesClausuradas.Update();
-        //}
 
         protected void grdUbicacionesClausuradas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -742,7 +680,6 @@ namespace SGI.ABM
         {
             Limpiar();
         }
-
 
         protected void cmdPage(object sender, EventArgs e)
         {
@@ -931,34 +868,75 @@ namespace SGI.ABM
             }
 
         }
+
         protected void AutocompleteCalles_ValueSelect(object sender, Syncfusion.JavaScript.Web.AutocompleteSelectEventArgs e)
         {
             Response.Cookies["AbmUbicacionesClausuradas_IdCalle"].Value = e.Key;
             return;
         }
 
+        private void Eliminar()
+        {
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            string valor = id_object;
+                            int indx = valor.IndexOf(",");
+                            hid_ID_tipo.Value = "0";
+                            hid_ID_ubicclausura.Value = valor.Substring(0, indx);
+                            hid_accion.Value = "update";
+                            int id_ubicclausura = Convert.ToInt32(valor.Substring(0, indx));
+                            int tipo = 0;
+                            if (valor.Substring(indx + 1) == "PH")
+                            {
+                                tipo = 1;
+                                hid_ID_tipo.Value = "1";
+                            }
+                            updhidden.Update();
+                            if (tipo == 1)
+                                ctx.SGI_Eliminar_Ubicacion_PropiedadHorizontal_Clausuras(id_ubicclausura);
+                            else
+                                ctx.SGI_Eliminar_Ubicacion_Clausurada(id_ubicclausura);
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            Ubicaciones_Clausuras obj = ctx.Ubicaciones_Clausuras.FirstOrDefault(x => x.id_ubicclausura == id_ubicclausura);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1018);
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                throw ex;
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            Buscador();
+            updPnlUbicacionesClausuradas.Update();
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Ubicaciones_Clausuras obj = db.Ubicaciones_Clausuras.FirstOrDefault(x => x.id_ubicclausura == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1018);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Ubicaciones_Clausuras obj = db.Ubicaciones_Clausuras.FirstOrDefault(x => x.id_ubicclausura == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1018);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
     }
 }

@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Zonas_Habilitaciones
     {
         public Zonas_Habilitaciones()
@@ -20,10 +21,14 @@ namespace SGI.Model
         public string DescripcionZonaHab { get; set; }
         public string CreateUser { get; set; }
         public System.DateTime CreateDate { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<Rel_ZonasPlaneamiento_ZonasHabilitaciones> Rel_ZonasPlaneamiento_ZonasHabilitaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<RubrosZonasCondiciones> RubrosZonasCondiciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_TiposDeDocumentosRequeridos_Zonas> Rubros_TiposDeDocumentosRequeridos_Zonas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rubros_CircuitoAtomatico_Zonas> Rubros_CircuitoAtomatico_Zonas { get; set; }
     }
 }

@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Ubicaciones_CatalogoDistritos
     {
         public Ubicaciones_CatalogoDistritos()
@@ -23,13 +24,20 @@ namespace SGI.Model
         public int IdGrupoDistrito { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<int> orden { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<Encomienda_Ubicaciones_Distritos> Encomienda_Ubicaciones_Distritos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Ubicaciones_Distritos> SSIT_Solicitudes_Ubicaciones_Distritos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Ubicaciones_Distritos> Transf_Ubicaciones_Distritos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Distritos_temp> Ubicaciones_Distritos_temp { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Distritos> Ubicaciones_Distritos { get; set; }
+        [JsonIgnore]
         public virtual Ubicaciones_GruposDistritos Ubicaciones_GruposDistritos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_CatalogoDistritos_Zonas> Ubicaciones_CatalogoDistritos_Zonas { get; set; }
     }
 }

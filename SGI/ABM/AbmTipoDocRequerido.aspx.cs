@@ -10,6 +10,7 @@ using System.Transactions;
 using System.Web.Configuration;
 using System.Configuration;
 using Newtonsoft.Json;
+using System.Security.Policy;
 
 namespace SGI.ABM
 {
@@ -363,43 +364,10 @@ namespace SGI.ABM
 
         protected void lnkEliminarTipoDocReq_Command(object sender, CommandEventArgs e)
         {
-            try
-            {
-                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
-
-                LinkButton lnkEditar = (LinkButton)sender;
-                int idTipoDocReq = int.Parse(lnkEditar.CommandArgument);
-
-                db = new DGHP_Entities();
-
-                using (TransactionScope Tran = new TransactionScope())
-                {
-                    try
-                    {
-                        db.TiposDeDocumentosRequeridos_delete(idTipoDocReq, userid);
-
-                        Tran.Complete();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = idTipoDocReq.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tran.Dispose();
-                        throw ex;
-                    }
-                }
-                grdResultados.DataBind();
-
-                updPnlResultadoBuscar.Update();
-                this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
-            }
-            catch (Exception ex)
-            {
-                LogError.Write(ex);
-                lblError.Text = Functions.GetErrorMessage(ex);
-                this.EjecutarScript(updPnlResultadoBuscar, "showfrmError();");
-            }
+            LinkButton lnkEditar = (LinkButton)sender;
+            id_object = lnkEditar.CommandArgument;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -622,24 +590,54 @@ namespace SGI.ABM
             }
         }
 
+        private void Eliminar()
+        {
+            int idTipoDocReq = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            TiposDeDocumentosRequeridos obj = ctx.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == idTipoDocReq);
+                            ctx.TiposDeDocumentosRequeridos_delete(idTipoDocReq, userId);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitanteEliminar.Text, "D", 1017);
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                this.EjecutarScript(updPnlResultadoBuscar, "showfrmError();");
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            grdResultados.DataBind();
+            updPnlResultadoBuscar.Update();
+            this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            TiposDeDocumentosRequeridos obj = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitanteEliminar.Text, "D", 1017);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            TiposDeDocumentosRequeridos obj = db.TiposDeDocumentosRequeridos.FirstOrDefault(x => x.id_tdocreq == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1017);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitanteEliminar.Text = string.Empty;
+            this.Eliminar();
         }
 
         #endregion

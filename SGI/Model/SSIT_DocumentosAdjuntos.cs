@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class SSIT_DocumentosAdjuntos
     {
         public int id_docadjunto { get; set; }
@@ -21,11 +22,16 @@ namespace SGI.Model
         public string nombre_archivo { get; set; }
         public Nullable<System.DateTime> fechaPresentado { get; set; }
         public bool ExcluirSubidaSADE { get; set; }
-    
+        
+        [JsonIgnore]
         public virtual aspnet_Users aspnet_Users { get; set; }
+        [JsonIgnore]
         public virtual aspnet_Users aspnet_Users1 { get; set; }
+        [JsonIgnore]
         public virtual SSIT_Solicitudes SSIT_Solicitudes { get; set; }
+        [JsonIgnore]
         public virtual TiposDeDocumentosRequeridos TiposDeDocumentosRequeridos { get; set; }
+        [JsonIgnore]
         public virtual TiposDeDocumentosSistema TiposDeDocumentosSistema { get; set; }
     }
 }

@@ -212,43 +212,10 @@ namespace SGI.ABM
 
         protected void lnkEliminarCondicionReq_Command(object sender, CommandEventArgs e)
         {
-            try
-            {
-                Guid userid = (Guid)Membership.GetUser().ProviderUserKey;
-
-                LinkButton lnkEditar = (LinkButton)sender;
-                int idZonaPlaneamiento = int.Parse(lnkEditar.CommandArgument);
-
-                db = new DGHP_Entities();
-
-                using (TransactionScope Tran = new TransactionScope())
-                {
-                    try
-                    {
-                        db.Zonas_Planeamiento_delete(idZonaPlaneamiento, userid);
-
-                        Tran.Complete();
-                        string script = "$('#frmEliminarLog').modal('show');";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                        id_object = idZonaPlaneamiento.ToString();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tran.Dispose();
-                        throw ex;
-                    }
-                }
-
-                BuscarZonasPlaneamiento();
-                updResultados.Update();
-                this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
-            }
-            catch (Exception ex)
-            {
-                LogError.Write(ex);
-                lblError.Text = Functions.GetErrorMessage(ex);
-                this.EjecutarScript(updResultados, "showfrmError();");
-            }
+            LinkButton lnkEditar = (LinkButton)sender;
+            id_object = lnkEditar.CommandArgument;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -310,7 +277,7 @@ namespace SGI.ABM
         }
 
 
-         private void cargarZonasHabilitacion()
+        private void cargarZonasHabilitacion()
         {
 
             string appName = Constants.ApplicationName;
@@ -350,14 +317,14 @@ namespace SGI.ABM
         }
 
 
-         #region paginado grilla
+        #region paginado grilla
 
-         private int codZonaPlaneamiento = 0;
-         private string nombreZonaPlaneamiento = "";
-         private int codZonaHabilitacion = 0;
+        private int codZonaPlaneamiento = 0;
+        private string nombreZonaPlaneamiento = "";
+        private int codZonaHabilitacion = 0;
          
 
-         protected void grd_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void grd_PageIndexChanging(object sender, GridViewPageEventArgs e)
          {
 
              try
@@ -373,7 +340,7 @@ namespace SGI.ABM
 
          }
 
-         protected void cmdPage(object sender, EventArgs e)
+        protected void cmdPage(object sender, EventArgs e)
          {
              LinkButton cmdPage = (LinkButton)sender;
 
@@ -389,7 +356,7 @@ namespace SGI.ABM
              }
          }
 
-         protected void cmdAnterior_Click(object sender, EventArgs e)
+        protected void cmdAnterior_Click(object sender, EventArgs e)
          {
 
              try
@@ -404,7 +371,7 @@ namespace SGI.ABM
              }
          }
 
-         protected void cmdSiguiente_Click(object sender, EventArgs e)
+        protected void cmdSiguiente_Click(object sender, EventArgs e)
          {
 
              try
@@ -419,7 +386,7 @@ namespace SGI.ABM
              }
          }
 
-         protected void grd_DataBound(object sender, EventArgs e)
+        protected void grd_DataBound(object sender, EventArgs e)
          {
              try
              {
@@ -549,19 +516,19 @@ namespace SGI.ABM
 
          }
 
-         private void elimiarFiltro()
+        private void elimiarFiltro()
          {
              ViewState["filtro"] = null;
          }
 
-         private void guardarFiltro()
+        private void guardarFiltro()
          {
              string filtro = this.codZonaPlaneamiento + "|" + this.nombreZonaPlaneamiento + "|" + this.codZonaHabilitacion;
              ViewState["filtro"] = filtro;
 
          }
 
-         private void recuperarFiltro()
+        private void recuperarFiltro()
          {
              if (ViewState["filtro"] == null)
                  return;
@@ -583,7 +550,7 @@ namespace SGI.ABM
              }
          }
 
-         private void Enviar_Mensaje(string mensaje, string titulo)
+        private void Enviar_Mensaje(string mensaje, string titulo)
          {
              mensaje = System.Web.HttpUtility.HtmlEncode(mensaje);
              if (string.IsNullOrEmpty(titulo))
@@ -592,24 +559,53 @@ namespace SGI.ABM
                      "mostrarMensaje", "mostrarMensaje('" + mensaje + "','" + titulo + "')", true);
          }
 
+        private void Eliminar()
+        {
+            int idZonaPlaneamiento = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == idZonaPlaneamiento);
+                            ctx.Zonas_Planeamiento_delete(idZonaPlaneamiento, userId);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1020);
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                lblError.Text = Functions.GetErrorMessage(ex);
+                this.EjecutarScript(updResultados, "showfrmError();");
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            BuscarZonasPlaneamiento();
+            updResultados.Update();
+            this.EjecutarScript(updBotonesGuardar, "showBusqueda();");
+        }
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 1020);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            Zonas_Planeamiento obj = db.Zonas_Planeamiento.FirstOrDefault(x => x.id_zonaplaneamiento == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 1020);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
         #endregion
     }

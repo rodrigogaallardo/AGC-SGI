@@ -14,6 +14,7 @@ using SGI.BusinessLogicLayer.Constants;
 using SGI.GestionTramite.Controls;
 using System.Web;
 using Newtonsoft.Json;
+using SGI.Mailer;
 
 namespace SGI
 {
@@ -23,6 +24,12 @@ namespace SGI
         {
             get { return ViewState["_id_object"] != null ? ViewState["_id_object"].ToString() : string.Empty; }
             set { ViewState["_id_object"] = value; }
+        }
+
+        private string id_object_solic
+        {
+            get { return ViewState["_id_object_solic"] != null ? ViewState["_id_object_solic"].ToString() : string.Empty; }
+            set { ViewState["_id_object_solic"] = value; }
         }
 
         #region CargaInicial
@@ -435,15 +442,17 @@ namespace SGI
         protected void lnkEliminar_Click(object sender, EventArgs e)
         {
             LinkButton lnkEliminar = (LinkButton)sender;
-            int id_solicitud = Convert.ToInt32(lnkEliminar.CommandName);
+            id_object_solic = lnkEliminar.CommandName;
+            id_object = lnkEliminar.CommandArgument;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
+        }
 
-            int id_grupotramite;
-            Engine.getIdGrupoTrabajo(id_solicitud, out id_grupotramite);
-
-            var mailId = (sender as LinkButton).CommandArgument;
-            var mailIdInt = Int32.Parse(mailId);
-
-            if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
+        private void Eliminar()
+        {
+            int mailId = int.Parse(id_object);
+            int id_solicitud = int.Parse(id_object_solic);
+            try
             {
                 using (var ctx = new DGHP_Entities())
                 {
@@ -451,97 +460,52 @@ namespace SGI
                     {
                         try
                         {
-                            using (var ftx = new DGHP_Entities())
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            Engine.getIdGrupoTrabajo(id_solicitud, out int id_grupotramite);
+                            if (id_grupotramite == (int)Constants.GruposDeTramite.HAB)
                             {
-
-                                SSIT_Solicitudes_Notificaciones notificacion = (from n in ftx.SSIT_Solicitudes_Notificaciones
-                                                                                where n.id_solicitud == id_solicitud
-                                                                                && n.id_email == mailIdInt
-                                                                                select n).FirstOrDefault();
-
-
-                                Emails email = (from mail in ftx.Emails
-                                                where mail.id_email == mailIdInt
-                                                select mail).FirstOrDefault();
-
-                                ftx.SSIT_Solicitudes_Notificaciones.Remove(notificacion);
-                                ftx.Emails.Remove(email);
-                                ftx.SaveChanges();
+                                SSIT_Solicitudes_Notificaciones notificacion = (from n in ctx.SSIT_Solicitudes_Notificaciones where n.id_solicitud == id_solicitud && n.id_email == mailId select n).FirstOrDefault();
+                                ctx.SSIT_Solicitudes_Notificaciones.Remove(notificacion);
                             }
-                            LoadData(id_solicitud);
+                            else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
+                            {
+                                Transf_Solicitudes_Notificaciones notificacion = (from n in ctx.Transf_Solicitudes_Notificaciones where n.id_solicitud == id_solicitud && n.id_email == mailId select n).FirstOrDefault();
+                                ctx.Transf_Solicitudes_Notificaciones.Remove(notificacion);
+                            }
+                            Emails obj = ctx.Emails.FirstOrDefault(x => x.id_email == mailId);
+                            ctx.Emails.Remove(obj);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4027);
+                            ctx.SaveChanges();
                             tran.Commit();
-                            string script = "$('#frmEliminarLog').modal('show');";
-                            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                            id_object = mailIdInt.ToString();
                         }
                         catch (Exception ex)
                         {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
                             throw ex;
                         }
                     }
                 }
             }
-            else if (id_grupotramite == (int)Constants.GruposDeTramite.TR)
+            catch (Exception ex)
             {
-                using (var ctx = new DGHP_Entities())
-                {
-                    using (var tran = ctx.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            using (var ftx = new DGHP_Entities())
-                            {
-                                Transf_Solicitudes_Notificaciones notificacion = (from n in ftx.Transf_Solicitudes_Notificaciones
-                                                                                  where n.id_solicitud == id_solicitud
-                                                                                  && n.id_email == mailIdInt
-                                                                                  select n).FirstOrDefault();
-
-
-                                Emails email = (from mail in ftx.Emails
-                                                where mail.id_email == mailIdInt
-                                                select mail).FirstOrDefault();
-
-                                ftx.Transf_Solicitudes_Notificaciones.Remove(notificacion);
-                                ftx.Emails.Remove(email);
-                                ftx.SaveChanges();
-                            }
-                            LoadData(id_solicitud);
-                            tran.Commit();
-                            string script = "$('#frmEliminarLog').modal('show');";
-                            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                            id_object = mailIdInt.ToString();
-                        }
-                        catch (Exception ex)
-                        {
-                            throw ex;
-                        }
-                    }
-                }
+                LogError.Write(ex);
+                throw ex;
             }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            LoadData(id_solicitud);
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 4027);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            DGHP_Entities db = new DGHP_Entities();
-            int value = int.Parse(id_object);
-            Emails obj = db.Emails.FirstOrDefault(x => x.id_email == value);
-            db.Dispose();
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 4027);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
         #endregion
     }

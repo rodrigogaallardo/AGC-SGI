@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Clanae
     {
         public Clanae()
@@ -19,7 +20,8 @@ namespace SGI.Model
         public Nullable<System.DateTime> LastUpdateDate { get; set; }
         public Nullable<System.Guid> LastUpdateUser { get; set; }
         public string descripcion { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ICollection<Rubros> Rubros { get; set; }
     }
 }

@@ -4,7 +4,8 @@ namespace SGI.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
+
     public partial class Ubicaciones
     {
         public Ubicaciones()
@@ -66,23 +67,40 @@ namespace SGI.Model
         public Nullable<System.DateTime> FechaAltaAGIP { get; set; }
         public bool EsEntidadGubernamental { get; set; }
         public bool EsUbicacionProtegida { get; set; }
-    
+
+        [JsonIgnore]
         public virtual Barrios Barrios { get; set; }
+        [JsonIgnore]
         public virtual Comisarias Comisarias { get; set; }
+        [JsonIgnore]
         public virtual Comunas Comunas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CPadron_Ubicaciones> CPadron_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Encomienda_Ubicaciones> Encomienda_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_Ubicaciones> SSIT_Solicitudes_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual SubTiposDeUbicacion SubTiposDeUbicacion { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transf_Ubicaciones> Transf_Ubicaciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Clausuras> Ubicaciones_Clausuras { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_DireccionesConformadas> Ubicaciones_DireccionesConformadas { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Distritos> Ubicaciones_Distritos { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Inhibiciones> Ubicaciones_Inhibiciones { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_PropiedadHorizontal> Ubicaciones_PropiedadHorizontal { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_Puertas> Ubicaciones_Puertas { get; set; }
+        [JsonIgnore]
         public virtual Zonas_Planeamiento Zonas_Planeamiento { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_ZonasComplementarias> Ubicaciones_ZonasComplementarias { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Ubicaciones_ZonasMixtura> Ubicaciones_ZonasMixtura { get; set; }
     }
 }

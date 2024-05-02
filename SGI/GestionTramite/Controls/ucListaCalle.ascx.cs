@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.WebRequestMethods;
 
 namespace SGI.GestionTramite.Controls
 {
@@ -97,50 +98,9 @@ namespace SGI.GestionTramite.Controls
         protected void lnkEliminar_Click(object sender, EventArgs e)
         {
             LinkButton lnkEliminar = (LinkButton)sender;
-            int id_calle = Convert.ToInt32(lnkEliminar.CommandName);
-
-            using (var ctx = new DGHP_Entities())
-            {
-                using (var tran = ctx.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        using (var ftx = new DGHP_Entities())
-                        {
-                            Calles calle = (from c in ftx.Calles
-                                            where c.id_calle == id_calle
-                                            select c).FirstOrDefault();
-
-                            var entity = new SGI.Model.Calles_Eliminadas()
-                            {
-                                id_calle = id_calle,
-                                Codigo_calle = calle.Codigo_calle,
-                                NombreOficial_calle = calle.NombreOficial_calle,
-                                AlturaIzquierdaInicio_calle = calle.AlturaIzquierdaInicio_calle,
-                                AlturaIzquierdaFin_calle = calle.AlturaIzquierdaFin_calle,
-                                AlturaDerechaInicio_calle = calle.AlturaDerechaInicio_calle,
-                                AlturaDerechaFin_calle = calle.AlturaDerechaFin_calle,
-                                TipoCalle_calle = calle.TipoCalle_calle,
-                                CreateDate = DateTime.Now,
-                                CreateUser = Functions.GetUserId().ToString()
-                            };
-
-                            ftx.Calles_Eliminadas.AddOrUpdate(entity);
-                            ftx.Calles.Remove(calle);
-                            ftx.SaveChanges();
-                            string script = "$('#frmEliminarLog').modal('show');";
-                            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
-                            id_object = id_calle.ToString();
-                        }
-                        LoadData(id_calle);
-                        tran.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                      throw ex;
-                    }
-                }
-            }
+            id_object = lnkEliminar.CommandName;
+            string script = "$('#frmEliminarLog').modal('show');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "MostrarModal", script, true);
         }
 
         protected void lnkEditar_Click(object sender, EventArgs e)
@@ -408,25 +368,66 @@ namespace SGI.GestionTramite.Controls
             }
         }
 
+        private void Eliminar()
+        {
+            int id_calle = int.Parse(id_object);
+            try
+            {
+                using (var ctx = new DGHP_Entities())
+                {
+                    using (var tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
+                            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
+                            Calles calle = (from c in ctx.Calles where c.id_calle == id_calle select c).FirstOrDefault();
+                            var entity = new Calles_Eliminadas()
+                            {
+                                id_calle = id_calle,
+                                Codigo_calle = calle.Codigo_calle,
+                                NombreOficial_calle = calle.NombreOficial_calle,
+                                AlturaIzquierdaInicio_calle = calle.AlturaIzquierdaInicio_calle,
+                                AlturaIzquierdaFin_calle = calle.AlturaIzquierdaFin_calle,
+                                AlturaDerechaInicio_calle = calle.AlturaDerechaInicio_calle,
+                                AlturaDerechaFin_calle = calle.AlturaDerechaFin_calle,
+                                TipoCalle_calle = calle.TipoCalle_calle,
+                                CreateDate = DateTime.Now,
+                                CreateUser = Functions.GetUserId().ToString()
+                            };
+                            ctx.Calles_Eliminadas.AddOrUpdate(entity);
+                            ctx.Calles.Remove(calle);
+                            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(calle), url, txtObservacionesSolicitante.Text, "D", 3112);
+                            ctx.SaveChanges();
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Dispose();
+                            LogError.Write(ex, "Error en transaccion.");
+                            throw ex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError.Write(ex);
+                throw ex;
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            LoadData(id_calle);
+        }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, txtObservacionesSolicitante.Text, "D", 3112);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
-
+            this.Eliminar();
         }
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
-            string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
-            int value = int.Parse(id_object);
-            Calles obj = db.Calles.FirstOrDefault(x => x.id_calle == value);
-            Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(obj), url, string.Empty, "D", 3113);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarModal", "$('#frmEliminarLog').modal('hide');", true);
+            this.txtObservacionesSolicitante.Text = string.Empty;
+            this.Eliminar();
         }
 
     }
