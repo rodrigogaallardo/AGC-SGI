@@ -712,8 +712,10 @@
     <Content Include="Errores\Error3051.aspx" />
     <Content Include="GestionTramite\Controls\ucDatosContacto.ascx" />
     <Content Include="GestionTramite\Controls\ucPlanoIncendio.ascx" />
+    <Content Include="GestionTramite\Tareas\Transferencias\Consulta_Adicional.aspx" />
     <Content Include="GestionTramite\Tareas\Transferencias\Verificacion_DGFyC.aspx" />
     <Content Include="GestionTramite\Tareas\Verificacion_DGFyC.aspx" />
+    <Content Include="Operaciones\ConsultaMovimientos.aspx" />
     <Content Include="Operaciones\FeriadosIndex.aspx" />
     <Content Include="Operaciones\FeriadosForm.aspx" />
     <Content Include="GestionTramite\Administrar_mail.aspx" />
@@ -1223,6 +1225,15 @@
     <Content Include="Reportes\Imprimir_SGI_Documentos_Adjuntos.aspx" />
     <Content Include="Reportes\Providencia.html" />
     <Content Include="Reportes\Transferencias\Disposicion.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionCambioDenominacion.Rechazo.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionCambioDenominacion.CambioActividad.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionCambioDenominacion.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionOficioJudicial.Rechazo.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionOficioJudicial.CambioActividad.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionOficioJudicial.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionTransferencia.Rechazo.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionTransferencia.CambioActividad.html" />
+    <Content Include="Reportes\Transferencias\DisposicionTransmisionTransferencia.html" />
     <Content Include="Reportes\Transferencias\DisposicionTransmision.html" />
     <Content Include="Reportes\Transferencias\ImprimirDispoHtml.aspx" />
     <Content Include="Reportes\Transferencias\ImprimirPlancheta.aspx" />
@@ -2228,6 +2239,13 @@
     <Compile Include="GestionTramite\Controls\ucPlanoIncendio.ascx.designer.cs">
       <DependentUpon>ucPlanoIncendio.ascx</DependentUpon>
     </Compile>
+    <Compile Include="GestionTramite\Tareas\Transferencias\Consulta_Adicional.aspx.cs">
+      <DependentUpon>Consulta_Adicional.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionTramite\Tareas\Transferencias\Consulta_Adicional.aspx.designer.cs">
+      <DependentUpon>Consulta_Adicional.aspx</DependentUpon>
+    </Compile>
     <Compile Include="GestionTramite\Tareas\Transferencias\Verificacion_DGFyC.aspx.cs">
       <DependentUpon>Verificacion_DGFyC.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2244,6 +2262,12 @@
     </Compile>
     <Compile Include="Model\Ley257DTO.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Tarea_Consulta_Adicional.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SGI_Log_MovimientosUsuario.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SGI_Tarea_Transicion_Enviar_DGFYCO.cs">
@@ -2269,6 +2293,13 @@
     </Compile>
     <Compile Include="Model\wsEE_Paquetes.cs">
       <DependentUpon>EE_Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Operaciones\ConsultaMovimientos.aspx.cs">
+      <DependentUpon>ConsultaMovimientos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Operaciones\ConsultaMovimientos.aspx.designer.cs">
+      <DependentUpon>ConsultaMovimientos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Operaciones\FeriadosIndex.aspx.cs">
       <DependentUpon>FeriadosIndex.aspx</DependentUpon>

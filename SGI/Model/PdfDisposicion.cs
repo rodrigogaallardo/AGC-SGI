@@ -3200,7 +3200,7 @@ namespace SGI.Model
 
             row = dsDispo.Tables["Disposicion"].Rows[0];
 
-            string dispo_observacion =   HttpUtility.HtmlEncode(Convert.ToString(row["observacion_disposicion"])).Replace("\r\n", "<br>");
+            string dispo_observacion = HttpUtility.HtmlEncode(Convert.ToString(row["observacion_disposicion"])).Replace("\r\n", "<br>");
             string dispo_calificador = HttpUtility.HtmlEncode(Convert.ToString(row["calificador_apellido"]) + ", " + Convert.ToString(row["calificador_nombre"]));
             string dispo_nro_expediente = HttpUtility.HtmlEncode(Convert.ToString(row["expediente"]));
             string fecha_disposicion = HttpUtility.HtmlEncode(Convert.ToString(row["fecha_disposicion"]));
@@ -3435,6 +3435,8 @@ namespace SGI.Model
                                 "</table>";
             }
 
+            string NroCalificacionTecnicaLegalSADE = Functions.ObtenerNombreArchivoCalificacionTecnicaLegal(id_solicitud);
+
             disposicion_html = disposicion_html.Replace("@lblConsiderando", considerando);
             disposicion_html = disposicion_html.Replace("@lblArticulo", articulo);
             disposicion_html = disposicion_html.Replace("@lblNroExpediente", lblNroExpediente);
@@ -3458,6 +3460,8 @@ namespace SGI.Model
             disposicion_html = disposicion_html.Replace("@lblSubRubros", lblSubRubros);
             disposicion_html = disposicion_html.Replace("@lblDepositos", lblDepositos);
             disposicion_html = disposicion_html.Replace("@lblArtiFin", lblArticulos);
+
+            disposicion_html = disposicion_html.Replace("@CalifTecnicaLegalSADE", NroCalificacionTecnicaLegalSADE);
 
             db.Dispose();
             return disposicion_html;

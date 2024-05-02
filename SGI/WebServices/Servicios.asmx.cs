@@ -63,8 +63,32 @@ namespace SGI
                     item.userid = empleado.userid.ToString().ToUpper();
                     item.nombres_apellido = empleado.Nombres + " " + empleado.Apellido;
 
-                    // Cantidad de trámites asignados sin resolver que tiene el empleado.
-                    int cantTramitesAsignados = db.SGI_Tramites_Tareas.Count(x => x.UsuarioAsignado_tramitetarea == empleado.userid && x.FechaCierre_tramitetarea == null);
+                    var cantTramitesAsignados =
+
+                    db.SGI_Tramites_Tareas
+                        .Join(db.SGI_Tramites_Tareas_HAB,
+                              tt => tt.id_tramitetarea,
+                              hab => hab.id_tramitetarea,
+                              (tt, hab) => tt).Where(x=> x.SGI_Tramites_Tareas_HAB.Any(y=> y.SSIT_Solicitudes.id_estado != (int)Constants.Solicitud_Estados.Anulado))
+                        .Count(x => x.UsuarioAsignado_tramitetarea == empleado.userid &&
+                                    x.FechaCierre_tramitetarea == null)
+                    +
+                    db.SGI_Tramites_Tareas
+                        .Join(db.SGI_Tramites_Tareas_TRANSF,
+                              tt => tt.id_tramitetarea,
+                              transf => transf.id_tramitetarea,
+                              (tt, transf) => tt).Where(x => x.SGI_Tramites_Tareas_TRANSF.Any(y => y.Transf_Solicitudes.id_estado != (int)Constants.Solicitud_Estados.Anulado))
+                        .Count(x => x.UsuarioAsignado_tramitetarea == empleado.userid &&
+                                    x.FechaCierre_tramitetarea == null)
+                    +
+                    db.SGI_Tramites_Tareas
+                        .Join(db.SGI_Tramites_Tareas_CPADRON,
+                              tt => tt.id_tramitetarea,
+                              cpn => cpn.id_tramitetarea,
+                              (tt, cpn) => tt).Where(x => x.SGI_Tramites_Tareas_CPADRON.Any(y => y.CPadron_Solicitudes.id_estado != (int)Constants.CPadron_EstadoSolicitud.Anulado))
+                        .Count(x => x.UsuarioAsignado_tramitetarea == empleado.userid &&
+                                    x.FechaCierre_tramitetarea == null);
+
                     if (cantTramitesAsignados == 0)
                         item.tramites = "Sin trámites pendientes";
                     else if (cantTramitesAsignados == 1)

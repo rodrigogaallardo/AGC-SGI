@@ -7,155 +7,146 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGI.GestionTramite.Tareas.Transferencias
+namespace SGI
 {
 
 
-    public partial class Generar_Expediente
+    public partial class ConsultaMovimientos
     {
 
         /// <summary>
-        /// updCargaInicial control.
+        /// lblUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updCargaInicial;
+        protected global::System.Web.UI.WebControls.Label lblUsuario;
 
         /// <summary>
-        /// btnCargarDatos control.
+        /// ddlUsuario control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCargarDatos;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUsuario;
 
         /// <summary>
-        /// pnlErrorCargaInicial control.
+        /// txtFechaDesde control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlErrorCargaInicial;
+        protected global::System.Web.UI.WebControls.TextBox txtFechaDesde;
 
         /// <summary>
-        /// lblErrorCargaInicial control.
+        /// rev_txtFechaDesde control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorCargaInicial;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaDesde;
 
         /// <summary>
-        /// updCargarProcesos control.
+        /// txtFechaHasta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updCargarProcesos;
+        protected global::System.Web.UI.WebControls.TextBox txtFechaHasta;
 
         /// <summary>
-        /// btnCargarProcesos control.
+        /// rev_txtFechaHasta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCargarProcesos;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator rev_txtFechaHasta;
 
         /// <summary>
-        /// updControlesCabecera control.
+        /// lblTipoMov control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updControlesCabecera;
+        protected global::System.Web.UI.WebControls.Label lblTipoMov;
 
         /// <summary>
-        /// ucCabecera control.
+        /// ddlTipoMov control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucCabecera ucCabecera;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoMov;
 
         /// <summary>
-        /// ucListaDocumentos control.
+        /// lblObservacionSolicitante control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucListaDocumentosv1 ucListaDocumentos;
+        protected global::System.Web.UI.WebControls.Label lblObservacionSolicitante;
 
         /// <summary>
-        /// ucListaObservacionesAnteriores control.
+        /// ddlObservacionSolicitante control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucListaObservacionesAnteriores ucListaObservacionesAnteriores;
+        protected global::System.Web.UI.WebControls.DropDownList ddlObservacionSolicitante;
 
         /// <summary>
-        /// ucListaObservacionesAnterioresv1 control.
+        /// btnBuscar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucListaObservacionesAnterioresv1 ucListaObservacionesAnterioresv1;
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
 
         /// <summary>
-        /// ucProcesosSADE control.
+        /// btnLimpiar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucProcesosSADEv1 ucProcesosSADE;
+        protected global::System.Web.UI.WebControls.LinkButton btnLimpiar;
 
         /// <summary>
-        /// updFinalizarTarea control.
+        /// updPnlMovimientos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updFinalizarTarea;
+        protected global::System.Web.UI.UpdatePanel updPnlMovimientos;
 
         /// <summary>
-        /// ucResultadoTarea control.
+        /// hfBuscarMovimientos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SGI.GestionTramite.Controls.ucResultadoTarea ucResultadoTarea;
+        protected global::System.Web.UI.WebControls.HiddenField hfBuscarMovimientos;
 
         /// <summary>
-        /// updmpeInfo control.
+        /// grdBuscarMovimientos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updmpeInfo;
-
-        /// <summary>
-        /// lblError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.GridView grdBuscarMovimientos;
     }
 }

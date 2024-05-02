@@ -2419,6 +2419,20 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="LastUpdateUser" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="SGI_Log_MovimientosUsuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario" Type="uniqueidentifier" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="id_file" Type="int" />
+          <Property Name="datosAdicionales" Type="nvarchar(max)" />
+          <Property Name="URL" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Observacion_Solicitante" Type="nvarchar(max)" />
+          <Property Name="TipoMovimiento" Type="nvarchar" MaxLength="1" />
+          <Property Name="TipoURL" Type="int" />
+        </EntityType>
         <EntityType Name="SGI_Menues">
           <Key>
             <PropertyRef Name="id_menu" />
@@ -2640,6 +2654,21 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.RubrosCN_Historial' d
           <Property Name="Observaciones_informe" Type="nvarchar(max)" />
           <Property Name="observaciones_contribuyente" Type="nvarchar" MaxLength="2000" />
           <Property Name="id_tipo_informe" Type="int" />
+        </EntityType>
+        <EntityType Name="SGI_Tarea_Consulta_Adicional">
+          <Key>
+            <PropertyRef Name="id_consulta_adicional" />
+          </Key>
+          <Property Name="id_consulta_adicional" Type="int" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="int" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="2000" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="LastUpdateUser" Type="uniqueidentifier" />
+          <Property Name="observacion_plancheta" Type="nvarchar(max)" />
+          <Property Name="observacion_providencia" Type="nvarchar" MaxLength="2000" />
+          <Property Name="observaciones_contribuyente" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="SGI_Tarea_Dictamen_Asignar_Profesional">
           <Key>
@@ -4096,6 +4125,7 @@ warning 6002: The table/view 'DGHP_Solicitudes_preprod.dbo.SSIT_Solicitudes_Enco
           <Property Name="ZonaDeclarada" Type="varchar" MaxLength="50" />
           <Property Name="idTipoTransmision" Type="int" />
           <Property Name="idSolicitudRef" Type="int" />
+          <Property Name="FechaLibrado" Type="datetime" />
         </EntityType>
         <EntityType Name="Transf_Solicitudes_AvisoCaducidad">
           <Key>
@@ -8840,6 +8870,18 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Principal>
             <Dependent Role="SGI_Tarea_Carga_Tramite">
               <PropertyRef Name="id_tipo_informe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas">
+          <End Role="SGI_Tramites_Tareas" Type="Self.SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Role="SGI_Tarea_Consulta_Adicional" Type="Self.SGI_Tarea_Consulta_Adicional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Consulta_Adicional">
+              <PropertyRef Name="id_tramitetarea" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -15230,6 +15272,15 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <Parameter Name="Observaciones_informe" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
         </Function>
+		<Function Name="SGI_Tarea_Consulta_Adicional_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+			<Parameter Name="id_consulta_adicional" Type="int" Mode="In" />
+			<Parameter Name="id_tramitetarea" Type="int" Mode="In" />
+			<Parameter Name="observaciones" Type="nvarchar" Mode="In" />
+			<Parameter Name="observacion_plancheta" Type="nvarchar(max)" Mode="In" />
+			<Parameter Name="observacion_providencia" Type="nvarchar" Mode="In" />
+			<Parameter Name="observaciones_contribuyente" Type="nvarchar(max)" Mode="In" />
+			<Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
+		</Function>
         <Function Name="SGI_Tarea_Dictamen_Asignar_Profesional_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_Dictamen_Asignar_Profesional" Type="int" Mode="In" />
           <Parameter Name="id_tramitetarea" Type="int" Mode="In" />
@@ -17345,6 +17396,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SGI_FiltrosBusqueda" EntityType="Self.SGI_FiltrosBusqueda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_LIZA_Procesos" EntityType="Self.SGI_LIZA_Procesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_LIZA_Ticket" EntityType="Self.SGI_LIZA_Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Log_MovimientosUsuario" EntityType="Self.SGI_Log_MovimientosUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Menues" EntityType="Self.SGI_Menues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Perfiles" EntityType="Self.SGI_Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Procesos_EE" EntityType="Self.SGI_Procesos_EE" Schema="dbo" store:Type="Tables" />
@@ -17361,6 +17413,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySet Name="SGI_Tarea_Calificar_ObsDocs" EntityType="Self.SGI_Tarea_Calificar_ObsDocs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Calificar_ObsGrupo" EntityType="Self.SGI_Tarea_Calificar_ObsGrupo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Carga_Tramite" EntityType="Self.SGI_Tarea_Carga_Tramite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SGI_Tarea_Consulta_Adicional" EntityType="Self.SGI_Tarea_Consulta_Adicional" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Dictamen_Asignar_Profesional" EntityType="Self.SGI_Tarea_Dictamen_Asignar_Profesional" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Dictamen_GEDO" EntityType="Self.SGI_Tarea_Dictamen_GEDO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SGI_Tarea_Dictamen_Realizar_Dictamen" EntityType="Self.SGI_Tarea_Dictamen_Realizar_Dictamen" Schema="dbo" store:Type="Tables" />
@@ -18966,6 +19019,10 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <AssociationSet Name="FK_SGI_Tarea_Carga_Tramite_TiposDeInformes" Association="Self.FK_SGI_Tarea_Carga_Tramite_TiposDeInformes">
             <End Role="TiposDeInformes" EntitySet="TiposDeInformes" />
             <End Role="SGI_Tarea_Carga_Tramite" EntitySet="SGI_Tarea_Carga_Tramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas" Association="Self.FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Consulta_Adicional" EntitySet="SGI_Tarea_Consulta_Adicional" />
           </AssociationSet>
           <AssociationSet Name="FK_SGI_Tarea_Dictamen_Asignar_Profesional_SGI_Tramites_Tareas" Association="Self.FK_SGI_Tarea_Dictamen_Asignar_Profesional_SGI_Tramites_Tareas">
             <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
@@ -28521,6 +28578,21 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             <Parameter Name="id_proxima_tarea" Mode="In" Type="Int32" />
             <Parameter Name="userid" Mode="In" Type="Guid" />
           </FunctionImport>
+          <EntitySet Name="SGI_Tarea_Consulta_Adicional" EntityType="DGHP_Model.SGI_Tarea_Consulta_Adicional" />
+          <AssociationSet Name="FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas" Association="DGHP_Model.FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas">
+            <End Role="SGI_Tramites_Tareas" EntitySet="SGI_Tramites_Tareas" />
+            <End Role="SGI_Tarea_Consulta_Adicional" EntitySet="SGI_Tarea_Consulta_Adicional" />
+          </AssociationSet>
+		  <FunctionImport Name="SGI_Tarea_Consulta_Adicional_Actualizar">
+			<Parameter Name="id_consulta_adicional" Mode="In" Type="Int32" />
+			<Parameter Name="id_tramitetarea" Mode="In" Type="Int32" />
+			<Parameter Name="observaciones" Mode="In" Type="String" />
+			<Parameter Name="observacion_plancheta" Mode="In" Type="String" />
+			<Parameter Name="observacion_providencia" Mode="In" Type="String" />
+			<Parameter Name="observaciones_contribuyente" Mode="In" Type="String" />
+			<Parameter Name="userId" Mode="In" Type="Guid" />
+		  </FunctionImport>
+          <EntitySet Name="SGI_Log_MovimientosUsuario" EntityType="DGHP_Model.SGI_Log_MovimientosUsuario" />
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -32059,6 +32131,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="SGI_Tarea_Verificacion_IFCI" Relationship="DGHP_Model.FK_SGI_Tarea_Verificacion_IFCI_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Verificacion_IFCI" />
           <NavigationProperty Name="SGI_Tarea_Transicion_Enviar_DGFYCO" Relationship="DGHP_Model.FK__SGI_Tarea__id_tr__0AE752FE" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Transicion_Enviar_DGFYCO" />
           <NavigationProperty Name="SGI_Tarea_Verificacion_DGFyC" Relationship="DGHP_Model.FK_Verificacion_DGFyC_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Verificacion_DGFyC" />
+          <NavigationProperty Name="SGI_Tarea_Consulta_Adicional" Relationship="DGHP_Model.FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas" FromRole="SGI_Tramites_Tareas" ToRole="SGI_Tarea_Consulta_Adicional" />
         </EntityType>
         <Association Name="FK_SGI_Tramites_Tareas_aspnet_Users">
           <End Type="DGHP_Model.aspnet_Users" Multiplicity="0..1" Role="aspnet_Users" />
@@ -39280,6 +39353,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <NavigationProperty Name="Transf_Solicitudes_AvisoCaducidad" Relationship="DGHP_Model.FK_Transf_Solicitudes_AvisoCaducidad_Transf_Solicitudes" FromRole="Transf_Solicitudes" ToRole="Transf_Solicitudes_AvisoCaducidad" />
           <NavigationProperty Name="Transf_Solicitudes_Pagos" Relationship="DGHP_Model.FK_Transf_Solicitudes_Pagos_Transf_Solicitudes" FromRole="Transf_Solicitudes" ToRole="Transf_Solicitudes_Pagos" />
           <NavigationProperty Name="SSIT_Solicitudes_Origen" Relationship="DGHP_Model.FK_SSIT_Solicitudes_Origen_Transf_Solicitudes" FromRole="Transf_Solicitudes" ToRole="SSIT_Solicitudes_Origen" />
+          <Property Name="FechaLibrado" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Transf_Solicitudes_CPadron_Solicitudes">
           <End Type="DGHP_Model.CPadron_Solicitudes" Role="CPadron_Solicitudes" Multiplicity="1" />
@@ -43439,6 +43513,48 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SGI_Tarea_Consulta_Adicional">
+          <Key>
+            <PropertyRef Name="id_consulta_adicional" />
+          </Key>
+          <Property Name="id_consulta_adicional" Type="Int32" Nullable="false" />
+          <Property Name="id_tramitetarea" Type="Int32" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="Guid" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdateUser" Type="Guid" />
+          <Property Name="observacion_plancheta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="observacion_providencia" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="observaciones_contribuyente" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SGI_Tramites_Tareas" Relationship="DGHP_Model.FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas" FromRole="SGI_Tarea_Consulta_Adicional" ToRole="SGI_Tramites_Tareas" />
+        </EntityType>
+        <Association Name="FK_SGI_Tarea_Consulta_Adicional_SGI_Tramites_Tareas">
+          <End Type="DGHP_Model.SGI_Tramites_Tareas" Role="SGI_Tramites_Tareas" Multiplicity="1" />
+          <End Type="DGHP_Model.SGI_Tarea_Consulta_Adicional" Role="SGI_Tarea_Consulta_Adicional" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SGI_Tramites_Tareas">
+              <PropertyRef Name="id_tramitetarea" />
+            </Principal>
+            <Dependent Role="SGI_Tarea_Consulta_Adicional">
+              <PropertyRef Name="id_tramitetarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SGI_Log_MovimientosUsuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario" Type="Guid" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+          <Property Name="id_file" Type="Int32" />
+          <Property Name="datosAdicionales" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Observacion_Solicitante" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipoMovimiento" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="TipoURL" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -49990,6 +50106,7 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           <EntitySetMapping Name="Transf_Solicitudes">
             <EntityTypeMapping TypeName="DGHP_Model.Transf_Solicitudes">
               <MappingFragment StoreEntitySet="Transf_Solicitudes">
+                <ScalarProperty Name="FechaLibrado" ColumnName="FechaLibrado" />
                 <ScalarProperty Name="idSolicitudRef" ColumnName="idSolicitudRef" />
                 <ScalarProperty Name="idTipoTransmision" ColumnName="idTipoTransmision" />
                 <ScalarProperty Name="ZonaDeclarada" ColumnName="ZonaDeclarada" />
@@ -51320,6 +51437,38 @@ warning 6035: The relationship 'FK_Rel_ZonasPlaneamiento_ZonasHabilitaciones_Zon
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_DGFyC_Actualizar" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_DGFyC_Actualizar" />
           <FunctionImportMapping FunctionImportName="SGI_Tarea_Verificacion_DGFyC_GenerarProcesos" FunctionName="DGHP_Model.Store.SGI_Tarea_Verificacion_DGFyC_GenerarProcesos" />
+          <EntitySetMapping Name="SGI_Tarea_Consulta_Adicional">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Tarea_Consulta_Adicional">
+              <MappingFragment StoreEntitySet="SGI_Tarea_Consulta_Adicional">
+                <ScalarProperty Name="observaciones_contribuyente" ColumnName="observaciones_contribuyente" />
+                <ScalarProperty Name="observacion_providencia" ColumnName="observacion_providencia" />
+                <ScalarProperty Name="observacion_plancheta" ColumnName="observacion_plancheta" />
+                <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="id_tramitetarea" ColumnName="id_tramitetarea" />
+                <ScalarProperty Name="id_consulta_adicional" ColumnName="id_consulta_adicional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+		  <FunctionImportMapping FunctionImportName="SGI_Tarea_Consulta_Adicional_Actualizar" FunctionName="DGHP_Model.Store.SGI_Tarea_Consulta_Adicional_Actualizar" />
+          <EntitySetMapping Name="SGI_Log_MovimientosUsuario">
+            <EntityTypeMapping TypeName="DGHP_Model.SGI_Log_MovimientosUsuario">
+              <MappingFragment StoreEntitySet="SGI_Log_MovimientosUsuario">
+                <ScalarProperty Name="TipoURL" ColumnName="TipoURL" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="Observacion_Solicitante" ColumnName="Observacion_Solicitante" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="datosAdicionales" ColumnName="datosAdicionales" />
+                <ScalarProperty Name="id_file" ColumnName="id_file" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

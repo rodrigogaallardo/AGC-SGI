@@ -224,6 +224,7 @@ namespace SGI.GestionTramite.Controls
                 }
 
                 pnlTitulares.Visible = true;
+                pnlTitularesTransf.Visible = false;
                 var titulares = (from pf in db.SSIT_Solicitudes_Titulares_PersonasFisicas
                                  where pf.id_solicitud == id_solicitud
                                  select new
@@ -237,6 +238,8 @@ namespace SGI.GestionTramite.Controls
                                      label = pj.Razon_Social
                                  }).ToList();
                 lblTitulares.Text = "";
+                lblCedentes.Text = string.Empty;
+                lblCesionarios.Text = string.Empty;
                 foreach (var tit in titulares)
                     lblTitulares.Text = lblTitulares.Text + tit.label + "; ";
                 pnlPresentacionAgreagr.Visible = objsol.documentacionPA != null ? objsol.documentacionPA.Value : false;
@@ -299,7 +302,8 @@ namespace SGI.GestionTramite.Controls
                                       sol.CPadron_Solicitudes.nro_expediente_anterior,
                                       sol.NroExpedienteSade,
                                       sol.CreateDate,
-                                      sol.TiposdeTransmision.nom_tipotransmision
+                                      sol.TiposdeTransmision.nom_tipotransmision,
+                                      sol.FechaLibrado
                                   }).FirstOrDefault();
 
                     var enc = (from en in db.Encomienda
@@ -359,27 +363,59 @@ namespace SGI.GestionTramite.Controls
                     txtNroExpediente.Text = objsol.nro_expediente_anterior;
                     lblTipoTransm.Text = objsol.nom_tipotransmision;
 
-                    pnlTitulares.Visible = true;
-                    var titulares = (from pf in db.Transf_Titulares_Solicitud_PersonasFisicas
-                                     where pf.id_solicitud == id_solicitud
-                                     select new
-                                     {
-                                         label = pf.Apellido + ", " + pf.Nombres
-                                     }).Union(
-                                     from pj in db.Transf_Titulares_Solicitud_PersonasJuridicas
-                                     where pj.id_solicitud == id_solicitud
-                                     select new
-                                     {
-                                         label = pj.Razon_Social
-                                     }).ToList();
+                    pnlTitulares.Visible = false;
+                    pnlTitularesTransf.Visible = true;
+                    var cedentes = (from pf in db.Transf_Titulares_Solicitud_PersonasFisicas
+                                    where pf.id_solicitud == id_solicitud
+                                    select new
+                                    {
+                                        label = pf.Apellido + ", " + pf.Nombres
+                                    }).Union(
+                                    from pj in db.Transf_Titulares_Solicitud_PersonasJuridicas
+                                    where pj.id_solicitud == id_solicitud
+                                    select new
+                                    {
+                                        label = pj.Razon_Social
+                                    }).ToList();
+                    var cesionarios = (from pf in db.Transf_Titulares_PersonasFisicas
+                                       where pf.id_solicitud == id_solicitud
+                                       select new
+                                       {
+                                           label = pf.Apellido + ", " + pf.Nombres
+                                       }).Union(
+                                       from pj in db.Transf_Titulares_PersonasJuridicas
+                                       where pj.id_solicitud == id_solicitud
+                                       select new
+                                       {
+                                           label = pj.Razon_Social
+                                       }).ToList();
                     lblTitulares.Text = "";
-                    foreach (var tit in titulares)
-                        lblTitulares.Text = lblTitulares.Text + tit.label + "; ";
+                    lblCedentes.Text = string.Empty;
+                    lblCesionarios.Text = string.Empty;
+                    foreach (var tit in cedentes)
+                        lblCedentes.Text = lblCedentes.Text + tit.label + "; ";
+                    foreach (var tit in cesionarios)
+                        lblCesionarios.Text = lblCesionarios.Text + tit.label + "; ";
+
                     if (objsol.NroExpedienteSade != "")
                     {
                         lblExpediente.Visible = true;
                         lblExpediente.Text = objsol.NroExpedienteSade;
                     }
+
+                    if (objsol.FechaLibrado != null)
+                    {
+                        lblLibradoUso.Text = "<b>" + objsol.FechaLibrado.ToString() + "</b>";
+                    }
+                    else if (objsol.FechaLibrado == null && enc.AcogeBeneficios == true)
+                    {
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO, YA QUE SE ACOGE A LOS BENEFICIOS DE LA DI-2023-2-GCABA-UERESGP.</b></font>";
+                    }
+                    else
+                    {
+                        lblLibradoUso.Text = "<font color='red'><b>EL PRESENTE TRAMITE NO SE ENCUENTRA LIBRADO AL USO.</b></font>";
+                    }
+                    
                     Guid userId = (Guid)Membership.GetUser().ProviderUserKey;
                     string url = HttpContext.Current.Request.Url.AbsoluteUri.ToString();
                     Functions.InsertarMovimientoUsuario(userId, DateTime.Now, null, JsonConvert.SerializeObject(objsol), url, null, "C", 3111);

@@ -383,6 +383,8 @@
         public DbSet<SGI_Tarea_Transicion_Enviar_DGFYCO> SGI_Tarea_Transicion_Enviar_DGFYCO { get; set; }
         public DbSet<SGI_Tipos_Planos_Incendio> SGI_Tipos_Planos_Incendio { get; set; }
         public DbSet<SGI_Tarea_Verificacion_DGFyC> SGI_Tarea_Verificacion_DGFyC { get; set; }
+        public DbSet<SGI_Log_MovimientosUsuario> SGI_Log_MovimientosUsuario { get; set; }
+        public DbSet<SGI_Tarea_Consulta_Adicional> SGI_Tarea_Consulta_Adicional { get; set; }
     
         public virtual ObjectResult<ENG_GetTransicionesxResultado_Result> ENG_GetTransicionesxResultado(Nullable<int> id_tarea, Nullable<int> id_resultado, Nullable<int> id_tramitetarea)
         {
@@ -3794,7 +3796,40 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Carga_Tramite_Actualizar", id_carga_tramiteParameter, id_tramitetareaParameter, observacionesParameter, observaciones_contribuyenteParameter, id_tipo_informeParameter, observaciones_informeParameter, userIdParameter);
         }
-    
+
+        public virtual int SGI_Tarea_Consulta_Adicional_Actualizar(Nullable<int> id_consulta_adicional, Nullable<int> id_tramitetarea, string observaciones, string observacion_plancheta, string observacion_providencia, string observaciones_contribuyente, Nullable<System.Guid> userId)
+        {
+            var id_consulta_adicionalParameter = id_consulta_adicional.HasValue ?
+                new ObjectParameter("id_consulta_adicional", id_consulta_adicional) :
+                new ObjectParameter("id_consulta_adicional", typeof(int));
+
+            var id_tramitetareaParameter = id_tramitetarea.HasValue ?
+                new ObjectParameter("id_tramitetarea", id_tramitetarea) :
+                new ObjectParameter("id_tramitetarea", typeof(int));
+
+            var observacionesParameter = observaciones != null ?
+                new ObjectParameter("observaciones", observaciones) :
+                new ObjectParameter("observaciones", typeof(string));
+
+            var observacion_planchetaParameter = observacion_plancheta != null ?
+                new ObjectParameter("observacion_plancheta", observacion_plancheta) :
+                new ObjectParameter("observacion_plancheta", typeof(string));
+
+            var observacion_providenciaParameter = observacion_providencia != null ?
+                new ObjectParameter("observacion_providencia", observacion_providencia) :
+                new ObjectParameter("observacion_providencia", typeof(string));
+
+            var observaciones_contribuyenteParameter = observaciones_contribuyente != null ?
+                new ObjectParameter("observaciones_contribuyente", observaciones_contribuyente) :
+                new ObjectParameter("observaciones_contribuyente", typeof(string));
+
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(System.Guid));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Consulta_Adicional_Actualizar", id_consulta_adicionalParameter, id_tramitetareaParameter, observacionesParameter, observacion_planchetaParameter, observacion_providenciaParameter, observaciones_contribuyenteParameter, userIdParameter);
+        }
+
         public virtual int Instructivo_Agregar_Actualizar(string cod_inst, byte[] documento, Nullable<System.Guid> createUser)
         {
             var cod_instParameter = cod_inst != null ?
@@ -20292,42 +20327,42 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_IFCI_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
         }
-
+    
         public virtual int SGI_Tarea_Verificacion_DGFyC_Actualizar(Nullable<int> id_verificacion_DGFyC, Nullable<int> id_tramitetarea, string observaciones, Nullable<System.Guid> userId)
         {
             var id_verificacion_DGFyCParameter = id_verificacion_DGFyC.HasValue ?
                 new ObjectParameter("id_verificacion_DGFyC", id_verificacion_DGFyC) :
                 new ObjectParameter("id_verificacion_DGFyC", typeof(int));
-
+    
             var id_tramitetareaParameter = id_tramitetarea.HasValue ?
                 new ObjectParameter("id_tramitetarea", id_tramitetarea) :
                 new ObjectParameter("id_tramitetarea", typeof(int));
-
+    
             var observacionesParameter = observaciones != null ?
                 new ObjectParameter("Observaciones", observaciones) :
                 new ObjectParameter("Observaciones", typeof(string));
-
+    
             var userIdParameter = userId.HasValue ?
                 new ObjectParameter("userId", userId) :
                 new ObjectParameter("userId", typeof(System.Guid));
-
+    
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_DGFyC_Actualizar", id_verificacion_DGFyCParameter, id_tramitetareaParameter, observacionesParameter, userIdParameter);
         }
-
+    
         public virtual int SGI_Tarea_Verificacion_DGFyC_GenerarProcesos(Nullable<int> id_tramitetarea, Nullable<int> id_proxima_tarea, Nullable<System.Guid> userid)
         {
             var id_tramitetareaParameter = id_tramitetarea.HasValue ?
                 new ObjectParameter("id_tramitetarea", id_tramitetarea) :
                 new ObjectParameter("id_tramitetarea", typeof(int));
-
+    
             var id_proxima_tareaParameter = id_proxima_tarea.HasValue ?
                 new ObjectParameter("id_proxima_tarea", id_proxima_tarea) :
                 new ObjectParameter("id_proxima_tarea", typeof(int));
-
+    
             var useridParameter = userid.HasValue ?
                 new ObjectParameter("userid", userid) :
                 new ObjectParameter("userid", typeof(System.Guid));
-
+    
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SGI_Tarea_Verificacion_DGFyC_GenerarProcesos", id_tramitetareaParameter, id_proxima_tareaParameter, useridParameter);
         }
     }
