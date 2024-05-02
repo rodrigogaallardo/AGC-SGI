@@ -124,6 +124,5 @@ namespace SGI.Model
         public virtual ICollection<SSIT_DocumentosAdjuntos> SSIT_DocumentosAdjuntos { get; set; }
         [JsonIgnore]
         public virtual ICollection<SSIT_Solicitudes_AvisoRechazo> SSIT_Solicitudes_AvisoRechazo { get; set; }
-        [JsonIgnore]
     }
 }
