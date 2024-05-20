@@ -11,6 +11,7 @@ namespace SGI.Model
         public static int GetBusinessDays(DateTime start, DateTime end)
         {
             int count = 0;
+            DateTime starTime = start;
             while ((end - start).TotalMinutes > 1440)
             {
                 if ((start.DayOfWeek != DayOfWeek.Saturday) && (start.DayOfWeek != DayOfWeek.Sunday))
@@ -18,7 +19,7 @@ namespace SGI.Model
                 start = start.AddDays(1);
             }
             DGHP_Entities db = new DGHP_Entities();
-            int feriadosCount = (from hab in db.SGI_Feriados where hab.Fecha >= start && hab.Fecha <= end select hab).Count();
+            int feriadosCount = (from hab in db.SGI_Feriados where hab.Fecha >= starTime && hab.Fecha <= end select hab).Count();
             count -= feriadosCount;
             return count;
         }
