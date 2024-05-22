@@ -159,6 +159,15 @@ namespace SGI.GestionTramite.Tareas
         protected global::SGI.GestionTramite.Controls.ucObservacionesTarea ucObservacionPlancheta;
 
         /// <summary>
+        /// Control txtSubgerenteObservacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSubgerenteObservacion;
+
+        /// <summary>
         /// Control UcObservacionesContribuyente.
         /// </summary>
         /// <remarks>

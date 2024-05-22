@@ -705,6 +705,7 @@
     <Content Include="Dashboard\TareasZonificacion.aspx" />
     <Content Include="Dashboard\SolicitudesPendientesCalificar.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="dist\app.js" />
     <Content Include="error404.aspx" />
     <Content Include="Errores\error3020.aspx" />
     <Content Include="Errores\error3030.aspx" />
@@ -2243,6 +2244,8 @@
       <DependentUpon>Verificacion_DGFyC.aspx</DependentUpon>
     </Compile>
     <Compile Include="Model\Ley257DTO.cs" />
+    <Compile Include="Model\observations_gerente.cs" />
+    <Compile Include="Model\observations_sub_gerente.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>
     </Compile>
@@ -5778,6 +5781,9 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SGI_InsertarCaas_WSssit</CachedSettingsPropName>
     </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\app.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
