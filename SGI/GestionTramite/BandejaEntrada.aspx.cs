@@ -16,6 +16,7 @@ using System.Text;
 using SGI.Controls;
 using System.Data.Entity;
 using System.Data;
+using Microsoft.Ajax.Utilities;
 
 namespace SGI
 {
@@ -1222,9 +1223,10 @@ namespace SGI
                 //------------------------------------------------------------------------
                 //Rellena la clase a devolver con los datos que faltaban (Direccion, dias transcurrido)
                 //------------------------------------------------------------------------
-
+                int diasEspera = 0;
                 foreach (var row in resultados)
                 {
+                    diasEspera = 0;
                     clsItemDireccion itemDireccion = null;
                     if (row.cod_grupotramite == Constants.GruposDeTramite.HAB.ToString())
                     {
@@ -1240,6 +1242,20 @@ namespace SGI
 
                         if (countObservaciones > 0)
                             row.cant_observaciones = countObservaciones;
+                        var dates = (from tar in db.SGI_Tramites_Tareas_HAB
+                                     join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
+                                     join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea
+                                     where tar.id_solicitud == row.id_solicitud
+                                     && eng.nombre_tarea == "Solicitud en Espera"
+                                     select new { tarH.FechaInicio_tramitetarea, FechaCierre_tramitetarea = tarH.FechaCierre_tramitetarea ?? DateTime.Now }).ToList();
+
+                        foreach (var date in dates)
+                        {
+                            if (date.FechaInicio_tramitetarea != DateTime.MinValue)
+                            {
+                                diasEspera = Shared.GetBusinessDays(date.FechaInicio_tramitetarea, date.FechaCierre_tramitetarea);
+                            }
+                        }
                         var enc = db.Encomienda_SSIT_Solicitudes.Where(x => x.id_solicitud == row.id_solicitud &&
                                    x.Encomienda.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).
                                    OrderByDescending(x => x.Encomienda.id_encomienda).Select(x => x.Encomienda).FirstOrDefault();
@@ -1292,6 +1308,21 @@ namespace SGI
                             if (countObservaciones > 0)
                                 row.cant_observaciones = countObservaciones;
 
+                            var dates = (from tar in db.SGI_Tramites_Tareas_TRANSF
+                                         join tarH in db.SGI_Tramites_Tareas on tar.id_tramitetarea equals tarH.id_tramitetarea
+                                         join eng in db.ENG_Tareas on tarH.id_tarea equals eng.id_tarea
+                                         where tar.id_solicitud == row.id_solicitud
+                                         && eng.nombre_tarea == "Solicitud en Espera"
+                                         select new { tarH.FechaInicio_tramitetarea, FechaCierre_tramitetarea = tarH.FechaCierre_tramitetarea ?? DateTime.Now }).ToList();
+
+                            foreach (var date in dates)
+                            {
+                                if (date.FechaInicio_tramitetarea != DateTime.MinValue)
+                                {
+                                    diasEspera = Shared.GetBusinessDays(date.FechaInicio_tramitetarea, date.FechaCierre_tramitetarea);
+                                }
+                            }
+
                             var enc = db.Encomienda_Transf_Solicitudes.Where(x => x.id_solicitud == row.id_solicitud &&
                                        x.Encomienda.id_estado == (int)Constants.Encomienda_Estados.Aprobada_por_el_consejo).
                                        OrderByDescending(x => x.Encomienda.id_encomienda).Select(x => x.Encomienda).FirstOrDefault();
@@ -1333,6 +1364,7 @@ namespace SGI
                         row.url_tareaTramite = "";
                         row.Dias_Transcurridos = Shared.GetBusinessDays(row.FechaInicio_tramitetarea, DateTime.Now);
 
+                    
 
                     int firstTramiteTarea = 0;
                     int idTramiteTarea = 0;
@@ -1379,7 +1411,7 @@ namespace SGI
                                        where t.id_tramitetarea == idTramiteTarea
                                        select t.FechaInicio_tramitetarea).FirstOrDefault();
 
-                        row.Dias_Acumulados = Shared.GetBusinessDays(fechaInicio, DateTime.Now);
+                        row.Dias_Acumulados = Shared.GetBusinessDays(fechaInicio, DateTime.Now) - diasEspera;
                     }
                     else
                     {

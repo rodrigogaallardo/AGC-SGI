@@ -73,6 +73,15 @@
 
                     <uc1:ucObservacionesTarea runat="server" id="ucObservacionPlancheta" 
                         LabelObservacion="Notas adicionales para la disposición"/>
+                    <!-- New TextBoxes for Manager and Sub-manager Observations -->
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="txtSubgerenteObservacion">Observación del Subgerente:</label>
+                        <div class="controls">
+                            <asp:TextBox ID="txtSubgerenteObservacion" runat="server" TextMode="MultiLine" Rows="3" CssClass="input-xlarge" />
+                        </div>
+                    </div>
+                    <!-- End of New TextBoxes -->
 
                     <uc1:ucObservacionesTarea runat="server" id="UcObservacionesContribuyente" 
                         LabelObservacion="Observaciones para Contribuyente"/>
