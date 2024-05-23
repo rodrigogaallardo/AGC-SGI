@@ -19,5 +19,6 @@ namespace SGI.Model
         public Nullable<System.TimeSpan> Hora_Fin_Revision_Gerente { get; set; }
         public Nullable<bool> Observado_alguna_vez { get; set; }
         public System.DateTime CreateDate { get; set; }
+        public Nullable<System.DateTime> Fecha_Inicio_CP_Control_Informe { get; set; }
     }
 }
