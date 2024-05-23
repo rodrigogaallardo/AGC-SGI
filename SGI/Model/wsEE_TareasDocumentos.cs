@@ -34,7 +34,7 @@ namespace SGI.Model
         public Nullable<System.DateTime> fecha_subida_SADE { get; set; }
         public Nullable<System.DateTime> fecha_firmado_SADE { get; set; }
         public Nullable<int> id_file { get; set; }
-    
+
         public virtual wsEE_Paquetes wsEE_Paquetes { get; set; }
     }
 }

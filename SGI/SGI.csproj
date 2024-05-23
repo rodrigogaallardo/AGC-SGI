@@ -2242,6 +2242,9 @@
     <Compile Include="GestionTramite\Tareas\Verificacion_DGFyC.aspx.designer.cs">
       <DependentUpon>Verificacion_DGFyC.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Estadisticas.cs">
+      <DependentUpon>AGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Ley257DTO.cs" />
     <Compile Include="Model\SGI_Feriados.cs">
       <DependentUpon>AGC.tt</DependentUpon>

@@ -1069,7 +1069,8 @@ namespace SGI.GestionTramite
                          e.Fecha_Fin_Revision_Gerente,
                          e.Hora_Fin_Revision_Gerente,
                          e.Observado_alguna_vez,
-                         e.id_circuito_actual
+                         e.id_circuito_actual,
+                         e.Fecha_Inicio_CP_Control_Informe
                      });
 
             q = q.Where(x => x.id_circuito_actual == this.BusCircuito3);
@@ -1097,6 +1098,7 @@ namespace SGI.GestionTramite
                 //h.Hora_Fin_Generar_Expediente = item.Hora_Fin_Generar_Expediente;
                 h.Fecha_Fin_Revision_Gerente = item.Fecha_Fin_Revision_Gerente != null ? item.Fecha_Fin_Revision_Gerente.Value.ToString("dd/MM/yyyy") : "";
                 h.Observado_alguna_vez = item.Observado_alguna_vez.Value;
+                h.Fecha_Inicio_CP_Control_Informe = item.Fecha_Inicio_CP_Control_Informe != null ? item.Fecha_Inicio_CP_Control_Informe.Value.ToString("dd/MM/yyyy") : "";
                 result.Add(h);
             }
             return result;

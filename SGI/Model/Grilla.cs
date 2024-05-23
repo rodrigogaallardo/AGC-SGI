@@ -1031,6 +1031,8 @@ namespace SGI.Model
         public string Fecha_Fin_Revision_Gerente { get; set; }
         //public TimeSpan? Hora_Fin_Revision_Gerente { get; set; }
         public bool Observado_alguna_vez { get; set; }
+        public string Fecha_Inicio_CP_Control_Informe { get; set; }
+        //public TimeSpan? Fecha_Inicio_CP_Control_Informe { get; set; }
     }
 
     public partial class clsItemHoja8
