@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
-    "allowJs": true, 
-    "noEmit": true, 
-    "module": "system",
-    "noImplicitAny": true,
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./SGI/dist",
+    "rootDir": "./SGI/Scripts",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },
   "include": [
-    "scripts"
+    "SGI/Scripts/**/*.ts"
   ],
   "exclude": [
-
+    "node_modules"
   ],
   "typeAcquisition": {
     "enable": true 
